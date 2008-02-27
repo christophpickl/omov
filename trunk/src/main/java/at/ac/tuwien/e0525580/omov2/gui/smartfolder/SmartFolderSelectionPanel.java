@@ -74,6 +74,7 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         this.owner = owner;
         this.movieModel = movieModel;
         BeanFactory.getInstance().getSmartFolderDao().registerMovieDaoListener(this);
+        this.setOpaque(false);
         
 //        this.smartFolderModel = new SmartFolderBoxModel<SmartFolder>(smartFolders);
 //        this.smartFolderComboBox.setModel(this.smartFolderModel);
@@ -121,6 +122,7 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         
         c.anchor = GridBagConstraints.LINE_START;
 
+        this.comboBox.setOpaque(false);
         this.comboBox.setPreferredSize(new Dimension(200, (int) this.comboBox.getPreferredSize().getHeight()));
         
         this.comboBox.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {

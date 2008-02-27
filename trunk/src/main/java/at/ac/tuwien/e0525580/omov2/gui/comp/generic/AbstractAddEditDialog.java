@@ -46,10 +46,14 @@ public abstract class AbstractAddEditDialog<T> extends JDialog {
     
     protected final JPanel newCommandPanel() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-        JButton btnCancel = new JButton("Cancel");
-        JButton btnConfirm = new JButton(isAddMode() ? "Create" : "Update");
+        panel.setOpaque(false);
+        
+        final JButton btnCancel = new JButton("Cancel");
+        final JButton btnConfirm = new JButton(isAddMode() ? "Create" : "Update");
         this.rootPane.setDefaultButton(btnConfirm);
+        
+        btnCancel.setOpaque(false);
+        btnConfirm.setOpaque(false);
         
         btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
                 doCancel();

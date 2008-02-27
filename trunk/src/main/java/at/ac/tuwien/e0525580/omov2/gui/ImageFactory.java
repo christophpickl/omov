@@ -60,4 +60,7 @@ public class ImageFactory {
     public ImageIcon getIconFolder() {
         return this.getImage("folder_73x72.png");
     }
+    public Image getImgBrushed() {
+        return this.getImage("brushed.gif").getImage();
+    }
 }

@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
 import at.ac.tuwien.e0525580.omov2.gui.IPrevNextMovieProvider;
+import at.ac.tuwien.e0525580.omov2.gui.comp.generic.brushed.BrushedMetalPanel;
 import at.ac.tuwien.e0525580.omov2.gui.main.table.MovieTable;
 import at.ac.tuwien.e0525580.omov2.gui.main.table.MovieTableModel;
 import at.ac.tuwien.e0525580.omov2.gui.main.table.SortTableActionListener;
@@ -55,7 +56,7 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
             }
         });
         
-        this.setPreferredSize(new Dimension(860, 520));
+//        this.setPreferredSize(new Dimension(860, 520));
         
         this.setJMenuBar(new MenuBar(this.controller));
         this.getContentPane().add(this.initComponents());
@@ -67,7 +68,8 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
     
     
     private JPanel initComponents() {
-        final JPanel panel = new JPanel(new BorderLayout());
+        final JPanel panel = new BrushedMetalPanel();
+        panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
         
         panel.add(this.initNorthPanel(), BorderLayout.NORTH);
@@ -77,12 +79,12 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
     }
     
     private JPanel initNorthPanel() {
-//        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 0)); // align, hgap, vgap
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
         
         panel.add(new SmartFolderSelectionPanel(this, this.moviesModel), BorderLayout.WEST);
         panel.add(new MovieSearchPanel(this.moviesModel), BorderLayout.EAST);
-        
+               
         return panel;
     }
     
@@ -132,9 +134,13 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
         });
         
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
         
-        JScrollPane moviesTableScrollPane = new JScrollPane(this.moviesTable);
+//        JScrollPane moviesTableScrollPane = new JScrollPane(this.moviesTable);
+        JScrollPane moviesTableScrollPane = new JScrollPane();
+        moviesTableScrollPane.setViewportView(this.moviesTable);
         moviesTableScrollPane.setWheelScrollingEnabled(true);
+        moviesTableScrollPane.setPreferredSize(new Dimension(300, 160));
         
         panel.add(moviesTableScrollPane, BorderLayout.CENTER);
         panel.add(this.movieDetailPanel.getPanel(), BorderLayout.SOUTH);

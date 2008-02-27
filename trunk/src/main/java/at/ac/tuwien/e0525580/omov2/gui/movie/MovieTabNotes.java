@@ -57,6 +57,7 @@ public class MovieTabNotes extends AbstractMovieTab {
     }
 
     private void initComponents() {
+        this.setOpaque(false);
         this.setLayout(new BorderLayout());
         this.setBorder(BorderFactory.createEmptyBorder(0, 12, 0, 12)); // top left bottom right
         
@@ -66,7 +67,7 @@ public class MovieTabNotes extends AbstractMovieTab {
     
     private JPanel panelNotes() {
         final JPanel panel = new JPanel(new BorderLayout());
-        
+        panel.setOpaque(false);
         final JScrollPane scrollComment = new JScrollPane(this.inpComment);
         scrollComment.setWheelScrollingEnabled(true);
         scrollComment.setViewportView(this.inpComment);
@@ -78,7 +79,7 @@ public class MovieTabNotes extends AbstractMovieTab {
     
     private JPanel panelDateAdded() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
+        panel.setOpaque(false);
         panel.add(GuiUtil.newLabelBold("Date Added "));
         panel.add(this.lblDateAdded);
 

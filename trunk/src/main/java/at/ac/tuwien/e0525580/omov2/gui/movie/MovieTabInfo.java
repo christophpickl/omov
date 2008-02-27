@@ -129,7 +129,10 @@ class MovieTabInfo extends AbstractMovieTab {
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
-
+        panel.setOpaque(false);
+        this.inpSeen.setOpaque(false);
+        this.inpQuality.setOpaque(false);
+        
         c.fill = GridBagConstraints.HORIZONTAL;
         
         c.gridx = 0;

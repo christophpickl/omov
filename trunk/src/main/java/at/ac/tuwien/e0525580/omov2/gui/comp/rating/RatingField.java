@@ -16,9 +16,13 @@ public class RatingField extends JSlider {
     private static final long serialVersionUID = -4967962025253623550L;
 
     public RatingField(final int rating) {
-        this(rating, null);
+        this(rating, null, null);
     }
+
     public RatingField(final int rating, Color primaryColor) {
+        this(rating, primaryColor, null);
+    }
+    public RatingField(final int rating, Color primaryColor, Color secondaryColor) {
         super(0, 5, rating);
         assert(rating >= 0 && rating <= 5) : "rating must be between 0-5 (was: "+rating+")!";
 
@@ -26,6 +30,7 @@ public class RatingField extends JSlider {
         
         ShapeSliderUI ui = new ShapeSliderUI();
         if(primaryColor != null) ui.setPrimaryColor(primaryColor);
+        if(secondaryColor != null) ui.setSecondaryColor(secondaryColor);
         this.setUI(ui); // or with star-outterline: StrokedShapeSliderUI
     }
     

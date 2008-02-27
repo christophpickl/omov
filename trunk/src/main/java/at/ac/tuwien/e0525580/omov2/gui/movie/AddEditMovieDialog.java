@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov2.BeanFactory;
+import at.ac.tuwien.e0525580.omov2.Constants;
 import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
 import at.ac.tuwien.e0525580.omov2.bo.movie.Resolution;
 import at.ac.tuwien.e0525580.omov2.gui.IPrevNextMovieProvider;
@@ -29,6 +30,8 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     private static final Log LOG = LogFactory.getLog(AddEditMovieDialog.class);
     private static final long serialVersionUID = -499631022640948375L;
 
+    private final JTabbedPane tabbedPane = new JTabbedPane();
+    
     private MovieTabInfo tabInfo;
     private MovieTabDetails tabDetails;
     private MovieTabNotes tabNotes;
@@ -54,6 +57,8 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     private AddEditMovieDialog(JFrame owner, Movie editObject, IPrevNextMovieProvider prevNextProvider) {
         super(owner, editObject);
         this.setModal(true);
+        
+        this.tabbedPane.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         
         if(prevNextProvider == null) {
             this.btnPrev.setEnabled(false);
@@ -110,9 +115,9 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.tabbedPane.revalidate();
     }
 
-    private final JTabbedPane tabbedPane = new JTabbedPane();
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         
         this.initTabbedPane(0);
         // tabbedPane.setSelectedIndex(1); // SHORTCUT
@@ -125,7 +130,8 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
 
     private JPanel newSouthPanel() {
         final JPanel panel = new JPanel(new BorderLayout());
-
+        panel.setOpaque(false);
+        
         panel.add(this.newSouthWestPanel(), BorderLayout.WEST);
         panel.add(this.newCommandPanel(), BorderLayout.EAST);
 
@@ -134,7 +140,10 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     
     private JPanel newSouthWestPanel() {
         final JPanel panel = new JPanel();
-
+        panel.setOpaque(false);
+        this.btnPrev.setOpaque(false);
+        this.btnNext.setOpaque(false);
+        
         this.btnPrev.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
             doShowPrevMovie();
         }});
@@ -216,7 +225,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     
     
     public static void main(String[] args) throws Exception {
-        final Movie movie = BeanFactory.getInstance().getMovieDao().getMovie(0);
+        final Movie movie = BeanFactory.getInstance().getMovieDao().getMovie(10);
         final AddEditMovieDialog editDialog = AddEditMovieDialog.newEditDialog(null, movie, new IPrevNextMovieProvider() {
             public int getCountIndices() { return 1; }
             public int getInitialIndex() { return 0; }

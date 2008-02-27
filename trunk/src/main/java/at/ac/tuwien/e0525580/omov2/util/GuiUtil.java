@@ -1,5 +1,6 @@
 package at.ac.tuwien.e0525580.omov2.util;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -19,11 +20,14 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.omov2.gui.comp.generic.brushed.BrushedMetalPanel;
 
 /**
  * 
@@ -232,9 +236,23 @@ public final class GuiUtil {
             public void mouseReleased(MouseEvent event) { }
         });
     }
+    
+    public static JPanel wrapBrushedMetalPanel(final Component component) {
+//        final JPanel panel = new BrushedMetalPanel();
+//        final GridBagLayout layout = new GridBagLayout();
+//        final GridBagConstraints c = new GridBagConstraints();
+//        layout.setConstraints(panel, c);
+//        panel.setLayout(layout);
+//
+//        c.gridx = 0;
+//        c.gridy = 0;
+//        c.insets = new Insets(0, 0, 0, 0);
+//        c.fill = GridBagConstraints.BOTH;
+        
+//        panel.add(component, c);
+        JPanel panel = new BrushedMetalPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(component, BorderLayout.CENTER);
+        return panel;
+    }
 }
-
-
-
-
-

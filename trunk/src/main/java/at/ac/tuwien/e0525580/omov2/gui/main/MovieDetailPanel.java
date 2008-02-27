@@ -1,5 +1,6 @@
 package at.ac.tuwien.e0525580.omov2.gui.main;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -9,10 +10,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -38,17 +37,17 @@ public class MovieDetailPanel implements IMovieDaoListener {
     
     private Movie movie;
     
-    private CoverImagePanel imagePanel = new CoverImagePanel();
+    private final CoverImagePanel imagePanel = new CoverImagePanel();
     
-    private MultiColTextField txtTitle = new MultiColTextField(10);
-    private RatingField txtRating = new RatingField(0);
-    private MultiColTextField txtDuration = new MultiColTextField(10);
-    private MultiColTextField txtGenres = new MultiColTextField(10);
+    private final MultiColTextField txtTitle = new MultiColTextField(10);
+    private final RatingField txtRating = new RatingField(0, Color.BLACK, Color.GRAY);
+    private final MultiColTextField txtDuration = new MultiColTextField(10);
+    private final MultiColTextField txtGenres = new MultiColTextField(10);
 
-    private MultiColTextField txtStyle = new MultiColTextField(10);
-    private MultiColTextField txtQuality = new MultiColTextField(10);
-    private MultiColTextField txtDateAdded = new MultiColTextField(10);
-    private MultiColTextField txtLanguages = new MultiColTextField(10);
+    private final MultiColTextField txtStyle = new MultiColTextField(10);
+    private final MultiColTextField txtQuality = new MultiColTextField(10);
+    private final MultiColTextField txtDateAdded = new MultiColTextField(10);
+    private final MultiColTextField txtLanguages = new MultiColTextField(10);
     
     
     public MovieDetailPanel() {
@@ -97,16 +96,25 @@ public class MovieDetailPanel implements IMovieDaoListener {
                 this.imagePanel.setImage(null);
             }
         }
-        
     }
     
     private void initComponents() {
         // this.imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); // looks ugly
+        this.imagePanel.setOpaque(false);
+        this.txtTitle.setOpaque(false);
+        this.txtRating.setOpaque(false);
+        this.txtDuration.setOpaque(false);
+        this.txtGenres.setOpaque(false);
+        this.txtStyle.setOpaque(false);
+        this.txtQuality.setOpaque(false);
+        this.txtDateAdded.setOpaque(false);
+        this.txtLanguages.setOpaque(false);
+        this.panel.setOpaque(false);
         
-        this.panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Details", TitledBorder.LEADING, TitledBorder.TOP, new Font(null, Font.BOLD, 12)));
+        // this.panel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(), "Details", TitledBorder.LEADING, TitledBorder.TOP, new Font(null, Font.BOLD, 12)));
         this.panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10)); // hgap, vgap
         
-        this.panel.add(this.initCoverPanel());
+        this.panel.add(this.imagePanel);
         
         this.panel.add(this.init(
                 new GridDataPair(MovieField.TITLE.label(), this.txtTitle),
@@ -122,22 +130,13 @@ public class MovieDetailPanel implements IMovieDaoListener {
             ));
     }
     
-    private JPanel initCoverPanel() {
-        final JPanel panel = new JPanel();
-        // NO: let image panel expand as far as it needs!
-//        panel.setMaximumSize(Constants.getCoverDimension());
-//        panel.setPreferredSize(Constants.getCoverDimension());
-//        panel.setMinimumSize(Constants.getCoverDimension());
-        panel.add(this.imagePanel);
-        return panel;
-    }
-    
     private JPanel init(GridDataPair... gridData) {
         if(gridData.length == 0) throw new IllegalArgumentException("gridData empty");
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
+        panel.setOpaque(false);
 
         c.ipadx = 10;
         c.insets = new Insets(0, 0, 10, 0); // top, left, bottom, right
@@ -161,6 +160,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
     private static final Font LBL_FONT = new Font(null, Font.BOLD, 12);
     private static JLabel newGridLabel(String txt) {
         final JLabel lbl = new JLabel(txt);
+        lbl.setOpaque(false);
         lbl.setFont(LBL_FONT);
         return lbl;
     }

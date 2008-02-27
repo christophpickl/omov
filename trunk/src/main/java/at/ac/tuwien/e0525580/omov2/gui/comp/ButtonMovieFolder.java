@@ -27,6 +27,7 @@ public class ButtonMovieFolder extends JButton implements ActionListener {
     public ButtonMovieFolder(Component owner) {
         super(ImageFactory.getInstance().getIconFolder());
         this.owner = owner;
+        this.setOpaque(false);
         
         this.setBorderPainted(false);
         this.setToolTipText("Choose Movie Folder");

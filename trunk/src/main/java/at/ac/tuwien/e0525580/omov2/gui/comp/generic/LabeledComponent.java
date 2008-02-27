@@ -18,6 +18,8 @@ public class LabeledComponent extends JPanel {
         final JLabel label = new JLabel(labelText);
         label.setFont(new Font("sans", Font.BOLD, 10));
         
+        this.setOpaque(false);
+        
         this.add(label, BorderLayout.NORTH);
         this.add(component, BorderLayout.CENTER);
     }

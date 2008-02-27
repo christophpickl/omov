@@ -12,10 +12,9 @@ public class MultiColTextField extends JTextField {
     }
     public MultiColTextField(String text, int columns) {
         super(text, columns);
-
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setEditable(false);
-        this.setBackground(null);
+        this.setOpaque(false);
         
     }
     @Override

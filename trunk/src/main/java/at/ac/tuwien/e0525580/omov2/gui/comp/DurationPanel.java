@@ -16,7 +16,7 @@ public class DurationPanel extends JPanel {
     private final NumberField inpHours;
     
     public DurationPanel(Duration duration) {
-        
+        this.setOpaque(false);
         final int columnSize = 2;
         this.inpMin = new NumberField(duration.getMinutes(), 0, 999, columnSize);
         this.inpHours = new NumberField(duration.getHours(), 0,  99, columnSize);

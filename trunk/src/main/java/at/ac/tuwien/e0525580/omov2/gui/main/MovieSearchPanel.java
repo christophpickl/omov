@@ -29,6 +29,7 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
         this.inpText.addKeyListener(this);
         this.inpText.addISearchFieldListener(this);
 //        this.inpText.putClientProperty("JTextField.variant", "search"); // FEATURE only for OSX 10.5 (leave it also if its a win/*nix?)
+        this.setOpaque(false);
         
         this.add(inpText);
     }

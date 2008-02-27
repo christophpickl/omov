@@ -1,5 +1,6 @@
 package at.ac.tuwien.e0525580.omov2;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.io.File;
 import java.util.Collections;
@@ -16,6 +17,7 @@ public class Constants {
     public static final int COVER_IMAGE_WIDTH = 120;
     public static final int COVER_IMAGE_HEIGHT = 160;
     
+    public static final Color COLOR_WINDOW_BACKGROUND = new Color(196, 196, 196);
     
     
     private static final Set<String> HIDDEN_FILE_NAMES = CollectionUtil.immutableSet(

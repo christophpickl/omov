@@ -20,6 +20,7 @@ CLI ARGs
 App FIXMES
 ==================================
 - den TEMP ordner regelmaessig leeren!
+- setup wizard gui ueberarbeiten
 - beim scannen: wenn ordnername (==titel) ist komplett anders als metadata fetched titel -> warnung irgendwie anzeigen 
 - *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
 

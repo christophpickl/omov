@@ -121,6 +121,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
+        panel.setOpaque(false);
 
         c.fill = GridBagConstraints.BOTH;
         c.insets = new Insets(0, 6, 7, 10); // top left bottom right
@@ -152,6 +153,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
+        panel.setOpaque(false);
         
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.BOTH;
@@ -170,8 +172,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
-
-//        panel.add(new JLabel("asdf"));
+        panel.setOpaque(false);
+        
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(0, 0, 0, 0); // top left bottom right
         c.gridy = 0;
@@ -190,6 +192,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
+        panel.setOpaque(false);
         
         c.insets = new Insets(0, 0, 0, 0); // top left bottom right
         c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -205,7 +208,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     
     private JPanel panelFolderLeft() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
+        panel.setOpaque(false);
         panel.add(this.btnMovieFolder);
 
         return panel;
@@ -216,7 +219,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
-
+        panel.setOpaque(false);
+        
         final int gapHorizontal = 6;
         final int gapVertical = 3;
         

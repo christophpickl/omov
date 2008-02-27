@@ -91,15 +91,15 @@ class ScannedMovieTableModel extends AbstractTableModel {
             public Object getValue(ScannedMovie movie) {  return movie.isSelected();  }
             public Class<?> getValueClass() {  return Boolean.class;  }});
         
-        columns.add(new ScannedMovieColumn(MovieField.TITLE.label(), 800, 120, 120) {
+        columns.add(new ScannedMovieColumn(MovieField.TITLE.label(), 800, 120, 30) {
             public Object getValue(ScannedMovie movie) {  return movie.getTitle();  }
             public Class<?> getValueClass() {  return String.class;  }});
         
-        columns.add(new ScannedMovieColumn(MovieField.FOLDER_PATH.label(), 800, 120, 120) {
+        columns.add(new ScannedMovieColumn(MovieField.FOLDER_PATH.label(), 800, 120, 30) {
             public Object getValue(ScannedMovie movie) {  return movie.getFolderPath();  }
             public Class<?> getValueClass() {  return String.class;  }});
         
-        columns.add(new ScannedMovieColumn(MovieField.FILES.label(), 800, 120, 120) {
+        columns.add(new ScannedMovieColumn(MovieField.FILES.label(), 800, 120, 30) {
             public Object getValue(ScannedMovie movie) {  return movie.getFilesFormatted();  }
             public Class<?> getValueClass() {  return String.class;  }});
         

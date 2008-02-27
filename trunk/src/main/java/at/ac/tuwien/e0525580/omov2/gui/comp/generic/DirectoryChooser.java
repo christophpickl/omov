@@ -56,10 +56,12 @@ public class DirectoryChooser extends JPanel implements ActionListener{
         this.directoryPath.setEditable(false);
         this.dialogTitle = dialogTitle;
         
-        JButton button = new JButton(buttonLabel);
+        final JButton button = new JButton(buttonLabel);
+        button.setOpaque(false);
         button.addActionListener(this);
         
-        JPanel panel = new JPanel(new BorderLayout(4, 0));
+        final JPanel panel = new JPanel(new BorderLayout(4, 0));
+        panel.setOpaque(false);
         panel.add(this.directoryPath, position == ButtonPosition.LEFT ? BorderLayout.EAST : BorderLayout.WEST);
         panel.add(button, position == ButtonPosition.LEFT ? BorderLayout.WEST : BorderLayout.EAST);
         this.add(panel);

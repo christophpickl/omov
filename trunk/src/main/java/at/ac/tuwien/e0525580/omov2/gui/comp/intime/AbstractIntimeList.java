@@ -45,6 +45,7 @@ public abstract class AbstractIntimeList extends JPanel {
         this.itemName = itemName;
         this.itemNameColumns = itemNameColumns;
         this.list.setVisibleRowCount(visibleRowCount);
+        this.setOpaque(false);
         
         if(this.getIntimeModel() == null) {
             LOG.debug("intime model is empty. hopefully subtype will invoke setListData() method...");
@@ -81,6 +82,7 @@ public abstract class AbstractIntimeList extends JPanel {
                     doAdd();
             }});
             this.add(btnAdd, BorderLayout.SOUTH);
+            btnAdd.setOpaque(false);
         }
         
 

@@ -18,6 +18,7 @@ public class ResolutionPanel extends JPanel {
     private final NumberField inpHeight;
     
     public ResolutionPanel(Resolution resolution) {
+        this.setOpaque(false);
         final int columnSize = 4;
         this.inpWidth  = new NumberField(resolution.getWidth(), 0, 9999, columnSize);
         this.inpHeight = new NumberField(resolution.getHeight(), 0, 9999, columnSize);

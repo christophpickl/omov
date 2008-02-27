@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov2.gui.scan;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -27,6 +28,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
 import at.ac.tuwien.e0525580.omov2.Configuration;
+import at.ac.tuwien.e0525580.omov2.Constants;
 import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
 import at.ac.tuwien.e0525580.omov2.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov2.gui.comp.generic.DirectoryChooser;
@@ -100,7 +102,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        
         panel.add(this.panelNorth(), BorderLayout.NORTH);
         panel.add(this.panelCenter(), BorderLayout.CENTER);
         panel.add(this.panelSouth(), BorderLayout.SOUTH);
@@ -110,6 +113,11 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
     
     private JPanel panelNorth() {
         final JPanel panel = new JPanel();
+        panel.setOpaque(false);
+
+        this.inpScanRoot.setOpaque(false);
+        this.btnPrepare.setOpaque(false);
+        this.inpFetchMetadata.setOpaque(false);
         
         this.inpScanRoot.addDirectoryChooserListener(this.controller);
         this.btnPrepare.setEnabled(false);
@@ -163,6 +171,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
         splitter.setBorder(null);
 //        splitter.setDividerLocation(0);
 //        splitter.setResizeWeight(1.0);
+        splitter.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent event) {
@@ -177,7 +186,12 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
 
     private JPanel panelSouth() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        
+        this.btnScan.setOpaque(false);
+        this.btnImport.setOpaque(false);
+        this.progressBar.setOpaque(false);
+        
         this.btnScan.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
                 doScanStarted();
         }});

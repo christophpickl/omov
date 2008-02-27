@@ -232,17 +232,17 @@ class ShapeSliderUI extends SliderUI{
         }
     }
     /**
-     * Paint a shape. All translation and scaling are already taken care
-     * of.
+     * Paint a shape. All translation and scaling are already taken care of.
      **/
     public void paintShape(Graphics2D g, double percent, boolean enabled){
         Shape s = secondaryShape;
-        if(percent>0.0){
+        if(percent > 0.0){
             s = primaryShape;
-            g.setColor(enabled?primaryColor:secondaryColor);
-        }else{
-            if(!enabled)
-                return;
+//            g.setColor(enabled?primaryColor:secondaryColor);
+            g.setColor(primaryColor);
+        } else {
+//            if(!enabled)
+//                return;
             s = secondaryShape;
             g.setColor(secondaryColor);
         }
