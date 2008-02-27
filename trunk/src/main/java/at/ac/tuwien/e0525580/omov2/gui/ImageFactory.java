@@ -55,10 +55,10 @@ public class ImageFactory {
     }
 
     public Image getImgFolder() {
-        return this.getImage("folder_73x72.png").getImage();
+        return this.getIconFolder().getImage();
     }
     public ImageIcon getIconFolder() {
-        return this.getImage("folder_73x72.png");
+        return this.getImage("folder.png");
     }
     public Image getImgBrushed() {
         return this.getImage("brushed.gif").getImage();
