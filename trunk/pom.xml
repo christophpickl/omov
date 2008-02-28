@@ -1,31 +1,49 @@
-<!-- mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov2 -DartifactId=OurMovies2 -->
+<!--
+	MAVEN HINTS
+	===================
+	... create an initial project (with its filestructure)
+	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies2
+	
+	... skip unit tests
+	-Dmaven.test.skip=true
+	
+	... packages a jar with all of its dependencies (see: http://maven.apache.org/plugins/maven-shade-plugin/)
+	mvn shade:shade
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>at.ac.tuwien.e0525580.omov2</groupId>
-	<artifactId>OurMovies2</artifactId>
+	<artifactId>OurMovies</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-SNAPSHOT</version>
-	<name>OurMovies2</name>
+	<version>0.1-alpha</version>
+	<name>OurMovies</name>
 	<url>http://maven.apache.org</url>
 
+
 	<!--
-	<scm>
-    	<url>https://omov.svn.sourceforge.net/svnroot/omov</url>
-	</scm>
-  	-->
-  	
+		<scm>
+		<url>https://omov.svn.sourceforge.net/svnroot/omov</url>
+		</scm>
+	-->
+
+
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring</artifactId>
 			<version>2.0-m4</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.db4o</groupId>
 			<artifactId>db4o-java5</artifactId>
 			<version>6.4.14.8131</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -37,51 +55,149 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.12</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
 			<version>0.9.1</version>
+			<scope>runtime</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.htmlparser</groupId>
 			<artifactId>htmlparser</artifactId>
 			<version>1.6</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.3</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>xstream</groupId>
 			<artifactId>xstream</artifactId>
 			<version>1.2.2</version>
+			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- delete this after outsourcing WebImdbExtractor -->
 		<dependency>
 			<groupId>org.htmlparser</groupId>
 			<artifactId>htmlparser</artifactId>
 			<version>1.6</version>
 		</dependency>
-
-		<!--
-		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.1</version>
-		</dependency>
-		-->
 	</dependencies>
 
+	<!-- =================================================================== -->
+	<!-- Build                                                               -->
+	<!-- =================================================================== -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<!-- TODO necessary to also package dependent jars?
+						<excludes>
+						<exclude>**/test/*</exclude>
+						</excludes>
+					-->
+					<archive>
+						<manifest>
+							<mainClass>
+								at.ac.tuwien.e0525580.omov2.App
+							</mainClass>
+							<addClasspath>true</addClasspath>
+							<attribute name="Built-By"
+								value="Christoph Pickl" />
+							<!-- <classpathPrefix>lib</classpathPrefix> -->
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<archive>
+								<manifest>
+									<mainClass>at.ac.tuwien.e0525580.omov2.App</mainClass>
+									<addClasspath>true</addClasspath>
+									<attribute name="Built-By"
+										value="Christoph Pickl" />
+									<!-- <classpathPrefix>lib</classpathPrefix> -->
+								</manifest>
+							</archive>
+							<artifactSet>
+								<excludes>
+									<exclude>classworlds:classworlds</exclude>
+									<exclude>junit:junit</exclude>
+									<exclude>jmock:jmock</exclude>
+									<exclude>xml-apis:xml-apis</exclude>
+								</excludes>
+							</artifactSet>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+							</transformers>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+
+	</build>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Repositories                                                        -->
+	<!-- =================================================================== -->
 	<repositories>
 		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository -->
-    	<repository>
-    		<id>52north.org</id>
-   	 		<url>http://incubator.52north.org/maven/maven-repo/releases</url>
-   		</repository>
-  </repositories>
+		<repository>
+			<id>52north.org</id>
+			<url>
+				http://incubator.52north.org/maven/maven-repo/releases
+			</url>
+		</repository>
+	</repositories>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Developers                                                          -->
+	<!-- =================================================================== -->
+	<developers>
+		<developer>
+			<id>CP</id>
+			<name>Christoph Pickl</name>
+			<organization>0525580</organization>
+			<roles>
+				<role>Everything</role>
+			</roles>
+			<email>e0525580@student.tuwien.ac.at</email>
+			<properties>
+				<skype>xphudyx</skype>
+			</properties>
+		</developer>
+	</developers>
+
 </project>
