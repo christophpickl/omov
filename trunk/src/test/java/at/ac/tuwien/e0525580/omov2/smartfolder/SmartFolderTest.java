@@ -2,8 +2,18 @@ package at.ac.tuwien.e0525580.omov2.smartfolder;
 
 import java.util.Date;
 
-import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
-import at.ac.tuwien.e0525580.omov2.bo.movie.Resolution;
+import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Resolution;
+import at.ac.tuwien.e0525580.omov.smartfolder.BoolCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.BoolMatch;
+import at.ac.tuwien.e0525580.omov.smartfolder.DateCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.DateMatch;
+import at.ac.tuwien.e0525580.omov.smartfolder.NumberCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.NumberMatch;
+import at.ac.tuwien.e0525580.omov.smartfolder.ResolutionCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.ResolutionMatch;
+import at.ac.tuwien.e0525580.omov.smartfolder.TextCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.TextMatch;
 
 public class SmartFolderTest extends AbstractSmartFolderTest {
 
@@ -109,16 +119,16 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
 
     public void testDate() throws Exception {
         this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(MOVIE_INDEPENDENCE_DAY.getDateAdded())));
-        this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(newDate("2008/02/14 00:00:00")))); // 2008/02/14 18:00:21
-        this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(newDate("2008/02/14 23:59:57")))); // 2008/02/14 18:00:21
-        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newNotEquals(newDate("9000/00/00 00:00:00"))), MOVIE_TEST_DATA.size());
-        this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newAfter(newDate("2008/02/14 00:00:00"))));
-        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newBefore(newDate("2007/12/31 23:59:59"))), 3); // star wars 1-3
+        this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(newDate("2008-02-14 00:00:00")))); // 2008/02/14 18:00:21
+        this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(newDate("2008-02-14 23:59:57")))); // 2008/02/14 18:00:21
+        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newNotEquals(newDate("9000-00-00 00:00:00"))), MOVIE_TEST_DATA.size());
+        this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newAfter(newDate("2008-02-14 00:00:00"))));
+        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newBefore(newDate("2007-12-31 23:59:59"))), 3); // star wars 1-3
         
         // range
-        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newInRange(newDate("2007/12/24 12:00:01"), newDate("2007/12/24 12:00:03"))), 3); // star wars 1-3
-        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newInRange(newDate("2007/12/24 12:00:02"), newDate("2007/12/24 12:00:03"))), 2); // star wars 2-3
-        this.checkNoneExisting(DateCriterion.newDateAdded(DateMatch.newInRange(newDate("2008/02/14 18:00:22"), newDate("2999/12/24 01:00:00")))); // max date got "zero": "2008/02/14 18:00:21"
+        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newInRange(newDate("2007-12-24 12:00:01"), newDate("2007-12-24 12:00:03"))), 3); // star wars 1-3
+        this.checkSomeExisting(DateCriterion.newDateAdded(DateMatch.newInRange(newDate("2007-12-24 12:00:02"), newDate("2007-12-24 12:00:03"))), 2); // star wars 2-3
+        this.checkNoneExisting(DateCriterion.newDateAdded(DateMatch.newInRange(newDate("2008-02-14 18:00:22"), newDate("2999-12-24 01:00:00")))); // max date got "zero": "2008/02/14 18:00:21"
     }
     
     public void testDateInLast() throws Exception {

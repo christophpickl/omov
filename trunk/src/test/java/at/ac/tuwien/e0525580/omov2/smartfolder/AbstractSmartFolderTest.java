@@ -14,9 +14,11 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
-import at.ac.tuwien.e0525580.omov2.bo.movie.Resolution;
-import at.ac.tuwien.e0525580.omov2.model.db4o.ObjectSetTransformer;
+import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Resolution;
+import at.ac.tuwien.e0525580.omov.model.db4o.ObjectSetTransformer;
+import at.ac.tuwien.e0525580.omov.smartfolder.AbstractColumnCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;

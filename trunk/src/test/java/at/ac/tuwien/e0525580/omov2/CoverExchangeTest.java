@@ -4,6 +4,10 @@ import junit.framework.TestCase;
 
 public class CoverExchangeTest extends TestCase {
     
+    public void testDummy() {
+        
+    }
+    
     public void xtestSimpleExchange() throws Exception {
         
         // insert movie (no cover set)

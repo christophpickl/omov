@@ -10,8 +10,11 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
-import at.ac.tuwien.e0525580.omov2.util.CollectionUtil;
+import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
+import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
+import at.ac.tuwien.e0525580.omov.tools.webdata.WebSearchResult;
+import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 
 public class ImdbTest extends TestCase {
     
@@ -68,13 +71,5 @@ public class ImdbTest extends TestCase {
         Set<String> actors = CollectionUtil.asStringSet("Will Smith", "Bill Pullman", "Jeff Goldblum");
         
         this.abstractTestDetail("http://imdb.com/title/tt0116629/", "Independence Day", genres, "Roland Emmerich", comment, 1996, actors, 145);
-    }
-    
-    public void testDetailShrek() throws Exception {
-        final String comment = "The aliens are coming and their goal is to invade and destroy. Fighting superior technology, Man's best weapon is the will to survive.";
-        Set<String> genres = CollectionUtil.asStringSet("Action", "Sci-Fi", "Thriller");
-        Set<String> actors = CollectionUtil.asStringSet("Will Smith", "Bill Pullman", "Jeff Goldblum");
-        
-        this.abstractTestDetail("http://imdb.com/title/tt0126029/", "Shrek", genres, "Roland Emmerich", comment, 1996, actors, 145);
     }
 }

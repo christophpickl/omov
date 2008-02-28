@@ -3,9 +3,10 @@ package at.ac.tuwien.e0525580.omov2.model;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import at.ac.tuwien.e0525580.omov2.BeanFactory;
-import at.ac.tuwien.e0525580.omov2.BusinessException;
-import at.ac.tuwien.e0525580.omov2.bo.movie.Movie;
+import at.ac.tuwien.e0525580.omov.BeanFactory;
+import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 
 public class Db4oMovieTest extends TestCase {
     
