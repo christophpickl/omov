@@ -14,7 +14,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>at.ac.tuwien.e0525580.omov2</groupId>
+	<groupId>at.ac.tuwien.e0525580.omov</groupId>
 	<artifactId>OurMovies</artifactId>
 	<packaging>jar</packaging>
 	<version>0.1-alpha</version>
@@ -116,7 +116,7 @@
 					<archive>
 						<manifest>
 							<mainClass>
-								at.ac.tuwien.e0525580.omov2.App
+								at.ac.tuwien.e0525580.omov.App
 							</mainClass>
 							<addClasspath>true</addClasspath>
 							<attribute name="Built-By"
@@ -139,7 +139,7 @@
 						<configuration>
 							<archive>
 								<manifest>
-									<mainClass>at.ac.tuwien.e0525580.omov2.App</mainClass>
+									<mainClass>at.ac.tuwien.e0525580.omov.App</mainClass>
 									<addClasspath>true</addClasspath>
 									<attribute name="Built-By"
 										value="Christoph Pickl" />
