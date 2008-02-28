@@ -71,6 +71,27 @@ public final class FileUtil {
         }
     }
     
+    public static void copyDirectoryRecursive(final File sourceDir, final File targetSuperDir) throws BusinessException {
+        LOG.debug("Copying directory recursive '"+sourceDir.getAbsolutePath()+"' to '"+targetSuperDir.getAbsolutePath()+"'.");
+        
+        if(sourceDir.exists() == false) {
+            throw new BusinessException("Could not copy sourcefile '"+sourceDir.getAbsolutePath()+"' because it does not exist!");
+        }
+        
+        final File targetDir = new File(targetSuperDir, sourceDir.getName());
+        if(targetDir.mkdir() == false) {
+            throw new BusinessException("Could not create directory '"+targetDir.getAbsolutePath()+"'!");
+        }
+        
+        for (File subFile : sourceDir.listFiles()) {
+            if(subFile.isFile()) {
+                copyFile(subFile, new File(targetDir, subFile.getName()));
+            } else {
+                copyDirectoryRecursive(subFile, targetDir);
+            }
+        }
+    }
+    
     private static final DecimalFormat FILE_SIZE_FORMAT = new DecimalFormat("0.0");
     public static String formatFileSize(final long inKiloByte) {
 //        if(inByte < 1024) {
@@ -99,6 +120,27 @@ public final class FileUtil {
         double gb = mb / 1024. * 10;
         long gb10th = Math.round(gb);
         return gb10th / 10.;
+    }
+    
+    public static void deleteDirectoryRecursive(final File directory) throws BusinessException {
+        LOG.debug("Deleting directory '"+directory.getAbsolutePath()+"' recursive.");
+        if(directory.exists() == false) throw new IllegalArgumentException("Directory '"+directory.getAbsolutePath()+"' does not exist!");
+        if(directory.isDirectory() == false) throw new IllegalArgumentException("Given file '"+directory.getAbsolutePath()+"' is not a directory!");
+        
+        for (File subFile : directory.listFiles()) {
+            if(subFile.isFile()) {
+                if(subFile.delete() == false) {
+                    throw new BusinessException("Could not delete file '"+subFile.getAbsolutePath()+"'!");
+                }
+            } else {
+                deleteDirectoryRecursive(subFile);
+            }
+        }
+        
+        
+        if(directory.delete() == false) {
+            throw new BusinessException("Could not delete directory '"+directory.getAbsolutePath()+"'!");
+        }
     }
     
 //    public static void markMovieAdded(final Movie movie) throws IOException {
