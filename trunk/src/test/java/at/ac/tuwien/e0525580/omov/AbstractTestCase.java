@@ -1,4 +1,4 @@
-package at.ac.tuwien.e0525580.omov2;
+package at.ac.tuwien.e0525580.omov;
 
 import junit.framework.TestCase;
 

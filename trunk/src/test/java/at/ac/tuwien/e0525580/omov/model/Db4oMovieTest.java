@@ -1,4 +1,4 @@
-package at.ac.tuwien.e0525580.omov2.model;
+package at.ac.tuwien.e0525580.omov.model;
 
 import java.util.Set;
 

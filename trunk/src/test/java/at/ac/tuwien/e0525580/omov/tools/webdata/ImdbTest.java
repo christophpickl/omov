@@ -1,4 +1,4 @@
-package at.ac.tuwien.e0525580.omov2.tools.webdata;
+package at.ac.tuwien.e0525580.omov.tools.webdata;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

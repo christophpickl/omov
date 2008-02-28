@@ -1,4 +1,4 @@
-package at.ac.tuwien.e0525580.omov2.smartfolder;
+package at.ac.tuwien.e0525580.omov.smartfolder;
 
 import java.io.File;
 import java.text.ParseException;
