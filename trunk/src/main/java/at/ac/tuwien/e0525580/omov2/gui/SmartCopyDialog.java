@@ -2,12 +2,14 @@ package at.ac.tuwien.e0525580.omov2.gui;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import at.ac.tuwien.e0525580.omov2.BusinessException;
 import at.ac.tuwien.e0525580.omov2.tools.SmartCopy;
 import at.ac.tuwien.e0525580.omov2.util.GuiUtil;
 
@@ -39,13 +41,21 @@ public class SmartCopyDialog extends JDialog {
 
         return panel;
     }
-    
-    private void doCopy() {
+    private void doCopy() throws BusinessException {
         final SmartCopy copy = new SmartCopy();
         // FIXME implement me
+        
+        final int ids[] = new int[] { 10 };
+        final File targetDirectory = new File("/OmovMoviesTarget");
+        
+        copy.copy(ids, targetDirectory, this);
     }
     
     private void doClose() {
         this.dispose();
+    }
+    
+    public static void main(String[] args) throws BusinessException {
+        new SmartCopyDialog(null).doCopy();
     }
 }
