@@ -282,7 +282,7 @@ public class Scanner implements IScanner {
     }
     
     private ScannedMovie scanMovieFolder(File folder) {
-        final String title = folder.getName();
+        final String title = FileUtil.clearFileNameDots(folder);
         final MovieFolderInfo folderInfo = scanMovieFolderInfo(folder, this.scanRoot, this.hints);
         
         return ScannedMovie.newByMovie(new RawScannedMovie(title, folderInfo.getFolderPath(), folderInfo.getFileSizeKB(), folderInfo.getFormat(), folderInfo.getFiles()).toMovie(), true);

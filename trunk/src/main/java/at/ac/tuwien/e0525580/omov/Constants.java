@@ -27,10 +27,10 @@ public class Constants {
             "Thumbs.db");
     
     private static final Set<String> KNOWN_MOVIE_FILE_EXTENSIONS = CollectionUtil.immutableSet(
-            "mpg", "mpeg", "mp4", "avi", "ogm", "mkv", "divx", "wmv", "flv",
+            "mpg", "mpeg", "mp4", "avi", "ogm", "mkv", "divx", "wmv", "flv", "mov",
             "bin", "cue", 
             "mdf", "mds", 
-            "bup, ifo, vob"); // von DVDs
+            "bup", "ifo", "vob"); // von DVDs
 
     
     

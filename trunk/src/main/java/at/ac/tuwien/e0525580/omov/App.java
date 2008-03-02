@@ -49,6 +49,7 @@ FEATURES
 - alles ESC enablen
 - MovieTable editable machen
 - beim export/smartCopy den user entscheiden lassen welche movies genommen werden (alle || nur selected; beim smartCopy + anhand von IDs generiert von HTML-Report)
+- wenn OS==MacOSX dann beim setup nicht nach tmp/cover-folder fragen, sondern in Contents/MacOS/Resources implizit anlegen
 
 - remote zeugs
 - help system

@@ -8,11 +8,9 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.CommonController;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser.IDirectoryChooserListener;
 import at.ac.tuwien.e0525580.omov.gui.movie.AddEditMovieDialog;
 import at.ac.tuwien.e0525580.omov.tools.scan.IScanListener;
 import at.ac.tuwien.e0525580.omov.tools.scan.IScanner;
@@ -26,7 +24,7 @@ import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-class ScanDialogController extends CommonController implements IScanListener, IDirectoryChooserListener {
+class ScanDialogController extends CommonController implements IScanListener {
 
     private static final Log LOG = LogFactory.getLog(ScanDialogController.class);
     
@@ -44,23 +42,27 @@ class ScanDialogController extends CommonController implements IScanListener, ID
     
 
     public void doPrepareRepository(final File directory) {
+        LOG.info("doPrepareRepoistory on directory '"+directory.getAbsolutePath()+"'...");
 //        final File directory = GuiUtil.getDirectory(null, null);
 //        if (directory == null) {
 //            return;
 //        }
-//        
-        LOG.info("doPrepareRepoistory on directory '"+directory.getAbsolutePath()+"'...");
-//        final File directory = new File("/Users/phudy/Movies/Holy/"); // shortcut
+        
+        if(GuiUtil.getYesNoAnswer(this.dialog, "Preparing Repository "+directory.getAbsolutePath(),
+                "<html>" +
+                    "Preparing a repository means creating a directory for each movie file.<br>" +
+                    "This action is <b>not undoable</b> and can leave your folderstructure<br>" +
+                    "in a state you probably personally do not like that much.<br><br>" +
+                    "Are you sure to want this?" +
+                "</html>") == false) {
+            LOG.info("Preparing repository aborted by user.");
+            return;
+        }
+        
         
         final RepositoryPreparer preparer = new RepositoryPreparer();
         final PreparerResult result = preparer.process(directory);
-        new RepositoryPreparerResultWindow(result).setVisible(true);
-    }
-
-    public void choosenDirectory(File dir) {
-        // getParent() returns null, if there is no parent directory; therefore take path of directory itself (which seems to be a top level path.
-        final File parent = (dir.getParentFile() != null) ? dir.getParentFile() : dir;
-        Configuration.getInstance().setRecentScanRoot(parent.getAbsolutePath()); // store back in preferences
+        new RepositoryPreparerResultWindow(this.dialog, result).setVisible(true);
     }
     
     public void doEditScannedMovie(ScannedMovie scannedInputMovie) {

@@ -1,7 +1,6 @@
 package at.ac.tuwien.e0525580.omov.gui.scan;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -27,7 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
@@ -51,7 +49,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
 
     private final ScanDialogController controller = new ScanDialogController(this);
     
-    private final DirectoryChooser inpScanRoot = DirectoryChooser.newPathAndPosition("Choose Scan Root", Configuration.getInstance().getRecentScanRoot(), ButtonPosition.LEFT);
+    private final DirectoryChooser inpScanRoot = DirectoryChooser.newPosition("Choose a Scan Root", ButtonPosition.LEFT);
     private JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
     private JProgressBar progressBar = new JProgressBar();
     
@@ -66,8 +64,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
     
     
     public ScanDialog(JFrame owner) {
-        super(owner);
-        this.setTitle("Scan");
+        super(owner, "Scan", true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
 
@@ -84,7 +81,6 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
         
         this.getRootPane().setDefaultButton(this.btnScan);
         
-        this.inpScanRoot.setDirectory(Configuration.getInstance().getRecentScanRoot());
         
         this.getContentPane().add(this.initComponents());
         this.pack();
@@ -119,10 +115,10 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
         this.btnPrepare.setOpaque(false);
         this.inpFetchMetadata.setOpaque(false);
         
-        this.inpScanRoot.addDirectoryChooserListener(this.controller);
         this.btnPrepare.setEnabled(false);
         this.inpScanRoot.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
             btnPrepare.setEnabled(true);
+            btnScan.setEnabled(true);
         }});
         this.btnPrepare.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
             controller.doPrepareRepository(inpScanRoot.getDirectory());
@@ -189,6 +185,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
         panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         
         this.btnScan.setOpaque(false);
+        this.btnScan.setEnabled(false);
         this.btnImport.setOpaque(false);
         this.progressBar.setOpaque(false);
         

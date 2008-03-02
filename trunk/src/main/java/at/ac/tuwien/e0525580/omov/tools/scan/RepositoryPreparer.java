@@ -22,7 +22,9 @@ public class RepositoryPreparer {
 //        if(directory == null) {
 //            return;
 //        }
-        final File directory = new File("/Users/phudy/Movies/Holy/");
+        
+        
+        final File directory = new File("/Volumes/MEGADISK/Movies_Holy/_not_yet_seen");
         
         RepositoryPreparer p = new RepositoryPreparer();
         PreparerResult r = p.process(directory);
@@ -49,36 +51,38 @@ public class RepositoryPreparer {
     }
     
     public PreparerResult process(final File directory) {
+        if(directory.exists() == false || directory.isDirectory() == false) {
+            throw new IllegalArgumentException("Invalid directory '"+directory.getAbsolutePath()+"'!");
+        }
+        
         this.hints.clear();
         int cntMovedFiles = 0;
         int cntIgnoredDirs = 0;
         int cntIgnoredFiles = 0;
         
-        for (File file : directory.listFiles()) {
-            LOG.debug("Processing file/directory '"+file.getAbsolutePath()+"' ...");
-            if(file.getName().equals("affe1.jpg")) {
-                System.out.println("tut");
-            }
-            if(file.isDirectory() == true) {
-                final String msg = "Ignoring existing directory: " + file.getAbsolutePath();
+        for (File movieFile : directory.listFiles()) {
+            LOG.debug("Processing file/directory '"+movieFile.getAbsolutePath()+"' ...");
+
+            if(movieFile.isDirectory() == true) {
+                final String msg = "Ignoring existing directory: " + movieFile.getAbsolutePath();
                 LOG.debug(msg);
                 this.info(msg);
                 cntIgnoredDirs++;
                 continue;
             }
             
-            if(Constants.isMovieFile(file) == false) {
-                if(Constants.isHiddenFile(file) == true) {
-                    LOG.debug("Ignoring hidden file '"+file.getName()+"'.");
+            if(Constants.isMovieFile(movieFile) == false) {
+                if(Constants.isHiddenFile(movieFile) == true) {
+                    LOG.debug("Ignoring hidden file '"+movieFile.getName()+"'.");
                 } else {
-                    this.info("Ignoring non movie file: " + file.getAbsolutePath());
+                    this.info("Ignoring non movie file: " + movieFile.getAbsolutePath());
                     cntIgnoredFiles++;
                 }
                 continue;
             }
-            final String fileName = file.getName();
-            final String targetDirName = fileName.substring(0, fileName.length() - FileUtil.extractExtension(file).length() - 1); // + 1 is the "."-dot
-            final File targetDir = new File(file.getParentFile(), targetDirName);
+            final String fileName = movieFile.getName();
+            final String targetDirName = fileName.substring(0, fileName.length() - FileUtil.extractExtension(movieFile).length() - 1);
+            final File targetDir = new File(movieFile.getParentFile(), targetDirName);
             final String targetDirPath = targetDir.getAbsolutePath();
             LOG.info("Creating target directory '"+targetDirPath+"' for movie file '"+fileName+"'.");
             if(targetDir.exists() == true) {
@@ -95,7 +99,7 @@ public class RepositoryPreparer {
             }
             
             
-            final boolean couldMoveFile = file.renameTo(new File(targetDir, fileName));
+            final boolean couldMoveFile = movieFile.renameTo(new File(targetDir, fileName));
             if (couldMoveFile == false) {
                 final String msg = "Could not move file '"+fileName+"' to directory '"+targetDirPath+"'!";
                 LOG.error(msg);

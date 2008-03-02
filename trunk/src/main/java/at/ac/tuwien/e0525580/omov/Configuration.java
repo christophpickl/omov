@@ -19,7 +19,7 @@ public class Configuration {
         FOLDER_COVERS, FOLDER_TEMPORARY,
         SERVER_PORT, USERNAME,
         
-        RECENT_SCAN_ROOT, RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH;
+        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH;
     }
     
     private String folderCovers, folderTemporary;
@@ -27,7 +27,7 @@ public class Configuration {
     private String username;
 //    private int serverPort;
     
-    private String recentScanRoot, recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath;
+    private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath;
     
     private Configuration() {
         if(this.isInitialized()) {
@@ -55,7 +55,6 @@ public class Configuration {
 //        this.serverPort = prefs.getInt(KEY.SERVER_PORT.name(), 1789);
         
         
-        this.recentScanRoot = prefs.get(PrefKey.RECENT_SCAN_ROOT.name(), File.listRoots()[0].getAbsolutePath());
         this.recentExportDestination = prefs.get(PrefKey.RECENT_EXPORT_DESTINATION.name(), File.listRoots()[0].getAbsolutePath());
         this.recentCoverSelectorPath = prefs.get(PrefKey.RECENT_COVER_SELECTOR_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentMovieFolderPath = prefs.get(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), File.listRoots()[0].getAbsolutePath());
@@ -91,16 +90,6 @@ public class Configuration {
         LOG.debug("setting username to '"+username+"'.");
         this.prefs.put(PrefKey.USERNAME.name(), username);
         this.username = username;
-        this.flush();
-    }
-    
-    public File getRecentScanRoot() {
-        return new File(this.recentScanRoot);
-    }
-    public void setRecentScanRoot(String recentScanRoot) {
-        LOG.debug("setting recentScanRoot to '"+recentScanRoot+"'.");
-        this.prefs.put(PrefKey.RECENT_SCAN_ROOT.name(), recentScanRoot);
-        this.recentScanRoot = recentScanRoot;
         this.flush();
     }
     

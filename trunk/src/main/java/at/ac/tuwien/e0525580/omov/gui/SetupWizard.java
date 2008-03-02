@@ -26,6 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser.IDirectoryChooserListener;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 public class SetupWizard extends JDialog {
@@ -90,6 +91,13 @@ public class SetupWizard extends JDialog {
 
         this.inpFolderTemporary.__unchecked_setDirectory(new File("temp"));
         this.inpFolderCovers.__unchecked_setDirectory(new File("covers"));
+
+        this.inpFolderTemporary.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+            inpFolderCovers.setDefaultPath(dir.getParentFile());
+        }});
+        this.inpFolderCovers.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+            inpFolderTemporary.setDefaultPath(dir.getParentFile());
+        }});
         
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         

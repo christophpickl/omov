@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,16 +23,16 @@ import at.ac.tuwien.e0525580.omov.tools.scan.RepositoryPreparer.PreparerResult;
 import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public class RepositoryPreparerResultWindow extends JFrame {
+public class RepositoryPreparerResultWindow extends JDialog {
 
     private static final long serialVersionUID = 967471175757339990L;
 
     private final PreparerResult result;
     
-    public RepositoryPreparerResultWindow(PreparerResult result) {
+    public RepositoryPreparerResultWindow(JDialog owner, PreparerResult result) {
+        super(owner, "Repository Preparer Result", true);
         this.result = result;
         
-        this.setTitle("Repository Preparer Result");
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         this.getContentPane().add(this.initComponents());

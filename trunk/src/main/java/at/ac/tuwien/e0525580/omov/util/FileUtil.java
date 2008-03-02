@@ -143,36 +143,40 @@ public final class FileUtil {
         }
     }
     
-//    public static void markMovieAdded(final Movie movie) throws IOException {
-//        final File markFile = FileUtil.getMarkMovieAdd(movie);
-//        
-//        if(!markFile.createNewFile()) {
-//            throw new IOException("could not create file '" + markFile.getAbsolutePath() + "'!");
-//        }
-//        FileWriter writer = null;
-//        try {
-//            writer = new FileWriter(markFile);
-//            writer.write(String.valueOf(movie.getId()));
-//        } finally {
-//            if(writer != null) writer.close();
-//        }
-//    }
+    /**
+     * @param fileWithDots file or folder, does not matter 
+     */
+    public static String clearFileNameDots(final File fileWithDots) {
+        // FEATURE ignore dots with leading "mr" or "dr" (not case-sensitive)
+        return fileWithDots.isFile() ? clearFileDots(fileWithDots) : clearDirectoryDots(fileWithDots);
+    }
+
+    private static String clearDirectoryDots(final File directoryWithDots) {
+        final String nameWithDots = directoryWithDots.getName();
+        final int cntDots = nameWithDots.split("\\.").length;
+
+        if(cntDots <= 1) {
+            LOG.debug("No dots to clear for file '"+directoryWithDots.getAbsolutePath()+"'.");
+            return nameWithDots;
+        }
+        
+        return nameWithDots.replaceAll("\\.", " ");
+    }
     
-//    public static File getMarkMovieAdd(final Movie movie) {
-//        return new File(UserConfig.getInstance().getDataRoot(), movie.getFolder().getName() + File.separator + Scanner.MOVIE_ADDED_MARK_NAME);
-//    }
+    private static String clearFileDots(final File fileWithDots) {
+        final String nameWithDots = fileWithDots.getName();
+        final int cntDots = nameWithDots.split("\\.").length;
+
+        if(cntDots <= 2) {
+            LOG.debug("No dots to clear for file '"+fileWithDots.getAbsolutePath()+"'.");
+            return nameWithDots;
+        }
+        final String extension = nameWithDots.substring(nameWithDots.lastIndexOf(".")+1);
+        
+        String result = nameWithDots.substring(0, nameWithDots.length() - (extension.length() + 1));
+        result = result.replaceAll("\\.", " ");
+        return result + "." + extension;
+    }
     
-//    public static void unmarkMovieAdded(final Movie movie) throws IOException {
-//        final File markFile = FileUtil.getMarkMovieAdd(movie);
-//        if(!markFile.delete()) {
-//            throw new IOException("could not delete file '" + markFile.getAbsolutePath() + "'!");
-//        }
-//    }
-    
-//    public static void deleteCover(final Movie movie) throws IOException {
-//        if(!movie.getCoverFile().delete()) {
-//            throw new IOException("could not delete file '" + movie.getCoverFile().getAbsolutePath() + "'!");
-//        }
-//    }
 }
 
