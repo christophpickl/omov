@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.DecimalFormat;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,6 +17,13 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 public final class FileUtil {
 
     private static final Log LOG = LogFactory.getLog(FileUtil.class);
+
+    
+    private static final Set<String> HIDDEN_FILE_NAMES = CollectionUtil.immutableSet(
+            // apple system files
+            ".DS_Store", "Icon\r",
+            // windows system files
+            "Thumbs.db");
     
     
     private FileUtil() {
@@ -177,6 +185,9 @@ public final class FileUtil {
         result = result.replaceAll("\\.", " ");
         return result + "." + extension;
     }
-    
+
+    public static boolean isHiddenFile(File file) {
+        return HIDDEN_FILE_NAMES.contains(file.getName());
+    }
 }
 

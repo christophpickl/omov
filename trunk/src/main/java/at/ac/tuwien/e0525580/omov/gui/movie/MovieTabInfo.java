@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.CoverSelector;
@@ -62,7 +63,7 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpResolution = new ResolutionPanel(resolution);
         
         this.inpRating = new RatingField(isAddMode ? 0 : editMovie.getRating());
-        this.inpQuality = new QualityField((isAddMode ? 0 : editMovie.getQuality()));
+        this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
         
 //        final int preferredGenreHeight = Constants.COVER_IMAGE_HEIGHT;
@@ -117,7 +118,7 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpGenre = new MovieGenresList(this.owner, 10);
         this.inpRating = new RatingField(0);
         this.inpYear = new YearField(0);
-        this.inpQuality = new QualityField(0);
+        this.inpQuality = new QualityField(Quality.UNRATED);
 
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(this.initComponents());
@@ -248,7 +249,7 @@ class MovieTabInfo extends AbstractMovieTab {
     public int getYear() {
         return this.inpYear.getNumber();
     }
-    public int getQuality() {
-        return this.inpQuality.getNumber();
+    public Quality getQuality() {
+        return this.inpQuality.getQuality();
     }
 }

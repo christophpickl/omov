@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.bo.VersionedMovies;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
@@ -180,7 +181,7 @@ final class MainWindowController extends CommonController implements IRemoteData
                     final Set<String> actors    = dialog.isFieldSelected(MovieField.ACTORS)     ? confirmedMovie.getActors()     : movieToEdit.getActors();
                     final int year              = dialog.isFieldSelected(MovieField.YEAR)       ? confirmedMovie.getYear()       : movieToEdit.getYear();
                     final String comment        = dialog.isFieldSelected(MovieField.COMMENT)    ? confirmedMovie.getComment()    : movieToEdit.getComment();
-                    final int quality           = dialog.isFieldSelected(MovieField.QUALITY)    ? confirmedMovie.getQuality()    : movieToEdit.getQuality();
+                    final Quality quality           = dialog.isFieldSelected(MovieField.QUALITY)    ? confirmedMovie.getQuality()    : movieToEdit.getQuality();
                     final int duration          = dialog.isFieldSelected(MovieField.DURATION)   ? confirmedMovie.getDuration()   : movieToEdit.getDuration();
                     final Resolution resolution = dialog.isFieldSelected(MovieField.RESOLUTION) ? confirmedMovie.getResolution() : movieToEdit.getResolution();
                     final Set<String> subtitles = dialog.isFieldSelected(MovieField.SUBTITLES)  ? confirmedMovie.getSubtitles()  : movieToEdit.getSubtitles();

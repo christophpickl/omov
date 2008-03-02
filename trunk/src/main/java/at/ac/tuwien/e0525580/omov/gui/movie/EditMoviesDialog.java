@@ -17,6 +17,7 @@ import javax.swing.JTabbedPane;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.AbstractAddEditDialog;
@@ -100,7 +101,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         final Set<String> actors = this.tabDetails.getActors();
         final int year = this.tabInfo.getYear();
         final String comment = this.tabNotes.getComment();
-        int quality = this.tabInfo.getQuality();
+        final Quality quality = this.tabInfo.getQuality();
         final Date dateAdded = this.tabNotes.getDateAdded(); // DateAdded is null if editing multiple movies -> will be anyway set for multiple movies 
         
         

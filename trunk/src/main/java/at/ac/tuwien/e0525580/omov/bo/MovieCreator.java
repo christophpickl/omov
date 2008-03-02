@@ -31,7 +31,7 @@ public class MovieCreator {
     private Set<String> actors;
     private int year;
     private String comment;
-    private int quality;
+    private Quality quality;
     private Date dateAdded;
     
     // technical
@@ -183,8 +183,7 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("comment");
         this.comment = input; return this;
     }
-    public MovieCreator quality(int input) {
-        if(input < 0 || input > 4) throw new IllegalArgumentException("quality: " + input);
+    public MovieCreator quality(Quality input) {
         this.quality = input; return this;
     }
     public MovieCreator dateAdded(Date input) {

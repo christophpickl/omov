@@ -14,6 +14,7 @@ import javax.swing.JWindow;
 
 public class MoveWindow extends JWindow implements MouseListener, MouseMotionListener
 {
+    private static final long serialVersionUID = 1L;
     Point location;
     MouseEvent pressed;
     Dimension pressedDimension;

@@ -11,7 +11,6 @@ import java.awt.event.MouseMotionListener;
 
 import javax.swing.Icon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -113,7 +112,7 @@ public class ResizeIcon extends JPanel implements Icon {
         JTable tbl = new JTable(rows, new String[] { "Col1" });
         JScrollPane s = new JScrollPane(tbl);
 
-        ResizeIcon icon = new ResizeIcon();
+//        ResizeIcon icon = new ResizeIcon();
 //        final JLabel lbl = new JLabel(icon); // new JLabel("asdf"); ... funtioniert halbert
         final JPanel lbl = new JPanel();
         lbl.setBackground(Color.RED);

@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.gui.IPrevNextMovieProvider;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.AbstractAddEditDialog;
@@ -207,7 +208,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         final Set<String> actors = this.tabDetails.getActors();
         final int year = this.tabInfo.getYear();
         final String comment = this.tabNotes.getComment();
-        int quality = this.tabInfo.getQuality();
+        final Quality quality = this.tabInfo.getQuality();
         final Date dateAdded = this.tabNotes.getDateAdded(); // TODO DateAdded can be null if adding new movie; is that a problem?! 
         
         

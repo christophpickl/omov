@@ -12,7 +12,6 @@ import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.StringUtil;
@@ -133,8 +132,8 @@ public class Movie implements Serializable {
     
     private final String comment;
     
-    /** [0-4] ... 0 = unrated; 1 = cinema bad; 2 = cinema, bad rip; 3 = good; 4 = dvd best */
-    private final int quality;
+    /** IDs: [0-4] ... 0 = unrated; 1 = cinema bad; 2 = cinema, bad rip; 3 = good; 4 = dvd best */
+    private final Quality quality;
     
     
     private final Date dateAdded;
@@ -189,7 +188,7 @@ public class Movie implements Serializable {
     
     Movie(final int id, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
-            final String director, final Set<String> actors, final int year, final String comment, int quality, final Date dateAdded, 
+            final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
             final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
         this.id = id;
         
@@ -209,7 +208,6 @@ public class Movie implements Serializable {
         this.languagesString = CollectionUtil.toString(this.languages);
         
         // detail
-        if(quality < 0 || quality > 4) throw new IllegalArgumentException("quality: " + quality);
         this.director = director;
         this.actors = CollectionUtil.immutableSet(actors);
         this.year = year;
@@ -236,13 +234,13 @@ public class Movie implements Serializable {
     /** actually same as full constructor */
     public static Movie newMovie(final int id, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
-            final String director, final Set<String> actors, final int year, final String comment, int quality, final Date dateAdded, 
+            final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
             final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
         return new Movie(id, title, seen, rating, coverFile, genres, languages, style, director, actors, year, comment, quality, dateAdded, fileSizeKb, folderPath, format, files, duration, resolution, subtitles);
     }
     public static Movie newByMultipleEdited(final Movie m, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
-            final String director, final Set<String> actors, final int year, final String comment, int quality, 
+            final String director, final Set<String> actors, final int year, final String comment, Quality quality, 
             final int duration, final Resolution resolution, final Set<String> subtitles) {
         return new Movie(m.getId(),
             title, seen, rating, coverFile, genres, languages, style,
@@ -384,7 +382,7 @@ public class Movie implements Serializable {
     public int hashCode() {
         return this.getId() + 
             this.getTitle().hashCode() + this.getRating() + this.getCoverFile().hashCode() + this.getGenres().hashCode() + this.getLanguages().hashCode() + this.getStyle().hashCode() +
-            this.getActors().hashCode() + this.getYear() + this.comment.hashCode() + this.getQuality() +
+            this.getActors().hashCode() + this.getYear() + this.comment.hashCode() + this.getQuality().label().hashCode() +
             ((int)this.getFileSizeKb()) + this.getFolderPath().hashCode() + this.getFormat().hashCode() + this.getFormat().hashCode() + 
             this.getFiles().hashCode() + this.getDuration() + this.getResolution().hashCode() + this.getSubtitles().hashCode() +
             73;
@@ -472,12 +470,12 @@ public class Movie implements Serializable {
         return this.year;
     }
 
-    public int getQuality() {
+    public Quality getQuality() {
         return this.quality;
     }
     
     public String getQualityString() {
-        return Constants.mapQuality(this.quality);
+        return this.quality.label();
     }
 
     public Date getDateAdded() {

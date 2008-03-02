@@ -14,7 +14,6 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.MovieFolderInfo;
 import at.ac.tuwien.e0525580.omov.bo.RawScannedMovie;
@@ -22,6 +21,7 @@ import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
+import at.ac.tuwien.e0525580.omov.util.MovieFileUtil;
 
 /**
  * scans for following information: folderPath, files, fileSizeKb, format (using a MovieFolderInfo object)
@@ -230,17 +230,17 @@ public class Scanner implements IScanner {
                 continue;
             }
             final String fileExtension = FileUtil.extractExtension(file);
-            if(Constants.isHiddenFile(file) == true) {
+            if(FileUtil.isHiddenFile(file) == true) {
                 LOG.debug("Skipping hidden file '"+file.getName()+"'.");
                 continue;
-            } else if(Constants.isMovieFileExtension(fileExtension) == false) {
+            } else if(MovieFileUtil.isMovieFileExtension(fileExtension) == false) {
                 if(fileExtension != null) { // it does have a file extension
                     if(hintsEnabled) hints.add(ScanHint.info("Unkown movie format: " + path(file, scanRoot)));
                 }
                 continue;
             }
             
-            assert(Constants.isMovieFile(file) == true) : "The file '"+file.getAbsolutePath()+"' is not a movie file!";
+            assert(MovieFileUtil.isMovieFile(file) == true) : "The file '"+file.getAbsolutePath()+"' is not a movie file!";
             fileSizeKb += file.length() / 1024;
             files.add(file.getName());
             

@@ -7,8 +7,8 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
+import at.ac.tuwien.e0525580.omov.util.MovieFileUtil;
 
 public class RepositoryPreparer {
 
@@ -71,8 +71,8 @@ public class RepositoryPreparer {
                 continue;
             }
             
-            if(Constants.isMovieFile(movieFile) == false) {
-                if(Constants.isHiddenFile(movieFile) == true) {
+            if(MovieFileUtil.isMovieFile(movieFile) == false) {
+                if(FileUtil.isHiddenFile(movieFile) == true) {
                     LOG.debug("Ignoring hidden file '"+movieFile.getName()+"'.");
                 } else {
                     this.info("Ignoring non movie file: " + movieFile.getAbsolutePath());
