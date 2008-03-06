@@ -63,4 +63,8 @@ public class ImageFactory {
     public Image getImgBrushed() {
         return this.getImage("brushed.gif").getImage();
     }
+    public ImageIcon getSplashScreenLogo() {
+        return this.getImage("splash_screen_logo.png");
+    }
+    
 }
