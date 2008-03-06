@@ -28,6 +28,7 @@ public class Configuration {
 //    private int serverPort;
     
     private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath;
+    public static final String APPARG_DEBUG_MENU = "DEBUG_MENU";
     
     private Configuration() {
         if(this.isInitialized()) {
