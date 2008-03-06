@@ -1,12 +1,14 @@
 package at.ac.tuwien.e0525580.omov;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
+import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindow;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -68,12 +70,61 @@ public class App {
 
     private static final Log LOG = LogFactory.getLog(App.class);
 
-    private static List<String> arguments;
-    public static final String APPARG_DEBUG_MENU = "DEBUG_MENU";
+    private static List<String> cliArguments;
+    
+    
     
     public static void main(String[] args) {
-        arguments = Arrays.asList(args);
+        App.cliArguments = Arrays.asList(args);
+        final SplashScreen splashScreen = new SplashScreen();
+        splashScreen.setVisible(true);
         
+        try {
+            final long timeStart = new Date().getTime();
+            if(App.checkConfiguration() == false) {
+                LOG.debug("Checking configuration failed.");
+                return;
+            }
+    
+            // FEATURE check file consistency at startup (for each movie/directory: check if files still exist)
+            //         -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
+            
+            TemporaryFilesCleaner.clean();
+            App.addShutdownHook();
+            
+            final MainWindow mainWindow = new MainWindow();
+            
+            final long timeLasted = new Date().getTime() - timeStart;
+            final long minimumTimeLasted = 1000L;
+            if(timeLasted < minimumTimeLasted) { // avoid very short visibility of splash screen
+                try { Thread.sleep(minimumTimeLasted - timeLasted); } catch (InterruptedException e) { /* delibaretely ignored */ }
+            }
+            
+            splashScreen.setVisible(false);
+            mainWindow.setVisible(true);
+        } finally {
+            splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
+        }
+        
+    }
+    
+    public static boolean isArgumentSet(String argument) {
+        return App.cliArguments.contains(argument);
+    }
+    
+    /**
+     * should be used if exceptions was thrown, which forces an application shutdown.
+     * use it to surround user invoked methods (within actionPerformed & co).
+     */
+    public static void handleFatalException(Exception e) {
+        e.printStackTrace();
+        LOG.error("Application error! Shutdown...", e);
+        GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
+                                                 "The evil source is a "+e.getClass().getSimpleName()+".");
+        System.exit(1);
+    }
+    
+    private static boolean checkConfiguration() {
         try {
             if(Configuration.getInstance().isInitialized() == false) {
                 LOG.info("Configuration was not yet initialized; starting setup wizard.");
@@ -82,7 +133,7 @@ public class App {
                 
                 if(wizard.isConfirmed() == false) {
                     LOG.info("User aborted setup.");
-                    return;
+                    return false;
                 }
                 assert(Configuration.getInstance().isInitialized());
             }
@@ -90,9 +141,13 @@ public class App {
             LOG.error("Application error! Shutdown...", e);
             e.printStackTrace();
             GuiUtil.error("Setup failed!", "Could not set initial values: " + e.getMessage());
-            System.exit(1);
+            return false;
         }
         
+        return true;
+    }
+    
+    private static void addShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
@@ -107,20 +162,6 @@ public class App {
                 }
             }
         });
-        
-        try {
-            // FEATURE check file consistency at startup (for each movie/directory: check if files still exist) -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
-            new MainWindow().setVisible(true);
-        } catch (Exception e) {
-            LOG.error("Application error! Shutdown...", e);
-            e.printStackTrace();
-            GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\nThe evil source is a "+e.getClass().getSimpleName()+".");
-            System.exit(1);
-        }
     }
     
-    
-    public static boolean containsAppArgument(String argument) {
-        return arguments.contains(argument);
-    }
 }

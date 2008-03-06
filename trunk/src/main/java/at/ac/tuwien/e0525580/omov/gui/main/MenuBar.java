@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.App;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
@@ -148,7 +149,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     
     private static class DebugMenu {
         public static void maybeAddYourself(JMenuBar bar) {
-            if(App.containsAppArgument(App.APPARG_DEBUG_MENU) == false) {
+            if(App.isArgumentSet(Configuration.APPARG_DEBUG_MENU) == false) {
                 return;
             }
             LOG.info("adding debug menu.");
