@@ -1,5 +1,7 @@
 package at.ac.tuwien.e0525580.omov.bo;
 
+import java.util.Comparator;
+
 import at.ac.tuwien.e0525580.omov.FatalException;
 
 
@@ -28,8 +30,8 @@ public enum Quality {
     }
     
     public static Quality getQualityById(int id) {
-        if(id >= 0 || id <= 4) {
-            throw new IllegalArgumentException("qualit id " + id);
+        if(id < 0 || id > 4) {
+            throw new IllegalArgumentException("quality id " + id);
         }
         switch (id) {
             case 0: return UNRATED;
@@ -40,6 +42,12 @@ public enum Quality {
             default: throw new FatalException("Unhandled id: " + id);
         }
     }
+    
+    public static Comparator<Quality> COMPARATOR = new Comparator<Quality>() {
+        public int compare(Quality o1, Quality o2) {
+            return o1.id - o2.id;
+        }
+    };
     /*
      * 
     

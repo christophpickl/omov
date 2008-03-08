@@ -25,14 +25,13 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.IPrevNextMovieProvider;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.brushed.BrushedMetalPanel;
-import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTable;
-import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTableModel;
-import at.ac.tuwien.e0525580.omov.gui.main.table.SortTableActionListener;
-import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTable.MovieTableContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.IMovieTableContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableX;
 import at.ac.tuwien.e0525580.omov.gui.smartfolder.SmartFolderSelectionPanel;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public class MainWindow extends JFrame implements MovieTableContextMenuListener {
+public class MainWindow extends JFrame implements IMovieTableContextMenuListener {
 
     private static final long serialVersionUID = -1367955221953478216L;
     private static final Log LOG = LogFactory.getLog(MainWindow.class);
@@ -40,7 +39,7 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
     private final MainWindowController controller = new MainWindowController(this);
 
     private final MovieTableModel moviesModel = new MovieTableModel();
-    private final MovieTable moviesTable = new MovieTable(this);
+    private final MovieTableX moviesTable;
     
     private final MovieDetailPanel movieDetailPanel = new MovieDetailPanel();
     private Movie selectedMovie;
@@ -55,6 +54,8 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
                 controller.doQuit();
             }
         });
+        
+        this.moviesTable = new MovieTableX(this, this.moviesModel);
         
 //        this.setPreferredSize(new Dimension(860, 520));
         
@@ -90,48 +91,7 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
     
     
     private Component initComponentTable() { 
-        this.moviesTable.setModel(this.moviesModel);
-        this.moviesModel.setColumnModel(this.moviesTable.getColumnModel());
-        this.moviesTable.getTableHeader().addLeftLickListener(new SortTableActionListener(this.moviesTable));
-        this.moviesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        
-        this.moviesTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent event) {
-                LOG.debug("mouseClicked on moviesTable: event.getButton()="+event.getButton()+"; clickCount="+event.getClickCount()+"");
-                if(event.getButton() != MouseEvent.BUTTON1) {
-                    LOG.debug("Ignoring mouseclick because mouse button was not button1 ("+MouseEvent.BUTTON1+").");
-                    return;
-                }
-                
-                int row = moviesTable.getSelectedRow();
-                if (row > -1) {
-                    selectedMovieChanged();
-                    
-                    if (event.getClickCount() >= 2) {
-                        LOG.debug("Double clicked on table row; displaying editDialog.");
-                        final Movie selectedMovie = moviesModel.getMovieAt(moviesTable.getSelectedRow());
-                        controller.doEditMovie(selectedMovie, newPrevNextMovieProvider());
-                    }
-                }
-                
-            }
-        });
-
-//          BackupRulesModel model = (BackupRulesModel) this.table.getModel();
-//          GuiBackupRule rule = model.getBackupRule(row); 
-
-          
-        
-        this.moviesTable.addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent event) { }
-            public void keyReleased(KeyEvent event) {
-                final int code = event.getKeyCode();
-                if(code == KeyEvent.VK_UP || code == KeyEvent.VK_DOWN) {
-                    selectedMovieChanged();
-                }
-            }
-            public void keyTyped(KeyEvent event) { }
-        });
+        this.initMovieTable();
         
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setOpaque(false);
@@ -148,8 +108,46 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
         return panel;
     }
     
+    private void initMovieTable() {
+        this.moviesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
+        this.moviesTable.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent event) {
+                LOG.debug("mouseClicked on moviesTable: event.getButton()="+event.getButton()+"; clickCount="+event.getClickCount()+"");
+                if(event.getButton() != MouseEvent.BUTTON1) {
+                    LOG.debug("Ignoring mouseclick because mouse button was not button1 ("+MouseEvent.BUTTON1+").");
+                    return;
+                }
+                
+                int tableRow = moviesTable.getSelectedRow();
+                if (tableRow > -1) {
+                    final int modelRow = moviesTable.getSelectedModelRow();
+                    selectedMovieChanged();
+                    
+                    if (event.getClickCount() >= 2) {
+                        LOG.debug("Double clicked on table tableRow "+tableRow+" (modelRow "+modelRow+"); displaying editDialog.");
+                        final Movie selectedMovie = moviesModel.getMovieAt(modelRow);
+                        controller.doEditMovie(selectedMovie, newPrevNextMovieProvider());
+                    }
+                }
+                
+            }
+        });
+        
+        this.moviesTable.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent event) { }
+            public void keyReleased(KeyEvent event) {
+                final int code = event.getKeyCode();
+                if(code == KeyEvent.VK_UP || code == KeyEvent.VK_DOWN) {
+                    selectedMovieChanged();
+                }
+            }
+            public void keyTyped(KeyEvent event) { }
+        });
+    }
+    
     private void selectedMovieChanged() {
-        final Movie newSelectedMovie = this.moviesModel.getMovieAt(this.moviesTable.getSelectedRow());
+        final Movie newSelectedMovie = this.moviesModel.getMovieAt(this.moviesTable.getSelectedModelRow());
         LOG.debug("Another movie selected: " + newSelectedMovie);
         
         if(newSelectedMovie != null && newSelectedMovie.equals(this.selectedMovie)) {
@@ -166,14 +164,14 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
         final List<Movie> selectedMovies = new ArrayList<Movie>(selectedRows.length);
         
         for (int i = 0; i < selectedRows.length; i++) {
-            selectedMovies.add(this.moviesModel.getMovieAt(selectedRows[i]));
+            selectedMovies.add(this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(selectedRows[i])));
         }
         
         return Collections.unmodifiableList(selectedMovies);
     }
 
     public void doEditMovie(int tableRowSelected) {
-        final Movie movie = this.moviesModel.getMovieAt(tableRowSelected);
+        final Movie movie = this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected));
         this.controller.doEditMovie(movie, this.newPrevNextMovieProvider());
     }
 
@@ -181,16 +179,16 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
         this.controller.doEditMovies(this.moviesModel.getMoviesAt(tableRowSelected));
     }
     public void doDeleteMovie(int tableRowSelected) {
-        final Movie movie = this.moviesModel.getMovieAt(tableRowSelected);
+        final Movie movie = this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected));
         this.controller.doDeleteMovie(movie);
     }
 
     public void doDeleteMovies(int[] tableRowSelected) {
-        this.controller.doDeleteMovies(this.moviesModel.getMoviesAt(tableRowSelected));
+        this.controller.doDeleteMovies(this.moviesModel.getMoviesAt(this.moviesTable.convertRowIndicesToModel(tableRowSelected)));
     }
 
     public void doFetchMetaData(int tableRowSelected) {
-        this.controller.doFetchMetaData(this.moviesModel.getMovieAt(tableRowSelected));
+        this.controller.doFetchMetaData(this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected)));
     }
     
 
@@ -202,8 +200,8 @@ public class MainWindow extends JFrame implements MovieTableContextMenuListener 
             public int getInitialIndex() {
                 return moviesTable.getSelectedRow();
             }
-            public Movie getMovieAt(int index) {
-                return moviesModel.getMovieAt(index);
+            public Movie getMovieAt(int tableRow) {
+                return moviesModel.getMovieAt(moviesTable.convertRowIndexToModel(tableRow));
             }
         };
     }

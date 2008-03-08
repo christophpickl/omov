@@ -87,7 +87,7 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
 
     private SmartFolder newPrototypeSmartFolderId(long id) {
         // // id, String name, boolean matchAll, List<AbstractColumnCriterion> criteri
-        return new SmartFolder(id, null, false, null);
+        return new SmartFolder(id);
     }
 
     

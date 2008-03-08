@@ -20,7 +20,16 @@ public class SmartFolder {
     private final String name;
     private final boolean matchAll;
     private final List<AbstractColumnCriterion> criteria;
-    
+
+    /**
+     * used to get from db4o by prototype
+     */
+    public SmartFolder(long id) {
+        this.id = id;
+        this.name = null;
+        this.matchAll = false;
+        this.criteria = null;
+    }
     public SmartFolder(long id, String name, boolean matchAll, List<AbstractColumnCriterion> criteria) {
         this.id = id;
         this.name = name;

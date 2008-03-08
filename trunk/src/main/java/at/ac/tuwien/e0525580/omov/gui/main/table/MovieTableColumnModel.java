@@ -15,7 +15,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingField;
 
-public class MovieTableColumnModel extends DefaultTableColumnModel {
+class MovieTableColumnModel extends DefaultTableColumnModel {
 
     private static final long serialVersionUID = 7710678522012774954L;
 

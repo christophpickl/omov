@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTable.BoolMenuItem;
 
-public class MovieTableHeader extends JTableHeader implements MouseListener, ActionListener {
+class MovieTableHeader extends JTableHeader implements MouseListener, ActionListener {
 
     private static final long serialVersionUID = 1026871891314551419L;
     private static final Log LOG = LogFactory.getLog(MovieTableHeader.class);
@@ -71,8 +71,7 @@ public class MovieTableHeader extends JTableHeader implements MouseListener, Act
     }
 
     /**
-     * Fire a ActionEvent with the table model column as
-     * command.
+     * Fire a ActionEvent with the table model column as command.
      * @param column
      * @param when
      * @param modifiers

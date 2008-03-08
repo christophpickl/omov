@@ -1,5 +1,6 @@
 package at.ac.tuwien.e0525580.omov.gui.movie;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -62,7 +63,7 @@ class MovieTabInfo extends AbstractMovieTab {
         final Resolution resolution = isAddMode ? Resolution.R0x0 : editMovie.getResolution();
         this.inpResolution = new ResolutionPanel(resolution);
         
-        this.inpRating = new RatingField(isAddMode ? 0 : editMovie.getRating());
+        this.inpRating = new RatingField(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
         this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
         
@@ -96,18 +97,9 @@ class MovieTabInfo extends AbstractMovieTab {
                 this.inpCoverSelector.setInitialCoverFile(coverFile);
             }
         }
-//      this.setBackground(Color.RED);
-//        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // top left bottom right
 
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(this.initComponents());
-    }
-    
-    void unregisterFilledListListeners() {
-        if(this.inpGenre instanceof MovieGenresListFilled) {
-            MovieGenresListFilled filledList = (MovieGenresListFilled) this.inpGenre;
-            filledList.unregisterIntimeDatabaseModel();
-        }
     }
     
     public MovieTabInfo(EditMoviesDialog owner, List<Movie> editMovies) {
@@ -116,7 +108,7 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpDuration = new DurationPanel(Duration.newByTotal(0));
         this.inpResolution = new ResolutionPanel(Resolution.R0x0);
         this.inpGenre = new MovieGenresList(this.owner, 10);
-        this.inpRating = new RatingField(0);
+        this.inpRating = new RatingField(0, null, Color.WHITE);
         this.inpYear = new YearField(0);
         this.inpQuality = new QualityField(Quality.UNRATED);
 
@@ -124,6 +116,13 @@ class MovieTabInfo extends AbstractMovieTab {
         this.add(this.initComponents());
     }
     
+    
+    void unregisterFilledListListeners() {
+        if(this.inpGenre instanceof MovieGenresListFilled) {
+            MovieGenresListFilled filledList = (MovieGenresListFilled) this.inpGenre;
+            filledList.unregisterIntimeDatabaseModel();
+        }
+    }
     
     private JPanel initComponents() {
         final GridBagLayout layout = new GridBagLayout();

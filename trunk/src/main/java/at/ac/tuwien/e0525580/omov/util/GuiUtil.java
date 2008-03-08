@@ -255,4 +255,28 @@ public final class GuiUtil {
         panel.add(component, BorderLayout.CENTER);
         return panel;
     }
+    
+    /**
+     * should be used if exceptions was thrown, which forces an application shutdown.
+     * use it to surround user invoked methods (within actionPerformed & co).
+     */
+    private static void handleFatalException(Exception e) {
+        e.printStackTrace();
+        LOG.error("Application error! Shutdown...", e);
+        GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
+                                                 "The evil source is a "+e.getClass().getSimpleName()+".");
+        
+        System.exit(1);
+    }
+    
+    public abstract static class GuiAction {
+        public void doAction() {
+            try {
+                this._action();
+            } catch(Exception e) {
+                GuiUtil.handleFatalException(e);
+            }
+        }
+        protected abstract void _action();
+    }
 }

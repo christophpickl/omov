@@ -30,7 +30,7 @@ import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 import at.ac.tuwien.e0525580.omov.util.DateUtil;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 
-public class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
+class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
 
     private static final long serialVersionUID = 734033770113877398L;
     private static final Log LOG = LogFactory.getLog(MovieTableModel.class);

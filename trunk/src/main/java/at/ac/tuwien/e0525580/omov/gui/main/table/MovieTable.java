@@ -16,8 +16,9 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTableHeader.HeaderContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.IMovieTableContextMenuListener;
 
-public final class MovieTable extends JTable implements TableContextMenuListener, HeaderContextMenuListener {
+final class MovieTable extends JTable implements TableContextMenuListener, HeaderContextMenuListener {
 
     private static final long serialVersionUID = 7800493957993940922L;
     private static final Log LOG = LogFactory.getLog(MovieTable.class);
@@ -28,11 +29,11 @@ public final class MovieTable extends JTable implements TableContextMenuListener
     
 //    private final MovieTableModel model;
     
-    private final MovieTableContextMenuListener contextMenuListener;
+    private final IMovieTableContextMenuListener contextMenuListener;
 
     private static final Color COLOR_VERTICAL_LINES = new Color(217, 217, 217);
     
-    public MovieTable(MovieTableContextMenuListener contextMenuListener) {
+    public MovieTable(IMovieTableContextMenuListener contextMenuListener) {
         this.contextMenuListener = contextMenuListener;
         this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
@@ -123,7 +124,7 @@ public final class MovieTable extends JTable implements TableContextMenuListener
 
     public void contextMenuClicked(JMenuItem item, int tableRowSelected) {
         final String cmd = item.getActionCommand();
-        LOG.info("contextMenuClicked(cmd="+cmd+")");
+        LOG.info("contextMenuClicked(cmd="+cmd+", tableRowSelected="+tableRowSelected+")");
         
         if(cmd.equals(CMD_EDIT)) {
             this.contextMenuListener.doEditMovie(tableRowSelected);
@@ -147,15 +148,6 @@ public final class MovieTable extends JTable implements TableContextMenuListener
         }
     }
     
-    
-    public static interface MovieTableContextMenuListener {
-        void doEditMovie(int tableRowSelected);
-        void doEditMovies(int[] tableRowSelected);
-        void doDeleteMovie(int tableRowSelected);
-        void doDeleteMovies(int[] tableRowSelected);
-        
-        void doFetchMetaData(int tableRowSelected);
-    }
     
 
 //    public Movie getSelectedMovie() {

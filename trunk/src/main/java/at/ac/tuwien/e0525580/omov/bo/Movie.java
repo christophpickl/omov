@@ -58,34 +58,35 @@ public class Movie implements Serializable {
 
     private static List<MovieField> ALL_FIELDS = new ArrayList<MovieField>();
     public static enum MovieField {
-        ID("ID", "id"),
-        TITLE("Title", "title"), 
-        SEEN("Seen", "seen"),
-        RATING("Rating", "rating"),
-        COVER_FILE("Cover", "coverFile"),
-        GENRES("Genres", "genres"),
-        LANGUAGES("Languages", "languages"),
-        STYLE("Style", "style"),
-        DIRECTOR("Director", "director"),
-        ACTORS("Actors", "actors"),
-        YEAR("Year", "year"),
-        COMMENT("Comment", "comment"),
-        QUALITY("Quality", "quality"),
-        DATE_ADDED("Date Added", "dateAdded"),
-        FILE_SIZE_KB("Size", "fileSizeKb"),
-        FOLDER_PATH("Folder", "folderPath"),
-        FORMAT("Format", "format"), 
-        FILES("Files", "files"),
-        DURATION("Duration", "duration"),
-        RESOLUTION("Resolution", "resolution"),
-        SUBTITLES("Subtitles", "subtitles");
+        ID("ID", "id", Integer.class), // Long.class
+        TITLE("Title", "title", String.class), 
+        SEEN("Seen", "seen", Boolean.class),
+        RATING("Rating", "rating", Integer.class), // Rating.class
+        COVER_FILE("Cover", "coverFile", String.class),
+        GENRES("Genres", "genres", Set.class),
+        LANGUAGES("Languages", "languages", Set.class),
+        STYLE("Style", "style", String.class),
+        DIRECTOR("Director", "director", String.class),
+        ACTORS("Actors", "actors", Set.class),
+        YEAR("Year", "year", Integer.class),
+        COMMENT("Comment", "comment", String.class),
+        QUALITY("Quality", "quality", Quality.class),
+        DATE_ADDED("Date Added", "dateAdded", Date.class),
+        FILE_SIZE_KB("Size", "fileSizeKb", Long.class),
+        FOLDER_PATH("Folder", "folderPath", String.class),
+        FORMAT("Format", "format", String.class), 
+        FILES("Files", "files", Set.class),
+        DURATION("Duration", "duration", Integer.class),
+        RESOLUTION("Resolution", "resolution", Resolution.class),
+        SUBTITLES("Subtitles", "subtitles", Set.class);
         
         private final String label;
         private final String column; // DB-column, Db4o-column
-        
-        private MovieField(String label, String column) {
+        private final Class fieldClass;
+        private MovieField(String label, String column, Class fieldClass) {
             this.label = label;
             this.column = column;
+            this.fieldClass = fieldClass;
             ALL_FIELDS.add(this);
         }
         public String label() {
@@ -93,6 +94,9 @@ public class Movie implements Serializable {
         }
         public String column() {
             return this.column;
+        }
+        public Class getFieldClass() {
+            return this.fieldClass;
         }
     }
 
@@ -193,6 +197,7 @@ public class Movie implements Serializable {
         this.id = id;
         
         if(title == null) throw new NullPointerException("title"); // TODO alle werte auf null ueberpruefen
+        if(quality == null) throw new NullPointerException("quality");
         
         // general
         if(rating < 0 || rating > 5) throw new IllegalArgumentException("rating: " + rating);

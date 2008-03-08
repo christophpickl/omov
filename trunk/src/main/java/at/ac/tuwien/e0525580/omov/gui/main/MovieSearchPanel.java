@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.SearchField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.SearchField.ISearchFieldListener;
-import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTableModel;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
 
 class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListener {
     

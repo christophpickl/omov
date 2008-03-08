@@ -86,6 +86,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
         this.pack();
         GuiUtil.lockOriginalSizeAsMinimum(this);
         GuiUtil.setCenterLocation(this);
+        
+        this.inpScanRoot.setDefaultPath(new File("/Users/phudy/Movies")); // FIXME delete shortcut
     }
     
     void updateScannedMovie(ScannedMovie confirmedScannedMovie) {

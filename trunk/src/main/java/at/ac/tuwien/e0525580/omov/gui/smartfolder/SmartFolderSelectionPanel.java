@@ -20,9 +20,10 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.FatalException;
-import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTableModel;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
 import at.ac.tuwien.e0525580.omov.model.ISmartFolderDaoListener;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDaoListener {
 
@@ -126,7 +127,10 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         this.comboBox.setPreferredSize(new Dimension(200, (int) this.comboBox.getPreferredSize().getHeight()));
         
         this.comboBox.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            doComboBoxClicked();
+            new GuiAction() { protected void _action() {
+                    doComboBoxClicked();
+                }
+            }.doAction();
         }});
 
         c.gridx = 0;

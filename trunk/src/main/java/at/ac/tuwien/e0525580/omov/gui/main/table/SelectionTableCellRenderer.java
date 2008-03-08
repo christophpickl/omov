@@ -8,7 +8,7 @@ import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.table.TableCellRenderer;
 
-public class SelectionTableCellRenderer implements TableCellRenderer {
+class SelectionTableCellRenderer implements TableCellRenderer {
 
 //    private static Color COLOR_PRESSED = Color.RED;
 //    private static Color COLOR_NOT_PRESSED = Color.GREEN;

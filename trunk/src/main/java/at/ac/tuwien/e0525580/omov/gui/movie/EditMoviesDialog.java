@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
@@ -31,6 +32,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
     {
         for (MovieField field : Movie.getAllFields()) {
             final JCheckBox checkBox = new JCheckBox();
+            checkBox.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
             checkBox.setToolTipText("Change "+field.label()+" for all Movies");
             fieldCheckBoxes.put(field, checkBox);
         }
@@ -60,6 +62,9 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
         final JTabbedPane tabbedPane = new JTabbedPane();
+
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        tabbedPane.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         
         tabbedPane.add(" "+this.tabInfo.getTabTitle()+" ", this.tabInfo);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_I);
@@ -78,6 +83,8 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
 
     private JPanel newSouthPanel() {
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        
         panel.add(this.newCommandPanel(), BorderLayout.EAST);
         return panel;
     }

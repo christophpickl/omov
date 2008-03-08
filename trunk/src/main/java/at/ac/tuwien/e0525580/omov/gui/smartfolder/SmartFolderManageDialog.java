@@ -28,6 +28,7 @@ import at.ac.tuwien.e0525580.omov.model.ISmartFolderDao;
 import at.ac.tuwien.e0525580.omov.model.ISmartFolderDaoListener;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class SmartFolderManageDialog extends JDialog implements ActionListener, IEscapeDisposeReceiver {
     
@@ -107,37 +108,38 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     }
 
     // buttons add, edit, delete clicked
-    public void actionPerformed(ActionEvent event) {
-        final String cmd = event.getActionCommand();
-        LOG.info("button with command '"+cmd+"' clicked.");
-        
-        if(cmd.equals(CMD_ADD)) {
-            this.controller.doAddSmartFolder();
+    public void actionPerformed(final ActionEvent event) {
+        new GuiAction() { protected void _action() {
+            final String cmd = event.getActionCommand();
+            LOG.info("button with command '"+cmd+"' clicked.");
             
-        } else if(cmd.equals(CMD_EDIT)) {
-            final int index = this.smartFolderList.getSelectedIndex();
-            if(index < 0) return; // nothing selected
-            
-            
-            final SmartFolder folder = this.listModel.getSmartFolderAt(index);
-            LOG.debug("edit on position: " + index + "; folder: " + folder);
-            this.controller.doEditSmartFolder(folder);
-            
-        } else if(cmd.equals(CMD_DELETE)) {
-            final int index = this.smartFolderList.getSelectedIndex();
-            if(index < 0) {
-                LOG.debug("nothing selected, nothing deleted.");
-                return;
+            if(cmd.equals(CMD_ADD)) {
+                controller.doAddSmartFolder();
+                
+            } else if(cmd.equals(CMD_EDIT)) {
+                final int index = smartFolderList.getSelectedIndex();
+                if(index < 0) return; // nothing selected
+                
+                
+                final SmartFolder folder = listModel.getSmartFolderAt(index);
+                LOG.debug("edit on position: " + index + "; folder: " + folder);
+                controller.doEditSmartFolder(folder);
+                
+            } else if(cmd.equals(CMD_DELETE)) {
+                final int index = smartFolderList.getSelectedIndex();
+                if(index < 0) {
+                    LOG.debug("nothing selected, nothing deleted.");
+                    return;
+                }
+                
+                final SmartFolder folder = listModel.getSmartFolderAt(index);
+                LOG.debug("deleting on position: " + index + "; folder: " + folder);
+                controller.doDeleteSmartFolder(folder);
+                
+            } else {
+                throw new IllegalArgumentException("unhandled command '"+cmd+"'!");
             }
-            
-            final SmartFolder folder = this.listModel.getSmartFolderAt(index);
-            LOG.debug("deleting on position: " + index + "; folder: " + folder);
-            this.controller.doDeleteSmartFolder(folder);
-            
-            
-        } else {
-            throw new IllegalArgumentException("unhandled command '"+cmd+"'!");
-        }
+        }}.doAction();
     }
     
     public JFrame getOwner() {

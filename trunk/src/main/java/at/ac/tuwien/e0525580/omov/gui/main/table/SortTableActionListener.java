@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTable;
 
-public class SortTableActionListener implements ActionListener {
+class SortTableActionListener implements ActionListener {
 
     private final JTable table;
 

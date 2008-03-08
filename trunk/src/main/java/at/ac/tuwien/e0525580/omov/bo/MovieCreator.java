@@ -72,6 +72,10 @@ public class MovieCreator {
             LOG.debug("languages was null, setting to empty set.");
             this.languages = new HashSet<String>();
         }
+        if(this.quality == null) {
+            LOG.debug("quality was null, setting to unrated.");
+            this.quality = Quality.UNRATED;
+        }
         
         // detail
         if(this.director == null) {

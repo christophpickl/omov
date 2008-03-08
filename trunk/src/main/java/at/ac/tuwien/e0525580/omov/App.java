@@ -112,18 +112,6 @@ public class App {
         return App.cliArguments.contains(argument);
     }
     
-    /**
-     * should be used if exceptions was thrown, which forces an application shutdown.
-     * use it to surround user invoked methods (within actionPerformed & co).
-     */
-    public static void handleFatalException(Exception e) {
-        e.printStackTrace();
-        LOG.error("Application error! Shutdown...", e);
-        GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
-                                                 "The evil source is a "+e.getClass().getSimpleName()+".");
-        System.exit(1);
-    }
-    
     private static boolean checkConfiguration() {
         try {
             if(Configuration.getInstance().isInitialized() == false) {
