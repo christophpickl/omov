@@ -290,6 +290,7 @@ final class MainWindowController extends CommonController implements IRemoteData
         }
         
         this.mainWindow.dispose();
+        System.exit(0);
     }
     
     public void doSmartCopy() {

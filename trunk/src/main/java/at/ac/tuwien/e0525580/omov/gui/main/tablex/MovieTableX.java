@@ -1,14 +1,16 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableColumnModelEvent;
+import javax.swing.event.TableColumnModelListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,10 +18,12 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.decorator.HighlighterFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
 
+import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel.MovieColumn;
 
 
 public class MovieTableX extends JXTable implements TableContextMenuListener {
@@ -31,17 +35,16 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private static final String CMD_FETCH_METADATA = "fetchMetadata";
     private static final String CMD_DELETE = "delete";
 
-    private static Color COLOR_EVEN = Color.WHITE;
-    private static Color COLOR_ODD = new Color(241, 245, 250);
+    static Color COLOR_EVEN = Color.WHITE;
+    static Color COLOR_ODD = new Color(241, 245, 250);
+    static Color COLOR_SELECTED_BG = new Color(61, 128, 223);
+    static Color COLOR_SELECTED_FG = Color.WHITE;
     
     private final IMovieTableContextMenuListener contextMenuListener;
     
     public MovieTableX(final IMovieTableContextMenuListener contextMenuListener, MovieTableModel model) {
         this.contextMenuListener = contextMenuListener;
         this.setModel(model);
-        
-        // TODO add render + if row selected => darkblue background + white foreground
-
         
         // JXTable features START
         this.setColumnControlVisible(true);
@@ -51,15 +54,45 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
 //        this.getTableHeader().setColumnModel(columnModel);
         
         this.getColumnByField(MovieField.QUALITY).setComparator(Quality.COMPARATOR);
-        this.getColumnByField(MovieField.QUALITY).setCellRenderer(new QualityRenderer());
-        
-//        table.getColumnModel().getColumn(2).setCellRenderer(new DurationRenderer());
+        TableRenderers.updateRenderers(this);
+
+        assert(model.getColumnCount() == this.getColumnCount());
+        for(MovieColumn movieColumn : MovieTableModel.getColumns()) {
+            final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
+            column.setPreferredWidth(movieColumn.getPrefWidth());
+            
+            final Boolean visible = Configuration.getInstance().isMovieColumnVisible(movieColumn.getLabel());
+            LOG.debug("Setting column '"+column.getTitle()+"' to visible '"+visible+"'.");
+            column.setVisible(visible);
+        }
+        this.packAll();
 //        table.getColumnModel().getColumn(2).setCellEditor(new DurationEditor());
-//        table.getColumnExt(MovieField.TITLE.label()).setVisible(false);
+        
+        this.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
+            public void columnAdded(TableColumnModelEvent e) {
+                updatePrefColumnVisibility();
+            }
+            public void columnRemoved(TableColumnModelEvent e) {
+                updatePrefColumnVisibility();
+            }
+            public void columnMarginChanged(ChangeEvent e) { /* ignore */ }
+            public void columnMoved(TableColumnModelEvent e) { /* ignore */ }
+            public void columnSelectionChanged(ListSelectionEvent e) { /* ignore */ }
+        });
         
         // JXTable features END
         
+        
         this.initContextMenu();
+    }
+    
+    private void updatePrefColumnVisibility() {
+        final Map<String, Boolean> columns = new HashMap<String, Boolean>();
+        for(MovieColumn movieColumn : MovieTableModel.getColumns()) {
+            final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
+            columns.put(movieColumn.getLabel(), column.isVisible());
+        }
+        Configuration.getInstance().setMovieColumnVisibility(columns);
     }
     
     private void initContextMenu() {
@@ -88,23 +121,10 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         return modelRows;
     }
     
-    private TableColumnExt getColumnByField(MovieField field) {
+    TableColumnExt getColumnByField(MovieField field) {
         return this.getColumnExt(field.label());
     }
     
-
-    private static class QualityRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
-
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            Quality quality = (Quality) value;
-            
-            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            JLabel lbl = (JLabel) c;
-            lbl.setText(quality.label());
-            return lbl;
-        }
-    }
     
     
 

@@ -234,6 +234,7 @@ class ShapeSliderUI extends SliderUI{
     /**
      * Paint a shape. All translation and scaling are already taken care of.
      **/
+    @SuppressWarnings("unused")
     public void paintShape(Graphics2D g, double percent, boolean enabled){
         Shape s = secondaryShape;
         if(percent > 0.0){

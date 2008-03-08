@@ -100,7 +100,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         JScrollPane moviesTableScrollPane = new JScrollPane();
         moviesTableScrollPane.setViewportView(this.moviesTable);
         moviesTableScrollPane.setWheelScrollingEnabled(true);
-        moviesTableScrollPane.setPreferredSize(new Dimension(300, 160));
+        moviesTableScrollPane.setPreferredSize(new Dimension(850, 160));
         
         panel.add(moviesTableScrollPane, BorderLayout.CENTER);
         panel.add(this.movieDetailPanel.getPanel(), BorderLayout.SOUTH);

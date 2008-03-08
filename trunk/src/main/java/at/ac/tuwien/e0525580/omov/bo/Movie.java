@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
+import at.ac.tuwien.e0525580.omov.util.NumberUtil;
 import at.ac.tuwien.e0525580.omov.util.StringUtil;
 
 /**
@@ -51,8 +52,8 @@ public class Movie implements Serializable {
     private static final Log LOG = LogFactory.getLog(Movie.class);
 
     public static final int DATA_VERSION = 1;
-    static final SimpleDateFormat DATE_ADDED_FORMAT_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    static final SimpleDateFormat DATE_ADDED_FORMAT_SHORT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final SimpleDateFormat DATE_ADDED_FORMAT_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DATE_ADDED_FORMAT_SHORT = new SimpleDateFormat("yyyy-MM-dd");
     
     private final int id;
 
@@ -525,14 +526,7 @@ public class Movie implements Serializable {
      * @return something like "1:23"
      */
     public String getDurationFormattedShort() {
-        int minutes = this.duration % 60;
-        int hours = (int) Math.floor(this.duration / 60.0);
-        
-        StringBuilder sb = new StringBuilder(10);
-        sb.append(hours).append(":");
-        if(minutes < 10) sb.append("0");
-        sb.append(minutes);
-        return sb.toString();
+        return NumberUtil.formatDurationShort(this.duration);
     }
     
 

@@ -1,17 +1,24 @@
 package at.ac.tuwien.e0525580.omov;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
+
 public class Configuration {
 
     private static final Log LOG = LogFactory.getLog(Configuration.class);
     private static final Configuration INSTANCE = new Configuration();
     private final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
+    
+    private static final String MOVIE_COLUMN_PREFIX = "MovieColumn-";
     
     private enum PrefKey {
         IS_CONFIGURED,
@@ -28,6 +35,10 @@ public class Configuration {
 //    private int serverPort;
     
     private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath;
+    
+    private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
+    
+    
     public static final String APPARG_DEBUG_MENU = "DEBUG_MENU";
     
     private Configuration() {
@@ -55,10 +66,24 @@ public class Configuration {
         this.username = prefs.get(PrefKey.USERNAME.name(), null);
 //        this.serverPort = prefs.getInt(KEY.SERVER_PORT.name(), 1789);
         
-        
         this.recentExportDestination = prefs.get(PrefKey.RECENT_EXPORT_DESTINATION.name(), File.listRoots()[0].getAbsolutePath());
         this.recentCoverSelectorPath = prefs.get(PrefKey.RECENT_COVER_SELECTOR_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentMovieFolderPath = prefs.get(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), File.listRoots()[0].getAbsolutePath());
+        
+        for (String columnName : MovieTableModel.getColumnNames()) {
+            final Boolean initialVisible;
+            if(columnName.equals(MovieField.TITLE.label()) ||
+               columnName.equals(MovieField.RATING.label()) ||
+               columnName.equals(MovieField.QUALITY.label()) ||
+               columnName.equals(MovieField.LANGUAGES.label())) {
+                initialVisible = Boolean.TRUE;
+            } else {
+                initialVisible = Boolean.FALSE;
+            }
+            final Boolean prefVisible = Boolean.valueOf(prefs.get(MOVIE_COLUMN_PREFIX + columnName, initialVisible.toString()));
+            LOG.debug("Column '"+columnName+"' is initial visible '"+prefVisible+"'.");
+            this.columnsVisible.put(columnName, prefVisible);
+        }
     }
     
     public static Configuration getInstance() {
@@ -134,5 +159,20 @@ public class Configuration {
     }
     public String getRecentMovieFolderPath() {
         return this.recentMovieFolderPath;
+    }
+    
+    public boolean isMovieColumnVisible(String columnName) {
+        final Boolean visible = this.columnsVisible.get(columnName);
+        assert(visible != null) : "Unkown column '"+columnName+"'!";
+        return visible;
+    }
+    public void setMovieColumnVisibility(Map<String, Boolean> columns) {
+        LOG.debug("Updating movie column visibility.");
+        for(String columnName : columns.keySet()) {
+            final Boolean visible = columns.get(columnName);
+            this.prefs.put(MOVIE_COLUMN_PREFIX + columnName, visible.toString());
+        }
+        
+        this.flush();
     }
 }

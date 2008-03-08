@@ -27,10 +27,12 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
 
     private List<Movie> data = new ArrayList<Movie>();
     
-    private abstract static class MovieColumn {
+    abstract static class MovieColumn {
         private final MovieField field;
-        public MovieColumn(MovieField field) {
+        private final int prefWidth;
+        public MovieColumn(MovieField field, int prefWidth) {
             this.field = field;
+            this.prefWidth = prefWidth;
         }
         public String getLabel() {
             return this.field.label();
@@ -38,31 +40,41 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         public Class getColumnClass() {
             return this.field.getFieldClass();
         }
+        public int getPrefWidth() {
+            return this.prefWidth;
+        }
         public abstract Object getValue(Movie movie);
     }
 
-//    private static final Map<String, MovieColumn> COLUMN_NAMES;
+    private static final List<String> COLUMN_NAMES;
     private static final List<MovieColumn> COLUMNS;
     static {
         final List<MovieColumn> columns = new ArrayList<MovieColumn>();
-//        final Map<String, MovieColumn> columnNames = new HashMap<String, MovieColumn>();
 
-        columns.add(new MovieColumn(MovieField.TITLE) {
-            public Object getValue(Movie movie) { return movie.getTitle(); }
-        });
-        columns.add(new MovieColumn(MovieField.RATING) {
-            public Object getValue(Movie movie) { return movie.getRating(); }
-        });
-        columns.add(new MovieColumn(MovieField.QUALITY) {
-            public Object getValue(Movie movie) { return movie.getQuality(); }
-        });
+        columns.add(new MovieColumn(MovieField.TITLE, 100)        { public Object getValue(Movie movie) { return movie.getTitle(); } });
+        columns.add(new MovieColumn(MovieField.RATING, 60)        { public Object getValue(Movie movie) { return movie.getRating(); } });
+        columns.add(new MovieColumn(MovieField.QUALITY, 60)       { public Object getValue(Movie movie) { return movie.getQuality(); } });
+        columns.add(new MovieColumn(MovieField.DURATION, 40)      { public Object getValue(Movie movie) { return movie.getDuration(); }});
+        columns.add(new MovieColumn(MovieField.GENRES, 100)       { public Object getValue(Movie movie) { return movie.getGenresString(); }
+                                                                    public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+        columns.add(new MovieColumn(MovieField.DATE_ADDED, 100)   { public Object getValue(Movie movie) { return movie.getDateAdded(); }});
+        columns.add(new MovieColumn(MovieField.FILE_SIZE_KB, 60)  { public Object getValue(Movie movie) { return movie.getFileSizeFormatted(); }
+                                                                    public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+        columns.add(new MovieColumn(MovieField.FOLDER_PATH, 100)  { public Object getValue(Movie movie) { return movie.getFolderPath(); }});
+        columns.add(new MovieColumn(MovieField.FORMAT, 80)        { public Object getValue(Movie movie) { return movie.getFormat(); }});
+        columns.add(new MovieColumn(MovieField.RESOLUTION, 40)    { public Object getValue(Movie movie) { return movie.getResolution(); }});
+        columns.add(new MovieColumn(MovieField.YEAR, 40)          { public Object getValue(Movie movie) { return movie.getYear(); }});
+        columns.add(new MovieColumn(MovieField.STYLE, 80)         { public Object getValue(Movie movie) { return movie.getStyle(); }});
+        columns.add(new MovieColumn(MovieField.LANGUAGES, 100)    { public Object getValue(Movie movie) { return movie.getLanguagesString(); }
+                                                                    public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
         
-//        for (MovieColumn column : columns) {
-//            columnNames.put(column.getLabel(), column);
-//        }
+        final List<String> columnNames = new ArrayList<String>(columns.size());
+        for (MovieColumn column : columns) {
+            columnNames.add(column.getLabel());
+        }
         
         COLUMNS = Collections.unmodifiableList(columns);
-//        COLUMN_NAMES = Collections.unmodifiableMap(columnNames);
+        COLUMN_NAMES = Collections.unmodifiableList(columnNames);
     }
 
     private SmartFolder smartFolder;
@@ -118,6 +130,14 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
      */
     public void movieDataChanged() {
         this.reloadData();
+    }
+
+    static List<MovieColumn> getColumns() {
+        return COLUMNS;
+    }
+
+    public static List<String> getColumnNames() {
+        return COLUMN_NAMES;
     }
     
     /******************************************************************************************************************/
