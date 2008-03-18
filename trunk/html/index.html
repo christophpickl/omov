@@ -4,13 +4,20 @@
 <head>
    <title>OurMovies</title>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <meta name="description" content="Yet another movie manager.">
+   <meta name="keywords" content="movie, movies, our movies, movie files, manage movies, organize movies, free software, open source">
+   <meta name="author" content="Christoph Pickl" >
 </head>
 <body>
 
 <h1 align="center">OurMovies</h1>
 
 <h4 align="center">Yet another tool to manage all your movie files stored on harddisk.</h4>
-<p align="center"><a href="mailto:christoph_pickl@users.sourceforge.net" title="Write an email to the project admin">christoph_pickl@users.sourceforge.net</a></p>
+<p align="center">
+	<a href="mailto:christoph_pickl users.sourceforge.net" title="Write an email to the project admin">
+		<img src="images/mail_address.gif" width="278" height="13" alt="mail contact" title="Write the project's admin an email" border="0"/>
+	</a>
+</p>
 
 <table align="center" border="1" cellpadding="10" cellspacing="1">
 	<thead>
@@ -29,7 +36,11 @@
 			</ul>
 		</td>
 		<td>
-			Nothing new...
+			<p>
+				<i>March 16th, 2008</i><br />
+				Finally, the first version (0.1) is released. Although its state is <b>alpha</b>,<br />
+				most of the features should be stable and not generate any fatal errors.
+			</p>
 		</td>
 	</tr>
 	</tbody>
@@ -37,11 +48,11 @@
 
 <p align="center">
 	<a href="https://sourceforge.net/projects/omov/" target="_blank">
-		<img src="images/sourceforge_logo.jpg" width="106" height="30" alt="sourceforge" title="Visit the project's sourceforge site"/>
+		<img src="images/sourceforge_logo.jpg" width="106" height="30" alt="sourceforge" title="Visit the project's sourceforge site" border="0"/>
 	</a>
 	&nbsp;&nbsp;&nbsp;&nbsp;
 	<a href="http://omov.sourceforge.net/mantis/" target="_blank">
-		<img src="images/mantis_logo.gif" width="88" height="35" alt="mantis" title="Enter the project's bug tracking system"/>
+		<img src="images/mantis_logo.gif" width="88" height="35" alt="mantis" title="Enter the project's bug tracking system" border="0" />
 	</a>
 </p>
 
@@ -49,30 +60,59 @@
 <h3>About<a name="about" /></h3>
 <!-- ******************************************************** -->
 
-<p>No documentation yet...</p>
-<!-- Please write some documentation-like overview (main features and stuff like that) -->
+<h4>Overview</h4>
+	<p>
+		OurMovies single purpose is managing your movies -easy, isn't it, huh?!<br />
+		It does so by providing a simple table where a single row represents your movie. Because a movie can consist of multiple files, omov assumes your movies are all stored in their own folders. So it just let's you manage them; <i>no playing</i> at all, that's out of scope (use <a href="http://www.videolan.org/vlc/" target="_blank" title="Visit VLC's website">vlc</a> for this purpose).
+	</p>
+
+<h4>Features</h4>
+	<ul>
+		<li>Automatically fetches metadata from imdb.com</li>
+		<li>Displays covers (also fetched from imdb.com)</li>
+		<li>Generates HTML reports to easily exchange movies</li>
+		<li><i>Smartcopy</i> which allows automatic copying of desired movies (selected by HTML report)</li>
+		<li><i>Smartfolder</i> which gives you the possibility of easily storing a bunch of search criteria</li>
+		<li>Scans a given directory for recently added movies</li>
+	</ul>
+
+
 <hr />
 <h3>Downloads<a name="downloads" /></h3>
 <!-- ******************************************************** -->
 
-<p>No downloads yet...</p>
+<p>
+	Any operating system (Windows, MacOS X, Linux): <a href="http://downloads.sourceforge.net/omov/OurMovies-0.1-alpha.jar?use_mirror=osdn" target="_self">OurMovies-0.1-alpha.jar</a> (7MB)
+</p>
 
 <hr />
 <h3>Screenshots<a name="screenshots" /></h3>
 <!-- ******************************************************** -->
 
-<p>No screenshots yet...</p>
+<a href="images/screenshots/mainwindow_big.png" target="_blank">
+	<img src="images/screenshots/mainwindow_lil.jpg" width="243" height="131" alt="screenshot mainwindow" title="The Main Window" border="0" /></a>
+<a href="images/screenshots/moviedetail1_big.png" target="_blank">
+	<img src="images/screenshots/moviedetail1_lil.jpg" width="137" height="116" alt="screenshot moviedetail info" title="Movie Details - Tab Info" border="0" /></a>
+<a href="images/screenshots/moviedetail2_big.png" target="_blank">
+	<img src="images/screenshots/moviedetail2_lil.jpg" width="137" height="116" alt="screenshot moviedetail details" title="Movie Details - Tab Details" border="0" /></a>
+<a href="images/screenshots/moviedetail3_big.png" target="_blank">
+	<img src="images/screenshots/moviedetail3_lil.jpg" width="137" height="116" alt="screenshot moviedetail notes" title="Movie Details - Tab Notes" border="0" /></a>
+<a href="images/screenshots/scanprogress_big.png" target="_blank">
+	<img src="images/screenshots/scanprogress_lil.jpg" width="171" height="84" alt="screenshot scan progress" title="Scan in progress" border="0" /></a>
+<a href="images/screenshots/scanfinished_big.png" target="_blank">
+	<img src="images/screenshots/scanfinished_lil.jpg" width="171" height="84" alt="screenshot scan finished" title="Scan finished" border="0" /></a>
+
 
 
 <hr />
 
 <p>
     <a href="http://validator.w3.org/check?uri=referer">
-    	<img src="http://www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" />
+    	<img src="http://www.w3.org/Icons/valid-xhtml10-blue" alt="Valid XHTML 1.0 Transitional" height="31" width="88" border="0" />
     </a>
  </p>
 
-<p><small>Last modified 2008-March-02</small></p>
+<p><small>Last modified 2008-March-16</small></p>
   
 </body>
 </html>
