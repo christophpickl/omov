@@ -2,12 +2,14 @@
 	MAVEN HINTS
 	===================
 	
-	... create an initial project (with its filestructure)
-	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies2
-	
 	... build a deployable package
 	mvn assembly:assembly
+	
+	... build a deployable package withouth running the tests
 	mvn -Dmaven.test.skip=true assembly:assembly
+	
+	... create an initial project (with its filestructure)
+	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies2
 	
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
