@@ -51,6 +51,8 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     static {
         final List<MovieColumn> columns = new ArrayList<MovieColumn>();
 
+        // FEATURE add coverFile as tablecolumn (mantis: 7)
+        
         columns.add(new MovieColumn(MovieField.TITLE, 100)        { public Object getValue(Movie movie) { return movie.getTitle(); } });
         columns.add(new MovieColumn(MovieField.RATING, 60)        { public Object getValue(Movie movie) { return movie.getRating(); } });
         columns.add(new MovieColumn(MovieField.QUALITY, 60)       { public Object getValue(Movie movie) { return movie.getQuality(); } });
@@ -114,9 +116,13 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         this.fireTableDataChanged();
     }
 
+    /**
+     * compares only following to attributes with given search string: title and genres
+     */
     private static List<Movie> naiveSearch(List<Movie> source, String search) { // TODO somehow be more performant when searching
         List<Movie> result = new LinkedList<Movie>();
         for (Movie movie : source) {
+            // TODO do not only search within title&genres but also in other (wich?) attributes
             if (movie.getTitle().toLowerCase().contains(search.toLowerCase())
              || movie.getGenresString().toLowerCase().contains(search.toLowerCase())) {
                 result.add(movie);
@@ -203,7 +209,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false; // TODO make editable
+        return false; // TODO make cells editable (mantis: 6)
     }
     
 }

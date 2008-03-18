@@ -168,7 +168,7 @@ public class Movie implements Serializable {
     
     // -----------------------------------------------
     
-    public static Comparator<Movie> COMPARATOR = new Comparator<Movie>() {
+    public static Comparator<Movie> TITLE_COMPARATOR = new Comparator<Movie>() {
         public int compare(Movie m1, Movie m2) {
             
             int result = m1.getTitle().compareTo(m2.getTitle());
@@ -196,12 +196,29 @@ public class Movie implements Serializable {
             final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
             final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
         this.id = id;
-        
-        if(title == null) throw new NullPointerException("title"); // TODO alle werte auf null ueberpruefen
-        if(quality == null) throw new NullPointerException("quality");
+
+        if(id < -1)            throw new IllegalArgumentException("id: " + id);
+        if(title == null)      throw new NullPointerException("title");
+        if(rating<0||rating>5) throw new IllegalArgumentException("rating: " + rating);
+        if(coverFile == null)  throw new NullPointerException("coverFile");
+        if(genres == null)     throw new NullPointerException("genres");
+        if(languages == null)  throw new NullPointerException("languages");
+        if(style == null)      throw new NullPointerException("style");
+        if(director == null)   throw new NullPointerException("director");
+        if(actors == null)     throw new NullPointerException("actors");
+        if(year < 0)           throw new IllegalArgumentException("year: " + year);
+        if(comment == null)    throw new NullPointerException("comment");
+        if(quality == null)    throw new NullPointerException("quality");
+        if(dateAdded == null)  LOG.info("dateAdded is null; seems as we are adding a new movie.");
+        if(fileSizeKb < 0)     throw new NullPointerException("fileSizeKb: " + fileSizeKb);
+        if(folderPath == null) throw new NullPointerException("folderPath");
+        if(format == null)     throw new NullPointerException("format");
+        if(files == null)      throw new NullPointerException("files");
+        if(duration < 0)       throw new IllegalArgumentException("duration: " + duration);
+        if(resolution == null) throw new NullPointerException("resolution");
+        if(subtitles == null)  throw new NullPointerException("subtitles");
         
         // general
-        if(rating < 0 || rating > 5) throw new IllegalArgumentException("rating: " + rating);
         this.title = title;
         this.seen = seen;
         this.rating = rating;

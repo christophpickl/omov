@@ -161,7 +161,7 @@ public abstract class AbstractIntimeList extends JPanel {
             return;
         }
         String itemToAdd = dialog.getInpItem();
-        if (itemToAdd.length() == 0) {
+        if (itemToAdd.trim().length() == 0) {
             return;
         }
 

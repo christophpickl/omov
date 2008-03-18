@@ -100,7 +100,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
                     doClearCover();
                 } else {
 //                    doClicked();
-                    // FIXME single click should actually popup filechooser, but it somehow hides the doubleclick event
+                    // FIXME single click should actually popup filechooser, but it somehow hides the doubleclick event (mantis: 4)
                 }
             }
         });

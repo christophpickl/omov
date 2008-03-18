@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.util;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -26,6 +27,8 @@ import javax.swing.KeyStroke;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingx.JXTable;
+import org.jdesktop.swingx.decorator.HighlighterFactory;
 
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.brushed.BrushedMetalPanel;
 
@@ -265,8 +268,14 @@ public final class GuiUtil {
         LOG.error("Application error! Shutdown...", e);
         GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
                                                  "The evil source is a "+e.getClass().getSimpleName()+".");
-        
+        // TODO use swingx panel + collapsable details containing stack trace 
         System.exit(1);
+    }
+
+    static Color COLOR_EVEN = Color.WHITE;
+    static Color COLOR_ODD = new Color(241, 245, 250);
+    public static void setAlternatingBgColor(JXTable table) {
+        table.setHighlighters(HighlighterFactory.createAlternateStriping(COLOR_EVEN, COLOR_ODD));
     }
     
     public abstract static class GuiAction {

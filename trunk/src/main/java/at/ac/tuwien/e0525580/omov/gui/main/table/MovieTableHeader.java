@@ -145,7 +145,6 @@ class MovieTableHeader extends JTableHeader implements MouseListener, ActionList
                     if (rendererOthers instanceof SelectionTableCellRenderer) {
 //                        SelectionTableCellRenderer sRendered = (SelectionTableCellRenderer) rendererOthers;
                         // sRendered.setSortColumn(column);
-                        // FIXME wenn 1col sortiert (label=rot) ist, dieses anklicken und nach rechts verschieben -> col, welche nach links schiebt, scheint als waers sorted (label=rot) da sie jetzt an pos 1 steht!!!
                         // -> irgendwo das abfangen, oder ueberhautp besser: ganz anders loesen
                     }
                 }

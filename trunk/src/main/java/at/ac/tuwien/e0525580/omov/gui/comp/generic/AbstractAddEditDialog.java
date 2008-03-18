@@ -18,7 +18,7 @@ public abstract class AbstractAddEditDialog<T> extends JDialog {
 
     private static final Log LOG = LogFactory.getLog(AbstractAddEditDialog.class);
     
-    private final T editItem;
+    private T editItem;
     
     private final boolean isAddMode;
     
@@ -85,9 +85,13 @@ public abstract class AbstractAddEditDialog<T> extends JDialog {
         return this.isAddMode;
     }
     
-    protected T editItem() {
+    protected T getEditItem() {
         assert(this.isAddMode == false);
         return this.editItem;
+    }
+    protected void setEditItem(T editItem) {
+        LOG.debug("setting edit item to: " + editItem);
+        this.editItem = editItem;
     }
     
 

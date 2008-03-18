@@ -31,6 +31,10 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     private static final Log LOG = LogFactory.getLog(AddEditMovieDialog.class);
     private static final long serialVersionUID = -499631022640948375L;
 
+    private static final int TABPOS_INFO = 0;
+    private static final int TABPOS_DETAIL = 1;
+    private static final int TABPOS_NOTES = 2;
+    
     private final JTabbedPane tabbedPane = new JTabbedPane();
     
     private MovieTabInfo tabInfo;
@@ -73,10 +77,15 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
                 this.btnNext.setEnabled(false);
             }
             
+            if(this.moviePrevNextCount == 1) {
+                this.btnPrev.setEnabled(false);
+                this.btnNext.setEnabled(false);
+            }
+            
             this.prevNextProvider = prevNextProvider;
         }
         
-        final Movie editItem = (this.isAddMode() ? null : this.editItem()); 
+        final Movie editItem = (this.isAddMode() ? null : this.getEditItem()); 
         this.initEditMovie(editItem, 0);
         
         this.getContentPane().add(this.initComponents());
@@ -93,6 +102,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     }
     
     private void initEditMovie(final Movie movie, final int preselectedTabIndex) {
+        this.setEditItem(movie);
         this.setTitle(isAddMode() ? "Add new Movie" : movie.getTitle());
         
         this.tabInfo = new MovieTabInfo(this, this.isAddMode(), movie);
@@ -106,11 +116,11 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.tabbedPane.removeAll();
         
         this.tabbedPane.add(" "+this.tabInfo.getTabTitle()+" ", this.tabInfo);
-        this.tabbedPane.setMnemonicAt(0, KeyEvent.VK_I);
+        this.tabbedPane.setMnemonicAt(TABPOS_INFO, KeyEvent.VK_I);
         this.tabbedPane.add(" "+this.tabDetails.getTabTitle()+" ", this.tabDetails);
-        this.tabbedPane.setMnemonicAt(1, KeyEvent.VK_D);
+        this.tabbedPane.setMnemonicAt(TABPOS_DETAIL, KeyEvent.VK_D);
         this.tabbedPane.add(" "+this.tabNotes.getTabTitle()+" ", this.tabNotes);
-        this.tabbedPane.setMnemonicAt(2, KeyEvent.VK_N);
+        this.tabbedPane.setMnemonicAt(TABPOS_NOTES, KeyEvent.VK_N);
 
         this.tabbedPane.setSelectedIndex(preselectedTabIndex);
         this.tabbedPane.revalidate();
@@ -120,8 +130,8 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         
-        this.initTabbedPane(0);
-        // tabbedPane.setSelectedIndex(1); // SHORTCUT
+        this.initTabbedPane(TABPOS_INFO);
+        // tabbedPane.setSelectedIndex(TABPOS_DETAIL); // SHORTCUT
         
         panel.add(tabbedPane, BorderLayout.CENTER);
         panel.add(this.newSouthPanel(), BorderLayout.SOUTH);
@@ -194,7 +204,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     /** AbstractAddEditDialog */    
     @Override
     protected Movie _getConfirmedObject() {
-        final int id = this.isAddMode() ? -1 : this.editItem().getId();
+        final int id = this.isAddMode() ? -1 : this.getEditItem().getId();
         
         final String title = this.tabInfo.getTitle();
         final boolean seen = this.tabInfo.getSeen();
@@ -209,7 +219,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         final int year = this.tabInfo.getYear();
         final String comment = this.tabNotes.getComment();
         final Quality quality = this.tabInfo.getQuality();
-        final Date dateAdded = this.tabNotes.getDateAdded(); // TODO DateAdded can be null if adding new movie; is that a problem?! 
+        final Date dateAdded = this.tabNotes.getDateAdded(); // DateAdded can be null if adding new movie 
         
         
         final String folderPath = this.tabDetails.getFolderPath();

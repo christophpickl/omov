@@ -168,7 +168,7 @@ public class ExporterHtml {
                 writer.write(
             "<html>\n" +
             "<head>\n" +
-            "<title>OurMovies2 - HTML Report</title>\n" +
+            "<title>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</title>\n" +
             "<script type='text/javascript'>\n" +
             "function doGenerateIds() {\n" +
             "   form = document.getElementById('data_form');\n" +
@@ -251,7 +251,7 @@ public class ExporterHtml {
             "</head>\n" +
             "\n" +
             "<body>\n" +
-            "<h1>OurMovies2 - HTML Report</h1>\n" +
+            "<h1>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</h1>\n" +
             "<div id='date'>Created on "+currentDate+"</div>\n" +
             "\n" +
             "<form id='data_form'>\n" +

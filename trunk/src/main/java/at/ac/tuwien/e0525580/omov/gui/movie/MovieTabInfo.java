@@ -41,7 +41,8 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final Log LOG = LogFactory.getLog(MovieTabInfo.class);
     private static final long serialVersionUID = -4273211406354799248L;
     
-    private final JTextField inpTitle = new MovieTitleSuggester(34); // 34 hat keine auswirkung; inpStyle angabe relevant
+    // TODO let inpTitle gain initial focus
+    private final JTextField inpTitle = new MovieTitleSuggester(42); // 42 is actually irrelevant because it does not have any effect
     
     private final DurationPanel inpDuration;
     private final ResolutionPanel inpResolution;
@@ -115,7 +116,6 @@ class MovieTabInfo extends AbstractMovieTab {
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(this.initComponents());
     }
-    
     
     void unregisterFilledListListeners() {
         if(this.inpGenre instanceof MovieGenresListFilled) {
@@ -205,7 +205,6 @@ class MovieTabInfo extends AbstractMovieTab {
         return this.inpCoverSelector.isCoverChanged();
     }
 
-    
     public String getCoverFile() {
         final String result;
         if(this.inpCoverSelector.isCoverFileSet()) {
@@ -224,6 +223,8 @@ class MovieTabInfo extends AbstractMovieTab {
         LOG.debug("returning coverFile value '"+result+"'");
         return result;
     }
+    
+    
     public Duration getDuration() {
         return this.inpDuration.getDuration();
     }

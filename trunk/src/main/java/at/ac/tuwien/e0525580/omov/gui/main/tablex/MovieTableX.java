@@ -24,6 +24,9 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel.MovieColumn;
+import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
+import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 
 public class MovieTableX extends JXTable implements TableContextMenuListener {
@@ -34,9 +37,9 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private static final String CMD_EDIT = "edit";
     private static final String CMD_FETCH_METADATA = "fetchMetadata";
     private static final String CMD_DELETE = "delete";
+    private static final String CMD_REVEAL = "reveal"; // OSX only
+    private static final String CMD_PLAY_VLC = "playVlc"; // OSX only
 
-    static Color COLOR_EVEN = Color.WHITE;
-    static Color COLOR_ODD = new Color(241, 245, 250);
     static Color COLOR_SELECTED_BG = new Color(61, 128, 223);
     static Color COLOR_SELECTED_FG = Color.WHITE;
     
@@ -48,7 +51,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         
         // JXTable features START
         this.setColumnControlVisible(true);
-        this.setHighlighters(HighlighterFactory.createAlternateStriping(COLOR_EVEN, COLOR_ODD));
+        GuiUtil.setAlternatingBgColor(this);
 //        this.addHighlighter(new ColorHighlighter(Color.RED, Color.BLUE, HighlightPredicate.ROLLOVER_ROW));
         
 //        this.getTableHeader().setColumnModel(columnModel);
@@ -100,6 +103,9 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         BodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT);
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA);
         BodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE);
+        FinderReveal.addRevealJMenuItem(itemsSingle, CMD_REVEAL);
+        VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
+        
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT);
@@ -141,6 +147,10 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             this.contextMenuListener.doFetchMetaData(tableRowSelected);
         } else if(cmd.equals(CMD_DELETE)) {
             this.contextMenuListener.doDeleteMovie(tableRowSelected);
+        } else if(cmd.equals(CMD_REVEAL)) {
+            this.contextMenuListener.doRevealMovie(tableRowSelected);
+        } else if(cmd.equals(CMD_PLAY_VLC)) {
+            this.contextMenuListener.doPlayVlc(tableRowSelected);
         } else {
             assert(false) : "Invalid menu item command '"+cmd+"'!";
         }

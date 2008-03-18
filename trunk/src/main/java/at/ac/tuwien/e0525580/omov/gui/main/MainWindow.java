@@ -146,6 +146,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         });
     }
     
+    // TODO instead of KeyListener+MouseListener => add a TableSelectionListener on movie table! 
     private void selectedMovieChanged() {
         final Movie newSelectedMovie = this.moviesModel.getMovieAt(this.moviesTable.getSelectedModelRow());
         LOG.debug("Another movie selected: " + newSelectedMovie);
@@ -191,8 +192,16 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.controller.doFetchMetaData(this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected)));
     }
     
-
+    public void doRevealMovie(int tableRowSelected) {
+        this.controller.doRevealMovie(this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected)));
+    }
+    
+    public void doPlayVlc(int tableRowSelected) {
+        this.controller.doPlayVlc(this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected)));
+    }
+    
     IPrevNextMovieProvider newPrevNextMovieProvider() {
+        LOG.debug("creating new IPrevNextMovieProvider (count="+moviesModel.getRowCount()+"; initial row="+moviesTable.getSelectedRow()+")");
         return new IPrevNextMovieProvider() {
             public int getCountIndices() {
                 return moviesModel.getRowCount();

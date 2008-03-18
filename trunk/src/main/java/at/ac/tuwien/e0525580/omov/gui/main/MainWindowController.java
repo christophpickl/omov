@@ -1,5 +1,6 @@
 package at.ac.tuwien.e0525580.omov.gui.main;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -19,12 +20,15 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.CommonController;
 import at.ac.tuwien.e0525580.omov.gui.IPrevNextMovieProvider;
 import at.ac.tuwien.e0525580.omov.gui.SmartCopyDialog;
+import at.ac.tuwien.e0525580.omov.gui.doubletten.DuplicatesFinderProgressDialog;
 import at.ac.tuwien.e0525580.omov.gui.export.ExporterChooserDialog;
 import at.ac.tuwien.e0525580.omov.gui.movie.AddEditMovieDialog;
 import at.ac.tuwien.e0525580.omov.gui.movie.EditMoviesDialog;
 import at.ac.tuwien.e0525580.omov.gui.preferences.PreferencesWindow;
 import at.ac.tuwien.e0525580.omov.gui.scan.ScanDialog;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
+import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
+import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.tools.remote.IRemoteDataReceiver;
 import at.ac.tuwien.e0525580.omov.tools.remote.RemoteServer;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
@@ -238,6 +242,47 @@ final class MainWindowController extends CommonController implements IRemoteData
         }
     }
     
+    public void doRevealMovie(Movie movie) {
+        final String folderPath = movie.getFolderPath();
+        LOG.debug("Revealing folder path '"+folderPath+"' for movie with id "+movie.getId()+" and title '"+movie.getTitle()+"'.");
+        if(folderPath.trim().length() == 0) {
+            GuiUtil.warning("Revealing movie folder", "No folder set for movie '"+movie.getTitle()+"'!");
+            return;
+        }
+        if(new File(folderPath).exists() == false) {
+            GuiUtil.error("Revealing movie folder", "The folder at '"+movie.getFolderPath()+"' does not exist!");
+            return;
+        }
+        
+        try {
+            FinderReveal.revealFile(new File(folderPath));
+        } catch (BusinessException e) {
+            LOG.error("Could not reveal movie "+movie+"!", e);
+            GuiUtil.error("Revealing movie in Finder failed!", "Could not reveal movie folder path at '"+movie.getFolderPath()+"'!");
+        }
+    }
+
+    public void doPlayVlc(Movie movie) {
+        final Set<String> files = movie.getFiles();
+        if(files.isEmpty() == true) {
+            GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
+            return;
+        }
+        final File movieFile = new File(movie.getFolderPath(), files.iterator().next());
+        if(movieFile.exists() == false) {
+            GuiUtil.error("Play in VLC", "The file at '"+movieFile.getAbsolutePath()+"' does not exist!");
+            return;
+        }
+        
+        
+        try {
+            VlcPlayDelegator.playFile(movieFile);
+        } catch (BusinessException e) {
+            LOG.error("Could not play file '"+movieFile.getAbsolutePath()+"' in VLC!");
+            GuiUtil.error("Play in VLC failed", "Could not play file '"+movieFile.getAbsolutePath()+"' in VLC!");
+        }
+    }
+    
     public void doShowPreferences() {
         final PreferencesWindow preferencesWindow = new PreferencesWindow(this.mainWindow);
         preferencesWindow.setVisible(true);
@@ -253,7 +298,11 @@ final class MainWindowController extends CommonController implements IRemoteData
 //        final RemoteConnectDialog dialog = new RemoteConnectDialog(this.mainWindow);
 //        dialog.setVisible(true);
 //    }
-    
+
+    public void doFindDuplicates() {
+        LOG.info("doFindDuplicates");
+        new DuplicatesFinderProgressDialog(this.mainWindow).setVisible(true);
+    }
 
     // import from exported *.omo file; or XML file
     public void doImport() {

@@ -50,7 +50,7 @@ public abstract class HtmlColumn {
             return String.valueOf(movie.getRating());
         }
     };
-    // FEATURE fuer html export mehr columns zur verfuegung stellen
+    // FEATURE fuer html export mehr columns zur verfuegung stellen (mantis: 10)
     
     public static List<HtmlColumn> getAllColumns() {
         return new CollectionUtil<HtmlColumn>().asImmutableList(COLUMN_GENRE, COLUMN_ACTORS, COLUMN_LANGUAGE, COLUMN_RATING);

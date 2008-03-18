@@ -37,8 +37,6 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
 
     private static final IMovieDao DAO = BeanFactory.getInstance().getMovieDao();
     
-    // FEATURE movie table editable machen
-    
     private static abstract class MovieColumn extends VisibleTableColumn<Movie> implements IColumnComparable<Movie> {
         public MovieColumn(MovieField field, int widthMax, int widthPref, int widthMin, boolean initialVisible) {
             super(field.label(), widthMax, widthPref, widthMin, initialVisible);
@@ -58,7 +56,6 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
 //          - files
 //          - subtitles
 
-//          - FEATURE add coverFile as tablecolumn
         
 //        columns.add(new MovieColumn(MovieField.COVER_FILE, 1200, 80, 40, true) {
 //            public Object getValue(Movie movie) {
@@ -241,7 +238,6 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
         this.columnsVisible[column] = visible;
         
         this.fireTableStructureChanged();
-        // FIXME wenn man col verschiebt, und dann eine visible macht, ist die verschiebung weg und alle cols sind wieder auf dem default platz
         this.prepareColumns();
     }
     
@@ -334,7 +330,7 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
     
 
 
-    public void doSort(final int column) { // FEATURE ASC, DESC sort
+    public void doSort(final int column) {
         LOG.info("Sorting column " + column + " ...");
         this.lastSortColumn = column;
         Collections.sort(this.data, new MovieComparator(this.convertIndex(column)));
@@ -365,7 +361,7 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
     
 
 
-    private static List<Movie> naiveSearch(List<Movie> source, String search) { // TODO somehow be more performant when searching
+    private static List<Movie> naiveSearch(List<Movie> source, String search) {
         List<Movie> result = new LinkedList<Movie>();
         for (Movie movie : source) {
             if (movie.getTitle().toLowerCase().contains(search.toLowerCase())

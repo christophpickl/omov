@@ -58,7 +58,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
 
     public List<Movie> getMoviesSorted() throws BusinessException {
         final List<Movie> list = new ArrayList<Movie>(this.getMovies());
-        Collections.sort(list, Movie.COMPARATOR);
+        Collections.sort(list, Movie.TITLE_COMPARATOR);
         return list;
     }
 

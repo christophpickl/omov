@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.UIManager;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -75,6 +77,12 @@ public class App {
     
     
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            LOG.error("Unable to set system look&feel!", ex);
+        }
+        
         App.cliArguments = Arrays.asList(args);
         final SplashScreen splashScreen = new SplashScreen();
         splashScreen.setVisible(true);
@@ -86,7 +94,7 @@ public class App {
                 return;
             }
     
-            // FEATURE check file consistency at startup (for each movie/directory: check if files still exist)
+            // FEATURE check file consistency at startup; for each movie/directory: check if files still exist (mantis: 2)
             //         -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
             
             TemporaryFilesCleaner.clean();

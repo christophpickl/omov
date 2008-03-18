@@ -30,7 +30,6 @@ class SelectionTableCellRenderer implements TableCellRenderer {
         }
         
         
-        // FEATURE movietable header anders darstellen wenn sie sortiert sind
         //      geht nicht ganz, da per column index gemerkt; und wenn header verschieben, dann wird falscher header als sortiert angezeigt
         
 //        if(column == this.sortColumn) {

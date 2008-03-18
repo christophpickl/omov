@@ -43,7 +43,7 @@ public class SmartCopyDialog extends JDialog {
     }
     private void doCopy() throws BusinessException {
         final SmartCopy copy = new SmartCopy();
-        // FIXME implement me
+        // FIXME implement SmartFolder (mantis: 3)
         
         final int ids[] = new int[] { 10 };
         final File targetDirectory = new File("/OmovMoviesTarget");

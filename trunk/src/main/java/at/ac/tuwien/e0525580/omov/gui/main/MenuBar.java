@@ -20,6 +20,7 @@ import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
@@ -42,6 +43,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     
     // Extras
     private static final String CMD_SCAN = "Scan repository";
+    private static final String CMD_FIND_DUPLICATES = "Find Duplicates";
     private static final String CMD_PREFERENCES = "Preferences";
 //    private static final String CMD_REMOTE = "Remote";
 
@@ -63,10 +65,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     private JMenu menuFile() {
         final JMenu menu = new JMenu("File");
-
-//        GuiUtil.createMenuItem(menu, CMD_IMPORT, this);
+        // TODO set memnonic characters for menubar entries
+        
         GuiUtil.createMenuItem(menu, CMD_EXPORT, this, KeyEvent.VK_E);
-        GuiUtil.createMenuItem(menu, CMD_SMART_COPY, this);
+//        GuiUtil.createMenuItem(menu, CMD_IMPORT, this);
+//        GuiUtil.createMenuItem(menu, CMD_SMART_COPY, this);
         menu.addSeparator();
         GuiUtil.createMenuItem(menu, CMD_QUIT, this, KeyEvent.VK_Q);
         
@@ -95,7 +98,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuExtras() {
         final JMenu menu = new JMenu("Extras");
 
-        GuiUtil.createMenuItem(menu, CMD_SCAN, this, KeyEvent.VK_S); // FIXME shortcut in menubar fuer scan wegnehmen
+        GuiUtil.createMenuItem(menu, CMD_SCAN, this); // , KeyEvent.VK_S
+        GuiUtil.createMenuItem(menu, CMD_FIND_DUPLICATES, this);
         GuiUtil.createMenuItem(menu, CMD_PREFERENCES, this);
 //        GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
@@ -111,38 +115,42 @@ public class MenuBar extends JMenuBar implements ActionListener {
         return menu;
     }
     
-    public void actionPerformed(ActionEvent event) {
-        JMenuItem menuItem = (JMenuItem) event.getSource();
-        final String cmd = menuItem.getActionCommand();
-        
-        LOG.debug("Label clicked: '"+menuItem.getText()+"'");
-        if(cmd.equals(CMD_SCAN)) {
-            this.controller.doScan();
-        } else if(cmd.equals(CMD_NEW_MOVIE)) {
-            this.controller.doAddMovie();
-        } else if(cmd.equals(CMD_QUIT)) {
-            this.controller.doQuit();
-        } else if(cmd.equals(CMD_SMART_COPY)) {
-            this.controller.doSmartCopy();
-        } else if(cmd.equals(CMD_MOVIE_INFO)) {
-            this.controller.doEditMovie();
-        } else if(cmd.equals(CMD_FETCH_METADATA)) {
-            this.controller.doFetchMetaData();
-//        } else if(cmd.equals(CMD_IMPORT)) {
-//            this.controller.doImport();
-        } else if(cmd.equals(CMD_EXPORT)) {
-            this.controller.doExport();
-        } else if(cmd.equals(CMD_SHOW_XXX)) {
-            GuiUtil.info("ups", "nothing implemented");
-        } else if(cmd.equals(CMD_PREFERENCES)) {
-            this.controller.doShowPreferences();
-        } else if(cmd.equals(CMD_OMOV_HELP)) {
-            this.controller.doShowHelp();
-//        } else if(cmd.equals(CMD_REMOTE)) {
-//            this.controller.doRemoteConnect();
-        } else {
-            assert(false) : "Unhandled menu item clicked '"+cmd+"'!";
-        }
+    public void actionPerformed(final ActionEvent event) {
+        new GuiAction() { protected void _action() {
+            final JMenuItem menuItem = (JMenuItem) event.getSource();
+            final String cmd = menuItem.getActionCommand();
+            
+            LOG.debug("Label clicked: '"+menuItem.getText()+"'");
+            if(cmd.equals(CMD_SCAN)) {
+                controller.doScan();
+            } else if(cmd.equals(CMD_NEW_MOVIE)) {
+                controller.doAddMovie();
+            } else if(cmd.equals(CMD_QUIT)) {
+                controller.doQuit();
+            } else if(cmd.equals(CMD_SMART_COPY)) {
+                controller.doSmartCopy();
+            } else if(cmd.equals(CMD_MOVIE_INFO)) {
+                controller.doEditMovie();
+            } else if(cmd.equals(CMD_FETCH_METADATA)) {
+                controller.doFetchMetaData();
+//            } else if(cmd.equals(CMD_IMPORT)) {
+//                this.controller.doImport();
+            } else if(cmd.equals(CMD_EXPORT)) {
+                controller.doExport();
+            } else if(cmd.equals(CMD_SHOW_XXX)) {
+                GuiUtil.info("ups", "nothing implemented");
+            } else if(cmd.equals(CMD_FIND_DUPLICATES)) {
+                controller.doFindDuplicates();
+            } else if(cmd.equals(CMD_PREFERENCES)) {
+                controller.doShowPreferences();
+            } else if(cmd.equals(CMD_OMOV_HELP)) {
+                controller.doShowHelp();
+//            } else if(cmd.equals(CMD_REMOTE)) {
+//                this.controller.doRemoteConnect();
+            } else {
+                assert(false) : "Unhandled menu item clicked '"+cmd+"'!";
+            }
+        }}.doAction();
     }
     
     

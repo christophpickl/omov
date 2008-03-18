@@ -11,4 +11,8 @@ public interface IMovieTableContextMenuListener {
     void doDeleteMovies(int[] tableRowSelected);
     
     void doFetchMetaData(int tableRowSelected);
+    
+    void doRevealMovie(int tableRowSelected);
+    
+    void doPlayVlc(int tableRowSelected);
 }

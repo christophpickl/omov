@@ -53,6 +53,8 @@ class TableRenderers {
         private static final long serialVersionUID = 783309666699748436L;
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//            System.out.println("isSelected="+isSelected+"; value="+value);
+            
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if(isSelected) {
                 lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
