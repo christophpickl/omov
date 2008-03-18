@@ -68,6 +68,9 @@ public class SmartFolderUtil {
         for (String columnLabel : TextCriterion.TEXT_COLUMN_LABELS) {
             tmp.put(columnLabel, TextMatch.ALL_MATCH_LABELS);
         }
+        for (String columnLabel : TextCriterion.RATING_COLUMN_LABELS) {
+            tmp.put(columnLabel, RatingMatch.ALL_MATCH_LABELS);
+        }
         
         MATCHES_LABEL = Collections.unmodifiableMap(tmp);
     }
@@ -98,6 +101,10 @@ public class SmartFolderUtil {
     
     public static boolean isTextColumnLabel(String columnLabel) {
         return AbstractColumnCriterion.TEXT_COLUMN_LABELS.contains(columnLabel);
+    }
+    
+    public static boolean isRatingColumnLabel(String columnLabel) {
+        return AbstractColumnCriterion.RATING_COLUMN_LABELS.contains(columnLabel);
     }
 }
 

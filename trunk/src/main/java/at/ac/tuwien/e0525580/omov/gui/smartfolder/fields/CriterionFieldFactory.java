@@ -15,6 +15,8 @@ import at.ac.tuwien.e0525580.omov.smartfolder.DateCriterion;
 import at.ac.tuwien.e0525580.omov.smartfolder.DateMatch;
 import at.ac.tuwien.e0525580.omov.smartfolder.NumberCriterion;
 import at.ac.tuwien.e0525580.omov.smartfolder.NumberMatch;
+import at.ac.tuwien.e0525580.omov.smartfolder.RatingCriterion;
+import at.ac.tuwien.e0525580.omov.smartfolder.RatingMatch;
 import at.ac.tuwien.e0525580.omov.smartfolder.ResolutionCriterion;
 import at.ac.tuwien.e0525580.omov.smartfolder.ResolutionMatch;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolderUtil;
@@ -49,6 +51,10 @@ public class CriterionFieldFactory {
         
         if(SmartFolderUtil.isTextColumnLabel(columnLabel)) {
             return newTextCriterion(columnLabel, matchLabel, values);
+        }
+        
+        if(SmartFolderUtil.isRatingColumnLabel(columnLabel)) {
+            return newRatingCriterion(columnLabel, matchLabel, values);
         }
         
         throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
@@ -102,14 +108,14 @@ public class CriterionFieldFactory {
             final Integer days = (Integer) values[0];
             match = DateMatch.newNotInTheLast(days);
         } else {
-            throw new IllegalArgumentException("matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')");
+            throw new IllegalArgumentException("Unhandled matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')!");
         }
         
         final DateCriterion criterion;
         if(columnLabel.equals(MovieField.DATE_ADDED.label())) {
             criterion = DateCriterion.newDateAdded(match);
         } else {
-            throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
+            throw new IllegalArgumentException("Unhandled columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')!");
         }
         
         return criterion;
@@ -196,6 +202,36 @@ public class CriterionFieldFactory {
         return criterion;
     }
     
+    private static RatingCriterion newRatingCriterion(final String columnLabel, final String matchLabel, final Object[] values) {
+        final Integer value = (Integer) values[0];
+        final Integer value2 = (values.length > 0) ? (Integer) values[1] : null;
+        final RatingMatch match;
+        
+        if(matchLabel.equals(RatingMatch.LABEL_EQUALS)) {
+            match = RatingMatch.newEquals(value);
+        } else if(matchLabel.equals(RatingMatch.LABEL_NOT_EQUALS)) {
+            match = RatingMatch.newNotEquals(value);
+        } else if(matchLabel.equals(RatingMatch.LABEL_GREATER)) {
+            match = RatingMatch.newGreater(value);
+        } else if(matchLabel.equals(RatingMatch.LABEL_LESS)) {
+            match = RatingMatch.newLess(value);
+        } else if(matchLabel.equals(RatingMatch.LABEL_IN_THE_RANGE)) {
+            match = RatingMatch.newInRange(value, value2);
+        } else {
+            throw new IllegalArgumentException("matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')");
+        }
+        
+        final RatingCriterion criterion;
+        if(columnLabel.equals(MovieField.RATING.label())) {
+            criterion = RatingCriterion.newRating(match);
+        } else {
+            throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
+        }
+        
+        return criterion;
+    }
+    
+    
     /**
      * @param columnLabel
      * @param matchLabel
@@ -225,6 +261,10 @@ public class CriterionFieldFactory {
             return newTextField(columnLabel, values);
         }
         
+        if(SmartFolderUtil.isRatingColumnLabel(columnLabel)) {
+            return newRatingField(columnLabel, matchLabel, values);
+        }
+        
         throw new IllegalArgumentException("Could not get field by column '"+columnLabel+"' and match '"+matchLabel+"'!");
 //        final String initValue = (values != null) ? (String) values[0] : "ups";
 //        return new TextSingleField(20, initValue);
@@ -243,12 +283,12 @@ public class CriterionFieldFactory {
         if(matchLabel.equals(DateMatch.LABEL_IN_THE_LAST) || matchLabel.equals(DateMatch.LABEL_NOT_IN_THE_LAST)) {
 
             // if(columnLabel.equals(DateCriterion.LABEL_DATE_ADDED)) ... not of interest
-            int initValue = (values != null) ? (Integer) values[0] : 0;
+            int initValue = (values != null) ? DateMatch.extractInt((Date) values[0]) : 0;
             
             final RangeType rangeType;
             if(initValue == 0) {
                 rangeType = RangeType.DAYS;
-            } else if(initValue % 60 == 0) {
+            } else if(initValue % 60 == 0) { // TODO isnt "initValue % 30" correct?
                 rangeType = RangeType.MONTHS;
             } else if(initValue % 7 == 0) {
                 rangeType = RangeType.WEEKS;
@@ -343,17 +383,29 @@ public class CriterionFieldFactory {
         return new ResolutionSingleField(initValue);
     }
     
-
-    private static AbstractCriterionField newTextField(final String columnLabel,final Object[] values) {
+    @SuppressWarnings("unused")
+    private static AbstractCriterionField newTextField(final String columnLabel, final Object[] values) {
         final int size = TEXTFIELD_COLUMN_SIZE; // displayed width of gui-widget (in columns)
-        final String initValue;
-        if(columnLabel.equals(MovieField.TITLE.label())) {
-            initValue = (values != null) ? (String) values[0] : "";
-        } else {
-            throw new IllegalArgumentException("unhandled columnLabel: '"+columnLabel+"'");
-        }
+        
+        // no need of different initial values for textfields
+        final String initValue = (values != null) ? (String) values[0] : "";
         
         return new TextSingleField(size, initValue);
+    }
+    
+    private static AbstractCriterionField newRatingField(final String columnLabel, final String matchLabel, final Object[] values) {
+        assert(columnLabel.equals(MovieField.RATING.label()));
+        
+        final AbstractCriterionField field;
+        if(matchLabel.equals(NumberMatch.LABEL_IN_THE_RANGE)) {
+            final int ratingFrom = values != null ? (Integer) values[0] : 0;
+            final int ratingTo = values != null ? (Integer) values[1] : 5;
+            field = new RatingRangeField(ratingFrom, ratingTo);
+        } else {
+            field = new RatingSingleField(values != null ? (Integer) values[0] : 0);
+        }
+        
+        return field;
     }
     
     private static final int TEXTFIELD_COLUMN_SIZE = 14;

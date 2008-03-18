@@ -1,8 +1,10 @@
 package at.ac.tuwien.e0525580.omov.smartfolder;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -102,33 +104,43 @@ public abstract class DateMatch extends AbstractMatch<Date> {
      */
     public static DateMatch newInTheLast(int days) {
         if(days < 0) throw new IllegalArgumentException("days: " + days);
-        return new DateMatch(LABEL_IN_THE_LAST, new Date[] { }, days ) {
+        return new DateMatch(LABEL_IN_THE_LAST, new Date[] { wrapInt(days) } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                LOG.debug("Preparing in the last '"+this.daysBefore+"' days.");
-                final Date date = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(this.daysBefore);
+                final int daysBefore = extractInt(this.getValueAt(0));
+                LOG.debug("Preparing in the last '"+daysBefore+"' days.");
+                final Date date = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(daysBefore);
                 return query.constrain(date).greater().equal();
             }
         };
     }
     public static DateMatch newNotInTheLast(int days) {
         if(days < 0) throw new IllegalArgumentException("days: " + days);
-        return new DateMatch(LABEL_NOT_IN_THE_LAST, new Date[] { }, days ) {
+        return new DateMatch(LABEL_NOT_IN_THE_LAST, new Date[] { wrapInt(days) } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                LOG.debug("Preparing not in the last '"+this.daysBefore+"' days.");
-                final Date date = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(this.daysBefore);
+                final int daysBefore = extractInt(this.getValueAt(0));
+                LOG.debug("Preparing not in the last '"+daysBefore+"' days.");
+                final Date date = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(daysBefore);
                 return query.constrain(date).smaller();
             }
         };
     }
     
-    int daysBefore;
-    private DateMatch(String label, Date[] values, int days) {
-        this(label, values);
-        this.daysBefore = days;
+    public static int extractInt(Date date) {
+        Calendar c = GregorianCalendar.getInstance();
+        c.setTime(date);
+        return c.get(Calendar.MILLISECOND); // missuse of MILLISECOND field
     }
+    
+    private static Date wrapInt(int daysBeforeOrSomething) {
+        Calendar c = GregorianCalendar.getInstance();
+        c.set(Calendar.MILLISECOND, daysBeforeOrSomething); // missuse of MILLISECOND field
+        return c.getTime();
+    }
+    
     private DateMatch(String label, Date[] values) {
         super(label, values);
     }
+
 }

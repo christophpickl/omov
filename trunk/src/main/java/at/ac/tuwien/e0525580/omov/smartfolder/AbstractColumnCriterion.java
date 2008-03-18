@@ -12,6 +12,21 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
+/* TODO complete smart folder columns
+Set<String> genres; - String genresString;
+Set<String> languages; - String languagesString;
+Set<String> actors; - String actorsString;
+int quality;
+long fileSizeKb;
+String format; // separated by "/"
+int duration;
+Set<String> subtitles;
+
+
+-NOT String folderPath;
+-NOT String coverFile;
+-NOT Set<String> files;
+ */
 public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
 
     private static final Log LOG = LogFactory.getLog(AbstractColumnCriterion.class);
@@ -58,7 +73,17 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
     static {
         List<String> tmp = new ArrayList<String>();
         tmp.add(MovieField.TITLE.label());
+        tmp.add(MovieField.STYLE.label());
+        tmp.add(MovieField.DIRECTOR.label());
+        tmp.add(MovieField.COMMENT.label());
         TEXT_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+    }
+
+    static final List<String> RATING_COLUMN_LABELS;
+    static {
+        List<String> tmp = new ArrayList<String>();
+        tmp.add(MovieField.RATING.label());
+        RATING_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
     
     static final List<String> ALL_COLUMN_LABELS;
@@ -69,6 +94,7 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
         tmp.addAll(NUMBER_COLUMN_LABELS);
         tmp.addAll(RESOLUTION_COLUMN_LABELS);
         tmp.addAll(TEXT_COLUMN_LABELS);
+        tmp.addAll(RATING_COLUMN_LABELS);
         ALL_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
     
@@ -105,7 +131,7 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
     /**
      * sets the column name and delegates to match
      */
-    final Constraint getDb4oConstraint(Query query) { // TODO das hier raushaun! in oberklasse geben, da eh bei jedem gleich!
+    final Constraint getDb4oConstraint(Query query) {
         LOG.debug("Preparing query for column '"+this.getColumn()+"'.");
         return this.getMatch().prepareDb4oQuery(query.descend(this.getColumn()));
     }

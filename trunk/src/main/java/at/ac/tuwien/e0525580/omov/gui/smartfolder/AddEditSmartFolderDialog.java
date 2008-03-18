@@ -68,8 +68,8 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 //        this.inpAllAny.addKeyListener(this.escapeDisposer);
         
         if(this.isAddMode() == false) {
-            this.inpTitle.setText(this.editItem().getName());
-            this.inpAllAny.setSelectedIndex(this.editItem().isMatchAll() ? 0 : 1);
+            this.inpTitle.setText(this.getEditItem().getName());
+            this.inpAllAny.setSelectedIndex(this.getEditItem().isMatchAll() ? 0 : 1);
         }
         
         panel.add(new JLabel("Match "));
@@ -87,7 +87,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         if(this.isAddMode()) {
             this.addGuiRow(SmartFolderGuiRow.newDefaultRow(this));
         } else {
-            for (AbstractColumnCriterion criterion: this.editItem().getCriteria()) {
+            for (AbstractColumnCriterion criterion: this.getEditItem().getCriteria()) {
                 final String column = criterion.getColumnLabel();
                 final String match = criterion.getMatchLabel();
                 final Object[] values = criterion.getValues();
@@ -134,7 +134,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
     
     @Override
     protected SmartFolder _getConfirmedObject() {
-        final long id = (this.isAddMode()) ? -1 : this.editItem().getId();
+        final long id = (this.isAddMode()) ? -1 : this.getEditItem().getId();
         final String name = (this.inpTitle.getText().length() == 0) ? "N/A" : this.inpTitle.getText();
         final boolean matchAll = this.inpAllAny.getSelectedIndex() == 0;
         

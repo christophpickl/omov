@@ -21,6 +21,7 @@ import at.ac.tuwien.e0525580.omov.gui.smartfolder.fields.CriterionFieldFactory;
 import at.ac.tuwien.e0525580.omov.smartfolder.AbstractColumnCriterion;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolderUtil;
 import at.ac.tuwien.e0525580.omov.smartfolder.TextMatch;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class SmartFolderGuiRow  extends JPanel {
     
@@ -84,10 +85,14 @@ public class SmartFolderGuiRow  extends JPanel {
         this.add(this.fieldWrapper);
 
         this.comboColumn.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            doChangeColumn();
+            new GuiAction() { protected void _action() {
+                doChangeColumn();
+            }}.doAction();
         }});
         this.comboMatches.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            doChangeMatch();
+            new GuiAction() { protected void _action() {
+                doChangeMatch();
+            }}.doAction();
         }});
     }
     

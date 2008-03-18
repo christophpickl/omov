@@ -10,9 +10,10 @@ import org.apache.commons.logging.LogFactory;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-public abstract class NumberMatch extends AbstractMatch<Integer> {
+// TODO outsource common code (NumberMatch) into superclass (or something like that; factory, ...)
+public abstract class RatingMatch extends AbstractMatch<Integer> {
 
-    private static final Log LOG = LogFactory.getLog(NumberMatch.class);
+    private static final Log LOG = LogFactory.getLog(RatingMatch.class);
 
     public static final String LABEL_EQUALS = "equals";
     public static final String LABEL_NOT_EQUALS = "not equals";
@@ -31,8 +32,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
         ALL_MATCH_LABELS = Collections.unmodifiableList(tmp);
     }
     
-    public static NumberMatch newEquals(Integer value) {
-        return new NumberMatch(LABEL_EQUALS, new Integer[] { value } ) {
+    public static RatingMatch newEquals(Integer value) {
+        return new RatingMatch(LABEL_EQUALS, new Integer[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
@@ -40,8 +41,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newNotEquals(Integer value) {
-        return new NumberMatch(LABEL_NOT_EQUALS, new Integer[] { value } ) {
+    public static RatingMatch newNotEquals(Integer value) {
+        return new RatingMatch(LABEL_NOT_EQUALS, new Integer[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing not equals for value '"+this.getValueAt(0)+"'.");
@@ -49,8 +50,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newGreater(Integer value) {
-        return new NumberMatch(LABEL_GREATER, new Integer[] { value } ) {
+    public static RatingMatch newGreater(Integer value) {
+        return new RatingMatch(LABEL_GREATER, new Integer[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing not equals for value '"+this.getValueAt(0)+"'.");
@@ -58,8 +59,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newLess(Integer value) {
-        return new NumberMatch(LABEL_LESS, new Integer[] { value } ) {
+    public static RatingMatch newLess(Integer value) {
+        return new RatingMatch(LABEL_LESS, new Integer[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing less for value '"+this.getValueAt(0)+"'.");
@@ -67,18 +68,19 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newInRange(Integer lowerBound, Integer upperBound) {
-        return new NumberMatch(LABEL_IN_THE_RANGE, new Integer[] { lowerBound, upperBound } ) {
+    public static RatingMatch newInRange(Integer lowerBound, Integer upperBound) {
+        return new RatingMatch(LABEL_IN_THE_RANGE, new Integer[] { lowerBound, upperBound } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing in range of '"+this.getValueAt(0)+"' to '"+this.getValueAt(1)+"'.");
-                final Constraint constraintLowerBound = query.constrain(this.getValueAt(0)).greater().equal();
-                return query.constrain(this.getValueAt(1)).smaller().equal().and(constraintLowerBound);
+                return query.constrain(this.getValueAt(1)).smaller().equal().and(
+                       query.constrain(this.getValueAt(0)).greater().equal());
             }
         };
     }
     
-    private NumberMatch(String label, Integer[] values) {
+    private RatingMatch(String label, Integer[] values) {
         super(label, values);
     }
+
 }
