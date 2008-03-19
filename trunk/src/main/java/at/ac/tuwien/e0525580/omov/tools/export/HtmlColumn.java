@@ -11,14 +11,14 @@ import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 
 public abstract class HtmlColumn {
 
-    public static final HtmlColumn COLUMN_ID = new HtmlColumn("40", "ID", "id") {
+    public static final HtmlColumn COLUMN_ID = new HtmlColumn("40", "", "id") { // displayed as checkbox list
         String getValue(final Movie movie) {
-            return "<input type='checkbox' name='inpId' value='"+movie.getId()+"' />";
+            return "<input type='checkbox' name='inpId' value='"+movie.getId()+"' id='inpCheckbox"+movie.getId()+"' />";
         }
     };
     public static final HtmlColumn COLUMN_TITLE = new HtmlColumn("*", "Title", "title") {
         String getValue(final Movie movie) {
-            return StringEscapeUtils.escapeHtml(movie.getTitle());
+            return "<a class='title_link' href='javascript:clickTitle(this, "+movie.getId()+");return false;'>"+StringEscapeUtils.escapeHtml(movie.getTitle()) + "</a>";
         }
     };
     public static final HtmlColumn COLUMN_COVER = new HtmlColumn("50", "Cover", "cover") { // cover width passt so?
@@ -35,9 +35,9 @@ public abstract class HtmlColumn {
             return StringEscapeUtils.escapeHtml(String.valueOf(movie.getGenresString()));
         }
     };
-    public static final HtmlColumn COLUMN_ACTORS = new HtmlColumn("180", "Actors", "actors") {
+    public static final HtmlColumn COLUMN_ACTORS = new HtmlColumn("270", "Actors", "actors") {
         String getValue(final Movie movie) {
-            return StringEscapeUtils.escapeHtml(String.valueOf(movie.getActorsString()));
+            return limitStringLength(20, movie.getActorsString(), this);
         }
     };
     public static final HtmlColumn COLUMN_LANGUAGE = new HtmlColumn("120", "Language", "language") {
@@ -47,7 +47,18 @@ public abstract class HtmlColumn {
     };
     public static final HtmlColumn COLUMN_RATING = new HtmlColumn("80", "Rating", "rating") {
         String getValue(final Movie movie) {
-            return String.valueOf(movie.getRating());
+            final StringBuilder sb = new StringBuilder();
+            sb.append("<span class='ratingYes'>");
+            for (int i = 0; i < movie.getRating(); i++) {
+                sb.append("&times;");
+            }
+            sb.append("</span>");
+            sb.append("<span class='ratingNo'>");
+            for (int i = 0; i < 5 - movie.getRating(); i++) {
+                sb.append("&times;");
+            }
+            sb.append("</span>");
+            return sb.toString();
         }
     };
     // FEATURE fuer html export mehr columns zur verfuegung stellen (mantis: 10)
@@ -56,7 +67,14 @@ public abstract class HtmlColumn {
         return new CollectionUtil<HtmlColumn>().asImmutableList(COLUMN_GENRE, COLUMN_ACTORS, COLUMN_LANGUAGE, COLUMN_RATING);
     }
     
-    
+    private static String limitStringLength(final int maxChars, final String string, final HtmlColumn column) {
+        final String fullString = string;
+        if(fullString.length() < maxChars) {
+            return StringEscapeUtils.escapeHtml(fullString);
+        }
+        final String partString = fullString.substring(0, maxChars) + " ...";
+        return "<div title='"+fullString+"' style='width:"+column.getWidth()+"px;'>" + StringEscapeUtils.escapeHtml(partString) + "</div>";
+    }
     
     private final String width;
     private final String label;

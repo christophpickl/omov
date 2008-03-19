@@ -32,8 +32,8 @@ public class ExporterHtml {
 
     private static final Log LOG = LogFactory.getLog(ExporterHtml.class);
 
-    /** used within html code; e.g.: "Monday, 11 February - 23:53:59" */
-    private static final SimpleDateFormat CURRENT_DATE_FORMAT = new SimpleDateFormat("EEEE, dd MMMM - HH:mm:ss");
+    /** used within html code; e.g.: "Monday, 11 February 2008 - 23:53:59" */
+    private static final SimpleDateFormat CURRENT_DATE_FORMAT = new SimpleDateFormat("EEEE, dd MMMM yyyy - HH:mm:ss");
     
     private final List<HtmlColumn> columns;
 
@@ -166,138 +166,68 @@ public class ExporterHtml {
             try {
                 writer = new BufferedWriter(new FileWriter(target));
                 writer.write(
-            "<html>\n" +
-            "<head>\n" +
-            "<title>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</title>\n" +
-            "<script type='text/javascript'>\n" +
-            "function doGenerateIds() {\n" +
-            "   form = document.getElementById('data_form');\n" +
-            "   output = '';\n" +
-            "   for(i=0; i < form.inpId.length; i++) {\n" +
-            "       currentInpId = form.inpId[i];\n" +
-            "       if(currentInpId.checked == true) {\n" +
-            "           if(output != '') output += '|';\n" +
-            "           output += currentInpId.value;\n" +
-            "       }\n" +
-            "   }\n" +
-            "   if(output == '') {\n" +
-            "       alert('Not any movie was selected.');\n" +
-            "   } else {\n" +
-            "       document.getElementById('outputIds').innerHTML = '[[' + output + ']]';\n" +
-            "   }\n" +
-            "}\n" +
-            "</script>\n" +
-            "<style type='text/css'>\n" +
-            "body {\n" +
-            "   background-color:#EDEEEE;\n" +
-            "   margin:10px 0px 0px 0px; /* top, x, x, left */\n" +
-            "}\n" +
-            "body, h1, #date {\n" +
-            "   font-family: verdana, sans-serif;\n" +
-            "}\n" +
-            "h1 {\n" +
-            "   font-size:19pt;\n" +
-            "   font-weight:bold;\n" +
-            "   margin-bottom:8px;\n" +
-            "}\n" +
-            "h1, #date, #btnGenerate {\n" +
-            "   margin-top:10px;\n" +
-            "   margin-left:25px;\n" +
-            "   margin-right:25px;\n" +
-            "}\n" +
-            "#date {\n" +
-            "   font-size:12pt;\n" +
-            "   margin-bottom:0px;\n" +
-            "}\n" +
-            "#data_wrapper {\n" +
-            "   margin-top:30px;\n" +
-            "   margin-bottom:15px; /* ... button needs to be closer */\n" +
-            "}\n" +
-            "#data_header {\n" +
-            "   border-bottom:2px solid black;\n" +
-            "}\n" +
-            ".tr_even {\n" +
-            "   background-color:#FFFFFF;\n" +
-            "}\n" +
-            ".tr_odd {\n" +
-            "   background-color:#EDEEEE;\n" +
-            "}\n" +
-            ".tr_even, .tr_odd {\n" +
-            "   height:50px;\n" +
-            "}\n" +
-            ".td_id {\n" +
-            "   text-align:center;\n" +
-            "}\n" +
-            ".td_id, .td_cover, .td_title, .td_genre, .td_actors, .td_language, .td_rating {\n" +
-            "   border-bottom:1px solid #999999;\n" +
-            "   empty-cells:show;\n" +
-            "}\n" +
-            "#outputIds {\n" +
-            "   width:500px;\n" +
-            "   height:140px;\n" +
-            "}\n" +
-            "#outputIdsWrapper {\n" +
-            "   text-align:center;\n" +
-            "}\n" +
-            "#btnGenerate {\n" +
-            "   \n" +
-            "}\n" +
-            "#tbl_data {\n" +
-            "   width:100%;\n" +
-            "   margin-top:20px\n;" +
-            "   margin-bottom:40px;\n" +
-            "}\n" +
-            "</style>\n" +
-            "</head>\n" +
-            "\n" +
-            "<body>\n" +
-            "<h1>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</h1>\n" +
-            "<div id='date'>Created on "+currentDate+"</div>\n" +
-            "\n" +
-            "<form id='data_form'>\n" +
-            "\n" +
-            "<table id='tbl_data' cellspacing='0' cellpadding='12'>\n" +
-            "   <colgroup>\n");
-            
-            for (HtmlColumn column : this.columns) {
-                writer.write("       <col width='"+column.getWidth()+"' valign='middle' />\n");
-            }
-            
-            writer.write("   </colgroup>\n" +
-            "   <tr>\n");
-            
-            for (HtmlColumn column : this.columns) {
-                writer.write("       <th>"+column.getLabel()+"</th>\n");
-            }
-            
-            writer.write("   </tr>\n");
+                        "<html>\n" +
+                        "<head>\n" +
+                        "<title>Movies from "+Configuration.getInstance().getUsername()+"</title>\n");
                 
-    
-            boolean isEven = true;
-            LOG.debug("Wrting table rows for "+movies.size()+" movies.");
-            for (final Movie movie : movies) {
-                writer.write(this.getHtmlCodeForMovie(movie, isEven));
-                isEven = !isEven;
-            }
+                writer.write(getHeadContent());
+                
+                
+                writer.write(
+                        "</head>\n" +
+                        "\n" +
+                        "<body>\n" +
+                        "<h1>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</h1>\n" +
+                        "<div id='date'>"+currentDate+"</div>\n" +
+                        "\n" +
+                        "<form id='data_form'>\n" +
+                        "\n" +
+                        "<table id='tbl_data' cellspacing='0' cellpadding='12'>\n" +
+                           "   <colgroup>\n");
             
-            writer.write("</table>" +
-            "\n" +
-            "<div id='outputIdsWrapper'>\n" +
-            "   <textarea id='outputIds' readonly='readonly'></textarea>\n" +
-            "   <div id='btnGenerate'><input type='submit' value='Generate ID Request' onclick='doGenerateIds();return false' /></div>\n" +
-            "</div>\n" +
-            "\n" +
-            "</form>\n" +
-            "\n" +
-            "</body>\n" +
-            "</html>\n");
+                for (HtmlColumn column : this.columns) {
+                    writer.write("       <col width='"+column.getWidth()+"' valign='middle' />\n");
+                }
+                
+                writer.write(
+                        "   </colgroup>\n" +
+                        "   <tr>\n");
+                for (HtmlColumn column : this.columns) {
+                    writer.write("       <th class='th'>"+column.getLabel()+"</th>\n");
+                }
+                writer.write("   </tr>\n");
+    
+        
+                boolean isEven = true;
+                LOG.debug("Wrting table rows for "+movies.size()+" movies.");
+                for (final Movie movie : movies) {
+                    writer.write(this.getHtmlCodeForMovie(movie, isEven));
+                    isEven = !isEven;
+                }
+                
+                writer.write(
+                        "</table>" +
+                        "\n" +
+                        "<div id='outputIdsWrapper'>\n" +
+                        "   <textarea id='outputIds' readonly='readonly'></textarea>\n" +
+                        "   <div id='btnGenerate'><input type='submit' value='Generate ID Request' onclick='doGenerateIds();return false' /></div>\n" +
+                        "</div>\n" +
+                        "\n" +
+                        "</form>\n" +
+                        "\n" +
+                        "<p id='footer'>Created with OurMovies v"+Constants.VERSION_STRING+": <a id='footer_link' href='http://omov.sourceforge.net' target='_blank'>http://omov.sourceforge.net</a></p>" +
+                        "</body>\n" +
+                        "</html>\n");
             } catch(IOException e) {
                 throw new BusinessException("Could not generate HTML report!", e);
             } finally {
                 if(writer != null) try { writer.close(); } catch(IOException e) { LOG.error("Could not close filewriter for file '"+target.getAbsolutePath()+"'!", e); };
             }
+            
             LOG.info("Exporting HTML finished.");
             processFinishedSuccessfully = true;
+            
+            
         } finally {
             if(processFinishedSuccessfully == false) {
                 LOG.info("Going to delete created directory '"+createdDir.getAbsolutePath()+"' because exporting html failed.");
@@ -310,10 +240,163 @@ public class ExporterHtml {
         }
     }
     
+    /**
+     * @see HtmlFileConverter
+     */
+    private static String getHeadContent() {
+        return 
+        "<script type='text/javascript'>\n" +
+        "\n" +
+        "function doGenerateIds() {\n" +
+        "   form = document.getElementById('data_form');\n" +
+        "   output = '';\n" +
+        "   for(i=0; i < form.inpId.length; i++) {\n" +
+        "       currentInpId = form.inpId[i];\n" +
+        "       if(currentInpId.checked == true) {\n" +
+        "           if(output != '') output += '|';\n" +
+        "           output += currentInpId.value;\n" +
+        "       }\n" +
+        "   }\n" +
+        "   if(output == '') {\n" +
+        "       alert('Not any movie was selected.');\n" +
+        "   } else {\n" +
+        "       document.getElementById('outputIds').innerHTML = '[[' + output + ']]';\n" +
+        "   }\n" +
+        "}\n" +
+        "\n" +
+        "\n" +
+        "function overTr(tr) {\n" +
+        "// debug('over: ' + tr);\n" +
+        "   tr.className = 'tr_over';\n" +
+        "}\n" +
+        "function outTr(tr, oldClassName) {\n" +
+        "// debug('out: ' + tr);\n" +
+        "   tr.className = oldClassName;\n" +
+        "}\n" +
+        "function clickTitle(tr, checkboxId) {\n" +
+        "// debug('click: ' + checkboxId);\n" +
+        "   chkBox = document.getElementById('inpCheckbox'+checkboxId);\n" +
+        "   chkBox.checked = !chkBox.checked;\n" +
+        "}\n" +
+        "/*\n" +
+        "document.write('<textarea id=\"debugField\"></textarea>');\n" +
+        "function debug(str) {\n" +
+        "   document.getElementById('debugField').innerHTML =  str + '\n" +
+        "' + document.getElementById('debugField').innerHTML;\n" +
+        "}\n" +
+        "*/\n" +
+        "</script>\n" +
+        "\n" +
+        "<style type='text/css'>\n" +
+        "body {\n" +
+        "   background-color:#EDEEEE;\n" +
+        "   margin:10px 0px 0px 0px; /* top, right, bottom, left */\n" +
+        "}\n" +
+        "\n" +
+        "body, h1, #date, .title_link, #footer {\n" +
+        "   font-family: verdana, sans-serif;\n" +
+        "}\n" +
+        "body, h1, #date {\n" +
+        "   color:#101010;\n" +
+        "}\n" +
+        "h1 {\n" +
+        "   font-size:19pt;\n" +
+        "   font-weight:bold;\n" +
+        "   margin:10px 0px 0px 0px; /* top, right, bottom, left */\n" +
+        "}\n" +
+        "h1, #date, #footer {\n" +
+        "   margin-left:15px;\n" +
+        "   margin-right:15px;\n" +
+        "}\n" +
+        "#date {\n" +
+        "   font-size:11pt;\n" +
+        "   margin-bottom:0px;\n" +
+        "}\n" +
+        "#data_wrapper {\n" +
+        "   margin-top:30px;\n" +
+        "   margin-bottom:15px; /* ... button needs to be closer */\n" +
+        "}\n" +
+        "#data_header {\n" +
+        "   border-bottom:2px solid black;\n" +
+        "}\n" +
+        ".tr_even {\n" +
+        "   background-color:#FFFFFF;\n" +
+        "}\n" +
+        ".tr_odd {\n" +
+        "   background-color:#EDEEEE;\n" +
+        "}\n" +
+        ".tr_over {\n" +
+        "   background-color:#CCCDCD;\n" +
+        "}\n" +
+        ".tr_even, .tr_odd {\n" +
+        "   height:20px;\n" +
+        "}\n" +
+        ".td_id {\n" +
+        "   text-align:center;\n" +
+        "}\n" +
+        ".td_id, .td_cover, .td_title, .td_genre, .td_actors, .td_language, .td_rating {\n" +
+        "   border-bottom:1px solid #999999;\n" +
+        "   empty-cells:show;\n" +
+        "   padding:6px 0px 6px 0px;\n" +
+        "   padding-left:6px;\n" +
+        "   padding-right:6px;\n" +
+        "}\n" +
+        ".td_rating {\n" +
+        "   text-align:right;\n" +
+        "}\n" +
+        "#outputIds {\n" +
+        "   width:500px;\n" +
+        "   height:140px;\n" +
+        "}\n" +
+        "#outputIdsWrapper {\n" +
+        "   text-align:center;\n" +
+        "}\n" +
+        "#btnGenerate {\n" +
+        "   \n" +
+        "}\n" +
+        "#tbl_data {\n" +
+        "   width:100%;\n" +
+        "   margin-top:20px;\n" +
+        "   margin-bottom:40px;\n" +
+        "}\n" +
+        ".th {\n" +
+        "   border-bottom:1px solid #999999;\n" +
+        "   padding:6px 0px 6px 0px;\n" +
+        "}\n" +
+        ".title_link {\n" +
+        "   text-decoration:none;\n" +
+        "   color:#060666\n" +
+        "}\n" +
+        ".title_link:hover {\n" +
+        "   color:#020222\n" +
+        "}\n" +
+        "\n" +
+        "#footer, #footer_link {\n" +
+        "   font-size:10pt;\n" +
+        "   color:#999999;\n" +
+        "}\n" +
+        "#footer_link {\n" +
+        "   text-decoration:underline;\n" +
+        "}\n" +
+        "#footer_link:hover {\n" +
+        "   color:#666666;\n" +
+        "   text-decoration:none;\n" +
+        "}\n" +
+        ".ratingYes {\n" +
+        "\n" +
+        "}\n" +
+        ".ratingNo {\n" +
+        "   color:#BBBBBB;\n" +
+        "}\n" +
+        "</style>\n";
+    }
+    
     private String getHtmlCodeForMovie(Movie movie, boolean isEven) {
         final StringBuilder sb = new StringBuilder();
 
-        sb.append("   <tr class='tr_" + (isEven ? "even" : "odd") + "'>");
+        final String trClassName = "tr_" + (isEven ? "even" : "odd");
+        
+        sb.append("   <tr class='" + trClassName+ "' onmouseover=\"javascript:overTr(this);\" onmouseout=\"javascript:outTr(this, '"+trClassName+"');\">");
         for (HtmlColumn column : this.columns) {
             sb.append("<td class='td_"+column.getStyleClass()+"'>");
             sb.append(column.getValue(movie));
