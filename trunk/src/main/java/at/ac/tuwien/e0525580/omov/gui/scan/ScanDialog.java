@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
@@ -38,8 +39,9 @@ import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
-public class ScanDialog extends JDialog implements TableContextMenuListener {
+public class ScanDialog extends JDialog implements TableContextMenuListener, IDirectoryChooserListener {
 
 //    private static final Log LOG = LogFactory.getLog(ScanDialog.class);
     private static final long serialVersionUID = 8730290488508038854L;
@@ -49,7 +51,9 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
 
     private final ScanDialogController controller = new ScanDialogController(this);
     
-    private final DirectoryChooser inpScanRoot = DirectoryChooser.newPosition("Choose a Scan Root", ButtonPosition.LEFT);
+    private final DirectoryChooser inpScanRoot = DirectoryChooser.newPathAndPosition("Choose a Scan Root", 
+            new File(Configuration.getInstance().getRecentScanPath()),
+            ButtonPosition.LEFT);
     private JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
     private JProgressBar progressBar = new JProgressBar();
     
@@ -118,12 +122,16 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
         this.inpFetchMetadata.setOpaque(false);
         
         this.btnPrepare.setEnabled(false);
+        
+        this.inpScanRoot.addDirectoryChooserListener(this);
         this.inpScanRoot.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
             btnPrepare.setEnabled(true);
             btnScan.setEnabled(true);
         }});
         this.btnPrepare.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            controller.doPrepareRepository(inpScanRoot.getDirectory());
+            new GuiAction() { protected void _action() {
+                controller.doPrepareRepository(inpScanRoot.getDirectory());
+            }}.doAction();
         }});        
 
         panel.add(this.inpScanRoot);
@@ -262,5 +270,10 @@ public class ScanDialog extends JDialog implements TableContextMenuListener {
     
     public static void main(String[] args) {
         new ScanDialog(new JFrame()).setVisible(true);
+    }
+
+    public void choosenDirectory(File dir) {
+        Configuration.getInstance().setRecentScanPath(dir.getParentFile().getAbsolutePath());
+        this.inpScanRoot.setDefaultPath(dir.getParentFile());
     }
 }

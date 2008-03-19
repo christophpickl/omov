@@ -17,6 +17,8 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -30,7 +32,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     // File
 //    private static final String CMD_IMPORT = "Import ...";
     private static final String CMD_EXPORT = "Export ...";
-    private static final String CMD_SMART_COPY = "Smart Copy";
+    private static final String CMD_SMART_COPY = "Smart Copy...";
     private static final String CMD_QUIT = "Quit";
 
     // Movie
@@ -42,9 +44,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private static final String CMD_SHOW_XXX = "Show XXX";
     
     // Extras
-    private static final String CMD_SCAN = "Scan repository";
+    private static final String CMD_SCAN = "Scan repository...";
     private static final String CMD_FIND_DUPLICATES = "Find Duplicates";
-    private static final String CMD_PREFERENCES = "Preferences";
+    private static final String CMD_PREFERENCES = "Preferences...";
 //    private static final String CMD_REMOTE = "Remote";
 
     // Help
@@ -67,11 +69,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
         final JMenu menu = new JMenu("File");
         // TODO set memnonic characters for menubar entries
         
-        GuiUtil.createMenuItem(menu, CMD_EXPORT, this, KeyEvent.VK_E);
-//        GuiUtil.createMenuItem(menu, CMD_IMPORT, this);
+        GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, KeyEvent.VK_E, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
+//        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
 //        GuiUtil.createMenuItem(menu, CMD_SMART_COPY, this);
         menu.addSeparator();
-        GuiUtil.createMenuItem(menu, CMD_QUIT, this, KeyEvent.VK_Q);
+        GuiUtil.createMenuItem(menu, 'Q', CMD_QUIT, this, KeyEvent.VK_Q);
         
         return menu;
     }
@@ -79,9 +81,12 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuMovie() {
         final JMenu menu = new JMenu("Movie");
 
-        GuiUtil.createMenuItem(menu, CMD_NEW_MOVIE, this, KeyEvent.VK_N);
-        GuiUtil.createMenuItem(menu, CMD_MOVIE_INFO, this, KeyEvent.VK_I);
-        GuiUtil.createMenuItem(menu, CMD_FETCH_METADATA, this);
+        GuiUtil.createMenuItem(menu, 'N', CMD_NEW_MOVIE, this, KeyEvent.VK_N, ImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
+        menu.addSeparator();
+        GuiUtil.createMenuItem(menu, 'I', CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        GuiUtil.createMenuItem(menu, 'F', CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        menu.addSeparator();
+        GuiUtil.createMenuItem(menu, 'D', CMD_FIND_DUPLICATES, this);
         
         return menu;
     }
@@ -90,7 +95,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuWindow() {
         final JMenu menu = new JMenu("Window");
         
-        GuiUtil.createMenuItem(menu, CMD_SHOW_XXX, this);
+        GuiUtil.createMenuItem(menu, 'X', CMD_SHOW_XXX, this);
         
         return menu;
     }
@@ -98,9 +103,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuExtras() {
         final JMenu menu = new JMenu("Extras");
 
-        GuiUtil.createMenuItem(menu, CMD_SCAN, this); // , KeyEvent.VK_S
-        GuiUtil.createMenuItem(menu, CMD_FIND_DUPLICATES, this);
-        GuiUtil.createMenuItem(menu, CMD_PREFERENCES, this);
+        GuiUtil.createMenuItem(menu, 'S', CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
+        menu.addSeparator();
+        
+        GuiUtil.createMenuItem(menu, 'P', CMD_PREFERENCES, this, KeyEvent.VK_P, ImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
 //        GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
         return menu;
@@ -110,7 +116,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuHelp() {
         final JMenu menu = new JMenu("Help");
 
-        GuiUtil.createMenuItem(menu, CMD_OMOV_HELP, this, KeyEvent.VK_H);
+        GuiUtil.createMenuItem(menu, 'H', CMD_OMOV_HELP, this, KeyEvent.VK_H, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
         
         return menu;
     }
@@ -163,7 +169,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             LOG.info("adding debug menu.");
             final JMenu menu = new JMenu("Debug");
             
-            GuiUtil.createMenuItem(menu, "Reset Movies", new ActionListener() {
+            GuiUtil.createMenuItem(menu, 'R', "Reset Movies", new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     LOG.info("resetting movies.");
                     try {
@@ -192,7 +198,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                     }
            }});
             
-            GuiUtil.createMenuItem(menu, "Drop Movies", new ActionListener() {
+            GuiUtil.createMenuItem(menu, 'D', "Drop Movies", new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     LOG.info("resetting movies.");
                     try {

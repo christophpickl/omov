@@ -14,6 +14,7 @@ public class DurationPanel extends JPanel {
 
     private final NumberField inpMin;
     private final NumberField inpHours;
+    // TODO make number fields of duration panel right aligned
     
     public DurationPanel(Duration duration) {
         this.setOpaque(false);

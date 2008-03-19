@@ -41,6 +41,7 @@ public class SmartCopyDialog extends JDialog {
 
         return panel;
     }
+    
     private void doCopy() throws BusinessException {
         final SmartCopy copy = new SmartCopy();
         // FIXME implement SmartFolder (mantis: 3)

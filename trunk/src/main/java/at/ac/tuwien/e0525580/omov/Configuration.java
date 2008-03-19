@@ -26,7 +26,7 @@ public class Configuration {
         FOLDER_COVERS, FOLDER_TEMPORARY,
         SERVER_PORT, USERNAME,
         
-        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH;
+        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH;
     }
     
     private String folderCovers, folderTemporary;
@@ -34,7 +34,7 @@ public class Configuration {
     private String username;
 //    private int serverPort;
     
-    private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath;
+    private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath, recentScanPath;
     
     private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
     
@@ -69,6 +69,7 @@ public class Configuration {
         this.recentExportDestination = prefs.get(PrefKey.RECENT_EXPORT_DESTINATION.name(), File.listRoots()[0].getAbsolutePath());
         this.recentCoverSelectorPath = prefs.get(PrefKey.RECENT_COVER_SELECTOR_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentMovieFolderPath = prefs.get(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), File.listRoots()[0].getAbsolutePath());
+        this.recentScanPath = prefs.get(PrefKey.RECENT_SCAN_PATH.name(), File.listRoots()[0].getAbsolutePath());
         
         for (String columnName : MovieTableModel.getColumnNames()) {
             final Boolean initialVisible;
@@ -131,41 +132,54 @@ public class Configuration {
         return new File(this.folderTemporary);
     }
 
+    private void setPreferencesString(PrefKey key, String value) {
+        LOG.debug("Setting '"+key.name()+"' to '"+value+"'.");
+        this.prefs.put(key.name(), value);
+        this.flush();
+    }
+    
+    
     public String getRecentExportDestination() {
         return this.recentExportDestination;
     }
     public void setRecentExportDestination(String recentExportDestination) {
-        LOG.debug("setting recentExportDestination to '"+recentExportDestination+"'.");
-        this.prefs.put(PrefKey.RECENT_EXPORT_DESTINATION.name(), recentExportDestination);
+        this.setPreferencesString(PrefKey.RECENT_EXPORT_DESTINATION, recentExportDestination);
         this.recentExportDestination = recentExportDestination;
-        this.flush();
     }
 
     public String getRecentCoverSelectorPath() {
         return this.recentCoverSelectorPath;
     }
     public void setRecentCoverSelectorPath(String recentCoverSelectorPath) {
-        LOG.debug("setting recentCoverSelectorPath to '"+recentCoverSelectorPath+"'.");
-        this.prefs.put(PrefKey.RECENT_COVER_SELECTOR_PATH.name(), recentCoverSelectorPath);
+        this.setPreferencesString(PrefKey.RECENT_COVER_SELECTOR_PATH, recentCoverSelectorPath);
         this.recentCoverSelectorPath = recentCoverSelectorPath;
-        this.flush();
     }
 
-    public void setRecentMovieFolderPath(String recentMovieFolderPath) {
-        LOG.debug("setting recentMovieFolderPath to '"+recentMovieFolderPath+"'.");
-        this.prefs.put(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), recentMovieFolderPath);
-        this.recentMovieFolderPath = recentMovieFolderPath;
-        this.flush();
-    }
     public String getRecentMovieFolderPath() {
         return this.recentMovieFolderPath;
     }
+    public void setRecentMovieFolderPath(String recentMovieFolderPath) {
+        this.setPreferencesString(PrefKey.RECENT_MOVIE_FOLDER_PATH, recentMovieFolderPath);
+        this.recentMovieFolderPath = recentMovieFolderPath;
+    }
+
+    public String getRecentScanPath() {
+        return this.recentScanPath;
+    }
+    public void setRecentScanPath(String recentScanPath) {
+        this.setPreferencesString(PrefKey.RECENT_SCAN_PATH, recentScanPath);
+        this.recentScanPath = recentScanPath;
+    }
+    
+    
+    
     
     public boolean isMovieColumnVisible(String columnName) {
         final Boolean visible = this.columnsVisible.get(columnName);
         assert(visible != null) : "Unkown column '"+columnName+"'!";
         return visible;
     }
+    
     public void setMovieColumnVisibility(Map<String, Boolean> columns) {
         LOG.debug("Updating movie column visibility.");
         for(String columnName : columns.keySet()) {

@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.JMenuItem;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
@@ -21,7 +23,7 @@ public class VlcPlayDelegator {
 
     public static void addVlcPlayJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
         if(UserSniffer.isOS(OS.MAC) == true) {
-            BodyContext.newJMenuItem(menuItems, "Play in VLC", actionCommand);
+            BodyContext.newJMenuItem(menuItems, "Play in VLC", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
     }
 

@@ -60,12 +60,13 @@ public class DuplicatesFinderDialog extends JDialog {
         this.getContentPane().add(this.initComponents());
         this.pack();
         GuiUtil.setCenterLocation(this);
+        GuiUtil.lockWidthAndHeightAsMinimum(this, 300, 160);
     }
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
-        panel.setBorder(BorderFactory.createEmptyBorder(22, 10, 0, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(18, 10, 0, 10));
 
         final JScrollPane tableScroll = new JScrollPane(this.table);
         tableScroll.setPreferredSize(new Dimension(600, 180));
@@ -93,15 +94,19 @@ public class DuplicatesFinderDialog extends JDialog {
     }
     
     private void doDelete() {
+        // TODO if deleting one of two doubletten, remove that other from table afterwards (because its no doublette anymore!)
         final int selectedRow = this.table.getSelectedRow();
+        LOG.debug("Deleting duplicate; selectedRow="+selectedRow);
+        
         if(selectedRow == -1) {
             LOG.debug("ignoring delete button because no row was selected.");
             return;
         }
         final Movie duplicate = this.tableModel.getMovieAtRow(this.table.convertRowIndexToModel(selectedRow));
         
-        final boolean confirmed = GuiUtil.getYesNoAnswer(this, "Delete Duplicate Movie", "Do you really want to delete the\nduplicate Movie "+duplicate.getTitle()+" (ID="+duplicate.getId()+")?");
+        final boolean confirmed = GuiUtil.getYesNoAnswer(this, "Delete Duplicate Movie", "Do you really want to delete the\nduplicate Movie '"+duplicate.getTitle()+"' (ID="+duplicate.getId()+")?");
         if(confirmed == false) {
+            LOG.debug("Deleting duplicate aborted by user.");
             return;
         }
         

@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
@@ -38,27 +39,41 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
         this.table.addKeyListener(this);
 
         for (JMenuItem item : popupItemsSingle) {
-            item.addActionListener(this);
-//            item.addMouseListener(this);
-            this.popupSingle.add(item);
+            if(item == null) {
+                this.popupSingle.addSeparator();
+            } else {
+                item.addActionListener(this);
+    //            item.addMouseListener(this);
+                this.popupSingle.add(item);
+            }
         }
         
         if(popupItemsMultiple != null) {
             for (JMenuItem item : popupItemsMultiple) {
-                item.addActionListener(this);
-//                item.addMouseListener(this);
-                this.popupMultiple.add(item);
+                if(item == null) {
+                    this.popupMultiple.addSeparator();
+                } else {
+                    item.addActionListener(this);
+    //                item.addMouseListener(this);
+                    this.popupMultiple.add(item);
+                }
             }
         }
     }
 
+    public static void newJMenuItem(List<JMenuItem> items, String label, String actionCommand) {
+        newJMenuItem(items, label, actionCommand, null);
+    }
     /**
      * utility method
      */
-    public static void newJMenuItem(List<JMenuItem> items, String label, String actionCommand) {
-        JMenuItem item = new JMenuItem(label);
+    public static void newJMenuItem(List<JMenuItem> items, String label, String actionCommand, Icon icon) {
+        JMenuItem item = (icon != null) ? new JMenuItem(label, icon) : new JMenuItem(label);
         item.setActionCommand(actionCommand);
         items.add(item);
+    }
+    public static void newJMenuSeparator(List<JMenuItem> items) {
+        items.add(null);
     }
     
     @Override

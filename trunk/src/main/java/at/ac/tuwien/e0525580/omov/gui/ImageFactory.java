@@ -67,4 +67,28 @@ public class ImageFactory {
         return this.getImage("splash_screen_logo.png");
     }
     
+    public ImageIcon getIcon(Icon16x16 iconEnum) {
+        return this.getImage("icons/" + iconEnum.fileName);
+    }
+
+
+    public enum Icon16x16 {
+        NEW_MOVIE("new_movie.png"),
+        HELP("help.png"),
+        VLC("vlc.png"),
+        PREFERENCES("preferences.png"),
+        INFORMATION("information.png"),
+        SCAN("scan.png"),
+        DELETE("delete.png"),
+        FETCH_METADATA("fetch_metadata.png"),
+        IMPORT("import.png"),
+        EXPORT("export.png"),
+        REVEAL_FINDER("reveal_finder.png");
+        
+        final String fileName;
+        private Icon16x16(String fileName) {
+            this.fileName = fileName;
+        }
+    }
+    
 }

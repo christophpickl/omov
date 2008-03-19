@@ -79,7 +79,7 @@ public final class FileUtil {
         }
     }
     
-    public static void copyDirectoryRecursive(final File sourceDir, final File targetSuperDir) throws BusinessException {
+    public static File copyDirectoryRecursive(final File sourceDir, final File targetSuperDir) throws BusinessException {
         LOG.debug("Copying directory recursive '"+sourceDir.getAbsolutePath()+"' to '"+targetSuperDir.getAbsolutePath()+"'.");
         
         if(sourceDir.exists() == false) {
@@ -98,6 +98,8 @@ public final class FileUtil {
                 copyDirectoryRecursive(subFile, targetDir);
             }
         }
+        
+        return targetDir;
     }
     
     private static final DecimalFormat FILE_SIZE_FORMAT = new DecimalFormat("0.0");

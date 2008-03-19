@@ -8,6 +8,8 @@ import javax.swing.JMenuItem;
 import org.apache.log4j.Logger;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
@@ -25,7 +27,7 @@ public class FinderReveal {
     
     public static void addRevealJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
         if(UserSniffer.isOS(OS.MAC) == true) {
-            BodyContext.newJMenuItem(menuItems, "Reveal in Finder", actionCommand);
+            BodyContext.newJMenuItem(menuItems, "Reveal in Finder", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
         }
     }
     

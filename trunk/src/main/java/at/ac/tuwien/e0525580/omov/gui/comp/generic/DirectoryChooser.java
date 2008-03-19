@@ -147,7 +147,8 @@ public class DirectoryChooser extends JPanel implements ActionListener{
     
     public static interface IDirectoryChooserListener {
         /**
-         * @param dir is never null!
+         * gets invoked if user has choosen directory and approved operation.
+         * @param dir is never null
          */
         void choosenDirectory(File dir);
     }

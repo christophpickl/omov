@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
+import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -108,6 +109,10 @@ public final class GuiUtil {
     public static void lockOriginalWidthAsMinimum(final Window window, int minimumHeight) {
         lockMinimumWindowSize(window, window.getSize().width, minimumHeight, true, true);
     }
+    
+    public static void lockWidthAndHeightAsMinimum(final Window window, int minimumWidth, int minimumHeight) {
+        lockMinimumWindowSize(window, minimumWidth, minimumHeight, true, true);
+    }
 
     /**
      * invoke me after you have invoked pack()
@@ -117,10 +122,13 @@ public final class GuiUtil {
         lockMinimumWindowSize(window, 0, window.getSize().height, false, true);
     }
     
-    public static JMenuItem createMenuItem(final JMenu menu, final String itemName, ActionListener listener) {
-        return createMenuItem(menu, itemName, listener, -1);
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener) {
+        return createMenuItem(menu, mnemonicChar, label, listener, -1, null);
     }
     
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode) {
+        return createMenuItem(menu, mnemonicChar, label, listener, keyCode, null);
+    }
     /**
      * creates a new <code>JMenuItem</code>, initializes it, adds it to the given menu and returns it
      * @param menu where item should be added
@@ -128,12 +136,12 @@ public final class GuiUtil {
      * @param keyCode numeric representation of key to set accelerator (ignored if keyCode == -1)
      * @return ready to use menuitem
      */
-    public static JMenuItem createMenuItem(final JMenu menu, final String label, ActionListener listener, final int keyCode) {
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode, final Icon icon) {
         LOG.debug("creating new menu item: label='"+label+"', listener='"+listener+"', keyCode='"+keyCode+"'");
         
-        JMenuItem item = new JMenuItem(label);
+        final JMenuItem item = (icon != null) ? new JMenuItem(label, icon) : new JMenuItem(label);
         if(listener != null) item.addActionListener(listener);
-        item.setMnemonic(item.getText().charAt(0));
+        item.setMnemonic(mnemonicChar);
 
         if (keyCode != -1) {
             int mask = InputEvent.CTRL_MASK;
@@ -189,6 +197,17 @@ public final class GuiUtil {
     
     public static boolean getYesNoAnswer(Component owner, String title, String message) {
         return JOptionPane.showConfirmDialog(owner, message, title, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+    }
+    
+    public static File getFile() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setMultiSelectionEnabled(false);
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            return chooser.getSelectedFile();
+        }
+        return null;
     }
     
     /**
