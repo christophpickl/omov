@@ -6,7 +6,7 @@ import java.awt.Dimension;
 public class Constants {
 
     public static final int VERSION_MAJOR = 0;
-    public static final int VERSION_MINOR = 1;
+    public static final int VERSION_MINOR = 2;
     public static final String VERSION_STRING = VERSION_MAJOR + "." + VERSION_MINOR;
     
 
