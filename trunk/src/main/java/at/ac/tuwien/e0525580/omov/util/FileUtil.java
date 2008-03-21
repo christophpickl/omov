@@ -1,11 +1,14 @@
 package at.ac.tuwien.e0525580.omov.util;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
+import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.Set;
 
@@ -47,35 +50,57 @@ public final class FileUtil {
         return null;
     }
     
-    public static void copyFile(final File source, final File target) throws BusinessException {
-        LOG.debug("Copying file '"+source.getAbsolutePath()+"' to '"+target.getAbsolutePath()+"'.");
+    /*
+    public static void copyFile(final File sourceFile, final File targetFile) throws BusinessException {
+        LOG.debug("Copying file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
         
-        if(source.exists() == false) {
-            throw new BusinessException("Could not copy sourcefile '"+source.getAbsolutePath()+"' because it does not exist!");
+        if(sourceFile.exists() == false) {
+            throw new BusinessException("Could not copy sourcefile '"+sourceFile.getAbsolutePath()+"' because it does not exist!");
         }
         
         InputStream input = null;
         OutputStream output = null;
         
-        if(target.exists() == true) {
-            LOG.info("Overwrting existing target file '"+target.getAbsolutePath()+"'.");
-            if(target.delete() == false) {
-                throw new BusinessException("Could not delete target file '"+target.getAbsolutePath()+"'!");
+        if(targetFile.exists() == true) {
+            LOG.info("Overwrting existing target file '"+targetFile.getAbsolutePath()+"'.");
+            if(targetFile.delete() == false) {
+                throw new BusinessException("Could not delete target file '"+targetFile.getAbsolutePath()+"'!");
             }
         }
         try {
-            input = new FileInputStream(source);
-            output = new FileOutputStream(target);
+            input = new FileInputStream(sourceFile);
+            output = new FileOutputStream(targetFile);
             
             byte[] bytes = new byte[1024];
             while(input.read(bytes) >= 0) {
                 output.write(bytes);
             }
         } catch(IOException e) {
-            throw new BusinessException("Could not copy file from '"+source.getAbsolutePath()+"' to '"+target.getAbsolutePath()+"'!", e);
+            throw new BusinessException("Could not copy file from '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'!", e);
         } finally {
             try { if(input != null) input.close(); } catch(IOException e) { LOG.error("Could not close stream!", e);}
             try { if(output != null) output.close(); } catch(IOException e) { LOG.error("Could not close stream!", e);}
+        }
+    }
+    */
+    
+    /**
+     * @see {@link http://www.rgagnon.com/javadetails/java-0064.html}
+     */
+    public static void copyFile(File sourceFile, File targetFile) throws BusinessException {
+        LOG.debug("Copying file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
+        FileChannel inChannel = null;
+        FileChannel outChannel = null;
+        try {
+            inChannel = new FileInputStream(sourceFile).getChannel();
+            outChannel = new FileOutputStream(targetFile).getChannel();
+            inChannel.transferTo(0, inChannel.size(), outChannel);
+            
+        } catch (IOException e) {
+            throw new BusinessException("Could not copy file from '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'!", e);
+        } finally {
+            try { if(inChannel != null) inChannel.close(); } catch(IOException e) { LOG.error("Could not close input stream!", e);}
+            try { if(outChannel != null) outChannel.close(); } catch(IOException e) { LOG.error("Could not close output stream!", e);}
         }
     }
     
@@ -103,6 +128,9 @@ public final class FileUtil {
     }
     
     private static final DecimalFormat FILE_SIZE_FORMAT = new DecimalFormat("0.0");
+    /**
+     * @return something like "13.3 KB" or "3.1 GB"
+     */
     public static String formatFileSize(final long inKiloByte) {
 //        if(inByte < 1024) {
 //            return FILE_SIZE_FORMAT.format(inByte) + "B"; 
@@ -190,6 +218,44 @@ public final class FileUtil {
 
     public static boolean isHiddenFile(File file) {
         return HIDDEN_FILE_NAMES.contains(file.getName());
+    }
+    
+//    public static String getFileContents(final File sourceFile, int initialCapacityOfStringBuilder) throws BusinessException {
+//        final StringBuilder sb = new StringBuilder(initialCapacityOfStringBuilder);
+//        BufferedReader reader = null;
+//        try {
+//            reader = new BufferedReader(new FileReader(sourceFile));
+//            String line = null;
+//            while ( (line = reader.readLine()) != null) {
+//                sb.append(line).append("\n");
+//            }
+//            
+//            return sb.toString();
+//        } catch (IOException e) {
+//            throw new BusinessException("Could not get contents of file '"+sourceFile.getAbsolutePath()+"'!", e);
+//        } finally {
+//            try { if(reader != null) reader.close(); } catch(IOException e) { LOG.error("Could not close input stream!", e);}
+//        }
+//    }
+    
+    public static String getFileContentsFromJar(final String jarFile, int initialCapacityOfStringBuilder) throws BusinessException {
+        final StringBuilder sb = new StringBuilder(initialCapacityOfStringBuilder);
+        InputStream input = null;
+        BufferedReader reader = null;
+        try {
+            input = FileUtil.class.getResourceAsStream(jarFile);
+            reader = new BufferedReader(new InputStreamReader(input));
+            String line = null;
+            while ( (line = reader.readLine()) != null) {
+                sb.append(line).append("\n");
+            }
+            
+            return sb.toString();
+        } catch (IOException e) {
+            throw new BusinessException("Could not get contents of resource '"+jarFile+"'!", e);
+        } finally {
+            try { if(reader != null) reader.close(); } catch(IOException e) { LOG.error("Could not close input stream!", e);}
+        }
     }
 }
 
