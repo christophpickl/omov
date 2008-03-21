@@ -282,7 +282,7 @@ public final class GuiUtil {
      * should be used if exceptions was thrown, which forces an application shutdown.
      * use it to surround user invoked methods (within actionPerformed & co).
      */
-    private static void handleFatalException(Exception e) {
+    private static void handleFatalException(Throwable e) {
         e.printStackTrace();
         LOG.error("Application error! Shutdown...", e);
         GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
@@ -301,6 +301,8 @@ public final class GuiUtil {
         public void doAction() {
             try {
                 this._action();
+            } catch(NoClassDefFoundError e) {
+                GuiUtil.handleFatalException(e);
             } catch(Exception e) {
                 GuiUtil.handleFatalException(e);
             }
