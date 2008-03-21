@@ -28,15 +28,27 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.ImageUtil;
 
-public class ExporterHtml {
+public class ExporterHtml implements IExporterHtml {
 
     private static final Log LOG = LogFactory.getLog(ExporterHtml.class);
 
     /** used within html code; e.g.: "Monday, 11 February 2008 - 23:53:59" */
     private static final SimpleDateFormat CURRENT_DATE_FORMAT = new SimpleDateFormat("EEEE, dd MMMM yyyy - HH:mm:ss");
+    private static final String COVERS_FOLDER_NAME = "covers";
+    
+    /**
+     * @see {@link http://www.walterzorn.com/tooltip/tooltip_e.htm}
+     */
+    private static String wzTooltipJsContentCache = null;
+    
+    private static final int COVER_THUMBNAIL_IMAGE_WIDTH = 40;
+    private static final int COVER_THUMBNAIL_IMAGE_HEIGHT = 40;
     
     private final List<HtmlColumn> columns;
+    private String targetFilePath = null;
 
+    
+    
     public static void main(String[] args) throws BusinessException {
 //        List<Movie> movies = new LinkedList<Movie>();
 //        movies.add(Movie.getDummy());
@@ -82,7 +94,7 @@ public class ExporterHtml {
     private static File[] copyCoverFiles(List<Movie> movies, File targetFile) throws BusinessException {
         final File targetDirectory = getAvailableTargetDirectory(targetFile);
         LOG.debug("Copying cover files to directory '"+targetDirectory.getAbsolutePath()+"'.");
-        final File targetCoverDirectory = new File(targetDirectory, "covers");
+        final File targetCoverDirectory = new File(targetDirectory, COVERS_FOLDER_NAME);
         if(targetCoverDirectory.mkdirs() == false) {
             throw new BusinessException("Could not create cover folder '"+targetCoverDirectory.getAbsolutePath()+"'!");
         }
@@ -90,23 +102,8 @@ public class ExporterHtml {
         final File coverFolder = Configuration.getInstance().getCoversFolder();
         for (Movie movie : movies) {
             if(movie.isCoverFileSet()) {
-                final File originalCoverFile = new File(coverFolder, movie.getCoverFile());
-                final File newCoverFile = new File(targetCoverDirectory, movie.getCoverFile());
-                final ImagePanel imagePanel = new ImagePanel(Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT);
-                final Image coverImage = ImageUtil.getResizedCoverImage(originalCoverFile, imagePanel, Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT);
-                final int w = coverImage.getWidth(null);
-                final int h = coverImage.getHeight(null);
-                
-                final BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-                final Graphics2D g2 = bi.createGraphics();
-                g2.drawImage(coverImage, 0, 0, null);
-                g2.dispose();
-                
-                try {
-                    ImageIO.write(bi, FileUtil.extractExtension(originalCoverFile), newCoverFile);
-                } catch (Exception e) {
-                    throw new BusinessException("Could not save coverFile '"+originalCoverFile.getAbsolutePath()+"' to '"+newCoverFile.getAbsolutePath()+"'!", e);
-                }
+                copyCoverFile(movie, coverFolder, targetCoverDirectory, true);
+                copyCoverFile(movie, coverFolder, targetCoverDirectory, false);
                 
 //                FileUtil.copyFile(new File(coverFolder, movie.getCoverFile()), new File(targetCoverDirectory, movie.getCoverFile()));
             }
@@ -114,6 +111,40 @@ public class ExporterHtml {
         
         targetFile = new File(targetDirectory, targetFile.getName());
         return new File[] {targetFile, targetDirectory};
+    }
+    
+    private static void copyCoverFile(Movie movie, File coverFolder, File targetCoverDirectory, boolean isThumbNail) throws BusinessException {
+        final int width;
+        final int height;
+        final String newCoverFileName;
+        if(isThumbNail) {
+            width = COVER_THUMBNAIL_IMAGE_WIDTH;
+            height = COVER_THUMBNAIL_IMAGE_HEIGHT;
+            newCoverFileName = "lil_" + movie.getCoverFile();
+        } else {
+            width = Constants.COVER_IMAGE_WIDTH;
+            height = Constants.COVER_IMAGE_HEIGHT;
+            newCoverFileName = "big_" + movie.getCoverFile();
+        }
+        final File originalCoverFile = new File(coverFolder, movie.getCoverFile());
+        final File newCoverFile = new File(targetCoverDirectory, newCoverFileName);
+        LOG.debug("Copying cover file '"+movie.getCoverFile()+"' to new location '"+newCoverFile.getAbsolutePath()+"' (isThumbNail="+isThumbNail+").");
+        
+        final ImagePanel imagePanel = new ImagePanel(width, height);
+        final Image coverImage = ImageUtil.getResizedCoverImage(originalCoverFile, imagePanel, width, height);
+        final int w = coverImage.getWidth(null);
+        final int h = coverImage.getHeight(null);
+        
+        final BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        final Graphics2D g2 = bi.createGraphics();
+        g2.drawImage(coverImage, 0, 0, null);
+        g2.dispose();
+        
+        try {
+            ImageIO.write(bi, FileUtil.extractExtension(originalCoverFile), newCoverFile);
+        } catch (Exception e) {
+            throw new BusinessException("Could not save coverFile '"+originalCoverFile.getAbsolutePath()+"' to '"+newCoverFile.getAbsolutePath()+"'!", e);
+        }
     }
     
     private static File getAvailableTargetDirectory(final File targetFile) {
@@ -136,12 +167,32 @@ public class ExporterHtml {
         final File parent = targetFile.getParentFile();
         File dir = new File(parent, name);
         
-        int i = 2; // start counting with 2 if folder with that name (==filename) already exists
+        int i = 1; // start counting with 2 if folder with that name (==filename) already exists
         while(dir.exists() == true) {
-            dir = new File(parent, name + "_" + i);
+            dir = new File(parent, name + "-" + i);
+            i++;
         }
         LOG.debug("Returning getAvailableTargetDirectory(targetFile="+targetFile.getAbsolutePath()+"): '"+dir.getAbsolutePath()+"'");
         return dir;
+    }
+    
+    public String getTargetFilePath() {
+        return this.targetFilePath;
+    }
+    
+    private static String getContentsOfWzTooltipJs() throws BusinessException {
+        if(wzTooltipJsContentCache == null) {
+            LOG.debug("initializing wzTooltipJsContentCache.");
+            
+            final StringBuilder sb = new StringBuilder(35043 + 50);
+            sb.append("\n\n<!-- BEGIN OF wz_tooltip.js -->\n\n\n");
+            sb.append("<script type='text/javascript'>\n");
+            sb.append(FileUtil.getFileContentsFromJar("/wz_tooltip.js", 35043));
+            sb.append("</script>\n");
+            sb.append("\n\n<!-- END OF wz_tooltip.js -->\n\n\n");
+            wzTooltipJsContentCache = sb.toString();
+        }
+        return wzTooltipJsContentCache;
     }
     
     public void process(List<Movie> movies, File target) throws BusinessException {
@@ -156,8 +207,18 @@ public class ExporterHtml {
                 final File[] targetFileAndTargetDir = copyCoverFiles(movies, target);
                 LOG.info("Resetting target file to '"+target.getAbsolutePath()+"'.");
                 target = targetFileAndTargetDir[0];
-                createdDir = targetFileAndTargetDir[1];
+                createdDir = targetFileAndTargetDir[1]; // e.g.: "/Users/foobar/UserEnteredName/
+                
+                // DO NOT copy the .js file but insert its contents directly into generated html page (reason: folder is not always available -if not exporting covers- and therefore js has to be placed directly inside)
+//                try {
+//                    final String urlPath = ExporterHtml.class.getResource("/wz_tooltip.js").getPath();
+//                    final File targetJavascriptFile = new File(createdDir.getAbsolutePath() + File.separator + COVERS_FOLDER_NAME, "wz_tooltip.js");
+//                    FileUtil.copyFile(new File(urlPath), targetJavascriptFile);
+//                } catch (URISyntaxException e) {
+//                    throw new BusinessException("Could not get wz_tooltip.js file from resources!", e);
+//                }
             }
+            this.targetFilePath = target.getAbsolutePath();
             
             final String currentDate = CURRENT_DATE_FORMAT.format(new Date());
             
@@ -168,16 +229,22 @@ public class ExporterHtml {
                 writer.write(
                         "<html>\n" +
                         "<head>\n" +
-                        "<title>Movies from "+Configuration.getInstance().getUsername()+"</title>\n");
+                        "<title>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</title>\n");
                 
                 writer.write(getHeadContent());
-                
                 
                 writer.write(
                         "</head>\n" +
                         "\n" +
-                        "<body>\n" +
-                        "<h1>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</h1>\n" +
+                        "<body>\n");
+                
+//                if(coversEnabled == true) {
+//                    writer.write("<script type='text/javascript' src='"+COVERS_FOLDER_NAME+"/wz_tooltip.js'></script>");
+//                }
+                writer.write(getContentsOfWzTooltipJs());
+                
+                writer.write(
+                        "<h1>Movies from "+Configuration.getInstance().getUsername()+"</h1>\n" +
                         "<div id='date'>"+currentDate+"</div>\n" +
                         "\n" +
                         "<form id='data_form'>\n" +
@@ -186,7 +253,7 @@ public class ExporterHtml {
                            "   <colgroup>\n");
             
                 for (HtmlColumn column : this.columns) {
-                    writer.write("       <col width='"+column.getWidth()+"' valign='middle' />\n");
+                    writer.write("       <col width='"+column.getWidth()+"' valign='middle' /> <!-- "+column.getLabel()+" -->\n");
                 }
                 
                 writer.write(
@@ -229,7 +296,7 @@ public class ExporterHtml {
             
             
         } finally {
-            if(processFinishedSuccessfully == false) {
+            if(processFinishedSuccessfully == false && createdDir != null) {
                 LOG.info("Going to delete created directory '"+createdDir.getAbsolutePath()+"' because exporting html failed.");
                 try {
                     FileUtil.deleteDirectoryRecursive(createdDir);
@@ -238,6 +305,20 @@ public class ExporterHtml {
                 }
             }
         }
+    }
+    
+    private String getHtmlCodeForMovie(Movie movie, boolean isEven) {
+        final StringBuilder sb = new StringBuilder(100);
+
+        final String trClassName = "tr_" + (isEven ? "even" : "odd");
+        
+        sb.append("   <tr class='").append(trClassName).append("' onmouseover=\"javascript:overTr(this);\" onmouseout=\"javascript:outTr(this, '").append(trClassName).append("');\">\n");
+        for (HtmlColumn column : this.columns) {
+            sb.append("      <td class='td_").append(column.getStyleClass()).append("'>").append(column.getValue(movie, this)).append("</td>\n");
+        }
+        sb.append("   </tr>\n");
+        
+        return sb.toString();
     }
     
     /**
@@ -331,17 +412,18 @@ public class ExporterHtml {
         ".tr_even, .tr_odd {\n" +
         "   height:20px;\n" +
         "}\n" +
-        ".td_id {\n" +
-        "   text-align:center;\n" +
-        "}\n" +
-        ".td_id, .td_cover, .td_title, .td_genre, .td_actors, .td_language, .td_rating {\n" +
+        ".td_id, .td_cover, .td_title, .td_genre, .td_actors, .td_language, .td_rating,\n" +
+        ".td_style, .td_director, .td_year, .td_quality, .td_file_size, .td_format, .td_duration, .td_resolution, .td_subtitles {\n" +
         "   border-bottom:1px solid #999999;\n" +
         "   empty-cells:show;\n" +
         "   padding:6px 0px 6px 0px;\n" +
         "   padding-left:6px;\n" +
         "   padding-right:6px;\n" +
         "}\n" +
-        ".td_rating {\n" +
+        ".td_id {\n" +
+        "   text-align:center;\n" +
+        "}\n" +
+        ".td_rating, .td_duration, .td_file_size, .td_resolution, .td_year {\n" +
         "   text-align:right;\n" +
         "}\n" +
         "#outputIds {\n" +
@@ -352,7 +434,7 @@ public class ExporterHtml {
         "   text-align:center;\n" +
         "}\n" +
         "#btnGenerate {\n" +
-        "   \n" +
+        "   margin-top:10px;\n" +
         "}\n" +
         "#tbl_data {\n" +
         "   width:100%;\n" +
@@ -361,7 +443,7 @@ public class ExporterHtml {
         "}\n" +
         ".th {\n" +
         "   border-bottom:1px solid #999999;\n" +
-        "   padding:6px 0px 6px 0px;\n" +
+        "   padding:6px 10px 6px 10px;\n" +
         "}\n" +
         ".title_link {\n" +
         "   text-decoration:none;\n" +
@@ -390,21 +472,19 @@ public class ExporterHtml {
         "}\n" +
         "</style>\n";
     }
-    
-    private String getHtmlCodeForMovie(Movie movie, boolean isEven) {
-        final StringBuilder sb = new StringBuilder();
 
-        final String trClassName = "tr_" + (isEven ? "even" : "odd");
-        
-        sb.append("   <tr class='" + trClassName+ "' onmouseover=\"javascript:overTr(this);\" onmouseout=\"javascript:outTr(this, '"+trClassName+"');\">");
-        for (HtmlColumn column : this.columns) {
-            sb.append("<td class='td_"+column.getStyleClass()+"'>");
-            sb.append(column.getValue(movie));
-            sb.append("</td>");
+
+    private File coversFolderCache = null;
+    /**
+     * Interface method IExporterHtml for HtmlColumn class.
+     */
+    public File getCoversFolder() {
+        if(this.coversFolderCache == null) {
+            this.coversFolderCache = new File(new File(this.targetFilePath).getParent(), COVERS_FOLDER_NAME);
+            assert(this.coversFolderCache.exists());
         }
-        sb.append("   </tr>\n");
         
-        return sb.toString();
+        return this.coversFolderCache;
     }
     
 

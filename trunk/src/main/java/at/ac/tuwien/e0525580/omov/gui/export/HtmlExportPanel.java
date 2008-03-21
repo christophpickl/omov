@@ -12,10 +12,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.LabeledComponent;
 import at.ac.tuwien.e0525580.omov.tools.export.HtmlColumn;
-import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 class HtmlExportPanel extends JPanel {
 
@@ -47,7 +47,10 @@ class HtmlExportPanel extends JPanel {
         this.add(this.getCoversPanel(), c);
 
         c.gridx = 1;
-        this.add(new LabeledComponent(GuiUtil.wrapScroll(this.htmlColumnsList, 80, 73), "Columns"), c);
+        this.htmlColumnsList.setVisibleRowCount((int) Math.floor(HtmlColumn.getAllColumns().size() / 2.0));
+        final JScrollPane scrollPane = new JScrollPane(this.htmlColumnsList);
+//        scrollPane.setPreferredSize(new Dimension(width, height));
+        this.add(new LabeledComponent(scrollPane, "Columns"), c);
     }
 
     private JPanel getCoversPanel() {
@@ -74,7 +77,6 @@ class HtmlExportPanel extends JPanel {
     }
     
     List<HtmlColumn> getHtmlColumns() {
-
         final int[] indices = this.htmlColumnsList.getSelectedIndices();
         final List<HtmlColumn> columns = new ArrayList<HtmlColumn>(indices.length);
         

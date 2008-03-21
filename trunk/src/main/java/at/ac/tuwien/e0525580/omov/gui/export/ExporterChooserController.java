@@ -35,18 +35,20 @@ public class ExporterChooserController {
     public void doExportHtml(List<HtmlColumn> columns) {
         this.format = "HTML";
         
-        final File targetFile = this.getTargetFile("html");
+        final boolean coversEnabled = columns.contains(HtmlColumn.COLUMN_COVER);
+        final File targetFile = this.getTargetFile("html", !coversEnabled); // if covers enabled -> disable file existence check (it would check for file itself, and not necessary directory)
         if(targetFile == null) return;
         
+        final ExporterHtml exporter = new ExporterHtml(columns);
         try {
             LOG.info("Exporting "+format+"-Report to '"+targetFile.getAbsolutePath()+"'.");
-            List<Movie> movies = DAO.getMoviesSorted();
-            ExporterHtml exporter = new ExporterHtml(columns);
+            final List<Movie> movies = DAO.getMoviesSorted();
             exporter.process(movies, targetFile);
+            GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+exporter.getTargetFilePath());
         } catch (BusinessException e) {
-            JOptionPane.showMessageDialog(this.dialog, "Generating report failed!\n"+e.getMessage(), "Export "+format, JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this.dialog, "Exporting Movies failed! Error message is:\n"+e.getMessage(), "Export "+format, JOptionPane.ERROR_MESSAGE);
+            LOG.error("Could not export movies!", e);
         }
-        GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+targetFile.getAbsolutePath()+".");
     }
     
     public void doExportXml() {
@@ -65,8 +67,11 @@ public class ExporterChooserController {
         }
         GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+targetFile.getAbsolutePath()+"."); 
     }
-    
+
     private File getTargetFile(final String desiredExtension) {
+        return this.getTargetFile(desiredExtension, true);
+    }
+    private File getTargetFile(final String desiredExtension, final boolean checkForFileExistence) {
         JFileChooser chooser = new JFileChooser(Configuration.getInstance().getRecentExportDestination());
         chooser.setDialogTitle("Target "+this.format+"-File");
         
@@ -81,8 +86,8 @@ public class ExporterChooserController {
         }
         Configuration.getInstance().setRecentExportDestination(selectedFile.getParent());
         
-        if(selectedFile.exists()) {
-            int confirm = JOptionPane.showConfirmDialog(this.dialog, "Overwrite existing file?", "Export "+format, JOptionPane.YES_NO_OPTION);
+        if(checkForFileExistence == true && selectedFile.exists() == true) {
+            int confirm = JOptionPane.showConfirmDialog(this.dialog, "Overwrite existing file '"+selectedFile.getName()+"'?", "Export "+format, JOptionPane.YES_NO_OPTION);
             if(confirm != JOptionPane.YES_OPTION) {
                 return null;
             }

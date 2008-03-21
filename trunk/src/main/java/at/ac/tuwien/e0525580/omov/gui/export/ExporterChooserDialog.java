@@ -21,6 +21,7 @@ import javax.swing.border.CompoundBorder;
 
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class ExporterChooserDialog extends JDialog {
 
@@ -134,10 +135,14 @@ public class ExporterChooserDialog extends JDialog {
         this.getRootPane().setDefaultButton(btnConfirm);
 
         btnConfirm.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) {
-            doConfirm();
+            new GuiAction() { protected void _action() {
+                doConfirm();
+            }}.doAction();
         }});
         btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) {
-            doCancel();
+            new GuiAction() { protected void _action() {
+                doCancel();
+            }}.doAction();
         }});
         
         final JPanel panel = new JPanel();
