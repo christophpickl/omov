@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -256,6 +255,18 @@ public final class FileUtil {
         } finally {
             try { if(reader != null) reader.close(); } catch(IOException e) { LOG.error("Could not close input stream!", e);}
         }
+    }
+    
+    public static String extractLastFolderName(final String path) {
+        final int index = path.lastIndexOf(File.separator);
+        if(index == -1) {
+            LOG.warn("Could not get last folder name of path '"+path+"'!");
+            return null;
+        }
+        return path.substring(index + 1);
+    }
+    public static void main(String[] args) {
+        System.out.println(extractLastFolderName("/folder3/folder2/folder1"));
     }
 }
 
