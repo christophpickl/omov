@@ -19,7 +19,7 @@ public class Configuration {
     private final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
     
     private static final String MOVIE_COLUMN_PREFIX = "MovieColumn-";
-    
+    // FIXME private static final int DATA_VERSION = 1; // use this as a flag, indicating something has changed -> clear existing preferences and popup setup wizard
     private enum PrefKey {
         IS_CONFIGURED,
         
