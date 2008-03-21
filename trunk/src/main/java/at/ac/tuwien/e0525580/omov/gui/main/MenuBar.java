@@ -38,6 +38,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     // Movie
     private static final String CMD_NEW_MOVIE = "New Movie";
     private static final String CMD_MOVIE_INFO = "Get Info";
+    // TODO only osx feature: private static final String CMD_MOVIE_PLAY_VLC = "Play in VLC";
     private static final String CMD_FETCH_METADATA = "Fetch Metadata";
     
     // Window
