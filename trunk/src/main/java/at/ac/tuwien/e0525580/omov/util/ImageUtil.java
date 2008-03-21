@@ -13,6 +13,8 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
+
 public class ImageUtil {
 
     private static final Logger LOG = Logger.getLogger(ImageUtil.class);
@@ -62,6 +64,24 @@ public class ImageUtil {
         return new WidthHeight(newWidth, newHeight);
     }
     
+    public static WidthHeight recalcMaxWidthHeight(final File coverFile, final int maxWidth, final int maxHeight) {
+        LOG.debug("Recalcing width/height for cover file at '"+coverFile.getAbsolutePath()+"'.");
+        final ImagePanel imagePanel = new ImagePanel(maxWidth, maxHeight);
+        final MediaTracker media = new MediaTracker(imagePanel);
+        final Image source = Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath());
+        media.addImage(source,0);
+        
+        try {
+            media.waitForID(0);
+            final int oldWidth = source.getWidth(imagePanel);
+            final int oldHeight = source.getHeight(imagePanel);
+            
+            return recalcMaxWidthHeight(oldWidth, oldHeight, maxWidth, maxHeight);
+        } catch(InterruptedException e) {
+            LOG.error("interrupted while creating resized cover image!", e);
+            throw new RuntimeException("interrupted while creating resized cover image!");
+        }
+    }
     
     public static Image getResizedCoverImage(final File coverFile, final Component component, final int maxWidth, final int maxHeight) {
         LOG.info("resizing cover image '" + coverFile.getAbsolutePath() + "' to maxWidth '"+maxWidth+"' and maxHeight "+maxHeight+".");
