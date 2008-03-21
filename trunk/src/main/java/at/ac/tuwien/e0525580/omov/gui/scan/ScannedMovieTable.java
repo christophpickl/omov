@@ -1,5 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.scan;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
 import org.apache.commons.logging.Log;
@@ -40,12 +43,32 @@ class ScannedMovieTable extends JTable {
         DefaultCellEditor cbEditor = new DefaultCellEditor(checkbox);
         this.getColumnModel().getColumn(0).setCellEditor(cbEditor);
         
+        for (int i = 0; i < this.getColumnCount(); i++) {
+            this.getColumnModel().getColumn(i).setCellRenderer(new MyRenderer());
+        }
         
         this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         // this.setPreferredScrollableViewportSize(table.getPreferredSize());
 //        this.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(new JCheckBox())); // ???
 //        model.adjustColumns(this.getColumnModel());
+    }
+}
+
+class MyRenderer extends DefaultTableCellRenderer {
+    private static final long serialVersionUID = -8927947683805849617L;
+    
+    public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int colIndex) {
+        final Component superComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, colIndex);
+        
+        final ScannedMovieTableModel model = (ScannedMovieTableModel) table.getModel();
+        final ScannedMovie movie = model.getMovieAt(row);
+        
+        if(movie.getFolderPath().length() > 0 && movie.getTitle().equalsIgnoreCase(FileUtil.extractLastFolderName(movie.getFolderPath())) == false) {
+             superComponent.setBackground(Color.ORANGE); // display row in different color if fetched title != movie folder name
+        }
+        
+        return superComponent;
     }
 }
 
@@ -96,7 +119,7 @@ class ScannedMovieTableModel extends AbstractTableModel {
             public Class<?> getValueClass() {  return String.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.FOLDER_PATH.label(), 800, 120, 30) {
-            public Object getValue(ScannedMovie movie) {  return movie.getFolderPath();  }
+            public Object getValue(ScannedMovie movie) {  return FileUtil.extractLastFolderName(movie.getFolderPath());  }
             public Class<?> getValueClass() {  return String.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.FILES.label(), 800, 120, 30) {
@@ -240,12 +263,7 @@ class ScannedMovieTableModel extends AbstractTableModel {
     public void setData(List<ScannedMovie> movies) {
         LOG.info("setting data to movies.size="+movies.size());
         
-        this.movies = new ArrayList<ScannedMovie>(movies.size());
-        for (int i = 0; i < movies.size(); i++) {
-//            this.movies.add(SelectableMovie.byMovie(movies.get(i), true));
-            this.movies.add(movies.get(i));
-        }
-        
+        this.movies = new ArrayList<ScannedMovie>(movies);
         this.fireTableDataChanged();
     }
     public int getColumnCount() {
