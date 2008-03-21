@@ -19,7 +19,7 @@
 	<groupId>at.ac.tuwien.e0525580.omov</groupId>
 	<artifactId>OurMovies</artifactId>
 	<packaging>jar</packaging>
-	<version>0.1-alpha</version>
+	<version>0.2-alpha</version>
 	<name>OurMovies</name>
 	<url>http://maven.apache.org</url>
 
