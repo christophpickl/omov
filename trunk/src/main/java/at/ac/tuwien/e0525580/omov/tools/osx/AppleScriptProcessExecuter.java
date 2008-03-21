@@ -2,47 +2,59 @@ package at.ac.tuwien.e0525580.omov.tools.osx;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
+/**
+ * @deprecated use AppleScriptNativeExecuter instead
+ */
 class AppleScriptProcessExecuter {
 
     private static final Logger LOG = Logger.getLogger(AppleScriptProcessExecuter.class);
-
-//    private static final String SCRIPT =
-//        "tell application \"Finder\"\n" +
-//        "set t to startup disk of application \"Finder\" as string\n" +
-//        "end tell\n";
     
-//    private static void prepareScript(List<String> parts, String script) {
-//        String[] lines = script.split("\\n");
-//        StringBuilder sb = new StringBuilder();
-//        for (int i = 0; i < lines.length; i++) {
-//            String line = "\"" + lines[i].replaceAll("\"", "\\\\\"") + "\"";
-//            sb.append(" -e " + line);
-//        }
-//        parts.add(sb.toString());
-//    }
+    private static final Map<String, String> SCRIPT_FILENAME_2_FULL_URI = new HashMap<String, String>();
+    
+    private static String getAppleScriptPath(final String scriptFileName) {
+        final String cachedValue = SCRIPT_FILENAME_2_FULL_URI.get(scriptFileName);
+        if(cachedValue != null) {
+            return cachedValue;
+        }
+        
+        final String resourceName = "/applescript/" + scriptFileName;
+        LOG.debug("Loading script as resource '"+resourceName+"'.");
+        final URL imageUrl = AppleScriptProcessExecuter.class.getResource(resourceName);
+        if (imageUrl == null) {
+            throw new FatalException("Could not load scriptfile (scriptFileName='" + scriptFileName + "')!");
+        }
+        
+        final String fullUri = imageUrl.getFile();
+        SCRIPT_FILENAME_2_FULL_URI.put(scriptFileName, fullUri);
+        
+        return fullUri;
+        
+    }
     
     private static String executeScript(String scriptFileName) throws BusinessException {
         assert(UserSniffer.isOS(OS.MAC));
         
         LOG.info("Executing apple script '"+scriptFileName+"'...");
         try {
-            List<String> cmd = new ArrayList<String>(); 
+            final List<String> cmd = new ArrayList<String>();
             cmd.add("/usr/bin/osascript"); 
+            cmd.add(getAppleScriptPath(scriptFileName)); 
+            final String[] cmdArray = (String[]) cmd.toArray(new String[0]);
 
-            cmd.add("applescript/"+scriptFileName); // FIXME should also be packaged into the jar! or BETTER: avoid necessity of external script file! 
-//            prepareScript(cmd, script);
-            String[] cmdArray = (String[]) cmd.toArray(new String[0]);
-
-            Process result = Runtime.getRuntime().exec(cmdArray);
+            final Process result = Runtime.getRuntime().exec(cmdArray);
             result.waitFor();
     
             String line;
@@ -67,8 +79,13 @@ class AppleScriptProcessExecuter {
         }
     }
     
+    private static String cachedStartupDiskName = null;
     public static String getStartupDiskName() throws BusinessException {
-        return executeScript("getStartupDiskName.scpt").trim();
+        if(cachedStartupDiskName == null) {
+            cachedStartupDiskName = executeScript("getStartupDiskName.scpt").trim();
+        }
+        
+        return cachedStartupDiskName;
     }
     
     
