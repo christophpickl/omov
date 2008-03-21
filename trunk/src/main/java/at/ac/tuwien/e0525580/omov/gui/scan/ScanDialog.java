@@ -29,6 +29,8 @@ import javax.swing.JTable;
 import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
@@ -80,7 +82,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
         
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA);
+        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
         
         this.getRootPane().setDefaultButton(this.btnScan);
