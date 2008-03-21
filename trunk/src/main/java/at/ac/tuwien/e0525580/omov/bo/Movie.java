@@ -51,7 +51,8 @@ public class Movie implements Serializable {
     private static final long serialVersionUID = -1005281123869400266L;
     private static final Log LOG = LogFactory.getLog(Movie.class);
 
-    public static final int DATA_VERSION = 1;
+    public static final int DATA_VERSION = 1; // FIXME check data version at startup (before create some file indicating current used version; if user downloads new omov version and wants to use old database (old movie data version) show error! (prompt to delete database file or use older app version)
+    
     public static final SimpleDateFormat DATE_ADDED_FORMAT_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_ADDED_FORMAT_SHORT = new SimpleDateFormat("yyyy-MM-dd");
     
@@ -165,6 +166,7 @@ public class Movie implements Serializable {
     private final Resolution resolution;
     
     private final Set<String> subtitles;
+    private final String subtitlesString;
     
     // -----------------------------------------------
     
@@ -248,6 +250,8 @@ public class Movie implements Serializable {
         this.duration = duration;
         this.resolution = resolution;
         this.subtitles = subtitles;
+
+        this.subtitlesString = CollectionUtil.toString(this.subtitles);
     }
     
     public static MovieCreator create(int id) {
@@ -558,7 +562,10 @@ public class Movie implements Serializable {
     public long getFileSizeKb() {
         return this.fileSizeKb;
     }
-
+    
+    /**
+     * @return something like "13.3 KB" or "3.1 GB"
+     */
     public String getFileSizeFormatted() {
         return FileUtil.formatFileSize(this.getFileSizeKb());
     }
@@ -581,6 +588,10 @@ public class Movie implements Serializable {
 
     public Set<String> getSubtitles() {
         return this.subtitles;
+    }
+
+    public String getSubtitlesString() {
+        return this.subtitlesString;
     }
     
 }
