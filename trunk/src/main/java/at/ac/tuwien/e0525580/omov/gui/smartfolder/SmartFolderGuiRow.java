@@ -73,9 +73,8 @@ public class SmartFolderGuiRow  extends JPanel {
         this.btnAdd.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
             listener.doAddRow();
         }});
-        final SmartFolderGuiRow _this = this;
         this.btnDelete.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            listener.doDeleteRow(_this);
+            listener.doDeleteRow(SmartFolderGuiRow.this);
         }});
         
         this.add(this.btnAdd);
