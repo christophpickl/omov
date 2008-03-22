@@ -3,8 +3,6 @@ package at.ac.tuwien.e0525580.omov.gui.main;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -24,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.IPrevNextMovieProvider;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.brushed.BrushedMetalPanel;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.IMovieTableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
@@ -31,7 +30,7 @@ import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableX;
 import at.ac.tuwien.e0525580.omov.gui.smartfolder.SmartFolderSelectionPanel;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public class MainWindow extends JFrame implements IMovieTableContextMenuListener {
+public class MainWindow extends JFrame implements IMovieTableContextMenuListener, ITableSelectionListener {
 
     private static final long serialVersionUID = -1367955221953478216L;
     private static final Log LOG = LogFactory.getLog(MainWindow.class);
@@ -122,7 +121,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 int tableRow = moviesTable.getSelectedRow();
                 if (tableRow > -1) {
                     final int modelRow = moviesTable.getSelectedModelRow();
-                    selectedMovieChanged();
+//                    selectedMovieChanged();
                     
                     if (event.getClickCount() >= 2) {
                         LOG.debug("Double clicked on table tableRow "+tableRow+" (modelRow "+modelRow+"); displaying editDialog.");
@@ -134,20 +133,26 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
             }
         });
         
-        this.moviesTable.addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent event) { }
-            public void keyReleased(KeyEvent event) {
-                final int code = event.getKeyCode();
-                if(code == KeyEvent.VK_UP || code == KeyEvent.VK_DOWN) {
-                    selectedMovieChanged();
-                }
-            }
-            public void keyTyped(KeyEvent event) { }
-        });
+        this.moviesTable.addTableSelectionListener(this);
+        
+//        this.moviesTable.addKeyListener(new KeyListener() {
+//            public void keyPressed(KeyEvent event) { }
+//            public void keyReleased(KeyEvent event) {
+//                final int code = event.getKeyCode();
+//                if(code == KeyEvent.VK_UP || code == KeyEvent.VK_DOWN) {
+//                    selectedMovieChanged();
+//                }
+//            }
+//            public void keyTyped(KeyEvent event) { }
+//        });
     }
-    
-    // TODO instead of KeyListener+MouseListener => add a TableSelectionListener on movie table! 
-    private void selectedMovieChanged() {
+
+    public void selectionEmptyChanged() {
+        this.selectedMovie = null;
+        this.movieDetailPanel.setMovie(null);
+    }
+
+    public void selectionSingleChanged(int rowIndex) {
         final Movie newSelectedMovie = this.moviesModel.getMovieAt(this.moviesTable.getSelectedModelRow());
         LOG.debug("Another movie selected: " + newSelectedMovie);
         
@@ -159,7 +164,16 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.selectedMovie = newSelectedMovie;
         this.movieDetailPanel.setMovie(newSelectedMovie);
     }
+
+    public void selectionMultipleChanged(int[] rowIndices) {
+        this.selectedMovie = null;
+        this.movieDetailPanel.setMovie(null);
+    }
     
+    
+    /**
+     * until now, will be also invoked if selectedRowCount == 0 || == 1
+     */
     public List<Movie> getSelectedMovies() {
         final int[] selectedRows = this.moviesTable.getSelectedRows();
         final List<Movie> selectedMovies = new ArrayList<Movie>(selectedRows.length);

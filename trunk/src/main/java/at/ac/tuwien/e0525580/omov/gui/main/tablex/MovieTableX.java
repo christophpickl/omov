@@ -3,12 +3,15 @@ package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JMenuItem;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 
@@ -23,6 +26,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel.MovieColumn;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
@@ -86,6 +90,21 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         
         // JXTable features END
         
+        this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if(event.getValueIsAdjusting() == true) {
+                    return;
+                }
+                final int selectedRows = MovieTableX.this.getSelectedRowCount();
+                if(selectedRows == 0) {
+                    MovieTableX.this.notifyChangedEmpty();
+                } else if(selectedRows == 1) {
+                    MovieTableX.this.notifyChangedSingle(MovieTableX.this.getSelectedRow());
+                } else { // selected rows > 1
+                    MovieTableX.this.notifyChangedMultiple(MovieTableX.this.getSelectedRows());
+                }
+            }
+        });
         
         this.initContextMenu();
     }
@@ -169,6 +188,33 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             this.contextMenuListener.doDeleteMovies(tableRowsSelected);
         } else {
             assert(false) : "Invalid menu item command '"+cmd+"'!";
+        }
+    }
+    
+    
+    
+    private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
+    public void addTableSelectionListener(ITableSelectionListener listener) {
+        LOG.info("adding selection listener: " + listener);
+        this.selectionListeners.add(listener);
+    }
+    public void removeTableSelectionListener(ITableSelectionListener listener) {
+        final boolean removed = this.selectionListeners.remove(listener);
+        LOG.info("removed selection listener (removed="+removed+"): " + listener);
+    }
+    private void notifyChangedEmpty() {
+        for (ITableSelectionListener listener : this.selectionListeners) {
+            listener.selectionEmptyChanged();
+        }
+    }
+    private void notifyChangedSingle(int row) {
+        for (ITableSelectionListener listener : this.selectionListeners) {
+            listener.selectionSingleChanged(row);
+        }
+    }
+    private void notifyChangedMultiple(int[] rows) {
+        for (ITableSelectionListener listener : this.selectionListeners) {
+            listener.selectionMultipleChanged(rows);
         }
     }
 }
