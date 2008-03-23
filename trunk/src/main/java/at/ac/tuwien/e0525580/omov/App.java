@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.apache.commons.logging.Log;
@@ -100,7 +101,12 @@ public class App {
             }
             
             splashScreen.setVisible(false);
-            mainWindow.setVisible(true);
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    mainWindow.setVisible(true);
+                }
+            });
+            
         } finally {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
         }
