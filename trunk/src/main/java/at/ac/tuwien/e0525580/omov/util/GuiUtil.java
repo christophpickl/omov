@@ -154,7 +154,9 @@ public final class GuiUtil {
             item.setAccelerator(KeyStroke.getKeyStroke(keyCode, mask));
         }
         
-        menu.add(item);
+        if(menu != null) {
+            menu.add(item);
+        }
         return item;
     }
     
