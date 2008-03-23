@@ -72,7 +72,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         
         GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, KeyEvent.VK_E, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
 //        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
-//        GuiUtil.createMenuItem(menu, CMD_SMART_COPY, this);
+        GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
         menu.addSeparator();
         GuiUtil.createMenuItem(menu, 'Q', CMD_QUIT, this, KeyEvent.VK_Q);
         
