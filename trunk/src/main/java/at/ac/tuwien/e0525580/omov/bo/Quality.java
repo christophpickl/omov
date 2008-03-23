@@ -5,13 +5,14 @@ import java.util.Comparator;
 import at.ac.tuwien.e0525580.omov.FatalException;
 
 
-public enum Quality {
+public final class Quality implements Comparable<Quality> {
+
+    public static final Quality UNRATED = new Quality(0, "Unrated");
+    public static final Quality UGLY    = new Quality(1, "Ugly");
+    public static final Quality NORMAL  = new Quality(2, "Normal");
+    public static final Quality GOOD    = new Quality(3, "Good");
+    public static final Quality BEST    = new Quality(4, "DVD Best");
     
-    UNRATED(0, "Unrated"),
-    UGLY(1, "Ugly"),
-    NORMAL(2, "Normal"),
-    GOOD(3, "Good"),
-    BEST(4, "DVD Best");
     
     private final int id;
     private final String label;
@@ -21,7 +22,7 @@ public enum Quality {
         this.label = label;
     }
     
-    public int id() {
+    public int getId() {
         return this.id;
     }
     
@@ -48,6 +49,10 @@ public enum Quality {
             return o1.id - o2.id;
         }
     };
+    
+    public String toString() {
+        return "Quality[id="+this.id+";label="+label+"]";
+    }
     /*
      * 
     
@@ -67,4 +72,8 @@ public enum Quality {
         return QUALITY_MAPPING.get(i);
     }
      */
+
+    public int compareTo(Quality that) {
+        return this.id - that.id;
+    }
 }
