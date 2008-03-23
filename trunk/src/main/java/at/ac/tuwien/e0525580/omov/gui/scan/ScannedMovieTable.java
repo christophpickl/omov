@@ -131,7 +131,7 @@ class ScannedMovieTableModel extends AbstractTableModel {
             public Class<?> getValueClass() {  return String.class;  }});
 
         columns.add(new ScannedMovieColumn(MovieField.FILE_SIZE_KB.label(), 60, 60, 60) {
-            public Object getValue(ScannedMovie movie) {  return FileUtil.formatFileSizeGb(movie.getFileSizeKb());  }
+            public Object getValue(ScannedMovie movie) {  return FileUtil.formatFileSize(movie.getFileSizeKb());  }
             public Class<?> getValueClass() {  return String.class;  }});
 
         // columns relevant to fetched metadata
