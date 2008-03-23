@@ -44,6 +44,6 @@ public class ResolutionPanel extends JPanel {
     }
     
     public Resolution getResolution() {
-        return new Resolution(inpWidth.getNumber(), inpHeight.getNumber());
+        return new Resolution((int) inpWidth.getNumber(), (int) inpHeight.getNumber());
     }
 }

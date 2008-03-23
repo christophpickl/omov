@@ -36,6 +36,6 @@ public class DurationPanel extends JPanel {
     }
     
     public Duration getDuration() {
-        return Duration.newByMinHour(this.inpMin.getNumber(), this.inpHours.getNumber());
+        return Duration.newByMinHour((int) this.inpMin.getNumber(), (int) this.inpHours.getNumber());
     }
 }
