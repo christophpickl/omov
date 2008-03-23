@@ -247,7 +247,7 @@ class MovieTabInfo extends AbstractMovieTab {
         return this.inpTitle.getText();
     }
     public int getYear() {
-        return this.inpYear.getNumber();
+        return (int) this.inpYear.getNumber();
     }
     public Quality getQuality() {
         return this.inpQuality.getQuality();
