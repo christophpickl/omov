@@ -36,10 +36,10 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
         this.setResizable(false);
         
         LOG.debug("Starting new thread to find duplicates...");
-        final IDuplicatesFinderListener _this = this;
+        
         new Thread(new Runnable() {
             public void run() {
-                finder.findDuplicates(_this);
+                finder.findDuplicates(DuplicatesFinderProgressDialog.this);
             }
         }) {}.start();
         
