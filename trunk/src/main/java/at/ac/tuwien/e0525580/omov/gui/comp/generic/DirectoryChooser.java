@@ -30,6 +30,9 @@ public class DirectoryChooser extends JPanel implements ActionListener{
 
     private final String dialogTitle;
     
+    private final JButton button;
+    
+    
     public static enum ButtonPosition {
         LEFT, RIGHT;
     }
@@ -56,14 +59,14 @@ public class DirectoryChooser extends JPanel implements ActionListener{
         this.directoryPath.setEditable(false);
         this.dialogTitle = dialogTitle;
         
-        final JButton button = new JButton(buttonLabel);
-        button.setOpaque(false);
-        button.addActionListener(this);
+        this.button = new JButton(buttonLabel);
+        this.button.setOpaque(false);
+        this.button.addActionListener(this);
         
         final JPanel panel = new JPanel(new BorderLayout(4, 0));
         panel.setOpaque(false);
         panel.add(this.directoryPath, position == ButtonPosition.LEFT ? BorderLayout.EAST : BorderLayout.WEST);
-        panel.add(button, position == ButtonPosition.LEFT ? BorderLayout.WEST : BorderLayout.EAST);
+        panel.add(this.button, position == ButtonPosition.LEFT ? BorderLayout.WEST : BorderLayout.EAST);
         this.add(panel);
     }
     
@@ -153,4 +156,7 @@ public class DirectoryChooser extends JPanel implements ActionListener{
         void choosenDirectory(File dir);
     }
     
+    public void setButtonEnabled(boolean enabled) {
+        this.button.setEnabled(enabled);
+    }
 }
