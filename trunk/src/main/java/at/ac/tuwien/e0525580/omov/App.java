@@ -23,19 +23,14 @@ CLI ARGs
 
 App FIXMES
 ==================================
-- den TEMP ordner regelmaessig leeren!
 - setup wizard gui ueberarbeiten
-- beim scannen: wenn ordnername (==titel) ist komplett anders als metadata fetched titel -> warnung irgendwie anzeigen 
 - *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
 
 TODOs
 ==================================
 - at startup check if folderImage and folderTemporary exists & if its writeable
-- SmartFolder fields vervollstaendigen
 - beim scannen (per rechtemaustaste) andere metadata-fetches available machen (nur der gefundene title; dann wird details erst fetched)
-- CODE: MovieTableModel und ScannedMovieTableModel haben gemeinsamkeiten (Columnszeugs, getColumnClass, getValueAt, getColumnName, ... prepareColumns()!)
-- should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked)
-- wenn in MovieTable cols vertauschen + dann andere Col sichtbar machen => Cols werden zurueck getauscht auf default auf einmal
+- should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
 - MultiColMultiRowTextField komponente schreiben; fuer MovieDetailPanel.genre/actors/... da eine zeile nicht reicht
 
 FEATURES
@@ -44,14 +39,10 @@ FEATURES
 - suggester auch fuer einzelne attribute in AddEditMovieDialog (zb: resolution; sonst noch was?)
 - in preferences FolderPath-Prefix Cut list erstellbar machen: zb eintragen "/Volumes/MEGADISK/Holy/"
 - other backgroundcolor in scanner table if successfully fetched metadata
-- display columnheader different, if sorted nach ihr (mit so dreieck wie gewohnt)
 - wenn kein movie selected => MenuBar/GetInfo (fetch metadata, ...) disablen
 - SearchField als SuggestionField machen (wo ueberall suggestions suchen? -> Title, Actor, Directory, ... Genre, ...)
-- import data (wenn XML exportiert, dieses wieder importieren) // was tun mit covers?
 - FileSystem check at startup (per preferences einschaltbar)
-- Tabellen ASC/DESC sortierbar machen
 - alles ESC enablen
-- MovieTable editable machen
 - beim export/smartCopy den user entscheiden lassen welche movies genommen werden (alle || nur selected; beim smartCopy + anhand von IDs generiert von HTML-Report)
 - wenn OS==MacOSX dann beim setup nicht nach tmp/cover-folder fragen, sondern in Contents/MacOS/Resources implizit anlegen
 
@@ -144,16 +135,16 @@ public class App {
     }
     
     private static void addShutdownHook() {
-        Runtime.getRuntime().addShutdownHook(new Thread() {
+        Runtime.getRuntime().addShutdownHook(new Thread("OmovShutdownHook") {
             public void run() {
+                LOG.info("Running shutdown hook.");
                 try {
-                    LOG.info("Running shutdown hook.");
-                    
                     final IDatabaseConnection connection = BeanFactory.getInstance().getDatabaseConnection();
                     if(connection.isConnected()) {
                         connection.close();
                     }
                 } catch(Exception e) {
+                    LOG.error("Could not close database connection!", e);
                     e.printStackTrace();
                 }
             }
