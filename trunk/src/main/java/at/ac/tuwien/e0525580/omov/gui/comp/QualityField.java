@@ -21,7 +21,7 @@ public class QualityField extends JComboBox {
                 return 5;
             }
         });
-        this.setSelectedIndex(initValue.id());
+        this.setSelectedIndex(initValue.getId());
     }
     
     public Quality getQuality() {
