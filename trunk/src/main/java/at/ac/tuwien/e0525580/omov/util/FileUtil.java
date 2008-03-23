@@ -86,7 +86,7 @@ public final class FileUtil {
     /**
      * @see {@link http://www.rgagnon.com/javadetails/java-0064.html}
      */
-    public static void copyFile(File sourceFile, File targetFile) throws BusinessException {
+    public static void copyFile(File sourceFile, File targetFile) throws BusinessException { // TODO use this method for small files; and maybe other method for bigger ones?! (-> Smartcopy)
         LOG.debug("Copying file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
         FileChannel inChannel = null;
         FileChannel outChannel = null;
