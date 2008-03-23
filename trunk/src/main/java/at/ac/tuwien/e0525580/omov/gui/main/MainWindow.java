@@ -28,7 +28,10 @@ import at.ac.tuwien.e0525580.omov.gui.main.tablex.IMovieTableContextMenuListener
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableX;
 import at.ac.tuwien.e0525580.omov.gui.smartfolder.SmartFolderSelectionPanel;
+import at.ac.tuwien.e0525580.omov.tools.osx.OSXAdapter;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
 public class MainWindow extends JFrame implements IMovieTableContextMenuListener, ITableSelectionListener {
 
@@ -64,6 +67,9 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.setResizable(true);
         GuiUtil.setCenterLocation(this);
         GuiUtil.lockOriginalSizeAsMinimum(this);
+
+        // Set up our application to respond to the Mac OS X application menu
+        this.registerForMacOSXEvents();
     }
     
     
@@ -229,4 +235,70 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         };
     }
 
+
+    /**
+     * Generic registration with the Mac OS X application menu.
+     * Checks the platform, then attempts to register with the Apple EAWT.
+     * @see OSXAdapter.java to see how this is done without directly referencing any Apple APIs
+     */
+    public void registerForMacOSXEvents() {
+        if (UserSniffer.isOS(OS.MAC) == true) {
+            LOG.info("Registering for osx events.");
+            try {
+                // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
+                // use as delegates for various com.apple.eawt.ApplicationListener methods
+                final Object target = this.controller;
+                final Class tClass = target.getClass();
+                
+                OSXAdapter.setQuitHandler(target, tClass.getDeclaredMethod("doQuit", (Class[])null));
+                OSXAdapter.setAboutHandler(target, tClass.getDeclaredMethod("doShowAbout", (Class[])null));
+                OSXAdapter.setPreferencesHandler(target, tClass.getDeclaredMethod("doShowPreferences", (Class[])null));
+//                OSXAdapter.setFileHandler(this.controller, getClass().getDeclaredMethod("loadImageFile", new Class[] { String.class }));
+            } catch (Exception e) {
+                LOG.error("Error while loading the OSXAdapter!", e);
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    /*
+    
+    private MenuBar getOmovMenuBar() {
+        return (MenuBar) this.getJMenuBar();
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == this.getOmovMenuBar().getQuitItem()) {
+            System.out.println("quit() by main window");
+        } else if (source == this.getOmovMenuBar().getPreferencesItem()) {
+            System.out.println("preferences() by main window");
+        } else if (source == this.getOmovMenuBar().getAboutItem()) {
+            System.out.println("about() by main window");
+        } else {
+            System.out.println("unhandled action event source: " + source);
+        }
+//        } else if (source == openMI) {
+//            // File:Open action shows a FileDialog for loading displayable images
+//            FileDialog openDialog = new FileDialog(this);
+//            openDialog.setMode(FileDialog.LOAD);
+//            openDialog.setFilenameFilter(new FilenameFilter() {
+//                public boolean accept(File dir, String name) {
+//                    String[] supportedFiles = ImageIO.getReaderFormatNames();
+//                    for (int i = 0; i < supportedFiles.length; i++) {
+//                        if (name.endsWith(supportedFiles[i])) {
+//                            return true;
+//                        }
+//                    }
+//                    return false;
+//                }
+//            });
+//            openDialog.setVisible(true);
+//            String filePath = openDialog.getDirectory() + openDialog.getFile();
+//            if (filePath != null) {
+//                loadImageFile(filePath);
+//            }
+//        }
+    }
+    */
 }

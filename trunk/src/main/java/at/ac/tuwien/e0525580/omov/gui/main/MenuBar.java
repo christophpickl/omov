@@ -22,13 +22,21 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
     private static final Log LOG = LogFactory.getLog(MenuBar.class);
     private static final long serialVersionUID = -140354789157881691L;
 
+    private final JMenuItem preferencesItem;
+    private final JMenuItem aboutItem;
+    private final JMenuItem quitItem;
+
+    
+    
     // File
 //    private static final String CMD_IMPORT = "Import ...";
     private static final String CMD_EXPORT = "Export ...";
@@ -51,16 +59,21 @@ public class MenuBar extends JMenuBar implements ActionListener {
 //    private static final String CMD_REMOTE = "Remote";
 
     // Help
-    private static final String CMD_OMOV_HELP = "Omov Help";
+    private static final String CMD_HELP = "Omov Help";
+    private static final String CMD_ABOUT = "About";
     
     private final MainWindowController controller;
     
     public MenuBar(MainWindowController controller) {
+        this.preferencesItem = GuiUtil.createMenuItem(null, 'P', CMD_PREFERENCES, this, KeyEvent.VK_P, ImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
+        this.aboutItem = GuiUtil.createMenuItem(null, 'A', CMD_ABOUT, this);
+        this.quitItem = GuiUtil.createMenuItem(null, 'Q', CMD_QUIT, this, KeyEvent.VK_Q);
+        
         this.add(this.menuFile());
         this.add(this.menuMovie());
 //        this.add(this.menuWindow());
         this.add(this.menuExtras());
-//        this.add(this.menuHelp()); // in menubar menuHelp() irgendwann enablen -- genauso menuWindow()
+        this.add(this.menuHelp()); // in menubar menuHelp() irgendwann enablen -- genauso menuWindow()
         DebugMenu.maybeAddYourself(this);
         
         this.controller = controller;
@@ -73,8 +86,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
         GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, KeyEvent.VK_E, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
 //        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
         GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
-        menu.addSeparator();
-        GuiUtil.createMenuItem(menu, 'Q', CMD_QUIT, this, KeyEvent.VK_Q);
+        
+        if(UserSniffer.isOS(OS.MAC) == false) {
+            menu.addSeparator();
+            menu.add(this.quitItem);
+        }
         
         return menu;
     }
@@ -105,19 +121,24 @@ public class MenuBar extends JMenuBar implements ActionListener {
         final JMenu menu = new JMenu("Extras");
 
         GuiUtil.createMenuItem(menu, 'S', CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
-        menu.addSeparator();
+//      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
-        GuiUtil.createMenuItem(menu, 'P', CMD_PREFERENCES, this, KeyEvent.VK_P, ImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
-//        GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
+        if(UserSniffer.isOS(OS.MAC) == false) {
+            menu.addSeparator();
+            menu.add(this.preferencesItem);
+        }
         
         return menu;
     }
     
-    @SuppressWarnings("unused")
     private JMenu menuHelp() {
         final JMenu menu = new JMenu("Help");
 
-        GuiUtil.createMenuItem(menu, 'H', CMD_OMOV_HELP, this, KeyEvent.VK_H, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        GuiUtil.createMenuItem(menu, 'H', CMD_HELP, this, KeyEvent.VK_H, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        
+        if(UserSniffer.isOS(OS.MAC) == false) {
+            menu.add(this.aboutItem);
+        }
         
         return menu;
     }
@@ -150,8 +171,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 controller.doFindDuplicates();
             } else if(cmd.equals(CMD_PREFERENCES)) {
                 controller.doShowPreferences();
-            } else if(cmd.equals(CMD_OMOV_HELP)) {
+            } else if(cmd.equals(CMD_HELP)) {
                 controller.doShowHelp();
+            } else if(cmd.equals(CMD_ABOUT)) {
+                controller.doShowAbout();
 //            } else if(cmd.equals(CMD_REMOTE)) {
 //                this.controller.doRemoteConnect();
             } else {
@@ -217,5 +240,15 @@ public class MenuBar extends JMenuBar implements ActionListener {
             
             bar.add(menu);
         }
+    }
+
+    public JMenuItem getPreferencesItem() {
+        return this.preferencesItem;
+    }
+    public JMenuItem getAboutItem() {
+        return this.aboutItem;
+    }
+    public JMenuItem getQuitItem() {
+        return this.quitItem;
     }
 }

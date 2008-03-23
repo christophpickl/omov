@@ -17,6 +17,7 @@ import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.bo.VersionedMovies;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
+import at.ac.tuwien.e0525580.omov.gui.AboutDialog;
 import at.ac.tuwien.e0525580.omov.gui.CommonController;
 import at.ac.tuwien.e0525580.omov.gui.IPrevNextMovieProvider;
 import at.ac.tuwien.e0525580.omov.gui.doubletten.DuplicatesFinderProgressDialog;
@@ -35,7 +36,7 @@ import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 
-final class MainWindowController extends CommonController implements IRemoteDataReceiver {
+public final class MainWindowController extends CommonController implements IRemoteDataReceiver {
 
     private static final Log LOG = LogFactory.getLog(MainWindowController.class);
     
@@ -314,9 +315,13 @@ final class MainWindowController extends CommonController implements IRemoteData
         chooser.setVisible(true);
     }
     
-    
+
     public void doShowHelp() {
         GuiUtil.info("ups", "Help not yet implemented!");
+    }
+    public void doShowAbout() {
+        final AboutDialog dialog = new AboutDialog(this.mainWindow);
+        dialog.setVisible(true);
     }
     
     public void doQuit() {
