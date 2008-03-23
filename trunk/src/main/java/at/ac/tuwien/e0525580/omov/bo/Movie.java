@@ -157,7 +157,7 @@ public class Movie implements Serializable {
     
     private final Set<String> files;
     
-    /** in minuten */
+    /** in minutes */
     private final int duration;
     
     /**
@@ -352,13 +352,13 @@ public class Movie implements Serializable {
           sb.append("title=").append(this.getTitle()).append(";");
           sb.append("seen=").append(this.isSeen()).append(";");
           sb.append("rating=").append(this.getRating()).append(";");
-          sb.append("coverFileString=").append(this.getCoverFile()).append(";");
-          sb.append("genres.size=").append(this.getGenres().size()).append(";");
-          sb.append("languages.size=").append(this.getLanguagesString()).append(";");
+          sb.append("coverFile=").append(this.getCoverFile()).append(";");
+          sb.append("genres=").append(this.getGenresString()).append(";");
+          sb.append("languages=").append(this.getLanguagesString()).append(";");
           sb.append("style=").append(this.getStyle()).append(";");
 
           sb.append("director=").append(this.getDirector()).append(";");
-          sb.append("actors.size=").append(this.getActors().size()).append(";");
+          sb.append("actors=").append(this.getActorsString()).append(";");
           sb.append("year=").append(this.getYear()).append(";");
           sb.append("comment=").append(StringUtil.escapeLineFeeds(this.getComment())).append(";");
           sb.append("quality=").append(this.getQuality()).append(";");
@@ -370,7 +370,7 @@ public class Movie implements Serializable {
           sb.append("files=").append(Arrays.toString(this.getFiles().toArray())).append(";");
           sb.append("duration=").append(this.getDuration()).append(";");
           sb.append("resolution=").append(this.getResolution()).append(";");
-          sb.append("subtitles.size=").append(this.getSubtitles().size()).append(";");
+          sb.append("subtitles=").append(this.getSubtitlesString()).append(";");
           
         sb.append("]");
         
