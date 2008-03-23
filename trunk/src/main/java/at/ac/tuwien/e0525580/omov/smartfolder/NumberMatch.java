@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-public abstract class NumberMatch extends AbstractMatch<Integer> {
+public abstract class NumberMatch extends AbstractMatch<Long> {
 
     private static final Log LOG = LogFactory.getLog(NumberMatch.class);
 
@@ -31,8 +31,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
         ALL_MATCH_LABELS = Collections.unmodifiableList(tmp);
     }
     
-    public static NumberMatch newEquals(Integer value) {
-        return new NumberMatch(LABEL_EQUALS, new Integer[] { value } ) {
+    public static NumberMatch newEquals(Long value) {
+        return new NumberMatch(LABEL_EQUALS, new Long[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
@@ -40,8 +40,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newNotEquals(Integer value) {
-        return new NumberMatch(LABEL_NOT_EQUALS, new Integer[] { value } ) {
+    public static NumberMatch newNotEquals(Long value) {
+        return new NumberMatch(LABEL_NOT_EQUALS, new Long[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing not equals for value '"+this.getValueAt(0)+"'.");
@@ -49,8 +49,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newGreater(Integer value) {
-        return new NumberMatch(LABEL_GREATER, new Integer[] { value } ) {
+    public static NumberMatch newGreater(Long value) {
+        return new NumberMatch(LABEL_GREATER, new Long[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing not equals for value '"+this.getValueAt(0)+"'.");
@@ -58,8 +58,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newLess(Integer value) {
-        return new NumberMatch(LABEL_LESS, new Integer[] { value } ) {
+    public static NumberMatch newLess(Long value) {
+        return new NumberMatch(LABEL_LESS, new Long[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing less for value '"+this.getValueAt(0)+"'.");
@@ -67,8 +67,8 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
             }
         };
     }
-    public static NumberMatch newInRange(Integer lowerBound, Integer upperBound) {
-        return new NumberMatch(LABEL_IN_THE_RANGE, new Integer[] { lowerBound, upperBound } ) {
+    public static NumberMatch newInRange(Long lowerBound, Long upperBound) {
+        return new NumberMatch(LABEL_IN_THE_RANGE, new Long[] { lowerBound, upperBound } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing in range of '"+this.getValueAt(0)+"' to '"+this.getValueAt(1)+"'.");
@@ -78,7 +78,7 @@ public abstract class NumberMatch extends AbstractMatch<Integer> {
         };
     }
     
-    private NumberMatch(String label, Integer[] values) {
+    private NumberMatch(String label, Long[] values) {
         super(label, values);
     }
 }

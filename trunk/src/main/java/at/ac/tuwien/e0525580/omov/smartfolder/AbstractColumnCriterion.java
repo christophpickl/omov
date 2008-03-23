@@ -48,13 +48,6 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
         BOOL_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
 
-    static final List<String> DATE_COLUMN_LABELS;
-    static {
-        List<String> tmp = new ArrayList<String>();
-        tmp.add(MovieField.DATE_ADDED.label());
-        DATE_COLUMN_LABELS = Collections.unmodifiableList(tmp);
-    }
-
     static final List<String> NUMBER_COLUMN_LABELS;
     static {
         List<String> tmp = new ArrayList<String>();
@@ -62,11 +55,11 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
         NUMBER_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
 
-    static final List<String> RESOLUTION_COLUMN_LABELS;
+    static final List<String> DATE_COLUMN_LABELS;
     static {
         List<String> tmp = new ArrayList<String>();
-        tmp.add(MovieField.RESOLUTION.label());
-        RESOLUTION_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+        tmp.add(MovieField.DATE_ADDED.label());
+        DATE_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
 
     static final List<String> TEXT_COLUMN_LABELS;
@@ -75,8 +68,20 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
         tmp.add(MovieField.TITLE.label());
         tmp.add(MovieField.STYLE.label());
         tmp.add(MovieField.DIRECTOR.label());
+        tmp.add(MovieField.FORMAT.label());
         tmp.add(MovieField.COMMENT.label());
+        tmp.add(MovieField.FOLDER_PATH.label());
         TEXT_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+    }
+
+    static final List<String> TEXT_MULTIPLE_COLUMN_LABELS;
+    static {
+        List<String> tmp = new ArrayList<String>();
+        tmp.add(MovieField.SUBTITLES.label());
+        tmp.add(MovieField.ACTORS.label());
+        tmp.add(MovieField.GENRES.label());
+        tmp.add(MovieField.LANGUAGES.label());
+        TEXT_MULTIPLE_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
 
     static final List<String> RATING_COLUMN_LABELS;
@@ -85,16 +90,48 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
         tmp.add(MovieField.RATING.label());
         RATING_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
+
+    static final List<String> QUALITY_COLUMN_LABELS;
+    static {
+        List<String> tmp = new ArrayList<String>();
+        tmp.add(MovieField.QUALITY.label());
+        QUALITY_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+    }
+
+    static final List<String> FILE_SIZE_COLUMN_LABELS;
+    static {
+        List<String> tmp = new ArrayList<String>();
+        tmp.add(MovieField.FILE_SIZE_KB.label());
+        FILE_SIZE_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+    }
+
+    static final List<String> DURATION_COLUMN_LABELS;
+    static {
+        List<String> tmp = new ArrayList<String>();
+        tmp.add(MovieField.DURATION.label());
+        DURATION_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+    }
+
+    static final List<String> RESOLUTION_COLUMN_LABELS;
+    static {
+        List<String> tmp = new ArrayList<String>();
+        tmp.add(MovieField.RESOLUTION.label());
+        RESOLUTION_COLUMN_LABELS = Collections.unmodifiableList(tmp);
+    }
     
     static final List<String> ALL_COLUMN_LABELS;
     static {
         List<String> tmp = new ArrayList<String>();
         tmp.addAll(BOOL_COLUMN_LABELS);
-        tmp.addAll(DATE_COLUMN_LABELS);
         tmp.addAll(NUMBER_COLUMN_LABELS);
-        tmp.addAll(RESOLUTION_COLUMN_LABELS);
+        tmp.addAll(DATE_COLUMN_LABELS);
         tmp.addAll(TEXT_COLUMN_LABELS);
+        tmp.addAll(TEXT_MULTIPLE_COLUMN_LABELS);
         tmp.addAll(RATING_COLUMN_LABELS);
+        tmp.addAll(QUALITY_COLUMN_LABELS);
+        tmp.addAll(FILE_SIZE_COLUMN_LABELS);
+        tmp.addAll(DURATION_COLUMN_LABELS);
+        tmp.addAll(RESOLUTION_COLUMN_LABELS);
         ALL_COLUMN_LABELS = Collections.unmodifiableList(tmp);
     }
     
@@ -133,7 +170,11 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
      */
     final Constraint getDb4oConstraint(Query query) {
         LOG.debug("Preparing query for column '"+this.getColumn()+"'.");
-        return this.getMatch().prepareDb4oQuery(query.descend(this.getColumn()));
+        query = query.descend(this.getColumn());
+        if(this.getColumn().equals(MovieField.QUALITY.column())) {
+            query = query.descend("id"); // compare quality's ID, and not the object itself
+        }
+        return this.getMatch().prepareDb4oQuery(query);
     }
     
     public String toString() {

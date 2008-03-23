@@ -1,7 +1,6 @@
 package at.ac.tuwien.e0525580.omov.gui.smartfolder;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -65,11 +64,12 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         this.smartFolderList.setVisibleRowCount(5);
-        this.smartFolderList.setPreferredSize(new Dimension(200, (int) this.smartFolderList.getPreferredSize().getHeight()));
+        // TODO set minimum width of smartfolder list
+//        this.smartFolderList.setMinimumSize(new Dimension(600, (int) this.smartFolderList.getPreferredSize().getHeight())); !! does not work !!
         this.smartFolderList.setModel(this.listModel);
         this.smartFolderList.addKeyListener(this.escapeDisposer);
         
-        JScrollPane scroll = new JScrollPane(this.smartFolderList);
+        final JScrollPane scroll = new JScrollPane(this.smartFolderList);
         scroll.setWheelScrollingEnabled(true);
         panel.add(scroll, BorderLayout.CENTER);
         panel.add(this.newPanelButtons(), BorderLayout.EAST);

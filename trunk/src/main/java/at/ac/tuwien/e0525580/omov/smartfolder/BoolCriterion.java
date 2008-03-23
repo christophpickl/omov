@@ -9,6 +9,7 @@ public class BoolCriterion extends AbstractColumnCriterion<BoolMatch> {
         return new BoolCriterion(match, MovieField.SEEN);
     }
     
+    
     private BoolCriterion(BoolMatch match, MovieField field) {
         super(match, field);
     }

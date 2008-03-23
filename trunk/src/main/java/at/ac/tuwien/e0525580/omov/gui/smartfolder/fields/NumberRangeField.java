@@ -11,7 +11,7 @@ public class NumberRangeField extends AbstractCriterionField {
     private final NumberField numberFieldFrom;
     private final NumberField numberFieldTo;
     
-    NumberRangeField(int size, int initValueFrom, int initValueTo, int minValue, int maxValue) {
+    NumberRangeField(int size, long initValueFrom, long initValueTo, long minValue, long maxValue) {
         this.numberFieldFrom = new NumberField(initValueFrom, minValue, maxValue, size);
         this.numberFieldTo = new NumberField(initValueTo, minValue, maxValue, size);
         
@@ -22,6 +22,6 @@ public class NumberRangeField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Integer[] { this.numberFieldFrom.getNumber(), this.numberFieldTo.getNumber() };
+        return new Long[] { this.numberFieldFrom.getNumber(), this.numberFieldTo.getNumber() };
     }
 }

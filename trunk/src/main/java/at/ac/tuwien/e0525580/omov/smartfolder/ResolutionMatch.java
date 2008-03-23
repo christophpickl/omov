@@ -47,8 +47,8 @@ public abstract class ResolutionMatch extends AbstractMatch<Resolution> {
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing greater for value '"+this.getValueAt(0)+"'.");
                 Resolution value = this.getValueAt(0);
-                return query.descend("width").constrain(value.getWidth()).greater().equal().and(
-                        query.descend("height").constrain(value.getHeight()).greater().equal());
+                return query.descend("width").constrain(value.getWidth()).greater().and(
+                        query.descend("height").constrain(value.getHeight()).greater());
             }
         };
     }

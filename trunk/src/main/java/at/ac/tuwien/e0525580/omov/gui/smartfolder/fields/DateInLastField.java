@@ -42,7 +42,7 @@ public class DateInLastField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        int number = this.numberField.getNumber();
+        int number = (int) this.numberField.getNumber();
         int value = number * RangeType.getByString((String) this.comboRangeType.getSelectedItem()).getDayAmount();
         return new Integer[] { value };
     }

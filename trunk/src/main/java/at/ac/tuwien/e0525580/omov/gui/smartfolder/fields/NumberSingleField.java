@@ -8,14 +8,14 @@ public class NumberSingleField extends AbstractCriterionField {
 
     private final NumberField numberField;
     
-    NumberSingleField(int size, int initValue, int minValue, int maxValue) {
+    NumberSingleField(int size, long initValue, long minValue, long maxValue) {
         this.numberField = new NumberField(initValue, minValue, maxValue, size);
         this.add(this.numberField);
     }
 
     @Override
     public Object[] getValues() {
-        return new Integer[] { this.numberField.getNumber() };
+        return new Long[] { this.numberField.getNumber() };
     }
     
 }

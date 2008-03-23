@@ -15,6 +15,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.model.db4o.ObjectSetTransformer;
 import at.ac.tuwien.e0525580.omov.smartfolder.AbstractColumnCriterion;
@@ -36,7 +37,9 @@ abstract class AbstractSmartFolderTest extends TestCase {
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
     public static final Resolution R2000x2000 = new Resolution(2000, 2000);
-    public static final Resolution R1024x768 = new Resolution(1024, 768);
+    public static final Resolution R1024x768  = new Resolution(1024, 768);
+    public static final Resolution R800x800   = new Resolution(800, 800);
+    public static final Resolution R0x0   = Resolution.R0x0;
     
     static final List<Movie> MOVIE_TEST_DATA = new ArrayList<Movie>();
     
@@ -50,11 +53,75 @@ abstract class AbstractSmartFolderTest extends TestCase {
      * - max movie.dateAdded = 2008/02/14 18:00:21
      * - "zero" got max resolution 2000x2000
      */
-    static final Movie MOVIE_INDEPENDENCE_DAY = createTestMovie("Independence Day", 2008, true, newDate("2008-01-13 13:14:15"), Resolution.R0x0);
-    static final Movie MOVIE_ZERO             = createTestMovie("Zero",        2000, false, newDate("2008-02-14 18:00:21"), R2000x2000);
-    static final Movie MOVIE_STAR_WARS1       = createTestMovie("Star Wars 1", 1985, true, newDate("2007-12-24 12:00:01"), R1024x768);
-    static final Movie MOVIE_STAR_WARS2       = createTestMovie("Star Wars 2", 1987, true, newDate("2007-12-24 12:00:02"), R1024x768);
-    static final Movie MOVIE_STAR_WARS3       = createTestMovie("Star Wars 3", 1989, true, newDate("2007-12-24 12:00:03"), R1024x768);
+    
+    static final Movie MOVIE_INDEPENDENCE_DAY = Movie.create(currentId++)
+                .title("Independence Day")
+                .year(2008)
+                .seen(true)
+                .dateAdded(newDate("2008-01-13 13:14:15"))
+                .resolution(R0x0)
+                .fileSizeKb(4000)
+                .actors("Will", "John")
+                .languages("EN", "DE")
+                .quality(Quality.BEST)
+                .rating(2)
+                .get();
+    static final Movie MOVIE_ZERO = Movie.create(currentId++)
+                .title("Zero")
+                .year(2000)
+                .seen(false)
+                .dateAdded(newDate("2008-02-14 18:00:21"))
+                .resolution(R2000x2000)
+                .fileSizeKb(0)
+                .actors("John")
+                .quality(Quality.UNRATED)
+                // no language
+                .rating(0)
+                .get();
+    static final Movie MOVIE_STAR_WARS1 = Movie.create(currentId++)
+                .title("Star Wars 1")
+                .year(1985)
+                .seen(true)
+                .dateAdded(newDate("2007-12-24 12:00:01"))
+                .resolution(R1024x768)
+                .fileSizeKb(100)
+                .actors("Luke", "Harry")
+                .languages("EN")
+                .quality(Quality.NORMAL)
+                .rating(4)
+                .get();
+    static final Movie MOVIE_STAR_WARS2 = Movie.create(currentId++)
+                .title("Star Wars 2")
+                .year(1987)
+                .seen(true)
+                .dateAdded(newDate("2007-12-24 12:00:02"))
+                .resolution(R1024x768)
+                .fileSizeKb(100)
+                .actors("Luke")
+                .languages("EN")
+                .quality(Quality.NORMAL)
+                .rating(5)
+                .get();
+    static final Movie MOVIE_STAR_WARS3 = Movie.create(currentId++)
+                .title("Star Wars 3")
+                .year(1989)
+                .seen(true)
+                .dateAdded(newDate("2007-12-24 12:00:03"))
+                .resolution(R800x800)
+                .fileSizeKb(100)
+                .actors("Luke")
+                .languages("EN")
+                .quality(Quality.GOOD)
+                .rating(4)
+                .get();
+    
+    static {
+        MOVIE_TEST_DATA.add(MOVIE_INDEPENDENCE_DAY);
+        MOVIE_TEST_DATA.add(MOVIE_ZERO);
+        MOVIE_TEST_DATA.add(MOVIE_STAR_WARS1);
+        MOVIE_TEST_DATA.add(MOVIE_STAR_WARS2);
+        MOVIE_TEST_DATA.add(MOVIE_STAR_WARS3);
+    }
 
 
     static {
