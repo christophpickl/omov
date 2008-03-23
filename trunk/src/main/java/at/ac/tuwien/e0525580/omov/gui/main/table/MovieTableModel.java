@@ -95,7 +95,7 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
             public Object getValue(Movie movie) {  return movie.getQualityString();  }
             public Class<?> getValueClass() {  return String.class;  }
             public int compareValue(Movie m1, Movie m2) {
-                int q1 = m1.getQuality().id(); int q2 = m2.getQuality().id();
+                int q1 = m1.getQuality().getId(); int q2 = m2.getQuality().getId();
                 if(q1 == q2) return m1.getTitle().compareTo(m2.getTitle());
                 return q2 - q1; }}); // top quality (4) first
 
