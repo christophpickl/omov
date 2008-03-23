@@ -81,7 +81,7 @@ class ScanHintTableModel extends AbstractTableModel {
     private static final int IND_SEVERITY = 0;
     private static final int IND_MESSAGE = 1;
     private static enum Col {
-        SEVERITY(IND_SEVERITY, "Severity", 0, 70, 70),
+        SEVERITY(IND_SEVERITY, "Severity", 0, 70, 70), // TODO show severity icons
         MESSAGE(IND_MESSAGE, "Message", 300, -1, 900);
 
         
