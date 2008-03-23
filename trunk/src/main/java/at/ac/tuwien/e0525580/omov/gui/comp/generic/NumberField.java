@@ -15,6 +15,7 @@ import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 public class NumberField extends JTextField {
+    
     public static void main(String[] args) {
         JFrame f = new JFrame();
         f.addWindowListener(new WindowAdapter() {
@@ -30,12 +31,12 @@ public class NumberField extends JTextField {
     private static final long serialVersionUID = 1642701240001000902L;
     private static boolean DEBUG = false;
     
-    private final int minValue;
-    private final int maxValue;
+    private final long minValue;
+    private final long maxValue;
 //    private final int maxColSize;
     private final boolean numberFieldConstructorFinished;
 
-    public NumberField(int initVal, int minVal, int maxVal) {
+    public NumberField(long initVal, long minVal, long maxVal) {
         this(initVal, minVal, maxVal, (""+maxVal).length() + 1);
     }
     /**
@@ -46,7 +47,7 @@ public class NumberField extends JTextField {
      * @param maxValue
      * @param size ... visible column size
      */
-    public NumberField(int initValue, int minValue, int maxValue, int size) {
+    public NumberField(long initValue, long minValue, long maxValue, int size) {
         super("" + initValue, size);
         if((initValue >= minValue && initValue <= maxValue) == false) throw new FatalException("Initial value '"+initValue+"' is not within valid range ("+minValue+" to "+maxValue+")!");
         
@@ -86,13 +87,13 @@ public class NumberField extends JTextField {
 //        }
 //    }
 
-    public int getNumber() {
+    public long getNumber() {
         if(this.getText().length() == 0) {
             if(DEBUG) System.out.println("User did not enter any number, returning 0.");
             return 0;
         }
         try {
-            return Integer.parseInt(getText());
+            return Long.parseLong(getText());
         } catch (NumberFormatException e) {
             throw new FatalException("Invalid user input '"+getText()+"'! Should never happen...", e);
         }
@@ -115,9 +116,9 @@ public class NumberField extends JTextField {
             final String newString = oldString.substring(0, offs) + str + oldString.substring(offs);
             if(DEBUG) System.out.println("DEBUG: oldString='"+oldString+"'; newString='"+newString+"'");
             try {
-                Integer.parseInt(newString + "0"); // ???
+                Long.parseLong(newString + "0"); // ???
                 
-                final int value = Integer.parseInt(newString);
+                final long value = Long.parseLong(newString);
                 final boolean isValidValue = (value >= minValue && value <= maxValue);
                 if(DEBUG) System.out.println("DEBUG: is valid value " + isValidValue + " (value="+value+"; minVal="+minValue+"; maxVal="+maxValue+")");
                 if(isValidValue == true) {
