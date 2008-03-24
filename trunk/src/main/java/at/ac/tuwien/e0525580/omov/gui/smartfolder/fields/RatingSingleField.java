@@ -1,5 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.smartfolder.fields;
 
+import java.awt.Color;
+
 import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingField;
 
 public class RatingSingleField extends AbstractCriterionField {
@@ -9,7 +11,7 @@ public class RatingSingleField extends AbstractCriterionField {
     private final RatingField ratingField;
     
     RatingSingleField(int initRating) {
-        this.ratingField = new RatingField(initRating);
+        this.ratingField = new RatingField(initRating, null, Color.WHITE);
         this.add(this.ratingField);
     }
 

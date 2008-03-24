@@ -29,7 +29,6 @@ import at.ac.tuwien.e0525580.omov.tools.smartcopy.SmartCopyPreprocessResult;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
-// FIXME implement SmartFolder (mantis: 3)
 public class SmartCopyDialog extends JDialog implements ActionListener {
 
     private static final Log LOG = LogFactory.getLog(SmartCopyDialog.class);
@@ -125,7 +124,7 @@ public class SmartCopyDialog extends JDialog implements ActionListener {
         layout.setConstraints(contentPanel, c);
         contentPanel.setLayout(layout);
 
-        final JButton btnUseSelectedMovies = new JButton("Use selected movies"); // TODO implement me
+        final JButton btnUseSelectedMovies = new JButton("Use selected movies"); // TODO implement me: use only selected movies for smart copy dialog
         c.anchor = GridBagConstraints.LINE_START;
 
         c.gridwidth = 2;

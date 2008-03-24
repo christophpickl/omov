@@ -459,7 +459,7 @@ public class CriterionFieldFactory {
         
         final AbstractCriterionField field;
         if(matchLabel.equals(NumberMatch.LABEL_IN_THE_RANGE)) {
-            size = 5;
+            size = 12;
             
             final int initValueFrom;
             final int initValueTo;
@@ -497,7 +497,7 @@ public class CriterionFieldFactory {
             final RangeType rangeType;
             if(initValue == 0) {
                 rangeType = RangeType.DAYS;
-            } else if(initValue % 60 == 0) { // TODO isnt "initValue % 30" correct?
+            } else if(initValue % 30 == 0) {
                 rangeType = RangeType.MONTHS;
             } else if(initValue % 7 == 0) {
                 rangeType = RangeType.WEEKS;
@@ -520,21 +520,24 @@ public class CriterionFieldFactory {
                     initValueFrom = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(1);
                     initValueTo = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(0);
                 } else {
-                    throw new IllegalArgumentException("matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')");
+                    throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
                 }
             }
-            
             return new DateRangeField(initValueFrom, initValueTo, 5);
             
-        } else {
+        } else if((matchLabel.equals(DateMatch.LABEL_EQUALS) ||
+                   matchLabel.equals(DateMatch.LABEL_NOT_EQUALS) ||
+                   matchLabel.equals(DateMatch.LABEL_AFTER) ||
+                   matchLabel.equals(DateMatch.LABEL_BEFORE)) == true) {
             final Date initValue;
             if(columnLabel.equals(MovieField.DATE_ADDED.label())) {
                 initValue = (values != null) ? (Date) values[0] : new Date();
             } else {
-                throw new IllegalArgumentException("matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')");
+                throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
             }
             return new DateSingleField(initValue, TEXTFIELD_COLUMN_SIZE);
-            
+        } else {
+            throw new IllegalArgumentException("matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')");
         }
     }
     
@@ -642,7 +645,7 @@ public class CriterionFieldFactory {
         } else {
             throw new IllegalArgumentException("columnLabel: '"+columnLabel+"'");
         }
-        return new FileSizeSingleField(TEXTFIELD_COLUMN_SIZE, initValue, 0, 99999);
+        return new FileSizeSingleField(4, initValue, 0, 99999);
     }
     
     private static AbstractCriterionField newDurationField(final String columnLabel, final String matchLabel, final Object[] values) {

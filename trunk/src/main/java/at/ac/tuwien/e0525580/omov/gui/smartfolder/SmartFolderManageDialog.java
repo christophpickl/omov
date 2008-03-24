@@ -20,9 +20,12 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.omov.help.HelpEntry;
+import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.model.ISmartFolderDao;
 import at.ac.tuwien.e0525580.omov.model.ISmartFolderDaoListener;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
@@ -60,6 +63,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     
     private void initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
@@ -80,12 +84,16 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     
     private JPanel newPanelButtons() {
         final JPanel panel = new JPanel();
+        panel.setOpaque(false);
         
-        final JPanel panelButtons = new JPanel(new GridLayout(3, 1));
         final JButton btnAdd = new JButton("Add");
         final JButton btnEdit = new JButton("Edit");
         final JButton btnDelete = new JButton("Delete");
         this.getRootPane().setDefaultButton(btnAdd);
+
+        btnAdd.setOpaque(false);
+        btnEdit.setOpaque(false);
+        btnDelete.setOpaque(false);
         
         btnAdd.setActionCommand(CMD_ADD);
         btnEdit.setActionCommand(CMD_EDIT);
@@ -98,9 +106,15 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         btnEdit.addKeyListener(this.escapeDisposer);
         btnDelete.addKeyListener(this.escapeDisposer);
         
+        final JPanel panelButtons = new JPanel(new GridLayout(4, 1));
+        panelButtons.setOpaque(false);
         panelButtons.add(btnAdd);
         panelButtons.add(btnEdit);
         panelButtons.add(btnDelete);
+        final JPanel panelHelp = new JPanel();
+        panelHelp.setOpaque(false);
+        panelHelp.add(HelpSystem.newButton(HelpEntry.SMARTFOLDER, "What are SmartFolders?"));
+        panelButtons.add(panelHelp);
 
         panel.add(panelButtons);
         

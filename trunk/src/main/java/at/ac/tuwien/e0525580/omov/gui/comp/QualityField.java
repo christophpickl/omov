@@ -11,6 +11,7 @@ public class QualityField extends JComboBox {
 
 
     public QualityField(Quality initValue) {
+        this.setOpaque(false);
         
         this.setModel(new DefaultComboBoxModel() {
             private static final long serialVersionUID = -6244895415596156603L;

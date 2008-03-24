@@ -14,6 +14,9 @@ public class BoolSingleField extends AbstractCriterionField {
         this.btnTrue = new JRadioButton("true" , initValue == true);
         this.btnFalse = new JRadioButton("false"   , initValue == false);
 
+        this.btnTrue.setOpaque(false);
+        this.btnFalse.setOpaque(false);
+
         final ButtonGroup btnGroup = new ButtonGroup();
         btnGroup.add(this.btnTrue);
         btnGroup.add(this.btnFalse);

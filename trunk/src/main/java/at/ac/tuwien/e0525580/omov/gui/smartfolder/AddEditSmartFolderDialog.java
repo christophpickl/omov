@@ -19,8 +19,8 @@ import javax.swing.border.EtchedBorder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.AbstractAddEditDialog;
-import at.ac.tuwien.e0525580.omov.gui.smartfolder.SmartFolderGuiRow.ISmartFolderGuiRowListener;
 import at.ac.tuwien.e0525580.omov.smartfolder.AbstractColumnCriterion;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
@@ -51,6 +51,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         panel.add(this.newTopPanel(), BorderLayout.NORTH);
@@ -63,6 +64,8 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
     
     private JPanel newTopPanel() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setOpaque(false);
+        this.inpAllAny.setOpaque(false);
 
 //        this.inpTitle.addKeyListener(this.escapeDisposer);
 //        this.inpAllAny.addKeyListener(this.escapeDisposer);
@@ -151,6 +154,14 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         return new SmartFolder(id, name, matchAll, criteria);
     }
 
+    public void doAddRow() {
+        this.addGuiRow(SmartFolderGuiRow.newDefaultRow(this));
+    }
+
+    public void doDeleteRow(SmartFolderGuiRow row) {
+        this.deleteGuiRow(row);
+    }
+    
     
     public static void main(String[] args) {
         AddEditSmartFolderDialog addWindow = new AddEditSmartFolderDialog(null, null);
@@ -158,13 +169,5 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         if(addWindow.isActionConfirmed()) {
             addWindow.getConfirmedObject();
         }
-    }
-
-    public void doAddRow() {
-        this.addGuiRow(SmartFolderGuiRow.newDefaultRow(this));
-    }
-
-    public void doDeleteRow(SmartFolderGuiRow row) {
-        this.deleteGuiRow(row);
     }
 }

@@ -21,6 +21,7 @@ public class DateInLastField extends AbstractCriterionField {
         final int initValue = days / preselectedRangeType.getDayAmount();
         final int maxValue = 999;
         
+        this.comboRangeType.setOpaque(false);
         this.comboRangeType.setSelectedItem(preselectedRangeType.name().toLowerCase());
         this.numberField = new NumberField(initValue, 0, maxValue, 4);
         

@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.smartfolder.fields.AbstractCriterionField;
 import at.ac.tuwien.e0525580.omov.gui.smartfolder.fields.CriterionFieldFactory;
@@ -42,13 +43,12 @@ public class SmartFolderGuiRow  extends JPanel {
     private String selectedColumnLabel;
     private String selectedMatchLabel;
     
-    public static interface ISmartFolderGuiRowListener {
-        void doAddRow();
-        void doDeleteRow(SmartFolderGuiRow row);
-        void doPack();
-    }
     private final ISmartFolderGuiRowListener listener;
+    
+    
     public SmartFolderGuiRow(final ISmartFolderGuiRowListener listener, String preselectedColumnLabel, String preselectedMatchLabel, Object[] values) {
+        this.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.listener = listener;
         this.selectedColumnLabel = preselectedColumnLabel;
@@ -93,6 +93,12 @@ public class SmartFolderGuiRow  extends JPanel {
                 doChangeMatch();
             }}.doAction();
         }});
+        
+        this.btnAdd.setOpaque(false);
+        this.btnDelete.setOpaque(false);
+        this.comboColumn.setOpaque(false);
+        this.comboMatches.setOpaque(false);
+        this.fieldWrapper.setOpaque(false);
     }
     
     public void setDeleteButtonEnabled(final boolean enabled) {
