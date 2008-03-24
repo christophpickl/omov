@@ -14,6 +14,7 @@ import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
 import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindow;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
+import at.ac.tuwien.e0525580.omov.tools.TemporaryFilesCleaner;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 /*
@@ -103,6 +104,7 @@ public class App {
             splashScreen.setVisible(false);
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
+                    LOG.debug("Displaying main window...");
                     mainWindow.setVisible(true);
                 }
             });
@@ -131,9 +133,15 @@ public class App {
                 assert(Configuration.getInstance().isInitialized());
             }
         } catch (Exception e) {
-            LOG.error("Application error! Shutdown...", e);
-            e.printStackTrace();
+            LOG.error("Could not check/set preferences!", e);
             GuiUtil.error("Setup failed!", "Could not set initial values: " + e.getMessage());
+            return false;
+        }
+        try {
+            Configuration.getInstance().checkFolderExistence();
+        } catch (BusinessException e) {
+            LOG.error("Could not check folder existence!", e);
+            GuiUtil.error("Startup failed!", "Could not create application folders!");
             return false;
         }
         

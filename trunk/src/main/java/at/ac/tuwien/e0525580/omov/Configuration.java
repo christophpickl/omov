@@ -48,6 +48,8 @@ public class Configuration {
     }
     
     public void setPreferences(String folderCovers, String folderTemporary, String username) {
+        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"').");
+        
         assert(folderCovers != null && folderTemporary != null && username != null);
         assert(new File(folderCovers).exists() && new File(folderTemporary).exists());
         
@@ -188,5 +190,19 @@ public class Configuration {
         }
         
         this.flush();
+    }
+    
+    void checkFolderExistence() throws BusinessException {
+        this.createFolder(Configuration.getInstance().getCoversFolder());
+        this.createFolder(Configuration.getInstance().getTemporaryFolder());
+    }
+    
+    private void createFolder(final File folder) throws BusinessException {
+        if(folder.exists() == false) {
+            LOG.info("Creating application folder '"+folder.getAbsolutePath()+"'.");
+            if(folder.mkdirs() == false) {
+                throw new BusinessException("Could not create folder '"+folder.getAbsolutePath()+"'!");
+            }
+        }
     }
 }
