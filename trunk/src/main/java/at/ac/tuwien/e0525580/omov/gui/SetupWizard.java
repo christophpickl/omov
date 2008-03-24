@@ -24,10 +24,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser.IDirectoryChooserListener;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
 public class SetupWizard extends JDialog {
 
@@ -39,7 +41,8 @@ public class SetupWizard extends JDialog {
     private final DirectoryChooser inpFolderTemporary = DirectoryChooser.newSimple("Choose Temporary Folder");
     
     private final DirectoryChooser inpFolderCovers = DirectoryChooser.newSimple("Choose Covers Folder");
-    
+
+    private boolean isConfirmed = false;
     
     
     public SetupWizard() {
@@ -107,20 +110,37 @@ public class SetupWizard extends JDialog {
         c.gridx = 1;
         panel.add(this.inpUsername, c);
 
-        c.gridy = 1;
-        c.gridx = 0;
-        panel.add(new JLabel("Temporary Folder"), c);
-        c.gridx = 1;
-        panel.add(this.inpFolderTemporary, c);
+        if(UserSniffer.isMacOSX() == true) {
+            final File omovAppSupport = Constants.getOsxApplicationSupportFolder();
+            
+            final File coversFolder = new File(omovAppSupport, "covers");
+            final File tempFolder = new File(omovAppSupport, "temp");
+            
+            this.inpFolderCovers.__unchecked_setDirectory(coversFolder);
+            this.inpFolderTemporary.__unchecked_setDirectory(tempFolder);
+        } else {
+            c.gridy++;
+            c.gridx = 0;
+            panel.add(new JLabel("Temporary Folder"), c);
+            c.gridx = 1;
+            panel.add(this.inpFolderTemporary, c);
+    
+            c.gridy++;
+            c.gridx = 0;
+            panel.add(new JLabel("Cover Folder"), c);
+            c.gridx = 1;
+            panel.add(this.inpFolderCovers, c);
+        }
 
-        c.gridy = 2;
+        c.gridy++;
         c.gridx = 0;
-        panel.add(new JLabel("Cover Folder"), c);
+        panel.add(new JLabel("some other"), c);
         c.gridx = 1;
-        panel.add(this.inpFolderCovers, c);
+        panel.add(new JLabel("---"), c);
 
         return panel;
     }
+    
     private JPanel panelSouth() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
@@ -143,14 +163,14 @@ public class SetupWizard extends JDialog {
     }
     
     private boolean validateInput() {
-        List<String> warnings = new LinkedList<String>();
+        final List<String> warnings = new LinkedList<String>();
         
-        if(inpUsername.getText().length() == 0) {
+        if(this.inpUsername.getText().length() == 0) {
             warnings.add("The username may not be empty.");
         }
         
         if(warnings.size() > 0) {
-            StringBuilder sb = new StringBuilder();
+            final StringBuilder sb = new StringBuilder();
             for (int i = 0; i < warnings.size(); i++) {
                 if(i != 0) sb.append("\n");
                 sb.append(warnings.get(i));
@@ -161,10 +181,11 @@ public class SetupWizard extends JDialog {
         return warnings.size() == 0;
     }
     
-    private boolean isConfirmed = false;
     private void doCancel() {
         this.dispose();
+        System.exit(0);
     }
+    
     private void doConfirm() {
         if(this.validateInput() == false) {
             return;

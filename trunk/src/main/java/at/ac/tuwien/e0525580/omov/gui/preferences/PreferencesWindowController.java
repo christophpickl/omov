@@ -1,15 +1,34 @@
 package at.ac.tuwien.e0525580.omov.gui.preferences;
 
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.Configuration;
 
 public class PreferencesWindowController {
 
-//    private static final Log LOG = LogFactory.getLog(PreferencesWindowController.class);
-//    
-//    private final PreferencesWindow window;
-//    public PreferencesWindowController(PreferencesWindow window) {
-//        this.window = window;
-//    }
+    private static final Log LOG = LogFactory.getLog(PreferencesWindowController.class);
+    
+    private final PreferencesWindow window;
+    
+    public PreferencesWindowController(PreferencesWindow window) {
+        this.window = window;
+    }
+    
+    public static void clearPreferences() throws BusinessException {
+        LOG.info("Clearing preferences.");
+        final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
+        try {
+            prefs.clear();
+            prefs.flush();
+        } catch (BackingStoreException e) {
+            throw new BusinessException("Could not clear preferences!", e);
+        }
+    }
     
 //    public boolean doStartServer(int port) {
 //        try {

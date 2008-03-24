@@ -31,7 +31,6 @@ import at.ac.tuwien.e0525580.omov.gui.smartfolder.SmartFolderSelectionPanel;
 import at.ac.tuwien.e0525580.omov.tools.osx.OSXAdapter;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
-import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
 public class MainWindow extends JFrame implements IMovieTableContextMenuListener, ITableSelectionListener {
 
@@ -242,7 +241,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
      * @see OSXAdapter.java to see how this is done without directly referencing any Apple APIs
      */
     public void registerForMacOSXEvents() {
-        if (UserSniffer.isOS(OS.MAC) == true) {
+        if (UserSniffer.isMacOSX() == true) {
             LOG.info("Registering for osx events.");
             try {
                 // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to

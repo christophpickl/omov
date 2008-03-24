@@ -70,6 +70,10 @@ public class ImageFactory {
     public ImageIcon getIcon(Icon16x16 iconEnum) {
         return this.getImage("icons/" + iconEnum.fileName);
     }
+    
+    public ImageIcon getHelp() {
+        return this.getImage("help.png");
+    }
 
 
     public enum Icon16x16 {

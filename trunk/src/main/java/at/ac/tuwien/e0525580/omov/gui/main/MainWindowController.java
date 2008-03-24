@@ -141,6 +141,20 @@ public final class MainWindowController extends CommonController implements IRem
             this.doEditMovies(selectedMovies);
         }
     }
+
+    // should be only invoked by menu bar
+    public void doDeleteMovie() {
+        List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+            GuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
+            return;
+        }
+        if(selectedMovies.size() == 1) {
+            this.doDeleteMovie(selectedMovies.get(0));
+        } else {
+            GuiUtil.info(this.mainWindow, "Delete Movies", "Sorry, but movies can only deleted one by one."); // FEATURE make possible to delete more than one movie at the time
+        }
+    }
     
     public void doEditMovie(final Movie originalMovie, IPrevNextMovieProvider prevNextProvider) {
         LOG.info("doEditMovie(" + originalMovie + ")");
@@ -285,7 +299,7 @@ public final class MainWindowController extends CommonController implements IRem
     }
     
     public void doShowPreferences() {
-        final PreferencesWindow preferencesWindow = new PreferencesWindow(this.mainWindow);
+        final PreferencesWindow preferencesWindow = new PreferencesWindow(this.mainWindow, this);
         preferencesWindow.setVisible(true);
     }
     
@@ -315,10 +329,6 @@ public final class MainWindowController extends CommonController implements IRem
         chooser.setVisible(true);
     }
     
-
-    public void doShowHelp() {
-        GuiUtil.info("ups", "Help not yet implemented!");
-    }
     public void doShowAbout() {
         final AboutDialog dialog = new AboutDialog(this.mainWindow);
         dialog.setVisible(true);

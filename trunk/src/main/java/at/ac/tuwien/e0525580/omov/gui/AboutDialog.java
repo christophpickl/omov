@@ -48,7 +48,7 @@ public class AboutDialog extends JDialog {
         
         panel.add(logo, BorderLayout.CENTER);
         
-        panel.add(new JLabel("\u00A92008 OurMovies", JLabel.CENTER), BorderLayout.SOUTH);
+        panel.add(new JLabel("OurMovies", JLabel.CENTER), BorderLayout.SOUTH);
 
         return panel;
     }

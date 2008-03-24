@@ -2,9 +2,12 @@ package at.ac.tuwien.e0525580.omov.gui.preferences;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,16 +18,18 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.gui.main.MainWindowController;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
-public class PreferencesWindow extends JDialog {
+public class PreferencesWindow extends JDialog implements ActionListener{
 
     private static final long serialVersionUID = -3157582134656737177L;
     private static final Log LOG = LogFactory.getLog(PreferencesWindow.class);
 
-//    private final PreferencesWindowController controller = new PreferencesWindowController(this);
+//    private final PreferencesWindowController preferencesController = new PreferencesWindowController(this);
     
-
+    private static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
 //    private static final String CMD_SERVER_START = "CMD_SERVER_START";
 //    private static final String CMD_SERVER_STOP = "CMD_SERVER_STOP";
     
@@ -32,9 +37,13 @@ public class PreferencesWindow extends JDialog {
 //    private final PreferencesNumber inpServerPort;
 //    private final JButton btnStartStopServer = new JButton("Start");
     
-    public PreferencesWindow(JFrame owner) {
+    private final MainWindowController mainController;
+    
+    
+    public PreferencesWindow(JFrame owner, MainWindowController mainController) {
         super(owner, true);
         this.setTitle("Preferences");
+        this.mainController = mainController;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -84,11 +93,26 @@ public class PreferencesWindow extends JDialog {
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         layout.setConstraints(panel, c);
+        panel.setLayout(layout);
         
+        final JButton btnClearPrefs = new JButton("Clear & Restart");
+        btnClearPrefs.setActionCommand(CMD_CLEAR_PREFERENCES);
+        btnClearPrefs.addActionListener(this);
 
-        panel.add(new JLabel("Username"));
-        panel.add(this.inpUsername);
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        panel.add(new JLabel("Username"), c);
+        c.gridx = 1;
+        panel.add(this.inpUsername, c);
 
+        c.gridx = 0;
+        c.gridy = 1;
+        panel.add(new JLabel("Clear Preferences"), c);
+        c.gridx = 1;
+        panel.add(btnClearPrefs, c);
+        
 //        panel.add(new JLabel("Server port"));
 //        panel.add(this.inpServerPort);
 //
@@ -129,6 +153,33 @@ public class PreferencesWindow extends JDialog {
     
     private void doClose() {
         this.dispose();
+    }
+
+    public void actionPerformed(final ActionEvent event) {
+        new GuiAction() {
+            @Override
+            protected void _action() {
+                final String cmd = event.getActionCommand();
+                LOG.debug("Action performed, cmd='"+cmd+"'.");
+                
+                if(cmd.equals(CMD_CLEAR_PREFERENCES)) {
+                    if(GuiUtil.getYesNoAnswer(PreferencesWindow.this, "Clear Preferences", "Do you really want to clear every perferences you set\nand restart OurMovies immediately?") == false) {
+                        return;
+                    }
+                    
+                    try {
+                        PreferencesWindowController.clearPreferences();
+                        // TODO somehow restart app again after process has stopped
+                        mainController.doQuit();
+                    } catch (BusinessException e) {
+                        LOG.error("Could not clear preferences!", e);
+                        GuiUtil.error(PreferencesWindow.this, "Error", "Could not clear preferences!");
+                    }
+                } else {
+                    throw new IllegalArgumentException("Unhandled command '"+cmd+"'!");
+                }
+            }
+        }.doAction();
     }
     
 }

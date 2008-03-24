@@ -19,12 +19,13 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
+import at.ac.tuwien.e0525580.omov.help.HelpEntry;
+import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
-import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
@@ -46,6 +47,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     // Movie
     private static final String CMD_NEW_MOVIE = "New Movie";
     private static final String CMD_MOVIE_INFO = "Get Info";
+    private static final String CMD_DELETE_MOVIE = "Delete Movie";
     // TODO only osx feature: private static final String CMD_MOVIE_PLAY_VLC = "Play in VLC";
     private static final String CMD_FETCH_METADATA = "Fetch Metadata";
     
@@ -87,7 +89,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
 //        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
         GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
         
-        if(UserSniffer.isOS(OS.MAC) == false) {
+        if(UserSniffer.isMacOSX() == false) {
             menu.addSeparator();
             menu.add(this.quitItem);
         }
@@ -101,9 +103,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
         GuiUtil.createMenuItem(menu, 'N', CMD_NEW_MOVIE, this, KeyEvent.VK_N, ImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
         menu.addSeparator();
         GuiUtil.createMenuItem(menu, 'I', CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        GuiUtil.createMenuItem(menu, 'F', CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        GuiUtil.createMenuItem(menu, 'D', CMD_DELETE_MOVIE, this, KeyEvent.VK_D, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
+        GuiUtil.createMenuItem(menu, 'M', CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         menu.addSeparator();
-        GuiUtil.createMenuItem(menu, 'D', CMD_FIND_DUPLICATES, this);
+        GuiUtil.createMenuItem(menu, 'F', CMD_FIND_DUPLICATES, this);
         
         return menu;
     }
@@ -123,7 +126,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         GuiUtil.createMenuItem(menu, 'S', CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
 //      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
-        if(UserSniffer.isOS(OS.MAC) == false) {
+        if(UserSniffer.isMacOSX() == false) {
             menu.addSeparator();
             menu.add(this.preferencesItem);
         }
@@ -134,9 +137,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuHelp() {
         final JMenu menu = new JMenu("Help");
 
-        GuiUtil.createMenuItem(menu, 'H', CMD_HELP, this, KeyEvent.VK_H, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', CMD_HELP, this, KeyEvent.VK_H, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        HelpSystem.enableHelp(helpItem, HelpEntry.HOME);
         
-        if(UserSniffer.isOS(OS.MAC) == false) {
+        if(UserSniffer.isMacOSX() == false) {
             menu.add(this.aboutItem);
         }
         
@@ -159,6 +163,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 controller.doSmartCopy();
             } else if(cmd.equals(CMD_MOVIE_INFO)) {
                 controller.doEditMovie();
+            } else if(cmd.equals(CMD_DELETE_MOVIE)) {
+                controller.doDeleteMovie();
             } else if(cmd.equals(CMD_FETCH_METADATA)) {
                 controller.doFetchMetaData();
 //            } else if(cmd.equals(CMD_IMPORT)) {
@@ -172,7 +178,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             } else if(cmd.equals(CMD_PREFERENCES)) {
                 controller.doShowPreferences();
             } else if(cmd.equals(CMD_HELP)) {
-                controller.doShowHelp();
+                // do nothing
             } else if(cmd.equals(CMD_ABOUT)) {
                 controller.doShowAbout();
 //            } else if(cmd.equals(CMD_REMOTE)) {

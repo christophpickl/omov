@@ -22,6 +22,8 @@ public abstract class FileSizeMatch extends AbstractMatch<Long> {
     static {
         List<String> tmp = new ArrayList<String>();
         tmp.add(LABEL_EQUALS);
+        tmp.add(LABEL_GREATER);
+        tmp.add(LABEL_LESS);
         ALL_MATCH_LABELS = Collections.unmodifiableList(tmp);
     }
     

@@ -23,7 +23,6 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
 
     private static final long serialVersionUID = 2139356418261910376L;
     private static final Log LOG = LogFactory.getLog(MovieTableModel.class);
-    private static final IMovieDao DAO = BeanFactory.getInstance().getMovieDao();
 
     private List<Movie> data = new ArrayList<Movie>();
     
@@ -82,29 +81,32 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     private SmartFolder smartFolder;
     private String searchTerm;
     
+    
     public MovieTableModel() {
-        DAO.registerMovieDaoListener(this);
+        BeanFactory.getInstance().getMovieDao().registerMovieDaoListener(this);
         this.reloadData();
     }
 
     private void reloadData() {
         try {
+            final IMovieDao movieDao = BeanFactory.getInstance().getMovieDao();
+            
             if(this.smartFolder == null && this.searchTerm == null) {
                 LOG.debug("reloading data whole...");
-                this.data = new ArrayList<Movie>(DAO.getMoviesSorted());
+                this.data = new ArrayList<Movie>(movieDao.getMoviesSorted());
                 
             } else if(this.smartFolder == null && this.searchTerm != null) {
                 LOG.debug("reloading data by search string '"+this.searchTerm+"'...");
-                this.data = naiveSearch(DAO.getMoviesSorted(), searchTerm);
+                this.data = naiveSearch(movieDao.getMoviesSorted(), searchTerm);
                 
             } else if(this.smartFolder != null && this.searchTerm == null) {
                 LOG.debug("reloading data by criteria...");
-                this.data = new ArrayList<Movie>(DAO.getMoviesBySmartFolder(this.smartFolder));
+                this.data = new ArrayList<Movie>(movieDao.getMoviesBySmartFolder(this.smartFolder));
                 
             } else {
                 assert(this.smartFolder != null && this.searchTerm != null);
                 LOG.debug("reloading data by criteria and search '"+this.searchTerm+"'...");
-                this.data = naiveSearch(DAO.getMoviesBySmartFolder(this.smartFolder), searchTerm);
+                this.data = naiveSearch(movieDao.getMoviesBySmartFolder(this.smartFolder), searchTerm);
             }
             
             LOG.debug("reloaded "+this.data.size()+" movies.");

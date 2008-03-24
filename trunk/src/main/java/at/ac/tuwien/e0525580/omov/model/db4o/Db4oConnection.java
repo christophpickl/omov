@@ -1,10 +1,14 @@
 package at.ac.tuwien.e0525580.omov.model.db4o;
 
+import java.io.File;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
@@ -26,6 +30,10 @@ public class Db4oConnection implements IDatabaseConnection {
     }
 
     public Db4oConnection(String dbFileName) {
+        if(UserSniffer.isMacOSX() == true) {
+            dbFileName = new File(Constants.getOsxApplicationSupportFolder(), dbFileName).getAbsolutePath();
+        }
+        LOG.info("Opening database file '"+dbFileName+"'.");
         this.connection = Db4o.openFile(dbFileName);
     }
 
