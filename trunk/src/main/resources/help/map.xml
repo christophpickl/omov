@@ -13,6 +13,8 @@
 	<!-- page navigation -->
 	<mapID target="home" url="html/home.html" />
 	<mapID target="smartfolder" url="html/smartfolder.html" />
+	<mapID target="smartcopy" url="html/smartcopy.html" />
+	<mapID target="repository_scan" url="html/repository_scan.html" />
 	
 	
 	<!-- images -->

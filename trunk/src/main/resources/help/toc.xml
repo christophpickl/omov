@@ -7,6 +7,8 @@
 	<tocitem text="OurMovies" image="image.toplevelfolder">
 	   <tocitem text="Home" target="home"/>
 	   <tocitem text="SmartFolder" target="smartfolder"/>
+	   <tocitem text="SmartCopy" target="smartcopy"/>
+	   <tocitem text="Repository Scan" target="repository_scan"/>
 	   
 	   <!--
 	   <tocitem text="Configuration" target="configuration"/>
