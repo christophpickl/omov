@@ -4,10 +4,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,16 +45,27 @@ public class AboutDialog extends JDialog {
         panel.setBorder(BorderFactory.createEmptyBorder(20, 80, 40, 80)); // top, left, bottom, right
 
 
-        final JButton btnLogo = new JButton(ImageFactory.getInstance().getAboutLogo());
-        btnLogo.setBorderPainted(false);
-        GuiUtil.enableHandCursor(btnLogo);
+//        final JButton logo = new JButton(ImageFactory.getInstance().getAboutLogo());
+//        logo.setBorderPainted(false);
+//        GuiUtil.enableHandCursor(logo);
+//        try {
+//            logo.addActionListener(new OpenBrowserAction(Constants.OMOV_WEBSITE_URL));
+//            logo.setToolTipText("Visit: " + Constants.OMOV_WEBSITE_URL);
+//        } catch (MalformedURLException e) {
+//            LOG.error("OpenBrowserAction failed.", e);
+//        }
+        final JLabel logo = new JLabel(ImageFactory.getInstance().getAboutLogo(), JLabel.CENTER);
         try {
-            btnLogo.addActionListener(new OpenBrowserAction(Constants.OMOV_WEBSITE_URL));
-            btnLogo.setToolTipText("Visit: " + Constants.OMOV_WEBSITE_URL);
+            final OpenBrowserAction openBrowser = new OpenBrowserAction(Constants.OMOV_WEBSITE_URL);
+            logo.addMouseListener(new MouseAdapter() {
+                public void mouseClicked(MouseEvent e) {
+                    openBrowser.actionPerformed(null);
+                }
+            });
+            GuiUtil.enableHandCursor(logo);
         } catch (MalformedURLException e) {
             LOG.error("OpenBrowserAction failed.", e);
         }
-        
         
         final JLabel title = new JLabel("OurMovies", JLabel.CENTER);
         title.setFont(new Font("default", Font.BOLD, 13));
@@ -65,7 +77,7 @@ public class AboutDialog extends JDialog {
 
         c.insets = new Insets(0, 0, 20, 0); // top, left, bottom, right
         c.gridy = 0;
-        panel.add(btnLogo, c);
+        panel.add(logo, c);
 
         c.insets = new Insets(0, 0, 6, 0); // top, left, bottom, right
         c.gridy = 1;
