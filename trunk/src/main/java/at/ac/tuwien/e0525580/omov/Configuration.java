@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
+import at.ac.tuwien.e0525580.omov.gui.preferences.PreferencesWindowController;
+import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 public class Configuration {
 
@@ -19,7 +21,9 @@ public class Configuration {
     private final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
     
     private static final String MOVIE_COLUMN_PREFIX = "MovieColumn-";
-    // FIXME private static final int DATA_VERSION = 1; // use this as a flag, indicating something has changed -> clear existing preferences and popup setup wizard
+    
+    private static final int DATA_VERSION = 1;
+    
     private enum PrefKey {
         IS_CONFIGURED,
         
@@ -57,7 +61,7 @@ public class Configuration {
         this.prefs.put(PrefKey.FOLDER_TEMPORARY.name(), folderTemporary);
         this.prefs.put(PrefKey.USERNAME.name(), username);
         
-        this.prefs.put(PrefKey.IS_CONFIGURED.name(), "x");
+        this.prefs.put(PrefKey.IS_CONFIGURED.name(), String.valueOf(DATA_VERSION));
         this.flush();
         this.loadPreferences();
     }
@@ -94,7 +98,21 @@ public class Configuration {
     }
     
     public boolean isInitialized() {
-        return this.prefs.get(PrefKey.IS_CONFIGURED.name(), null) != null; 
+        final String storedVersion = this.prefs.get(PrefKey.IS_CONFIGURED.name(), null);
+        LOG.debug("Checking configuration; storedVersion="+storedVersion+"; DATA_VERSION="+DATA_VERSION);
+        if(storedVersion == null) {
+            return false;
+        }
+        if(Integer.parseInt(storedVersion) != DATA_VERSION) {
+            GuiUtil.warning("Preferences Version Mismatch", "It seems as you have stored old preferences values.\nOurMovies is going to clear these old values and starting the setup wizard.");
+            try {
+                PreferencesWindowController.clearPreferences();
+            } catch (BusinessException e) {
+                throw new FatalException("Could not clear preferences!", e);
+            }
+            return false;
+        }
+        return true;
     }
     
     public File getCoversFolder() {
