@@ -20,6 +20,7 @@ public class Constants {
     
     private static File osxApplicationSupportFolderCache = null;
 
+    public static final String OMOV_WEBSITE_URL = "http://omov.sourceforge.net";
     
     
     private Constants() {
