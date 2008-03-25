@@ -1,5 +1,6 @@
 package at.ac.tuwien.e0525580.omov.gui.export;
 
+import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -28,29 +29,23 @@ class HtmlExportPanel extends JPanel {
     
     
     public HtmlExportPanel() {
-
+        this.setOpaque(false);
         this.htmlColumnsList.setModel(this.htmlColumnsModel);
+        this.htmlColumnsList.setOpaque(false);
         
         this.initComponents();
     }
 
     private void initComponents() {
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints c = new GridBagConstraints();
-        layout.setConstraints(this, c);
-        this.setLayout(layout);
+        this.setLayout(new BorderLayout());
 
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        this.add(this.getCoversPanel(), BorderLayout.WEST);
+
+//        this.htmlColumnsList.setVisibleRowCount((int) Math.floor(HtmlColumn.getAllColumns().size() / 2.0));
+        this.htmlColumnsList.setVisibleRowCount(4);
         
-        c.gridx = 0;
-        c.gridy = 0;
-        this.add(this.getCoversPanel(), c);
-
-        c.gridx = 1;
-        this.htmlColumnsList.setVisibleRowCount((int) Math.floor(HtmlColumn.getAllColumns().size() / 2.0));
         final JScrollPane scrollPane = new JScrollPane(this.htmlColumnsList);
-//        scrollPane.setPreferredSize(new Dimension(width, height));
-        this.add(new LabeledComponent(scrollPane, "Columns"), c);
+        this.add(new LabeledComponent(scrollPane, "Columns"), BorderLayout.CENTER);
     }
 
     private JPanel getCoversPanel() {
@@ -60,11 +55,15 @@ class HtmlExportPanel extends JPanel {
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
 
+        panel.setOpaque(false);
+        
+        this.inpCoverColumn.setOpaque(false);
+        
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         
         c.gridx = 0;
         c.gridy = 0;
-        c.insets = new Insets(0, 0, 6, 18);
+        c.insets = new Insets(-25, 0, 6, 18);
         panel.add(this.inpCoverColumn, c);
         
         c.gridy = 1;

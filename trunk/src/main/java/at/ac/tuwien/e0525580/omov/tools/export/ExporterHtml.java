@@ -225,6 +225,7 @@ public class ExporterHtml implements IExporterHtml {
             // FEATURE den topbanner + die columnheader ganz oben absolut positionieren, damit man die nicht wegscrollen kann (also immer visible sind)
             BufferedWriter writer = null;
             try {
+                LOG.debug("Opening writer for file '"+target.getAbsolutePath()+"'.");
                 writer = new BufferedWriter(new FileWriter(target));
                 writer.write(
                         "<html>\n" +
@@ -241,6 +242,7 @@ public class ExporterHtml implements IExporterHtml {
 //                if(coversEnabled == true) {
 //                    writer.write("<script type='text/javascript' src='"+COVERS_FOLDER_NAME+"/wz_tooltip.js'></script>");
 //                }
+                LOG.debug("Writing contents of wz_tooltip.js");
                 writer.write(getContentsOfWzTooltipJs());
                 
                 writer.write(

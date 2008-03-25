@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.util;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -238,6 +239,7 @@ public final class FileUtil {
 //    }
     
     public static String getFileContentsFromJar(final String jarFile, int initialCapacityOfStringBuilder) throws BusinessException {
+        LOG.debug("Getting contents of file '"+jarFile+"' from jar.");
         final StringBuilder sb = new StringBuilder(initialCapacityOfStringBuilder);
         InputStream input = null;
         BufferedReader reader = null;
@@ -265,6 +267,18 @@ public final class FileUtil {
         }
         return path.substring(index + 1);
     }
+    
+    public static void closeCloseable(Closeable closeable) {
+        if(closeable != null) {
+            try {
+                closeable.close();
+            } catch(IOException e) {
+                LOG.warn("Could not close closeable.");
+            }
+        }
+    }
+    
+    
     public static void main(String[] args) {
         System.out.println(extractLastFolderName("/folder3/folder2/folder1"));
     }
