@@ -6,9 +6,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
-import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
@@ -30,11 +29,12 @@ public class Db4oConnection implements IDatabaseConnection {
     }
 
     public Db4oConnection(String dbFileName) {
-        final boolean isRunningTest = System.getProperty("omovTestRunning") != null;
+        final boolean isRunningJunitTest = System.getProperty("omovTestRunning") != null;
         
-        if(UserSniffer.isMacOSX() == true && isRunningTest == false) {
-            dbFileName = new File(Constants.getOsxApplicationSupportFolder(), dbFileName).getAbsolutePath();
+        if(isRunningJunitTest == false) {
+            dbFileName = new File(Configuration.getInstance().getDataFolder(), dbFileName).getAbsolutePath();
         }
+        
         LOG.info("Opening database file '"+dbFileName+"'.");
         this.connection = Db4o.openFile(dbFileName);
     }

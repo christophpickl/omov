@@ -27,13 +27,13 @@ public class Configuration {
     private enum PrefKey {
         IS_CONFIGURED,
         
-        FOLDER_COVERS, FOLDER_TEMPORARY,
+        FOLDER_COVERS, FOLDER_TEMPORARY, FOLDER_DATA,
         SERVER_PORT, USERNAME,
         
         RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH;
     }
     
-    private String folderCovers, folderTemporary;
+    private String folderCovers, folderTemporary, folderData;
     
     private String username;
 //    private int serverPort;
@@ -51,14 +51,15 @@ public class Configuration {
         }
     }
     
-    public void setPreferences(String folderCovers, String folderTemporary, String username) {
-        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"').");
+    public void setPreferences(String folderCovers, String folderTemporary, String folderData,String username) {
+        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';folderData='"+folderData+"').");
         
         assert(folderCovers != null && folderTemporary != null && username != null);
         assert(new File(folderCovers).exists() && new File(folderTemporary).exists());
         
         this.prefs.put(PrefKey.FOLDER_COVERS.name(), folderCovers);
         this.prefs.put(PrefKey.FOLDER_TEMPORARY.name(), folderTemporary);
+        this.prefs.put(PrefKey.FOLDER_DATA.name(), folderData);
         this.prefs.put(PrefKey.USERNAME.name(), username);
         
         this.prefs.put(PrefKey.IS_CONFIGURED.name(), String.valueOf(DATA_VERSION));
@@ -69,6 +70,7 @@ public class Configuration {
     private void loadPreferences() {
         this.folderCovers = prefs.get(PrefKey.FOLDER_COVERS.name(), null);
         this.folderTemporary = prefs.get(PrefKey.FOLDER_TEMPORARY.name(), null);
+        this.folderData = prefs.get(PrefKey.FOLDER_DATA.name(), null);
         this.username = prefs.get(PrefKey.USERNAME.name(), null);
 //        this.serverPort = prefs.getInt(KEY.SERVER_PORT.name(), 1789);
         
@@ -150,6 +152,10 @@ public class Configuration {
 
     public File getTemporaryFolder() {
         return new File(this.folderTemporary);
+    }
+
+    public File getDataFolder() {
+        return new File(this.folderData);
     }
 
     private void setPreferencesString(PrefKey key, String value) {

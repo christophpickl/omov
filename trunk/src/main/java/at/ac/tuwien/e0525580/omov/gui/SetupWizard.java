@@ -44,6 +44,8 @@ public class SetupWizard extends JDialog {
     
     private final DirectoryChooser inpFolderCovers = DirectoryChooser.newSimple("Choose Covers Folder");
 
+    private final DirectoryChooser inpFolderData = DirectoryChooser.newSimple("Choose Data Folder");
+
     private boolean isConfirmed = false;
     
     
@@ -96,12 +98,19 @@ public class SetupWizard extends JDialog {
 
         this.inpFolderTemporary.__unchecked_setDirectory(new File("temp"));
         this.inpFolderCovers.__unchecked_setDirectory(new File("covers"));
+        this.inpFolderData.__unchecked_setDirectory(new File("data"));
 
         this.inpFolderTemporary.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
             inpFolderCovers.setDefaultPath(dir.getParentFile());
+            inpFolderData.setDefaultPath(dir.getParentFile());
         }});
         this.inpFolderCovers.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
+            inpFolderData.setDefaultPath(dir.getParentFile());
+        }});
+        this.inpFolderData.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+            inpFolderTemporary.setDefaultPath(dir.getParentFile());
+            inpFolderCovers.setDefaultPath(dir.getParentFile());
         }});
         
         c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -122,9 +131,11 @@ public class SetupWizard extends JDialog {
             
             final File coversFolder = new File(omovAppSupport, "covers");
             final File tempFolder = new File(omovAppSupport, "temp");
+            final File dataFolder = new File(omovAppSupport, "data");
             
             this.inpFolderCovers.__unchecked_setDirectory(coversFolder);
             this.inpFolderTemporary.__unchecked_setDirectory(tempFolder);
+            this.inpFolderData.__unchecked_setDirectory(dataFolder);
         } else {
             c.gridy++;
             c.gridx = 0;
@@ -141,6 +152,14 @@ public class SetupWizard extends JDialog {
             c.gridx = 1;
             c.insets = insetColRight;
             panel.add(this.inpFolderCovers, c);
+    
+            c.gridy++;
+            c.gridx = 0;
+            c.insets = insetColLeft;
+            panel.add(new JLabel("Data Folder"), c);
+            c.gridx = 1;
+            c.insets = insetColRight;
+            panel.add(this.inpFolderData, c);
         }
 
 //        c.gridy++;
@@ -206,8 +225,9 @@ public class SetupWizard extends JDialog {
 
         final String folderCovers = this.setupFolder(this.inpFolderCovers.getDirectory());
         final String folderTemporary = this.setupFolder(this.inpFolderTemporary.getDirectory());
+        final String folderData = this.setupFolder(this.inpFolderData.getDirectory());
         final String username = this.inpUsername.getText();
-        Configuration.getInstance().setPreferences(folderCovers, folderTemporary, username);
+        Configuration.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username);
         
         this.dispose();
     }
