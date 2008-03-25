@@ -126,12 +126,15 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
 					<archive>
+						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+						<!-- 
 						<manifest>
 							<mainClass>
 								at.ac.tuwien.e0525580.omov.App
 							</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
+						-->
 					</archive>
 					<descriptorRefs>
 						<descriptorRef>
