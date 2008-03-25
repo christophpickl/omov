@@ -30,7 +30,9 @@ public class Db4oConnection implements IDatabaseConnection {
     }
 
     public Db4oConnection(String dbFileName) {
-        if(UserSniffer.isMacOSX() == true) {
+        final boolean isRunningTest = System.getProperty("omovTestRunning") != null;
+        
+        if(UserSniffer.isMacOSX() == true && isRunningTest == false) {
             dbFileName = new File(Constants.getOsxApplicationSupportFolder(), dbFileName).getAbsolutePath();
         }
         LOG.info("Opening database file '"+dbFileName+"'.");

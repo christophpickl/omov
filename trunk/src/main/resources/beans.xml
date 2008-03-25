@@ -9,5 +9,7 @@
 		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
 	<bean id="ISmartFolderDao" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oSmartFolderDao"><constructor-arg>
 		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
+	<bean id="IDataVersionDao" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oDataVersionDao"><constructor-arg>
+		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
 
 </beans>

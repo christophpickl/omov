@@ -3,6 +3,7 @@ package at.ac.tuwien.e0525580.omov;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import at.ac.tuwien.e0525580.omov.model.IDataVersionDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.model.ISmartFolderDao;
@@ -38,6 +39,10 @@ public final class BeanFactory {
     
     public ISmartFolderDao getSmartFolderDao() {
         return (ISmartFolderDao) getBean("ISmartFolderDao");
+    }
+    
+    public IDataVersionDao getDataVersionDao() {
+        return (IDataVersionDao) getBean("IDataVersionDao");
     }
     
     @SuppressWarnings("unused")

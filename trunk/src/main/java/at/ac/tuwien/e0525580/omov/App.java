@@ -10,9 +10,11 @@ import javax.swing.UIManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
 import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindow;
+import at.ac.tuwien.e0525580.omov.model.IDataVersionDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 import at.ac.tuwien.e0525580.omov.tools.TemporaryFilesCleaner;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -93,6 +95,10 @@ public class App {
             TemporaryFilesCleaner.clean();
             App.addShutdownHook();
             
+            if(App.checkDataVersion() == false) {
+                System.exit(1);
+            }
+            
             final MainWindow mainWindow = new MainWindow();
             
             final long timeLasted = new Date().getTime() - timeStart;
@@ -113,6 +119,28 @@ public class App {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
         }
         
+    }
+    
+    private static boolean checkDataVersion() {
+        final IDataVersionDao versionDao = BeanFactory.getInstance().getDataVersionDao();
+        final int dataVersion = versionDao.getDataVersion();
+        LOG.debug("checking data versions: database version = "+dataVersion+"; application version = "+Movie.DATA_VERSION);
+        if(dataVersion == -1) {
+            LOG.info("Storing initial data version value of '"+Movie.DATA_VERSION+"'.");
+            versionDao.storeDataVersion(Movie.DATA_VERSION);
+            return true;
+        }
+        
+        if(dataVersion != Movie.DATA_VERSION) {
+            // TODO write troubleshooting topic for this problem (either delete db4-file for reset or use converter if possible)
+            GuiUtil.error("Data Version Mismatch", "Sorry, but it seems as you were using an incompatible database.\n" +
+                    "Database version: "+dataVersion+"\n" +
+                    "Application version: "+Movie.DATA_VERSION);
+            return false;
+        }
+        
+        LOG.debug("Dataversions are ok.");
+        return true;
     }
     
     public static boolean isArgumentSet(String argument) {
