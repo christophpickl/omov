@@ -3,10 +3,17 @@ package at.ac.tuwien.e0525580.omov.gui.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
+import javax.swing.JDialog;
+import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +32,7 @@ import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
+
 
 public class MenuBar extends JMenuBar implements ActionListener {
 
@@ -226,6 +234,36 @@ public class MenuBar extends JMenuBar implements ActionListener {
 //                        GuiUtil.error("Reset failed", "Resetting movies failed: " + e.getMessage());
 //                    }
 //           }});
+
+            class PrefDialog extends JDialog {
+                private static final long serialVersionUID = 1577151281639336184L;
+                public PrefDialog() {
+                    final List<String> prefKeyValues = new LinkedList<String>();
+                    final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
+                    try {
+                        for (String key : prefs.keys()) {
+                            String prefValue = prefs.get(key, "null");
+                            prefKeyValues.add(key + " = " + prefValue);
+                        }
+                    } catch (BackingStoreException e) {
+                        LOG.error("Could not load preferences!", e);
+                    }
+                    
+                    final JList prefList = new JList(prefKeyValues.toArray());
+                    final JScrollPane scroll = new JScrollPane(prefList);
+                    this.getContentPane().add(scroll);
+                    
+                    this.setTitle("Preferences Window");
+                    this.pack();
+                }
+            }
+            final PrefDialog prefDialog = new PrefDialog();
+            
+            GuiUtil.createMenuItem(menu, 'P', "Show Preferences", new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    prefDialog.setVisible(true);
+                }
+            });
             
             GuiUtil.createMenuItem(menu, 'D', "Drop Movies", new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
