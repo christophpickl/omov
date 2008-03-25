@@ -3,6 +3,7 @@ package at.ac.tuwien.e0525580.omov.gui.smartfolder;
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -105,6 +106,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         btnEdit.addKeyListener(this.escapeDisposer);
         btnDelete.addKeyListener(this.escapeDisposer);
         
+        
         final JPanel panel = new JPanel();
         panel.setOpaque(false);
         final GridBagLayout layout = new GridBagLayout();
@@ -112,6 +114,10 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
 
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0, 10, 4, 0);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        
         c.gridx = 0;
         c.gridy = 0;
         panel.add(btnAdd, c);
@@ -120,6 +126,8 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         c.gridy++;
         panel.add(btnDelete, c);
         c.gridy++;
+        c.fill = GridBagConstraints.NONE;
+        c.insets = new Insets(0, 10, 0, 0);
         panel.add(HelpSystem.newButton(HelpEntry.SMARTFOLDER, "What are SmartFolders?"), c);
 
         return panel;
