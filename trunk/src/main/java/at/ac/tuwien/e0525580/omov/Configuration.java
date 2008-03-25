@@ -219,6 +219,7 @@ public class Configuration {
     void checkFolderExistence() throws BusinessException {
         this.createFolder(Configuration.getInstance().getCoversFolder());
         this.createFolder(Configuration.getInstance().getTemporaryFolder());
+        this.createFolder(Configuration.getInstance().getDataFolder());
     }
     
     private void createFolder(final File folder) throws BusinessException {
