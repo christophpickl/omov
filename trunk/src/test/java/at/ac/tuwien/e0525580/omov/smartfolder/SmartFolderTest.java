@@ -5,16 +5,6 @@ import java.util.Date;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
-import at.ac.tuwien.e0525580.omov.smartfolder.BoolCriterion;
-import at.ac.tuwien.e0525580.omov.smartfolder.BoolMatch;
-import at.ac.tuwien.e0525580.omov.smartfolder.DateCriterion;
-import at.ac.tuwien.e0525580.omov.smartfolder.DateMatch;
-import at.ac.tuwien.e0525580.omov.smartfolder.NumberCriterion;
-import at.ac.tuwien.e0525580.omov.smartfolder.NumberMatch;
-import at.ac.tuwien.e0525580.omov.smartfolder.ResolutionCriterion;
-import at.ac.tuwien.e0525580.omov.smartfolder.ResolutionMatch;
-import at.ac.tuwien.e0525580.omov.smartfolder.TextCriterion;
-import at.ac.tuwien.e0525580.omov.smartfolder.TextMatch;
 
 public class SmartFolderTest extends AbstractSmartFolderTest {
 
@@ -42,6 +32,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
 //            System.out.println("- " + movie);
 //        }
 //    }
+    
 
     /******************************************************************************************************************/
     /**    T E X T   M A T C H E S
@@ -148,12 +139,12 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
         
         try {
             assertEquals(MOVIE_TEST_DATA.size(), this.fetchAllMovies().size());
-            DB.set(recentlyAddedMovie);
+            objectContainer.set(recentlyAddedMovie);
             assertEquals(MOVIE_TEST_DATA.size()+1, this.fetchAllMovies().size());
             
             this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newInTheLast(1)));
         } finally {
-            DB.delete(recentlyAddedMovie);
+            objectContainer.delete(recentlyAddedMovie);
             assertEquals(MOVIE_TEST_DATA.size(), this.fetchAllMovies().size());
         }
     }
@@ -169,7 +160,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
 //        }
         
         this.checkOneExisting(ResolutionCriterion.newResolution(ResolutionMatch.newGreater(new Resolution(1999, 1999))));
-        this.checkOneExisting(ResolutionCriterion.newResolution(ResolutionMatch.newGreater(R2000x2000)));
+        this.checkNoneExisting(ResolutionCriterion.newResolution(ResolutionMatch.newGreater(R2000x2000)));
         this.checkNoneExisting(ResolutionCriterion.newResolution(ResolutionMatch.newGreater(new Resolution(2001, 2000))));
         this.checkNoneExisting(ResolutionCriterion.newResolution(ResolutionMatch.newGreater(new Resolution(2000, 2001))));
         this.checkOneExisting(ResolutionCriterion.newResolution(ResolutionMatch.newEquals(Resolution.R0x0)));

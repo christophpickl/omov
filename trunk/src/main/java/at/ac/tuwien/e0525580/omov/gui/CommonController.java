@@ -26,7 +26,7 @@ public abstract class CommonController {
             result = ex.search(movieFetchingData.getTitle());
         } catch (BusinessException e) {
             LOG.error("Could not fetch movie details for movie '"+movieFetchingData+"'!", e);
-            GuiUtil.error(parent, "Fetching Metadata failed", "Could not get metadta for movie '"+movieFetchingData.getTitle()+"'!");
+            GuiUtil.error(parent, "Fetching Metadata Failed", "Could not get metadta for movie '"+movieFetchingData.getTitle()+"'!\nPlease check your internet connection.");
             return null;
         }
         

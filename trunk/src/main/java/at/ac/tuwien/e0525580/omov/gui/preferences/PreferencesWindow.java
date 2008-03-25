@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -90,12 +91,13 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
         
-        final JButton btnClearPrefs = new JButton("Clear & Restart");
+        final JButton btnClearPrefs = new JButton("Clear & Shutdown");
         btnClearPrefs.setActionCommand(CMD_CLEAR_PREFERENCES);
         btnClearPrefs.addActionListener(this);
 
@@ -163,13 +165,12 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                 LOG.debug("Action performed, cmd='"+cmd+"'.");
                 
                 if(cmd.equals(CMD_CLEAR_PREFERENCES)) {
-                    if(GuiUtil.getYesNoAnswer(PreferencesWindow.this, "Clear Preferences", "Do you really want to clear every perferences you set\nand restart OurMovies immediately?") == false) {
+                    if(GuiUtil.getYesNoAnswer(PreferencesWindow.this, "Clear Preferences", "Do you really want to clear every perferences you set\nand shutdown OurMovies immediately?") == false) {
                         return;
                     }
                     
                     try {
                         PreferencesWindowController.clearPreferences();
-                        // TODO somehow restart app again after process has stopped
                         mainController.doQuit();
                     } catch (BusinessException e) {
                         LOG.error("Could not clear preferences!", e);

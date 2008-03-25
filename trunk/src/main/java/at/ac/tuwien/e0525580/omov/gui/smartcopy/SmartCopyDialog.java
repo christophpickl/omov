@@ -295,6 +295,7 @@ public class SmartCopyDialog extends JDialog implements ActionListener {
         @Override
         protected String doInBackground() throws Exception {
 //            this.setProgress(progress)
+            // FIXME implement smartcopy swingworker
             Thread.sleep(1000 * 10);
             return null;
         }

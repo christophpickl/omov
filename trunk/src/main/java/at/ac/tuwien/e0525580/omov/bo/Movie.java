@@ -51,7 +51,7 @@ public class Movie implements Serializable {
     private static final long serialVersionUID = -1005281123869400266L;
     private static final Log LOG = LogFactory.getLog(Movie.class);
 
-    public static final int DATA_VERSION = 1; // FIXME check data version at startup (before create some file indicating current used version; if user downloads new omov version and wants to use old database (old movie data version) show error! (prompt to delete database file or use older app version)
+    public static final int DATA_VERSION = 1;
     
     public static final SimpleDateFormat DATE_ADDED_FORMAT_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_ADDED_FORMAT_SHORT = new SimpleDateFormat("yyyy-MM-dd");

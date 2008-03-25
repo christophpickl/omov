@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.table.MovieTableHeader.HeaderContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.IMovieTableContextMenuListener;
 

@@ -1,9 +1,11 @@
 package at.ac.tuwien.e0525580.omov.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -36,7 +38,7 @@ public class SetupWizard extends JDialog {
     private static final Log LOG = LogFactory.getLog(SetupWizard.class);
     private static final long serialVersionUID = 4418685920529669271L;
 
-    private final JTextField inpUsername = new JTextField(20);
+    private final JTextField inpUsername = new JTextField(21);
     
     private final DirectoryChooser inpFolderTemporary = DirectoryChooser.newSimple("Choose Temporary Folder");
     
@@ -47,7 +49,7 @@ public class SetupWizard extends JDialog {
     
     public SetupWizard() {
         this.setModal(true);
-        this.setTitle("Setup Wizard");
+        this.setTitle("OurMovies Setup Wizard");
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -68,7 +70,6 @@ public class SetupWizard extends JDialog {
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout(0, 15));
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 0, 10));
 
         panel.add(this.panelNorth(), BorderLayout.NORTH);
         panel.add(this.panelCenter(), BorderLayout.CENTER);
@@ -78,15 +79,16 @@ public class SetupWizard extends JDialog {
     }
 
     private JPanel panelNorth() {
-        final JPanel panel = new JPanel();
-        
-        panel.add(new JLabel("--- banner ---"));
-        
+        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        panel.setBackground(Color.WHITE);
+        final JLabel lbl = new JLabel(ImageFactory.getInstance().getSetupWizardBanner(), JLabel.RIGHT);
+        panel.add(lbl);
         return panel;
     }
 
     private JPanel panelCenter() {
         final JPanel panel = new JPanel();
+        panel.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         panel.setLayout(layout);
@@ -103,11 +105,16 @@ public class SetupWizard extends JDialog {
         }});
         
         c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        final Insets insetColLeft  = new Insets(10, 0, 0, 28);
+        final Insets insetColRight = new Insets(10, 0, 0,  0);
         
         c.gridy = 0;
         c.gridx = 0;
+        c.insets = insetColLeft;
         panel.add(new JLabel("Username"), c);
         c.gridx = 1;
+        c.insets = insetColRight;
         panel.add(this.inpUsername, c);
 
         if(UserSniffer.isMacOSX() == true) {
@@ -121,22 +128,26 @@ public class SetupWizard extends JDialog {
         } else {
             c.gridy++;
             c.gridx = 0;
+            c.insets = insetColLeft;
             panel.add(new JLabel("Temporary Folder"), c);
             c.gridx = 1;
+            c.insets = insetColRight;
             panel.add(this.inpFolderTemporary, c);
     
             c.gridy++;
             c.gridx = 0;
+            c.insets = insetColLeft;
             panel.add(new JLabel("Cover Folder"), c);
             c.gridx = 1;
+            c.insets = insetColRight;
             panel.add(this.inpFolderCovers, c);
         }
 
-        c.gridy++;
-        c.gridx = 0;
-        panel.add(new JLabel("some other"), c);
-        c.gridx = 1;
-        panel.add(new JLabel("---"), c);
+//        c.gridy++;
+//        c.gridx = 0;
+//        panel.add(new JLabel("some other"), c);
+//        c.gridx = 1;
+//        panel.add(new JLabel("---"), c);
 
         return panel;
     }

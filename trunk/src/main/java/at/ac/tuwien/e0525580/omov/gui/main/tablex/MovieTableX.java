@@ -27,7 +27,7 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel.MovieColumn;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
 import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;

@@ -77,20 +77,15 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
     }
     
     @Override
-    public void mouseClicked(MouseEvent event) {
-        final boolean isRightBtn = SwingUtilities.isRightMouseButton(event);
-        LOG.debug("Clicked on " + event.getSource().getClass().getSimpleName() + " (isRightBtn="+isRightBtn+")");
-//        if((event.getSource() instanceof MovieTable) == false) {
-//            System.out.println("returning");
-//            return;
-//        }
+    public void mousePressed(MouseEvent event) {
         
-        if(isRightBtn) {
+        if(event.isPopupTrigger()) {
 //            System.out.println("event.isPopupTrigger() =>" + event.isPopupTrigger());
 //            System.out.println("event.isConsumed()     => " + event.isConsumed());
 //            System.out.println("event.isMetaDown()     => " + event.isMetaDown());
             
             if(this.isKeyDown == true) {
+                // TODO look if this is really necessary anymore (since isPopupTrigger was added); otherwise remove this.
                 LOG.debug("SwingUtilities says right button, but actual only (meta-)key is down :/");
                 return;
             }
@@ -114,6 +109,11 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
         }
     }
     
+    // what for? -> see /.../Lang/java/_java_from/win/java_musterloesung/swing
+//    public void mouseReleased(MouseEvent e) {
+//        mousePressed( e );
+//    }
+    
     public void actionPerformed(ActionEvent event) {
         JMenuItem item = (JMenuItem) event.getSource();
         LOG.debug("actionPerformed(cmd="+item.getActionCommand()+"; row="+this.tableRowSelected+"; selection=" + (wasPopupShownSingle?"single":"multiple")+")");
@@ -132,22 +132,17 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
     }
     
 
-    public void keyPressed(KeyEvent arg0) {
+    public void keyPressed(KeyEvent event) {
         this.isKeyDown = true;
     }
 
-    public void keyReleased(KeyEvent arg0) {
+    public void keyReleased(KeyEvent event) {
         this.isKeyDown = false;
     }
 
-    public void keyTyped(KeyEvent arg0) {
+    public void keyTyped(KeyEvent event) {
         // nothing to do
     }
 
     
-    
-    public static interface TableContextMenuListener {
-        void contextMenuClicked(JMenuItem item, int tableRowSelected);
-        void contextMenuClickedMultiple(JMenuItem item, int[] tableRowsSelected);
-    }
 }

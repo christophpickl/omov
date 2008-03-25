@@ -5,7 +5,9 @@ import com.db4o.ObjectContainer;
 public class AbstractDb4oDao {
     
     final ObjectContainer objectContainer;
+    
     private final Db4oConnection connection;
+    
     
     public AbstractDb4oDao(Db4oConnection connection) {
         this.connection = connection;

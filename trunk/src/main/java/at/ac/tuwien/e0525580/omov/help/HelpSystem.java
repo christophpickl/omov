@@ -21,7 +21,6 @@ public class HelpSystem {
     
     private static boolean initialized = false;
     
-    // FIXME incomment search-view in help.hs -> getting java.security.InvalidParameterException from DefaultSearchEngine init
     
     private HelpSystem() {
         // no instantiation

@@ -16,7 +16,6 @@ import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
-import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
@@ -199,34 +198,34 @@ public class MenuBar extends JMenuBar implements ActionListener {
             LOG.info("adding debug menu.");
             final JMenu menu = new JMenu("Debug");
             
-            GuiUtil.createMenuItem(menu, 'R', "Reset Movies", new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
-                    LOG.info("resetting movies.");
-                    try {
-                        IMovieDao dao = BeanFactory.getInstance().getMovieDao();
-                        for (Movie movie : dao.getMovies()) {
-                            dao.deleteMovie(movie);
-                        }
-                        // General: String title, boolean seen, int rating, String coverFile, Set genres, Set languages, String style
-                        // Detail: Set actors, int year, String comment
-                        // Technical: long fileSizeKb, String folderPath, String format, Set files, int duration, Resolution resolution, Set subtitles
-                        Movie m = Movie.create(-1).title("Indiana Jones 1").seen(true).rating(3).genres("Action", "Romance").languages("DE").style("Color")
-                        .actors("Harrison Ford").year(1998).comment("Sau lustig")
-                        .fileSizeKb(23542341).folderPath("").format("mp4").files("indi3.mp4").duration(142323).resolution(new Resolution(712, 568))
-                        .get();
-                    dao.insertMovie(m);
-                    
-                    m = Movie.create(-1).title("The Matrix").seen(false).rating(0).genres("SciFi").languages("EN", "DE").style("Color")
-                    .actors("Keanu Reeves").year(2002).comment("")
-                    .fileSizeKb(12352342).folderPath("").format("avi").duration(3523423).resolution(new Resolution(923, 600))
-                    .get();
-                    dao.insertMovie(m);
-                        
-                    } catch (BusinessException e) {
-                        LOG.error("Resetting movies failed!", e);
-                        GuiUtil.error("Reset failed", "Resetting movies failed: " + e.getMessage());
-                    }
-           }});
+//            GuiUtil.createMenuItem(menu, 'R', "Reset Movies", new ActionListener() {
+//                public void actionPerformed(ActionEvent event) {
+//                    LOG.info("resetting movies.");
+//                    try {
+//                        IMovieDao dao = BeanFactory.getInstance().getMovieDao();
+//                        for (Movie movie : dao.getMovies()) {
+//                            dao.deleteMovie(movie);
+//                        }
+//                        // General: String title, boolean seen, int rating, String coverFile, Set genres, Set languages, String style
+//                        // Detail: Set actors, int year, String comment
+//                        // Technical: long fileSizeKb, String folderPath, String format, Set files, int duration, Resolution resolution, Set subtitles
+//                        Movie m = Movie.create(-1).title("Indiana Jones 1").seen(true).rating(3).genres("Action", "Romance").languages("DE").style("Color")
+//                        .actors("Harrison Ford").year(1998).comment("Sau lustig")
+//                        .fileSizeKb(23542341).folderPath("").format("mp4").files("indi3.mp4").duration(142323).resolution(new Resolution(712, 568))
+//                        .get();
+//                    dao.insertMovie(m);
+//                    
+//                    m = Movie.create(-1).title("The Matrix").seen(false).rating(0).genres("SciFi").languages("EN", "DE").style("Color")
+//                    .actors("Keanu Reeves").year(2002).comment("")
+//                    .fileSizeKb(12352342).folderPath("").format("avi").duration(3523423).resolution(new Resolution(923, 600))
+//                    .get();
+//                    dao.insertMovie(m);
+//                        
+//                    } catch (BusinessException e) {
+//                        LOG.error("Resetting movies failed!", e);
+//                        GuiUtil.error("Reset failed", "Resetting movies failed: " + e.getMessage());
+//                    }
+//           }});
             
             GuiUtil.createMenuItem(menu, 'D', "Drop Movies", new ActionListener() {
                 public void actionPerformed(ActionEvent event) {

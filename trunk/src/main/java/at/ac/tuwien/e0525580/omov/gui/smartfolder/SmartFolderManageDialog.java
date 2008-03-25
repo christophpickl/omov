@@ -1,7 +1,8 @@
 package at.ac.tuwien.e0525580.omov.gui.smartfolder;
 
 import java.awt.BorderLayout;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -56,7 +57,8 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         this.setTitle("SmartFolders");
         
         this.initComponents();
-        this.pack();
+        this.setSize(300, 180);
+//        this.pack();
         this.setResizable(false);
         GuiUtil.setCenterLocation(this);
     }
@@ -83,9 +85,6 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     }
     
     private JPanel newPanelButtons() {
-        final JPanel panel = new JPanel();
-        panel.setOpaque(false);
-        
         final JButton btnAdd = new JButton("Add");
         final JButton btnEdit = new JButton("Edit");
         final JButton btnDelete = new JButton("Delete");
@@ -106,18 +105,23 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         btnEdit.addKeyListener(this.escapeDisposer);
         btnDelete.addKeyListener(this.escapeDisposer);
         
-        final JPanel panelButtons = new JPanel(new GridLayout(4, 1));
-        panelButtons.setOpaque(false);
-        panelButtons.add(btnAdd);
-        panelButtons.add(btnEdit);
-        panelButtons.add(btnDelete);
-        final JPanel panelHelp = new JPanel();
-        panelHelp.setOpaque(false);
-        panelHelp.add(HelpSystem.newButton(HelpEntry.SMARTFOLDER, "What are SmartFolders?"));
-        panelButtons.add(panelHelp);
+        final JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        final GridBagLayout layout = new GridBagLayout();
+        final GridBagConstraints c = new GridBagConstraints();
+        layout.setConstraints(panel, c);
+        panel.setLayout(layout);
 
-        panel.add(panelButtons);
-        
+        c.gridx = 0;
+        c.gridy = 0;
+        panel.add(btnAdd, c);
+        c.gridy++;
+        panel.add(btnEdit, c);
+        c.gridy++;
+        panel.add(btnDelete, c);
+        c.gridy++;
+        panel.add(HelpSystem.newButton(HelpEntry.SMARTFOLDER, "What are SmartFolders?"), c);
+
         return panel;
     }
 

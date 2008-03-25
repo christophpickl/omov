@@ -12,21 +12,6 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-/* TODO complete smart folder columns
-Set<String> genres; - String genresString;
-Set<String> languages; - String languagesString;
-Set<String> actors; - String actorsString;
-int quality;
-long fileSizeKb;
-String format; // separated by "/"
-int duration;
-Set<String> subtitles;
-
-
--NOT String folderPath;
--NOT String coverFile;
--NOT Set<String> files;
- */
 public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
 
     private static final Log LOG = LogFactory.getLog(AbstractColumnCriterion.class);

@@ -325,7 +325,7 @@ public final class MainWindowController extends CommonController implements IRem
     }
 
     public void doExport() {
-        ExporterChooserDialog chooser = new ExporterChooserDialog(this.mainWindow);
+        ExporterChooserDialog chooser = new ExporterChooserDialog(this.mainWindow, this);
         chooser.setVisible(true);
     }
     
@@ -379,5 +379,12 @@ public final class MainWindowController extends CommonController implements IRem
      */
     public void dataReceived(VersionedMovies movies) {
         JOptionPane.showMessageDialog(this.mainWindow, movies.toString(), "Data received!", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    public List<Movie> getVisibleTableMovies() {
+        return this.mainWindow.getVisibleMovies();
+    }
+    public List<Movie> getSelectedTableMovies() {
+        return this.mainWindow.getSelectedMovies();
     }
 }

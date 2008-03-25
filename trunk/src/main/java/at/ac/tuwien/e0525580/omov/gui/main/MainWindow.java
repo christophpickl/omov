@@ -189,6 +189,17 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         
         return Collections.unmodifiableList(selectedMovies);
     }
+    
+    public List<Movie> getVisibleMovies() {
+        final int rowCount = this.moviesTable.getRowCount();
+        final List<Movie> visibleMovies = new ArrayList<Movie>(rowCount);
+        
+        for (int i = 0; i < rowCount; i++) {
+            visibleMovies.add(this.moviesModel.getMovieAt(i));
+        }
+        
+        return Collections.unmodifiableList(visibleMovies);
+    }
 
     public void doEditMovie(int tableRowSelected) {
         final Movie movie = this.moviesModel.getMovieAt(this.moviesTable.convertRowIndexToModel(tableRowSelected));

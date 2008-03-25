@@ -33,9 +33,11 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext.TableContextMenuListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser.ButtonPosition;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser.IDirectoryChooserListener;
+import at.ac.tuwien.e0525580.omov.help.HelpEntry;
+import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScanHint;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
@@ -67,7 +69,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
     private ScannedMovieTable tblScannedMovie = new ScannedMovieTable(this.tblScannedMovieModel);
     private final ScanHintTableModel tblHintsModel = new ScanHintTableModel();
     private final ScanHintTable tblHints = new ScanHintTable(this.tblHintsModel);
-    
+
+    private JSplitPane tableSplitter;
     
     public ScanDialog(JFrame owner) {
         super(owner, "Scan", true);
@@ -139,6 +142,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
         panel.add(this.inpScanRoot);
         panel.add(this.inpFetchMetadata);
         panel.add(this.btnPrepare);
+        panel.add(HelpSystem.newButton(HelpEntry.REPOSITORY_SCAN, "What is this scanning for?"));
         
         return panel;
     }
@@ -174,20 +178,20 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
         
         final JScrollPane paneHints = GuiUtil.wrapScroll(this.tblHints, 300, 20);
         paneHints.setMinimumSize(new Dimension(0, 0));
-        final JSplitPane splitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, GuiUtil.wrapScroll(this.tblScannedMovie, 400, 140), paneHints);
-        splitter.setOneTouchExpandable(true);
-        splitter.setBorder(null);
+        this.tableSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, GuiUtil.wrapScroll(this.tblScannedMovie, 400, 140), paneHints);
+        this.tableSplitter.setOneTouchExpandable(true);
+        this.tableSplitter.setBorder(null);
 //        splitter.setDividerLocation(0);
 //        splitter.setResizeWeight(1.0);
-        splitter.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        this.tableSplitter.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent event) {
-                splitter.setDividerLocation(700);
+                tableSplitter.setDividerLocation(700);
             }
         });
         
-        panel.add(splitter, BorderLayout.CENTER);
+        panel.add(this.tableSplitter, BorderLayout.CENTER);
         // panel.add(, BorderLayout.SOUTH);
         return panel;
     }
@@ -240,12 +244,17 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
     }
 
     void doScanCompleted(List<ScannedMovie> scannedMovies, List<ScanHint> hints) {
+        
         this.btnScan.setEnabled(true);
         this.btnImport.setEnabled(true);
         this.progressBar.setString("Finished");
         // NOTODO sort list of movies first -> leave them as they were scanned (order given by filesystem)
         this.tblScannedMovieModel.setData(scannedMovies);
         this.tblHintsModel.setData(hints);
+        
+        if(scannedMovies.size() == 0) {
+            this.tableSplitter.setDividerLocation(0.4); // 40% movie table, 60% hints
+        }
     }
     
     JProgressBar getProgressBar() {

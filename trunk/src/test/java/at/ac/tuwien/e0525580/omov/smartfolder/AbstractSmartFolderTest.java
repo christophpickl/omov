@@ -1,6 +1,5 @@
 package at.ac.tuwien.e0525580.omov.smartfolder;
 
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,30 +8,24 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.AbstractTestCase;
+import at.ac.tuwien.e0525580.omov.Db4oUtil;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.model.db4o.ObjectSetTransformer;
-import at.ac.tuwien.e0525580.omov.smartfolder.AbstractColumnCriterion;
-import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 
-import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 
-abstract class AbstractSmartFolderTest extends TestCase {
+abstract class AbstractSmartFolderTest extends AbstractTestCase {
 
     private static final Log LOG = LogFactory.getLog(AbstractSmartFolderTest.class);
 
-    private static final String DB_FILE_NAME = "junit_test.db4";
-
-    static final ObjectContainer DB;
     
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     
@@ -123,14 +116,8 @@ abstract class AbstractSmartFolderTest extends TestCase {
         MOVIE_TEST_DATA.add(MOVIE_STAR_WARS3);
     }
 
+    protected static final ObjectContainer objectContainer = Db4oUtil.getDbConnection("AbstractSmartFolderTest.db4");
 
-    static {
-        final boolean insertData = (new File(DB_FILE_NAME).exists() == false);
-        LOG.info("Opening connection to file '"+DB_FILE_NAME+"'.");
-        DB = Db4o.openFile(DB_FILE_NAME);
-
-        if(insertData) insertTestData();
-    }
     
     static Date newDate(String s) {
         try {
@@ -147,21 +134,19 @@ abstract class AbstractSmartFolderTest extends TestCase {
         return movie;
     }
 
+    
+
+    
     protected void setUp() throws Exception {
         super.setUp();
-        LOG.info("### " + this.getName() + " START");
-    }
-    protected void tearDown() throws Exception {
-        super.tearDown();
-        LOG.info("### " + this.getName() + " END");
+        
+        this.insertTestData();
     }
     
-    
-    
-    private static void insertTestData() {
+    private void insertTestData() {
         LOG.info("inserting test data ("+MOVIE_TEST_DATA.size()+" movies).");
         for (Movie movie : MOVIE_TEST_DATA) {
-            DB.set(movie);
+            this.objectContainer.set(movie);
             LOG.debug(movie);
         }
     }
@@ -206,7 +191,7 @@ abstract class AbstractSmartFolderTest extends TestCase {
     
     @SuppressWarnings("unchecked")
     List<Movie> executeSmartFolder(SmartFolder smartFolder) {
-        final Query query = DB.query();
+        final Query query = this.objectContainer.query();
         smartFolder.pepareQuery(query);
         
         final ObjectSet<Movie> os = query.execute();
@@ -216,7 +201,7 @@ abstract class AbstractSmartFolderTest extends TestCase {
     
     @SuppressWarnings("unchecked")
     List<Movie> fetchAllMovies() {
-        final Query query = DB.query();
+        final Query query = this.objectContainer.query();
         query.constrain(Movie.class);
         final ObjectSet<Movie> os = query.execute();
         final List<Movie> movies = new ObjectSetTransformer<Movie>().transformList(os);

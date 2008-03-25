@@ -42,7 +42,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final long serialVersionUID = -4273211406354799248L;
     
     // TODO let inpTitle gain initial focus
-    private final JTextField inpTitle = new MovieTitleSuggester(42); // 42 is actually irrelevant because it does not have any effect
+    public final JTextField inpTitle = new MovieTitleSuggester(33);
     
     private final DurationPanel inpDuration;
     private final ResolutionPanel inpResolution;

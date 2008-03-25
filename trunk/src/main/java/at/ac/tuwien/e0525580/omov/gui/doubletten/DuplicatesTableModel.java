@@ -106,7 +106,7 @@ public class DuplicatesTableModel extends AbstractTableModel {
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false; // TODO make cells editable (mantis: 6)
+        return false;
     }
     
 

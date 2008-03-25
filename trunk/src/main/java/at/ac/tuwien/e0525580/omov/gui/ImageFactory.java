@@ -64,16 +64,24 @@ public class ImageFactory {
         return this.getImage("brushed.gif").getImage();
     }
     public ImageIcon getSplashScreenLogo() {
-        return this.getImage("splash_screen_logo.png");
+        return this.getImage("logo_splashscreen.png");
+    }
+    public ImageIcon getAboutLogo() {
+        return this.getImage("logo_about.png");
     }
     
     public ImageIcon getIcon(Icon16x16 iconEnum) {
         return this.getImage("icons/" + iconEnum.fileName);
     }
-    
+
     public ImageIcon getHelp() {
         return this.getImage("help.png");
     }
+
+    public ImageIcon getSetupWizardBanner() {
+        return this.getImage("setup_wizard_banner.png");
+    }
+    
 
 
     public enum Icon16x16 {

@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.comp.generic;
 
-import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -63,11 +64,22 @@ public class DirectoryChooser extends JPanel implements ActionListener{
         this.button.setOpaque(false);
         this.button.addActionListener(this);
         
-        final JPanel panel = new JPanel(new BorderLayout(4, 0));
-        panel.setOpaque(false);
-        panel.add(this.directoryPath, position == ButtonPosition.LEFT ? BorderLayout.EAST : BorderLayout.WEST);
-        panel.add(this.button, position == ButtonPosition.LEFT ? BorderLayout.WEST : BorderLayout.EAST);
-        this.add(panel);
+        this.initComponents(position);
+    }
+    
+    private void initComponents(final ButtonPosition position) {
+        this.setOpaque(false);
+        final GridBagLayout layout = new GridBagLayout();
+        final GridBagConstraints c = new GridBagConstraints();
+        layout.setConstraints(this, c);
+        this.setLayout(layout);
+        c.gridy = 0;
+        
+        c.gridx = 0;
+        this.add((position == ButtonPosition.LEFT) ? this.button : this.directoryPath);
+        
+        c.gridx++;
+        this.add((position == ButtonPosition.LEFT) ? this.directoryPath : this.button);
     }
     
     public void setDirectory(final File directory) {
