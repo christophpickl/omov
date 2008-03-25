@@ -11,22 +11,23 @@ import javax.swing.JSlider;
  * 
  * @author Christoph Pickl - e0525580@student.tuwien.ac.at
  */
-public class RatingField extends JSlider {
+public class RatingPanel extends JSlider {
     
     private static final long serialVersionUID = -4967962025253623550L;
 
-    public RatingField(final int rating) {
+    public RatingPanel(final int rating) {
         this(rating, null, null);
     }
 
-    public RatingField(final int rating, Color primaryColor) {
+    public RatingPanel(final int rating, Color primaryColor) {
         this(rating, primaryColor, null);
     }
-    public RatingField(final int rating, Color primaryColor, Color secondaryColor) {
+    public RatingPanel(final int rating, Color primaryColor, Color secondaryColor) {
         super(0, 5, rating);
         assert(rating >= 0 && rating <= 5) : "rating must be between 0-5 (was: "+rating+")!";
 
         this.setEnabled(true);
+        this.setOpaque(false);
         
         ShapeSliderUI ui = new ShapeSliderUI();
         if(primaryColor != null) ui.setPrimaryColor(primaryColor);
