@@ -13,7 +13,7 @@ import javax.swing.table.TableColumn;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingField;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
 
 class MovieTableColumnModel extends DefaultTableColumnModel {
 
@@ -95,7 +95,7 @@ class MovieTableColumnModel extends DefaultTableColumnModel {
                         return lbl;
                     }
                     final Color primaryColor = isSelected ? Color.WHITE : null; // null == default (dark gray)
-                    final RatingField field = new RatingField(movie.getRating(), primaryColor);
+                    final RatingPanel field = new RatingPanel(movie.getRating(), primaryColor);
                     field.setBackground(bgColor);
                     field.setOpaque(true);
                     

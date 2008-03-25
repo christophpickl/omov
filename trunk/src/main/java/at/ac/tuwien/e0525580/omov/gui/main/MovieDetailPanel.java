@@ -25,7 +25,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.CoverImagePanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.MultiColTextField;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingField;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.model.IMovieDaoListener;
 import at.ac.tuwien.e0525580.omov.util.ImageUtil;
@@ -40,7 +40,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
     private final CoverImagePanel imagePanel = new CoverImagePanel();
     
     private final MultiColTextField txtTitle = new MultiColTextField(10);
-    private final RatingField txtRating = new RatingField(0, Color.BLACK, Color.GRAY);
+    private final RatingPanel txtRating = new RatingPanel(0, Color.BLACK, Color.GRAY);
     private final MultiColTextField txtDuration = new MultiColTextField(10);
     private final MultiColTextField txtGenres = new MultiColTextField(10);
 

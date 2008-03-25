@@ -30,7 +30,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.YearField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDataList;
 import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieGenresList;
 import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieGenresListFilled;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingField;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieStyleSuggester;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieTitleSuggester;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
@@ -50,7 +50,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private final CoverSelector inpCoverSelector = new CoverSelector(this);
     private final IDataList inpGenre;
     
-    private final RatingField inpRating;
+    private final RatingPanel inpRating;
     private final YearField inpYear;
     private final QualityField inpQuality;
     private final JTextField inpStyle = new MovieStyleSuggester(10);
@@ -64,7 +64,7 @@ class MovieTabInfo extends AbstractMovieTab {
         final Resolution resolution = isAddMode ? Resolution.R0x0 : editMovie.getResolution();
         this.inpResolution = new ResolutionPanel(resolution);
         
-        this.inpRating = new RatingField(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
+        this.inpRating = new RatingPanel(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
         this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
         
@@ -109,7 +109,7 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpDuration = new DurationPanel(Duration.newByTotal(0));
         this.inpResolution = new ResolutionPanel(Resolution.R0x0);
         this.inpGenre = new MovieGenresList(this.owner, 10);
-        this.inpRating = new RatingField(0, null, Color.WHITE);
+        this.inpRating = new RatingPanel(0, null, Color.WHITE);
         this.inpYear = new YearField(0);
         this.inpQuality = new QualityField(Quality.UNRATED);
 

@@ -23,7 +23,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.table.IColumnComparable;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.table.VisibleTableColumn;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.table.WidthedTableColumn;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingField;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.model.IMovieDaoListener;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
@@ -85,7 +85,7 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
         
         columns.add(new MovieColumn(MovieField.RATING, 60, 60, 60, true) {
             public Object getValue(Movie movie) {  return movie.getRating();  }
-            public Class<?> getValueClass() {  return RatingField.class;  }
+            public Class<?> getValueClass() {  return RatingPanel.class;  }
             public int compareValue(Movie m1, Movie m2) {
                 int r1 = m1.getRating(); int r2 = m2.getRating();
                 if(r1 == r2) return m1.getTitle().compareTo(m2.getTitle());
