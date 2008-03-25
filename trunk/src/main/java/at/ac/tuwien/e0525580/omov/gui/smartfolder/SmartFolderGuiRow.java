@@ -67,7 +67,7 @@ public class SmartFolderGuiRow  extends JPanel {
         this.field = CriterionFieldFactory.newField(preselectedColumnLabel, preselectedMatchLabel, values);
         this.fieldWrapper.add(this.field);
 
-        final Dimension btnDimension = new Dimension(40, (int) this.btnAdd.getPreferredSize().getHeight());
+        final Dimension btnDimension = new Dimension(60, (int) this.btnAdd.getPreferredSize().getHeight());
         this.btnAdd.setPreferredSize(btnDimension);
         this.btnDelete.setPreferredSize(btnDimension);
         this.btnAdd.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
