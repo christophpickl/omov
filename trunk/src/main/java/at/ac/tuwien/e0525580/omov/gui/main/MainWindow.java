@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.IPrevNextMovieProvider;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.brushed.BrushedMetalPanel;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.IMovieTableContextMenuListener;
@@ -48,7 +49,8 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     
     public MainWindow() {
         this.setTitle("OurMovies");
-        
+        this.setIconImage(ImageFactory.getInstance().getFrameTitleIcon());
+
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent event) {

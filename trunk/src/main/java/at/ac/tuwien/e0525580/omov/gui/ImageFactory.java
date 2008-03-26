@@ -81,6 +81,10 @@ public class ImageFactory {
     public ImageIcon getSetupWizardBanner() {
         return this.getImage("setup_wizard_banner.png");
     }
+    public Image getFrameTitleIcon() {
+        return this.getImage("logo_frame_title.png").getImage();
+    }
+    
     
 
 

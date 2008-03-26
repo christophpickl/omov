@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -74,6 +75,7 @@ public class App {
     public static void main(String[] args) {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception ex) {
             LOG.error("Unable to set system look&feel!", ex);
         }
@@ -99,6 +101,7 @@ public class App {
                 System.exit(1);
             }
             
+            JFrame.setDefaultLookAndFeelDecorated(true);
             final MainWindow mainWindow = new MainWindow();
             
             final long timeLasted = new Date().getTime() - timeStart;
