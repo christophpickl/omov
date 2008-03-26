@@ -2,6 +2,7 @@ package at.ac.tuwien.e0525580.omov.gui.comp.generic;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -74,10 +75,12 @@ public class DirectoryChooser extends JPanel implements ActionListener{
         layout.setConstraints(this, c);
         this.setLayout(layout);
         c.gridy = 0;
-        
+
+        c.insets = new Insets(0, 0, 0, 4);
         c.gridx = 0;
         this.add((position == ButtonPosition.LEFT) ? this.button : this.directoryPath);
-        
+
+        c.insets = new Insets(0, 0, 0, 0);
         c.gridx++;
         this.add((position == ButtonPosition.LEFT) ? this.directoryPath : this.button);
     }
