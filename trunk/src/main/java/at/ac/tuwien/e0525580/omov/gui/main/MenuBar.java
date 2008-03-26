@@ -3,6 +3,7 @@ package at.ac.tuwien.e0525580.omov.gui.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.prefs.BackingStoreException;
@@ -249,6 +250,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
                         LOG.error("Could not load preferences!", e);
                     }
                     
+                    prefKeyValues.add("------------------------- Preferences End");
+                    prefKeyValues.add("current working directory = " + new File("").getAbsolutePath());
+                    
                     final JList prefList = new JList(prefKeyValues.toArray());
                     final JScrollPane scroll = new JScrollPane(prefList);
                     this.getContentPane().add(scroll);
@@ -259,7 +263,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             }
             final PrefDialog prefDialog = new PrefDialog();
             
-            GuiUtil.createMenuItem(menu, 'P', "Show Preferences", new ActionListener() {
+            GuiUtil.createMenuItem(menu, 'P', "Show Preferences & Stuff", new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     prefDialog.setVisible(true);
                 }
