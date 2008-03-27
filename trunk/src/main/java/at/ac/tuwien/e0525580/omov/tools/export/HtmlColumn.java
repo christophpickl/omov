@@ -31,7 +31,7 @@ public abstract class HtmlColumn {
         String getValue(final Movie movie, IExporterHtml exporter) {
             final String coverFile = movie.getOriginalCoverFile();
             if(coverFile.equals("")) {
-                return "N/A";
+                return "-";
             }
             
             final WidthHeight widthHeight = ImageUtil.recalcMaxWidthHeight(new File(exporter.getCoversFolder(), "big_"+movie.getOriginalCoverFile()), CoverFileType.NORMAL.getMaxWidth(), CoverFileType.NORMAL.getMaxHeight());
