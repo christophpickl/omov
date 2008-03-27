@@ -204,7 +204,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     /** AbstractAddEditDialog */    
     @Override
     protected Movie _getConfirmedObject() {
-        final int id = this.isAddMode() ? -1 : this.getEditItem().getId();
+        final long id = this.isAddMode() ? -1 : this.getEditItem().getId();
         
         final String title = this.tabInfo.getTitle();
         final boolean seen = this.tabInfo.getSeen();

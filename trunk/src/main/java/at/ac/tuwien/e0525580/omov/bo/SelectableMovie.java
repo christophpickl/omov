@@ -7,7 +7,7 @@ public class SelectableMovie extends Movie {
     private static final long serialVersionUID = -7997056179880553697L;
     private boolean selected;
     
-    public SelectableMovie(int id, Movie movie, boolean selected) {
+    public SelectableMovie(long id, Movie movie, boolean selected) {
         super(id, movie);
         this.selected = selected;
     }

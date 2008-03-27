@@ -63,7 +63,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
     }
 
     @SuppressWarnings("serial")
-    public Movie getMovie(final int id) throws BusinessException {
+    public Movie getMovie(final long id) throws BusinessException {
 //        ObjectSet<Movie> os = this.connection.get(newPrototypeMovieId(id));
         ObjectSet<Movie> os = this.objectContainer.query(new Predicate<Movie>() {
             public boolean match(Movie movie) {

@@ -9,7 +9,7 @@ import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 
 public interface IMovieDao extends IDao {
     
-    Movie getMovie(int id) throws BusinessException;
+    Movie getMovie(long id) throws BusinessException;
     Set<Movie> getMovies() throws BusinessException;
     List<Movie> getMoviesSorted() throws BusinessException;
 

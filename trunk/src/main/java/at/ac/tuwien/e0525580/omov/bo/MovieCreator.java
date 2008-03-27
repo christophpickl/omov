@@ -15,7 +15,7 @@ public class MovieCreator {
     
 //    private static final int INITIAL_ID = -42;
 //    private int id = INITIAL_ID;
-    private final int id;
+    private final long id;
     
     // general
     private String title;
@@ -45,7 +45,7 @@ public class MovieCreator {
     
     
     
-    MovieCreator(int id) {
+    MovieCreator(long id) {
         if(id < -1) throw new IllegalArgumentException("id: " + id);
         this.id = id;
     }

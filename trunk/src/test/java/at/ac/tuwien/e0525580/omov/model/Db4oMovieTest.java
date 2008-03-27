@@ -34,7 +34,7 @@ public class Db4oMovieTest extends TestCase {
     
     public void testInsertId() throws BusinessException {
         final Movie insertedMovie1 = this.dao.insertMovie(Movie.getDummy("Das ist ein dummy movie in Db4oMovieTest (insertid1)"));
-        final int expectedNextId = insertedMovie1.getId() + 1;
+        final long expectedNextId = insertedMovie1.getId() + 1;
         final Movie insertedMovie2 = this.dao.insertMovie(Movie.getDummy("Das ist ein dummy movie in Db4oMovieTest (insertid2)"));
         
         assertEquals(expectedNextId, insertedMovie2.getId());

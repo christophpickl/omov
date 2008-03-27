@@ -51,16 +51,24 @@ public class Movie implements Serializable {
     private static final long serialVersionUID = -1005281123869400266L;
     private static final Log LOG = LogFactory.getLog(Movie.class);
 
-    public static final int DATA_VERSION = 1;
+/*
+
+DATA VERSION HISTORY
+
+===>   v1 -> v2
+- changed type of ID attribute from int to long
+
+ */
+    public static final int DATA_VERSION = 2;
     
     public static final SimpleDateFormat DATE_ADDED_FORMAT_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_ADDED_FORMAT_SHORT = new SimpleDateFormat("yyyy-MM-dd");
     
-    private final int id;
+    private final long id;
 
     private static List<MovieField> ALL_FIELDS = new ArrayList<MovieField>();
     public static enum MovieField {
-        ID("ID", "id", Integer.class), // Long.class
+        ID("ID", "id", Long.class),
         TITLE("Title", "title", String.class), 
         SEEN("Seen", "seen", Boolean.class),
         RATING("Rating", "rating", Integer.class), // Rating.class
@@ -177,23 +185,24 @@ public class Movie implements Serializable {
             if(result != 0) {
                 return result;
             }
-            return m1.id - m2.id;   
+            
+            return (m1.id > m2.id) ? 1 : -1;
         }
     };
     
     
 
-    Movie(int id, Movie m) {
+    Movie(long id, Movie m) {
             this(id, m.dateAdded, m);
     }
 
-    Movie(int id, Date dateAdded, Movie m) {
+    Movie(long id, Date dateAdded, Movie m) {
             this(id, m.title, m.seen, m.rating, m.coverFile, m.genres, m.languages, m.style,
             m.director, m.actors, m.year, m.comment, m.quality, dateAdded,
             m.fileSizeKb, m.folderPath, m.format, m.files, m.duration, m.resolution, m.subtitles);
     }
     
-    Movie(final int id, 
+    Movie(final long id, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
             final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
             final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
@@ -254,12 +263,12 @@ public class Movie implements Serializable {
         this.subtitlesString = CollectionUtil.toString(this.subtitles);
     }
     
-    public static MovieCreator create(int id) {
+    public static MovieCreator create(long id) {
         return new MovieCreator(id);
     }
     
     /** actually same as full constructor */
-    public static Movie newMovie(final int id, 
+    public static Movie newMovie(final long id, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
             final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
             final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
@@ -407,7 +416,7 @@ public class Movie implements Serializable {
 
     @Override
     public int hashCode() {
-        return this.getId() + 
+        return ((int)this.getId()) + 
             this.getTitle().hashCode() + this.getRating() + this.getOriginalCoverFile().hashCode() + this.getGenres().hashCode() + this.getLanguages().hashCode() + this.getStyle().hashCode() +
             this.getActors().hashCode() + this.getYear() + this.comment.hashCode() + this.getQuality().label().hashCode() +
             ((int)this.getFileSizeKb()) + this.getFolderPath().hashCode() + this.getFormat().hashCode() + this.getFormat().hashCode() + 
@@ -417,7 +426,7 @@ public class Movie implements Serializable {
     
     
     
-    public int getId() {
+    public long getId() {
         return this.id;
     }
 
