@@ -1,9 +1,16 @@
 package at.ac.tuwien.e0525580.omov.util;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,8 +18,9 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Configuration;
-import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 
 public final class CoverUtil {
@@ -41,7 +49,7 @@ public final class CoverUtil {
      * precondition: client should have checked if user has changed something
      */
     public static void resetCover(final Movie movie) throws BusinessException {
-        final String coverFile = movie.getCoverFile();
+        final String coverFile = movie.getOriginalCoverFile();
         LOG.debug("Resetting coverFile to '"+coverFile+"' for movie: " + movie);
         
         CoverUtil.deleteCoverFileIfNecessary(movie);
@@ -71,7 +79,8 @@ public final class CoverUtil {
         LOG.debug("Deleting cover file for movie '"+movie.getTitle()+"' (ID="+movie.getId()+"); wasIntended="+wasIntended);
         final File imageFolder = Configuration.getInstance().getCoversFolder();
         File[] foundCoverFiles = imageFolder.listFiles(new FileFilter() { public boolean accept(File pathname) {
-                return (pathname.getName().startsWith(movie.getId() + "."));
+                return (pathname.getName().startsWith(movie.getId() + ".") // the original image is stored in format: 
+                      || pathname.getName().startsWith(movie.getId() + "-")); // resized images are stored in format: "1-40x40.jpg"
         }});
         if(foundCoverFiles == null || foundCoverFiles.length == 0) {
             // assert: movie.coverFilePath != "" 
@@ -82,31 +91,27 @@ public final class CoverUtil {
                 LOG.info(logMsg);
             }
             return false;
-        } else if(foundCoverFiles.length == 1) {
-            File foundCoverFile = foundCoverFiles[0];
-            LOG.info("Deleting cover file '"+foundCoverFile.getAbsolutePath()+"' for movie '"+movie.getTitle()+"'.");
+        }
+        
+        
+        for (File foundCoverFile : foundCoverFiles) {
+            LOG.debug("Deleting cover file '"+foundCoverFile.getAbsolutePath()+"' for movie: " + movie);
             if(foundCoverFile.delete() == false) {
                 throw new BusinessException("Could not delete cover file '"+foundCoverFile.getAbsolutePath()+"'!");
             }
-            // DAO.updateMovie(Movie.newByOtherMovieSetCoverFile(movie, "")); NO!!! do not update coverFile -> client has to do
-            return true;
-        } else if(foundCoverFiles.length > 1) {
-            throw new FatalException(
-                    "Inconsistence found in omov image folder '"+imageFolder.getAbsolutePath()+"'! " +
-                    "Found "+foundCoverFiles.length+" covers for movie '"+movie+"': " + StringUtil.asString(foundCoverFiles));
-        } else {
-            throw new FatalException("unhandled foundCoverFiles.length: " + foundCoverFiles.length + " in image folder '"+imageFolder.getAbsolutePath()+"'!");
         }
+        // DAO.updateMovie(Movie.newByOtherMovieSetCoverFile(movie, "")); NO!!! do not update coverFile -> client has to do
+        return true;
     }
     
     /**
      * Copies the cover file to application's CoverFold with the format: "ID"."extension" and also updates the DB entry.
      */
     private static void copyAndSaveCover(Movie movie) throws BusinessException {
-        LOG.info("Saving cover file '"+movie.getCoverFile()+"' for movie "+movie+".");
+        LOG.info("Saving cover file '"+movie.getOriginalCoverFile()+"' for movie "+movie+".");
         assert(movie.isCoverFileSet() == true);
         
-        final String coverFile = movie.getCoverFile();
+        final String coverFile = movie.getOriginalCoverFile();
         final String extension = FileUtil.extractExtension(coverFile);
         assert(extension != null); // should have been checked by CoverSelector
         
@@ -116,13 +121,64 @@ public final class CoverUtil {
         FileUtil.copyFile(new File(coverFile), targetFile);
         
         DAO.updateMovie(Movie.newByOtherMovieSetCoverFile(movie, newCoverFileName));
+        
+        copyCoverFileTypes(movie);
     }
+    
+    private static void copyCoverFileTypes(Movie movie) throws BusinessException {
+        final File sourceFile;
+        if(movie.getOriginalCoverFile().startsWith(Configuration.getInstance().getCoversFolder().getAbsolutePath())) {
+            sourceFile = new File(Configuration.getInstance().getCoversFolder(), movie.getOriginalCoverFile());
+        } else {
+            sourceFile = new File(movie.getOriginalCoverFile());
+        }
+        LOG.debug("Copying all cover file types by sourceFile '"+sourceFile.getAbsolutePath()+"' for movie: " + movie);
+        
+        for (CoverFileType targetType : CoverFileType.getAllTypes()) {
+            createCoverFileType(targetType, movie, sourceFile);
+        }
+    }
+    
+    private static void createCoverFileType(CoverFileType fileType, Movie movie, File coverFileSource) throws BusinessException {
+        assert(coverFileSource.exists() == true);
+        final String coverFileNameTarget = movie.getCoverFile(fileType);
+        final File coverFileTarget = new File(Configuration.getInstance().getCoversFolder(), coverFileNameTarget);
+        LOG.debug("Copying cover type '"+fileType+"' to file '"+coverFileTarget.getAbsolutePath()+"'.");
+        
+
+        final ImagePanel imagePanel = new ImagePanel(fileType.getDimension());
+        final Image coverImage = ImageUtil.getResizedCoverImage(coverFileSource, imagePanel, fileType);
+        final int w = coverImage.getWidth(null);
+        final int h = coverImage.getHeight(null);
+        
+        final BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+        final Graphics2D g2 = bi.createGraphics();
+        g2.drawImage(coverImage, 0, 0, null);
+        g2.dispose();
+        
+        try {
+            ImageIO.write(bi, FileUtil.extractExtension(coverFileSource), coverFileTarget);
+        } catch (Exception e) {
+            throw new BusinessException("Could not save coverFile '"+coverFileSource.getAbsolutePath()+"' to '"+coverFileTarget.getAbsolutePath()+"'!", e);
+        }
+    }
+    
     
     /**
      * @return true if the passed extension is equals to some of 'jpg', 'jpeg' or 'png'.
      */
     public static boolean isValidCoverExtension(final String extension) {
         return VALID_COVER_EXTENSIONS.contains(extension);
+    }
+    
+    
+    
+    public static ImageIcon getMovieCoverImage(Movie movie, CoverFileType coverType) {
+        final File coverFile = new File(Configuration.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
+        LOG.debug("Loading cover image from '"+coverFile.getAbsolutePath()+"'.");
+        // !!! coverFile can be not existing, if currently invoking moviedao-listeners (see: MainWindowController.doEditMovie inconsistency)
+        ImageIcon result = new ImageIcon(Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath()));
+        return result;
     }
     
     

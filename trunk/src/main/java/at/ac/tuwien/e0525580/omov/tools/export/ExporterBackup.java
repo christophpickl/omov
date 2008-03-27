@@ -106,7 +106,7 @@ public class ExporterBackup {
         }
         for (final Movie movie : movies) {
             if(movie.isCoverFileSet()) {
-                final File coverFile = new File(Configuration.getInstance().getCoversFolder(), movie.getCoverFile());
+                final File coverFile = new File(Configuration.getInstance().getCoversFolder(), movie.getOriginalCoverFile());
                 if(coverFile.exists()) {
                     FileUtil.copyFile(coverFile, new File(coverDir, coverFile.getName()));
                 } else {

@@ -193,7 +193,7 @@ public final class MainWindowController extends CommonController implements IRem
                     final String title          = dialog.isFieldSelected(MovieField.TITLE)      ? confirmedMovie.getTitle()      : movieToEdit.getTitle();
                     final boolean seen          = dialog.isFieldSelected(MovieField.SEEN)       ? confirmedMovie.isSeen()        : movieToEdit.isSeen();
                     final int rating            = dialog.isFieldSelected(MovieField.RATING)     ? confirmedMovie.getRating()     : movieToEdit.getRating();
-                    final String coverFile      = dialog.isFieldSelected(MovieField.COVER_FILE) ? confirmedMovie.getCoverFile()  : movieToEdit.getCoverFile();
+                    final String coverFile      = dialog.isFieldSelected(MovieField.COVER_FILE) ? confirmedMovie.getOriginalCoverFile()  : movieToEdit.getOriginalCoverFile();
                     final Set<String> genres    = dialog.isFieldSelected(MovieField.GENRES)     ? confirmedMovie.getGenres()     : movieToEdit.getGenres();
                     final Set<String> languages = dialog.isFieldSelected(MovieField.LANGUAGES)  ? confirmedMovie.getLanguages()  : movieToEdit.getLanguages();
                     final String style          = dialog.isFieldSelected(MovieField.STYLE)      ? confirmedMovie.getStyle()      : movieToEdit.getStyle();

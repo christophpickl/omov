@@ -92,6 +92,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
 
     public CoverSelector(Component frame) {
         this.frame = frame;
+        this.setToolTipText("Drag&Drop an image here to set the coverfile");
 
         this.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
@@ -170,7 +171,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
         this.imagePanel.setImage(null);
         this.coverChanged = true;
         this.coverFile = null;
-        this.setToolTipText("No Cover available");
+        this.setToolTipText("Drag&Drop an image here to set the coverfile");
     }
 
     public boolean isCoverChanged() {
@@ -194,13 +195,14 @@ public class CoverSelector extends JPanel implements DropTargetListener {
         this.setCoverFile(file, false);
     }
 
-    private void setCoverFile(final File file, final boolean initialSet) {
-        LOG.debug("Setting cover file to '" + file.getAbsolutePath() + "' (initialSet=" + initialSet + ").");
-
-        assert (this.isValidCoverFile(file) == true) : "Only a valid coverfile may be set; was '" + file.getAbsolutePath() + "'!";
+    private void setCoverFile(final File coverFile, final boolean initialSet) {
+        LOG.debug("Setting cover file to '" + coverFile.getAbsolutePath() + "' (initialSet=" + initialSet + ").");
+        assert (this.isValidCoverFile(coverFile) == true) : "Only a valid coverfile may be set; was '" + coverFile.getAbsolutePath() + "'!";
+        this.coverFile = coverFile;
         
-        this.coverFile = file;
-        this.imagePanel.setImage(ImageUtil.getResizedCoverImage(coverFile, this.imagePanel, CoverFileType.NORMAL));
+        // TODO check if this isnt an already stored image (x-120x160.jpg) and if so, use it instead of resizing image
+        this.imagePanel.setImage(ImageUtil.getResizedCoverImage(this.coverFile, this.imagePanel, CoverFileType.NORMAL));
+                
         if (initialSet == false) {
             this.coverChanged = true;
         }

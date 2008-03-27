@@ -29,14 +29,14 @@ public abstract class HtmlColumn {
     };
     public static final HtmlColumn COLUMN_COVER = new HtmlColumn("50", "Cover", "cover") { // cover width passt so?
         String getValue(final Movie movie, IExporterHtml exporter) {
-            final String coverFile = movie.getCoverFile();
+            final String coverFile = movie.getOriginalCoverFile();
             if(coverFile.equals("")) {
                 return "N/A";
             }
             
-            final WidthHeight widthHeight = ImageUtil.recalcMaxWidthHeight(new File(exporter.getCoversFolder(), "big_"+movie.getCoverFile()), CoverFileType.NORMAL.getMaxWidth(), CoverFileType.NORMAL.getMaxHeight());
+            final WidthHeight widthHeight = ImageUtil.recalcMaxWidthHeight(new File(exporter.getCoversFolder(), "big_"+movie.getOriginalCoverFile()), CoverFileType.NORMAL.getMaxWidth(), CoverFileType.NORMAL.getMaxHeight());
             return "<img src='covers/lil_"+coverFile+"' alt='"+StringEscapeUtils.escapeHtml(movie.getTitle())+"'" +
-                    " onmouseover=\"Tip('<img src=\\'covers/big_"+movie.getCoverFile()+"\\' width=\\'"+widthHeight.getWidth()+"\\' height=\\'"+widthHeight.getHeight()+"\\' />', BGCOLOR, '', BORDERWIDTH, 0, DELAY, 0, FADEIN, 200, FADEOUT, 100)\" onmouseout='UnTip()' />";
+                    " onmouseover=\"Tip('<img src=\\'covers/big_"+movie.getOriginalCoverFile()+"\\' width=\\'"+widthHeight.getWidth()+"\\' height=\\'"+widthHeight.getHeight()+"\\' />', BGCOLOR, '', BORDERWIDTH, 0, DELAY, 0, FADEIN, 200, FADEOUT, 100)\" onmouseout='UnTip()' />";
         }
     };
     public static final HtmlColumn COLUMN_GENRE = new HtmlColumn("210", "Genre", "genre") {

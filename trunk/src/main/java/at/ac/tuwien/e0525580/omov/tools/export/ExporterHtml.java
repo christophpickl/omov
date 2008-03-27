@@ -98,11 +98,10 @@ public class ExporterHtml implements IExporterHtml {
             throw new BusinessException("Could not create cover folder '"+targetCoverDirectory.getAbsolutePath()+"'!");
         }
         
-        final File coverFolder = Configuration.getInstance().getCoversFolder();
         for (Movie movie : movies) {
             if(movie.isCoverFileSet()) {
-                copyCoverFile(movie, coverFolder, targetCoverDirectory, true);
-                copyCoverFile(movie, coverFolder, targetCoverDirectory, false);
+                copyCoverFile(movie, targetCoverDirectory, true);
+                copyCoverFile(movie, targetCoverDirectory, false);
                 
 //                FileUtil.copyFile(new File(coverFolder, movie.getCoverFile()), new File(targetCoverDirectory, movie.getCoverFile()));
             }
@@ -112,37 +111,22 @@ public class ExporterHtml implements IExporterHtml {
         return new File[] {targetFile, targetDirectory};
     }
     
-    private static void copyCoverFile(Movie movie, File coverFolder, File targetCoverDirectory, boolean isThumbNail) throws BusinessException {
+    private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws BusinessException {
         final CoverFileType coverType;
-//        final int width;
-//        final int height;
+
         final String newCoverFileName;
         if(isThumbNail) {
             coverType = CoverFileType.THUMBNAIL;
-            newCoverFileName = "lil_" + movie.getCoverFile();
+            newCoverFileName = "lil_" + movie.getOriginalCoverFile();
         } else {
             coverType = CoverFileType.NORMAL;
-            newCoverFileName = "big_" + movie.getCoverFile();
+            newCoverFileName = "big_" + movie.getOriginalCoverFile();
         }
-        final File originalCoverFile = new File(coverFolder, movie.getCoverFile());
-        final File newCoverFile = new File(targetCoverDirectory, newCoverFileName);
-        LOG.debug("Copying cover file '"+movie.getCoverFile()+"' to new location '"+newCoverFile.getAbsolutePath()+"' (isThumbNail="+isThumbNail+").");
         
-        final ImagePanel imagePanel = new ImagePanel(coverType.getDimension());
-        final Image coverImage = ImageUtil.getResizedCoverImage(originalCoverFile, imagePanel, coverType);
-        final int w = coverImage.getWidth(null);
-        final int h = coverImage.getHeight(null);
+        final File originalCoverFile = new File(Configuration.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
+        final File targetFile = new File(targetCoverDirectory, newCoverFileName);
         
-        final BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
-        final Graphics2D g2 = bi.createGraphics();
-        g2.drawImage(coverImage, 0, 0, null);
-        g2.dispose();
-        
-        try {
-            ImageIO.write(bi, FileUtil.extractExtension(originalCoverFile), newCoverFile);
-        } catch (Exception e) {
-            throw new BusinessException("Could not save coverFile '"+originalCoverFile.getAbsolutePath()+"' to '"+newCoverFile.getAbsolutePath()+"'!", e);
-        }
+        FileUtil.copyFile(originalCoverFile, targetFile);
     }
     
     private static File getAvailableTargetDirectory(final File targetFile) {

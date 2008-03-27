@@ -87,11 +87,12 @@ public class MovieDetailPanel implements IMovieDaoListener {
             this.txtDateAdded.setText(movie.getDateAddedFormattedShort());
             this.txtLanguages.setText(movie.getLanguagesString());
             
-            final String coverFile = movie.getCoverFile();
+            final String coverFile = movie.getOriginalCoverFile();
             if(coverFile.length() > 0) {
                 final File cover = new File(Configuration.getInstance().getCoversFolder(), coverFile);
                 LOG.debug("Setting image to '"+cover.getAbsolutePath()+"'.");
                 this.imagePanel.setImage(ImageUtil.getResizedCoverImage(cover, this.imagePanel, CoverFileType.NORMAL));
+//                this.imagePanel.setImage(CoverUtil.getMovieCoverImage(movie, CoverFileType.NORMAL).getImage());
             } else {
                 this.imagePanel.setImage(null);
             }

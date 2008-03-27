@@ -299,7 +299,7 @@ public class Movie implements Serializable {
         final Movie newMovie = Movie.create(original.getId())
             .actors(metadata.getActors())
             .comment(metadata.getComment())
-            .coverFile(metadata.getCoverFile())
+            .coverFile(metadata.getOriginalCoverFile())
             .director(metadata.getDirector())
             .duration(metadata.getDuration())
             .genres(metadata.getGenres())
@@ -352,7 +352,7 @@ public class Movie implements Serializable {
           sb.append("title=").append(this.getTitle()).append(";");
           sb.append("seen=").append(this.isSeen()).append(";");
           sb.append("rating=").append(this.getRating()).append(";");
-          sb.append("coverFile=").append(this.getCoverFile()).append(";");
+          sb.append("coverFile=").append(this.getOriginalCoverFile()).append(";");
           sb.append("genres=").append(this.getGenresString()).append(";");
           sb.append("languages=").append(this.getLanguagesString()).append(";");
           sb.append("style=").append(this.getStyle()).append(";");
@@ -386,7 +386,7 @@ public class Movie implements Serializable {
             && this.getTitle().equals(that.getTitle())
             && this.isSeen() == that.isSeen()
             && this.getRating() == that.getRating()
-            && this.getCoverFile().equals(that.getCoverFile())
+            && this.getOriginalCoverFile().equals(that.getOriginalCoverFile())
             && this.getGenresString().equals(that.getGenresString())
             && this.getLanguagesString().equals(that.getLanguagesString())
             && this.getStyle().equals(that.getStyle())
@@ -408,7 +408,7 @@ public class Movie implements Serializable {
     @Override
     public int hashCode() {
         return this.getId() + 
-            this.getTitle().hashCode() + this.getRating() + this.getCoverFile().hashCode() + this.getGenres().hashCode() + this.getLanguages().hashCode() + this.getStyle().hashCode() +
+            this.getTitle().hashCode() + this.getRating() + this.getOriginalCoverFile().hashCode() + this.getGenres().hashCode() + this.getLanguages().hashCode() + this.getStyle().hashCode() +
             this.getActors().hashCode() + this.getYear() + this.comment.hashCode() + this.getQuality().label().hashCode() +
             ((int)this.getFileSizeKb()) + this.getFolderPath().hashCode() + this.getFormat().hashCode() + this.getFormat().hashCode() + 
             this.getFiles().hashCode() + this.getDuration() + this.getResolution().hashCode() + this.getSubtitles().hashCode() +
@@ -462,7 +462,7 @@ public class Movie implements Serializable {
 //        return new HashSet<String>(Arrays.asList(string.split(",")));
 //    }
 
-    public String getCoverFile() {
+    public String getOriginalCoverFile() {
         return this.coverFile;
     }
     

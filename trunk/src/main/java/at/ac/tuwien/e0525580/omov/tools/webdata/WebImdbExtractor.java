@@ -119,7 +119,7 @@ public class WebImdbExtractor implements IWebExtractor {
      * @see ImdbMovieData#getMovie()
      */
     private static Movie enhanceMovie(Movie o, Movie m) {
-        final MovieCreator c = Movie.create(o.getId()).title(m.getTitle()).genres(m.getGenres()).director(m.getDirector()).year(m.getYear()).comment(m.getComment()).actors(m.getActors()).duration(m.getDuration()).coverFile(m.getCoverFile());
+        final MovieCreator c = Movie.create(o.getId()).title(m.getTitle()).genres(m.getGenres()).director(m.getDirector()).year(m.getYear()).comment(m.getComment()).actors(m.getActors()).duration(m.getDuration()).coverFile(m.getOriginalCoverFile());
         
         return c.seen(o.isSeen()).rating(o.getRating())
             .director(o.getDirector()).actors(o.getActors()).year(o.getYear()).comment(o.getComment())

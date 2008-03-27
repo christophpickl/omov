@@ -1,6 +1,9 @@
 package at.ac.tuwien.e0525580.omov.bo;
 
 import java.awt.Dimension;
+import java.util.List;
+
+import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 
 public enum CoverFileType {
     
@@ -46,4 +49,7 @@ public enum CoverFileType {
         return toString;
     }
 
+    public static List<CoverFileType> getAllTypes() {
+        return new CollectionUtil<CoverFileType>().asImmutableList(THUMBNAIL, NORMAL);
+    }
 }

@@ -62,7 +62,7 @@ public class ImdbMovieDataPanel extends JPanel {
             this.txtGenres.setText(movie.getGenresString());
             
             if(movie.isCoverFileSet()) {
-                this.imagePanel.setImage(ImageUtil.getResizedCoverImage(new File(movie.getCoverFile()), this.imagePanel, CoverFileType.NORMAL));
+                this.imagePanel.setImage(ImageUtil.getResizedCoverImage(new File(movie.getOriginalCoverFile()), this.imagePanel, CoverFileType.NORMAL));
             }
         }
 

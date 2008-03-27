@@ -88,12 +88,12 @@ class MovieTabInfo extends AbstractMovieTab {
             
             if(editMovie.isCoverFileSet()) {
                 final File coverFile;
-                if(editMovie.getCoverFile().startsWith(Configuration.getInstance().getTemporaryFolder().getAbsolutePath())) {
-                    LOG.debug("coverFile seems to be in temporary folder (coverFile="+editMovie.getCoverFile()+").");
-                    coverFile = new File(editMovie.getCoverFile());
+                if(editMovie.getOriginalCoverFile().startsWith(Configuration.getInstance().getTemporaryFolder().getAbsolutePath())) {
+                    LOG.debug("coverFile seems to be in temporary folder (coverFile="+editMovie.getOriginalCoverFile()+").");
+                    coverFile = new File(editMovie.getOriginalCoverFile());
                 } else {
-                    LOG.debug("coverFile is not in temporary folder, has to be in coverFolder (coverFile="+editMovie.getCoverFile()+").");
-                    coverFile = new File(Configuration.getInstance().getCoversFolder(), editMovie.getCoverFile());
+                    LOG.debug("coverFile is not in temporary folder, has to be in coverFolder (coverFile="+editMovie.getOriginalCoverFile()+").");
+                    coverFile = new File(Configuration.getInstance().getCoversFolder(), editMovie.getOriginalCoverFile());
                 }
                 this.inpCoverSelector.setInitialCoverFile(coverFile);
             }
