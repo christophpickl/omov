@@ -53,6 +53,10 @@ public final class FileUtil {
     
     private static long MB5 = 1024 * 1024 * 5;
     public static void copyFile(File sourceFile, File targetFile) throws BusinessException {
+        if(sourceFile.exists() == false) {
+            throw new IllegalArgumentException("Could not copy given file '"+sourceFile.getAbsolutePath()+"' becaus it does not exist!");
+        }
+        
         if(sourceFile.length() > MB5) {
             copyBigFile(sourceFile, targetFile);
         } else {
@@ -97,6 +101,7 @@ public final class FileUtil {
      */
     private static void copySmallFile(File sourceFile, File targetFile) throws BusinessException {
         LOG.debug("Copying SMALL file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
+        
         FileChannel inChannel = null;
         FileChannel outChannel = null;
         try {

@@ -8,6 +8,7 @@ public interface IDao {
     
     void rollback();
     
+    boolean isAutoCommit();
     void setAutoCommit(boolean autoCommit);
     
 }
