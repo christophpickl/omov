@@ -56,7 +56,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private static final String CMD_NEW_MOVIE = "New Movie";
     private static final String CMD_MOVIE_INFO = "Get Info";
     private static final String CMD_DELETE_MOVIE = "Delete Movie";
-    // TODO only osx feature: private static final String CMD_MOVIE_PLAY_VLC = "Play in VLC";
+    private static final String CMD_MOVIE_REVEAL_FINDER = "Reveal in Finder";
+    private static final String CMD_MOVIE_PLAY_VLC = "Play in VLC";
     private static final String CMD_FETCH_METADATA = "Fetch Metadata";
     
     // Window
@@ -113,7 +114,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
         GuiUtil.createMenuItem(menu, 'I', CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
         GuiUtil.createMenuItem(menu, 'D', CMD_DELETE_MOVIE, this, KeyEvent.VK_D, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         GuiUtil.createMenuItem(menu, 'M', CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        
+        if(UserSniffer.isMacOSX()) {
+            GuiUtil.createMenuItem(menu, 'R', CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+            GuiUtil.createMenuItem(menu, 'V', CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+        }
         menu.addSeparator();
+        
         GuiUtil.createMenuItem(menu, 'F', CMD_FIND_DUPLICATES, this);
         
         return menu;
@@ -145,7 +152,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuHelp() {
         final JMenu menu = new JMenu("Help");
 
-        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', CMD_HELP, this, KeyEvent.VK_H, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', CMD_HELP, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
         HelpSystem.enableHelp(helpItem, HelpEntry.HOME);
         
         if(UserSniffer.isMacOSX() == false) {
@@ -189,6 +196,10 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 // do nothing
             } else if(cmd.equals(CMD_ABOUT)) {
                 controller.doShowAbout();
+            } else if(cmd.equals(CMD_MOVIE_REVEAL_FINDER)) {
+                controller.doRevealMovie();
+            } else if(cmd.equals(CMD_MOVIE_PLAY_VLC)) {
+                controller.doPlayVlc();
 //            } else if(cmd.equals(CMD_REMOTE)) {
 //                this.controller.doRemoteConnect();
             } else {

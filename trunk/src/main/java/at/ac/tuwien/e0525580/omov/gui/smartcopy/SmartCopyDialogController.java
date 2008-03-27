@@ -131,7 +131,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
                     final long targetDirSize = FileUtil.getSizeRecursive(targetDirectory);
                     final double copiedAlready = targetDirSize - kbBeforeCopying;
                     progress = (int) ((copiedAlready / copyTotal) * 100);
-//                    System.out.println("targetDirSize = "+targetDirSize+"; copiedAlready = "+copiedAlready+"; copyTotal="+copyTotal+"; progress="+progress+"%"); // FIXME delete me
+//                    System.out.println("targetDirSize = "+targetDirSize+"; copiedAlready = "+copiedAlready+"; copyTotal="+copyTotal+"; progress="+progress+"%");
                 }
                 dialog.getProgressBar().setValue(progress);
             }

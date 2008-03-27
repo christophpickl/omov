@@ -42,7 +42,7 @@ public class ZipCompress {
     
     public static void unzip() throws Exception {
 //        ZipFile zip = new ZipFile(new File("/zip/myzip.zip"));
-        // FIXME implement unzip method
+        // TODO implement unzip method
         
 //        ZipEntry entry = zip.getEntry("asdf.script");
 //        InputStream in = zip.getInputStream(entry);

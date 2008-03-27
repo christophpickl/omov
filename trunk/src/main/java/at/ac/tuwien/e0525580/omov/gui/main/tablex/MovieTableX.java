@@ -107,6 +107,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         });
         
         this.initContextMenu();
+        
+        // FEATURE hitting backspace when row(s) selected should delete (first confirm) movie
     }
     
     private void updatePrefColumnVisibility() {

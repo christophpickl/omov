@@ -34,6 +34,7 @@ import at.ac.tuwien.e0525580.omov.tools.remote.IRemoteDataReceiver;
 import at.ac.tuwien.e0525580.omov.tools.remote.RemoteServer;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
 
 public final class MainWindowController extends CommonController implements IRemoteDataReceiver {
@@ -126,6 +127,7 @@ public final class MainWindowController extends CommonController implements IRem
             LOG.debug("Deleting movie by user aborted.");
         }
     }
+    
     
 
     // should be only invoked by menu bar
@@ -259,6 +261,7 @@ public final class MainWindowController extends CommonController implements IRem
     }
     
     public void doRevealMovie(Movie movie) {
+        assert(UserSniffer.isMacOSX());
         final String folderPath = movie.getFolderPath();
         LOG.debug("Revealing folder path '"+folderPath+"' for movie with id "+movie.getId()+" and title '"+movie.getTitle()+"'.");
         if(folderPath.trim().length() == 0) {
@@ -278,7 +281,24 @@ public final class MainWindowController extends CommonController implements IRem
         }
     }
 
+    // should be only invoked by menu bar
+    public void doRevealMovie() {
+        assert(UserSniffer.isMacOSX());
+        List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+            GuiUtil.warning(this.mainWindow, "Reveal Movie in Finder", "Not any movie was selected.");
+            return;
+        }
+        if(selectedMovies.size() == 1) {
+            this.doRevealMovie(selectedMovies.get(0));
+        } else {
+            GuiUtil.info(this.mainWindow, "Reveal Movie in Finder", "Revealing multiple movies in Finder is not supported.");
+        }
+    }
+    
+
     public void doPlayVlc(Movie movie) {
+        assert(UserSniffer.isMacOSX());
         final Set<String> files = movie.getFiles();
         if(files.isEmpty() == true) {
             GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
@@ -296,6 +316,21 @@ public final class MainWindowController extends CommonController implements IRem
         } catch (BusinessException e) {
             LOG.error("Could not play file '"+movieFile.getAbsolutePath()+"' in VLC!");
             GuiUtil.error("Play in VLC failed", "Could not play file '"+movieFile.getAbsolutePath()+"' in VLC!");
+        }
+    }
+
+    // should be only invoked by menu bar
+    public void doPlayVlc() {
+        assert(UserSniffer.isMacOSX());
+        List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+            GuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
+            return;
+        }
+        if(selectedMovies.size() == 1) {
+            this.doPlayVlc(selectedMovies.get(0));
+        } else {
+            GuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
         }
     }
     

@@ -289,7 +289,7 @@ public final class GuiUtil {
         LOG.error("Application error! Shutdown...", e);
         GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
                                                  "The evil source is a "+e.getClass().getSimpleName()+".");
-        // TODO use swingx panel + collapsable details containing stack trace 
+        // FEATURE use swingx panel + collapsable details containing stack trace 
         System.exit(1);
     }
 
