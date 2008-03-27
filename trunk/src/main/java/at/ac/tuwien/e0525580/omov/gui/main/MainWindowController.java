@@ -358,7 +358,7 @@ public final class MainWindowController extends CommonController implements IRem
     }
     
     public void doSmartCopy() {
-        final SmartCopyDialog dialog = new SmartCopyDialog(this.mainWindow);
+        final SmartCopyDialog dialog = new SmartCopyDialog(this.mainWindow, this);
         dialog.setVisible(true);
     }
     

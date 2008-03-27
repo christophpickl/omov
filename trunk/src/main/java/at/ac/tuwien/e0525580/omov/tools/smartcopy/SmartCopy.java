@@ -33,12 +33,14 @@ public class SmartCopy {
             if(this.preprocessResult.isFatalError() == false) {
                 this.preprocessResult.fetchMovies();
             }
+        } else {
+            LOG.debug("Returning stored preprocess result.");
         }
         return this.preprocessResult;
     }
     
     
-    public void process() throws BusinessException {
+    public void process(ISmartCopyListener listener) throws BusinessException {
         LOG.debug("SmartCopy is going to start working.");
         if(this.preprocessResult == null) {
             throw new IllegalStateException("preprocess() was not yet invoked!");
@@ -48,20 +50,24 @@ public class SmartCopy {
         final List<File> createdDirectories = new LinkedList<File>();
         try {
             for (Movie movieToCopy : this.preprocessResult.getMoviesToCopy()) {
-                // if (user aborted) break + cleanup   --- maybe do copy in thread an stop thread if user aborted progress
-                
                 final File movieFolder = new File(movieToCopy.getFolderPath());
-                LOG.debug("Copying movie folder '"+movieFolder.getAbsolutePath()+"' started.");
-                
                 final File targetDir = new File(this.targetDirectory, movieFolder.getName());
                 if(targetDir.exists() == true) {
                     LOG.debug("Deleting already existing target directory '"+targetDir.getAbsolutePath()+"'.");
                     FileUtil.deleteDirectoryRecursive(targetDir);
                 }
+            }
+            listener.targetDirectoryWasCleanedUp();
+            for (Movie movieToCopy : this.preprocessResult.getMoviesToCopy()) {
+                // if (user aborted) break + cleanup   --- maybe do copy in thread an stop thread if user aborted progress
                 
+                final File movieFolder = new File(movieToCopy.getFolderPath());
+                LOG.debug("Copying movie folder '"+movieFolder.getAbsolutePath()+"' started.");
+                listener.startedCopyingDirectory(new File(this.targetDirectory, movieFolder.getName()));
                 final File createdDirectory = FileUtil.copyDirectoryRecursive(movieFolder, this.targetDirectory);
-                LOG.debug("Copying movie folder '"+movieFolder.getAbsolutePath()+"' finished.");
                 createdDirectories.add(createdDirectory);
+                LOG.debug("Copying movie folder '"+movieFolder.getAbsolutePath()+"' finished.");
+//                listener.finishedCopyingDirectory(createdDirectory);
             }
             
             LOG.info("SmartCopy finished successfully.");
@@ -71,6 +77,10 @@ public class SmartCopy {
                 cleanup(createdDirectories);
             }
         }
+    }
+    
+    public File getTargetDirectory() {
+        return this.targetDirectory;
     }
     
     private static void cleanup(List<File> createdDirectories) {

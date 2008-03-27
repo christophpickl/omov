@@ -22,7 +22,7 @@ public class SmartCopyPreprocessResult {
     private final File targetDirectory;
     private List<Integer> ids = null;
     private List<Movie> moviesToCopy = null;
-    private long totalCopySizeInKb = -1;
+    private long totalCopySizeInKb = 0;
     
     private final List<String> fatalErrors = new LinkedList<String>(); 
     private final List<String> majorErrors = new LinkedList<String>();
@@ -80,7 +80,7 @@ public class SmartCopyPreprocessResult {
             try {
                 final Movie movie = movieDao.getMovie(id);
                 if(movie == null) {
-                    this.majorErrors.add("There is not no movie with id '"+id+"' existing!");
+                    this.majorErrors.add("There is no movie with id '"+id+"' existing!");
                     continue;
                 }
                 if(movie.isFolderPathSet() == false) {
