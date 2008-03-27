@@ -163,15 +163,8 @@ public class DirectoryChooser extends JPanel implements ActionListener{
         this.listeners.remove(listener);
     }
     
-    public static interface IDirectoryChooserListener {
-        /**
-         * gets invoked if user has choosen directory and approved operation.
-         * @param dir is never null
-         */
-        void choosenDirectory(File dir);
-    }
-    
-    public void setButtonEnabled(boolean enabled) {
+    @Override
+    public void setEnabled(boolean enabled) {
         this.button.setEnabled(enabled);
     }
 }
