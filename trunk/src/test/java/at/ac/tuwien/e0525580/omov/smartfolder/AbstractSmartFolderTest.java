@@ -146,7 +146,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
     private void insertTestData() {
         LOG.info("inserting test data ("+MOVIE_TEST_DATA.size()+" movies).");
         for (Movie movie : MOVIE_TEST_DATA) {
-            this.objectContainer.set(movie);
+            objectContainer.set(movie);
             LOG.debug(movie);
         }
     }
@@ -191,7 +191,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
     
     @SuppressWarnings("unchecked")
     List<Movie> executeSmartFolder(SmartFolder smartFolder) {
-        final Query query = this.objectContainer.query();
+        final Query query = objectContainer.query();
         smartFolder.pepareQuery(query);
         
         final ObjectSet<Movie> os = query.execute();
@@ -201,7 +201,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
     
     @SuppressWarnings("unchecked")
     List<Movie> fetchAllMovies() {
-        final Query query = this.objectContainer.query();
+        final Query query = objectContainer.query();
         query.constrain(Movie.class);
         final ObjectSet<Movie> os = query.execute();
         final List<Movie> movies = new ObjectSetTransformer<Movie>().transformList(os);

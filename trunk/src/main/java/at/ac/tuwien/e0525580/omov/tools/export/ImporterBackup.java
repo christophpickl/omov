@@ -4,11 +4,11 @@ import java.io.File;
 
 public class ImporterBackup {
 
-    private final File backupFile;
+//    private final File backupFile;
     
     public ImporterBackup(File backupFile) {
         assert(backupFile.exists() && backupFile.isFile());
-        this.backupFile = backupFile;
+//        this.backupFile = backupFile;
     }
     
     // FIXME implement ImporterBackup (evtl fuer v0.2 weglassen)

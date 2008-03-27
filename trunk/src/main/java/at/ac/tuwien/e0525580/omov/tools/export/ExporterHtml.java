@@ -1,8 +1,5 @@
 package at.ac.tuwien.e0525580.omov.tools.export;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -14,8 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,9 +20,7 @@ import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
-import at.ac.tuwien.e0525580.omov.util.ImageUtil;
 
 public class ExporterHtml implements IExporterHtml {
 

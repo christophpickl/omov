@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 public class ZipCompress {
@@ -42,7 +41,8 @@ public class ZipCompress {
     }
     
     public static void unzip() throws Exception {
-        ZipFile zip = new ZipFile(new File("/zip/myzip.zip"));
+//        ZipFile zip = new ZipFile(new File("/zip/myzip.zip"));
+        // FIXME implement unzip method
         
 //        ZipEntry entry = zip.getEntry("asdf.script");
 //        InputStream in = zip.getInputStream(entry);
