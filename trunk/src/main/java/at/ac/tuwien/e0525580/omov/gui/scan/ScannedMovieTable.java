@@ -64,6 +64,7 @@ class MyRenderer extends DefaultTableCellRenderer {
         final ScannedMovieTableModel model = (ScannedMovieTableModel) table.getModel();
         final ScannedMovie movie = model.getMovieAt(row);
         
+        // FIXME use string comparison (similarity) library for foldername-fetchedmovietitle check
         if(movie.getFolderPath().length() > 0 && movie.getTitle().equalsIgnoreCase(FileUtil.extractLastFolderName(movie.getFolderPath())) == false) {
              superComponent.setBackground(Color.ORANGE); // display row in different color if fetched title != movie folder name
         }
