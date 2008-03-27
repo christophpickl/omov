@@ -11,9 +11,13 @@ public class ImagePanel extends JComponent {
     private static final long serialVersionUID = -9004123909937374280L;
     private Image image;
     
-    
+
     public ImagePanel(int width, int height) {
-        this.setPreferredSize(new Dimension(width, height));
+        this(new Dimension(width, height));
+    }
+
+    public ImagePanel(Dimension dimension) {
+        this.setPreferredSize(dimension);
     }
 //    public ImagePanel(String img) {
 //      this(new ImageIcon(img).getImage());

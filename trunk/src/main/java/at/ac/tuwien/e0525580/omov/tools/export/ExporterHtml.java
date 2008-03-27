@@ -23,6 +23,7 @@ import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Configuration;
 import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
@@ -41,8 +42,6 @@ public class ExporterHtml implements IExporterHtml {
      */
     private static String wzTooltipJsContentCache = null;
     
-    private static final int COVER_THUMBNAIL_IMAGE_WIDTH = 40;
-    private static final int COVER_THUMBNAIL_IMAGE_HEIGHT = 40;
     
     private final List<HtmlColumn> columns;
     private String targetFilePath = null;
@@ -114,24 +113,23 @@ public class ExporterHtml implements IExporterHtml {
     }
     
     private static void copyCoverFile(Movie movie, File coverFolder, File targetCoverDirectory, boolean isThumbNail) throws BusinessException {
-        final int width;
-        final int height;
+        final CoverFileType coverType;
+//        final int width;
+//        final int height;
         final String newCoverFileName;
         if(isThumbNail) {
-            width = COVER_THUMBNAIL_IMAGE_WIDTH;
-            height = COVER_THUMBNAIL_IMAGE_HEIGHT;
+            coverType = CoverFileType.THUMBNAIL;
             newCoverFileName = "lil_" + movie.getCoverFile();
         } else {
-            width = Constants.COVER_IMAGE_WIDTH;
-            height = Constants.COVER_IMAGE_HEIGHT;
+            coverType = CoverFileType.NORMAL;
             newCoverFileName = "big_" + movie.getCoverFile();
         }
         final File originalCoverFile = new File(coverFolder, movie.getCoverFile());
         final File newCoverFile = new File(targetCoverDirectory, newCoverFileName);
         LOG.debug("Copying cover file '"+movie.getCoverFile()+"' to new location '"+newCoverFile.getAbsolutePath()+"' (isThumbNail="+isThumbNail+").");
         
-        final ImagePanel imagePanel = new ImagePanel(width, height);
-        final Image coverImage = ImageUtil.getResizedCoverImage(originalCoverFile, imagePanel, width, height);
+        final ImagePanel imagePanel = new ImagePanel(coverType.getDimension());
+        final Image coverImage = ImageUtil.getResizedCoverImage(originalCoverFile, imagePanel, coverType);
         final int w = coverImage.getWidth(null);
         final int h = coverImage.getHeight(null);
         

@@ -19,8 +19,8 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Configuration;
-import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.CoverImagePanel;
@@ -91,7 +91,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
             if(coverFile.length() > 0) {
                 final File cover = new File(Configuration.getInstance().getCoversFolder(), coverFile);
                 LOG.debug("Setting image to '"+cover.getAbsolutePath()+"'.");
-                this.imagePanel.setImage(ImageUtil.getResizedCoverImage(cover, this.imagePanel, Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT));
+                this.imagePanel.setImage(ImageUtil.getResizedCoverImage(cover, this.imagePanel, CoverFileType.NORMAL));
             } else {
                 this.imagePanel.setImage(null);
             }
@@ -150,7 +150,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
 
         // panel.setBackground(Color.RED);
 
-        final Dimension dimensionPanel = new Dimension(300, Constants.COVER_IMAGE_HEIGHT);
+        final Dimension dimensionPanel = new Dimension(300, CoverFileType.NORMAL.getMaxHeight());
         panel.setMaximumSize(dimensionPanel);
         panel.setPreferredSize(dimensionPanel);
         panel.setMinimumSize(dimensionPanel);

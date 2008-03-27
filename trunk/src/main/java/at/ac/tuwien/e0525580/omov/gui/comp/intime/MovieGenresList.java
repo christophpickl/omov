@@ -1,13 +1,12 @@
 package at.ac.tuwien.e0525580.omov.gui.comp.intime;
 
 import java.awt.Dialog;
-import java.awt.Dimension;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDataList;
 import at.ac.tuwien.e0525580.omov.model.IntimeMovieDatabaseList;
 
@@ -36,7 +35,7 @@ public class MovieGenresList extends AbstractIntimeList implements IDataList {
 
     public MovieGenresList(Dialog owner, int fixedCellWidth, int visibleRowCount) {
         super(owner, true, "Genre", COLUMNSIZE_OF_TEXTFIELD_IN_ADD_DIALOG, fixedCellWidth, visibleRowCount);
-        this.setPreferredSize(new Dimension(Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT));
+        this.setPreferredSize(CoverFileType.NORMAL.getDimension());
     }
 
     public JPanel getPanel() {

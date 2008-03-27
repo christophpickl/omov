@@ -32,8 +32,8 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 
 import at.ac.tuwien.e0525580.omov.Configuration;
-import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -63,16 +63,16 @@ public class CoverSelector extends JPanel implements DropTargetListener {
     }
 
     public static Dimension dimension(int addWidth, int addHeight) {
-        return new Dimension(Constants.COVER_IMAGE_WIDTH + addWidth, Constants.COVER_IMAGE_HEIGHT + addHeight);
+        return new Dimension(CoverFileType.NORMAL.getMaxWidth() + addWidth, CoverFileType.NORMAL.getMaxHeight() + addHeight);
     }
 
     public static Dimension dimension() {
-        return new Dimension(Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT);
+        return CoverFileType.NORMAL.getDimension();
     }
 
     private File coverFile;
 
-    private ImagePanel imagePanel = new ImagePanel(Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT);
+    private ImagePanel imagePanel = new ImagePanel(CoverFileType.NORMAL.getDimension());
 
     private Component frame;
 
@@ -200,8 +200,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
         assert (this.isValidCoverFile(file) == true) : "Only a valid coverfile may be set; was '" + file.getAbsolutePath() + "'!";
         
         this.coverFile = file;
-        this.imagePanel.setImage(ImageUtil.getResizedCoverImage(coverFile, this.imagePanel, Constants.COVER_IMAGE_WIDTH,
-                Constants.COVER_IMAGE_HEIGHT));
+        this.imagePanel.setImage(ImageUtil.getResizedCoverImage(coverFile, this.imagePanel, CoverFileType.NORMAL));
         if (initialSet == false) {
             this.coverChanged = true;
         }

@@ -466,6 +466,18 @@ public class Movie implements Serializable {
         return this.coverFile;
     }
     
+    public String getCoverFile(CoverFileType type) {
+        assert(this.isCoverFileSet());
+        
+        final String extension = this.coverFile.substring(this.coverFile.lastIndexOf(".") + 1);
+        final StringBuilder sb = new StringBuilder(20);
+        sb.append(this.id);
+        sb.append(type.getFilenamePart());
+        sb.append(".");
+        sb.append(extension);
+        return sb.toString();
+    }
+    
     /**
      * handy method
      */

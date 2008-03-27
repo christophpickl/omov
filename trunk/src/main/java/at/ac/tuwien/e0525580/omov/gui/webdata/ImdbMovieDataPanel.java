@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.comp.CoverImagePanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.LabeledComponent;
@@ -62,8 +62,7 @@ public class ImdbMovieDataPanel extends JPanel {
             this.txtGenres.setText(movie.getGenresString());
             
             if(movie.isCoverFileSet()) {
-                this.imagePanel.setImage(ImageUtil.getResizedCoverImage(new File(movie.getCoverFile()), this.imagePanel,
-                        Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT));
+                this.imagePanel.setImage(ImageUtil.getResizedCoverImage(new File(movie.getCoverFile()), this.imagePanel, CoverFileType.NORMAL));
             }
         }
 

@@ -2,8 +2,6 @@ package at.ac.tuwien.e0525580.omov.spielwiese.swingworker;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

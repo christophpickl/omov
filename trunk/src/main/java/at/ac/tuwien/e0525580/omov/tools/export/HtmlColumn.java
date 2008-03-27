@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
-import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.util.CollectionUtil;
 import at.ac.tuwien.e0525580.omov.util.ImageUtil;
@@ -34,7 +34,7 @@ public abstract class HtmlColumn {
                 return "N/A";
             }
             
-            final WidthHeight widthHeight = ImageUtil.recalcMaxWidthHeight(new File(exporter.getCoversFolder(), "big_"+movie.getCoverFile()), Constants.COVER_IMAGE_WIDTH, Constants.COVER_IMAGE_HEIGHT);
+            final WidthHeight widthHeight = ImageUtil.recalcMaxWidthHeight(new File(exporter.getCoversFolder(), "big_"+movie.getCoverFile()), CoverFileType.NORMAL.getMaxWidth(), CoverFileType.NORMAL.getMaxHeight());
             return "<img src='covers/lil_"+coverFile+"' alt='"+StringEscapeUtils.escapeHtml(movie.getTitle())+"'" +
                     " onmouseover=\"Tip('<img src=\\'covers/big_"+movie.getCoverFile()+"\\' width=\\'"+widthHeight.getWidth()+"\\' height=\\'"+widthHeight.getHeight()+"\\' />', BGCOLOR, '', BORDERWIDTH, 0, DELAY, 0, FADEIN, 200, FADEOUT, 100)\" onmouseout='UnTip()' />";
         }

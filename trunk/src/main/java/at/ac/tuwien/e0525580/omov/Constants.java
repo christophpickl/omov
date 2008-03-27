@@ -1,7 +1,6 @@
 package at.ac.tuwien.e0525580.omov;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.io.File;
 
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
@@ -13,8 +12,6 @@ public class Constants {
     public static final String VERSION_STRING = VERSION_MAJOR + "." + VERSION_MINOR;
     
 
-    public static final int COVER_IMAGE_WIDTH = 120;
-    public static final int COVER_IMAGE_HEIGHT = 160;
     
     public static final Color COLOR_WINDOW_BACKGROUND = new Color(196, 196, 196);
     
@@ -27,9 +24,6 @@ public class Constants {
         // no instantiation
     }
 
-    public static Dimension getCoverDimension() {
-        return new Dimension(COVER_IMAGE_WIDTH, COVER_IMAGE_HEIGHT);
-    }
     
 
     /**

@@ -23,9 +23,10 @@ public final class CoverUtil {
     
 //    public static final File DEFAULT_COVER = initDefaultCover();
 
-    private static final List<String> VALID_COVER_EXTENSIONS = new ArrayList<String>(2);
+    private static final List<String> VALID_COVER_EXTENSIONS = new ArrayList<String>(3);
     static {
         VALID_COVER_EXTENSIONS.add("jpg");
+        VALID_COVER_EXTENSIONS.add("jpeg");
         VALID_COVER_EXTENSIONS.add("png");
     }
 
@@ -33,27 +34,41 @@ public final class CoverUtil {
     private CoverUtil() {
         
     }
+    
+    /**
+     * Deletes existing coverfile; if coverfile attribute is set, copies the file and stores the path in database.
+     * 
+     * precondition: client should have checked if user has changed something
+     */
+    public static void resetCover(final Movie movie) throws BusinessException {
+        final String coverFile = movie.getCoverFile();
+        LOG.debug("Resetting coverFile to '"+coverFile+"' for movie: " + movie);
+        
+        CoverUtil.deleteCoverFileIfNecessary(movie);
+        
+        if(movie.isCoverFileSet()) {
+            CoverUtil.copyAndSaveCover(movie);
+        }
+    }
 
     /**
+     * Simply deletes the cover file.
+     * 
      * ATTENTION: does not set Movie.coverFile to "" 
      */
     public static boolean deleteCoverFileIfNecessary(final Movie movie) throws BusinessException {
         return CoverUtil.deleteCoverFile(movie, false);
     }
 
-    /**
-     * ATTENTION: does not set Movie.coverFile to "" 
-     */
-    public static boolean deleteCoverFile(final Movie movie) throws BusinessException {
-        return CoverUtil.deleteCoverFile(movie, true);
-    }
+//    public static boolean deleteCoverFile(final Movie movie) throws BusinessException {
+//        return CoverUtil.deleteCoverFile(movie, true);
+//    }
     
     /**
-     * @param movie
-     * @param wasIntended
      * @return true if coverfile was deleted, false if it was not existing
      */
     private static boolean deleteCoverFile(final Movie movie, final boolean wasIntended) throws BusinessException {
+        LOG.debug("Deleting cover file for movie '"+movie.getTitle()+"' (ID="+movie.getId()+"); wasIntended="+wasIntended);
         final File imageFolder = Configuration.getInstance().getCoversFolder();
         File[] foundCoverFiles = imageFolder.listFiles(new FileFilter() { public boolean accept(File pathname) {
                 return (pathname.getName().startsWith(movie.getId() + "."));
@@ -85,29 +100,15 @@ public final class CoverUtil {
     }
     
     /**
-     * precondition: client should have checked if user has changed something (
+     * Copies the cover file to application's CoverFold with the format: "ID"."extension" and also updates the DB entry.
      */
-    public static void resetCover(final Movie movie) throws BusinessException {
-        final String coverFile = movie.getCoverFile();
-        LOG.debug("Resetting coverFile to '"+coverFile+"' for movie: " + movie);
-        
-        if(coverFile.length() == 0) {
-            LOG.debug("Checking if cover file exists and deleting it, because coverFile attribute is empty.");
-            CoverUtil.deleteCoverFileIfNecessary(movie);
-        } else {
-            LOG.debug("coverFile is set to non-empty string, try to delete old and afterwards copy&save new coverFile");
-            CoverUtil.deleteCoverFileIfNecessary(movie);
-            CoverUtil.copyAndSaveCover(movie);
-        }
-    }
-    
     private static void copyAndSaveCover(Movie movie) throws BusinessException {
         LOG.info("Saving cover file '"+movie.getCoverFile()+"' for movie "+movie+".");
-        
         assert(movie.isCoverFileSet() == true);
+        
         final String coverFile = movie.getCoverFile();
         final String extension = FileUtil.extractExtension(coverFile);
-        assert(extension != null); // sollte schon vom coverSelector sicher gegangen sein
+        assert(extension != null); // should have been checked by CoverSelector
         
         final String newCoverFileName = movie.getId() + "." + extension;
         
@@ -115,6 +116,13 @@ public final class CoverUtil {
         FileUtil.copyFile(new File(coverFile), targetFile);
         
         DAO.updateMovie(Movie.newByOtherMovieSetCoverFile(movie, newCoverFileName));
+    }
+    
+    /**
+     * @return true if the passed extension is equals to some of 'jpg', 'jpeg' or 'png'.
+     */
+    public static boolean isValidCoverExtension(final String extension) {
+        return VALID_COVER_EXTENSIONS.contains(extension);
     }
     
     
@@ -162,8 +170,4 @@ public final class CoverUtil {
 //        
 //        FileUtil.copyFile(oldFile, newFile);
 //    }
-    
-    public static boolean isValidCoverExtension(final String extension) {
-        return VALID_COVER_EXTENSIONS.contains(extension);
-    }
 }

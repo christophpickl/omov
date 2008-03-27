@@ -94,6 +94,7 @@ public final class MainWindowController extends CommonController implements IRem
         int confirmed = JOptionPane.showConfirmDialog(this.mainWindow, "Do you really want to delete "+moviesToDelete.size()+" movies at once?", "Deleting Movies", JOptionPane.YES_NO_OPTION);
         if(confirmed == JOptionPane.YES_OPTION) {
             
+            final boolean wasAutoCommitEnabled = DAO.isAutoCommit();
             boolean committed = false;
             Movie movie = null;
             try {
@@ -111,13 +112,13 @@ public final class MainWindowController extends CommonController implements IRem
                 return;
             } finally {
                 if(committed == false) DAO.rollback();
-                DAO.setAutoCommit(true);
+                DAO.setAutoCommit(wasAutoCommitEnabled);
             }
             for (Movie m : moviesToDelete) {
                 try {
                     CoverUtil.deleteCoverFileIfNecessary(m);
                 } catch (BusinessException e) {
-                    GuiUtil.error(this.mainWindow, "Deleting Coverfile failed", "Could not delete Coverfile for Movie '"+m.getTitle()+"' (ID="+m.getId()+")!");
+                    LOG.warn("Could not delete Coverfile for Movie '"+m.getTitle()+"' (ID="+m.getId()+")!");
                 }
             }
             LOG.debug("doDeleteMovies() finished");

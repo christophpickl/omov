@@ -11,7 +11,7 @@ public class ImporterBackup {
         this.backupFile = backupFile;
     }
     
-    // FIXME implement ImporterBackup
+    // FIXME implement ImporterBackup (evtl fuer v0.2 weglassen)
     // check data version
     // transaction:
     // - import movies (if path already exists -> skip + return info
