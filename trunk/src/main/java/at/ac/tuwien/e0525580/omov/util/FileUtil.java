@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
 import java.util.Set;
@@ -50,9 +51,17 @@ public final class FileUtil {
         return null;
     }
     
-    /*
-    public static void copyFile(final File sourceFile, final File targetFile) throws BusinessException {
-        LOG.debug("Copying file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
+    private static long MB5 = 1024 * 1024 * 5;
+    public static void copyFile(File sourceFile, File targetFile) throws BusinessException {
+        if(sourceFile.length() > MB5) {
+            copyBigFile(sourceFile, targetFile);
+        } else {
+            copySmallFile(sourceFile, targetFile);
+        }
+    }
+    
+    private static void copyBigFile(final File sourceFile, final File targetFile) throws BusinessException {
+        LOG.debug("Copying BIG file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
         
         if(sourceFile.exists() == false) {
             throw new BusinessException("Could not copy sourcefile '"+sourceFile.getAbsolutePath()+"' because it does not exist!");
@@ -82,13 +91,12 @@ public final class FileUtil {
             try { if(output != null) output.close(); } catch(IOException e) { LOG.error("Could not close stream!", e);}
         }
     }
-    */
     
     /**
      * @see {@link http://www.rgagnon.com/javadetails/java-0064.html}
      */
-    public static void copyFile(File sourceFile, File targetFile) throws BusinessException { // TODO use this method for small files; and maybe other method for bigger ones?! (-> Smartcopy)
-        LOG.debug("Copying file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
+    private static void copySmallFile(File sourceFile, File targetFile) throws BusinessException {
+        LOG.debug("Copying SMALL file '"+sourceFile.getAbsolutePath()+"' to '"+targetFile.getAbsolutePath()+"'.");
         FileChannel inChannel = null;
         FileChannel outChannel = null;
         try {
@@ -276,6 +284,18 @@ public final class FileUtil {
                 LOG.warn("Could not close closeable.");
             }
         }
+    }
+    
+    public static long getSizeRecursive(File file) {
+        if(file.isFile()) {
+            return file.length() / 1024;
+        }
+        
+        long size = 0;
+        for (File subFile : file.listFiles()) {
+            size += getSizeRecursive(subFile);
+        }
+        return size;
     }
     
     
