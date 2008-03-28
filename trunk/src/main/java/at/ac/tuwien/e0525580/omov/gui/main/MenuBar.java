@@ -47,7 +47,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     
     
     // File
-//    private static final String CMD_IMPORT = "Import ...";
+    private static final String CMD_IMPORT = "Import ...";
     private static final String CMD_EXPORT = "Export ...";
     private static final String CMD_SMART_COPY = "Smart Copy...";
     private static final String CMD_QUIT = "Quit";
@@ -92,10 +92,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
 
     private JMenu menuFile() {
         final JMenu menu = new JMenu("File");
-        // TODO set memnonic characters for menubar entries
         
-        GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, KeyEvent.VK_E, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
-//        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
+        GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
+        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
         GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
         
         if(UserSniffer.isMacOSX() == false) {
@@ -182,8 +181,8 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 controller.doDeleteMovie();
             } else if(cmd.equals(CMD_FETCH_METADATA)) {
                 controller.doFetchMetaData();
-//            } else if(cmd.equals(CMD_IMPORT)) {
-//                this.controller.doImport();
+            } else if(cmd.equals(CMD_IMPORT)) {
+                controller.doImport();
             } else if(cmd.equals(CMD_EXPORT)) {
                 controller.doExport();
             } else if(cmd.equals(CMD_SHOW_XXX)) {

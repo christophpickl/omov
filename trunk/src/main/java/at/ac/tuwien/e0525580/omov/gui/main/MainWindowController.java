@@ -1,9 +1,12 @@
 package at.ac.tuwien.e0525580.omov.gui.main;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 
@@ -28,6 +31,9 @@ import at.ac.tuwien.e0525580.omov.gui.preferences.PreferencesWindow;
 import at.ac.tuwien.e0525580.omov.gui.scan.ScanDialog;
 import at.ac.tuwien.e0525580.omov.gui.smartcopy.SmartCopyDialog;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
+import at.ac.tuwien.e0525580.omov.tools.export.ImportExportConstants;
+import at.ac.tuwien.e0525580.omov.tools.export.ImportProcessResult;
+import at.ac.tuwien.e0525580.omov.tools.export.ImporterBackup;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
 import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.tools.remote.IRemoteDataReceiver;
@@ -355,9 +361,42 @@ public final class MainWindowController extends CommonController implements IRem
         new DuplicatesFinderProgressDialog(this.mainWindow).setVisible(true);
     }
 
-    // import from exported *.omo file; or XML file
     public void doImport() {
-        JOptionPane.showMessageDialog(this.mainWindow, "Importing not yet implemented.", "Ups", JOptionPane.INFORMATION_MESSAGE);
+        final File backupFile = GuiUtil.getFile(ImportExportConstants.BACKUP_FILE_FILTER);
+        if(backupFile == null) {
+            LOG.debug("User did not select backup file to import; aborting.");
+            return;
+        }
+        
+        final ZipFile backupZipFile;
+        try {
+            backupZipFile = new ZipFile(backupFile);
+        } catch (ZipException e) {
+            GuiUtil.warning(this.mainWindow, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is not a proper backup file!");
+            return;
+        } catch (IOException e) {
+            GuiUtil.error(this.mainWindow, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is corrupted!");
+            return;
+        }
+        
+        final ImporterBackup importer = new ImporterBackup(backupFile, backupZipFile);
+        
+        // TODO use swing worker for ImporterBackup.process()   + maybe if movies skipped count > 1, display text in JTextArea (so text can be copied) which movies where skipped (title, folderpath)
+        final ImportProcessResult processResult = importer.process();
+        if(processResult.isSucceeded() == true) {
+            final int cntSkippedMovies = processResult.getSkippedMovies().size();
+            final int cntInsertedMovies = processResult.getInsertedMovies().size();
+            
+            String dialogText = "Successfully imported "+cntInsertedMovies+" movie"+(cntInsertedMovies != 1 ? "s" : "")+" stored in backup.";
+            if(cntSkippedMovies > 0) {
+                dialogText += "\n(Skipped "+cntSkippedMovies+" Movie"+(cntSkippedMovies != 1 ? "s" : "")+" because there movie folderpath is already in use)";
+            }
+            GuiUtil.info(this.mainWindow, "Import Successfull", dialogText);
+            
+        } else { // processResult.isSucceeded() == false
+            GuiUtil.error(this.mainWindow, "Import Failed", processResult.getErrorMessage());
+        }
+        
     }
 
     public void doExport() {

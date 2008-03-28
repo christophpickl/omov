@@ -132,6 +132,14 @@ public final class CoverUtil {
         } else {
             sourceFile = new File(movie.getOriginalCoverFile());
         }
+        _copyCoverFileTypes(movie, sourceFile);
+    }
+    
+    public static void copyCoverFileTypesByOriginal(final Movie movie, final File originalCoverFile) throws BusinessException {
+        _copyCoverFileTypes(movie, originalCoverFile);
+    }
+    
+    private static void _copyCoverFileTypes(final Movie movie, final File sourceFile) throws BusinessException {
         LOG.debug("Copying all cover file types by sourceFile '"+sourceFile.getAbsolutePath()+"' for movie: " + movie);
         
         for (CoverFileType targetType : CoverFileType.getAllTypes()) {

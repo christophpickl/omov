@@ -25,6 +25,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
+import javax.swing.filechooser.FileFilter;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -200,10 +201,17 @@ public final class GuiUtil {
     public static boolean getYesNoAnswer(Component owner, String title, String message) {
         return JOptionPane.showConfirmDialog(owner, message, title, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
-    
+
     public static File getFile() {
+        return GuiUtil.getFile(null);
+    }
+    
+    public static File getFile(FileFilter filter) {
         JFileChooser chooser = new JFileChooser();
         chooser.setMultiSelectionEnabled(false);
+        if(filter != null) {
+            chooser.setFileFilter(filter);
+        }
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         
         if(chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
