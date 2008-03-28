@@ -23,7 +23,7 @@ import at.ac.tuwien.e0525580.omov.util.ZipUtil;
 
 import com.thoughtworks.xstream.XStream;
 
-public class ExporterBackup {
+public class ExporterBackup implements ImportExportConstants {
 
     private static final Log LOG = LogFactory.getLog(ExporterBackup.class);
     
@@ -58,7 +58,7 @@ public class ExporterBackup {
                 throw new BusinessException("Could not create folder '"+backupTempDir.getAbsolutePath()+"'!");
             }
             
-            writeXml(movies, new File(backupTempDir, "movies.xml"));
+            writeXml(movies, new File(backupTempDir, FILE_MOVIES_XML));
             
             copyCoverFiles(backupTempDir, movies);
             
@@ -98,11 +98,14 @@ public class ExporterBackup {
         
     }
     
+    /**
+     * copies only original cover file (when importing, resizing all images to all types and save them).
+     */
     private static void copyCoverFiles(File backupTempDir, List<Movie> movies) throws BusinessException {
         LOG.debug("Copying cover files");
-        final File coverDir = new File(backupTempDir, "covers");
+        final File coverDir = new File(backupTempDir, FOLDER_COVERS);
         if(coverDir.mkdir() == false) {
-            throw new BusinessException("Could not create folder '"+coverDir+"'!");
+            throw new BusinessException("Could not create folder '"+coverDir.getAbsolutePath()+"'!");
         }
         for (final Movie movie : movies) {
             if(movie.isCoverFileSet()) {
@@ -119,7 +122,7 @@ public class ExporterBackup {
     private static void writeDataVersion(File directory, int version) throws BusinessException {
         BufferedWriter writer = null;
         
-        final File versionFile = new File(directory, "movie_data.version");
+        final File versionFile = new File(directory, FILE_DATA_VERSION);
         try {
             writer = new BufferedWriter(new FileWriter(versionFile));
             writer.write(String.valueOf(version));
@@ -136,9 +139,9 @@ public class ExporterBackup {
         do {
             final String fileName;
             if(i == 0) {
-                fileName = "omov_backup-" + ZIP_FILE_NAME.format(new Date()) + ".omo";
+                fileName = "omov_backup-" + ZIP_FILE_NAME.format(new Date()) + "." + BACKUP_FILE_EXTENSION;
             } else {
-                fileName = "omov_backup-" + ZIP_FILE_NAME.format(new Date()) + "-"+i+".omo";
+                fileName = "omov_backup-" + ZIP_FILE_NAME.format(new Date()) + "-" + i + "." + BACKUP_FILE_EXTENSION;
             }
             file = new File(directory, fileName);
             i++;
