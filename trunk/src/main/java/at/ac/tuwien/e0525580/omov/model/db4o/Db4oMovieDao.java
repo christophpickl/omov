@@ -158,12 +158,14 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
         LOG.info("Inserting movie: " + insertMovie);
         
         final int id = this.getNextMovieId();
-        final Movie result = Movie.newByOtherMovieSetDateAdded(id, new Date(), insertMovie);
+        final Date dateAdded = new Date();
+        LOG.debug("New id will be " + id + " and date added " + dateAdded);
+        final Movie result = Movie.newByOtherMovieSetDateAdded(id, dateAdded, insertMovie);
         
         this.objectContainer.set(result);
 
         if(this.isAutoCommit() == true) {
-            this.commit();
+            this.commit(); // necessary?
         }
         
         this.notifyListeners();
@@ -173,6 +175,8 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
 
 
     public List<Movie> insertMovies(List<Movie> insertMovies) throws BusinessException {
+        final boolean wasAutoComitEnabled = this.isAutoCommit();
+        
         this.setAutoCommit(false);
         boolean commited = false;
         final List<Movie> result = new ArrayList<Movie>(insertMovies.size());
@@ -183,8 +187,10 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
             this.commit();
             commited = true;
         } finally {
-            if(commited == false) this.rollback();
-            this.setAutoCommit(true);
+            if(commited == false) {
+                this.rollback();
+            }
+            this.setAutoCommit(wasAutoComitEnabled);
         }
         return result;
     }

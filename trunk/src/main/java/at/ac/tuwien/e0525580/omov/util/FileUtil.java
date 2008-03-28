@@ -180,6 +180,7 @@ public final class FileUtil {
         
         for (File subFile : directory.listFiles()) {
             if(subFile.isFile()) {
+                LOG.debug("Deleting file '"+subFile.getAbsolutePath()+"'.");
                 if(subFile.delete() == false) {
                     throw new BusinessException("Could not delete file '"+subFile.getAbsolutePath()+"'!");
                 }

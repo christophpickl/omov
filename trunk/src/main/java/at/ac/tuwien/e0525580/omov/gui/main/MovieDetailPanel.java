@@ -91,6 +91,9 @@ public class MovieDetailPanel implements IMovieDaoListener {
             if(coverFile.length() > 0) {
                 final File cover = new File(Configuration.getInstance().getCoversFolder(), coverFile);
                 LOG.debug("Setting image to '"+cover.getAbsolutePath()+"'.");
+                if(cover.exists() == false) {
+                    LOG.warn("The cover file does not exist '"+cover.getAbsolutePath()+"'!");
+                }
                 this.imagePanel.setImage(ImageUtil.getResizedCoverImage(cover, this.imagePanel, CoverFileType.NORMAL));
 //                this.imagePanel.setImage(CoverUtil.getMovieCoverImage(movie, CoverFileType.NORMAL).getImage());
             } else {

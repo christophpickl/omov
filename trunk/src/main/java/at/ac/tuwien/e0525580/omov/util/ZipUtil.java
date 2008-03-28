@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
+import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
@@ -27,7 +28,7 @@ public final class ZipUtil {
         
     }
     
-    public static void unzip(File file, File targetDirectory) throws BusinessException {
+    public static void unzip(File file, ZipFile zipFile, File targetDirectory) throws BusinessException {
         LOG.info("Unzipping zip file '"+file.getAbsolutePath()+"' to directory '"+targetDirectory.getAbsolutePath()+"'.");
         assert(file.exists() && file.isFile());
         
@@ -40,7 +41,7 @@ public final class ZipUtil {
         
         ZipInputStream zipin = null;
         try {
-            final ZipFile zipFile = new ZipFile(file);
+//            final ZipFile zipFile = new ZipFile(file);
             
             zipin = new ZipInputStream(new FileInputStream(file));
             ZipEntry entry = null;
@@ -156,6 +157,18 @@ public final class ZipUtil {
     
     public static void main(String[] args) throws BusinessException {
 //        ZipUtil.zipDirectory(new File("/zip/covers"), new File("/zip/covers.zip"));
-        ZipUtil.unzip(new File("/zip/covers.zip"), new File("/zip/unzippedCovers"));
+        
+        File file = new File("/zip/asdf.script");
+        ZipFile zipFile;
+        try {
+            zipFile = new ZipFile(file);
+        } catch (ZipException e) {
+            System.out.println("invalid zip file");
+            return;
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        ZipUtil.unzip(file, zipFile, new File("/zip/unzippedCovers"));
     }
 }
