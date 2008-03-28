@@ -9,7 +9,7 @@
 	mvn -Dmaven.test.skip=true assembly:assembly
 	
 	... create an initial project (with its filestructure)
-	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies2
+	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies
 	
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
