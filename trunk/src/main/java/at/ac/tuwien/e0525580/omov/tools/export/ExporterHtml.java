@@ -421,6 +421,7 @@ public class ExporterHtml implements IExporterHtml {
         ".th {\n" +
         "   border-bottom:1px solid #999999;\n" +
         "   padding:6px 10px 6px 10px;\n" +
+        "   empty-cells:show;\n" +
         "}\n" +
         ".title_link {\n" +
         "   text-decoration:none;\n" +
