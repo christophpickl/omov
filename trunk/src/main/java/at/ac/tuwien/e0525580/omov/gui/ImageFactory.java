@@ -99,7 +99,10 @@ public class ImageFactory {
         FETCH_METADATA("fetch_metadata.png"),
         IMPORT("import.png"),
         EXPORT("export.png"),
-        REVEAL_FINDER("reveal_finder.png");
+        REVEAL_FINDER("reveal_finder.png"),
+        SEVERITY_INFO("severity_info.gif"),
+        SEVERITY_WARNING("severity_warning.gif"),
+        SEVERITY_ERROR("severity_error.gif");
         
         final String fileName;
         private Icon16x16(String fileName) {

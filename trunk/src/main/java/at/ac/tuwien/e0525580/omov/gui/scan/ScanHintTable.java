@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
@@ -11,6 +12,7 @@ import javax.swing.table.TableColumn;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScanHint;
 
 
@@ -67,12 +69,22 @@ class ScanHintTableModel extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         final ScanHint hint = this.scanHints.get(row);
         switch(col) {
-            case IND_SEVERITY: return hint.getSeverity().name();
+            case IND_SEVERITY: return ImageFactory.getInstance().getIcon(hint.getSeverity().getIcon());
             case IND_MESSAGE: return hint.getHint();
             default: throw new IllegalArgumentException("unhandled column: " + col);
         }
     }
 
+    @Override
+    public Class<?> getColumnClass(int col) {
+        switch(col) {
+            case IND_SEVERITY: return ImageIcon.class;
+            case IND_MESSAGE: return String.class;
+            default: throw new IllegalArgumentException("unhandled column: " + col);
+        }
+    }
+
+    @Override
     public String getColumnName(final int col) {
         return ALL_COLUMN_NAMES.get(col);
     }
@@ -81,7 +93,7 @@ class ScanHintTableModel extends AbstractTableModel {
     private static final int IND_SEVERITY = 0;
     private static final int IND_MESSAGE = 1;
     private static enum Col {
-        SEVERITY(IND_SEVERITY, "Severity", 0, 70, 70), // TODO show severity icons
+        SEVERITY(IND_SEVERITY, "", 0, 20, 20),
         MESSAGE(IND_MESSAGE, "Message", 300, -1, 900);
 
         
