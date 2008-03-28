@@ -29,13 +29,15 @@
 				<li><a href="#about" title="Go to About">About</a></li>
 				<li><a href="#downloads" title="Go to Downloads">Downloads</a></li>
 				<li><a href="#screenshots" title="Go to Screenshots">Screenshots</a></li>
+				<li><a href="changelog" title="Go to Changelog">Changelog</a></li>
 			</ul>
 		</td>
 		<td>
 			<p>
-				<i>March 16th, 2008</i><br />
-				Finally, the first version (0.1) is released. Although its state is <b>alpha</b>,<br />
-				most of the features should be stable and not generate any fatal errors.
+				<i>March 28th, 2008</i><br />
+				Just released another/a second <b>alpha version 0.2</b>,<br />
+				which got nearly all features available; see the changelog for details.<br />
+				There are also native executables for Windows and Mac OSX available.
 			</p>
 		</td>
 	</tr>
@@ -70,12 +72,12 @@
 
 <h4>Features</h4>
 	<ul>
-		<li>Automatically fetches metadata from imdb.com</li>
-		<li>Displays covers (also fetched from imdb.com)</li>
-		<li>Generates HTML reports to easily exchange movies</li>
-		<li><i>Smartcopy</i> which allows automatic copying of desired movies (selected by HTML report)</li>
-		<li><i>Smartfolder</i> which gives you the possibility of easily storing a bunch of search criteria</li>
-		<li>Scans a given directory for recently added movies</li>
+		<li>Automatically fetches metadata from the web</li>
+		<li>Manages covers (can be also fetched from web)</li>
+		<li>Export as HTML report or make a full backup</li>
+		<li><i>SmartCopy</i> which allows automatic copying of certain movies (uses HTML report's generated output)</li>
+		<li><i>SmartFolder</i> which gives you the possibility of easily storing a bunch of search criteria</li>
+		<li>Scans a given directory for (recently added) movies and imports them</li>
 	</ul>
 
 
@@ -83,27 +85,64 @@
 <h3>Downloads<a name="downloads" /></h3>
 <!-- ******************************************************** -->
 
-<p>
-	Any operating system (Windows, MacOS X, Linux): <a href="http://downloads.sourceforge.net/omov/OurMovies-0.1-alpha.jar?use_mirror=osdn" target="_self">OurMovies-0.1-alpha.jar</a> (7MB)
+<ul>
+	<li>Microsoft Windows: <a href="http://downloads.sourceforge.net/omov/OurMovies.exe?use_mirror=osdn" target="_self">OurMovies.exe</a> (8.0 MB)</li>
+	<li>Apple Mac OS X: <a href="http://downloads.sourceforge.net/omov/OurMovies.dmg?use_mirror=osdn" target="_self">OurMovies.dmg</a> (6.8 MB)</li>
+	<li>Other operating systems: <a href="http://downloads.sourceforge.net/omov/OurMovies-0.2-alpha.jar?use_mirror=osdn" target="_self">OurMovies-0.2-alpha.jar</a> (7.5 MB)</li>
+</ul>
+
 </p>
 
 <hr />
 <h3>Screenshots<a name="screenshots" /></h3>
 <!-- ******************************************************** -->
 
-<a href="images/screenshots/mainwindow_big.png" target="_blank">
-	<img src="images/screenshots/mainwindow_lil.jpg" width="243" height="131" alt="screenshot mainwindow" title="The Main Window" border="0" /></a>
-<a href="images/screenshots/moviedetail1_big.png" target="_blank">
-	<img src="images/screenshots/moviedetail1_lil.jpg" width="137" height="116" alt="screenshot moviedetail info" title="Movie Details - Tab Info" border="0" /></a>
-<a href="images/screenshots/moviedetail2_big.png" target="_blank">
-	<img src="images/screenshots/moviedetail2_lil.jpg" width="137" height="116" alt="screenshot moviedetail details" title="Movie Details - Tab Details" border="0" /></a>
-<a href="images/screenshots/moviedetail3_big.png" target="_blank">
-	<img src="images/screenshots/moviedetail3_lil.jpg" width="137" height="116" alt="screenshot moviedetail notes" title="Movie Details - Tab Notes" border="0" /></a>
-<a href="images/screenshots/scanprogress_big.png" target="_blank">
-	<img src="images/screenshots/scanprogress_lil.jpg" width="171" height="84" alt="screenshot scan progress" title="Scan in progress" border="0" /></a>
-<a href="images/screenshots/scanfinished_big.png" target="_blank">
-	<img src="images/screenshots/scanfinished_lil.jpg" width="171" height="84" alt="screenshot scan finished" title="Scan finished" border="0" /></a>
+<ul>
+	<li>Main Screen:<br />
+	<a href="images/screenshots/mainwindow_big.png" target="_blank">
+		<img src="images/screenshots/mainwindow_lil.jpg" width="243" height="131" alt="screenshot mainwindow" title="The Main Window" border="0" /></a>
+	<br /><br /></li>
+	<li>Movie Detail Window:<br />
+	<a href="images/screenshots/moviedetail1_big.png" target="_blank">
+		<img src="images/screenshots/moviedetail1_lil.jpg" width="137" height="116" alt="screenshot moviedetail info" title="Movie Details - Tab Info" border="0" /></a>
 
+	<a href="images/screenshots/moviedetail2_big.png" target="_blank">
+		<img src="images/screenshots/moviedetail2_lil.jpg" width="137" height="116" alt="screenshot moviedetail details" title="Movie Details - Tab Details" border="0" /></a>
+
+	<a href="images/screenshots/moviedetail3_big.png" target="_blank">
+		<img src="images/screenshots/moviedetail3_lil.jpg" width="137" height="116" alt="screenshot moviedetail notes" title="Movie Details - Tab Notes" border="0" /></a>
+	<br /><br /></li>
+	<li>SmartFolder:<br />
+	<a href="images/screenshots/smartfolder1_big.png" target="_blank">
+		<img src="images/screenshots/smartfolder1_lil.jpg" width="100" height="60" alt="screenshot smartfolder overview" title="Overview of defined SmartFolders" border="0" /></a>
+	<a href="images/screenshots/smartfolder2_big.png" target="_blank">
+		<img src="images/screenshots/smartfolder2_lil.jpg" width="229" height="90" alt="screenshot smartfolder definition" title="SmartFolder Manage Dialog" border="0" /></a>
+	</li>
+	<li>Scanning a Repository:<br />
+	<a href="images/screenshots/scanprogress_big.png" target="_blank">
+		<img src="images/screenshots/scanprogress_lil.jpg" width="171" height="84" alt="screenshot scan progress" title="Scan in progress" border="0" /></a>
+	<a href="images/screenshots/scanfinished_big.png" target="_blank">
+		<img src="images/screenshots/scanfinished_lil.jpg" width="171" height="84" alt="screenshot scan finished" title="Scan finished" border="0" /></a>
+	</li>
+</ul>
+
+
+<hr />
+<h3>Changelog<a name="changelog" /></h3>
+<!-- ******************************************************** -->
+<pre>
+OurMovies - 0.2
+===============
+- 0000003: [Additional Functionality] implement SmartCopy feature
+- 0000001: [Additional Functionality] export whole data (movie fields, covers) as single zip file
+- 0000011: [Additional Functionality] notify user if original movie title (by folder name) differs from metadata fetched movie title
+- 0000015: [Other] create native executable for windows
+- 0000016: [Other] create native executable for macosx
+- 0000010: [Additional Functionality] make more columns selectable when exporting as HTML
+- 0000005: [Additional Functionality] all necessary movie attributes should be available for SmartFolder search
+- 0000013: [GUI Look] movie info dialog's width can be oversized
+- 0000017: [Other] use OSXAdapter to create a nice mac look&feel
+</pre>
 
 
 <hr />
@@ -114,7 +153,7 @@
     </a>
  </p>
 
-<p><small>Last modified 2008-March-16</small></p>
+<p><small>Last modified 2008-March-28</small></p>
   
 </body>
 </html>
