@@ -224,7 +224,7 @@ public class Scanner implements IScanner {
 
         final Set<String> files = new HashSet<String>();
         final Set<String> formats = new HashSet<String>();
-        for(File file : folder.listFiles()) {
+        for(File file : folder.listFiles()) { // TODO maybe do not only list files directly below movie folder, but also check for subitems in subdirectories (recursive)
             if(file.isDirectory()) {
                 if(hintsEnabled) hints.add(ScanHint.warning("Illegal subdirectory: " + path(file, scanRoot)));
                 continue;
