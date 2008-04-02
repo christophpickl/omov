@@ -17,46 +17,69 @@ public class Db4oDataVersionDao extends AbstractDb4oDao implements IDataVersionD
     public Db4oDataVersionDao(Db4oConnection connection) {
         super(connection);
     }
+
+    public int getMovieDataVersion() {
+        final DataVersion dataVersion = this.getDataVersion();
+        if(dataVersion == null) return -1;
+        return dataVersion.getMovieVersion();
+    }
     
-    public int getDataVersion() {
+    public int getSmartfolderDataVersion() {
+        final DataVersion dataVersion = this.getDataVersion();
+        if(dataVersion == null) return -1;
+        return dataVersion.getSmartfolderVersion();
+    }
+    
+    private DataVersion getDataVersion() {
         final ObjectSet<DataVersion> os = this.objectContainer.get(DataVersion.class);
         final Set<DataVersion> set = new ObjectSetTransformer<DataVersion>().transformSet(os);
         if(set.size() == 0) {
-            LOG.info("No dataversion yet stored; returning -1.");
-            return -1;
+            LOG.info("No dataversion yet stored; returning null.");
+            return null;
         } else if(set.size() == 1) {
-            return set.iterator().next().getVersion();
+            return set.iterator().next();
         } else {
             throw new IllegalStateException("There are "+set.size()+" dataversion instances stored!");
         }
     }
 
-    public void storeDataVersion(int version) {
+    public void storeDataVersions(final int movieVersion, final int smartfolderVersion) {
         final ObjectSet<DataVersion> os = this.objectContainer.get(DataVersion.class);
         final Set<DataVersion> set = new ObjectSetTransformer<DataVersion>().transformSet(os);
         
         if(set.size() == 0) {
-            LOG.debug("Storing initial version of "+version+".");
-            this.objectContainer.set(new DataVersion(version));
+            LOG.debug("Storing initial movie version "+movieVersion+" and smartfolder verison "+smartfolderVersion+".");
+            this.objectContainer.set(new DataVersion(movieVersion, smartfolderVersion));
         } else {
             assert(set.size() == 1);
-            DataVersion storedVersion = set.iterator().next();
-            LOG.debug("Overwriting old version "+storedVersion.getVersion()+" with new "+version+".");
-            storedVersion.setVersion(version);
+            
+            final DataVersion storedVersion = set.iterator().next();
+            LOG.debug("Overwriting old movie version "+storedVersion.getMovieVersion()+" with "+movieVersion+" and old smartfolder version "+storedVersion.getSmartfolderVersion()+" with "+smartfolderVersion+".");
+            storedVersion.setMovieVersion(movieVersion);
+            storedVersion.setSmartfolderVersion(smartfolderVersion);
+            
             this.objectContainer.set(storedVersion);
         }
     }
 
     private static class DataVersion {
-        private int version;
-        public DataVersion(final int version) {
-            this.version = version;
+        private int movieVersion = -1;
+        private int smartfolderVersion = -1;
+        public DataVersion(final int movieVersion, final int smartfolderVersion) {
+            this.movieVersion = movieVersion;
+            this.smartfolderVersion = smartfolderVersion;
         }
-        public int getVersion() {
-            return this.version;
+        public int getMovieVersion() {
+            return this.movieVersion;
         }
-        public void setVersion(final int version) {
-            this.version = version;
+        public void setMovieVersion(int movieVersion) {
+            this.movieVersion = movieVersion;
+        }
+        public int getSmartfolderVersion() {
+            return this.smartfolderVersion;
+        }
+        public void setSmartfolderVersion(int smartfolderVersion) {
+            this.smartfolderVersion = smartfolderVersion;
         }
     }
 }

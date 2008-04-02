@@ -17,6 +17,7 @@ import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindow;
 import at.ac.tuwien.e0525580.omov.model.IDataVersionDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
+import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 import at.ac.tuwien.e0525580.omov.tools.TemporaryFilesCleaner;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
@@ -98,7 +99,7 @@ public class App {
             TemporaryFilesCleaner.clean();
             App.addShutdownHook();
             
-            if(App.checkDataVersion() == false) {
+            if(App.checkDataVersions() == false) {
                 System.exit(1);
             }
             
@@ -125,21 +126,32 @@ public class App {
         
     }
     
-    private static boolean checkDataVersion() {
+    private static boolean checkDataVersions() {
         final IDataVersionDao versionDao = BeanFactory.getInstance().getDataVersionDao();
-        final int dataVersion = versionDao.getDataVersion();
-        LOG.debug("checking data versions: database version = "+dataVersion+"; application version = "+Movie.DATA_VERSION);
-        if(dataVersion == -1) {
-            LOG.info("Storing initial data version value of '"+Movie.DATA_VERSION+"'.");
-            versionDao.storeDataVersion(Movie.DATA_VERSION);
+        final int movieDataVersion = versionDao.getMovieDataVersion();
+        final int smartfolderDataVersion = versionDao.getSmartfolderDataVersion();
+        
+        LOG.debug("checking data versions: movie = "+movieDataVersion+" ("+Movie.DATA_VERSION+"); smartfolder = "+smartfolderDataVersion+" ("+SmartFolder.DATA_VERSION+")");
+        
+        if(movieDataVersion == -1) {
+            assert(smartfolderDataVersion == -1);
+            
+            LOG.info("Storing initial data versions (Movie="+Movie.DATA_VERSION+"; SmartFolder="+SmartFolder.DATA_VERSION+").");
+            versionDao.storeDataVersions(Movie.DATA_VERSION, SmartFolder.DATA_VERSION);
             return true;
         }
-        
-        if(dataVersion != Movie.DATA_VERSION) {
-            // TODO write troubleshooting topic for this problem (either delete db4-file for reset or use converter if possible)
-            GuiUtil.error("Data Version Mismatch", "Sorry, but it seems as you were using an incompatible database.\n" +
-                    "Database version: "+dataVersion+"\n" +
+
+        // TODO write troubleshooting topic for this problem (either delete db4-file for reset or use converter if possible)
+        if(movieDataVersion != Movie.DATA_VERSION) {
+            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible data source!\n" +
+                    "Movie version: "+movieDataVersion+"\n" +
                     "Application version: "+Movie.DATA_VERSION);
+            return false;
+        }
+        if(smartfolderDataVersion != SmartFolder.DATA_VERSION) {
+            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible data source!\n" +
+                    "SmartFolder version: "+smartfolderDataVersion+"\n" +
+                    "Application version: "+SmartFolder.DATA_VERSION);
             return false;
         }
         

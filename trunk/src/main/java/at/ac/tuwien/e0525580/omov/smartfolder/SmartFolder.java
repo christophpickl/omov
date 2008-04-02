@@ -15,6 +15,9 @@ import com.db4o.query.Query;
 public class SmartFolder {
 
     private static final Log LOG = LogFactory.getLog(SmartFolder.class);
+
+    public static final int DATA_VERSION = 1;
+    
     
     private final long id;
     private final String name;

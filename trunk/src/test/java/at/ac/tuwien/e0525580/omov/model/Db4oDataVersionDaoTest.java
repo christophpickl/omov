@@ -14,25 +14,28 @@ public class Db4oDataVersionDaoTest extends AbstractTestCase {
         
     }
     
-    public void test1() {
-        final int expectedVersion = 1;
-        DAO.storeDataVersion(expectedVersion);
-        assertEquals(expectedVersion, DAO.getDataVersion());
+    public void testInitialStore() {
+        final int expectedMovieVersion = 1;
+        final int expectedSmartFolderVersion = 1;
+        
+        DAO.storeDataVersions(expectedMovieVersion, expectedSmartFolderVersion);
+        
+        assertEquals(expectedMovieVersion, DAO.getMovieDataVersion());
+        assertEquals(expectedSmartFolderVersion, DAO.getSmartfolderDataVersion());
     }
     
-    public void test2() {
-        final int expectedVersion = 2;
-        DAO.storeDataVersion(expectedVersion);
-        assertEquals(expectedVersion, DAO.getDataVersion());
-    }
-    
-    public void test3() {
+    public void testMultipleStoring() {
         final int expectedVersion = 3;
-        DAO.storeDataVersion(expectedVersion);
-        DAO.storeDataVersion(expectedVersion);
-        DAO.storeDataVersion(expectedVersion);
-        assertEquals(expectedVersion, DAO.getDataVersion());
-        assertEquals(expectedVersion, DAO.getDataVersion());
-        assertEquals(expectedVersion, DAO.getDataVersion());
+        
+        DAO.storeDataVersions(expectedVersion, expectedVersion);
+        DAO.storeDataVersions(expectedVersion, expectedVersion);
+        DAO.storeDataVersions(expectedVersion, expectedVersion);
+        
+        assertEquals(expectedVersion, DAO.getMovieDataVersion());
+        assertEquals(expectedVersion, DAO.getSmartfolderDataVersion());
+        assertEquals(expectedVersion, DAO.getMovieDataVersion());
+        assertEquals(expectedVersion, DAO.getSmartfolderDataVersion());
+        assertEquals(expectedVersion, DAO.getMovieDataVersion());
+        assertEquals(expectedVersion, DAO.getSmartfolderDataVersion());
     }
 }
