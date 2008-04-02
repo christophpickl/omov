@@ -68,7 +68,7 @@ bzgl listener von dao unregistern:
 */
 
 public class App {
-
+    // FEATURE write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
@@ -150,6 +150,8 @@ public class App {
         }
 
         // TODO write troubleshooting topic for this problem (either delete db4-file for reset or use converter if possible)
+        
+        // FIXME write converter and if none is available, ask for deletion (or display downloadlink for older version)
         if(movieDataVersion != Movie.DATA_VERSION && smartfolderDataVersion != SmartFolder.DATA_VERSION) {
             GuiUtil.error("Datasource Version Mismatch", "It seems as you were using incompatible Movie and Preference Data Sources!\n" +
                     "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION + "\n" + 
