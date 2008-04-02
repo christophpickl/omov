@@ -18,6 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.action.OpenBrowserAction;
 
+import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
@@ -69,7 +70,7 @@ public class AboutDialog extends JDialog {
         
         final JLabel title = new JLabel("OurMovies", JLabel.CENTER);
         title.setFont(new Font("default", Font.BOLD, 13));
-        final JLabel versionLabel = new JLabel("Version " + Constants.VERSION_STRING, JLabel.CENTER);
+        final JLabel versionLabel = new JLabel("Version " + BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString(), JLabel.CENTER);
         versionLabel.setFont(new Font("default", Font.PLAIN, 11));
         
         c.anchor = GridBagConstraints.CENTER;

@@ -3,6 +3,7 @@ package at.ac.tuwien.e0525580.omov;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 
+import at.ac.tuwien.e0525580.omov.common.VersionMinorMajor;
 import at.ac.tuwien.e0525580.omov.model.IDataVersionDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
@@ -43,6 +44,10 @@ public final class BeanFactory {
     
     public IDataVersionDao getDataVersionDao() {
         return (IDataVersionDao) getBean("IDataVersionDao");
+    }
+    
+    public VersionMinorMajor getCurrentApplicationVersion() {
+        return (VersionMinorMajor) getBean("CurrentApplicationVersion");
     }
     
     @SuppressWarnings("unused")

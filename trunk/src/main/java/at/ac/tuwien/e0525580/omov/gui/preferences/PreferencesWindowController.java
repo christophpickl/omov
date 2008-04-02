@@ -20,6 +20,12 @@ public class PreferencesWindowController {
         PreferencesDao.clearPreferences();
     }
     
+    public void doCheckApplicationVersion() {
+        final VersionCheckDialog dialog = new VersionCheckDialog(this.window);
+        dialog.startCheck();
+        dialog.setVisible(true);
+    }
+    
 //    public boolean doStartServer(int port) {
 //        try {
 //            RemoteServer.getInstance().startUp(port);

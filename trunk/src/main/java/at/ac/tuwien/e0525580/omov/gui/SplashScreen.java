@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
-import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.brushed.BrushedMetalPanel;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
@@ -34,7 +34,7 @@ public class SplashScreen extends JWindow {
         final JPanel panelSouth = new JPanel();
         panelSouth.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         panelSouth.setOpaque(false);
-        panelSouth.add(new JLabel("OurMovies v"+Constants.VERSION_STRING+" is starting up..."));
+        panelSouth.add(new JLabel("OurMovies v"+BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString()+" is starting up..."));
         
         panel.add(new JLabel(ImageFactory.getInstance().getSplashScreenLogo()), BorderLayout.CENTER);
         panel.add(panelSouth, BorderLayout.SOUTH);

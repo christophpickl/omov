@@ -17,7 +17,6 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
-import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
@@ -259,7 +258,7 @@ public class ExporterHtml implements IExporterHtml {
                         "\n" +
                         "</form>\n" +
                         "\n" +
-                        "<p id='footer'>Created with OurMovies v"+Constants.VERSION_STRING+": <a id='footer_link' href='http://omov.sourceforge.net' target='_blank'>http://omov.sourceforge.net</a></p>" +
+                        "<p id='footer'>Created with OurMovies v"+BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString()+": <a id='footer_link' href='http://omov.sourceforge.net' target='_blank'>http://omov.sourceforge.net</a></p>" +
                         "</body>\n" +
                         "</html>\n");
             } catch(IOException e) {

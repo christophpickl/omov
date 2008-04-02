@@ -17,6 +17,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
 import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindow;
+import at.ac.tuwien.e0525580.omov.gui.preferences.VersionCheckDialog;
 import at.ac.tuwien.e0525580.omov.model.IDataVersionDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
@@ -111,6 +112,14 @@ public class App {
                 System.exit(1);
             }
             
+            if(PreferencesDao.getInstance().isStartupVersionCheck() == true) {
+                LOG.info("Running initial application version check...");
+                final VersionCheckDialog dialog = new VersionCheckDialog();
+                dialog.startCheck();
+                dialog.setVisible(true);
+            }
+            
+            LOG.debug("Startup nearly finished; displaying main window left.");
             JFrame.setDefaultLookAndFeelDecorated(true);
             final MainWindow mainWindow = new MainWindow();
             
@@ -195,7 +204,13 @@ public class App {
             } else if(preferenceSourceState == PreferenceSourceState.IS_VERSION_MISMATCH) {
                 GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source\n" +
                                 "does not match with the expected version!");
+                
+                
+                
+                
                 // FIXME startup preference source data converter (if available)
+                // FIXME writer automatic converter v1 to v2 for Preferences Source (because new field 'should check application version at startup')
+                
                 LOG.info("FIXME startup preference source data converter (if available)");
                 // show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) 
                 

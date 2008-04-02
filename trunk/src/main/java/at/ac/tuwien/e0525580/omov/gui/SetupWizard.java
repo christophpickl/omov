@@ -228,8 +228,10 @@ public class SetupWizard extends JDialog {
         final String folderData = this.setupFolder(this.inpFolderData.getSelectedDirectory());
         final String username = this.inpUsername.getText();
         
+        final boolean startupVersionCheck = false; // by default
+        
         // finally store entered values in preferences source
-        PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username);
+        PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username, startupVersionCheck);
         
         this.dispose();
     }

@@ -45,6 +45,11 @@ public final class MainWindowController extends CommonController implements IRem
     private static final IMovieDao DAO = BeanFactory.getInstance().getMovieDao();
     
     private final MainWindow mainWindow;
+
+    /** lazy initialized and stored */
+    private PreferencesWindow preferencesWindow;
+    
+    
     
     public MainWindowController(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
@@ -335,9 +340,12 @@ public final class MainWindowController extends CommonController implements IRem
         }
     }
     
+    
     public void doShowPreferences() {
-        final PreferencesWindow preferencesWindow = new PreferencesWindow(this.mainWindow, this);
-        preferencesWindow.setVisible(true);
+        if(this.preferencesWindow == null) {
+            this.preferencesWindow = new PreferencesWindow(this.mainWindow, this);
+        }
+        this.preferencesWindow.setVisible(true);
     }
     
     public void doScan() {

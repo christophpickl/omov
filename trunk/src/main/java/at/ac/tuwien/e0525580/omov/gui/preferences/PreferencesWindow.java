@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindowController;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -29,12 +31,17 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     private static final Log LOG = LogFactory.getLog(PreferencesWindow.class);
 
     private final PreferencesWindowController preferencesController = new PreferencesWindowController(this);
-    
+
     private static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
+    private static final String CMD_CHECK_VERSION_NOW = "CMD_CHECK_VERSION_NOW";
+    private static final String CMD_INP_STARTUP_VERSION = "CMD_INP_STARTUP_VERSION";
+    private static final String CMD_CLOSE = "CMD_CLOSE";
+    
 //    private static final String CMD_SERVER_START = "CMD_SERVER_START";
 //    private static final String CMD_SERVER_STOP = "CMD_SERVER_STOP";
     
     private final PreferencesText inpUsername;
+    private final JCheckBox inpStartupVersion = new JCheckBox("Check at startup");
 //    private final PreferencesNumber inpServerPort;
 //    private final JButton btnStartStopServer = new JButton("Start");
     
@@ -91,6 +98,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel();
+        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
@@ -100,8 +108,23 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         final JButton btnClearPrefs = new JButton("Clear & Shutdown");
         btnClearPrefs.setActionCommand(CMD_CLEAR_PREFERENCES);
         btnClearPrefs.addActionListener(this);
+        
+        final JButton btnCheckVersion = new JButton("Check Now");
+        btnCheckVersion.setActionCommand(CMD_CHECK_VERSION_NOW);
+        btnCheckVersion.addActionListener(this);
 
+        this.inpStartupVersion.setToolTipText("Whenever you start OurMovies a version check will be performed");
+        this.inpStartupVersion.setActionCommand(CMD_INP_STARTUP_VERSION);
+        this.inpStartupVersion.addActionListener(this);
+        this.inpStartupVersion.setSelected(PreferencesDao.getInstance().isStartupVersionCheck());
+        
+        btnClearPrefs.setOpaque(false);
+        btnCheckVersion.setOpaque(false);
+        this.inpStartupVersion.setOpaque(false);
+        
         c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+        // ----------------------------
         
         c.gridx = 0;
         c.gridy = 0;
@@ -109,17 +132,47 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         c.gridx = 1;
         panel.add(this.inpUsername, c);
 
+        // ----------------------------
+        
         c.gridx = 0;
-        c.gridy = 1;
+        c.gridy++;
         panel.add(new JLabel("Clear Preferences"), c);
         c.gridx = 1;
         panel.add(btnClearPrefs, c);
+
+        // ----------------------------
+
+        c.gridx = 0;
+        c.gridy++;
+        panel.add(new JLabel("Software Update"), c);
+        c.gridx = 1;
+        final JPanel panelSoftwareUpdate = new JPanel();
+        panelSoftwareUpdate.setOpaque(false);
+        panelSoftwareUpdate.add(btnCheckVersion);
+        panelSoftwareUpdate.add(this.inpStartupVersion);
+        panel.add(panelSoftwareUpdate, c);
+
+        // ----------------------------
         
 //        panel.add(new JLabel("Server port"));
 //        panel.add(this.inpServerPort);
 //
 //        panel.add(new JLabel("Start/Stop Server"));
 //        panel.add(this.btnStartStopServer);
+
+        // ----------------------------
+
+        c.gridx = 0;
+        c.gridwidth = 2;
+        c.gridy++;
+        c.anchor = GridBagConstraints.LAST_LINE_END;
+        final JButton btnClose = new JButton("Close");
+        btnClose.setOpaque(false);
+        btnClose.setActionCommand(CMD_CLOSE);
+        btnClose.addActionListener(this);
+        panel.add(btnClose, c);
+
+        // ----------------------------
         
         return panel;
     }
@@ -154,7 +207,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
 //    }
     
     private void doClose() {
-        this.dispose();
+        this.setVisible(false);
     }
 
     public void actionPerformed(final ActionEvent event) {
@@ -177,6 +230,17 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                         LOG.error("Could not clear preferences!", e);
                         GuiUtil.error(PreferencesWindow.this, "Error", "Could not clear preferences!");
                     }
+                } else  if(cmd.equals(CMD_CHECK_VERSION_NOW)) {
+                    preferencesController.doCheckApplicationVersion();
+                    
+                } else  if(cmd.equals(CMD_INP_STARTUP_VERSION)) {
+                    final boolean isStartupVersionChecked = inpStartupVersion.isSelected();
+                    LOG.debug("Storing preferences source value isStartupVersionChecked="+isStartupVersionChecked);
+                    PreferencesDao.getInstance().setStartupVersionCheck(isStartupVersionChecked);
+                    
+                } else  if(cmd.equals(CMD_CLOSE)) {
+                    doClose();
+                    
                 } else {
                     throw new IllegalArgumentException("Unhandled command '"+cmd+"'!");
                 }

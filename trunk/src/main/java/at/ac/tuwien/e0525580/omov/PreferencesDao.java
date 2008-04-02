@@ -27,6 +27,7 @@ public class PreferencesDao {
         
         FOLDER_COVERS, FOLDER_TEMPORARY, FOLDER_DATA,
         SERVER_PORT, USERNAME,
+        STARTUP_VERSION_CHECK,
         
         RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH;
     }
@@ -37,7 +38,7 @@ public class PreferencesDao {
 //    private int serverPort;
     
     private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath, recentScanPath;
-    
+    private boolean startupVersionCheck;
     private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
     
     
@@ -49,7 +50,7 @@ public class PreferencesDao {
         }
     }
     
-    public void setPreferences(String folderCovers, String folderTemporary, String folderData,String username) {
+    public void setPreferences(String folderCovers, String folderTemporary, String folderData, String username, boolean checkVersionStartup) {
         LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';folderData='"+folderData+"').");
         
         assert(folderCovers != null && folderTemporary != null && username != null);
@@ -59,8 +60,9 @@ public class PreferencesDao {
         this.prefs.put(PrefKey.FOLDER_TEMPORARY.name(), folderTemporary);
         this.prefs.put(PrefKey.FOLDER_DATA.name(), folderData);
         this.prefs.put(PrefKey.USERNAME.name(), username);
-        
+
         this.prefs.put(PrefKey.IS_CONFIGURED.name(), String.valueOf(DATA_VERSION));
+        this.prefs.put(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(checkVersionStartup));
         this.flush();
         this.loadPreferences();
     }
@@ -71,6 +73,7 @@ public class PreferencesDao {
         this.folderTemporary = prefs.get(PrefKey.FOLDER_TEMPORARY.name(), null);
         this.folderData = prefs.get(PrefKey.FOLDER_DATA.name(), null);
         this.username = prefs.get(PrefKey.USERNAME.name(), null);
+        this.startupVersionCheck = Boolean.valueOf(prefs.get(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(false)));
 //        this.serverPort = prefs.getInt(KEY.SERVER_PORT.name(), 1789);
         
         this.recentExportDestination = prefs.get(PrefKey.RECENT_EXPORT_DESTINATION.name(), File.listRoots()[0].getAbsolutePath());
@@ -150,6 +153,16 @@ public class PreferencesDao {
         LOG.debug("setting username to '"+username+"'.");
         this.prefs.put(PrefKey.USERNAME.name(), username);
         this.username = username;
+        this.flush();
+    }
+    
+    public boolean isStartupVersionCheck() {
+        return this.startupVersionCheck;
+    }
+    public void setStartupVersionCheck(boolean startupVersionCheck) {
+        LOG.debug("setting startupVersionCheck to '"+startupVersionCheck+"'.");
+        this.prefs.put(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(startupVersionCheck));
+        this.startupVersionCheck = startupVersionCheck;
         this.flush();
     }
     
