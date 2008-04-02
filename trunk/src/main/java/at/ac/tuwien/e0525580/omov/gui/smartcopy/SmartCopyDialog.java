@@ -25,7 +25,7 @@ import org.jdesktop.swingx.JXTable;
 
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDirectoryChooserListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindowController;
 import at.ac.tuwien.e0525580.omov.tools.smartcopy.SmartCopyPreprocessResult;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
@@ -40,7 +40,7 @@ public class SmartCopyDialog extends JDialog {
     private final JButton btnCopyAnyway = new JButton("Copy Anyway");
     private final JButton btnAbortCopy = new JButton("Abort Copy");
     private final JTextField inpMovieIds = new JTextField("[[4]]", 20);
-    private final DirectoryChooser inpTargetDirectory = DirectoryChooser.newSimple("Copy target directory");
+    private final DirectoryChooser inpTargetDirectory = new DirectoryChooser("Copy target directory");
     private final JButton btnStartCopy = new JButton("Start Copying");
     private final JButton btnCancel = new JButton("Cancel");
     private final JProgressBar progressBar = new JProgressBar(0, 100);
@@ -163,8 +163,8 @@ public class SmartCopyDialog extends JDialog {
     }
 
     private JPanel panel2TargetDirectory() {
-        this.inpTargetDirectory.addDirectoryChooserListener(new IDirectoryChooserListener() {
-            public void choosenDirectory(File dir) {
+        this.inpTargetDirectory.addChooserListener(new IChooserListener() {
+            public void doChoosen(File dir) {
                 btnStartCopy.setEnabled(true);
             }
         });
@@ -278,7 +278,7 @@ public class SmartCopyDialog extends JDialog {
     }
     
     File getTargetDirectory() {
-        return this.inpTargetDirectory.getDirectory();
+        return this.inpTargetDirectory.getSelectedDirectory();
     }
     
     JProgressBar getProgressBar() {

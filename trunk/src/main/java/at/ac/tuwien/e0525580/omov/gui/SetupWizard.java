@@ -29,7 +29,7 @@ import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDirectoryChooserListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
@@ -40,11 +40,11 @@ public class SetupWizard extends JDialog {
 
     private final JTextField inpUsername = new JTextField(21);
     
-    private final DirectoryChooser inpFolderTemporary = DirectoryChooser.newSimple("Choose Temporary Folder");
+    private final DirectoryChooser inpFolderTemporary = new DirectoryChooser("Choose Temporary Folder");
     
-    private final DirectoryChooser inpFolderCovers = DirectoryChooser.newSimple("Choose Covers Folder");
+    private final DirectoryChooser inpFolderCovers = new DirectoryChooser("Choose Covers Folder");
 
-    private final DirectoryChooser inpFolderData = DirectoryChooser.newSimple("Choose Data Folder");
+    private final DirectoryChooser inpFolderData = new DirectoryChooser("Choose Data Folder");
 
     private boolean isConfirmed = false;
     
@@ -96,19 +96,19 @@ public class SetupWizard extends JDialog {
         panel.setLayout(layout);
         layout.setConstraints(panel, c);
 
-        this.inpFolderTemporary.__unchecked_setDirectory(new File("temp"));
-        this.inpFolderCovers.__unchecked_setDirectory(new File("covers"));
-        this.inpFolderData.__unchecked_setDirectory(new File("data"));
+        this.inpFolderTemporary.__unchecked_setFileOrDir(new File("temp"));
+        this.inpFolderCovers.__unchecked_setFileOrDir(new File("covers"));
+        this.inpFolderData.__unchecked_setFileOrDir(new File("data"));
 
-        this.inpFolderTemporary.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+        this.inpFolderTemporary.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
             inpFolderCovers.setDefaultPath(dir.getParentFile());
             inpFolderData.setDefaultPath(dir.getParentFile());
         }});
-        this.inpFolderCovers.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+        this.inpFolderCovers.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
             inpFolderData.setDefaultPath(dir.getParentFile());
         }});
-        this.inpFolderData.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+        this.inpFolderData.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
             inpFolderCovers.setDefaultPath(dir.getParentFile());
         }});
@@ -133,9 +133,9 @@ public class SetupWizard extends JDialog {
             final File tempFolder = new File(omovAppSupport, "temp");
             final File dataFolder = new File(omovAppSupport, "data");
             
-            this.inpFolderCovers.__unchecked_setDirectory(coversFolder);
-            this.inpFolderTemporary.__unchecked_setDirectory(tempFolder);
-            this.inpFolderData.__unchecked_setDirectory(dataFolder);
+            this.inpFolderCovers.__unchecked_setFileOrDir(coversFolder);
+            this.inpFolderTemporary.__unchecked_setFileOrDir(tempFolder);
+            this.inpFolderData.__unchecked_setFileOrDir(dataFolder);
         } else {
             c.gridy++;
             c.gridx = 0;
@@ -223,9 +223,9 @@ public class SetupWizard extends JDialog {
         
         this.isConfirmed = true;
 
-        final String folderCovers = this.setupFolder(this.inpFolderCovers.getDirectory());
-        final String folderTemporary = this.setupFolder(this.inpFolderTemporary.getDirectory());
-        final String folderData = this.setupFolder(this.inpFolderData.getDirectory());
+        final String folderCovers = this.setupFolder(this.inpFolderCovers.getSelectedDirectory());
+        final String folderTemporary = this.setupFolder(this.inpFolderTemporary.getSelectedDirectory());
+        final String folderData = this.setupFolder(this.inpFolderData.getSelectedDirectory());
         final String username = this.inpUsername.getText();
         
         // finally store entered values in preferences source

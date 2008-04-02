@@ -26,16 +26,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
-import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ButtonPosition;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDirectoryChooserListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
-import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser.ButtonPosition;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
 import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScanHint;
@@ -45,7 +45,7 @@ import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
-public class ScanDialog extends JDialog implements TableContextMenuListener, IDirectoryChooserListener {
+public class ScanDialog extends JDialog implements TableContextMenuListener, IChooserListener {
 
 //    private static final Log LOG = LogFactory.getLog(ScanDialog.class);
     private static final long serialVersionUID = 8730290488508038854L;
@@ -55,9 +55,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
 
     private final ScanDialogController controller = new ScanDialogController(this);
     
-    private final DirectoryChooser inpScanRoot = DirectoryChooser.newPathAndPosition("Choose a Scan Root", 
-            new File(PreferencesDao.getInstance().getRecentScanPath()),
-            ButtonPosition.LEFT);
+    private final DirectoryChooser inpScanRoot = new DirectoryChooser("Choose a Scan Root", new File(PreferencesDao.getInstance().getRecentScanPath()), ButtonPosition.LEFT);
     private JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
     private JProgressBar progressBar = new JProgressBar();
     
@@ -128,14 +126,14 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
         
         this.btnPrepare.setEnabled(false);
         
-        this.inpScanRoot.addDirectoryChooserListener(this);
-        this.inpScanRoot.addDirectoryChooserListener(new IDirectoryChooserListener() { public void choosenDirectory(File dir) {
+        this.inpScanRoot.addChooserListener(this);
+        this.inpScanRoot.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
             btnPrepare.setEnabled(true);
             btnScan.setEnabled(true);
         }});
         this.btnPrepare.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
             new GuiAction() { protected void _action() {
-                controller.doPrepareRepository(inpScanRoot.getDirectory());
+                controller.doPrepareRepository(inpScanRoot.getSelectedDirectory());
             }}.doAction();
         }});        
 
@@ -234,7 +232,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
     }
     
     private void doScanStarted() {
-        final File scanRoot = this.inpScanRoot.getDirectory();
+        final File scanRoot = this.inpScanRoot.getSelectedDirectory();
         final IWebExtractor extractor = this.inpFetchMetadata.isSelected() ? new WebImdbExtractor() : null; // FEATURE make webextractor configurable
         this.btnScan.setEnabled(false);
         this.btnImport.setEnabled(false);
@@ -283,7 +281,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
         new ScanDialog(new JFrame()).setVisible(true);
     }
 
-    public void choosenDirectory(File dir) {
+    public void doChoosen(File dir) {
         PreferencesDao.getInstance().setRecentScanPath(dir.getParentFile().getAbsolutePath());
         this.inpScanRoot.setDefaultPath(dir.getParentFile());
     }

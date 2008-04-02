@@ -37,6 +37,7 @@ public class ImporterBackup implements ImportExportConstants {
     
     public ImporterBackup(File backupFile, ZipFile backupZipFile) {
         assert(backupFile.exists() && backupFile.isFile());
+        assert(backupZipFile != null);
         this.backupFile = backupFile;
         this.backupZipFile = backupZipFile;
     }

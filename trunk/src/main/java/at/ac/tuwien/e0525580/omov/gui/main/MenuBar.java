@@ -182,7 +182,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
             } else if(cmd.equals(CMD_FETCH_METADATA)) {
                 controller.doFetchMetaData();
             } else if(cmd.equals(CMD_IMPORT)) {
-                controller.doImport();
+                controller.doImportBackup();
             } else if(cmd.equals(CMD_EXPORT)) {
                 controller.doExport();
             } else if(cmd.equals(CMD_SHOW_XXX)) {
