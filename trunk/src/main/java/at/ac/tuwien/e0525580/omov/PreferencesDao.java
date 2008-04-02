@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
-import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableColumns;
 
 public class PreferencesDao {
 
@@ -78,7 +78,7 @@ public class PreferencesDao {
         this.recentMovieFolderPath = prefs.get(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentScanPath = prefs.get(PrefKey.RECENT_SCAN_PATH.name(), File.listRoots()[0].getAbsolutePath());
         
-        for (String columnName : MovieTableModel.getColumnNames()) {
+        for (String columnName : MovieTableColumns.getColumnNames()) {
             final Boolean initialVisible;
             if(columnName.equals(MovieField.TITLE.label()) ||
                columnName.equals(MovieField.RATING.label()) ||

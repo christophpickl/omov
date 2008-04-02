@@ -28,7 +28,7 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
-import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel.MovieColumn;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableColumns.MovieTableColumn;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
 import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -65,7 +65,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         TableRenderers.updateRenderers(this);
 
         assert(model.getColumnCount() == this.getColumnCount());
-        for(MovieColumn movieColumn : MovieTableModel.getColumns()) {
+        for(MovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
             
@@ -113,7 +113,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     
     private void updatePrefColumnVisibility() {
         final Map<String, Boolean> columns = new HashMap<String, Boolean>();
-        for(MovieColumn movieColumn : MovieTableModel.getColumns()) {
+        for(MovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             columns.put(movieColumn.getLabel(), column.isVisible());
         }
