@@ -31,7 +31,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
@@ -126,7 +126,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
     }
 
     private void doClicked() {
-        final JFileChooser chooser = new JFileChooser(Configuration.getInstance().getRecentCoverSelectorPath());
+        final JFileChooser chooser = new JFileChooser(PreferencesDao.getInstance().getRecentCoverSelectorPath());
         chooser.setMultiSelectionEnabled(false);
         chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         chooser.setFileFilter(new FileFilter() {
@@ -147,7 +147,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             final File selectedFile = chooser.getSelectedFile();
             this.setCoverFile(selectedFile, false);
-            Configuration.getInstance().setRecentCoverSelectorPath(selectedFile.getParent());
+            PreferencesDao.getInstance().setRecentCoverSelectorPath(selectedFile.getParent());
         }
     }
 

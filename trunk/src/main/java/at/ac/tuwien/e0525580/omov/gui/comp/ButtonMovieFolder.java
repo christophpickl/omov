@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
@@ -39,10 +39,10 @@ public class ButtonMovieFolder extends JButton implements ActionListener {
     
     public void actionPerformed(ActionEvent event) {
         LOG.info("Clicked on button.");
-        File directory = GuiUtil.getDirectory(this.owner, Configuration.getInstance().getRecentMovieFolderPath());
+        File directory = GuiUtil.getDirectory(this.owner, PreferencesDao.getInstance().getRecentMovieFolderPath());
         if(directory == null) return;
         
-        Configuration.getInstance().setRecentMovieFolderPath(directory.getParent());
+        PreferencesDao.getInstance().setRecentMovieFolderPath(directory.getParent());
         this.notifyListeners(directory);
     }
 

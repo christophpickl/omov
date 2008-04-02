@@ -11,14 +11,12 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
-import at.ac.tuwien.e0525580.omov.gui.preferences.PreferencesWindowController;
-import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public class Configuration {
+public class PreferencesDao {
 
-    private static final Log LOG = LogFactory.getLog(Configuration.class);
-    private static final Configuration INSTANCE = new Configuration();
-    private final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
+    private static final Log LOG = LogFactory.getLog(PreferencesDao.class);
+    private static final PreferencesDao INSTANCE = new PreferencesDao();
+    private final Preferences prefs = Preferences.userNodeForPackage(PreferencesDao.class);
     
     private static final String MOVIE_COLUMN_PREFIX = "MovieColumn-";
     
@@ -45,8 +43,8 @@ public class Configuration {
     
     public static final String APPARG_DEBUG_MENU = "DEBUG_MENU";
     
-    private Configuration() {
-        if(this.isInitialized()) {
+    private PreferencesDao() {
+        if(this.isConfigured() == PreferenceSourceState.IS_COMPATIBLE) {
             this.loadPreferences();
         }
     }
@@ -68,6 +66,7 @@ public class Configuration {
     }
     
     private void loadPreferences() {
+        LOG.info("Loading data from preference source...");
         this.folderCovers = prefs.get(PrefKey.FOLDER_COVERS.name(), null);
         this.folderTemporary = prefs.get(PrefKey.FOLDER_TEMPORARY.name(), null);
         this.folderData = prefs.get(PrefKey.FOLDER_DATA.name(), null);
@@ -95,26 +94,38 @@ public class Configuration {
         }
     }
     
-    public static Configuration getInstance() {
+    public static PreferencesDao getInstance() {
         return INSTANCE;
     }
     
-    public boolean isInitialized() {
+    public static enum PreferenceSourceState {
+        IS_NOT_SET,
+        IS_VERSION_MISMATCH,
+        IS_COMPATIBLE;
+    }
+    public PreferenceSourceState isConfigured() {
         final String storedVersion = this.prefs.get(PrefKey.IS_CONFIGURED.name(), null);
-        LOG.debug("Checking configuration; storedVersion="+storedVersion+"; DATA_VERSION="+DATA_VERSION);
+        LOG.debug("Checking preferences source version: stored="+storedVersion+"; application="+DATA_VERSION);
         if(storedVersion == null) {
-            return false;
+            return PreferenceSourceState.IS_NOT_SET;
         }
-        if(Integer.parseInt(storedVersion) != DATA_VERSION) {
-            GuiUtil.warning("Preferences Version Mismatch", "It seems as you have stored old preferences values.\nOurMovies is going to clear these old values and starting the setup wizard.");
-            try {
-                PreferencesWindowController.clearPreferences();
-            } catch (BusinessException e) {
-                throw new FatalException("Could not clear preferences!", e);
-            }
-            return false;
+        
+        final int storedVersionInt = Integer.parseInt(storedVersion); 
+        if(storedVersionInt != DATA_VERSION) {
+            return PreferenceSourceState.IS_VERSION_MISMATCH;
         }
-        return true;
+        return PreferenceSourceState.IS_COMPATIBLE;
+    }
+    
+    public static void clearPreferences() throws BusinessException {
+        LOG.info("Clearing preferences.");
+        final Preferences prefs = Preferences.userNodeForPackage(PreferencesDao.class);
+        try {
+            prefs.clear();
+            prefs.flush();
+        } catch (BackingStoreException e) {
+            throw new BusinessException("Could not clear preferences!", e);
+        }
     }
     
     public File getCoversFolder() {
@@ -217,9 +228,9 @@ public class Configuration {
     }
     
     void checkFolderExistence() throws BusinessException {
-        this.createFolder(Configuration.getInstance().getCoversFolder());
-        this.createFolder(Configuration.getInstance().getTemporaryFolder());
-        this.createFolder(Configuration.getInstance().getDataFolder());
+        this.createFolder(PreferencesDao.getInstance().getCoversFolder());
+        this.createFolder(PreferencesDao.getInstance().getTemporaryFolder());
+        this.createFolder(PreferencesDao.getInstance().getDataFolder());
     }
     
     private void createFolder(final File folder) throws BusinessException {

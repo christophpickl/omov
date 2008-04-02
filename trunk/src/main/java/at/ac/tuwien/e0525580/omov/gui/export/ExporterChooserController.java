@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.tools.export.ExporterBackup;
 import at.ac.tuwien.e0525580.omov.tools.export.ExporterHtml;
@@ -62,7 +62,7 @@ public class ExporterChooserController {
     
     
     private File getTargetDirectory() {
-        JFileChooser chooser = new JFileChooser(Configuration.getInstance().getRecentExportDestination());
+        JFileChooser chooser = new JFileChooser(PreferencesDao.getInstance().getRecentExportDestination());
         chooser.setDialogTitle("Target Directory for Backup");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         
@@ -74,7 +74,7 @@ public class ExporterChooserController {
     }
     
     private File getTargetHtmlFile(final String desiredExtension, final boolean checkForFileExistence) {
-        JFileChooser chooser = new JFileChooser(Configuration.getInstance().getRecentExportDestination());
+        JFileChooser chooser = new JFileChooser(PreferencesDao.getInstance().getRecentExportDestination());
         chooser.setDialogTitle("Target HTMLFile");
         
         if (chooser.showSaveDialog(this.dialog) != JFileChooser.APPROVE_OPTION) {
@@ -86,7 +86,7 @@ public class ExporterChooserController {
             LOG.debug("User did not specify file with desired extension '"+desiredExtension+"'; renaming file (file was: '"+selectedFile.getAbsolutePath()+"').");
             selectedFile = new File(selectedFile.getParentFile(), selectedFile.getName() + "." + desiredExtension);
         }
-        Configuration.getInstance().setRecentExportDestination(selectedFile.getParent());
+        PreferencesDao.getInstance().setRecentExportDestination(selectedFile.getParent());
         
         if(checkForFileExistence == true && selectedFile.exists() == true) {
             int confirm = JOptionPane.showConfirmDialog(this.dialog, "Overwrite existing file '"+selectedFile.getName()+"'?", "Export HTML", JOptionPane.YES_NO_OPTION);

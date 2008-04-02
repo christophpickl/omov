@@ -2,7 +2,8 @@ package at.ac.tuwien.e0525580.omov;
 
 import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
@@ -11,6 +12,7 @@ import javax.swing.UIManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.PreferencesDao.PreferenceSourceState;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
 import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
@@ -69,12 +71,18 @@ public class App {
 
     private static final Log LOG = LogFactory.getLog(App.class);
 
-    private static List<String> cliArguments;
-    
-    
+    private static final Set<String> cliArguments = new HashSet<String>();
+
     
     public static void main(String[] args) {
-        
+        App.cliArguments.addAll(Arrays.asList(args));
+        new App().startUp();
+    }
+    
+    public App() {
+    }
+    
+    public void startUp() {
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -82,15 +90,14 @@ public class App {
             LOG.error("Unable to set system look&feel!", ex);
         }
         
-        App.cliArguments = Arrays.asList(args);
         final SplashScreen splashScreen = new SplashScreen();
         splashScreen.setVisible(true);
         
         try {
             final long timeStart = new Date().getTime();
-            if(App.checkConfiguration() == false) {
-                LOG.debug("Checking configuration failed.");
-                return;
+            if(App.checkPreferenceSource() == false) {
+                LOG.warn("Checking preference source version failed!");
+                System.exit(1);
             }
     
             // FEATURE check file consistency at startup; for each movie/directory: check if files still exist (mantis: 2)
@@ -100,6 +107,7 @@ public class App {
             App.addShutdownHook();
             
             if(App.checkDataVersions() == false) {
+                LOG.warn("Checking core data versions failed!");
                 System.exit(1);
             }
             
@@ -123,7 +131,6 @@ public class App {
         } finally {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
         }
-        
     }
     
     private static boolean checkDataVersions() {
@@ -131,27 +138,32 @@ public class App {
         final int movieDataVersion = versionDao.getMovieDataVersion();
         final int smartfolderDataVersion = versionDao.getSmartfolderDataVersion();
         
-        LOG.debug("checking data versions: movie = "+movieDataVersion+" ("+Movie.DATA_VERSION+"); smartfolder = "+smartfolderDataVersion+" ("+SmartFolder.DATA_VERSION+")");
+        LOG.debug("checking data versions: stored movie = "+movieDataVersion+" (application:"+Movie.DATA_VERSION+"); stored smartfolder = "+smartfolderDataVersion+" (application:"+SmartFolder.DATA_VERSION+")");
         
         if(movieDataVersion == -1) {
             assert(smartfolderDataVersion == -1);
             
             LOG.info("Storing initial data versions (Movie="+Movie.DATA_VERSION+"; SmartFolder="+SmartFolder.DATA_VERSION+").");
             versionDao.storeDataVersions(Movie.DATA_VERSION, SmartFolder.DATA_VERSION);
+            LOG.debug("Dataversions are now ok.");
             return true;
         }
 
         // TODO write troubleshooting topic for this problem (either delete db4-file for reset or use converter if possible)
+        if(movieDataVersion != Movie.DATA_VERSION && smartfolderDataVersion != SmartFolder.DATA_VERSION) {
+            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using incompatible Movie and Preference Data Sources!\n" +
+                    "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION + "\n" + 
+                    "SmartFolder version: "+smartfolderDataVersion + " -- Application version: "+SmartFolder.DATA_VERSION);
+            return false;
+        }
         if(movieDataVersion != Movie.DATA_VERSION) {
-            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible data source!\n" +
-                    "Movie version: "+movieDataVersion+"\n" +
-                    "Application version: "+Movie.DATA_VERSION);
+            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible Movie Data Source!\n" +
+                    "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION);
             return false;
         }
         if(smartfolderDataVersion != SmartFolder.DATA_VERSION) {
-            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible data source!\n" +
-                    "SmartFolder version: "+smartfolderDataVersion+"\n" +
-                    "Application version: "+SmartFolder.DATA_VERSION);
+            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible SmartFolder Data Source!\n" +
+                    "SmartFolder version: "+smartfolderDataVersion + " -- Application version: "+SmartFolder.DATA_VERSION);
             return false;
         }
         
@@ -163,10 +175,12 @@ public class App {
         return App.cliArguments.contains(argument);
     }
     
-    private static boolean checkConfiguration() {
+    private static boolean checkPreferenceSource() {
+        LOG.debug("checking preference source...");
         try {
-            if(Configuration.getInstance().isInitialized() == false) {
-                LOG.info("Configuration was not yet initialized; starting setup wizard.");
+            final PreferenceSourceState preferenceSourceState = PreferencesDao.getInstance().isConfigured();
+            if(preferenceSourceState == PreferenceSourceState.IS_NOT_SET) {
+                LOG.info("Preference datasource was not yet initialized; starting setup wizard.");
                 final SetupWizard wizard = new SetupWizard();
                 wizard.setVisible(true);
                 
@@ -174,15 +188,34 @@ public class App {
                     LOG.info("User aborted setup.");
                     return false;
                 }
-                assert(Configuration.getInstance().isInitialized());
+                assert(PreferencesDao.getInstance().isConfigured() == PreferenceSourceState.IS_COMPATIBLE);
+                
+            } else if(preferenceSourceState == PreferenceSourceState.IS_VERSION_MISMATCH) {
+                GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source\n" +
+                                "does not match with the expected version!");
+                // FIXME startup preference source data converter (if available)
+                LOG.info("FIXME startup preference source data converter (if available)");
+                // show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) 
+                
+                
+                PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
+                return false;
+                
+            } else if(preferenceSourceState == PreferenceSourceState.IS_COMPATIBLE) {
+                LOG.debug("Perferences source dataversion is compatible; nothing to do.");
+                
+            } else {
+                throw new FatalException("Unhandled preferences source state '"+preferenceSourceState.name()+"'!");
             }
         } catch (Exception e) {
-            LOG.error("Could not check/set preferences!", e);
+            LOG.error("Could not check/clear/set preferences!", e);
             GuiUtil.error("Setup failed!", "Could not set initial values: " + e.getMessage());
             return false;
         }
+        
+        
         try {
-            Configuration.getInstance().checkFolderExistence();
+            PreferencesDao.getInstance().checkFolderExistence();
         } catch (BusinessException e) {
             LOG.error("Could not check folder existence!", e);
             GuiUtil.error("Startup failed!", "Could not create application folders!");

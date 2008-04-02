@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
@@ -89,7 +89,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
             
             final String coverFile = movie.getOriginalCoverFile();
             if(coverFile.length() > 0) {
-                final File cover = new File(Configuration.getInstance().getCoversFolder(), coverFile);
+                final File cover = new File(PreferencesDao.getInstance().getCoversFolder(), coverFile);
                 LOG.debug("Setting image to '"+cover.getAbsolutePath()+"'.");
                 if(cover.exists() == false) {
                     LOG.warn("The cover file does not exist '"+cover.getAbsolutePath()+"'!");

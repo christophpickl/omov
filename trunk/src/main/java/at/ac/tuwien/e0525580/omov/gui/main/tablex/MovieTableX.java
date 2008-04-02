@@ -20,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
@@ -69,7 +69,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
             
-            final Boolean visible = Configuration.getInstance().isMovieColumnVisible(movieColumn.getLabel());
+            final Boolean visible = PreferencesDao.getInstance().isMovieColumnVisible(movieColumn.getLabel());
             LOG.debug("Setting column '"+column.getTitle()+"' to visible '"+visible+"'.");
             column.setVisible(visible);
         }
@@ -117,7 +117,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             columns.put(movieColumn.getLabel(), column.isVisible());
         }
-        Configuration.getInstance().setMovieColumnVisibility(columns);
+        PreferencesDao.getInstance().setMovieColumnVisibility(columns);
     }
     
     private void initContextMenu() {

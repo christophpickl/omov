@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
@@ -116,7 +116,7 @@ public class ExporterHtml implements IExporterHtml {
             newCoverFileName = "big_" + movie.getOriginalCoverFile();
         }
         
-        final File originalCoverFile = new File(Configuration.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
+        final File originalCoverFile = new File(PreferencesDao.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
         final File targetFile = new File(targetCoverDirectory, newCoverFileName);
         
         FileUtil.copyFile(originalCoverFile, targetFile);
@@ -205,7 +205,7 @@ public class ExporterHtml implements IExporterHtml {
                 writer.write(
                         "<html>\n" +
                         "<head>\n" +
-                        "<title>OurMovies - Movies from "+Configuration.getInstance().getUsername()+"</title>\n");
+                        "<title>OurMovies - Movies from "+PreferencesDao.getInstance().getUsername()+"</title>\n");
                 
                 writer.write(getHeadContent());
                 
@@ -221,7 +221,7 @@ public class ExporterHtml implements IExporterHtml {
                 writer.write(getContentsOfWzTooltipJs());
                 
                 writer.write(
-                        "<h1>Movies from "+Configuration.getInstance().getUsername()+"</h1>\n" +
+                        "<h1>Movies from "+PreferencesDao.getInstance().getUsername()+"</h1>\n" +
                         "<div id='date'>"+currentDate+"</div>\n" +
                         "\n" +
                         "<form id='data_form'>\n" +

@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.App;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
@@ -211,7 +211,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     
     private static class DebugMenu {
         public static void maybeAddYourself(JMenuBar bar) {
-            if(App.isArgumentSet(Configuration.APPARG_DEBUG_MENU) == false) {
+            if(App.isArgumentSet(PreferencesDao.APPARG_DEBUG_MENU) == false) {
                 return;
             }
             LOG.info("adding debug menu.");
@@ -250,7 +250,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
                 private static final long serialVersionUID = 1577151281639336184L;
                 public PrefDialog() {
                     final List<String> prefKeyValues = new LinkedList<String>();
-                    final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
+                    final Preferences prefs = Preferences.userNodeForPackage(PreferencesDao.class);
                     try {
                         for (String key : prefs.keys()) {
                             String prefValue = prefs.get(key, "null");

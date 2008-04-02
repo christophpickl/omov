@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.ZipUtil;
@@ -52,7 +52,7 @@ public class ExporterBackup implements ImportExportConstants {
         assert(targetDir.exists() && targetDir.isDirectory());
         boolean successfullyProccessed = false;
         
-        final File backupTempDir = new File(Configuration.getInstance().getTemporaryFolder(), "exportBackup_" + TEMP_FOLDER_NAME.format(new Date()));
+        final File backupTempDir = new File(PreferencesDao.getInstance().getTemporaryFolder(), "exportBackup_" + TEMP_FOLDER_NAME.format(new Date()));
         try {
             if(backupTempDir.mkdirs() == false) {
                 throw new BusinessException("Could not create folder '"+backupTempDir.getAbsolutePath()+"'!");
@@ -88,7 +88,7 @@ public class ExporterBackup implements ImportExportConstants {
         LOG.debug("Zipping contents to single file.");
         
         final File targetZipFile = getAvailableZipFile(targetDir);
-        final File temporaryZipFile = new File(Configuration.getInstance().getTemporaryFolder(), backupTempDir.getName() + ".zip");
+        final File temporaryZipFile = new File(PreferencesDao.getInstance().getTemporaryFolder(), backupTempDir.getName() + ".zip");
         
         ZipUtil.zipDirectory(backupTempDir, temporaryZipFile);
         
@@ -109,7 +109,7 @@ public class ExporterBackup implements ImportExportConstants {
         }
         for (final Movie movie : movies) {
             if(movie.isCoverFileSet()) {
-                final File coverFile = new File(Configuration.getInstance().getCoversFolder(), movie.getOriginalCoverFile());
+                final File coverFile = new File(PreferencesDao.getInstance().getCoversFolder(), movie.getOriginalCoverFile());
                 if(coverFile.exists()) {
                     FileUtil.copyFile(coverFile, new File(coverDir, coverFile.getName()));
                 } else {

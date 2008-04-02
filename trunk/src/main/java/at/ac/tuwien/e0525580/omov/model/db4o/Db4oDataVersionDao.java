@@ -34,7 +34,7 @@ public class Db4oDataVersionDao extends AbstractDb4oDao implements IDataVersionD
         final ObjectSet<DataVersion> os = this.objectContainer.get(DataVersion.class);
         final Set<DataVersion> set = new ObjectSetTransformer<DataVersion>().transformSet(os);
         if(set.size() == 0) {
-            LOG.info("No dataversion yet stored; returning null.");
+            LOG.info("Not any DataVersion instance was yet stored; returning null.");
             return null;
         } else if(set.size() == 1) {
             return set.iterator().next();

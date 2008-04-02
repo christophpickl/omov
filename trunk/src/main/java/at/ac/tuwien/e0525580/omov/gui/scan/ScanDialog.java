@@ -26,7 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
@@ -56,7 +56,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
     private final ScanDialogController controller = new ScanDialogController(this);
     
     private final DirectoryChooser inpScanRoot = DirectoryChooser.newPathAndPosition("Choose a Scan Root", 
-            new File(Configuration.getInstance().getRecentScanPath()),
+            new File(PreferencesDao.getInstance().getRecentScanPath()),
             ButtonPosition.LEFT);
     private JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
     private JProgressBar progressBar = new JProgressBar();
@@ -284,7 +284,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IDi
     }
 
     public void choosenDirectory(File dir) {
-        Configuration.getInstance().setRecentScanPath(dir.getParentFile().getAbsolutePath());
+        PreferencesDao.getInstance().setRecentScanPath(dir.getParentFile().getAbsolutePath());
         this.inpScanRoot.setDefaultPath(dir.getParentFile());
     }
 }

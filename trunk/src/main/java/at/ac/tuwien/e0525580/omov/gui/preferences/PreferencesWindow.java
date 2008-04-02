@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindowController;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
@@ -28,7 +28,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     private static final long serialVersionUID = -3157582134656737177L;
     private static final Log LOG = LogFactory.getLog(PreferencesWindow.class);
 
-//    private final PreferencesWindowController preferencesController = new PreferencesWindowController(this);
+    private final PreferencesWindowController preferencesController = new PreferencesWindowController(this);
     
     private static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
 //    private static final String CMD_SERVER_START = "CMD_SERVER_START";
@@ -53,7 +53,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
             }
         });
         
-        this.inpUsername = new PreferencesText(this, Configuration.getInstance().getUsername(), 20) {
+        this.inpUsername = new PreferencesText(this, PreferencesDao.getInstance().getUsername(), 20) {
             private static final long serialVersionUID = 6708820331894620336L;
             void saveData() throws BusinessException {
                 if(this.getData().length() > 0) {
@@ -170,8 +170,9 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                     }
                     
                     try {
-                        PreferencesWindowController.clearPreferences();
-                        mainController.doQuit();
+                        preferencesController.doClearPreferences();
+                        mainController.doQuit(); // do only quit, if clearing preferences was successfull
+                        
                     } catch (BusinessException e) {
                         LOG.error("Could not clear preferences!", e);
                         GuiUtil.error(PreferencesWindow.this, "Error", "Could not clear preferences!");

@@ -5,7 +5,7 @@ import java.util.prefs.Preferences;
 
 public class PreferencesKiller {
     public static void main(String[] args) {
-        final Preferences prefs = Preferences.userNodeForPackage(Configuration.class);
+        final Preferences prefs = Preferences.userNodeForPackage(PreferencesDao.class);
         try {
             prefs.clear();
             prefs.flush();

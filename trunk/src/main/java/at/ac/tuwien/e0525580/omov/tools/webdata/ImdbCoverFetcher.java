@@ -19,7 +19,7 @@ import org.htmlparser.tags.ImageTag;
 import org.htmlparser.visitors.NodeVisitor;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 
 class ImdbCoverFetcher extends NodeVisitor {
@@ -50,7 +50,7 @@ class ImdbCoverFetcher extends NodeVisitor {
                 LOG.warn("Could not get extension from file '"+webfileName+"'! Setting it to default '"+DEFAULT_EXTENSION+"' extension.");
                 extension = DEFAULT_EXTENSION;
             }
-            final File target = new File(Configuration.getInstance().getTemporaryFolder(), FILE_NAME_FORMAT.format(new Date()) + "." + extension);
+            final File target = new File(PreferencesDao.getInstance().getTemporaryFolder(), FILE_NAME_FORMAT.format(new Date()) + "." + extension);
             try {
                 ImdbCoverFetcher.downloadFile(absoluteImagePath, target);
             } catch (BusinessException e) {

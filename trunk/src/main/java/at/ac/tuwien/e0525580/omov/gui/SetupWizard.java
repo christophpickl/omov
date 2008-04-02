@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
@@ -227,7 +227,9 @@ public class SetupWizard extends JDialog {
         final String folderTemporary = this.setupFolder(this.inpFolderTemporary.getDirectory());
         final String folderData = this.setupFolder(this.inpFolderData.getDirectory());
         final String username = this.inpUsername.getText();
-        Configuration.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username);
+        
+        // finally store entered values in preferences source
+        PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username);
         
         this.dispose();
     }

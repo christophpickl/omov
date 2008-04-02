@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 
 import com.db4o.Db4o;
@@ -32,7 +32,7 @@ public class Db4oConnection implements IDatabaseConnection {
         final boolean isRunningJunitTest = System.getProperty("omovTestRunning") != null;
         
         if(isRunningJunitTest == false) {
-            dbFileName = new File(Configuration.getInstance().getDataFolder(), dbFileName).getAbsolutePath();
+            dbFileName = new File(PreferencesDao.getInstance().getDataFolder(), dbFileName).getAbsolutePath();
         }
         
         LOG.info("Opening database file '"+dbFileName+"'.");

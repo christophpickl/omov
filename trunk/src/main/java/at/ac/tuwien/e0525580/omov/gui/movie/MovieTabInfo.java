@@ -17,7 +17,7 @@ import javax.swing.SwingConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
@@ -88,12 +88,12 @@ class MovieTabInfo extends AbstractMovieTab {
             
             if(editMovie.isCoverFileSet()) {
                 final File coverFile;
-                if(editMovie.getOriginalCoverFile().startsWith(Configuration.getInstance().getTemporaryFolder().getAbsolutePath())) {
+                if(editMovie.getOriginalCoverFile().startsWith(PreferencesDao.getInstance().getTemporaryFolder().getAbsolutePath())) {
                     LOG.debug("coverFile seems to be in temporary folder (coverFile="+editMovie.getOriginalCoverFile()+").");
                     coverFile = new File(editMovie.getOriginalCoverFile());
                 } else {
                     LOG.debug("coverFile is not in temporary folder, has to be in coverFolder (coverFile="+editMovie.getOriginalCoverFile()+").");
-                    coverFile = new File(Configuration.getInstance().getCoversFolder(), editMovie.getOriginalCoverFile());
+                    coverFile = new File(PreferencesDao.getInstance().getCoversFolder(), editMovie.getOriginalCoverFile());
                 }
                 this.inpCoverSelector.setInitialCoverFile(coverFile);
             }
@@ -210,7 +210,7 @@ class MovieTabInfo extends AbstractMovieTab {
         if(this.inpCoverSelector.isCoverFileSet()) {
             final File originalFile = this.inpCoverSelector.getCoverFile();
             final String originalPath = originalFile.getAbsolutePath();
-            final String coversFolder = Configuration.getInstance().getCoversFolder().getAbsolutePath();
+            final String coversFolder = PreferencesDao.getInstance().getCoversFolder().getAbsolutePath();
             
             if(originalPath.startsWith(coversFolder)) {
                 result = originalPath.substring(coversFolder.length() + File.separator.length());

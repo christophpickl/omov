@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
@@ -45,7 +45,7 @@ public class ImporterBackup implements ImportExportConstants {
         LOG.info("Importing backup file '"+this.backupFile.getAbsolutePath()+"'.");
         ImportProcessResult result = new ImportProcessResult();
         
-        final File targetDirectory = new File(Configuration.getInstance().getTemporaryFolder(), TARGET_DIRECTORY_FORMAT.format(new Date()));
+        final File targetDirectory = new File(PreferencesDao.getInstance().getTemporaryFolder(), TARGET_DIRECTORY_FORMAT.format(new Date()));
         
         try {
             try {
@@ -144,7 +144,7 @@ public class ImporterBackup implements ImportExportConstants {
                 assert(extension != null);
                 final String newCoverFileName = movie.getId() + "." + extension;
                 
-                final File targetOriginalMovie = new File(Configuration.getInstance().getCoversFolder(), newCoverFileName);
+                final File targetOriginalMovie = new File(PreferencesDao.getInstance().getCoversFolder(), newCoverFileName);
                 LOG.debug("Copying cover files from original file '"+originalCoverFile.getAbsolutePath()+"' to '"+targetOriginalMovie.getAbsolutePath()+"' for movie: " + movie);
                 FileUtil.copyFile(originalCoverFile, targetOriginalMovie);
                 CoverUtil.copyCoverFileTypesByOriginal(movie, originalCoverFile);

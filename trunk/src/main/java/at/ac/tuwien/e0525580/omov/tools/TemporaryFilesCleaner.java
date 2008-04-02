@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 
 public final class TemporaryFilesCleaner {
@@ -18,7 +18,7 @@ public final class TemporaryFilesCleaner {
     }
     
     public static void clean() {
-        final File temporaryFolder = Configuration.getInstance().getTemporaryFolder();
+        final File temporaryFolder = PreferencesDao.getInstance().getTemporaryFolder();
         LOG.info("Cleaning up temporary folder '"+temporaryFolder.getAbsolutePath()+"'.");
         
         final File[] temporaryFiles = temporaryFolder.listFiles();

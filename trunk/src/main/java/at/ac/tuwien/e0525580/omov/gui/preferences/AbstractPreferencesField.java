@@ -10,14 +10,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
-import at.ac.tuwien.e0525580.omov.Configuration;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 abstract class AbstractPreferencesField<T> extends JTextField implements FocusListener {
 
     private static final Log LOG = LogFactory.getLog(AbstractPreferencesField.class);
 
-    static final Configuration CONF = Configuration.getInstance();
+    static final PreferencesDao CONF = PreferencesDao.getInstance();
 
     private final Dialog owner;
 
