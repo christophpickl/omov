@@ -15,12 +15,14 @@ import java.awt.dnd.DropTargetDragEvent;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
@@ -31,15 +33,15 @@ import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
 
-import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.ImageUtil;
 
-public class CoverSelector extends JPanel implements DropTargetListener {
+public class CoverSelector extends JPanel implements DropTargetListener, MouseListener {
 
     private static final Logger LOG = Logger.getLogger(CoverSelector.class);
 
@@ -89,22 +91,15 @@ public class CoverSelector extends JPanel implements DropTargetListener {
 
         frame.setVisible(true);
     }
-
+    private Timer clickTimer;
+    private boolean doubleclick;
+    
+    
     public CoverSelector(Component frame) {
         this.frame = frame;
-        this.setToolTipText("Drag&Drop an image here to set the coverfile");
+        this.setToolTipText("click to choose or double-click to clear cover");
 
-        this.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent event) {
-//                System.out.println("mouse clicked: event.getClickCount() = " + event.getClickCount());
-                if (event.getClickCount() >= 2) {
-                    doClearCover();
-                } else {
-//                    doClicked();
-                    // TODO single click should actually popup filechooser, but it somehow hides the doubleclick event (mantis: 4)
-                }
-            }
-        });
+        this.addMouseListener(this);
         this.setPreferredSize(CoverSelector.dimension());
         this.setMaximumSize(CoverSelector.dimension());
         this.setMinimumSize(CoverSelector.dimension());
@@ -271,21 +266,38 @@ public class CoverSelector extends JPanel implements DropTargetListener {
         }
 
     }
+    public void dragEnter(DropTargetDragEvent event) { }
+    public void dragExit(DropTargetEvent dte) { }
+    public void dragOver(DropTargetDragEvent dtde) { }
+    public void dropActionChanged(DropTargetDragEvent dtde) { }
 
-    public void dragEnter(DropTargetDragEvent event) {
-        // setOverCursor();
+    
+    
+    public void mouseClicked(MouseEvent event) {
+        this.clickTimer = new Timer();
+        if (event.getClickCount() == 2){
+            this.doubleclick = true;
+        } else if(event.getClickCount() == 1){
+            this.doubleclick = false;
+            this.clickTimer.schedule(new ClickTimerTask(), 300);
+        }
     }
+    public void mouseEntered(MouseEvent event) { }
+    public void mouseExited(MouseEvent event) { }
+    public void mousePressed(MouseEvent event) { }
+    public void mouseReleased(MouseEvent event) { }
 
-    public void dragExit(DropTargetEvent dte) {
-        // setDefaultCursor();
+    
+    class ClickTimerTask extends TimerTask {
+        public void run() {
+            if (doubleclick) {
+//                System.out.println("doClearCover();");
+                doClearCover();
+            } else {
+//                System.out.println("doClicked();");
+                doClicked();
+            }
+            clickTimer.cancel();
+        }
     }
-
-    public void dragOver(DropTargetDragEvent dtde) {
-        // nothing to do
-    }
-
-    public void dropActionChanged(DropTargetDragEvent dtde) {
-        // nothing to do
-    }
-
 }
