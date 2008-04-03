@@ -193,7 +193,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         final String folderPath = this.tabDetails.getFolderPath();
         final long fileSizeKb = this.tabDetails.getFileSizeKb();
         final String format = this.tabDetails.getFormat();
-        final Set<String> files = this.tabDetails.getFiles();
+        final List<String> files = this.tabDetails.getFiles();
         
         final int duration = this.tabInfo.getDuration().getTotalInMinutes();
         final Resolution resolution = this.tabInfo.getResolution();

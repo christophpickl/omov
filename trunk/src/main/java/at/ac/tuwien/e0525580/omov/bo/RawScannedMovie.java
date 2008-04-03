@@ -1,7 +1,7 @@
 package at.ac.tuwien.e0525580.omov.bo;
 
 import java.util.Comparator;
-import java.util.Set;
+import java.util.List;
 
 
 public class RawScannedMovie extends MovieFolderInfo {
@@ -26,7 +26,7 @@ public class RawScannedMovie extends MovieFolderInfo {
         return "ScannedMovie[title="+title+"]";
     }
     
-    public RawScannedMovie(String title, String folderPath, long fileSizeKb, String format, Set<String> files) {
+    public RawScannedMovie(String title, String folderPath, long fileSizeKb, String format, List<String> files) {
         super(folderPath, files, fileSizeKb, format);
         this.title = title;
     }

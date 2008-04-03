@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -241,7 +242,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         final String folderPath = this.tabDetails.getFolderPath();
         final long fileSizeKb = this.tabDetails.getFileSizeKb();
         final String format = this.tabDetails.getFormat();
-        final Set<String> files = this.tabDetails.getFiles();
+        final List<String> files = this.tabDetails.getFiles();
         
         final int duration = this.tabInfo.getDuration().getTotalInMinutes();
         final Resolution resolution = this.tabInfo.getResolution();

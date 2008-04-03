@@ -1,7 +1,9 @@
 package at.ac.tuwien.e0525580.omov.bo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -38,7 +40,7 @@ public class MovieCreator {
     private long fileSizeKb = -1;
     private String folderPath;
     private String format;
-    private Set<String> files;
+    private List<String> files;
     private int duration = -1;
     private Resolution resolution; // may be null
     private Set<String> subtitles;
@@ -106,7 +108,7 @@ public class MovieCreator {
         }
         if(this.files == null) {
             LOG.debug("files were null, setting to empty set.");
-            this.files = new HashSet<String>();
+            this.files = new ArrayList<String>();
         }
         if(this.subtitles == null) {
             LOG.debug("subtitles were null, setting to empty set.");
@@ -256,9 +258,9 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("files");
         if(this.files != null) throw new IllegalStateException("files already set to '"+this.files+"'.");
         
-        this.files = CollectionUtil.asStringSet(input); return this;
+        this.files = CollectionUtil.immutableList(input); return this;
     }
-    public MovieCreator files(Set<String> input) {
+    public MovieCreator files(List<String> input) {
         if(input == null) throw new NullPointerException("files");
         if(this.files != null) throw new IllegalStateException("files already set to '"+this.files+"'.");
         

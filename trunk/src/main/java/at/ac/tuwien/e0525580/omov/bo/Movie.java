@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -57,6 +58,10 @@ DATA VERSION HISTORY
 
 ===>   v1 -> v2
 - changed type of ID attribute from int to long
+
+===>   v2 -> v3
+- changed type of FILES attribute from Set<String> to List<String>
+
 
  */
     public static final int DATA_VERSION = 2;
@@ -164,7 +169,7 @@ DATA VERSION HISTORY
     
     private final String format;
     
-    private final Set<String> files;
+    private final List<String> files;
     
     /** in minutes */
     private final int duration;
@@ -206,7 +211,7 @@ DATA VERSION HISTORY
     Movie(final long id, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
             final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
-            final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
+            final long fileSizeKb, final String folderPath, final String format, final List<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
         this.id = id;
 
         if(id < -1)            throw new IllegalArgumentException("id: " + id);
@@ -256,7 +261,7 @@ DATA VERSION HISTORY
         this.fileSizeKb = fileSizeKb;
         this.folderPath = folderPath;
         this.format = format;
-        this.files = CollectionUtil.immutableSet(files);
+        this.files = Collections.unmodifiableList(files);
         this.duration = duration;
         this.resolution = resolution;
         this.subtitles = subtitles;
@@ -276,7 +281,7 @@ DATA VERSION HISTORY
     public static Movie newMovie(final long id, 
             final String title, final boolean seen, final int rating, final String coverFile, final Set<String> genres, final Set<String> languages, final String style,
             final String director, final Set<String> actors, final int year, final String comment, Quality quality, final Date dateAdded, 
-            final long fileSizeKb, final String folderPath, final String format, final Set<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
+            final long fileSizeKb, final String folderPath, final String format, final List<String> files, final int duration, final Resolution resolution, final Set<String> subtitles) {
         return new Movie(id, title, seen, rating, coverFile, genres, languages, style, director, actors, year, comment, quality, dateAdded, fileSizeKb, folderPath, format, files, duration, resolution, subtitles);
     }
     public static Movie newByMultipleEdited(final Movie m, 
@@ -577,7 +582,7 @@ DATA VERSION HISTORY
     }
     
 
-    public Set<String> getFiles() {
+    public List<String> getFiles() {
         return this.files;
     }
 

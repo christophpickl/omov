@@ -309,7 +309,7 @@ public final class MainWindowController extends CommonController implements IRem
 
     public void doPlayVlc(Movie movie) {
         assert(UserSniffer.isMacOSX());
-        final Set<String> files = movie.getFiles();
+        final List<String> files = movie.getFiles();
         if(files.isEmpty() == true) {
             GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
             return;

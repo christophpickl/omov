@@ -6,7 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.io.File;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -46,7 +46,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private final MovieDirectorSuggester inpDirector = new MovieDirectorSuggester(20);
     private final MovieActorsList inpActors;
 
-    private Set<String> files = new HashSet<String>();
+    private List<String> files = new LinkedList<String>();
     private long fileSizeKb = 0L;
     private final ButtonMovieFolder btnMovieFolder = new ButtonMovieFolder(this.owner);
     private final MultiColTextField lblPath = new MultiColTextField(" ", 22);
@@ -325,7 +325,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     public Set<String> getSubtitles() {
         return this.inpSubtitles.getSelectedItems();
     }
-    public Set<String> getFiles() {
+    public List<String> getFiles() {
         return this.files;
     }
     public String getFormat() {

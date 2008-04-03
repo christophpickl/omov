@@ -1,6 +1,6 @@
 package at.ac.tuwien.e0525580.omov.bo;
 
-import java.util.Set;
+import java.util.List;
 
 
 public class MovieFolderInfo {
@@ -8,13 +8,13 @@ public class MovieFolderInfo {
     private final String folderPath;
     
     /** filename (with extension) relative to folderPath */
-    private final Set<String> files;
+    private final List<String> files;
     
     private final long fileSizeKB;
     
     private final String format;
     
-    public MovieFolderInfo(final String folderPath, final Set<String> files, final long fileSizeKb, final String format) {
+    public MovieFolderInfo(final String folderPath, final List<String> files, final long fileSizeKb, final String format) {
         // assert files are all valid movieFiles
         this.folderPath = folderPath;
         this.files = files;
@@ -22,7 +22,7 @@ public class MovieFolderInfo {
         this.format = format;
     }
     
-    public Set<String> getFiles() {
+    public List<String> getFiles() {
         return this.files;
     }
     
