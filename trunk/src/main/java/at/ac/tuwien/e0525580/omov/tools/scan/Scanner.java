@@ -14,6 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.MovieFolderInfo;
 import at.ac.tuwien.e0525580.omov.bo.RawScannedMovie;
@@ -217,56 +218,75 @@ public class Scanner implements IScanner {
     }
     
     
-//    private static void scanMovieFolder(File directory, Set<String> files, Set<String> formats) {
-//        
-//    }
-    
     public static MovieFolderInfo scanMovieFolderInfo(File folder, File scanRoot, List<ScanHint> hints) {
         LOG.info("scanning movie '"+folder.getAbsolutePath()+"'...");
         
         final boolean hintsEnabled = hints != null;
         final String folderPath = folder.getAbsolutePath();
-        long fileSizeKb = 0;
 
-        final Set<String> files = new HashSet<String>();
+        final List<String> files = new LinkedList<String>();
         final Set<String> formats = new HashSet<String>();
-        for(File file : folder.listFiles()) { // TODO maybe do not only list files directly below movie folder, but also check for subitems in subdirectories (recursive)
-            if(file.isDirectory()) {
-                // directory 
-                continue;
-            }
-            final String fileExtension = FileUtil.extractExtension(file);
-            if(FileUtil.isHiddenFile(file) == true) {
-                LOG.debug("Skipping hidden file '"+file.getName()+"'.");
-                continue;
-            } else if(MovieFileUtil.isMovieFileExtension(fileExtension) == false) {
-                if(fileExtension != null) { // it does have a file extension
-                    if(hintsEnabled) hints.add(ScanHint.info("Unkown movie format: " + path(file, scanRoot)));
+        
+        final long fileSizeKb = Scanner.scanMovieFolder(folder, files, formats, folder, hints, hintsEnabled);
+        
+        final String format = constructExtensionString(formats);
+        
+        if(files.size() == 0) {
+            if(hintsEnabled) hints.add(ScanHint.warning("There was not any movie file found for folder '"+scanRoot.getAbsolutePath()+"'."));
+        }
+        
+        return new MovieFolderInfo(folderPath, files, fileSizeKb, format);
+    }
+    
+    private static long scanMovieFolder(File folder, List<String> files, Set<String> formats, File movieFolderRoot, List<ScanHint> hints, boolean hintsEnabled) {
+        LOG.debug("Scanning movie folder '"+folder.getAbsolutePath()+"'.");
+        long fileSizeKb = 0;
+        
+        for(File file : folder.listFiles()) {
+            if(file.isFile()) {
+                final String fileExtension = FileUtil.extractExtension(file);
+                if(FileUtil.isHiddenFile(file) == true) {
+                    LOG.debug("Skipping hidden file '"+file.getAbsolutePath()+"'.");
+                    continue;
+                } else if(MovieFileUtil.isMovieFileExtension(fileExtension) == false) {
+                    if(fileExtension != null) { // it does have a file extension
+                        if(hintsEnabled) hints.add(ScanHint.info("Unkown movie format: " + path(file, movieFolderRoot)));
+                    }
+                    continue;
                 }
-                continue;
-            }
-            
-            assert(MovieFileUtil.isMovieFile(file) == true) : "The file '"+file.getAbsolutePath()+"' is not a movie file!";
-            fileSizeKb += file.length() / 1024;
-            files.add(file.getName());
-            
-            if(formats.contains(fileExtension) == false) {
-                formats.add(fileExtension);
+                
+                if(MovieFileUtil.isMovieFile(file) == false) {
+                    throw new FatalException("The given file '"+file.getAbsolutePath()+"' is not a valid movie file!");
+                }
+                fileSizeKb += file.length() / 1024;
+                files.add(path(file, movieFolderRoot)); // store something like "VIDEO_TS/something.vob"
+                
+                formats.add(fileExtension.toLowerCase());
+                
+            } else { // file.isDirectory()
+                fileSizeKb += Scanner.scanMovieFolder(file, files, formats, movieFolderRoot, hints, hintsEnabled);
             }
         }
         
+        return fileSizeKb;
+    }
+    
+    private static String constructExtensionString(final Set<String> formats) {
         final String format;
+        
         if(formats.size() == 0) {
             format = "";
         } else if(formats.size() == 1){
             format = formats.iterator().next();
         } else {
-            StringBuilder sb = new StringBuilder();
-            List<String> formatList = new ArrayList<String>(formats.size());
+            final StringBuilder sb = new StringBuilder();
+            final List<String> formatList = new ArrayList<String>(formats.size());
+            
             for (String string : formats) {
                 formatList.add(string);
             }
             Collections.sort(formatList, String.CASE_INSENSITIVE_ORDER);
+            
             boolean first = true;
             for (String string : formatList) {
                 if(first == true) {
@@ -280,11 +300,7 @@ public class Scanner implements IScanner {
             LOG.debug("Found multiple ("+formats.size()+") movie files; resulting string is '"+format+"'.");
         }
         
-        if(files.size() == 0) {
-            if(hintsEnabled) hints.add(ScanHint.warning("There was not any movie file found for folder '"+scanRoot.getAbsolutePath()+"'."));
-        }
-        
-        return new MovieFolderInfo(folderPath, files, fileSizeKb, format);
+        return format;
     }
     
     private ScannedMovie scanMovieFolder(File folder) {
