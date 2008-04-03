@@ -223,7 +223,45 @@ class MovieTabInfo extends AbstractMovieTab {
         LOG.debug("returning coverFile value '"+result+"'");
         return result;
     }
-    
+
+    void setMovieTitle(String title) {
+        this.inpTitle.setText(title);
+    }
+
+    void setMovieSeen(boolean seen) {
+        this.inpSeen.setSelected(seen);
+    }
+
+    void setMovieRating(int rating) {
+        this.inpRating.setValue(rating);
+    }
+
+    void setMovieGenres(Set<String> genres) {
+        for (String genre : genres) {
+            this.inpGenre.setSelectedItem(genre);
+        }
+    }
+
+    void setMovieStyle(String style) {
+        this.inpStyle.setText(style);
+    }
+
+    void setMovieYear(int year) {
+        this.inpYear.setNumber(year);
+    }
+
+    void setMovieQuality(Quality quality) {
+        this.inpQuality.setQuality(quality);
+    }
+
+    void setMovieDuration(int durationInMin) {
+        this.inpDuration.setDuration(Duration.newByTotal(durationInMin));
+    }
+
+    void setMovieResolution(Resolution resolution) {
+        this.inpResolution.setResolution(resolution);
+    }
+
     
     public Duration getDuration() {
         return this.inpDuration.getDuration();

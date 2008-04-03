@@ -35,6 +35,11 @@ public class DurationPanel extends JPanel {
         this.add(new JLabel("min"));
     }
     
+    public void setDuration(Duration duration) {
+        this.inpMin.setNumber(duration.getMinutes());
+        this.inpHours.setNumber(duration.getHours());
+    }
+    
     public Duration getDuration() {
         return Duration.newByMinHour((int) this.inpMin.getNumber(), (int) this.inpHours.getNumber());
     }

@@ -91,6 +91,10 @@ public class MovieTabNotes extends AbstractMovieTab {
         return "Notes";
     }
 
+
+    void setMovieComment(String comment) {
+        this.inpComment.setText(comment);
+    }
     
     public String getComment() {
         return this.inpComment.getText();

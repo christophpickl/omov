@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,6 +18,7 @@ import javax.swing.JTabbedPane;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
@@ -28,13 +30,35 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
 
     private static final long serialVersionUID = 6773818202819376865L;
 
+    private static final Set<MovieField> MULTIPLE_EDIT_FIELDS;
+    static {
+        final Set<MovieField> tmp = new HashSet<MovieField>();
+        tmp.add(MovieField.TITLE);
+        tmp.add(MovieField.SEEN);
+        tmp.add(MovieField.RATING);
+        tmp.add(MovieField.COVER_FILE);
+        tmp.add(MovieField.GENRES);
+        tmp.add(MovieField.LANGUAGES);
+        tmp.add(MovieField.STYLE);
+        tmp.add(MovieField.DIRECTOR);
+        tmp.add(MovieField.ACTORS);
+        tmp.add(MovieField.YEAR);
+        tmp.add(MovieField.COMMENT);
+        tmp.add(MovieField.QUALITY);
+        tmp.add(MovieField.DURATION);
+        tmp.add(MovieField.RESOLUTION);
+        tmp.add(MovieField.SUBTITLES);
+        
+        MULTIPLE_EDIT_FIELDS = Collections.unmodifiableSet(tmp);
+    }
+    
     final Map<MovieField, JCheckBox> fieldCheckBoxes = new HashMap<MovieField, JCheckBox>();
     {
-        for (MovieField field : Movie.getAllFields()) {
+        for (MovieField field : MULTIPLE_EDIT_FIELDS) {
             final JCheckBox checkBox = new JCheckBox();
             checkBox.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
             checkBox.setToolTipText("Change "+field.label()+" for all Movies");
-            fieldCheckBoxes.put(field, checkBox);
+            this.fieldCheckBoxes.put(field, checkBox);
         }
     }
     private final MovieTabInfo tabInfo;
@@ -53,11 +77,66 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         this.setTitle("Edit Movies");
         
         this.getContentPane().add(this.initComponents());
+        this.preselectCheckboxes();
         this.pack();
         this.setResizable(false);
         GuiUtil.setCenterLocation(this);
     }
     
+    private void preselectCheckboxes() {
+        for (MovieField field : MULTIPLE_EDIT_FIELDS) {
+            
+            boolean allMoviesEqualField = true;
+            Movie prevMovie = null;
+            for (Movie curMovie : this.getEditItem()) {
+                if(prevMovie != null) {
+                    if(curMovie.getValueByField(field).equals(prevMovie.getValueByField(field)) == false) {
+                        allMoviesEqualField = false;
+                        break;
+                    }
+                }
+                
+                prevMovie = curMovie;
+            }
+            
+            if(allMoviesEqualField == true) {
+                this.fieldCheckBoxes.get(field).setSelected(true);
+                if(field == MovieField.TITLE) {
+                    this.tabInfo.setMovieTitle(prevMovie.getTitle());
+                } else if(field == MovieField.SEEN) {
+                    this.tabInfo.setMovieSeen(prevMovie.isSeen());
+                } else if(field == MovieField.RATING) {
+                    this.tabInfo.setMovieRating(prevMovie.getRating());
+                } else if(field == MovieField.COVER_FILE) {
+                    // either they are all different, or are all empty (in this case, doing nothing is just fine)
+                } else if(field == MovieField.GENRES) {
+                    this.tabInfo.setMovieGenres(prevMovie.getGenres());
+                } else if(field == MovieField.LANGUAGES) {
+                    this.tabDetails.setMovieLanguages(prevMovie.getLanguages());
+                } else if(field == MovieField.STYLE) {
+                    this.tabInfo.setMovieStyle(prevMovie.getStyle());
+                } else if(field == MovieField.DIRECTOR) {
+                    this.tabDetails.setMovieDirector(prevMovie.getDirector());
+                } else if(field == MovieField.ACTORS) {
+                    this.tabDetails.setMovieActors(prevMovie.getActors());
+                } else if(field == MovieField.YEAR) {
+                    this.tabInfo.setMovieYear(prevMovie.getYear());
+                } else if(field == MovieField.COMMENT) {
+                    this.tabNotes.setMovieComment(prevMovie.getComment());
+                } else if(field == MovieField.QUALITY) {
+                    this.tabInfo.setMovieQuality(prevMovie.getQuality());
+                } else if(field == MovieField.DURATION) {
+                    this.tabInfo.setMovieDuration(prevMovie.getDuration());
+                } else if(field == MovieField.RESOLUTION) {
+                    this.tabInfo.setMovieResolution(prevMovie.getResolution());
+                } else if(field == MovieField.SUBTITLES) {
+                    this.tabDetails.setMovieSubtitles(prevMovie.getSubtitles());
+                } else {
+                    throw new FatalException("Unhandled movie field '"+field+"'!");
+                }
+            }
+        }
+    }
 
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
@@ -128,6 +207,8 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
     }
 
     public boolean isFieldSelected(MovieField field) {
+        assert(MULTIPLE_EDIT_FIELDS.contains(field) == true);
+        
         return this.fieldCheckBoxes.get(field).isSelected();
     }
     

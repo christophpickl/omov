@@ -25,6 +25,10 @@ public class QualityField extends JComboBox {
         this.setSelectedIndex(initValue.getId());
     }
     
+    public void setQuality(Quality quality) {
+        this.setSelectedIndex(quality.getId());
+    }
+    
     public Quality getQuality() {
         return Quality.getQualityById(this.getSelectedIndex());
     }

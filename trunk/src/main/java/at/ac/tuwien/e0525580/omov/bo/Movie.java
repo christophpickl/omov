@@ -68,27 +68,27 @@ DATA VERSION HISTORY
 
     private static List<MovieField> ALL_FIELDS = new ArrayList<MovieField>();
     public static enum MovieField {
-        ID("ID", "id", Long.class),
-        TITLE("Title", "title", String.class), 
-        SEEN("Seen", "seen", Boolean.class),
-        RATING("Rating", "rating", Integer.class), // Rating.class
-        COVER_FILE("Cover", "coverFile", String.class),
-        GENRES("Genres", "genres", Set.class),
-        LANGUAGES("Languages", "languages", Set.class),
-        STYLE("Style", "style", String.class),
-        DIRECTOR("Director", "director", String.class),
-        ACTORS("Actors", "actors", Set.class),
-        YEAR("Year", "year", Integer.class),
-        COMMENT("Comment", "comment", String.class),
-        QUALITY("Quality", "quality", Quality.class),
-        DATE_ADDED("Date Added", "dateAdded", Date.class),
-        FILE_SIZE_KB("Size", "fileSizeKb", Long.class),
-        FOLDER_PATH("Folder", "folderPath", String.class),
-        FORMAT("Format", "format", String.class), 
-        FILES("Files", "files", Set.class),
-        DURATION("Duration", "duration", Integer.class),
-        RESOLUTION("Resolution", "resolution", Resolution.class),
-        SUBTITLES("Subtitles", "subtitles", Set.class);
+        ID("ID", "id", Long.class) { public Object getValue(Movie movie) { return movie.getId(); }},
+        TITLE("Title", "title", String.class) { public Object getValue(Movie movie) { return movie.getTitle(); }},
+        SEEN("Seen", "seen", Boolean.class) { public Object getValue(Movie movie) { return movie.isSeen(); }},
+        RATING("Rating", "rating", Integer.class) { public Object getValue(Movie movie) { return movie.getRating(); }},
+        COVER_FILE("Cover", "coverFile", String.class) { public Object getValue(Movie movie) { return movie.getOriginalCoverFile(); }},
+        GENRES("Genres", "genres", Set.class) { public Object getValue(Movie movie) { return movie.getGenres(); }},
+        LANGUAGES("Languages", "languages", Set.class) { public Object getValue(Movie movie) { return movie.getLanguages(); }},
+        STYLE("Style", "style", String.class) { public Object getValue(Movie movie) { return movie.getStyle(); }},
+        DIRECTOR("Director", "director", String.class) { public Object getValue(Movie movie) { return movie.getDirector(); }},
+        ACTORS("Actors", "actors", Set.class) { public Object getValue(Movie movie) { return movie.getActors(); }},
+        YEAR("Year", "year", Integer.class) { public Object getValue(Movie movie) { return movie.getYear(); }},
+        COMMENT("Comment", "comment", String.class) { public Object getValue(Movie movie) { return movie.getComment(); }},
+        QUALITY("Quality", "quality", Quality.class) { public Object getValue(Movie movie) { return movie.getQuality(); }},
+        DATE_ADDED("Date Added", "dateAdded", Date.class) { public Object getValue(Movie movie) { return movie.getDateAdded(); }},
+        FILE_SIZE_KB("Size", "fileSizeKb", Long.class) { public Object getValue(Movie movie) { return movie.getFileSizeKb(); }},
+        FOLDER_PATH("Folder", "folderPath", String.class) { public Object getValue(Movie movie) { return movie.getFolderPath(); }},
+        FORMAT("Format", "format", String.class) { public Object getValue(Movie movie) { return movie.getFormat(); }},
+        FILES("Files", "files", Set.class) { public Object getValue(Movie movie) { return movie.getFiles(); }},
+        DURATION("Duration", "duration", Integer.class) { public Object getValue(Movie movie) { return movie.getDuration(); }},
+        RESOLUTION("Resolution", "resolution", Resolution.class) { public Object getValue(Movie movie) { return movie.getResolution(); }},
+        SUBTITLES("Subtitles", "subtitles", Set.class) { public Object getValue(Movie movie) { return movie.getSubtitles(); }};
         
         private final String label;
         private final String column; // DB-column, Db4o-column
@@ -108,6 +108,7 @@ DATA VERSION HISTORY
         public Class getFieldClass() {
             return this.fieldClass;
         }
+        public abstract Object getValue(Movie movie);
     }
 
     public static List<MovieField> getAllFields() {
@@ -261,6 +262,10 @@ DATA VERSION HISTORY
         this.subtitles = subtitles;
 
         this.subtitlesString = CollectionUtil.toString(this.subtitles);
+    }
+    
+    public Object getValueByField(MovieField field) {
+        return field.getValue(this);
     }
     
     public static MovieCreator create(long id) {

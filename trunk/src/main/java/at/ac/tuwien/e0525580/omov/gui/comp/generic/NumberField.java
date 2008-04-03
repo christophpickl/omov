@@ -49,7 +49,9 @@ public class NumberField extends JTextField {
      */
     public NumberField(long initValue, long minValue, long maxValue, int size) {
         super("" + initValue, size);
-        if((initValue >= minValue && initValue <= maxValue) == false) throw new FatalException("Initial value '"+initValue+"' is not within valid range ("+minValue+" to "+maxValue+")!");
+        if((initValue >= minValue && initValue <= maxValue) == false) {
+            throw new FatalException("Initial value '"+initValue+"' is not within valid range ("+minValue+" to "+maxValue+")!");
+        }
         
         this.minValue = minValue;
         this.maxValue = maxValue;
@@ -62,6 +64,13 @@ public class NumberField extends JTextField {
 //        if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 //            doBackspace();
 //        }}});
+    }
+    
+    public void setNumber(int number) {
+        if(number < this.minValue || number > this.maxValue) {
+            throw new IllegalArgumentException("Number '"+number+"' is not within valid range ("+this.minValue+"-"+this.maxValue+")!");
+        }
+        this.setText(String.valueOf(number));
     }
     
 //    private void doBackspace() {

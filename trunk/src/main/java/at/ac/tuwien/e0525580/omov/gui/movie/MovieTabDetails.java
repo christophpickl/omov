@@ -287,6 +287,30 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         this.lblSize.setText(FileUtil.formatFileSize(folderInfo.getFileSizeKB()));
         this.lblFormat.setText(folderInfo.getFormat());
     }
+    
+
+
+    void setMovieLanguages(Set<String> languages) {
+        for (String language : languages) {
+            this.inpLanguages.setSelectedItem(language);
+        }
+    }
+
+    void setMovieDirector(String director) {
+        this.inpDirector.setText(director);
+    }
+
+    void setMovieActors(Set<String> actors) {
+        for (String actor : actors) {
+            this.inpActors.setSelectedItem(actor);
+        }
+    }
+
+    void setMovieSubtitles(Set<String> subtitles) {
+        for (String subtitle : subtitles) {
+            this.inpSubtitles.setSelectedItem(subtitle);
+        }
+    }
 
     
     public Set<String> getActors() {
