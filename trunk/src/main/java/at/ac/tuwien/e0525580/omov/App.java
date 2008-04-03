@@ -69,7 +69,11 @@ bzgl listener von dao unregistern:
 */
 
 public class App {
-    // FEATURE write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
+    
+    // TODO tests: write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
+    
+    // TODO in movie dialog: if next widget gains focus via tab key, preselect whole textcontent
+    
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
@@ -157,8 +161,6 @@ public class App {
             LOG.debug("Dataversions are now ok.");
             return true;
         }
-
-        // TODO write troubleshooting topic for this problem (either delete db4-file for reset or use converter if possible)
         
         // FIXME write converter and if none is available, ask for deletion (or display downloadlink for older version)
         if(movieDataVersion != Movie.DATA_VERSION && smartfolderDataVersion != SmartFolder.DATA_VERSION) {

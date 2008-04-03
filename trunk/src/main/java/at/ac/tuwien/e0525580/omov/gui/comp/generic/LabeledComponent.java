@@ -21,6 +21,6 @@ public class LabeledComponent extends JPanel {
         this.setOpaque(false);
         
         this.add(label, BorderLayout.NORTH);
-        this.add(component, BorderLayout.CENTER);
+        this.add(component, BorderLayout.WEST);
     }
 }

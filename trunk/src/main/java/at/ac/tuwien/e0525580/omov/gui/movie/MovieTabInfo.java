@@ -153,7 +153,7 @@ class MovieTabInfo extends AbstractMovieTab {
         c.anchor = GridBagConstraints.PAGE_START;
         panel.add(this.newInputComponent(this.inpResolution, MovieField.RESOLUTION), c);
         c.gridx = 2;
-        c.anchor = GridBagConstraints.LINE_START;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(0, 0, 8, 0); // top left bottom right
         this.inpSeen.setHorizontalTextPosition(SwingConstants.LEFT);
         panel.add(this.newInputComponent(this.inpSeen, MovieField.SEEN), c); // TODO gui: inpSeen looks ugly

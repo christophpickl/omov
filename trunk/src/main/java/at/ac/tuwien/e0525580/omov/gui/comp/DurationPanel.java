@@ -1,6 +1,8 @@
 package at.ac.tuwien.e0525580.omov.gui.comp;
 
-import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -14,7 +16,6 @@ public class DurationPanel extends JPanel {
 
     private final NumberField inpMin;
     private final NumberField inpHours;
-    // TODO make number fields of duration panel right aligned
     
     public DurationPanel(Duration duration) {
         this.setOpaque(false);
@@ -26,13 +27,29 @@ public class DurationPanel extends JPanel {
     }
     
     private void initComponents() {
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints c = new GridBagConstraints();
+        this.setLayout(layout);
+        layout.setConstraints(this, c);
 
-        this.add(this.inpHours);
-        this.add(new JLabel("h"));
+        c.gridy = 0;
+
+        c.insets = new Insets(0, 0, 0, 3); // top left bottom right
+        c.gridx = 0;
+        this.add(this.inpHours, c);
+
+        c.insets = new Insets(0, 0, 0, 6); // top left bottom right
+        c.gridx++;
+        this.add(new JLabel("h"), c);
         
-        this.add(this.inpMin);
-        this.add(new JLabel("min"));
+
+        c.insets = new Insets(0, 0, 0, 3); // top left bottom right
+        c.gridx++;
+        this.add(this.inpMin, c);
+
+        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
+        c.gridx++;
+        this.add(new JLabel("min"), c);
     }
     
     public void setDuration(Duration duration) {

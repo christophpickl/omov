@@ -37,8 +37,10 @@ public class ResolutionPanel extends JPanel {
 
         c.gridx = 0;
         this.add(this.inpWidth, c);
+        
         c.gridx = 1;
         this.add(new JLabel(" x "), c);
+        
         c.gridx = 2;
         this.add(this.inpHeight, c);
     }

@@ -125,8 +125,6 @@ public class MovieCreator {
                 director, actors, year, comment, quality, dateAdded,
                 fileSizeKb, folderPath, format, files, duration, resolution, subtitles);
     }
-
-    // TODO erneutes setzen unmoeglich machen: if(this.format != null) throw new IllegalStateOperation("The attribute 'format' was already set!");
     
     // general
     public MovieCreator title(String input) {
