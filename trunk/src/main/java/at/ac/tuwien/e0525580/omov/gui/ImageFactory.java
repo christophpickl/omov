@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 
 import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.common.Severity;
 
 public class ImageFactory {
 
@@ -69,9 +70,13 @@ public class ImageFactory {
     public ImageIcon getAboutLogo() {
         return this.getImage("logo_about.png");
     }
-    
+
     public ImageIcon getIcon(Icon16x16 iconEnum) {
         return this.getImage("icons/" + iconEnum.fileName);
+    }
+    
+    public ImageIcon getSeverityIcon(Severity severity) {
+        return this.getIcon(severity.getIcon());
     }
 
     public ImageIcon getHelp() {

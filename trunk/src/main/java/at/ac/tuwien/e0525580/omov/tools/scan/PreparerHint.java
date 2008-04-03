@@ -4,17 +4,17 @@ package at.ac.tuwien.e0525580.omov.tools.scan;
 
 public class PreparerHint  implements Comparable<PreparerHint> {
     
-    private Severity severity;
+    private HintSeverity severity;
     
     private final String msg;
     
-    private PreparerHint(Severity severity, String msg) {
+    private PreparerHint(HintSeverity severity, String msg) {
         if(msg == null) throw new NullPointerException("msg");
         this.severity = severity;
         this.msg = msg;
     }
     
-    public Severity getSeverity() {
+    public HintSeverity getSeverity() {
         return this.severity;
     }
     
@@ -27,25 +27,25 @@ public class PreparerHint  implements Comparable<PreparerHint> {
     }
     
     static PreparerHint success(String msg) {
-        return new PreparerHint(Severity.SUCCESS, msg);
+        return new PreparerHint(HintSeverity.SUCCESS, msg);
     }
     
     static PreparerHint info(String msg) {
-        return new PreparerHint(Severity.INFO, msg);
+        return new PreparerHint(HintSeverity.INFO, msg);
     }
     
     static PreparerHint warning(String msg) {
-        return new PreparerHint(Severity.WARNING, msg);
+        return new PreparerHint(HintSeverity.WARNING, msg);
     }
     
     static PreparerHint error(String msg) {
-        return new PreparerHint(Severity.ERROR, msg);
+        return new PreparerHint(HintSeverity.ERROR, msg);
     }
 
-    public static enum Severity {
+    public static enum HintSeverity {
         SUCCESS(0), INFO(1), WARNING(2), ERROR(3);
         private final int lvl;
-        private Severity(int lvl) {
+        private HintSeverity(int lvl) {
             this.lvl = lvl;
         }
     }

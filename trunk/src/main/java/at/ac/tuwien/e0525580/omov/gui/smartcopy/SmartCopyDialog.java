@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.smartcopy;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -39,7 +40,7 @@ public class SmartCopyDialog extends JDialog {
 
     private final JButton btnCopyAnyway = new JButton("Copy Anyway");
     private final JButton btnAbortCopy = new JButton("Abort Copy");
-    private final JTextField inpMovieIds = new JTextField("[[4]]", 20);
+    private final JTextField inpMovieIds = new JTextField("", 20);
     private final DirectoryChooser inpTargetDirectory = new DirectoryChooser("Copy target directory");
     private final JButton btnStartCopy = new JButton("Start Copying");
     private final JButton btnCancel = new JButton("Cancel");
@@ -144,6 +145,8 @@ public class SmartCopyDialog extends JDialog {
         this.btnUseSelectedMovies.setActionCommand(SmartCopyDialogController.CMD_USE_SELECTED_MOVIES);
         this.btnUseSelectedMovies.addActionListener(this.controller);
 
+        this.inpMovieIds.setToolTipText("Enter somthing like: [[13, 42, 78]]");
+        
         c.anchor = GridBagConstraints.LINE_START;
 
         c.gridwidth = 2;
@@ -218,12 +221,17 @@ public class SmartCopyDialog extends JDialog {
         LOG.info("Preprocess found errors for smartcopy (would copy "+FileUtil.formatFileSize(result.getTotalCopySizeInKb())+").");
         
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setPreferredSize(new Dimension(this.getWidth() - 20, 140));
         panel.setOpaque(false);
         final PreprocessResultTableModel model = new PreprocessResultTableModel(result);
         final JXTable table = new JXTable(model);
-        // TODO set columns not resizable
+        table.setHorizontalScrollEnabled(true);
+        table.getColumnModel().getColumn(0).setMinWidth(18);
+        table.getColumnModel().getColumn(0).setPreferredWidth(18);
+        table.getColumnModel().getColumn(0).setMaxWidth(18);
+        
         GuiUtil.setAlternatingBgColor(table);
-        table.setVisibleRowCount(4);
+//        table.setVisibleRowCount(4);
         table.packAll();
         
         final JScrollPane scrollPane = new JScrollPane(table);

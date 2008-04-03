@@ -3,8 +3,11 @@ package at.ac.tuwien.e0525580.omov.gui.smartcopy;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
+import at.ac.tuwien.e0525580.omov.common.Severity;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.tools.smartcopy.SmartCopyPreprocessResult;
 
 class PreprocessResultTableModel extends DefaultTableModel {
@@ -19,13 +22,13 @@ class PreprocessResultTableModel extends DefaultTableModel {
     public PreprocessResultTableModel(SmartCopyPreprocessResult result) {
 
         for (String msg : result.getFatalErrors()) {
-            this.rowData.add(new RowData("Fatal", msg));
+            this.rowData.add(new RowData(Severity.ERROR, msg));
         }
         for (String msg : result.getMajorErrors()) {
-            this.rowData.add(new RowData("Major", msg));
+            this.rowData.add(new RowData(Severity.WARNING, msg));
         }
         for (String msg : result.getMinorErrors()) {
-            this.rowData.add(new RowData("Minor", msg));
+            this.rowData.add(new RowData(Severity.INFO, msg));
         }
         
         this.fireTableDataChanged();
@@ -39,9 +42,16 @@ class PreprocessResultTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         final RowData rowData = this.rowData.get(row);
         if(col == 0) {
-            return rowData.getSeverity();
+            return ImageFactory.getInstance().getSeverityIcon(rowData.getSeverity());
         }
         return rowData.getMessage();
+    }
+    
+    public Class<?> getColumnClass(final int col) {
+        if(col == 0) {
+            return ImageIcon.class;
+        }
+        return String.class;
     }
     
     public int getColumnCount() {
@@ -52,20 +62,21 @@ class PreprocessResultTableModel extends DefaultTableModel {
         return COLUMNS[col];
     }
     
-    public boolean isEditable() {
+    @SuppressWarnings("unused")
+    public boolean isCellEditable(int col, int row) {
         return false;
     }
     
     
     
     private static class RowData {
-        private final String severity;
+        private final Severity severity;
         private final String message;
-        public RowData(String severity, String message) {
+        public RowData(Severity severity, String message) {
             this.severity = severity;
             this.message = message;
         }
-        public String getSeverity() {
+        public Severity getSeverity() {
             return this.severity;
         }
         public String getMessage() {

@@ -79,7 +79,6 @@ class TableRenderers {
                 lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
             }
             lbl.setOpaque(true);
-            // TODO set size of cover column higher
             return lbl;
         }
     }
@@ -117,11 +116,10 @@ class TableRenderers {
             }
             
             final Color primaryColor = isSelected ? MovieTableX.COLOR_SELECTED_FG : null; // null == default (dark gray)
-            final RatingPanel field = new RatingPanel(movie.getRating(), primaryColor);
-            field.setOpaque(false);
-            
-            
+            final RatingPanel ratingPanel = new RatingPanel(movie.getRating(), primaryColor);
+            ratingPanel.setOpaque(false);
 
+            
             final JPanel panel = new JPanel();
             panel.setOpaque(true);
             if(isSelected) panel.setBackground(MovieTableX.COLOR_SELECTED_BG);
@@ -129,12 +127,12 @@ class TableRenderers {
             final GridBagConstraints c = new GridBagConstraints();
             layout.setConstraints(panel, c);
             panel.setLayout(layout);
-
+            
             c.gridx = 0;
             c.gridy = 0;
             c.anchor = GridBagConstraints.CENTER;
             c.fill = GridBagConstraints.NONE;
-            panel.add(field);
+            panel.add(ratingPanel);
             return panel;
         }
     }
