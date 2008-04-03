@@ -223,7 +223,7 @@ class MovieTableModel extends DefaultTableModel implements IMovieDaoListener {
         }
         
 
-        DAO.registerMovieDaoListener(this);
+        DAO.addMovieDaoListener(this);
         this.reloadData();
     }
     

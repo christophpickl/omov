@@ -476,7 +476,7 @@ DATA VERSION HISTORY
     }
     
     public String getCoverFile(CoverFileType type) {
-        assert(this.isCoverFileSet());
+        assert(this.isCoverFileSet()) : "Coverfile not set for movie: " + this;
         
         final String extension = this.coverFile.substring(this.coverFile.lastIndexOf(".") + 1);
         final StringBuilder sb = new StringBuilder(20);

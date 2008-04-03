@@ -21,6 +21,7 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
@@ -28,7 +29,7 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
-import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableColumns.MovieTableColumn;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableColumns.IMovieTableColumn;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
 import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -45,10 +46,13 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private static final String CMD_REVEAL = "reveal"; // OSX only
     private static final String CMD_PLAY_VLC = "playVlc"; // OSX only
 
+    private static final int COVER_COLUMN_GAP = 8;
     static Color COLOR_SELECTED_BG = new Color(61, 128, 223);
     static Color COLOR_SELECTED_FG = Color.WHITE;
     
     private final IMovieTableContextMenuListener contextMenuListener;
+    
+    private final int defaultRowHeight;
     
     public MovieTableX(final IMovieTableContextMenuListener contextMenuListener, MovieTableModel model) {
         this.contextMenuListener = contextMenuListener;
@@ -65,16 +69,21 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         TableRenderers.updateRenderers(this);
 
         assert(model.getColumnCount() == this.getColumnCount());
-        for(MovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
+        defaultRowHeight = this.getRowHeight();
+        for(IMovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
             
             final Boolean visible = PreferencesDao.getInstance().isMovieColumnVisible(movieColumn.getLabel());
             LOG.debug("Setting column '"+column.getTitle()+"' to visible '"+visible+"'.");
             column.setVisible(visible);
+            
+            if(movieColumn.getLabel().equals(MovieTableColumns.COVER_COLUMN_LABEL) && visible == true) {
+                this.setRowHeight(CoverFileType.THUMBNAIL.getMaxHeight() + COVER_COLUMN_GAP);
+                column.setMaxWidth(CoverFileType.THUMBNAIL.getMaxWidth() + COVER_COLUMN_GAP);
+                column.setResizable(false);
+            }
         }
-        this.packAll();
-//        table.getColumnModel().getColumn(2).setCellEditor(new DurationEditor());
         
         this.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
             public void columnAdded(TableColumnModelEvent e) {
@@ -87,7 +96,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             public void columnMoved(TableColumnModelEvent e) { /* ignore */ }
             public void columnSelectionChanged(ListSelectionEvent e) { /* ignore */ }
         });
-        
+
+        this.packAll();
         // JXTable features END
         
         this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -113,10 +123,18 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     
     private void updatePrefColumnVisibility() {
         final Map<String, Boolean> columns = new HashMap<String, Boolean>();
-        for(MovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
+        
+        boolean setRowHeightForCover = false;
+        for(IMovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             columns.put(movieColumn.getLabel(), column.isVisible());
+
+            if(movieColumn.getLabel().equals(MovieTableColumns.COVER_COLUMN_LABEL) && column.isVisible() == true) {
+                setRowHeightForCover = true;
+            }
         }
+        this.setRowHeight((setRowHeightForCover) ? CoverFileType.THUMBNAIL.getMaxHeight() + COVER_COLUMN_GAP : this.defaultRowHeight);
+        
         PreferencesDao.getInstance().setMovieColumnVisibility(columns);
     }
     
@@ -149,9 +167,12 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         }
         return modelRows;
     }
-    
+
     TableColumnExt getColumnByField(MovieField field) {
         return this.getColumnExt(field.label());
+    }
+    TableColumnExt getColumnByLabel(String label) {
+        return this.getColumnExt(label);
     }
     
     

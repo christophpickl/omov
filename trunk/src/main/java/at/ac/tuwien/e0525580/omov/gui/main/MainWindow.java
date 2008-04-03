@@ -153,6 +153,10 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
 //            public void keyTyped(KeyEvent event) { }
 //        });
     }
+    void reloadTableData() {
+        LOG.debug("Reloading main movietable data.");
+        this.moviesModel.movieDataChanged();
+    }
 
     public void selectionEmptyChanged() {
         this.selectedMovie = null;

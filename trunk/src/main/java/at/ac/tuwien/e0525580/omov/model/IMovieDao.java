@@ -40,7 +40,7 @@ public interface IMovieDao extends IDao {
     
     
     
-    void registerMovieDaoListener(IMovieDaoListener listener);
+    void addMovieDaoListener(IMovieDaoListener listener);
     void unregisterMovieDaoListener(IMovieDaoListener listener);
     
     

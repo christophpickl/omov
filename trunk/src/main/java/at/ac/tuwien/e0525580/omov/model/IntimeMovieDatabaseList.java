@@ -23,7 +23,7 @@ public abstract class IntimeMovieDatabaseList<T> implements IMovieDaoListener {
     
 
     public IntimeMovieDatabaseList() {
-        MOVIE_DAO.registerMovieDaoListener(this);
+        MOVIE_DAO.addMovieDaoListener(this);
     }
     
     public void unregisterFromMovieDao() {

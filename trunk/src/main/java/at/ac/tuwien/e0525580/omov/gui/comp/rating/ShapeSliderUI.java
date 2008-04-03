@@ -43,8 +43,6 @@ import javax.swing.plaf.SliderUI;
  * in the control area. When the control is focused, the left and right arrow 
  * buttons can change the value.
  *
- * T O D O  The properties shoulde be accuired from the UIDefaults. but this is  just a demo.
- *
  * @author Adam Walker <adam@walksoftware.net>
  */
 class ShapeSliderUI extends SliderUI{
@@ -61,11 +59,14 @@ class ShapeSliderUI extends SliderUI{
     private MouseInputListener mouseListener;
     private ChangeListener changeListener;
     private KeyListener keyListener;
+    
     public ShapeSliderUI(){
     }
+    
     public static ComponentUI createUI(JComponent c){
         return new ShapeSliderUI();
     }
+    
     protected class ShapeML extends MouseInputAdapter{
         public void mouseClicked(MouseEvent evt){
             select((JSlider)evt.getSource(), evt.getX(), evt.getY());

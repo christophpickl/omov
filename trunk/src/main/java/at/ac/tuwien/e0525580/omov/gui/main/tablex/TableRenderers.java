@@ -3,9 +3,12 @@ package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.Date;
 
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -24,6 +27,7 @@ class TableRenderers {
     }
     
     public static void updateRenderers(MovieTableX table) {
+        table.getColumnByLabel(MovieTableColumns.COVER_COLUMN_LABEL).setCellRenderer(new CoverRenderer());
         table.getColumnByField(MovieField.TITLE).setCellRenderer(new TitleRenderer());
         table.getColumnByField(MovieField.RATING).setCellRenderer(new RatingRenderer());
         table.getColumnByField(MovieField.QUALITY).setCellRenderer(new QualityRenderer());
@@ -64,9 +68,25 @@ class TableRenderers {
         }
     }
     
+    private static class CoverRenderer extends DefaultTableCellRenderer {
+        private static final long serialVersionUID = 2926410557857576765L;
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//            final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            final Movie movie = getMovie(table, row);
+            final JLabel lbl = new JLabel(ColumnsCoverFactory.getInstance().getImage(movie));
+            if(isSelected) {
+                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
+                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+            }
+            lbl.setOpaque(true);
+            // TODO set size of cover column higher
+            return lbl;
+        }
+    }
+    
     
     private static class TitleRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
+        private static final long serialVersionUID = 3071418230735107442L;
         private static final Font FONT_TITLE_SEEN = new Font("Default", Font.PLAIN, 12);
         private static final Font FONT_TITLE_UNSEEN = new Font("Default", Font.BOLD, 12);
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -82,8 +102,10 @@ class TableRenderers {
             return lbl;
         }
     }
+    
     private static class RatingRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
+        private static final long serialVersionUID = -4946524787250006442L;
+
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Movie movie = getMovie(table, row);
             
@@ -93,16 +115,32 @@ class TableRenderers {
                 lbl.setOpaque(true);
                 return lbl;
             }
+            
             final Color primaryColor = isSelected ? MovieTableX.COLOR_SELECTED_FG : null; // null == default (dark gray)
             final RatingPanel field = new RatingPanel(movie.getRating(), primaryColor);
-            if(isSelected) field.setBackground(MovieTableX.COLOR_SELECTED_BG);
-            field.setOpaque(true);
+            field.setOpaque(false);
             
-            return field;
+            
+
+            final JPanel panel = new JPanel();
+            panel.setOpaque(true);
+            if(isSelected) panel.setBackground(MovieTableX.COLOR_SELECTED_BG);
+            final GridBagLayout layout = new GridBagLayout();
+            final GridBagConstraints c = new GridBagConstraints();
+            layout.setConstraints(panel, c);
+            panel.setLayout(layout);
+
+            c.gridx = 0;
+            c.gridy = 0;
+            c.anchor = GridBagConstraints.CENTER;
+            c.fill = GridBagConstraints.NONE;
+            panel.add(field);
+            return panel;
         }
     }
     private static class QualityRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
+        private static final long serialVersionUID = 1331841353063350382L;
+
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Quality quality = (Quality) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -116,7 +154,8 @@ class TableRenderers {
         }
     }
     private static class DurationRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
+        private static final long serialVersionUID = -614495795501324589L;
+
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final int duration = (Integer) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -134,7 +173,8 @@ class TableRenderers {
 
     
     private static class DateAddedRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
+        private static final long serialVersionUID = 5247456238762520415L;
+
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Date dateAdded = (Date) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -148,7 +188,8 @@ class TableRenderers {
     }
 
     private static class ResolutionRenderer extends DefaultTableCellRenderer {
-        private static final long serialVersionUID = 783309666699748436L;
+        private static final long serialVersionUID = 2629156722065858479L;
+
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Resolution resolution = (Resolution) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -162,7 +203,6 @@ class TableRenderers {
     }
 
 //  private static class Renderer extends DefaultTableCellRenderer {
-//      private static final long serialVersionUID = 783309666699748436L;
 //      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 //          final Movie movie = getMovie(table, row);
 //          final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

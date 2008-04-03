@@ -55,7 +55,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
         this.setMovie(null);
         this.txtRating.setEnabled(false);
         
-        BeanFactory.getInstance().getMovieDao().registerMovieDaoListener(this);
+        BeanFactory.getInstance().getMovieDao().addMovieDaoListener(this);
     }
     
     public void setMovie(Movie movie) {

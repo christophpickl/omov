@@ -31,7 +31,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     
     
     public MovieTableModel() {
-        BeanFactory.getInstance().getMovieDao().registerMovieDaoListener(this);
+        BeanFactory.getInstance().getMovieDao().addMovieDaoListener(this);
         this.reloadData();
     }
 
@@ -62,7 +62,6 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
             throw new FatalException("Could not reload data for MovieTable", e);
         }
         
-//        this.doSort(this.lastSortColumn);
         this.fireTableDataChanged();
     }
 

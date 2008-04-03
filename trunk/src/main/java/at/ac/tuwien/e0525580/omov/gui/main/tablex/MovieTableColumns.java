@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
+import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 
 public class MovieTableColumns {
 
+    static String COVER_COLUMN_LABEL = "Cover";
+    
     private static final List<String> COLUMN_NAMES;
-    private static final List<MovieTableColumn> COLUMNS;
+    private static final List<IMovieTableColumn> COLUMNS;
     static {
-        final List<MovieTableColumn> columns = new ArrayList<MovieTableColumn>();
+        final List<IMovieTableColumn> columns = new ArrayList<IMovieTableColumn>();
 
-        // FEATURE add coverFile as tablecolumn (mantis: 7)
+        columns.add(new MovieCoverColumn(                     )        { public Object getValue(Movie movie) { return ColumnsCoverFactory.getInstance().getImage(movie); } });
         
         columns.add(new MovieTableColumn(MovieField.TITLE, 100)        { public Object getValue(Movie movie) { return movie.getTitle(); } });
         columns.add(new MovieTableColumn(MovieField.RATING, 60)        { public Object getValue(Movie movie) { return movie.getRating(); } });
@@ -34,7 +39,7 @@ public class MovieTableColumns {
                                                                     public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
         
         final List<String> columnNames = new ArrayList<String>(columns.size());
-        for (MovieTableColumn column : columns) {
+        for (IMovieTableColumn column : columns) {
             columnNames.add(column.getLabel());
         }
         
@@ -44,7 +49,7 @@ public class MovieTableColumns {
     
 
 
-    static List<MovieTableColumn> getColumns() {
+    static List<IMovieTableColumn> getColumns() {
         return COLUMNS;
     }
 
@@ -52,9 +57,16 @@ public class MovieTableColumns {
         return COLUMN_NAMES;
     }
     
+
     
+    static interface IMovieTableColumn {
+        String getLabel();
+        Class getColumnClass();
+        int getPrefWidth();
+        Object getValue(Movie movie);
+    }
     
-    abstract static class MovieTableColumn {
+    private abstract static class MovieTableColumn implements IMovieTableColumn {
         private final MovieField field;
         private final int prefWidth;
         private MovieTableColumn(MovieField field, int prefWidth) {
@@ -69,6 +81,22 @@ public class MovieTableColumns {
         }
         public int getPrefWidth() {
             return this.prefWidth;
+        }
+    }
+    
+    /** used in table displaying the thumbnail image (loaded by ColumnsCoverFactory) */
+    private abstract static class MovieCoverColumn implements IMovieTableColumn {
+        private MovieCoverColumn() {
+            
+        }
+        public String getLabel() {
+            return COVER_COLUMN_LABEL;
+        }
+        public Class getColumnClass() {
+            return ImageIcon.class;
+        }
+        public int getPrefWidth() {
+            return CoverFileType.THUMBNAIL.getMaxWidth();
         }
         public abstract Object getValue(Movie movie);
     }

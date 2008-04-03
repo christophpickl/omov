@@ -263,7 +263,7 @@ List <Cat> cats = db.query(new Predicate<Cat>() {
         LOG.debug("Notifying "+this.listeners.size()+" listeners finished.");
     }
     
-    public void registerMovieDaoListener(IMovieDaoListener listener) {
+    public void addMovieDaoListener(IMovieDaoListener listener) {
         LOG.debug("Registering movie listener: " + listener);
         this.listeners.add(listener);
 

@@ -182,10 +182,14 @@ public final class CoverUtil {
     
     
     public static ImageIcon getMovieCoverImage(Movie movie, CoverFileType coverType) {
+        if(movie.isCoverFileSet() == false) {
+            System.out.println("CoverUtil: returning null for movie coverimage because coverfile is not set."); // TODO sysout
+            return null;
+        }
         final File coverFile = new File(PreferencesDao.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
         LOG.debug("Loading cover image from '"+coverFile.getAbsolutePath()+"'.");
         // !!! coverFile can be not existing, if currently invoking moviedao-listeners (see: MainWindowController.doEditMovie inconsistency)
-        ImageIcon result = new ImageIcon(Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath()));
+        ImageIcon result = new ImageIcon(Toolkit.getDefaultToolkit().createImage(coverFile.getAbsolutePath())); // use createImage instead of getImage to avoid caching
         return result;
     }
     

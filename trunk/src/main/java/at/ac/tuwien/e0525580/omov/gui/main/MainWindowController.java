@@ -183,6 +183,7 @@ public final class MainWindowController extends CommonController implements IRem
                 GuiUtil.error(this.mainWindow, "Edit failed", "Could not edit movie '"+originalMovie.getTitle()+"'!");
             }
             LOG.debug("doEditMovie finished");
+            this.mainWindow.reloadTableData();
         } else {
             LOG.debug("doEditMovie aborted by user");
         }
