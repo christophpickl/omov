@@ -43,6 +43,7 @@ public final class GuiUtil {
 
     private static final Log LOG = LogFactory.getLog(GuiUtil.class);
 
+    private static final int META_MASK = (UserSniffer.isMacOSX() ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_MASK );
 
     private static final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
     private static final Cursor HAND_CURSOR = new Cursor(Cursor.HAND_CURSOR);
@@ -130,6 +131,13 @@ public final class GuiUtil {
     public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode) {
         return createMenuItem(menu, mnemonicChar, label, listener, keyCode, null);
     }
+    
+
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode, final Icon icon) {
+        return createMenuItem(menu, mnemonicChar, label, listener, keyCode, icon, META_MASK);
+    }
+    
+    
     /**
      * creates a new <code>JMenuItem</code>, initializes it, adds it to the given menu and returns it
      * @param menu where item should be added
@@ -137,7 +145,7 @@ public final class GuiUtil {
      * @param keyCode numeric representation of key to set accelerator (ignored if keyCode == -1)
      * @return ready to use menuitem
      */
-    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode, final Icon icon) {
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode, final Icon icon, final int mask) {
         LOG.debug("creating new menu item: label='"+label+"', listener='"+listener+"', keyCode='"+keyCode+"'");
         
         final JMenuItem item = (icon != null) ? new JMenuItem(label, icon) : new JMenuItem(label);
@@ -145,13 +153,11 @@ public final class GuiUtil {
         item.setMnemonic(mnemonicChar);
 
         if (keyCode != -1) {
-            int mask = InputEvent.CTRL_MASK;
+            
 //            if(label.equals(CMD_EXIT)) {
 //                mask |= InputEvent.SHIFT_MASK;
 //            }
-            if(UserSniffer.getOS() == UserSniffer.OS.MAC) {
-                mask = InputEvent.META_DOWN_MASK;
-            }
+            
             item.setAccelerator(KeyStroke.getKeyStroke(keyCode, mask));
         }
         
@@ -297,7 +303,7 @@ public final class GuiUtil {
         LOG.error("Application error! Shutdown...", e);
         GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
                                                  "The evil source is a "+e.getClass().getSimpleName()+".");
-        // FEATURE use swingx panel + collapsable details containing stack trace 
+        // FEATURE gui: use swingx panel + collapsable details containing stack trace 
         System.exit(1);
     }
 

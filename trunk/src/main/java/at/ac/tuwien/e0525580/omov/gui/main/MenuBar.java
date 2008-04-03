@@ -93,9 +93,11 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuFile() {
         final JMenu menu = new JMenu("File");
         
+        GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
+        menu.addSeparator();
         GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
         GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
-        GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
+        
         
         if(UserSniffer.isMacOSX() == false) {
             menu.addSeparator();
@@ -111,7 +113,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
         GuiUtil.createMenuItem(menu, 'N', CMD_NEW_MOVIE, this, KeyEvent.VK_N, ImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
         menu.addSeparator();
         GuiUtil.createMenuItem(menu, 'I', CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        GuiUtil.createMenuItem(menu, 'D', CMD_DELETE_MOVIE, this, KeyEvent.VK_D, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
+        GuiUtil.createMenuItem(menu, 'D', CMD_DELETE_MOVIE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
         GuiUtil.createMenuItem(menu, 'M', CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         
         if(UserSniffer.isMacOSX()) {

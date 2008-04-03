@@ -33,7 +33,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 
     private final JTextField inpTitle = new JTextField(15);
 
-    // FEATURE do not show this combox + cut off "of" part of "of the following criteria" -> IF only one criterion is present!
+    // FEATURE smartfolder gui: do not show this combox + cut off "of" part of "of the following criteria" -> IF only one criterion is present!
     private final JComboBox inpAllAny = new JComboBox(CollectionUtil.asArray("all", "any"));
 
     private final JPanel rowWrapPanel = new JPanel();

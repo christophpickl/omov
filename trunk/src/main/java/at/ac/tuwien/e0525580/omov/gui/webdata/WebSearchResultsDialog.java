@@ -166,7 +166,7 @@ public class WebSearchResultsDialog extends JDialog {
         final WebSearchResult searchResult = this.listModel.getResultAt(this.list.getSelectedIndex());
         
         assert(this.searchResultPanels.get(searchResult) == null);
-        // FEATURE if fetching metadata (which takes a few moments) show modal dialog + start thread
+        // FEATURE websearch: if fetching metadata (which takes a few moments) show modal dialog + start thread
         final IWebExtractor ex = new WebImdbExtractor();
         try {
             LOG.info("Fetching details for searchresult '"+searchResult+"'");

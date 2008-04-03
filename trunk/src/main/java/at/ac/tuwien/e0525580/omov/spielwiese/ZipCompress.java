@@ -40,14 +40,13 @@ public class ZipCompress {
         zipout.close();
     }
     
-    public static void unzip() throws Exception {
+//    public static void unzip() throws Exception {
 //        ZipFile zip = new ZipFile(new File("/zip/myzip.zip"));
-        // TODO implement unzip method
         
 //        ZipEntry entry = zip.getEntry("asdf.script");
 //        InputStream in = zip.getInputStream(entry);
         // ...
-    }
+//    }
     
     public static void gzip() throws Exception {
         System.out.println("gzip()");

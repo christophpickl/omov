@@ -100,6 +100,13 @@ public abstract class AbstractAddEditDialog<T> extends JDialog {
         this.actionConfirmed = true;
         this.dispose();
     }
+    /**
+     * used by prev/next buttons in movie dialog
+     */
+    protected final void doConfirmWithoutDispose() {
+        LOG.debug("doConfirmWithoutDispose()");
+        this.actionConfirmed = true;
+    }
     
     public final boolean isActionConfirmed() {
         return this.actionConfirmed;

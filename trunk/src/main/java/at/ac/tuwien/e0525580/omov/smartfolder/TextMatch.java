@@ -44,7 +44,7 @@ public abstract class TextMatch extends AbstractMatch<String> {
                 String string = this.getValueAt(0);
                 return query.constrain(string).startsWith(false).and(
                        query.constrain(string).endsWith(false).and(
-                       query.constrain(string).like())); // TODO how to compare for case-INsensitive equality using db4o?
+                       query.constrain(string).like())); // TODO db4o: how to compare for case-INsensitive equality using db4o?
             }
         };
     }

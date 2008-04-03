@@ -117,8 +117,6 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         });
         
         this.initContextMenu();
-        
-        // FEATURE hitting backspace when row(s) selected should delete (first confirm) movie
     }
     
     private void updatePrefColumnVisibility() {
@@ -146,7 +144,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         FinderReveal.addRevealJMenuItem(itemsSingle, CMD_REVEAL);
         VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
-        // TODO en-/disable menuitems if e.g.: movie got no moviefiles, disable play in vlc 
+        // TODO gui: en-/disable menuitems if e.g.: movie got no moviefiles, disable play in vlc 
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT);

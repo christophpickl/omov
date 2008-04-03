@@ -94,7 +94,7 @@ public class DuplicatesFinderDialog extends JDialog {
     }
     
     private void doDelete() {
-        // TODO if deleting one of two doubletten, remove that other from table afterwards (because its no doublette anymore!)
+        // TODO doubletten: if deleting one of two doubletten, remove that other from table afterwards (because its no doublette anymore!)
         final int selectedRow = this.table.getSelectedRow();
         LOG.debug("Deleting duplicate; selectedRow="+selectedRow);
         

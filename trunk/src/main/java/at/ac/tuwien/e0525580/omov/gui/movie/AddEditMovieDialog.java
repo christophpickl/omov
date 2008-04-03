@@ -16,6 +16,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
+import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
@@ -26,7 +27,7 @@ import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
-    // FEATURE preselect added/edited movie in MainMovieTable
+    // FEATURE movietable: preselect added/edited movie in MainMovieTable
 
     private static final Log LOG = LogFactory.getLog(AddEditMovieDialog.class);
     private static final long serialVersionUID = -499631022640948375L;
@@ -170,27 +171,42 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     
     private void doShowNextMovie() {
         LOG.debug("doShowNextMovie()");
+        this.doConfirmWithoutDispose();
+        final Movie oldMovie = this.getConfirmedObject();
+        
         this.moviePrevNextIndex++;
         if(this.moviePrevNextIndex == moviePrevNextCount - 1) {
             this.btnNext.setEnabled(false);
         }
-        this.setNewPrevNextMovie();
+        this.setNewPrevNextMovie(oldMovie);
         if(this.btnPrev.isEnabled() == false) this.btnPrev.setEnabled(true);
     }
     private void doShowPrevMovie() {
         LOG.debug("doShowPrevMovie()");
+        this.doConfirmWithoutDispose();
+        final Movie oldMovie = this.getConfirmedObject();
+        
         this.moviePrevNextIndex--;
         if(this.moviePrevNextIndex == 0) {
             this.btnPrev.setEnabled(false);
         }
-        this.setNewPrevNextMovie();
+        this.setNewPrevNextMovie(oldMovie);
         if(this.btnNext.isEnabled() == false) this.btnNext.setEnabled(true);
     }
     
-    private void setNewPrevNextMovie() {
+    private void setNewPrevNextMovie(Movie oldMovie) {
+        try {
+            LOG.info("Updating old movie because prev/next button was hit; old movie: " + oldMovie);
+            BeanFactory.getInstance().getMovieDao().updateMovie(oldMovie);
+        } catch (BusinessException e) {
+            // FEATURE gui: use own icon for different topics; e.g.: coure source/pref source, network, user input, fatal
+            GuiUtil.error(this, "Core Source Error", "Could not update recent movie!\nChanges were lost, sorry for that dude...");
+        }
+        
+        
         final Movie newMovie = this.prevNextProvider.getMovieAt(this.moviePrevNextIndex);
         LOG.info("displaying new movie: " + newMovie);
-        // FEATURE if prev/next moviebtn hit -> update movie in database automatically
+        
         this.initEditMovie(newMovie, this.tabbedPane.getSelectedIndex());
     }
     

@@ -233,7 +233,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     
     private void doScanStarted() {
         final File scanRoot = this.inpScanRoot.getSelectedDirectory();
-        final IWebExtractor extractor = this.inpFetchMetadata.isSelected() ? new WebImdbExtractor() : null; // FEATURE make webextractor configurable
+        final IWebExtractor extractor = this.inpFetchMetadata.isSelected() ? new WebImdbExtractor() : null; // FEATURE websearch: make webextractor configurable
         this.btnScan.setEnabled(false);
         this.btnImport.setEnabled(false);
         this.getRootPane().setDefaultButton(this.btnImport);

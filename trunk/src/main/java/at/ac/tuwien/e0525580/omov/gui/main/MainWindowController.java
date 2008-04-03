@@ -153,15 +153,18 @@ public final class MainWindowController extends CommonController implements IRem
 
     // should be only invoked by menu bar
     public void doDeleteMovie() {
-        List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        LOG.debug("Delete method for menubar invoked.");
+        final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        
         if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
             GuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
-            return;
-        }
-        if(selectedMovies.size() == 1) {
+            
+        } else if(selectedMovies.size() == 1) {
             this.doDeleteMovie(selectedMovies.get(0));
+            
         } else {
-            GuiUtil.info(this.mainWindow, "Delete Movies", "Sorry, but movies can only deleted one by one."); // FEATURE make possible to delete more than one movie at the time
+            assert(selectedMovies.size() > 1);
+            this.doDeleteMovies(selectedMovies);
         }
     }
     

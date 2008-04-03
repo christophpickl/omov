@@ -150,7 +150,7 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
             this.movieModel.setSmartFolder(null);
             
         } else if(selectedLabel.equals(CMD_MANAGE)) {
-            this.comboBox.setSelectedIndex(0); // FEATURE wirklich auf index 0 ruecksetzen, wenn auf doManage-smartfolders geklickt hat?!
+            this.comboBox.setSelectedIndex(0); // FEATURE ??? wirklich auf index 0 ruecksetzen, wenn auf doManage-smartfolders geklickt hat?!
             this.doManage();
             
         } else {

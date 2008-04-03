@@ -34,7 +34,7 @@ public class BackupImportDialog extends JDialog implements ActionListener {
 
     private static final String CMD_IMPORT = "CMD_IMPORT";
     private static final String CMD_CLOSE = "CMD_CLOSE";
-    // FEATURE display list of movies which are stored in choosen backup file and let user select (checkbox) which movies should be imported
+    // FEATURE backup import: display list of movies which are stored in choosen backup file and let user select (checkbox) which movies should be imported
     
     private final BackupImportController controller;
 

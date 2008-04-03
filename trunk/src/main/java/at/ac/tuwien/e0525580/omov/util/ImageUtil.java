@@ -24,8 +24,6 @@ public class ImageUtil {
         
     }
     
-    // FEATURE wenn neue cover set auf movie -> file nicht 1:1 uebernehmen, sondern in verschiedene resized formate uebernehmen
-    
     public static WidthHeight recalcMaxWidthHeight(final int oldWidth, final int oldHeight, final int maxWidth, final int maxHeight) {
         final boolean DEBUG = false;
 
@@ -55,7 +53,7 @@ public class ImageUtil {
             if(DEBUG) System.out.println("ImageUtil: only width oversize");
             newWidth = maxWidth;
             newHeight = (int) ((double)oldHeight * ((double) maxWidth/oldWidth));
-        } else { // FEATURE maybe check also for too small?!
+        } else { // FEATURE iamgeutil: maybe check also for too small image size?
             if(DEBUG) System.out.println("ImageUtil: image to small; reusing old width and height");
             newHeight = oldHeight;
             newWidth = oldWidth;

@@ -116,7 +116,8 @@ public class Scanner implements IScanner {
         for (ScannedMovie originalMovie : originalMovies) {
             if(this.shouldStop) return null;
             
-            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie((Movie) originalMovie, true); // FEATURE always fetch cover if scanning?
+            // FEATURE scanner: always fetch cover if scanning?
+            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie((Movie) originalMovie, true);
             if(enhancedMovie != null) {
                 enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isSelected()));
             } else {
@@ -215,6 +216,11 @@ public class Scanner implements IScanner {
         return scanMovieFolderInfo(folder, null, null);
     }
     
+    
+//    private static void scanMovieFolder(File directory, Set<String> files, Set<String> formats) {
+//        
+//    }
+    
     public static MovieFolderInfo scanMovieFolderInfo(File folder, File scanRoot, List<ScanHint> hints) {
         LOG.info("scanning movie '"+folder.getAbsolutePath()+"'...");
         
@@ -226,7 +232,7 @@ public class Scanner implements IScanner {
         final Set<String> formats = new HashSet<String>();
         for(File file : folder.listFiles()) { // TODO maybe do not only list files directly below movie folder, but also check for subitems in subdirectories (recursive)
             if(file.isDirectory()) {
-                if(hintsEnabled) hints.add(ScanHint.warning("Illegal subdirectory: " + path(file, scanRoot)));
+                // directory 
                 continue;
             }
             final String fileExtension = FileUtil.extractExtension(file);

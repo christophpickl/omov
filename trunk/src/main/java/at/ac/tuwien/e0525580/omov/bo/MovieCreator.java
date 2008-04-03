@@ -20,7 +20,7 @@ public class MovieCreator {
     // general
     private String title;
     private boolean seen;
-    private int rating;
+    private int rating = -1;
     private String coverFile;
     private Set<String> genres;
     private Set<String> languages;
@@ -29,17 +29,17 @@ public class MovieCreator {
     // detail
     private String director;
     private Set<String> actors;
-    private int year;
+    private int year = -1;
     private String comment;
     private Quality quality;
     private Date dateAdded;
     
     // technical
-    private long fileSizeKb;
+    private long fileSizeKb = -1;
     private String folderPath;
     private String format;
     private Set<String> files;
-    private int duration;
+    private int duration = -1;
     private Resolution resolution; // may be null
     private Set<String> subtitles;
     
@@ -129,38 +129,60 @@ public class MovieCreator {
     // general
     public MovieCreator title(String input) {
         if(input == null) throw new NullPointerException("title");
+        if(this.title != null) throw new IllegalStateException("title already set to '"+this.title+"'.");
+        
         this.title = input; return this;
     }
+    
     public MovieCreator seen(boolean input) {
+        // TODO :( too bad, how to check without wrapper?
         this.seen = input; return this;
     }
+    
     public MovieCreator rating(int input) {
         if(input < 0 || input > 5) throw new IllegalArgumentException("rating: " + input);
+        if(this.rating != -1) throw new IllegalStateException("rating already set to '"+this.rating+"'.");
+        
         this.rating = input; return this;
     }
+    
     public MovieCreator coverFile(String input) {
         LOG.debug("setting coverFile to '"+input+"'");
         if(input == null) throw new NullPointerException("coverFile");
+        if(this.coverFile != null) throw new IllegalStateException("coverFile already set to '"+this.coverFile+"'.");
+        
         this.coverFile = input; return this;
     }
+    
     public MovieCreator genres(String... input) {
         if(input == null) throw new NullPointerException("genres");
+        if(this.genres != null) throw new IllegalStateException("genres already set to '"+this.genres+"'.");
+        
         this.genres = CollectionUtil.asStringSet(input); return this;
     }
+    
     public MovieCreator genres(Set<String> input) {
         if(input == null) throw new NullPointerException("genres");
+        if(this.genres != null) throw new IllegalStateException("genres already set to '"+this.genres+"'.");
+        
         this.genres = input; return this;
     }
     public MovieCreator languages(String... input) {
         if(input == null) throw new NullPointerException("languages");
+        if(this.languages != null) throw new IllegalStateException("languages already set to '"+this.languages+"'.");
+        
         this.languages = CollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator languages(Set<String> input) {
         if(input == null) throw new NullPointerException("languages");
+        if(this.languages != null) throw new IllegalStateException("languages already set to '"+this.languages+"'.");
+        
         this.languages = input; return this;
     }
     public MovieCreator style(String input) {
         if(input == null) throw new NullPointerException("style");
+        if(this.style != null) throw new IllegalStateException("style already set to '"+this.style+"'.");
+        
         this.style = input; return this;
     }
     
@@ -169,29 +191,44 @@ public class MovieCreator {
 
     public MovieCreator director(String input) {
         if(input == null) throw new NullPointerException("director");
+        if(this.director != null) throw new IllegalStateException("director already set to '"+this.director+"'.");
+        
         this.director = input; return this;
     }
     public MovieCreator actors(Set<String> input) {
         if(input == null) throw new NullPointerException("actors");
+        if(this.actors != null) throw new IllegalStateException("actors already set to '"+this.actors+"'.");
+        
         this.actors = input; return this;
     }
     public MovieCreator actors(String... input) {
         if(input == null) throw new NullPointerException("actors");
+        if(this.actors != null) throw new IllegalStateException("actors already set to '"+this.actors+"'.");
+        
         this.actors = CollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator year(int input) {
         if(input < 0 || input >= 3000) throw new IllegalArgumentException("year: " + input);
+        if(this.year != -1) throw new IllegalStateException("year already set to '"+this.year+"'.");
+        
         this.year = input; return this;
     }
     public MovieCreator comment(String input) {
         if(input == null) throw new NullPointerException("comment");
+        if(this.comment != null) throw new IllegalStateException("comment already set to '"+this.comment+"'.");
+        
         this.comment = input; return this;
     }
     public MovieCreator quality(Quality input) {
+        if(input == null) throw new NullPointerException("quality");
+        if(this.quality != null) throw new IllegalStateException("quality already set to '"+this.quality+"'.");
+        
         this.quality = input; return this;
     }
     public MovieCreator dateAdded(Date input) {
         if(input == null) throw new NullPointerException("dateAdded");
+        if(this.dateAdded != null) throw new IllegalStateException("dateAdded already set to '"+this.dateAdded+"'.");
+        
         this.dateAdded= input; return this;
     }
     
@@ -199,38 +236,56 @@ public class MovieCreator {
     
     public MovieCreator fileSizeKb(long input) {
         if(input < 0) throw new IllegalArgumentException("fileSizeKb: " + input);
+        if(this.fileSizeKb != -1) throw new IllegalStateException("fileSizeKb already set to '"+this.fileSizeKb+"'.");
+        
         this.fileSizeKb = input; return this;
     }
     public MovieCreator folderPath(String input) {
         if(input == null) throw new NullPointerException("folderPath");
+        if(this.folderPath != null) throw new IllegalStateException("folderPath already set to '"+this.folderPath+"'.");
+        
         this.folderPath = input; return this;
     }
     public MovieCreator format(String input) {
         if(input == null) throw new NullPointerException("format");
+        if(this.format != null) throw new IllegalStateException("format already set to '"+this.format+"'.");
+        
         this.format = input; return this;
     }
     public MovieCreator files(String... input) {
         if(input == null) throw new NullPointerException("files");
+        if(this.files != null) throw new IllegalStateException("files already set to '"+this.files+"'.");
+        
         this.files = CollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator files(Set<String> input) {
         if(input == null) throw new NullPointerException("files");
+        if(this.files != null) throw new IllegalStateException("files already set to '"+this.files+"'.");
+        
         this.files = input; return this;
     }
     public MovieCreator duration(int input) {
         if(input < 0) throw new IllegalArgumentException("duration: " + input);
+        if(this.duration != -1) throw new IllegalStateException("duration already set to '"+this.duration+"'.");
+        
         this.duration = input; return this;
     }
     public MovieCreator resolution(Resolution input) {
         if(input == null) throw new NullPointerException("resolution");
+        if(this.resolution != null) throw new IllegalStateException("resolution already set to '"+this.resolution+"'.");
+        
         this.resolution = input; return this;
     }
     public MovieCreator subtitles(String... input) {
         if(input == null) throw new NullPointerException("subtitles");
+        if(this.subtitles != null) throw new IllegalStateException("subtitles already set to '"+this.subtitles+"'.");
+        
         this.subtitles = CollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator subtitles(Set<String> input) {
         if(input == null) throw new NullPointerException("subtitles");
+        if(this.subtitles != null) throw new IllegalStateException("subtitles already set to '"+this.subtitles+"'.");
+        
         this.subtitles = input; return this;
     }
 }

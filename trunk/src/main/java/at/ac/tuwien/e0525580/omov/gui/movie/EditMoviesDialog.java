@@ -68,7 +68,6 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
     public EditMoviesDialog(JFrame owner, List<Movie> editMovies) {
         super(owner, editMovies);
         
-        // FEATURE if all editMovies have one attribute in common, set its value and preselect the checkbox
         this.tabInfo = new MovieTabInfo(this, editMovies);
         this.tabDetails = new MovieTabDetails(this, editMovies);
         this.tabNotes = new MovieTabNotes(this, editMovies);

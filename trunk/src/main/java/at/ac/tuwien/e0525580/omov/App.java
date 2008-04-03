@@ -101,7 +101,7 @@ public class App {
                 System.exit(1);
             }
     
-            // FEATURE check file consistency at startup; for each movie/directory: check if files still exist (mantis: 2)
+            // FEATURE filecheck: check file consistency at startup; for each movie/directory: check if files still exist (mantis: 2)
             //         -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
             
             TemporaryFilesCleaner.clean();
@@ -206,7 +206,7 @@ public class App {
                                 "does not match with the expected version!");
                 
                 
-                
+                // FEATURE write more external plugins: fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
                 
                 // FIXME startup preference source data converter (if available)
                 // FIXME writer automatic converter v1 to v2 for Preferences Source (because new field 'should check application version at startup')

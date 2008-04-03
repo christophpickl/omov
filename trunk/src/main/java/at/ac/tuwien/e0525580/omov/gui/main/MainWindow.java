@@ -3,6 +3,9 @@ package at.ac.tuwien.e0525580.omov.gui.main;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -142,17 +145,27 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         
         this.moviesTable.addTableSelectionListener(this);
         
-//        this.moviesTable.addKeyListener(new KeyListener() {
-//            public void keyPressed(KeyEvent event) { }
-//            public void keyReleased(KeyEvent event) {
-//                final int code = event.getKeyCode();
-//                if(code == KeyEvent.VK_UP || code == KeyEvent.VK_DOWN) {
-//                    selectedMovieChanged();
-//                }
-//            }
-//            public void keyTyped(KeyEvent event) { }
-//        });
+        this.moviesTable.addKeyListener(new KeyListener() {
+            public void keyPressed(KeyEvent event) { }
+            public void keyReleased(KeyEvent event) {
+                final int code = event.getKeyCode();
+                if(code == KeyEvent.VK_BACK_SPACE) {
+                    
+                    final List<Movie> selectedMovies = getSelectedMovies();
+                    if(selectedMovies.size() == 1) {
+                        controller.doDeleteMovie(selectedMovies.get(0));
+                    } else if(selectedMovies.size() > 1) {
+                        controller.doDeleteMovies(selectedMovies);
+                    } else {
+                        assert (selectedMovies.size() == 0);
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                }
+            }
+            public void keyTyped(KeyEvent event) { }
+        });
     }
+    
     void reloadTableData() {
         LOG.debug("Reloading main movietable data.");
         this.moviesModel.movieDataChanged();

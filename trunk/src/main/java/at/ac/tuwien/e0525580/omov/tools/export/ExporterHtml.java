@@ -196,7 +196,7 @@ public class ExporterHtml implements IExporterHtml {
             
             final String currentDate = CURRENT_DATE_FORMAT.format(new Date());
             
-            // FEATURE den topbanner + die columnheader ganz oben absolut positionieren, damit man die nicht wegscrollen kann (also immer visible sind)
+            // FEATURE export html:  den topbanner + die columnheader ganz oben absolut positionieren, damit man die nicht wegscrollen kann (also immer visible sind)
             BufferedWriter writer = null;
             try {
                 LOG.debug("Opening writer for file '"+target.getAbsolutePath()+"'.");

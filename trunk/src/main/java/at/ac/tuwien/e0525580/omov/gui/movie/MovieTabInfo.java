@@ -41,7 +41,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final Log LOG = LogFactory.getLog(MovieTabInfo.class);
     private static final long serialVersionUID = -4273211406354799248L;
     
-    // TODO let inpTitle gain initial focus
+    // TODO gui: let inpTitle gain initial focus
     public final JTextField inpTitle = new MovieTitleSuggester(33);
     
     private final DurationPanel inpDuration;
@@ -156,7 +156,7 @@ class MovieTabInfo extends AbstractMovieTab {
         c.anchor = GridBagConstraints.LINE_START;
         c.insets = new Insets(0, 0, 8, 0); // top left bottom right
         this.inpSeen.setHorizontalTextPosition(SwingConstants.LEFT);
-        panel.add(this.newInputComponent(this.inpSeen, MovieField.SEEN), c); // TODO inpSeen looks ugly
+        panel.add(this.newInputComponent(this.inpSeen, MovieField.SEEN), c); // TODO gui: inpSeen looks ugly
 
         c.gridx = 0;
         c.gridy = 2;

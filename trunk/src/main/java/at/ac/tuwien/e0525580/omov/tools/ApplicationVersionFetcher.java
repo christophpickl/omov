@@ -22,7 +22,7 @@ public class ApplicationVersionFetcher {
 
     private static final String END_OF_INPUT = "\\Z";
     
-    // FEATURE add checkInternetConnection() method
+    // FEATURE version checker: write checkInternetConnection() method
     public static VersionMinorMajor fetchVersion() throws BusinessException {
         LOG.info("Fetching version from url '"+WEB_URL+"'.");
         URL url = null;

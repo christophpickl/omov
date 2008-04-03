@@ -200,7 +200,7 @@ public class CoverSelector extends JPanel implements DropTargetListener {
         assert (this.isValidCoverFile(coverFile) == true) : "Only a valid coverfile may be set; was '" + coverFile.getAbsolutePath() + "'!";
         this.coverFile = coverFile;
         
-        // TODO check if this isnt an already stored image (x-120x160.jpg) and if so, use it instead of resizing image
+        // TODO coverselector: check if this isnt an already stored image (x-120x160.jpg) and if so, use it instead of resizing image
         this.imagePanel.setImage(ImageUtil.getResizedCoverImage(this.coverFile, this.imagePanel, CoverFileType.NORMAL));
                 
         if (initialSet == false) {

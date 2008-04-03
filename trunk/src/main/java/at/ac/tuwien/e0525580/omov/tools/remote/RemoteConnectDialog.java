@@ -81,7 +81,7 @@ public class RemoteConnectDialog extends JDialog {
     }
     
     private void doClose() {
-        // FEATURE close connection in remote connection dialog
+        // FEATURE remote: close connection in remote connection dialog
         // either user entered "rot-X button" or pressed cancel-progress, or pressed same button with "close"-label, ... hmm :-/ anders machen!
         this.dispose();
     }
