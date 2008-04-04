@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.gui.FileSystemCheckDialog;
 import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
 import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindow;
@@ -20,14 +21,16 @@ import at.ac.tuwien.e0525580.omov.gui.preferences.VersionCheckDialog;
 import at.ac.tuwien.e0525580.omov.model.IDataVersionDao;
 import at.ac.tuwien.e0525580.omov.model.IDatabaseConnection;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
+import at.ac.tuwien.e0525580.omov.tools.FileSystemChecker;
 import at.ac.tuwien.e0525580.omov.tools.TemporaryFilesCleaner;
+import at.ac.tuwien.e0525580.omov.tools.FileSystemChecker.FileSystemCheckResult;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 /*
 
 CLI ARGs
 ==================================
-- "DEBUG_MENU" ... enables debug menubar entry
+- "DEBUG" ... enables debug menubar entry
 
 App FIXMES
 ==================================
@@ -79,8 +82,14 @@ public class App {
 
     
     public static void main(String[] args) {
-        App.cliArguments.addAll(Arrays.asList(args));
-        new App().startUp();
+        try {
+            App.cliArguments.addAll(Arrays.asList(args));
+            new App().startUp();
+        } catch(Exception e) {
+            e.printStackTrace();
+            LOG.fatal("Application could not startup!", e);
+            System.exit(1);
+        }
     }
     
     public App() {
@@ -122,9 +131,7 @@ public class App {
             }
             
 
-            // MANTIS [2] filecheck: check file consistency at startup; for each movie/directory: check if files still exist
-            //         -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
-            
+            App.checkFileSystem();
 
             LOG.debug("Startup nearly finished; displaying main window left.");
             final MainWindow mainWindow = new MainWindow();
@@ -145,6 +152,24 @@ public class App {
             
         } finally {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
+        }
+    }
+    
+    private static void checkFileSystem() {
+        if(PreferencesDao.getInstance().isStartupFilesystemCheck() == false) {
+            return;
+        }
+        LOG.info("Running automatic file system check.");
+        
+        try {
+            final FileSystemCheckResult result = FileSystemChecker.process();
+            if(result.isEverythingOkay() == false) {
+                new FileSystemCheckDialog(result).setVisible(true);
+            }
+            
+        } catch (BusinessException e) {
+            LOG.error("Filesystem check failed!", e);
+            GuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
         }
     }
     

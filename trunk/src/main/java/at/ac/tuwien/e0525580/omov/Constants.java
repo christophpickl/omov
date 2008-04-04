@@ -10,8 +10,13 @@ public class Constants {
     public static final Color COLOR_WINDOW_BACKGROUND = new Color(196, 196, 196);
 
     public static final String OMOV_WEBSITE_URL = "http://omov.sourceforge.net";
+
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
     
+
     private static File osxApplicationSupportFolderCache = null;
+    
+    
     
     
     private Constants() {
@@ -31,4 +36,10 @@ public class Constants {
         }
         return osxApplicationSupportFolderCache;
     }
+    
+//    public static Color getColorWindowBackground() {
+//        return COLOR_WINDOW_BACKGROUND;
+//    }
+    
+    // ... do same with other public attributes 
 }

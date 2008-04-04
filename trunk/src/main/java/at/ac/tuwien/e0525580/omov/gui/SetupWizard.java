@@ -30,6 +30,7 @@ import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
+import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
@@ -126,12 +127,26 @@ public class SetupWizard extends JDialog {
         c.insets = insetColRight;
         panel.add(this.inpUsername, c);
 
-        if(UserSniffer.isMacOSX() == true) {
-            final File omovAppSupport = Constants.getOsxApplicationSupportFolder();
+        
+        final File installedByMsiFile = new File("installed_by_msi");
+        final boolean isInstalledByMsi = installedByMsiFile.exists();
+        final boolean isOsX = UserSniffer.isMacOSX();
+        
+        if(isInstalledByMsi || isOsX) {
+            final File applicationFolder;
             
-            final File coversFolder = new File(omovAppSupport, "covers");
-            final File tempFolder = new File(omovAppSupport, "temp");
-            final File dataFolder = new File(omovAppSupport, "data");
+            if(isInstalledByMsi) {
+                final File parentFile = FileUtil.getParentByPath(installedByMsiFile);
+                LOG.debug("Parent folder of msi file (by path): " + parentFile); // ... installedByMsiFile.getParentFile() returned null somehow :(
+                applicationFolder = parentFile;
+            } else {
+                applicationFolder = Constants.getOsxApplicationSupportFolder();
+            }
+            
+            LOG.info("Setting application folder to '"+applicationFolder.getAbsolutePath()+"'.");
+            final File coversFolder = new File(applicationFolder, "covers");
+            final File tempFolder = new File(applicationFolder, "temp");
+            final File dataFolder = new File(applicationFolder, "data");
             
             this.inpFolderCovers.__unchecked_setFileOrDir(coversFolder);
             this.inpFolderTemporary.__unchecked_setFileOrDir(tempFolder);
@@ -233,6 +248,14 @@ public class SetupWizard extends JDialog {
         
         // finally store entered values in preferences source
         PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username, startupVersionCheck, startupFilesystemCheck);
+        
+        // delete temporary msi install hint file (if existing)
+        final File installedByMsiFile = new File("installed_by_msi");
+        if(installedByMsiFile.exists()) {
+            LOG.debug("Deleting temporary msi install hint file '"+installedByMsiFile.getAbsolutePath()+"'.");
+            installedByMsiFile.delete();
+        }
+        
         
         this.dispose();
     }

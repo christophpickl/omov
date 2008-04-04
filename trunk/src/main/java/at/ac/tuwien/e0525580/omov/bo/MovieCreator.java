@@ -135,7 +135,7 @@ public class MovieCreator {
     }
     
     public MovieCreator seen(boolean input) {
-        // TODO :( too bad, how to check without wrapper?
+        // :( too bad, how to check without a wrapper?
         this.seen = input; return this;
     }
     

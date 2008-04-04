@@ -35,6 +35,8 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     private static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
     private static final String CMD_CHECK_VERSION_NOW = "CMD_CHECK_VERSION_NOW";
     private static final String CMD_INP_STARTUP_VERSION = "CMD_INP_STARTUP_VERSION";
+    private static final String CMD_CHECK_FILESYSTEM_NOW = "CMD_CHECK_FILESYSTEM_NOW";
+    private static final String CMD_INP_STARTUP_FILESYSTEM = "CMD_INP_STARTUP_FILESYSTEM";
     private static final String CMD_CLOSE = "CMD_CLOSE";
     
 //    private static final String CMD_SERVER_START = "CMD_SERVER_START";
@@ -42,6 +44,9 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     
     private final PreferencesText inpUsername;
     private final JCheckBox inpStartupVersion = new JCheckBox("Check at startup");
+
+    private final JCheckBox inpStartupFileSystem = new JCheckBox("Check at startup");
+    
 //    private final PreferencesNumber inpServerPort;
 //    private final JButton btnStartStopServer = new JButton("Start");
     
@@ -112,15 +117,26 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         final JButton btnCheckVersion = new JButton("Check Now");
         btnCheckVersion.setActionCommand(CMD_CHECK_VERSION_NOW);
         btnCheckVersion.addActionListener(this);
+        
+        final JButton btnCheckFileSystem = new JButton("Check Now");
+        btnCheckFileSystem.setActionCommand(CMD_CHECK_FILESYSTEM_NOW);
+        btnCheckFileSystem.addActionListener(this);
 
         this.inpStartupVersion.setToolTipText("Whenever you start OurMovies a version check will be performed");
         this.inpStartupVersion.setActionCommand(CMD_INP_STARTUP_VERSION);
         this.inpStartupVersion.addActionListener(this);
         this.inpStartupVersion.setSelected(PreferencesDao.getInstance().isStartupVersionCheck());
+
+        this.inpStartupFileSystem.setToolTipText("Whenever you start OurMovies a filesystem check will be performed");
+        this.inpStartupFileSystem.setActionCommand(CMD_INP_STARTUP_FILESYSTEM);
+        this.inpStartupFileSystem.addActionListener(this);
+        this.inpStartupFileSystem.setSelected(PreferencesDao.getInstance().isStartupFilesystemCheck());
         
         btnClearPrefs.setOpaque(false);
         btnCheckVersion.setOpaque(false);
+        btnCheckFileSystem.setOpaque(false);
         this.inpStartupVersion.setOpaque(false);
+        this.inpStartupFileSystem.setOpaque(false);
         
         c.anchor = GridBagConstraints.FIRST_LINE_START;
 
@@ -151,6 +167,17 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         panelSoftwareUpdate.add(btnCheckVersion);
         panelSoftwareUpdate.add(this.inpStartupVersion);
         panel.add(panelSoftwareUpdate, c);
+
+
+        c.gridx = 0;
+        c.gridy++;
+        panel.add(new JLabel("FileSystem Check"), c);
+        c.gridx = 1;
+        final JPanel panelFileSystemCheck = new JPanel();
+        panelFileSystemCheck.setOpaque(false);
+         panelFileSystemCheck.add(btnCheckFileSystem);
+        panelFileSystemCheck.add(this.inpStartupFileSystem);
+        panel.add(panelFileSystemCheck, c);
 
         // ----------------------------
         
@@ -233,10 +260,18 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                 } else  if(cmd.equals(CMD_CHECK_VERSION_NOW)) {
                     preferencesController.doCheckApplicationVersion();
                     
+                } else  if(cmd.equals(CMD_CHECK_FILESYSTEM_NOW)) {
+                    preferencesController.doCheckFileSystem();
+                    
                 } else  if(cmd.equals(CMD_INP_STARTUP_VERSION)) {
                     final boolean isStartupVersionChecked = inpStartupVersion.isSelected();
                     LOG.debug("Storing preferences source value isStartupVersionChecked="+isStartupVersionChecked);
                     PreferencesDao.getInstance().setStartupVersionCheck(isStartupVersionChecked);
+                    
+                } else  if(cmd.equals(CMD_INP_STARTUP_FILESYSTEM)) {
+                    final boolean isStartupFileSystemChecked = inpStartupFileSystem.isSelected();
+                    LOG.debug("Storing preferences source value isStartupFileSystemChecked="+isStartupFileSystemChecked);
+                    PreferencesDao.getInstance().setStartupFilesystemCheck(isStartupFileSystemChecked);
                     
                 } else  if(cmd.equals(CMD_CLOSE)) {
                     doClose();

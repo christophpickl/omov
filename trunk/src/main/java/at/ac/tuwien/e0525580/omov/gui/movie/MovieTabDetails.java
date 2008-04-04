@@ -49,10 +49,10 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private List<String> files = new LinkedList<String>();
     private long fileSizeKb = 0L;
     private final ButtonMovieFolder btnMovieFolder = new ButtonMovieFolder(this.owner);
-    private final MultiColTextField lblPath = new MultiColTextField(" ", 22);
-    private final MultiColTextField lblFiles = new MultiColTextField(" ", 22);
-    private final JLabel lblSize = new JLabel(" ");
-    private final JLabel lblFormat = new JLabel(" ");
+    private final MultiColTextField lblPath = new MultiColTextField("", 22);
+    private final MultiColTextField lblFiles = new MultiColTextField("", 22);
+    private final JLabel lblSize = new JLabel("");
+    private final JLabel lblFormat = new JLabel("");
 
     
     public MovieTabDetails(AddEditMovieDialog owner, boolean isAddMode, Movie editMovie) {
@@ -287,6 +287,16 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         this.lblSize.setText(FileUtil.formatFileSize(folderInfo.getFileSizeKB()));
         this.lblFormat.setText(folderInfo.getFormat());
     }
+
+    public void notifyFolderCleared() {
+        this.files = new LinkedList<String>();
+        this.fileSizeKb = 0L;
+        
+        this.lblPath.setText("");
+        this.lblFiles.setText("");
+        this.lblSize.setText("");
+        this.lblFormat.setText("");
+    }
     
 
 
@@ -337,5 +347,6 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     public long getFileSizeKb() {
         return this.fileSizeKb;
     }
+
     
 }

@@ -79,6 +79,9 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
     private Component frame;
 
     private boolean coverChanged = false;
+    private Timer clickTimer;
+    private boolean doubleclick;
+    
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
@@ -91,8 +94,6 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
         frame.setVisible(true);
     }
-    private Timer clickTimer;
-    private boolean doubleclick;
     
     
     public CoverSelector(Component frame) {

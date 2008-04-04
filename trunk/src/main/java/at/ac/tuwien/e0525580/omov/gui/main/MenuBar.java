@@ -252,7 +252,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     
     private static class DebugMenu {
         public static void maybeAddYourself(JMenuBar bar) {
-            if(App.isArgumentSet(PreferencesDao.APPARG_DEBUG_MENU) == false) {
+            if(App.isArgumentSet(PreferencesDao.APP_ARG_DEBUG) == false) {
                 return;
             }
             LOG.info("adding debug menu.");
@@ -358,8 +358,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         this.itemMovieInfo.setEnabled(false);
         
         this.itemMovieFetchMetadata.setEnabled(false);
-        this.itemMoviePlayVlc.setEnabled(false);
-        this.itemMovieRevealFinder.setEnabled(false);
+        if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(false);
+        if(this.itemMovieRevealFinder != null) this.itemMovieRevealFinder.setEnabled(false);
     }
 
     public void selectionSingleChanged(Movie newSelectedMovie) {
@@ -370,8 +370,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         this.itemMovieInfo.setEnabled(true);
         
         this.itemMovieFetchMetadata.setEnabled(true);
-        this.itemMoviePlayVlc.setEnabled(true);
-        this.itemMovieRevealFinder.setEnabled(true);
+        if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(true);
+        if(this.itemMovieRevealFinder != null) this.itemMovieRevealFinder.setEnabled(true);
     }
 
     public void selectionMultipleChanged(List<Movie> newSelectedMovies) {
@@ -382,8 +382,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         this.itemMovieInfo.setEnabled(true);
         
         this.itemMovieFetchMetadata.setEnabled(false);
-        this.itemMoviePlayVlc.setEnabled(false);
-        this.itemMovieRevealFinder.setEnabled(false);
+        if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(false);
+        if(this.itemMovieRevealFinder != null) this.itemMovieRevealFinder.setEnabled(false);
     }
 
 }

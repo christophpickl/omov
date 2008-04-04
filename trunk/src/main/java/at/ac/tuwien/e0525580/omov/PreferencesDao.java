@@ -55,7 +55,7 @@ DATA VERSION HISTORY
     private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
     
     
-    public static final String APPARG_DEBUG_MENU = "DEBUG_MENU";
+    public static final String APP_ARG_DEBUG = "DEBUG";
     
     private PreferencesDao() {
         if(this.getSoredVersion() == DATA_VERSION) {
