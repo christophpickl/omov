@@ -19,7 +19,7 @@
 	<groupId>at.ac.tuwien.e0525580.omov</groupId>
 	<artifactId>OurMovies</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2-alpha</version>
+	<version>0.3-beta</version>
 	<name>OurMovies</name>
 	<url>http://maven.apache.org</url>
 
@@ -76,6 +76,12 @@
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
 			<version>2.3</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
