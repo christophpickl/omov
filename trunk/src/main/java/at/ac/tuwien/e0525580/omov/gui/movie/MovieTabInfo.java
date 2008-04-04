@@ -41,7 +41,6 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final Log LOG = LogFactory.getLog(MovieTabInfo.class);
     private static final long serialVersionUID = -4273211406354799248L;
     
-    // TODO gui: let inpTitle gain initial focus
     public final JTextField inpTitle = new MovieTitleSuggester(33);
     
     private final DurationPanel inpDuration;
@@ -55,18 +54,25 @@ class MovieTabInfo extends AbstractMovieTab {
     private final QualityField inpQuality;
     private final JTextField inpStyle = new MovieStyleSuggester(10);
 
+    void requestInitialFocus() {
+        this.inpTitle.requestFocusInWindow();
+    }
+    
     public MovieTabInfo(AddEditMovieDialog owner, boolean isAddMode, Movie editMovie) {
         super(owner, isAddMode, editMovie);
         
         final int duration = isAddMode ? 0 : editMovie.getDuration(); 
         this.inpDuration = new DurationPanel(Duration.newByTotal(duration));
+        this.inpDuration.setFocusSelection(true);
         
         final Resolution resolution = isAddMode ? Resolution.R0x0 : editMovie.getResolution();
         this.inpResolution = new ResolutionPanel(resolution);
+        this.inpResolution.setFocusSelection(true);
         
         this.inpRating = new RatingPanel(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
         this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
+        this.inpYear.setFocusSelection(true);
         
 //        final int preferredGenreHeight = Constants.COVER_IMAGE_HEIGHT;
         final int fixedCellWidth = 10;
@@ -76,7 +82,6 @@ class MovieTabInfo extends AbstractMovieTab {
         } else {
             this.inpGenre = new MovieGenresList(this.owner, fixedCellWidth);
         }
-        
         
         if(isAddMode == false) {
             this.inpTitle.setText(editMovie.getTitle());

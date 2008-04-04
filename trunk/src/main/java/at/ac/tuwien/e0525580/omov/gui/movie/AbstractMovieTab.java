@@ -55,6 +55,8 @@ abstract class AbstractMovieTab extends JPanel {
             if(movieField == MovieField.SEEN) {
                 result = new JPanel(new BorderLayout());
                 result.add(component, BorderLayout.WEST);
+            } else if(movieField == MovieField.DURATION) { 
+                result = new LabeledComponent(component, movieField.label(), BorderLayout.WEST);
             } else {
                 result = new LabeledComponent(component, movieField.label());
             }

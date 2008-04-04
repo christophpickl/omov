@@ -87,7 +87,7 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
     private void reloadData() {
         List<SmartFolder> smartFolders;
         try {
-            smartFolders = BeanFactory.getInstance().getSmartFolderDao().getAllSmartFolders();
+            smartFolders = BeanFactory.getInstance().getSmartFolderDao().getAllSmartFoldersSorted();
         } catch (BusinessException e) {
             throw new FatalException("Could not reload data for SmartFolder selection.", e);
         }

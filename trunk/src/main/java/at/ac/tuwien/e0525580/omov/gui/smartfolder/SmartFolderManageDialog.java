@@ -71,8 +71,6 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         this.smartFolderList.setVisibleRowCount(5);
-        // TODO set minimum width of smartfolder list
-//        this.smartFolderList.setMinimumSize(new Dimension(600, (int) this.smartFolderList.getPreferredSize().getHeight())); !! does not work !!
         this.smartFolderList.setModel(this.listModel);
         this.smartFolderList.addKeyListener(this.escapeDisposer);
         
@@ -208,7 +206,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         private void reloadData() {
             LOG.info("Reloading data...");
             try {
-                this.folders = dao.getAllSmartFolders();
+                this.folders = dao.getAllSmartFoldersSorted();
                 LOG.debug("Reloaded "+this.folders.size()+" smartfolders.");
                 this.fireContentsChanged(this, 0, this.folders.size()-1);
             } catch (BusinessException e) {

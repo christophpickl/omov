@@ -2,6 +2,7 @@ package at.ac.tuwien.e0525580.omov.smartfolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -18,6 +19,11 @@ public class SmartFolder {
 
     public static final int DATA_VERSION = 1;
     
+    public static final Comparator<SmartFolder> COMPARATOR_NAME = new Comparator<SmartFolder>() {
+        public int compare(final SmartFolder o1, final SmartFolder o2) {
+            return o1.getName().compareTo(o2.getName());
+        }
+    };
     
     private final long id;
     private final String name;

@@ -303,7 +303,7 @@ public final class GuiUtil {
         LOG.error("Application error! Shutdown...", e);
         GuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
                                                  "The evil source is a "+e.getClass().getSimpleName()+".");
-        // FEATURE gui: use swingx panel + collapsable details containing stack trace 
+        // MANTIS [25] gui: use swingx panel + collapsable details containing stack trace 
         System.exit(1);
     }
 

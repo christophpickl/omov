@@ -20,14 +20,27 @@ public class PreferencesDao {
     
     private static final String MOVIE_COLUMN_PREFIX = "MovieColumn-";
     
-    private static final int DATA_VERSION = 1;
+
+/*
+
+DATA VERSION HISTORY
+
+===>   v1 -> v2
+- added:
+    * startup version check
+    * startup filesystem check
+
+
+ */
+    public static final int DATA_VERSION = 2;
     
     private enum PrefKey {
         IS_CONFIGURED,
         
         FOLDER_COVERS, FOLDER_TEMPORARY, FOLDER_DATA,
-        SERVER_PORT, USERNAME,
-        STARTUP_VERSION_CHECK,
+        // SERVER_PORT,
+        USERNAME,
+        STARTUP_VERSION_CHECK, STARTUP_FILESYSTEM_CHECK,
         
         RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH;
     }
@@ -38,20 +51,20 @@ public class PreferencesDao {
 //    private int serverPort;
     
     private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath, recentScanPath;
-    private boolean startupVersionCheck;
+    private boolean startupVersionCheck, startupFilesystemCheck;
     private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
     
     
     public static final String APPARG_DEBUG_MENU = "DEBUG_MENU";
     
     private PreferencesDao() {
-        if(this.isConfigured() == PreferenceSourceState.IS_COMPATIBLE) {
+        if(this.getSoredVersion() == DATA_VERSION) {
             this.loadPreferences();
         }
     }
     
-    public void setPreferences(String folderCovers, String folderTemporary, String folderData, String username, boolean checkVersionStartup) {
-        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';folderData='"+folderData+"').");
+    public void setPreferences(String folderCovers, String folderTemporary, String folderData, String username, boolean checkVersionStartup, boolean checkFilesystemStartup) {
+        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';folderData='"+folderData+"';checkVersionStartup='"+checkVersionStartup+"';checkFilesystemStartup='"+checkFilesystemStartup+"').");
         
         assert(folderCovers != null && folderTemporary != null && username != null);
         assert(new File(folderCovers).exists() && new File(folderTemporary).exists());
@@ -63,6 +76,8 @@ public class PreferencesDao {
 
         this.prefs.put(PrefKey.IS_CONFIGURED.name(), String.valueOf(DATA_VERSION));
         this.prefs.put(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(checkVersionStartup));
+        this.prefs.put(PrefKey.STARTUP_FILESYSTEM_CHECK.name(), Boolean.toString(checkFilesystemStartup));
+        
         this.flush();
         this.loadPreferences();
     }
@@ -74,6 +89,8 @@ public class PreferencesDao {
         this.folderData = prefs.get(PrefKey.FOLDER_DATA.name(), null);
         this.username = prefs.get(PrefKey.USERNAME.name(), null);
         this.startupVersionCheck = Boolean.valueOf(prefs.get(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(false)));
+        this.startupFilesystemCheck = Boolean.valueOf(prefs.get(PrefKey.STARTUP_FILESYSTEM_CHECK.name(), Boolean.toString(false)));
+        
 //        this.serverPort = prefs.getInt(KEY.SERVER_PORT.name(), 1789);
         
         this.recentExportDestination = prefs.get(PrefKey.RECENT_EXPORT_DESTINATION.name(), File.listRoots()[0].getAbsolutePath());
@@ -101,23 +118,26 @@ public class PreferencesDao {
         return INSTANCE;
     }
     
-    public static enum PreferenceSourceState {
-        IS_NOT_SET,
-        IS_VERSION_MISMATCH,
-        IS_COMPATIBLE;
-    }
-    public PreferenceSourceState isConfigured() {
+//    public PreferenceSourceState isConfigured() {
+//        final String storedVersion = this.prefs.get(PrefKey.IS_CONFIGURED.name(), null);
+//        LOG.debug("Checking preferences source version: stored="+storedVersion+"; application="+DATA_VERSION);
+//        if(storedVersion == null) {
+//            return PreferenceSourceState.IS_NOT_SET;
+//        }
+//        
+//        final int storedVersionInt = Integer.parseInt(storedVersion); 
+//        if(storedVersionInt != DATA_VERSION) {
+//            return PreferenceSourceState.IS_VERSION_MISMATCH;
+//        }
+//        return PreferenceSourceState.IS_COMPATIBLE;
+//    }
+    
+    public int getSoredVersion() {
         final String storedVersion = this.prefs.get(PrefKey.IS_CONFIGURED.name(), null);
-        LOG.debug("Checking preferences source version: stored="+storedVersion+"; application="+DATA_VERSION);
         if(storedVersion == null) {
-            return PreferenceSourceState.IS_NOT_SET;
+            return -1;
         }
-        
-        final int storedVersionInt = Integer.parseInt(storedVersion); 
-        if(storedVersionInt != DATA_VERSION) {
-            return PreferenceSourceState.IS_VERSION_MISMATCH;
-        }
-        return PreferenceSourceState.IS_COMPATIBLE;
+        return Integer.parseInt(storedVersion);
     }
     
     public static void clearPreferences() throws BusinessException {
@@ -159,10 +179,20 @@ public class PreferencesDao {
     public boolean isStartupVersionCheck() {
         return this.startupVersionCheck;
     }
-    public void setStartupVersionCheck(boolean startupVersionCheck) {
+    public void setStartupVersionCheck(final boolean startupVersionCheck) {
         LOG.debug("setting startupVersionCheck to '"+startupVersionCheck+"'.");
         this.prefs.put(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(startupVersionCheck));
         this.startupVersionCheck = startupVersionCheck;
+        this.flush();
+    }
+    
+    public boolean isStartupFilesystemCheck() {
+        return this.startupFilesystemCheck;
+    }
+    public void setStartupFilesystemCheck(final boolean startupFilesystemCheck) {
+        LOG.debug("setting startupFilesystemCheck to '"+startupFilesystemCheck+"'.");
+        this.prefs.put(PrefKey.STARTUP_FILESYSTEM_CHECK.name(), Boolean.toString(startupFilesystemCheck));
+        this.startupFilesystemCheck = startupFilesystemCheck;
         this.flush();
     }
     

@@ -26,7 +26,8 @@ public class Constants {
         
         if(osxApplicationSupportFolderCache == null) {
             final File userHome = new File(System.getProperty("user.home"));
-            osxApplicationSupportFolderCache = new File(userHome, "Library/Application Support/OurMovies"); // TODO not seperating between here means they might use the same files (e.g.: coverfolder/db-file will not be deleted) ... hm... :(
+            // not seperating between different versions, means that they will use the same files (e.g.: coverfolder/db-file will not be deleted) ... hm... :(
+            osxApplicationSupportFolderCache = new File(userHome, "Library/Application Support/OurMovies"); 
         }
         return osxApplicationSupportFolderCache;
     }

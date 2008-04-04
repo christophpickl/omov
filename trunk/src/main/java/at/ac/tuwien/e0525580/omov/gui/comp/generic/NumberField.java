@@ -1,6 +1,8 @@
 package at.ac.tuwien.e0525580.omov.gui.comp.generic;
 
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -36,6 +38,9 @@ public class NumberField extends JTextField {
 //    private final int maxColSize;
     private final boolean numberFieldConstructorFinished;
 
+    private boolean focusSelectionEnabled = false;
+    
+
     public NumberField(long initVal, long minVal, long maxVal) {
         this(initVal, minVal, maxVal, (""+maxVal).length() + 1);
     }
@@ -66,7 +71,25 @@ public class NumberField extends JTextField {
 //        if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 //            doBackspace();
 //        }}});
-        
+
+        this.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                doFocusGained();
+            }
+            public void focusLost(FocusEvent e) {
+                // nothing to do
+            }
+        });
+    }
+    
+    public void setFocusSelection(final boolean focusSelectionEnabled) {
+        this.focusSelectionEnabled = focusSelectionEnabled;
+    }
+    
+    private void doFocusGained() {
+        if(this.focusSelectionEnabled == true) {
+            this.selectAll();
+        }
     }
     
     public void setNumber(int number) {

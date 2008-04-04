@@ -7,7 +7,7 @@ public class ScannedMovie extends SelectableMovie {
 
     private static final long serialVersionUID = 3374310280498510658L;
     
-    // TODO private final boolean metadataFetched; ... oder so halt.
+    // TODO scanner: private final boolean metadataFetched; ... oder so halt.
 
     private ScannedMovie(Movie movie, boolean selected) {
         super(movie, selected);

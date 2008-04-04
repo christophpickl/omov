@@ -10,7 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-// TODO outsource common code (NumberMatch) into superclass (or something like that; factory, ...)
+// TODO code: outsource common code (NumberMatch) into superclass (or something like that; factory, ...)
 public abstract class RatingMatch extends AbstractMatch<Integer> {
 
     private static final Log LOG = LogFactory.getLog(RatingMatch.class);

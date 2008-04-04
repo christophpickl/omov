@@ -11,8 +11,12 @@ public class LabeledComponent extends JPanel {
 
     private static final long serialVersionUID = -3101237571525060234L;
     
-    
+
     public LabeledComponent(final Component component, final String labelText) {
+        this(component, labelText, BorderLayout.CENTER);
+    }
+    
+    public LabeledComponent(final Component component, final String labelText, final String borderLayoutPosition) {
         super(new BorderLayout());
         
         final JLabel label = new JLabel(labelText);
@@ -21,6 +25,6 @@ public class LabeledComponent extends JPanel {
         this.setOpaque(false);
         
         this.add(label, BorderLayout.NORTH);
-        this.add(component, BorderLayout.WEST);
+        this.add(component, borderLayoutPosition);
     }
 }

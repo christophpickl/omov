@@ -26,6 +26,11 @@ public class ResolutionPanel extends JPanel {
         this.initComponents();
     }
     
+    public void setFocusSelection(final boolean focusSelectionEnabled) {
+        this.inpWidth.setFocusSelection(focusSelectionEnabled);
+        this.inpHeight.setFocusSelection(focusSelectionEnabled);
+    }
+    
     private void initComponents() {
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();

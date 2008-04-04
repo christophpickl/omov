@@ -12,7 +12,6 @@ import javax.swing.UIManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.PreferencesDao.PreferenceSourceState;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.SetupWizard;
 import at.ac.tuwien.e0525580.omov.gui.SplashScreen;
@@ -44,6 +43,8 @@ TODOs
 
 FEATURES
 ==================================
+- write more external plugins: fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
+
 - beim tab durchgehen in AddEditMovieDialog -> gleich ganzen text selecten
 - suggester auch fuer einzelne attribute in AddEditMovieDialog (zb: resolution; sonst noch was?)
 - in preferences FolderPath-Prefix Cut list erstellbar machen: zb eintragen "/Volumes/MEGADISK/Holy/"
@@ -72,8 +73,6 @@ public class App {
     
     // TODO tests: write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
     
-    // TODO in movie dialog: if next widget gains focus via tab key, preselect whole textcontent
-    
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
@@ -88,6 +87,8 @@ public class App {
     }
     
     public void startUp() {
+        
+        JFrame.setDefaultLookAndFeelDecorated(true);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
             // UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
@@ -104,9 +105,6 @@ public class App {
                 LOG.warn("Checking preference source version failed!");
                 System.exit(1);
             }
-    
-            // FEATURE filecheck: check file consistency at startup; for each movie/directory: check if files still exist (mantis: 2)
-            //         -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
             
             TemporaryFilesCleaner.clean();
             App.addShutdownHook();
@@ -123,8 +121,12 @@ public class App {
                 dialog.setVisible(true);
             }
             
+
+            // MANTIS [2] filecheck: check file consistency at startup; for each movie/directory: check if files still exist
+            //         -> maybe check if other moviefiles were added; maybe also recalculate size if files changed;
+            
+
             LOG.debug("Startup nearly finished; displaying main window left.");
-            JFrame.setDefaultLookAndFeelDecorated(true);
             final MainWindow mainWindow = new MainWindow();
             
             final long timeLasted = new Date().getTime() - timeStart;
@@ -162,7 +164,7 @@ public class App {
             return true;
         }
         
-        // FIXME write converter and if none is available, ask for deletion (or display downloadlink for older version)
+        // MANTIS [21] write converte for core sources and if none is available, ask for deletion (or display downloadlink for older version)
         if(movieDataVersion != Movie.DATA_VERSION && smartfolderDataVersion != SmartFolder.DATA_VERSION) {
             GuiUtil.error("Datasource Version Mismatch", "It seems as you were using incompatible Movie and Preference Data Sources!\n" +
                     "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION + "\n" + 
@@ -191,8 +193,9 @@ public class App {
     private static boolean checkPreferenceSource() {
         LOG.debug("checking preference source...");
         try {
-            final PreferenceSourceState preferenceSourceState = PreferencesDao.getInstance().isConfigured();
-            if(preferenceSourceState == PreferenceSourceState.IS_NOT_SET) {
+            final int preferenceSourceData = PreferencesDao.getInstance().getSoredVersion();
+            LOG.debug("Stored preferences source version '"+preferenceSourceData+"'; application version in use '"+PreferencesDao.DATA_VERSION+"'.");
+            if(preferenceSourceData == -1) {
                 LOG.info("Preference datasource was not yet initialized; starting setup wizard.");
                 final SetupWizard wizard = new SetupWizard();
                 wizard.setVisible(true);
@@ -201,30 +204,38 @@ public class App {
                     LOG.info("User aborted setup.");
                     return false;
                 }
-                assert(PreferencesDao.getInstance().isConfigured() == PreferenceSourceState.IS_COMPATIBLE);
+                assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
                 
-            } else if(preferenceSourceState == PreferenceSourceState.IS_VERSION_MISMATCH) {
+            } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
                 GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source\n" +
                                 "does not match with the expected version!");
                 
                 
-                // FEATURE write more external plugins: fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
                 
-                // FIXME startup preference source data converter (if available)
-                // FIXME writer automatic converter v1 to v2 for Preferences Source (because new field 'should check application version at startup')
+                // MANTIS [23] startup preference source data converter, if available
+                // MANTIS [23] writer automatic converter v1 to v2 for Preferences Source, because new field 'should check application version at startup'
                 
-                LOG.info("FIXME startup preference source data converter (if available)");
-                // show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) 
+//                PreferenceSourceConverter converter = new PreferenceSourceConverter(preferenceSourceData, PreferencesDao.DATA_VERSION); 
+//                if(converter.isConvertable() == true) {
+//                    final IConverter realConverter = converter.getConverter();
+//                    realConverter.convertSource(PreferencesDao.getInstance());
+//                    LOG.info("Converted preferences source with converter '"+realConverter.getClass().getSimpleName()+"'.");
+//                    return true;
+//                }
+                
+                /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
+                if(GuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies immediatley to take effect?") == true) {
+                    PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
+                }
+                
+                return false; 
                 
                 
-                PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
-                return false;
-                
-            } else if(preferenceSourceState == PreferenceSourceState.IS_COMPATIBLE) {
+            } else if(preferenceSourceData == PreferencesDao.DATA_VERSION) {
                 LOG.debug("Perferences source dataversion is compatible; nothing to do.");
                 
             } else {
-                throw new FatalException("Unhandled preferences source state '"+preferenceSourceState.name()+"'!");
+                throw new FatalException("Unhandled preferences source version '"+preferenceSourceData+"'!");
             }
         } catch (Exception e) {
             LOG.error("Could not check/clear/set preferences!", e);

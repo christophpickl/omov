@@ -85,7 +85,7 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
 //            System.out.println("event.isMetaDown()     => " + event.isMetaDown());
             
             if(this.isKeyDown == true) {
-                // TODO look if this is really necessary anymore (since isPopupTrigger was added); otherwise remove this.
+                // TODO gui handling: look if this is really necessary anymore (since isPopupTrigger was added); otherwise remove this.
                 LOG.debug("SwingUtilities says right button, but actual only (meta-)key is down :/");
                 return;
             }

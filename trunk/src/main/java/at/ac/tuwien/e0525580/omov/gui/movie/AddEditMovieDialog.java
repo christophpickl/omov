@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -86,6 +88,12 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
             
             this.prevNextProvider = prevNextProvider;
         }
+
+        this.addWindowListener(new WindowAdapter() {
+            public void windowOpened(WindowEvent e) {
+                tabInfo.requestInitialFocus();
+            }
+        });
         
         final Movie editItem = (this.isAddMode() ? null : this.getEditItem()); 
         this.initEditMovie(editItem, 0);

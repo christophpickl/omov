@@ -24,7 +24,14 @@ public class DurationPanel extends JPanel {
         this.inpHours = new NumberField(duration.getHours(), 0,  99, columnSize);
         
         this.initComponents();
+        
     }
+    
+    public void setFocusSelection(final boolean focusSelectionEnabled) {
+        this.inpMin.setFocusSelection(focusSelectionEnabled);
+        this.inpHours.setFocusSelection(focusSelectionEnabled);
+    }
+
     
     private void initComponents() {
         GridBagLayout layout = new GridBagLayout();

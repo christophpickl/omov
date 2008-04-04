@@ -22,7 +22,7 @@ class ImportSwingWorker extends SwingWorker<String, String> {
     @Override
     protected String doInBackground() throws Exception {
         
-        // FEATURE maybe if movies skipped count > 1, display text in JTextArea (so text can be copied) which movies where skipped (title, folderpath)
+        // FEATURE backup import: maybe if movies skipped count > 1, display text in JTextArea (so text can be copied) which movies where skipped (title, folderpath)
         this.processResult = this.importer.process();
 
         

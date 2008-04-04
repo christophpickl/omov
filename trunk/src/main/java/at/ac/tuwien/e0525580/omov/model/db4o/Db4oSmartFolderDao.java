@@ -45,6 +45,13 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
         return Collections.unmodifiableList(new ObjectSetTransformer<SmartFolder>().transformList(os));
     }
 
+    public List<SmartFolder> getAllSmartFoldersSorted() throws BusinessException {
+        final ObjectSet<SmartFolder> os = this.objectContainer.query(SmartFolder.class);
+        final List<SmartFolder> list = new ObjectSetTransformer<SmartFolder>().transformMutableList(os);
+        Collections.sort(list, SmartFolder.COMPARATOR_NAME);
+        return Collections.unmodifiableList(list);
+    }
+
     public SmartFolder insertSmartFolder(SmartFolder smartFolder) {
         LOG.info("Inserting smartFolder: " + smartFolder);
         final int id = this.getNextSmartFolderId();

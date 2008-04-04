@@ -174,7 +174,7 @@ class ScanDialogController extends CommonController implements IScanListener {
         final boolean insertDatabase = false;
         
         try {
-            // FEATURE scanner: make scanner type configurable as plug-in (mantis: 8)
+            // MANTIS [8] scanner: make scanner type configurable as plug-in
             final IScanner scanner = new Scanner(this, scanRoot, insertDatabase, webExtractor);
             
             this.scanThread = new ScanThread(scanner);

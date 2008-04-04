@@ -6,8 +6,9 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 
 public interface ISmartFolderDao extends IDao {
-    
+
     List<SmartFolder> getAllSmartFolders() throws BusinessException;
+    List<SmartFolder> getAllSmartFoldersSorted() throws BusinessException;
     
     SmartFolder insertSmartFolder(SmartFolder smartFolder) throws BusinessException;
     void updateSmartFolder(SmartFolder smartFolder) throws BusinessException;

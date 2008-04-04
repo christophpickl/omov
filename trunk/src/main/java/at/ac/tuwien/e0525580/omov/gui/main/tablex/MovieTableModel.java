@@ -150,7 +150,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     }
 
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return false; // FEATURE table gui: make cells editable (mantis: 6)
+        return false; // MANTIS [6] gui: make cells editable
     }
     
 }

@@ -25,4 +25,12 @@ public class ObjectSetTransformer<T> {
         }
         return Collections.unmodifiableList(result);
     }
+
+    public List<T> transformMutableList(ObjectSet<T> os) {
+        final List<T> result = new LinkedList<T>();
+        while(os.hasNext()) {
+            result.add(os.next());
+        }
+        return result;
+    }
 }
