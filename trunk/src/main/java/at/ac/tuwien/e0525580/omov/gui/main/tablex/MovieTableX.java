@@ -22,6 +22,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
 
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
+import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
@@ -49,7 +50,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private static final int COVER_COLUMN_GAP = 8;
     static Color COLOR_SELECTED_BG = new Color(61, 128, 223);
     static Color COLOR_SELECTED_FG = Color.WHITE;
-    
+
+    private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
     private final IMovieTableContextMenuListener contextMenuListener;
     
     private final int defaultRowHeight;
@@ -109,9 +111,9 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
                 if(selectedRows == 0) {
                     MovieTableX.this.notifyChangedEmpty();
                 } else if(selectedRows == 1) {
-                    MovieTableX.this.notifyChangedSingle(MovieTableX.this.getSelectedRow());
+                    MovieTableX.this.notifyChangedSingle();
                 } else { // selected rows > 1
-                    MovieTableX.this.notifyChangedMultiple(MovieTableX.this.getSelectedRows());
+                    MovieTableX.this.notifyChangedMultiple();
                 }
             }
         });
@@ -156,6 +158,16 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         final int tableRow = this.getSelectedRow();
         if(tableRow == -1) return -1;
         return this.convertRowIndexToModel(tableRow);
+    }
+    
+    public int[] getSelectedModelRows() {
+        final int[] tableRows = this.getSelectedRows();
+        assert(tableRows.length > 1);
+        final int[] modelRows = new int[tableRows.length];
+        for (int i = 0; i < modelRows.length; i++) {
+            modelRows[i] = this.convertRowIndexToModel(tableRows[i]);
+        }
+        return modelRows;
     }
     
     public int[] convertRowIndicesToModel(final int[] tableRows) {
@@ -214,7 +226,6 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     
     
     
-    private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
     public void addTableSelectionListener(ITableSelectionListener listener) {
         LOG.info("adding selection listener: " + listener);
         this.selectionListeners.add(listener);
@@ -228,14 +239,24 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             listener.selectionEmptyChanged();
         }
     }
-    private void notifyChangedSingle(int row) {
+    private void notifyChangedSingle() {
+        final Movie newSelectedMovie = ((MovieTableModel) this.getModel()).getMovieAt(this.getSelectedModelRow());
+        
         for (ITableSelectionListener listener : this.selectionListeners) {
-            listener.selectionSingleChanged(row);
+            listener.selectionSingleChanged(newSelectedMovie);
         }
     }
-    private void notifyChangedMultiple(int[] rows) {
+    private void notifyChangedMultiple() {
+        final MovieTableModel model = ((MovieTableModel) this.getModel());
+        
+        final int[] rows = this.getSelectedModelRows();
+        final List<Movie> newSelectedMovies = new ArrayList<Movie>(rows.length);
+        for (int i = 0; i < rows.length; i++) {
+            newSelectedMovies.add(model.getMovieAt(rows[i]));
+        }
+        
         for (ITableSelectionListener listener : this.selectionListeners) {
-            listener.selectionMultipleChanged(rows);
+            listener.selectionMultipleChanged(newSelectedMovies);
         }
     }
 }

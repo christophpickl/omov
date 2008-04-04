@@ -65,7 +65,10 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         
 //        this.setPreferredSize(new Dimension(860, 520));
         
-        this.setJMenuBar(new MenuBar(this.controller));
+        final MenuBar menuBar = new MenuBar(this.controller);
+        this.moviesTable.addTableSelectionListener(menuBar);
+        
+        this.setJMenuBar(menuBar);
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
@@ -176,8 +179,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.movieDetailPanel.setMovie(null);
     }
 
-    public void selectionSingleChanged(int rowIndex) {
-        final Movie newSelectedMovie = this.moviesModel.getMovieAt(this.moviesTable.getSelectedModelRow());
+    public void selectionSingleChanged(final Movie newSelectedMovie) {
         LOG.debug("Another movie selected: " + newSelectedMovie);
         
         if(newSelectedMovie != null && newSelectedMovie.equals(this.selectedMovie)) {
@@ -189,7 +191,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.movieDetailPanel.setMovie(newSelectedMovie);
     }
 
-    public void selectionMultipleChanged(int[] rowIndices) {
+    public void selectionMultipleChanged(final List<Movie> newSelectedMovies) {
         this.selectedMovie = null;
         this.movieDetailPanel.setMovie(null);
     }

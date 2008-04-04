@@ -124,17 +124,17 @@ public final class GuiUtil {
         lockMinimumWindowSize(window, 0, window.getSize().height, false, true);
     }
     
-    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener) {
-        return createMenuItem(menu, mnemonicChar, label, listener, -1, null);
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, final String actionCmd, ActionListener listener) {
+        return createMenuItem(menu, mnemonicChar, label, actionCmd, listener, -1, null);
     }
     
-    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode) {
-        return createMenuItem(menu, mnemonicChar, label, listener, keyCode, null);
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, final String actionCmd, ActionListener listener, final int keyCode) {
+        return createMenuItem(menu, mnemonicChar, label, actionCmd, listener, keyCode, null);
     }
     
 
-    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode, final Icon icon) {
-        return createMenuItem(menu, mnemonicChar, label, listener, keyCode, icon, META_MASK);
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, final String actionCmd, ActionListener listener, final int keyCode, final Icon icon) {
+        return createMenuItem(menu, mnemonicChar, label, actionCmd, listener, keyCode, icon, META_MASK);
     }
     
     
@@ -145,10 +145,13 @@ public final class GuiUtil {
      * @param keyCode numeric representation of key to set accelerator (ignored if keyCode == -1)
      * @return ready to use menuitem
      */
-    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, ActionListener listener, final int keyCode, final Icon icon, final int mask) {
-        LOG.debug("creating new menu item: label='"+label+"', listener='"+listener+"', keyCode='"+keyCode+"'");
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, final String actionCmd, ActionListener listener, final int keyCode, final Icon icon, final int mask) {
+        LOG.debug("creating new menu item: label='"+label+"', actionCmd='"+actionCmd+"', listener='"+listener+"', keyCode='"+keyCode+"'");
+        if(label == null) throw new NullPointerException("label");
+        if(actionCmd == null) throw new NullPointerException("actionCmd");
         
         final JMenuItem item = (icon != null) ? new JMenuItem(label, icon) : new JMenuItem(label);
+        item.setActionCommand(actionCmd);
         if(listener != null) item.addActionListener(listener);
         item.setMnemonic(mnemonicChar);
 

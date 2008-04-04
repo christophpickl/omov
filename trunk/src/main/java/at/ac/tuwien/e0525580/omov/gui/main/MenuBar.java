@@ -26,6 +26,7 @@ import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
 import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
@@ -35,7 +36,7 @@ import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 
-public class MenuBar extends JMenuBar implements ActionListener {
+public class MenuBar extends JMenuBar implements ActionListener, ITableSelectionListener {
 
     private static final Log LOG = LogFactory.getLog(MenuBar.class);
     private static final long serialVersionUID = -140354789157881691L;
@@ -47,38 +48,75 @@ public class MenuBar extends JMenuBar implements ActionListener {
     
     
     // File
-    private static final String CMD_IMPORT = "Import ...";
-    private static final String CMD_EXPORT = "Export ...";
-    private static final String CMD_SMART_COPY = "Smart Copy...";
-    private static final String CMD_QUIT = "Quit";
+    private static final String LBL_IMPORT = "Import ...";
+    private static final String CMD_IMPORT = "CMD_IMPORT.";
+
+    private static final String LBL_EXPORT = "Export ...";
+    private static final String CMD_EXPORT = "CMD_EXPORT";
+
+    private static final String LBL_SMART_COPY = "Smart Copy...";
+    private static final String CMD_SMART_COPY = "CMD_SMART_COPY";
+
+    private static final String LBL_QUIT = "Quit";
+    private static final String CMD_QUIT = "CMD_QUIT";
 
     // Movie
-    private static final String CMD_NEW_MOVIE = "New Movie";
-    private static final String CMD_MOVIE_INFO = "Get Info";
-    private static final String CMD_DELETE_MOVIE = "Delete Movie";
-    private static final String CMD_MOVIE_REVEAL_FINDER = "Reveal in Finder";
-    private static final String CMD_MOVIE_PLAY_VLC = "Play in VLC";
-    private static final String CMD_FETCH_METADATA = "Fetch Metadata";
+    private static final String LBL_NEW_MOVIE = "New Movie";
+    private static final String CMD_NEW_MOVIE = "CMD_NEW_MOVIE";
+    
+    private static final String LBL_MOVIE_INFO = "Get Info";
+    private static final String LBL_MOVIES_INFO = "Get Infos";
+    private static final String CMD_MOVIE_INFO = "CMD_MOVIE_INFO";
+//    private static final String CMD_MOVIES_INFO = "CMD_MOVIES_INFO"; // CMD_MOVIE_INFO used for both: single and multiple
+
+    private static final String LBL_MOVIE_DELETE = "Delete Movie";
+    private static final String LBL_MOVIES_DELETE = "Delete Movies";
+    private static final String CMD_MOVIE_DELETE = "CMD_MOVIE_DELETE";
+    
+    private static final String LBL_MOVIE_REVEAL_FINDER = "Reveal in Finder";
+    private static final String CMD_MOVIE_REVEAL_FINDER = "CMD_MOVIE_REVEAL_FINDER";
+    
+    private static final String LBL_MOVIE_PLAY_VLC = "Play in VLC";
+    private static final String CMD_MOVIE_PLAY_VLC = "CMD_MOVIE_PLAY_VLC";
+    
+    private static final String LBL_FETCH_METADATA = "Fetch Metadata";
+    private static final String CMD_FETCH_METADATA = "CMD_FETCH_METADATA";
     
     // Window
     private static final String CMD_SHOW_XXX = "Show XXX";
     
     // Extras
-    private static final String CMD_SCAN = "Scan repository...";
-    private static final String CMD_FIND_DUPLICATES = "Find Duplicates";
-    private static final String CMD_PREFERENCES = "Preferences...";
+    private static final String LBL_SCAN = "Scan repository...";
+    private static final String CMD_SCAN = "CMD_SCAN";
+
+    private static final String LBL_FIND_DUPLICATES = "Find Duplicates";
+    private static final String CMD_FIND_DUPLICATES = "CMD_FIND_DUPLICATES";
+    
+    private static final String LBL_PREFERENCES = "Preferences...";
+    private static final String CMD_PREFERENCES = "CMD_PREFERENCES";
 //    private static final String CMD_REMOTE = "Remote";
 
     // Help
-    private static final String CMD_HELP = "Omov Help";
-    private static final String CMD_ABOUT = "About";
+    private static final String LBL_HELP = "Omov Help";
+    private static final String CMD_HELP = "CMD_HELP";
+    
+    private static final String LBL_ABOUT = "About";
+    private static final String CMD_ABOUT = "CMD_ABOUT";
     
     private final MainWindowController controller;
+
+    private JMenuItem itemMovieInfo;
+    private JMenuItem itemMovieDelete;
+    private JMenuItem itemMovieFetchMetadata;
+    private JMenuItem itemMovieRevealFinder;
+    private JMenuItem itemMoviePlayVlc;
+    
+    
     
     public MenuBar(MainWindowController controller) {
-        this.preferencesItem = GuiUtil.createMenuItem(null, 'P', CMD_PREFERENCES, this, KeyEvent.VK_P, ImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
-        this.aboutItem = GuiUtil.createMenuItem(null, 'A', CMD_ABOUT, this);
-        this.quitItem = GuiUtil.createMenuItem(null, 'Q', CMD_QUIT, this, KeyEvent.VK_Q);
+        this.preferencesItem = GuiUtil.createMenuItem(null, 'P', LBL_PREFERENCES, CMD_PREFERENCES, this, KeyEvent.VK_P, ImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
+        this.aboutItem = GuiUtil.createMenuItem(null, 'A', LBL_ABOUT, CMD_ABOUT, this);
+        this.quitItem = GuiUtil.createMenuItem(null, 'Q', LBL_QUIT, CMD_QUIT, this, KeyEvent.VK_Q);
         
         this.add(this.menuFile());
         this.add(this.menuMovie());
@@ -88,15 +126,16 @@ public class MenuBar extends JMenuBar implements ActionListener {
         DebugMenu.maybeAddYourself(this);
         
         this.controller = controller;
+        this.selectionEmptyChanged();
     }
 
     private JMenu menuFile() {
         final JMenu menu = new JMenu("File");
         
-        GuiUtil.createMenuItem(menu, 'S', CMD_SMART_COPY, this);
+        GuiUtil.createMenuItem(menu, 'S', LBL_SMART_COPY, CMD_SMART_COPY, this);
         menu.addSeparator();
-        GuiUtil.createMenuItem(menu, 'E', CMD_EXPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
-        GuiUtil.createMenuItem(menu, 'I', CMD_IMPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
+        GuiUtil.createMenuItem(menu, 'E', LBL_EXPORT, CMD_EXPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
+        GuiUtil.createMenuItem(menu, 'I', LBL_IMPORT, CMD_IMPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
         
         
         if(UserSniffer.isMacOSX() == false) {
@@ -110,19 +149,19 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuMovie() {
         final JMenu menu = new JMenu("Movie");
 
-        GuiUtil.createMenuItem(menu, 'N', CMD_NEW_MOVIE, this, KeyEvent.VK_N, ImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
+        GuiUtil.createMenuItem(menu, 'N', LBL_NEW_MOVIE, CMD_NEW_MOVIE, this, KeyEvent.VK_N, ImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
         menu.addSeparator();
-        GuiUtil.createMenuItem(menu, 'I', CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        GuiUtil.createMenuItem(menu, 'D', CMD_DELETE_MOVIE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
-        GuiUtil.createMenuItem(menu, 'M', CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        this.itemMovieInfo = GuiUtil.createMenuItem(menu, 'I', LBL_MOVIE_INFO, CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        this.itemMovieDelete = GuiUtil.createMenuItem(menu, 'D', LBL_MOVIE_DELETE, CMD_MOVIE_DELETE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
+        this.itemMovieFetchMetadata = GuiUtil.createMenuItem(menu, 'M', LBL_FETCH_METADATA, CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         
         if(UserSniffer.isMacOSX()) {
-            GuiUtil.createMenuItem(menu, 'R', CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
-            GuiUtil.createMenuItem(menu, 'V', CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+            this.itemMovieRevealFinder = GuiUtil.createMenuItem(menu, 'R', LBL_MOVIE_REVEAL_FINDER, CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+            this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
         menu.addSeparator();
         
-        GuiUtil.createMenuItem(menu, 'F', CMD_FIND_DUPLICATES, this);
+        GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this);
         
         return menu;
     }
@@ -131,7 +170,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuWindow() {
         final JMenu menu = new JMenu("Window");
         
-        GuiUtil.createMenuItem(menu, 'X', CMD_SHOW_XXX, this);
+        GuiUtil.createMenuItem(menu, 'X', "xxx", CMD_SHOW_XXX, this);
         
         return menu;
     }
@@ -139,7 +178,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuExtras() {
         final JMenu menu = new JMenu("Extras");
 
-        GuiUtil.createMenuItem(menu, 'S', CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
+        GuiUtil.createMenuItem(menu, 'S', LBL_SCAN, CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
 //      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
         if(UserSniffer.isMacOSX() == false) {
@@ -153,7 +192,7 @@ public class MenuBar extends JMenuBar implements ActionListener {
     private JMenu menuHelp() {
         final JMenu menu = new JMenu("Help");
 
-        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', CMD_HELP, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', LBL_HELP, CMD_HELP, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
         HelpSystem.enableHelp(helpItem, HelpEntry.HOME);
         
         if(UserSniffer.isMacOSX() == false) {
@@ -178,9 +217,9 @@ public class MenuBar extends JMenuBar implements ActionListener {
             } else if(cmd.equals(CMD_SMART_COPY)) {
                 controller.doSmartCopy();
             } else if(cmd.equals(CMD_MOVIE_INFO)) {
-                controller.doEditMovie();
-            } else if(cmd.equals(CMD_DELETE_MOVIE)) {
-                controller.doDeleteMovie();
+                controller.doEditMovie(); // either edits single or multiple movies
+            } else if(cmd.equals(CMD_MOVIE_DELETE)) {
+                controller.doDeleteMovie(); // either deletes single or multiple movies
             } else if(cmd.equals(CMD_FETCH_METADATA)) {
                 controller.doFetchMetaData();
             } else if(cmd.equals(CMD_IMPORT)) {
@@ -275,13 +314,13 @@ public class MenuBar extends JMenuBar implements ActionListener {
             }
             final PrefDialog prefDialog = new PrefDialog();
             
-            GuiUtil.createMenuItem(menu, 'P', "Show Preferences & Stuff", new ActionListener() {
+            GuiUtil.createMenuItem(menu, 'P', "Show Preferences & Stuff", "", new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     prefDialog.setVisible(true);
                 }
             });
             
-            GuiUtil.createMenuItem(menu, 'D', "Drop Movies", new ActionListener() {
+            GuiUtil.createMenuItem(menu, 'D', "Drop Movies", "",new ActionListener() {
                 public void actionPerformed(ActionEvent event) {
                     LOG.info("resetting movies.");
                     try {
@@ -310,4 +349,41 @@ public class MenuBar extends JMenuBar implements ActionListener {
     public JMenuItem getQuitItem() {
         return this.quitItem;
     }
+
+    public void selectionEmptyChanged() {
+        this.itemMovieInfo.setText(LBL_MOVIE_INFO);
+        this.itemMovieDelete.setText(LBL_MOVIE_DELETE);
+        
+        this.itemMovieDelete.setEnabled(false);
+        this.itemMovieInfo.setEnabled(false);
+        
+        this.itemMovieFetchMetadata.setEnabled(false);
+        this.itemMoviePlayVlc.setEnabled(false);
+        this.itemMovieRevealFinder.setEnabled(false);
+    }
+
+    public void selectionSingleChanged(Movie newSelectedMovie) {
+        this.itemMovieInfo.setText(LBL_MOVIE_INFO);
+        this.itemMovieDelete.setText(LBL_MOVIE_DELETE);
+        
+        this.itemMovieDelete.setEnabled(true);
+        this.itemMovieInfo.setEnabled(true);
+        
+        this.itemMovieFetchMetadata.setEnabled(true);
+        this.itemMoviePlayVlc.setEnabled(true);
+        this.itemMovieRevealFinder.setEnabled(true);
+    }
+
+    public void selectionMultipleChanged(List<Movie> newSelectedMovies) {
+        this.itemMovieInfo.setText(LBL_MOVIES_INFO);
+        this.itemMovieDelete.setText(LBL_MOVIES_DELETE);
+        
+        this.itemMovieDelete.setEnabled(true);
+        this.itemMovieInfo.setEnabled(true);
+        
+        this.itemMovieFetchMetadata.setEnabled(false);
+        this.itemMoviePlayVlc.setEnabled(false);
+        this.itemMovieRevealFinder.setEnabled(false);
+    }
+
 }

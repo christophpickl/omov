@@ -139,11 +139,12 @@ public final class MainWindowController extends CommonController implements IRem
     // should be only invoked by menu bar
     public void doEditMovie() {
         List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
-        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.warning(this.mainWindow, "Edit Movie", "Not any movie was selected.");
-            return;
-        }
-        if(selectedMovies.size() == 1) {
+            
+        } else if(selectedMovies.size() == 1) {
             this.doEditMovie(selectedMovies.get(0), this.mainWindow.newPrevNextMovieProvider());
         } else {
             assert(selectedMovies.size() > 1);
@@ -156,7 +157,9 @@ public final class MainWindowController extends CommonController implements IRem
         LOG.debug("Delete method for menubar invoked.");
         final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
         
-        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
@@ -241,13 +244,16 @@ public final class MainWindowController extends CommonController implements IRem
     // should be only invoked by menu bar
     public void doFetchMetaData() {
         List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
-        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.warning(this.mainWindow, "Fetch Metadata", "Not any movie was selected.");
-            return;
-        }
-        if(selectedMovies.size() == 1) {
+            
+        } else if(selectedMovies.size() == 1) {
             this.doFetchMetaData(selectedMovies.get(0));
         } else {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.warning(this.mainWindow, "Fetch Metadata", "Can not fetch metadata for more than one Movie at the time.");
         }
     }
@@ -295,13 +301,15 @@ public final class MainWindowController extends CommonController implements IRem
     public void doRevealMovie() {
         assert(UserSniffer.isMacOSX());
         List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
-        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.warning(this.mainWindow, "Reveal Movie in Finder", "Not any movie was selected.");
-            return;
-        }
-        if(selectedMovies.size() == 1) {
+        } else if(selectedMovies.size() == 1) {
             this.doRevealMovie(selectedMovies.get(0));
         } else {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.info(this.mainWindow, "Reveal Movie in Finder", "Revealing multiple movies in Finder is not supported.");
         }
     }
@@ -314,12 +322,12 @@ public final class MainWindowController extends CommonController implements IRem
             GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
             return;
         }
+        
         final File movieFile = new File(movie.getFolderPath(), files.iterator().next());
         if(movieFile.exists() == false) {
             GuiUtil.error("Play in VLC", "The file at '"+movieFile.getAbsolutePath()+"' does not exist!");
             return;
         }
-        
         
         try {
             VlcPlayDelegator.playFile(movieFile);
@@ -333,13 +341,15 @@ public final class MainWindowController extends CommonController implements IRem
     public void doPlayVlc() {
         assert(UserSniffer.isMacOSX());
         List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
-        if(selectedMovies.size() == 0) { // FEATURE gar nicht erst dazu kommen lassen! editButtons disablen, wenn nix selected ist.
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
-            return;
-        }
-        if(selectedMovies.size() == 1) {
+        } else if(selectedMovies.size() == 1) {
             this.doPlayVlc(selectedMovies.get(0));
         } else {
+            // should not be possible anyway!
+            assert(false);
             GuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
         }
     }
