@@ -30,6 +30,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
 import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
+import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
@@ -155,9 +156,12 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         this.itemMovieDelete = GuiUtil.createMenuItem(menu, 'D', LBL_MOVIE_DELETE, CMD_MOVIE_DELETE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
         this.itemMovieFetchMetadata = GuiUtil.createMenuItem(menu, 'M', LBL_FETCH_METADATA, CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         
+        if(VlcPlayDelegator.isVlcCapable() == true) {
+            this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+        }
+        
         if(UserSniffer.isMacOSX()) {
             this.itemMovieRevealFinder = GuiUtil.createMenuItem(menu, 'R', LBL_MOVIE_REVEAL_FINDER, CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
-            this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
         
         return menu;

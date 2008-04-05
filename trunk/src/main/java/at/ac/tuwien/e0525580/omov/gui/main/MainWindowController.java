@@ -316,7 +316,8 @@ public final class MainWindowController extends CommonController implements IRem
     
 
     public void doPlayVlc(Movie movie) {
-        assert(UserSniffer.isMacOSX());
+        assert(VlcPlayDelegator.isVlcCapable());
+        
         final List<String> files = movie.getFiles();
         if(files.isEmpty() == true) {
             GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
@@ -339,14 +340,16 @@ public final class MainWindowController extends CommonController implements IRem
 
     // should be only invoked by menu bar
     public void doPlayVlc() {
-        assert(UserSniffer.isMacOSX());
-        List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        assert(VlcPlayDelegator.isVlcCapable());
+        
+        final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
             GuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doPlayVlc(selectedMovies.get(0));
+            
         } else {
             // should not be possible anyway!
             assert(false);

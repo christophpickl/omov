@@ -6,11 +6,11 @@ import java.util.List;
 import javax.swing.JMenuItem;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
-import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
 public class VlcPlayDelegator {
 
@@ -21,12 +21,16 @@ public class VlcPlayDelegator {
             "play\n" +
         "end tell";
 
+    public static boolean isVlcCapable() {
+        return (UserSniffer.isMacOSX() || UserSniffer.isWindows());
+    }
+    
     /**
      * @return null if this feature is not supported on running system
      */
     public static JMenuItem addVlcPlayJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
         final JMenuItem item;
-        if(UserSniffer.isOS(OS.MAC) == true) {
+        if(isVlcCapable()) {
             item = BodyContext.newJMenuItem(menuItems, "Play in VLC", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         } else {
             item = null;
@@ -35,16 +39,25 @@ public class VlcPlayDelegator {
     }
 
     public static void playFile(final File file) throws BusinessException {
-        assert(UserSniffer.isOS(OS.MAC));
+        assert(isVlcCapable());
         
-        final String osaScript = VlcPlayDelegator.createOsaScript(file);
+        if(UserSniffer.isMacOSX() == true) {
+            playFileMac(file);
+        } else if(UserSniffer.isWindows() == true) {
+            playFileWin(file);
+        } else {
+            throw new FatalException("Unhandled operating system: " + UserSniffer.getOS());
+        }
+    }
+    
+    private static void playFileMac(final File file) throws BusinessException {
+        final String osaScript = SCRIPT.replaceAll("\\{0\\}", file.getAbsolutePath());
         AppleScriptNativeExecuter.executeAppleScript(osaScript);
     }
     
-    private static String createOsaScript(final File file) {
-        String script = SCRIPT;
-        script = script.replaceAll("\\{0\\}", file.getAbsolutePath());
-        return script;
+    private static void playFileWin(final File file) throws BusinessException {
+        // FIXME implement me
     }
+    
     
 }

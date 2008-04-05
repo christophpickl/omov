@@ -60,4 +60,8 @@ public final class UserSniffer {
     public static boolean isMacOSX() {
         return UserSniffer.os.equals(OS.MAC);
     }
+    
+    public static boolean isWindows() {
+        return UserSniffer.os.equals(OS.WIN);
+    }
 }
