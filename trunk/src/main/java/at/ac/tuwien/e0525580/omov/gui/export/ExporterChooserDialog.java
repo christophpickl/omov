@@ -83,7 +83,7 @@ public class ExporterChooserDialog extends JDialog {
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         this.panelHtml.setOpaque(false);
         this.panelBackup.setOpaque(false);
 

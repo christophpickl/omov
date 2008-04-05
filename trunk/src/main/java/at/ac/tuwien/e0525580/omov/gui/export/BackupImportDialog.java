@@ -69,7 +69,7 @@ public class BackupImportDialog extends JDialog implements ActionListener {
     private JPanel initComponents() {
         final JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();

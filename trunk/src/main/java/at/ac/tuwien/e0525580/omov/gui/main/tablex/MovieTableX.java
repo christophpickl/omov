@@ -1,6 +1,5 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -49,9 +48,6 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
 
     private static final int COVER_COLUMN_GAP = 8;
     
-    public static Color COLOR_SELECTED_BG = new Color(61, 128, 223); // TODO outsource to Constants
-    public static Color COLOR_SELECTED_FG = Color.WHITE;
-
     private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
     private final IMovieTableContextMenuListener contextMenuListener;
     

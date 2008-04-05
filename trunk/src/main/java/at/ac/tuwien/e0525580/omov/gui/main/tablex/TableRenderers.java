@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
@@ -61,8 +62,8 @@ class TableRenderers {
             
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             return lbl;
         }
@@ -75,8 +76,8 @@ class TableRenderers {
             final Movie movie = getMovie(table, row);
             final JLabel lbl = new JLabel(ColumnsCoverFactory.getInstance().getImage(movie));
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             lbl.setOpaque(true);
             return lbl;
@@ -94,8 +95,8 @@ class TableRenderers {
             
             lbl.setFont(movie.isSeen() ? FONT_TITLE_SEEN : FONT_TITLE_UNSEEN);
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             
             return lbl;
@@ -110,19 +111,19 @@ class TableRenderers {
             
             if(movie.getRating() == 0 && isSelected == false) {
                 final JLabel lbl = new JLabel(); // display nothing if not selected and not yet rated
-                if(isSelected) lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
+                if(isSelected) lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setOpaque(true);
                 return lbl;
             }
             
-            final Color primaryColor = isSelected ? MovieTableX.COLOR_SELECTED_FG : null; // null == default (dark gray)
+            final Color primaryColor = isSelected ? Constants.getColorSelectedForeground() : null; // null == default (dark gray)
             final RatingPanel ratingPanel = new RatingPanel(movie.getRating(), primaryColor);
             ratingPanel.setOpaque(false);
 
             
             final JPanel panel = new JPanel();
             panel.setOpaque(true);
-            if(isSelected) panel.setBackground(MovieTableX.COLOR_SELECTED_BG);
+            if(isSelected) panel.setBackground(Constants.getColorSelectedBackground());
             final GridBagLayout layout = new GridBagLayout();
             final GridBagConstraints c = new GridBagConstraints();
             layout.setConstraints(panel, c);
@@ -145,8 +146,8 @@ class TableRenderers {
             
             lbl.setText(quality.label());
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             return lbl;
         }
@@ -159,8 +160,8 @@ class TableRenderers {
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             lbl.setText(NumberUtil.formatDurationShort(duration));
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             lbl.setHorizontalAlignment(SwingConstants.RIGHT); // set duration right aligned
             
@@ -178,8 +179,8 @@ class TableRenderers {
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             lbl.setText(Movie.DATE_ADDED_FORMAT_SHORT.format(dateAdded));
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             return lbl;
         }
@@ -193,8 +194,8 @@ class TableRenderers {
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             lbl.setText(resolution.getFormattedString());
             if(isSelected) {
-                lbl.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                lbl.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                lbl.setBackground(Constants.getColorSelectedBackground());
+                lbl.setForeground(Constants.getColorSelectedForeground());
             }
             return lbl;
         }

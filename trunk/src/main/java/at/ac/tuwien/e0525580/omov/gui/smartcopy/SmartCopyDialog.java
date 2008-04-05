@@ -77,7 +77,7 @@ public class SmartCopyDialog extends JDialog {
         final GridBagConstraints c = new GridBagConstraints();
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         c.gridx = 0;

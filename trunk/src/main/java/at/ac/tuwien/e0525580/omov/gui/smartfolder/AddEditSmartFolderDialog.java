@@ -51,7 +51,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         panel.add(this.newTopPanel(), BorderLayout.NORTH);

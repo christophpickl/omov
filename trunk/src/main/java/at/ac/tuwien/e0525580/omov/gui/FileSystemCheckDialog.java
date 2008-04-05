@@ -54,7 +54,7 @@ public class FileSystemCheckDialog extends JDialog {
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
 
         panel.add(this.northPanel(), BorderLayout.NORTH);
         panel.add(this.centerContent(), BorderLayout.CENTER);

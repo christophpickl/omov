@@ -177,7 +177,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
 
         GuiUtil.createMenuItem(menu, 'S', LBL_SCAN, CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
         
-        GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this, KeyEvent.VK_G); // FIXME !!!remove shortcut!!!
+        GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this);
         
 //      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         

@@ -42,7 +42,7 @@ abstract class AbstractMovieTab extends JPanel {
     }
     
     private void pseudeConstructor() {
-        this.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        this.setBackground(Constants.getColorWindowBackground());
     }
     
     abstract String getTabTitle();

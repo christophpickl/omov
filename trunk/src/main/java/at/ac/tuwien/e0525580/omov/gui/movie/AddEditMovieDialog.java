@@ -67,7 +67,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         super(owner, editObject);
         this.setModal(true);
         
-        this.tabbedPane.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        this.tabbedPane.setBackground(Constants.getColorWindowBackground());
         
         if(prevNextProvider == null) {
             this.btnPrev.setEnabled(false);
@@ -138,7 +138,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
 
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         
         this.initTabbedPane(TABPOS_INFO);
         // tabbedPane.setSelectedIndex(TABPOS_DETAIL); // SHORTCUT

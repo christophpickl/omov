@@ -47,7 +47,7 @@ public class SmartFolderGuiRow  extends JPanel {
     
     
     public SmartFolderGuiRow(final ISmartFolderGuiRowListener listener, String preselectedColumnLabel, String preselectedMatchLabel, Object[] values) {
-        this.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        this.setBackground(Constants.getColorWindowBackground());
         
         this.setLayout(new FlowLayout(FlowLayout.LEFT));
         this.listener = listener;

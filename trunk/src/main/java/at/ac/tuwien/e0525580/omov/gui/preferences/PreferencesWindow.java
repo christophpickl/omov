@@ -103,7 +103,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel();
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();

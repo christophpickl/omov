@@ -66,7 +66,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     
     private void initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         

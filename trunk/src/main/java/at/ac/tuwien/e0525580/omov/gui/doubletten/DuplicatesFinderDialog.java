@@ -29,7 +29,6 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
-import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableX;
 import at.ac.tuwien.e0525580.omov.tools.doubletten.DuplicatesFinder;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
@@ -57,12 +56,12 @@ public class DuplicatesFinderDialog extends JDialog {
                 final Component c = super.prepareRenderer(renderer, row, column);
 
                 if(this.getSelectedRow() == row) {
-                    c.setBackground(MovieTableX.COLOR_SELECTED_BG);
-                    c.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                    c.setBackground(Constants.getColorSelectedBackground());
+                    c.setForeground(Constants.getColorSelectedForeground());
                 } else {
                     for (int i : similarMovieIndices) {
                         if(row == i) {
-                            c.setBackground(Constants.COLOR_LIGHT_GRAY);
+                            c.setBackground(Constants.getColorLightGrad());
                             break;
                         }
                     }
@@ -123,7 +122,7 @@ public class DuplicatesFinderDialog extends JDialog {
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         panel.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 10));
 
         final JScrollPane tableScroll = new JScrollPane(this.table);
@@ -138,7 +137,7 @@ public class DuplicatesFinderDialog extends JDialog {
     private JPanel southPanel() {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         
         this.btnDelete.setEnabled(false);
         this.btnDelete.setOpaque(false);

@@ -107,7 +107,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         
         panel.add(this.panelNorth(), BorderLayout.NORTH);
         panel.add(this.panelCenter(), BorderLayout.CENTER);
@@ -181,7 +181,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         this.tableSplitter.setBorder(null);
 //        splitter.setDividerLocation(0);
 //        splitter.setResizeWeight(1.0);
-        this.tableSplitter.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        this.tableSplitter.setBackground(Constants.getColorWindowBackground());
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent event) {
@@ -196,7 +196,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     private JPanel panelSouth() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         
         this.btnScan.setOpaque(false);
         this.btnScan.setEnabled(false);

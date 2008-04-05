@@ -56,7 +56,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
     {
         for (MovieField field : MULTIPLE_EDIT_FIELDS) {
             final JCheckBox checkBox = new JCheckBox();
-            checkBox.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+            checkBox.setBackground(Constants.getColorWindowBackground());
             checkBox.setToolTipText("Change "+field.label()+" for all Movies");
             this.fieldCheckBoxes.put(field, checkBox);
         }
@@ -141,8 +141,8 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         final JPanel panel = new JPanel(new BorderLayout());
         final JTabbedPane tabbedPane = new JTabbedPane();
 
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
-        tabbedPane.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
+        tabbedPane.setBackground(Constants.getColorWindowBackground());
         
         tabbedPane.add(" "+this.tabInfo.getTabTitle()+" ", this.tabInfo);
         tabbedPane.setMnemonicAt(0, KeyEvent.VK_I);
@@ -161,7 +161,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
 
     private JPanel newSouthPanel() {
         final JPanel panel = new JPanel(new BorderLayout());
-        panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
+        panel.setBackground(Constants.getColorWindowBackground());
         
         panel.add(this.newCommandPanel(), BorderLayout.EAST);
         return panel;
