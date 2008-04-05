@@ -66,6 +66,7 @@ class BackupImportController {
             if(cntSkippedMovies > 0) {
                 dialogText += "\n(Skipped "+cntSkippedMovies+" Movie"+(cntSkippedMovies != 1 ? "s" : "")+" because " +
                                  (cntSkippedMovies != 1 ? "some" : "the")+" movie folderpath"+(cntSkippedMovies != 1 ? "s are" : " is")+" already in use)";
+                // FEATURE backup import: maybe if movies skipped count > 1, display text in JTextArea (so text can be copied) which movies where skipped (title, folderpath)
             }
             GuiUtil.info(this.dialog, "Import Successfull", dialogText);
             

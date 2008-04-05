@@ -62,6 +62,10 @@ public class MovieCreator {
             LOG.debug("coverFile was null, setting to empty string.");
             this.coverFile = "";
         }
+        if(this.rating == -1) {
+            LOG.debug("rating was default value -1, setting to 0.");
+            this.rating = 0;
+        }
         if(this.style == null) {
             LOG.debug("style was null, setting to empty string.");
             this.style = "";
@@ -101,6 +105,10 @@ public class MovieCreator {
         if(this.folderPath == null) {
             LOG.debug("folderPath was null, setting to empty string.");
             this.folderPath = "";
+        }
+        if(this.fileSizeKb == -1) {
+            LOG.debug("fileSizeKb was default value -1, setting to 0.");
+            this.fileSizeKb = 0;
         }
         if(this.format == null) {
             LOG.debug("format was null, setting to empty string.");

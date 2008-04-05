@@ -61,16 +61,17 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
         }
     }
 
-    public static void newJMenuItem(List<JMenuItem> items, String label, String actionCommand) {
-        newJMenuItem(items, label, actionCommand, null);
+    public static JMenuItem newJMenuItem(List<JMenuItem> items, String label, String actionCommand) {
+        return newJMenuItem(items, label, actionCommand, null);
     }
     /**
      * utility method
      */
-    public static void newJMenuItem(List<JMenuItem> items, String label, String actionCommand, Icon icon) {
+    public static JMenuItem newJMenuItem(List<JMenuItem> items, String label, String actionCommand, Icon icon) {
         JMenuItem item = (icon != null) ? new JMenuItem(label, icon) : new JMenuItem(label);
         item.setActionCommand(actionCommand);
         items.add(item);
+        return item;
     }
     public static void newJMenuSeparator(List<JMenuItem> items) {
         items.add(null);

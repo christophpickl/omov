@@ -25,10 +25,14 @@ public class FinderReveal {
             "activate\n" + 
         "end tell";
     
-    public static void addRevealJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
+    public static JMenuItem addRevealJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
+        final JMenuItem item;
         if(UserSniffer.isOS(OS.MAC) == true) {
-            BodyContext.newJMenuItem(menuItems, "Reveal in Finder", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+            item = BodyContext.newJMenuItem(menuItems, "Reveal in Finder", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+        } else {
+            item = null;
         }
+        return item;
     }
     
     public static void revealFile(final File file) throws BusinessException {

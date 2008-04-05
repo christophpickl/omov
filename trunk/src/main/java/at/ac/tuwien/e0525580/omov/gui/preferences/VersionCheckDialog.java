@@ -102,7 +102,7 @@ public class VersionCheckDialog extends JDialog {
                     GuiUtil.info(this, "Application Software Update", "It seems as you were running an old application version.\n" +
                             "You are using " + versionInUse + " but version " + versionFetched + " is available.\n" + 
                             "Check the website to download the most recent release:\n" +
-                            Constants.OMOV_WEBSITE_URL);
+                            Constants.getWebUrl());
                 }
             }
         }

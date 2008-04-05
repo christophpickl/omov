@@ -73,6 +73,8 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         this.smartFolderList.setVisibleRowCount(5);
         this.smartFolderList.setModel(this.listModel);
         this.smartFolderList.addKeyListener(this.escapeDisposer);
+        GuiUtil.setOmovCellRenderer(this.smartFolderList);
+        // TODO doubleclick on smartfolder list should open the edit dialog
         
         final JScrollPane scroll = new JScrollPane(this.smartFolderList);
         scroll.setWheelScrollingEnabled(true);

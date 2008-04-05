@@ -1,6 +1,5 @@
 package at.ac.tuwien.e0525580.omov.gui.scan;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +19,7 @@ import javax.swing.table.TableColumnModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.SelectableMovie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
@@ -66,7 +66,7 @@ class MyRenderer extends DefaultTableCellRenderer {
         
         // MANTIS [24] use string comparison (similarity) library for foldername-fetched movie title check
         if(movie.getFolderPath().length() > 0 && movie.getTitle().equalsIgnoreCase(FileUtil.extractLastFolderName(movie.getFolderPath())) == false) {
-             superComponent.setBackground(Color.ORANGE); // display row in different color if fetched title != movie folder name
+             superComponent.setBackground(Constants.getColorLightGray()); // display row in different color if fetched title != movie folder name
         }
         
         return superComponent;

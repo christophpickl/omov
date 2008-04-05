@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.comp.CoverImagePanel;
@@ -39,6 +40,15 @@ public class ImdbMovieDataPanel extends JPanel {
     
     public ImdbMovieDataPanel(Movie movie) {
         this.movie = movie;
+        this.setOpaque(false);
+
+        this.txtTitle.setForeground(Constants.getColorDarkGray());
+        this.txtYear.setForeground(Constants.getColorDarkGray());
+        this.txtDuration.setForeground(Constants.getColorDarkGray());
+        this.txtDirector.setForeground(Constants.getColorDarkGray());
+        this.txtActors.setForeground(Constants.getColorDarkGray());
+        this.txtGenres.setForeground(Constants.getColorDarkGray());
+        this.txtComment.setForeground(Constants.getColorDarkGray());
         
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();

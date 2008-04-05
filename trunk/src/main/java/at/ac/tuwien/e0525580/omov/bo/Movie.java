@@ -227,7 +227,7 @@ DATA VERSION HISTORY
         if(comment == null)    throw new NullPointerException("comment");
         if(quality == null)    throw new NullPointerException("quality");
         if(dateAdded == null)  LOG.info("dateAdded is null; seems as we are adding a new movie.");
-        if(fileSizeKb < 0)     throw new NullPointerException("fileSizeKb: " + fileSizeKb);
+        if(fileSizeKb < 0)     throw new IllegalArgumentException("fileSizeKb: " + fileSizeKb);
         if(folderPath == null) throw new NullPointerException("folderPath");
         if(format == null)     throw new NullPointerException("format");
         if(files == null)      throw new NullPointerException("files");

@@ -21,8 +21,10 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -31,6 +33,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
@@ -118,6 +121,7 @@ public class WebSearchResultsDialog extends JDialog {
     
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
+        panel.setBackground(Constants.getColorWindowBackground());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         panel.add(this.newCenterPanel(), BorderLayout.CENTER);
@@ -129,26 +133,44 @@ public class WebSearchResultsDialog extends JDialog {
     
     private JPanel newCenterPanel() {
         final JPanel panel = new JPanel();
+        panel.setOpaque(false);
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
 
-        btnFetchDetailData.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) {
+        this.btnFetchDetailData.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) {
             doFetchDetailData();
         }});
+        this.btnFetchDetailData.setOpaque(false);
+        this.detailPanelWrapper.setOpaque(false);
+        this.list.setVisibleRowCount(4);
+        
+        GuiUtil.setOmovCellRenderer(this.list);
 
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.LAST_LINE_START;
         c.insets = new Insets(0, 0, 0, 0);
         c.gridx = 0;
         c.gridy = 0;
-        panel.add(btnFetchDetailData, c);
-        c.gridy = 1;
-        panel.add(GuiUtil.wrapScroll(this.list, 300, 250), c);
+        panel.add(new JLabel("Select a movie which seems to be what you are looking for:"), c);
+        
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0, 0, 0, 0);
+        c.gridy++;
+        panel.add(new JScrollPane(this.list), c);
 
-        c.insets = new Insets(0, 10, 0, 0);
-        c.gridheight = 2;
-        c.gridx = 1;
-        c.gridy = 0;
+        c.fill = GridBagConstraints.NONE;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.insets = new Insets(0, 0, 0, 0);
+        c.gridy++;
+        panel.add(this.btnFetchDetailData, c);
+
+        c.fill = GridBagConstraints.BOTH;
+        c.anchor = GridBagConstraints.CENTER;
+        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
+        c.gridy++;
         panel.add(this.detailPanelWrapper, c);
 
         return panel;
@@ -176,6 +198,8 @@ public class WebSearchResultsDialog extends JDialog {
             
             this.updateDetailPanel(panel);
             this.btnFetchDetailData.setEnabled(false);
+            this.list.repaint(); // fetched movie entry's title should not be painted bold anymore
+            
         } catch (BusinessException e) {
             LOG.error("Could not fetch details for '"+searchResult+"'!", e);
             GuiUtil.error(this, "Fetching details failed", "Some error occured while fetching detail data:\n"+e.getMessage());
@@ -195,7 +219,7 @@ public class WebSearchResultsDialog extends JDialog {
     
     private JPanel newCommandPanel() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
+        panel.setOpaque(false);
         JButton btnCancel = new JButton("Cancel");
         
         btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
@@ -204,6 +228,8 @@ public class WebSearchResultsDialog extends JDialog {
         this.btnConfirm.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
                 doConfirm();
         }});
+        btnCancel.setOpaque(false);
+        this.btnConfirm.setOpaque(false);
         
         panel.add(btnCancel);
         panel.add(this.btnConfirm);

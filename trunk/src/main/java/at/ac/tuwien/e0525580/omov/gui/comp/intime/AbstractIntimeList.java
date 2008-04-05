@@ -45,6 +45,7 @@ public abstract class AbstractIntimeList extends JPanel {
         this.itemName = itemName;
         this.itemNameColumns = itemNameColumns;
         this.list.setVisibleRowCount(visibleRowCount);
+        GuiUtil.setOmovCellRenderer(this.list);
         this.setOpaque(false);
         
         if(this.getIntimeModel() == null) {

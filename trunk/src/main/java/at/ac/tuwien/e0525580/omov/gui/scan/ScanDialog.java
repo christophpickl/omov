@@ -50,7 +50,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 //    private static final Log LOG = LogFactory.getLog(ScanDialog.class);
     private static final long serialVersionUID = 8730290488508038854L;
 
-    private static final String CMD_FETCH_METADATA = "fetchMetadata";
+    private static final String CMD_FETCH_METADATA = "CMD_FETCH_METADATA";
+    private static final String CMD_REMOVE_METADATA = "CMD_REMOVE_METADATA";
     
 
     private final ScanDialogController controller = new ScanDialogController(this);
@@ -84,6 +85,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_REMOVE_METADATA);
         new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
         
         this.getRootPane().setDefaultButton(this.btnScan);
@@ -203,9 +205,9 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         this.btnImport.setOpaque(false);
         this.progressBar.setOpaque(false);
         
-        this.btnScan.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-                doScanStarted();
-        }});
+        this.btnScan.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) { new GuiAction() { protected void _action() {
+            doScanStarted();
+        }}.doAction(); }});
         this.btnImport.setEnabled(false);
         this.btnImport.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
                 controller.doImport();
@@ -268,6 +270,10 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         final String cmd = item.getActionCommand();
         if(cmd.equals(CMD_FETCH_METADATA)) {
             this.controller.doFetchMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
+            
+        } else if(cmd.equals(CMD_REMOVE_METADATA)) {
+            this.controller.doRemoveMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
+            
         } else {
             throw new IllegalArgumentException("unhandled action command '"+cmd+"'!");
         }

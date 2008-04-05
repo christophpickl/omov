@@ -27,54 +27,41 @@ import at.ac.tuwien.e0525580.omov.tools.FileSystemChecker.FileSystemCheckResult;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 /*
-
 CLI ARGs
 ==================================
 - "DEBUG" ... enables debug menubar entry
 
-App FIXMES
+
+in mantis
 ==================================
-- setup wizard gui ueberarbeiten
-- *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
+- alles ESC enablen
+- MultiColMultiRowTextField komponente schreiben; fuer MovieDetailPanel.genre/actors/... da eine zeile nicht reicht
+- suggester auch fuer einzelne attribute in AddEditMovieDialog (zb: resolution; sonst noch was?) -> use suggester field from swingx project
+- SearchField als SuggestionField machen (wo ueberall suggestions suchen? -> Title, Actor, Directory, ... Genre, ...)
+- in preferences FolderPath-Prefix Cut list erstellbar machen: zb eintragen "/Volumes/MEGADISK/Holy/"
+- export html:  den topbanner + die columnheader ganz oben absolut positionieren, damit man die nicht wegscrollen kann (also immer visible sind)
 
 TODOs
 ==================================
 - at startup check if folderImage and folderTemporary exists & if its writeable
-- beim scannen (per rechtemaustaste) andere metadata-fetches available machen (nur der gefundene title; dann wird details erst fetched)
 - should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
-- MultiColMultiRowTextField komponente schreiben; fuer MovieDetailPanel.genre/actors/... da eine zeile nicht reicht
+- *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
+TODO tests: write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
 
-FEATURES
-==================================
-- write more external plugins: fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
+** write more external plugins
+  fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
 
-- beim tab durchgehen in AddEditMovieDialog -> gleich ganzen text selecten
-- suggester auch fuer einzelne attribute in AddEditMovieDialog (zb: resolution; sonst noch was?)
-- in preferences FolderPath-Prefix Cut list erstellbar machen: zb eintragen "/Volumes/MEGADISK/Holy/"
-- other backgroundcolor in scanner table if successfully fetched metadata
-- wenn kein movie selected => MenuBar/GetInfo (fetch metadata, ...) disablen
-- SearchField als SuggestionField machen (wo ueberall suggestions suchen? -> Title, Actor, Directory, ... Genre, ...)
-- FileSystem check at startup (per preferences einschaltbar)
-- alles ESC enablen
-- beim export/smartCopy den user entscheiden lassen welche movies genommen werden (alle || nur selected; beim smartCopy + anhand von IDs generiert von HTML-Report)
-- wenn OS==MacOSX dann beim setup nicht nach tmp/cover-folder fragen, sondern in Contents/MacOS/Resources implizit anlegen
-
-- remote zeugs
-- help system
-
-bzgl editable table cell rows: [http://forum.java.sun.com/thread.jspa?forumID=57&threadID=5120161]
+** bzgl editable table cell rows: [http://forum.java.sun.com/thread.jspa?forumID=57&threadID=5120161]
   Given that we have very little information to go by, I'm guessing that you have a custom TableModel and you are not firing
   the TableCellUpdated() method when you change the data, so the table doesn't know it should repaint the cell.
 
-bzgl listener von dao unregistern:
+** bzgl listener von dao unregistern:
   eigentlich ist registern nicht notwendig, da wenn user movie added/edited, kann datenbestand gar nicht aendern.
   -> loesung: dem Movie*ListFilled einfach eine List<String> uebergeben!
 
 */
 
 public class App {
-    
-    // TODO tests: write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
     
     private static final Log LOG = LogFactory.getLog(App.class);
 

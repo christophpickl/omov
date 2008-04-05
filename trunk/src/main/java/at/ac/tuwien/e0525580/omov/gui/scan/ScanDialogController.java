@@ -199,4 +199,8 @@ class ScanDialogController extends CommonController implements IScanListener {
         this.dialog.updateScannedMovie(confirmedScannedMovie);
     }
     
+    public void doRemoveMetaData(ScannedMovie scannedMovie) {
+        final ScannedMovie confirmedScannedMovie = ScannedMovie.clearMetadataMovie(scannedMovie);
+        this.dialog.updateScannedMovie(confirmedScannedMovie);
+    }
 }

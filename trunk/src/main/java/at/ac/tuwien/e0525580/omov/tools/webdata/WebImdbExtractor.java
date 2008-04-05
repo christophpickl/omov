@@ -11,7 +11,6 @@ import org.htmlparser.util.ParserException;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
-import at.ac.tuwien.e0525580.omov.bo.MovieCreator;
 
 public class WebImdbExtractor implements IWebExtractor {
     
@@ -116,14 +115,15 @@ public class WebImdbExtractor implements IWebExtractor {
      * detail data:
      *    String director; Set<String> actors; int year; String comment
      *    
+     * @param o original movie (by scanner)
+     * @param m metadata enhanced movie
      * @see ImdbMovieData#getMovie()
      */
     private static Movie enhanceMovie(Movie o, Movie m) {
-        final MovieCreator c = Movie.create(o.getId()).title(m.getTitle()).genres(m.getGenres()).director(m.getDirector()).year(m.getYear()).comment(m.getComment()).actors(m.getActors()).duration(m.getDuration()).coverFile(m.getOriginalCoverFile());
-        
-        return c.seen(o.isSeen()).rating(o.getRating())
-            .director(o.getDirector()).actors(o.getActors()).year(o.getYear()).comment(o.getComment())
-            .fileSizeKb(o.getFileSizeKb()).folderPath(o.getFolderPath()).format(o.getFormat()).files(o.getFiles()).duration(o.getDuration()).resolution(o.getResolution()).subtitles(o.getSubtitles()).get();
+         return Movie.create(o.getId())
+             .title(m.getTitle()).genres(m.getGenres()).director(m.getDirector()).year(m.getYear()).comment(m.getComment()).actors(m.getActors()).duration(m.getDuration()).coverFile(m.getOriginalCoverFile())
+             .seen(o.isSeen()).rating(o.getRating()).fileSizeKb(o.getFileSizeKb()).folderPath(o.getFolderPath()).format(o.getFormat()).files(o.getFiles()).resolution(o.getResolution()).subtitles(o.getSubtitles())
+             .get();
     }
     
 

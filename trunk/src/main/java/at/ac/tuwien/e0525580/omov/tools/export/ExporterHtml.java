@@ -196,7 +196,6 @@ public class ExporterHtml implements IExporterHtml {
             
             final String currentDate = CURRENT_DATE_FORMAT.format(new Date());
             
-            // FEATURE export html:  den topbanner + die columnheader ganz oben absolut positionieren, damit man die nicht wegscrollen kann (also immer visible sind)
             BufferedWriter writer = null;
             try {
                 LOG.debug("Opening writer for file '"+target.getAbsolutePath()+"'.");
@@ -357,7 +356,7 @@ public class ExporterHtml implements IExporterHtml {
         "   color:#101010;\n" +
         "}\n" +
         "h1 {\n" +
-        "   font-size:19pt;\n" +
+        "   font-size:15pt;\n" +
         "   font-weight:bold;\n" +
         "   margin:10px 0px 0px 0px; /* top, right, bottom, left */\n" +
         "}\n" +
@@ -366,7 +365,7 @@ public class ExporterHtml implements IExporterHtml {
         "   margin-right:15px;\n" +
         "}\n" +
         "#date {\n" +
-        "   font-size:11pt;\n" +
+        "   font-size:10pt;\n" +
         "   margin-bottom:0px;\n" +
         "}\n" +
         "#data_wrapper {\n" +
@@ -403,8 +402,8 @@ public class ExporterHtml implements IExporterHtml {
         "   text-align:right;\n" +
         "}\n" +
         "#outputIds {\n" +
-        "   width:500px;\n" +
-        "   height:140px;\n" +
+        "   width:450px;\n" +
+        "   height:70px;\n" +
         "}\n" +
         "#outputIdsWrapper {\n" +
         "   text-align:center;\n" +
@@ -446,6 +445,9 @@ public class ExporterHtml implements IExporterHtml {
         "}\n" +
         ".ratingNo {\n" +
         "   color:#BBBBBB;\n" +
+        "}\n" +
+        "#tbl_data {\n" +
+        "   margin-top:0px;\n" +
         "}\n" +
         "</style>\n";
     }

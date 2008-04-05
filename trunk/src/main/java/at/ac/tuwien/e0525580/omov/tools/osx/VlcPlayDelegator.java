@@ -21,10 +21,17 @@ public class VlcPlayDelegator {
             "play\n" +
         "end tell";
 
-    public static void addVlcPlayJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
+    /**
+     * @return null if this feature is not supported on running system
+     */
+    public static JMenuItem addVlcPlayJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
+        final JMenuItem item;
         if(UserSniffer.isOS(OS.MAC) == true) {
-            BodyContext.newJMenuItem(menuItems, "Play in VLC", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+            item = BodyContext.newJMenuItem(menuItems, "Play in VLC", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+        } else {
+            item = null;
         }
+        return item;
     }
 
     public static void playFile(final File file) throws BusinessException {

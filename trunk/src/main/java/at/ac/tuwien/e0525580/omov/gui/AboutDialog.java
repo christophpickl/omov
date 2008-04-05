@@ -57,7 +57,7 @@ public class AboutDialog extends JDialog {
 //        }
         final JLabel logo = new JLabel(ImageFactory.getInstance().getAboutLogo(), JLabel.CENTER);
         try {
-            final OpenBrowserAction openBrowser = new OpenBrowserAction(Constants.OMOV_WEBSITE_URL);
+            final OpenBrowserAction openBrowser = new OpenBrowserAction(Constants.getWebUrl());
             logo.addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     openBrowser.actionPerformed(null);

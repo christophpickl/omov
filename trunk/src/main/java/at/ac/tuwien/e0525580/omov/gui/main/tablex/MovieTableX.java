@@ -134,16 +134,17 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         
         PreferencesDao.getInstance().setMovieColumnVisibility(columns);
     }
-    
+
+    private JMenuItem itemPlayVlc = null; // can be null all the time
+    private JMenuItem itemRevealFinder = null; // can be null all the time
     private void initContextMenu() {
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
         BodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         BodyContext.newJMenuSeparator(itemsSingle);
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        FinderReveal.addRevealJMenuItem(itemsSingle, CMD_REVEAL);
-        VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
-        // TODO gui: en-/disable menuitems if e.g.: movie got no moviefiles, disable play in vlc 
+        this.itemRevealFinder = FinderReveal.addRevealJMenuItem(itemsSingle, CMD_REVEAL);
+        this.itemPlayVlc = VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC); 
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT);
@@ -232,6 +233,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         LOG.info("removed selection listener (removed="+removed+"): " + listener);
     }
     private void notifyChangedEmpty() {
+        
         for (ITableSelectionListener listener : this.selectionListeners) {
             listener.selectionEmptyChanged();
         }
@@ -239,13 +241,21 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private void notifyChangedSingle() {
         final Movie newSelectedMovie = ((MovieTableModel) this.getModel()).getMovieAt(this.getSelectedModelRow());
         
+        if(this.itemPlayVlc != null) {
+            final boolean enabled = newSelectedMovie.isFolderPathSet() && newSelectedMovie.getFiles().size() > 0;
+            this.itemPlayVlc.setEnabled(enabled);
+        }
+        if(this.itemRevealFinder != null) {
+            final boolean enabled = newSelectedMovie.isFolderPathSet();
+            this.itemRevealFinder.setEnabled(enabled);
+        }
+        
         for (ITableSelectionListener listener : this.selectionListeners) {
             listener.selectionSingleChanged(newSelectedMovie);
         }
     }
     private void notifyChangedMultiple() {
         final MovieTableModel model = ((MovieTableModel) this.getModel());
-        
         final int[] rows = this.getSelectedModelRows();
         final List<Movie> newSelectedMovies = new ArrayList<Movie>(rows.length);
         for (int i = 0; i < rows.length; i++) {

@@ -12,6 +12,11 @@ public class Constants {
     
     /** misc purpose (eg used in doubletten dialog as row background*/
     private static final Color COLOR_LIGHT_GRAY = new Color(192, 192, 192);
+    
+//    /**  */
+//    private static final Color COLOR_VERY_LIGHT_GRAY = new Color(230, 230, 230);
+    
+    private static final Color COLOR_DARK_GRAY = new Color(100, 100, 100);
 
     /** table background for selected rows */
     private static final Color COLOR_SELECTED_BG = new Color(61, 128, 223);
@@ -20,7 +25,11 @@ public class Constants {
     private static final Color COLOR_SELECTED_FG = Color.WHITE;
 
     
-    public static final String OMOV_WEBSITE_URL = "http://omov.sourceforge.net";
+    private static final Color COLOR_ROW_BACKGROUND_EVEN = Color.WHITE;
+    
+    private static final Color COLOR_ROW_BACKGROUND_ODD = new Color(241, 245, 250);
+    
+    private static final String OMOV_WEBSITE_URL = "http://omov.sourceforge.net";
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
     
@@ -48,12 +57,24 @@ public class Constants {
         return osxApplicationSupportFolderCache;
     }
     
+    public static String getWebUrl() {
+        return OMOV_WEBSITE_URL;
+    }
+    
     public static Color getColorWindowBackground() {
         return COLOR_WINDOW_BACKGROUND;
     }
     
-    public static Color getColorLightGrad() {
+    public static Color getColorLightGray() {
         return COLOR_LIGHT_GRAY;
+    }
+    
+//    public static Color getColorVeryLightGray() {
+//        return COLOR_VERY_LIGHT_GRAY;
+//    }
+    
+    public static Color getColorDarkGray() {
+        return COLOR_DARK_GRAY;
     }
     
     public static Color getColorSelectedBackground() {
@@ -63,6 +84,13 @@ public class Constants {
     public static Color getColorSelectedForeground() {
         return COLOR_SELECTED_FG;
     }
+
+    public static Color getColorRowBackgroundEven() {
+        return COLOR_ROW_BACKGROUND_EVEN;
+    }
+
+    public static Color getColorRowBackgroundOdd() {
+        return COLOR_ROW_BACKGROUND_ODD;
+    }
     
-    // ... do same with other public attributes 
 }
