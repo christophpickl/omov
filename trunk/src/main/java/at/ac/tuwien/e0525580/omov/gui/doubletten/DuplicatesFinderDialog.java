@@ -1,8 +1,8 @@
 package at.ac.tuwien.e0525580.omov.gui.doubletten;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,8 +12,12 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +29,7 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
+import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableX;
 import at.ac.tuwien.e0525580.omov.tools.doubletten.DuplicatesFinder;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
@@ -35,7 +40,8 @@ public class DuplicatesFinderDialog extends JDialog {
     private static final long serialVersionUID = 747517539473473198L;
 
     private final DuplicatesFinder finder;
-    
+
+    private int[] similarMovieIndices = new int[0];
     private final DuplicatesTableModel tableModel;
     private final JXTable table;
     private final JButton btnDelete = new JButton("Delete Movie");
@@ -45,14 +51,47 @@ public class DuplicatesFinderDialog extends JDialog {
         this.finder = finder;
         
         this.tableModel = new DuplicatesTableModel(this.finder);
-        this.table = new JXTable(this.tableModel);
+        this.table = new JXTable(this.tableModel) {
+            private static final long serialVersionUID = -7772086018064365835L;
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int column ) {
+                final Component c = super.prepareRenderer(renderer, row, column);
+
+                if(this.getSelectedRow() == row) {
+                    c.setBackground(MovieTableX.COLOR_SELECTED_BG);
+                    c.setForeground(MovieTableX.COLOR_SELECTED_FG);
+                } else {
+                    for (int i : similarMovieIndices) {
+                        if(row == i) {
+                            c.setBackground(Constants.COLOR_LIGHT_GRAY);
+                            break;
+                        }
+                    }
+                }
+                
+                return c;
+            }
+        };
+        
         for(DuplicatesColumn movieColumn : DuplicatesTableModel.getColumns()) {
             final TableColumnExt column = this.table.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
+            if(movieColumn.getMaxWidth() != -1) column.setMaxWidth(movieColumn.getMaxWidth());
+            if(movieColumn.getMinWidth() != -1) column.setMinWidth(movieColumn.getMinWidth());
         }
         GuiUtil.setAlternatingBgColor(this.table);
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         this.table.packAll();
+        
+        this.table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if(event.getValueIsAdjusting() == true) {
+                    return;
+                }
+                doSelectionChanged();
+                
+            }
+        });
         
         
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -63,10 +102,29 @@ public class DuplicatesFinderDialog extends JDialog {
         GuiUtil.lockWidthAndHeightAsMinimum(this, 300, 160);
     }
     
+    private void doSelectionChanged() {
+        final int tableRow = this.table.getSelectedRow();
+        this.btnDelete.setEnabled(tableRow != -1);
+        
+        if(tableRow == -1) {
+            this.similarMovieIndices = new int[0];
+        } else {
+            final int modelRow = this.table.convertRowIndexToModel(tableRow);
+            final int[] modelIndices = this.tableModel.selectionChanged(modelRow);
+            final int[] rowIndices = new int[modelIndices.length];
+            for (int i = 0; i < modelIndices.length; i++) {
+                rowIndices[i] = this.table.convertRowIndexToView(modelIndices[i]);
+            }
+            this.similarMovieIndices = rowIndices;
+            
+            this.table.repaint();
+        }
+    }
+    
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
-        panel.setBorder(BorderFactory.createEmptyBorder(18, 10, 0, 10));
+        panel.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 10));
 
         final JScrollPane tableScroll = new JScrollPane(this.table);
         tableScroll.setPreferredSize(new Dimension(600, 180));
@@ -78,17 +136,27 @@ public class DuplicatesFinderDialog extends JDialog {
     }
     
     private JPanel southPanel() {
-        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         panel.setBackground(Constants.COLOR_WINDOW_BACKGROUND);
         
+        this.btnDelete.setEnabled(false);
         this.btnDelete.setOpaque(false);
         this.btnDelete.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
             new GuiAction() { protected void _action() { // if in need of another ActionListener -> write actionPerformed() method and outsource GuiAction instantiation
                 doDelete();
             }}.doAction();
         }});
+
+        final JButton btnClose = new JButton("Close");
+        btnClose.setOpaque(false);
+        btnClose.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+            DuplicatesFinderDialog.this.dispose();
+        }});
+        this.getRootPane().setDefaultButton(btnClose);
         
-        panel.add(this.btnDelete);
+        panel.add(this.btnDelete, BorderLayout.WEST);
+        panel.add(btnClose, BorderLayout.EAST);
 
         return panel;
     }
@@ -102,7 +170,8 @@ public class DuplicatesFinderDialog extends JDialog {
             LOG.debug("ignoring delete button because no row was selected.");
             return;
         }
-        final Movie duplicate = this.tableModel.getMovieAtRow(this.table.convertRowIndexToModel(selectedRow));
+        final int modelRow = this.table.convertRowIndexToModel(selectedRow);
+        final Movie duplicate = this.tableModel.getMovieAtRow(modelRow);
         
         final boolean confirmed = GuiUtil.getYesNoAnswer(this, "Delete Duplicate Movie", "Do you really want to delete the\nduplicate Movie '"+duplicate.getTitle()+"' (ID="+duplicate.getId()+")?");
         if(confirmed == false) {
@@ -110,7 +179,7 @@ public class DuplicatesFinderDialog extends JDialog {
             return;
         }
         
-        this.tableModel.deleteMovie(duplicate);
+        this.tableModel.deleteMovie(modelRow, duplicate);
         try {
             BeanFactory.getInstance().getMovieDao().deleteMovie(duplicate);
         } catch (BusinessException e) {
@@ -118,4 +187,38 @@ public class DuplicatesFinderDialog extends JDialog {
             GuiUtil.error("Delete Duplicate Movie", "The movie '"+duplicate.getTitle()+"' could not be deleted!\nAlthough it now had disappeared from duplicates.");
         }
     }
+    
+    /*
+    private class SimilarHighlighterRenderer extends DefaultTableCellRenderer {
+
+        private static final long serialVersionUID = -4727591028580436195L;
+        
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            
+            if(column == 0) {
+                System.out.println("rendering row " + row + ": similar ints are " + Arrays.toString(similarMovieIndices) + " ... ");
+            }
+            this.setOpaque(true);
+            for (int i : similarMovieIndices) {
+                if(row == i && isSelected == false) {
+                    if(column == 0) System.out.println("green");
+                    this.setBackground(Color.GREEN);
+                    this.setForeground(Color.GREEN);
+                    break;
+                }
+            }
+            // if ((row % 2) == 0)
+            if(isSelected && column == 0) {
+                if(column == 0) System.out.println("selected");
+                this.setBackground(MovieTableX.COLOR_SELECTED_BG);
+                this.setForeground(MovieTableX.COLOR_SELECTED_FG);
+            }
+            
+            this.setText(String.valueOf(value));
+            return this;
+        }
+    }
+     */
 }

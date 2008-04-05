@@ -8,6 +8,7 @@ import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 public class Constants {
 
     public static final Color COLOR_WINDOW_BACKGROUND = new Color(196, 196, 196);
+    public static final Color COLOR_LIGHT_GRAY = new Color(192, 192, 192);
 
     public static final String OMOV_WEBSITE_URL = "http://omov.sourceforge.net";
 

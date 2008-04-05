@@ -159,9 +159,6 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
             this.itemMovieRevealFinder = GuiUtil.createMenuItem(menu, 'R', LBL_MOVIE_REVEAL_FINDER, CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
             this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
-        menu.addSeparator();
-        
-        GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this);
         
         return menu;
     }
@@ -179,9 +176,12 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         final JMenu menu = new JMenu("Extras");
 
         GuiUtil.createMenuItem(menu, 'S', LBL_SCAN, CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
+        
+        GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this, KeyEvent.VK_G); // FIXME !!!remove shortcut!!!
+        
 //      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
-        if(UserSniffer.isMacOSX() == false) {
+        if(UserSniffer.isMacOSX() == false) { // Mac OS X got its own preferences menuitem in a system-own menu
             menu.addSeparator();
             menu.add(this.preferencesItem);
         }

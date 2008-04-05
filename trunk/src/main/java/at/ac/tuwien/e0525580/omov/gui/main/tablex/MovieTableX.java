@@ -48,8 +48,9 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private static final String CMD_PLAY_VLC = "playVlc"; // OSX only
 
     private static final int COVER_COLUMN_GAP = 8;
-    static Color COLOR_SELECTED_BG = new Color(61, 128, 223);
-    static Color COLOR_SELECTED_FG = Color.WHITE;
+    
+    public static Color COLOR_SELECTED_BG = new Color(61, 128, 223); // TODO outsource to Constants
+    public static Color COLOR_SELECTED_FG = Color.WHITE;
 
     private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
     private final IMovieTableContextMenuListener contextMenuListener;

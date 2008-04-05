@@ -1,8 +1,6 @@
 package at.ac.tuwien.e0525580.omov.tools.doubletten;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ public class DuplicatesFinder {
     
     private Exception thrownException = null;
     
+    /** cleaned (trimmed&lowered) title, list of movies with this title*/
     private Map<String, List<Movie>> foundDuplicates = null;
     
     public DuplicatesFinder() {
@@ -64,25 +63,24 @@ public class DuplicatesFinder {
         }
     }
     
-    public Set<Movie> getFoundDuplicates() {
+    public DoublettenSet getFoundDuplicates() {
         if(this.foundDuplicates == null) {
             LOG.warn("Tried to get found duplicates but was null!");
             return null;
         }
-        final Set<Movie> duplicates = new LinkedHashSet<Movie>();
-        for (List<Movie> movieDuplicateList : this.foundDuplicates.values()) {
-            if(movieDuplicateList.size() == 1) {
+        final DoublettenSet duplicates = new DoublettenSet();
+        
+        // Map<String, List<Movie>> foundDuplicates
+        for (final String cleanedTitle : this.foundDuplicates.keySet()) {
+            final List<Movie> movieDuplicateList = this.foundDuplicates.get(cleanedTitle);
+            if(movieDuplicateList.size() == 1) { // only one movie exists with this cleaned title
                 continue;
             }
+            LOG.debug("Adding "+movieDuplicateList.size()+" duplicates for title '"+cleanedTitle+"'.");
             
-            for (Movie duplicateMovie : movieDuplicateList) {
-                final boolean alreadyAdded = duplicates.add(duplicateMovie);
-                if(alreadyAdded == true) {
-                    LOG.warn("movie was already added as duplicate: " + duplicateMovie);
-                }
-            }
+            duplicates.add(movieDuplicateList);
         }
-        return Collections.unmodifiableSet(duplicates);
+        return duplicates;
     }
     
     public Exception getThrownException() {
