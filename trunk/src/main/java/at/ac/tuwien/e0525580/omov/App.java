@@ -32,21 +32,26 @@ CLI ARGs
 - "DEBUG" ... enables debug menubar entry
 
 
-in mantis
-==================================
-- alles ESC enablen
-- MultiColMultiRowTextField komponente schreiben; fuer MovieDetailPanel.genre/actors/... da eine zeile nicht reicht
-- suggester auch fuer einzelne attribute in AddEditMovieDialog (zb: resolution; sonst noch was?) -> use suggester field from swingx project
-- SearchField als SuggestionField machen (wo ueberall suggestions suchen? -> Title, Actor, Directory, ... Genre, ...)
-- in preferences FolderPath-Prefix Cut list erstellbar machen: zb eintragen "/Volumes/MEGADISK/Holy/"
-- export html:  den topbanner + die columnheader ganz oben absolut positionieren, damit man die nicht wegscrollen kann (also immer visible sind)
-
 TODOs
 ==================================
 - at startup check if folderImage and folderTemporary exists & if its writeable
 - should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
 - *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
-TODO tests: write a test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
+- test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
+
+*** web imdb subproject
+* websearch: make webextractor configurable ScanDialog.java
+*  zuerst "Popular Titles" anzeigen, dann andere ImdbStartPage.java
+
+? not seperating between here means they might use the same files (e.g.: coverfolder/db-file will not be deleted) ... hm... :( Constants.java
+? wirklich auf index 0 ruecksetzen, wenn auf doManage-smartfolders geklickt hat?!   SmartFolderSelectionPanel.java
+
+... minor/misc
+- outsource common code (NumberMatch) into superclass (or something like that; factory, ...) RatingMatch.java
+- private final boolean metadataFetched; ... oder so halt.   ScannedMovie.java
+- look if this is really necessary anymore (since isPopupTrigger was added); otherwise remove this.  BodyContext.java
+- :( too bad, how to check without wrapper?  MovieCreator.java
+
 
 ** write more external plugins
   fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
@@ -58,6 +63,12 @@ TODO tests: write a test class which automatically checks data source converters
 ** bzgl listener von dao unregistern:
   eigentlich ist registern nicht notwendig, da wenn user movie added/edited, kann datenbestand gar nicht aendern.
   -> loesung: dem Movie*ListFilled einfach eine List<String> uebergeben!
+
+
+FEATURES
+==================================
+- write more external plugins: fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies  App.java
+
 
 */
 

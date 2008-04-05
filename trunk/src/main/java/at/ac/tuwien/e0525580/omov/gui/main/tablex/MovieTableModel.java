@@ -68,10 +68,9 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     /**
      * compares only following to attributes with given search string: title and genres
      */
-    private static List<Movie> naiveSearch(List<Movie> source, String search) { // TODO naive search: somehow be more performant when searching
+    private static List<Movie> naiveSearch(List<Movie> source, String search) {
         List<Movie> result = new LinkedList<Movie>();
         for (Movie movie : source) {
-            // FEATURE naive search: do not only search within title&genres but also in other (wich?) attributes
             if (movie.getTitle().toLowerCase().contains(search.toLowerCase())
              || movie.getGenresString().toLowerCase().contains(search.toLowerCase())) {
                 result.add(movie);

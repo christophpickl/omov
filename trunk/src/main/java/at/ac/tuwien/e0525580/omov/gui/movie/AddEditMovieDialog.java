@@ -208,7 +208,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
             LOG.info("Updating old movie because prev/next button was hit; old movie: " + oldMovie);
             BeanFactory.getInstance().getMovieDao().updateMovie(oldMovie);
         } catch (BusinessException e) {
-            // FEATURE gui: use own icon for different topics; e.g.: coure source/pref source, network, user input, fatal
+            // TO DO ... use core source icon
             GuiUtil.error(this, "Core Source Error", "Could not update recent movie!\nChanges were lost, sorry for that dude...");
         }
         
