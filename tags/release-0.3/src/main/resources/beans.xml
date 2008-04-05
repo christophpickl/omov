@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+		
+	<bean id="CurrentApplicationVersion" class="at.ac.tuwien.e0525580.omov.common.VersionMinorMajor"><constructor-arg>
+		<value>0.3</value></constructor-arg></bean>
+		
+		
+		
+		
+	<bean id="IDatabaseConnection" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oConnection">
+		<constructor-arg><value>omov.db4</value></constructor-arg>
+	</bean>
+	
+	<bean id="IMovieDao" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oMovieDao"><constructor-arg>
+		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
+		
+	<bean id="ISmartFolderDao" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oSmartFolderDao"><constructor-arg>
+		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
+		
+	<bean id="IDataVersionDao" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oDataVersionDao"><constructor-arg>
+		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
+
+</beans>

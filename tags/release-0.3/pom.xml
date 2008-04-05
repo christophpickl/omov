@@ -1,0 +1,191 @@
+<!--
+	MAVEN HINTS
+	===================
+	
+	... build a deployable package
+	mvn assembly:assembly
+	
+	... build a deployable package withouth running the tests
+	mvn -Dmaven.test.skip=true assembly:assembly
+	
+	... create an initial project (with its filestructure)
+	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies
+	
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>at.ac.tuwien.e0525580.omov</groupId>
+	<artifactId>OurMovies</artifactId>
+	<packaging>jar</packaging>
+	<version>0.3-beta</version>
+	<name>OurMovies</name>
+	<url>http://maven.apache.org</url>
+
+
+	<!--
+		<scm>
+		<url>https://omov.svn.sourceforge.net/svnroot/omov</url>
+		</scm>
+	-->
+
+
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring</artifactId>
+			<version>2.0-m4</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.db4o</groupId>
+			<artifactId>db4o-java5</artifactId>
+			<version>6.4.14.8131</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>0.9.1</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.htmlparser</groupId>
+			<artifactId>htmlparser</artifactId>
+			<version>1.6</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.3</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.2.2</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- java help -->
+		<dependency>
+			<groupId>javax.help</groupId>
+			<artifactId>javahelp</artifactId>
+			<version>2.0.02</version>
+			<scope>runtime</scope>
+		</dependency>
+		
+
+		<!-- delete this after outsourcing WebImdbExtractor -->
+		<dependency>
+			<groupId>org.htmlparser</groupId>
+			<artifactId>htmlparser</artifactId>
+			<version>1.6</version>
+		</dependency>
+	</dependencies>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Build                                                               -->
+	<!-- =================================================================== -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- NOTE: We don't need a groupId specification because the group is
+					org.apache.maven.plugins ...which is assumed by default.
+					<groupId>org.apache.maven.plugins</groupId>
+				-->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+						<!-- 
+						<manifest>
+							<mainClass>
+								at.ac.tuwien.e0525580.omov.App
+							</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+						-->
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>
+							jar-with-dependencies
+						</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Repositories                                                        -->
+	<!-- =================================================================== -->
+	<repositories>
+		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository -->
+		<repository>
+			<id>52north.org</id>
+			<url>
+				http://incubator.52north.org/maven/maven-repo/releases
+			</url>
+		</repository>
+	</repositories>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Developers                                                          -->
+	<!-- =================================================================== -->
+	<developers>
+		<developer>
+			<id>CP</id>
+			<name>Christoph Pickl</name>
+			<organization>0525580</organization>
+			<roles>
+				<role>Everything</role>
+			</roles>
+			<email>e0525580@student.tuwien.ac.at</email>
+			<properties>
+				<skype>xphudyx</skype>
+			</properties>
+		</developer>
+	</developers>
+
+</project>
