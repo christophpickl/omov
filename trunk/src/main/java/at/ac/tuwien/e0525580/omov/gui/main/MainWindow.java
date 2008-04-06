@@ -50,6 +50,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     
     private final MovieDetailPanel movieDetailPanel = new MovieDetailPanel();
     private Movie selectedMovie;
+    private boolean activated = false;
     
     
     public MainWindow() {
@@ -60,6 +61,18 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent event) {
                 controller.doQuit();
+            }
+            public void windowActivated(WindowEvent event) {
+                LOG.debug("Main window activated.");
+                activated = true;
+            }
+            public void windowDeactivated(WindowEvent event) {
+                LOG.debug("Main window deactivated.");
+                activated = false;
+            }
+            public void windowOpened(WindowEvent event) {
+                // Set up our application to respond to the Mac OS X application menu
+                registerForMacOSXEvents();
             }
         });
 
@@ -88,11 +101,11 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.setResizable(true);
         GuiUtil.setCenterLocation(this);
         GuiUtil.lockOriginalSizeAsMinimum(this);
-
-        // Set up our application to respond to the Mac OS X application menu
-        this.registerForMacOSXEvents();
     }
     
+    boolean isActivated() {
+        return this.activated;
+    }
     
     private JPanel initComponents() {
         final JPanel panel = new BrushedMetalPanel();
@@ -286,7 +299,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
      * Checks the platform, then attempts to register with the Apple EAWT.
      * @see OSXAdapter.java to see how this is done without directly referencing any Apple APIs
      */
-    public void registerForMacOSXEvents() {
+    private void registerForMacOSXEvents() {
         if (UserSniffer.isMacOSX() == true) {
             LOG.info("Registering for osx events.");
             try {

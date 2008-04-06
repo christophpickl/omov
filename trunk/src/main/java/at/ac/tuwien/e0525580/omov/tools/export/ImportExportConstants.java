@@ -8,7 +8,7 @@ import at.ac.tuwien.e0525580.omov.util.FileUtil;
 
 public interface ImportExportConstants {
 
-    static final String BACKUP_FILE_EXTENSION = "omo";
+    public static final String BACKUP_FILE_EXTENSION = "omo";
     
     public static final FileFilter BACKUP_FILE_FILTER = new FileFilter() {
         @Override

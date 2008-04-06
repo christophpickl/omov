@@ -53,7 +53,7 @@ public class ImageUtil {
             if(DEBUG) System.out.println("ImageUtil: only width oversize");
             newWidth = maxWidth;
             newHeight = (int) ((double)oldHeight * ((double) maxWidth/oldWidth));
-        } else { // FEATURE imageutil: maybe check also for too small image size?
+        } else { // MINOR imageutil: maybe check also for too small image size?
             if(DEBUG) System.out.println("ImageUtil: image to small; reusing old width and height");
             newHeight = oldHeight;
             newWidth = oldWidth;

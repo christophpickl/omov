@@ -33,7 +33,7 @@ class ImdbStartPage extends NodeVisitor {
         LOG.debug("Searching start page with term '"+this.search+"'.");
     }
     
-    // FEATURE websearch: zuerst "Popular Titles" anzeigen, dann andere
+    // MINOR FEATURe websearch: some display "Popular Titles" different, because the probability is higher to be the right match
     public void visitTag(final Tag link) {
         
         

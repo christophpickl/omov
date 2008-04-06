@@ -1,9 +1,13 @@
 package at.ac.tuwien.e0525580.omov.gui.main;
 
+import java.awt.Toolkit;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.zip.ZipException;
+import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 
@@ -29,11 +33,13 @@ import at.ac.tuwien.e0525580.omov.gui.preferences.PreferencesWindow;
 import at.ac.tuwien.e0525580.omov.gui.scan.ScanDialog;
 import at.ac.tuwien.e0525580.omov.gui.smartcopy.SmartCopyDialog;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
+import at.ac.tuwien.e0525580.omov.tools.export.ImportExportConstants;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
 import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.tools.remote.IRemoteDataReceiver;
 import at.ac.tuwien.e0525580.omov.tools.remote.RemoteServer;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
+import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
@@ -381,6 +387,27 @@ public final class MainWindowController extends CommonController implements IRem
         LOG.info("doFindDuplicates");
         new DuplicatesFinderProgressDialog(this.mainWindow).setVisible(true);
     }
+    public void doImportBackup(File backupFile) {
+        final String extension = FileUtil.extractExtension(backupFile);
+        if(extension == null || extension.equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION) == false) {
+            GuiUtil.warning(this.mainWindow, "Import Failed", "The file '"+backupFile.getAbsolutePath()+"' is not a valid backup file!");
+            return;
+        }
+        
+        try {
+            new ZipFile(backupFile); // will throw ZipException, if given file is not a backup file
+            final BackupImportDialog dialog = new BackupImportDialog(this.mainWindow);
+            dialog.setZipFile(backupFile);
+            dialog.setVisible(true);
+            
+        } catch (ZipException e) {
+            LOG.info("Could not open backupfile '"+backupFile.getAbsolutePath()+"'!", e);
+            GuiUtil.error(this.mainWindow, "Import Failed", "The backupfile '"+backupFile.getAbsolutePath()+"' is corrupted!");
+        } catch (IOException e) {
+            LOG.info("Could not open backupfile '"+backupFile.getAbsolutePath()+"'!", e);
+            GuiUtil.error(this.mainWindow, "Import Failed", "Could not open backupfile '"+backupFile.getAbsolutePath()+"'!");
+        }
+    }
 
     public void doImportBackup() {
         new BackupImportDialog(this.mainWindow).setVisible(true);
@@ -425,7 +452,14 @@ public final class MainWindowController extends CommonController implements IRem
     }
     
     public void doHandleFile(final String filename) {
-        System.out.println("did handle file: " + filename); // FIXME implement file handle
+        LOG.info("Handling file '" + filename + "'.");
+        if(this.mainWindow.isActivated() == false) { // MINOR activated is also false, if osx user drops omo-file onto dock icon
+            LOG.info("Can not handle file '" + filename + "' because main windows is currently not activated.");
+            Toolkit.getDefaultToolkit().beep();
+            return;
+        }
+        
+        this.doImportBackup(new File(filename));
     }
     
     

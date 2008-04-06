@@ -224,7 +224,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /******************************************************************************************************************/
 
     public void testDuration() throws Exception {
-        // TODO tests: implement duration tests
+        // MINOR tests: implement duration tests
     }
 
     /******************************************************************************************************************/

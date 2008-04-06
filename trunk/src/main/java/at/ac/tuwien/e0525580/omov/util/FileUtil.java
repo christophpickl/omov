@@ -199,7 +199,7 @@ public final class FileUtil {
      * @param fileWithDots file or folder, does not matter 
      */
     public static String clearFileNameDots(final File fileWithDots) {
-        // FEATURE fileutil: ignore dots with leading "mr" or "dr" (not case-sensitive)
+        // TODO fileutil: ignore dots with leading "mr" or "dr" (not case-sensitive)
         return fileWithDots.isFile() ? clearFileDots(fileWithDots) : clearDirectoryDots(fileWithDots);
     }
 

@@ -7,6 +7,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.zip.ZipFile;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,6 +25,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.ButtonPosition;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.FileChooser;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
 import at.ac.tuwien.e0525580.omov.tools.export.ImportExportConstants;
+import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
@@ -64,6 +66,13 @@ public class BackupImportDialog extends JDialog implements ActionListener {
         this.pack();
         this.setResizable(false);
         GuiUtil.setCenterLocation(this);
+    }
+    
+    public void setZipFile(File backupFile) {
+        assert(FileUtil.extractExtension(backupFile).equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION)); // assert *.omo extension
+        
+        this.inpFileChooser.setFile(backupFile);
+        this.btnImport.setEnabled(true);
     }
     
     private JPanel initComponents() {
