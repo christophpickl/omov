@@ -14,6 +14,43 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 
 public class WebImdbExtractor implements IWebExtractor {
     
+    // FIXME websearch: fix bug when fetching details from url http://imdb.com/title/tt0997157/
+    /*
+EBUG 2008-04-06 17:33:20,814 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker --- doInBackground() started
+INFO  2008-04-06 17:33:20,814 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker --- Fetching details for searchresult 'WebSearchResult[label=Hero;url=http://imdb.com/title/tt0997157/]'
+INFO  2008-04-06 17:33:20,814 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor --- fetching details from url: 'http://imdb.com/title/tt0997157/'
+DEBUG 2008-04-06 17:33:21,310 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- Fetching cover from href '/publicity/'.
+INFO  2008-04-06 17:33:21,310 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- Found href '/publicity/' does not start with /media/; skipping it.
+DEBUG 2008-04-06 17:33:21,311 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- setting director to 'Masayuki Suzuki'.
+DEBUG 2008-04-06 17:33:21,312 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- setting year to '2007'.
+DEBUG 2008-04-06 17:33:21,322 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- Setting movie genres to 'Drama'.
+DEBUG 2008-04-06 17:33:21,324 [SwingWorker-pool-3915128-thread-1] at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker --- doInBackground() finished
+DEBUG 2008-04-06 17:33:21,363 [AWT-EventQueue-0] at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker --- done(); isCancelled() = false
+ERROR 2008-04-06 17:33:28,601 [AWT-EventQueue-0] at.ac.tuwien.e0525580.omov.gui.webdata.WebSearchResultsDialog --- Could not fetch movie webdetails!
+java.lang.ClassCastException: org.htmlparser.nodes.TextNode
+    at at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage.fetchActors(ImdbDetailPage.java:107)
+    at at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage.visitTag(ImdbDetailPage.java:43)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:470)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.tags.CompositeTag.accept(CompositeTag.java:479)
+    at org.htmlparser.Parser.visitAllNodesWith(Parser.java:728)
+    at at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor.getDetails(WebImdbExtractor.java:95)
+    at at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker.doInBackground(FetchWebDetailWorker.java:37)
+    at at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker.doInBackground(FetchWebDetailWorker.java:1)
+    at org.jdesktop.swingworker.SwingWorker$1.call(Unknown Source)
+    at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:269)
+    at java.util.concurrent.FutureTask.run(FutureTask.java:123)
+    at org.jdesktop.swingworker.SwingWorker.run(Unknown Source)
+    at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(ThreadPoolExecutor.java:650)
+    at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:675)
+    at java.lang.Thread.run(Thread.java:613)
+     */
 
     private static final Log LOG = LogFactory.getLog(WebImdbExtractor.class);
     static final String HOST = "http://imdb.com";

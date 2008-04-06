@@ -25,6 +25,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -35,12 +36,13 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
+import at.ac.tuwien.e0525580.omov.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebSearchResult;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public class WebSearchResultsDialog extends JDialog {
+public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail {
 
     private static final Log LOG = LogFactory.getLog(WebSearchResultsDialog.class);
     private static final long serialVersionUID = -9157261964634920565L;
@@ -73,9 +75,10 @@ public class WebSearchResultsDialog extends JDialog {
         });
         
         this.searchResultPanels = new HashMap<WebSearchResult, ImdbMovieDataPanel>(results.size());
+        this.btnFetchDetailData.setEnabled(false); // disable when dialog gets visible
+        
         this.listModel = new ListModel(results);
         this.list.setModel(this.listModel);this.list.setVisibleRowCount(4);
-        
         this.list.setCellRenderer(new OmovListCellRenderer() {
             private static final long serialVersionUID = -8351623948857154558L;
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -89,7 +92,6 @@ public class WebSearchResultsDialog extends JDialog {
         });
         
         this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
         this.list.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if(event.getValueIsAdjusting() == false) {
@@ -109,6 +111,7 @@ public class WebSearchResultsDialog extends JDialog {
     
     private void doSelectionChanged() {
         final int row = this.list.getSelectedIndex();
+        // ??? handle row -1 ???
         final WebSearchResult result = this.listModel.getResultAt(row);
         final ImdbMovieDataPanel cachedPanel = this.searchResultPanels.get(result);
         if(cachedPanel != null) {
@@ -179,32 +182,47 @@ public class WebSearchResultsDialog extends JDialog {
         this.updateDetailPanel(ImdbMovieDataPanel.EMPTY_PANEL);
     }
 
+    
+    
     private void doFetchDetailData() {
         if(this.list.getSelectedIndex() < 0) {
             return;
         }
 
         final WebSearchResult searchResult = this.listModel.getResultAt(this.list.getSelectedIndex());
+        assert(this.searchResultPanels.get(searchResult) == null); // assert nothing yet stored for this entry
         
-        assert(this.searchResultPanels.get(searchResult) == null);
-        // FEATURE websearch: if fetching metadata (which takes a few moments) show modal dialog + start thread
-        final IWebExtractor ex = new WebImdbExtractor();
-        try {
-            LOG.info("Fetching details for searchresult '"+searchResult+"'");
-            final Movie movie = ex.getDetails(searchResult, true);
-            final ImdbMovieDataPanel panel = new ImdbMovieDataPanel(movie);
-            this.searchResultPanels.put(searchResult, panel);
-            
-            this.updateDetailPanel(panel);
-            this.btnFetchDetailData.setEnabled(false);
-            this.list.repaint(); // fetched movie entry's title should not be painted bold anymore
-            
-        } catch (BusinessException e) {
-            LOG.error("Could not fetch details for '"+searchResult+"'!", e);
-            GuiUtil.error(this, "Fetching details failed", "Some error occured while fetching detail data:\n"+e.getMessage());
-        }
+        final WebFetchingProgress progressDialog = new WebFetchingProgress(this, this, searchResult);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                progressDialog.setVisible(true);
+            }
+        });
+        
+//            LOG.error("Could not fetch details for '"+searchResult+"'!", e);
+//            GuiUtil.error(this, "Fetching details failed", "Some error occured while fetching detail data:\n"+e.getMessage());
     }
-    
+
+    public void didFetchedWebDetail(boolean wasCancelled, WebSearchResult searchResult, Movie movie, Exception thrownException) {
+        if(thrownException != null) {
+            LOG.error("Could not fetch movie webdetails!", thrownException);
+            GuiUtil.error(this, "Fetching Metadata Failed", "Sorry, but fetching data from server!\nThe error message is: " + thrownException.getMessage()); // TODO do not display text, but use own ExceptionDialog class
+            return;
+        }
+        
+        if(wasCancelled == true) {
+            LOG.debug("Not going to update ui because fetching moviedetails from web was aborted by user.");
+            return;
+        }
+        
+        
+        final ImdbMovieDataPanel panel = new ImdbMovieDataPanel(movie);
+        this.searchResultPanels.put(searchResult, panel);
+        
+        this.updateDetailPanel(panel);
+        this.btnFetchDetailData.setEnabled(false);
+        this.list.repaint(); // fetched movie entry's title should not be painted bold anymore
+    }
     
     private void updateDetailPanel(ImdbMovieDataPanel panel) {
         LOG.debug("Updating detailpanel with '"+panel+"'");
@@ -297,4 +315,6 @@ public class WebSearchResultsDialog extends JDialog {
         }
         
     }
+
+
 }
