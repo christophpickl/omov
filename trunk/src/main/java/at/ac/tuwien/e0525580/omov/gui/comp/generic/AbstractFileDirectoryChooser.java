@@ -46,18 +46,18 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     
     
     public AbstractFileDirectoryChooser(String dialogTitle) {
-        this(DEFAULT_BUTTON_LABEL, null, DEFAULT_BUTTON_POSITION, dialogTitle);
+        this(dialogTitle, null, DEFAULT_BUTTON_POSITION, DEFAULT_BUTTON_LABEL);
     }
 
     public AbstractFileDirectoryChooser(String dialogTitle, ButtonPosition position) {
-        this(DEFAULT_BUTTON_LABEL, null, position, dialogTitle);
+        this(dialogTitle, null, position, DEFAULT_BUTTON_LABEL);
     }
 
     public AbstractFileDirectoryChooser(String dialogTitle, File defaultPath, ButtonPosition position) {
-        this(DEFAULT_BUTTON_LABEL, defaultPath, position, dialogTitle);
+        this(dialogTitle, defaultPath, position, DEFAULT_BUTTON_LABEL);
     }
     
-    public AbstractFileDirectoryChooser(String buttonLabel, File defaultPath, ButtonPosition position, String dialogTitle) {
+    public AbstractFileDirectoryChooser(String dialogTitle, File defaultPath, ButtonPosition position, String buttonLabel) {
         LOG.info("Constructing new directory chooser instance (buttonLabel="+buttonLabel+"; defaultPath="+(defaultPath == null ? "null" : defaultPath.getAbsolutePath())+").");
         assert(buttonLabel.length() > 0);
         

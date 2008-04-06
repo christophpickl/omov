@@ -26,6 +26,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
@@ -47,7 +50,7 @@ import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class ScanDialog extends JDialog implements TableContextMenuListener, IChooserListener {
 
-//    private static final Log LOG = LogFactory.getLog(ScanDialog.class);
+    private static final Log LOG = LogFactory.getLog(ScanDialog.class);
     private static final long serialVersionUID = 8730290488508038854L;
 
     private static final String CMD_FETCH_METADATA = "CMD_FETCH_METADATA";
@@ -56,23 +59,24 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     private final ScanDialogController controller = new ScanDialogController(this);
     
-    private final DirectoryChooser inpScanRoot = new DirectoryChooser("Choose a Scan Root", new File(PreferencesDao.getInstance().getRecentScanPath()), ButtonPosition.LEFT);
-    private JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
-    private JProgressBar progressBar = new JProgressBar();
+    private final DirectoryChooser inpScanRoot = new DirectoryChooser("Select Rootfolder of Repository", new File(PreferencesDao.getInstance().getRecentScanPath()), ButtonPosition.LEFT, "Set Rootfolder");
+    private final JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
+    private final JProgressBar progressBar = new JProgressBar();
     
     private final JButton btnScan = new JButton("Scan");
     private final JButton btnImport = new JButton("Import");
     private final JButton btnPrepare = new JButton("Prepare Repository");
 
-    private ScannedMovieTableModel tblScannedMovieModel = new ScannedMovieTableModel();
-    private ScannedMovieTable tblScannedMovie = new ScannedMovieTable(this.tblScannedMovieModel);
+    private final ScannedMovieTableModel tblScannedMovieModel = new ScannedMovieTableModel();
+    private final ScannedMovieTable tblScannedMovie = new ScannedMovieTable(this.tblScannedMovieModel);
     private final ScanHintTableModel tblHintsModel = new ScanHintTableModel();
     private final ScanHintTable tblHints = new ScanHintTable(this.tblHintsModel);
 
     private JSplitPane tableSplitter;
     
+    
     public ScanDialog(JFrame owner) {
-        super(owner, "Scan", true);
+        super(owner, "Scan Repository", true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setResizable(true);
 
@@ -83,6 +87,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         });
         
 
+        
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_REMOVE_METADATA);
@@ -95,8 +100,6 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         this.pack();
         GuiUtil.lockOriginalSizeAsMinimum(this);
         GuiUtil.setCenterLocation(this);
-        
-        // this.inpScanRoot.setDefaultPath(new File("/Users/phudy/Movies"));
     }
     
     void updateScannedMovie(ScannedMovie confirmedScannedMovie) {
@@ -158,10 +161,18 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
                 int row = tblScannedMovie.getSelectedRow();
                 if (row > -1) {
 //                    selectedMovieChanged();
-
                     if (event.getClickCount() >= 2) {
-                        final ScannedMovie selectedMovie = tblScannedMovieModel.getMovieAt(tblScannedMovie.getSelectedRow());
-                        controller.doEditScannedMovie(selectedMovie);
+                        
+//                        Component component = SwingUtilities.getDeepestComponentAt( tblScannedMovie, event.getPoint().x, event.getPoint().y);
+//                        if(tblScannedMovie.getSelectedColumn() == -1) { // first column with checkbox was selected
+                        final int column = tblScannedMovie.columnAtPoint(event.getPoint());
+                        System.out.println("column: " + column);
+                        if(column == 0) {
+                            LOG.debug("Ignoring doubleclick on table because it seems as checkbox was clicked (selected column="+tblScannedMovie.getSelectedColumn()+").");
+                        } else {
+                            final ScannedMovie selectedMovie = tblScannedMovieModel.getMovieAt(tblScannedMovie.getSelectedRow());
+                            controller.doEditScannedMovie(selectedMovie);
+                        }
                     }
                 }
                 

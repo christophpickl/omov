@@ -25,8 +25,8 @@ public class DirectoryChooser extends AbstractFileDirectoryChooser {
         super(dialogTitle, defaultPath, position);
     }
     
-    public DirectoryChooser(String buttonLabel, File defaultPath, ButtonPosition position, String dialogTitle) {
-        super(buttonLabel, defaultPath, position, dialogTitle);
+    public DirectoryChooser(String dialogTitle, File defaultPath, ButtonPosition position, String buttonLabel) {
+        super(dialogTitle, defaultPath, position, buttonLabel);
     }
 
 

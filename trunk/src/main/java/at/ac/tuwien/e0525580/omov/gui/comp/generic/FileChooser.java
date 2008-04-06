@@ -22,22 +22,22 @@ public class FileChooser extends AbstractFileDirectoryChooser {
     
     /** simplest constructor */
     public FileChooser(String dialogTitle, String... validExtensions) {
-        this(AbstractFileDirectoryChooser.DEFAULT_BUTTON_LABEL, dialogTitle, null, AbstractFileDirectoryChooser.DEFAULT_BUTTON_POSITION, validExtensions);
+        this(dialogTitle, AbstractFileDirectoryChooser.DEFAULT_BUTTON_LABEL, null, AbstractFileDirectoryChooser.DEFAULT_BUTTON_POSITION, validExtensions);
     }
     
     /** adds button position */
     public FileChooser(String dialogTitle, ButtonPosition position, String... validExtensions) {
-        this(AbstractFileDirectoryChooser.DEFAULT_BUTTON_LABEL, dialogTitle, null, position, validExtensions);
+        this(dialogTitle, AbstractFileDirectoryChooser.DEFAULT_BUTTON_LABEL, null, position, validExtensions);
     }
     
     /** adds default path */
     public FileChooser(String dialogTitle, File defaultPath, ButtonPosition position, String... validExtensions) {
-        this(AbstractFileDirectoryChooser.DEFAULT_BUTTON_LABEL, dialogTitle, defaultPath, position, validExtensions);
+        this(dialogTitle, AbstractFileDirectoryChooser.DEFAULT_BUTTON_LABEL, defaultPath, position, validExtensions);
     }
     
     /** finally: adds button label*/
-    public FileChooser(String buttonLabel, String dialogTitle, File defaultPath, ButtonPosition position, String... validExtensions) {
-        super(buttonLabel, defaultPath, position, dialogTitle);
+    public FileChooser(String dialogTitle, String buttonLabel, File defaultPath, ButtonPosition position, String... validExtensions) {
+        super(dialogTitle, defaultPath, position, buttonLabel);
         
         final Set<String> validExtensionsSet = new LinkedHashSet<String>(Arrays.asList(validExtensions));
         final String validExtensionsString = CollectionUtil.toString(validExtensionsSet);

@@ -66,7 +66,7 @@ class ScanDialogController extends CommonController implements IScanListener {
     }
     
     public void doEditScannedMovie(ScannedMovie scannedInputMovie) {
-        LOG.info("doShowScannedMovie(" + scannedInputMovie + ")");
+        LOG.info("doEditScannedMovie(" + scannedInputMovie + ")");
         AddEditMovieDialog editDialog = AddEditMovieDialog.newEditScanMovieDialog(this.dialog.getOwner(), scannedInputMovie);
         editDialog.setVisible(true);
         

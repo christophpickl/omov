@@ -67,8 +67,9 @@ TODOs
 
 FEATURES
 ==================================
-- write more external plugins: fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies  App.java
-
+- write more external plugins: fetch data from different websites; e.g.:
+    - provide list of more selectable cover files  for one movie (fetched by different internet provider)
+    - fetch slideshow images from www.apunkachoice.com/movies  App.java
 
 */
 

@@ -214,11 +214,11 @@ public class Scanner implements IScanner {
     }
     
     public static MovieFolderInfo scanMovieFolderInfo(File folder) {
-        return scanMovieFolderInfo(folder, null, null);
+        return scanMovieFolderInfo(folder, null);
     }
     
     
-    public static MovieFolderInfo scanMovieFolderInfo(File folder, File scanRoot, List<ScanHint> hints) {
+    public static MovieFolderInfo scanMovieFolderInfo(File folder, List<ScanHint> hints) {
         LOG.info("scanning movie '"+folder.getAbsolutePath()+"'...");
         
         final boolean hintsEnabled = hints != null;
@@ -232,7 +232,7 @@ public class Scanner implements IScanner {
         final String format = constructExtensionString(formats);
         
         if(files.size() == 0) {
-            if(hintsEnabled) hints.add(ScanHint.warning("There was not any movie file found for folder '"+scanRoot.getAbsolutePath()+"'."));
+            if(hintsEnabled) hints.add(ScanHint.warning("There was not any movie file found for folder '"+folder.getAbsolutePath()+"'."));
         }
         
         return new MovieFolderInfo(folderPath, files, fileSizeKb, format);
@@ -305,7 +305,7 @@ public class Scanner implements IScanner {
     
     private ScannedMovie scanMovieFolder(File folder) {
         final String title = FileUtil.clearFileNameDots(folder);
-        final MovieFolderInfo folderInfo = scanMovieFolderInfo(folder, this.scanRoot, this.hints);
+        final MovieFolderInfo folderInfo = scanMovieFolderInfo(folder, this.hints);
         
         return ScannedMovie.newByMovie(new RawScannedMovie(title, folderInfo.getFolderPath(), folderInfo.getFileSizeKB(), folderInfo.getFormat(), folderInfo.getFiles()).toMovie(), true);
     }
