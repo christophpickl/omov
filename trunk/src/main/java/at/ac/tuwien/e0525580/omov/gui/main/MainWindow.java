@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -153,8 +154,9 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.moviesTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
                 LOG.debug("mouseClicked on moviesTable: event.getButton()="+event.getButton()+"; clickCount="+event.getClickCount()+"");
-                if(event.getButton() != MouseEvent.BUTTON1) {
-                    LOG.debug("Ignoring mouseclick because mouse button was not button1 ("+MouseEvent.BUTTON1+").");
+                // if(event.getButton() != MouseEvent.BUTTON1) {
+                if( (event.getModifiers() & InputEvent.BUTTON1_MASK) != InputEvent.BUTTON1_MASK) {
+                    LOG.debug("Ignoring mouseclick because mouse button was not button1 ("+MouseEvent.BUTTON1+") but '"+event.getButton()+"'.");
                     return;
                 }
                 

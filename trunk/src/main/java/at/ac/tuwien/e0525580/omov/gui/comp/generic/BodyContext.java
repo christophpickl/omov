@@ -79,8 +79,15 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
     
     @Override
     public void mousePressed(MouseEvent event) {
+        LOG.debug("mousePressed(); button()="+event.getButton()+"; isPopupTrigger="+event.isPopupTrigger());
         
-        if(event.isPopupTrigger()) {
+//        final boolean isRightButton = event.isPopupTrigger(); // !!! does not work on windows (but on osx)
+//        System.out.println("isPopupTrigger="+event.isPopupTrigger()); // event.consume();
+        
+        final boolean isRightButton = event.getButton() == MouseEvent.BUTTON3;
+//        System.out.println("getButton = " + event.getButton() + "; b1 = " + MouseEvent.BUTTON1 + "; b2 = " + MouseEvent.BUTTON2 + "; b3 = " + MouseEvent.BUTTON3 + "; ");
+        	
+        if(isRightButton) {
 //            System.out.println("event.isPopupTrigger() =>" + event.isPopupTrigger());
 //            System.out.println("event.isConsumed()     => " + event.isConsumed());
 //            System.out.println("event.isMetaDown()     => " + event.isMetaDown());
