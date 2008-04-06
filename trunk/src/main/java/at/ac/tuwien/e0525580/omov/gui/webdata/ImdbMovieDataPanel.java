@@ -18,7 +18,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.MultiColTextField;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.ImageUtil;
 
-public class ImdbMovieDataPanel extends JPanel {
+class ImdbMovieDataPanel extends JPanel {
 
     private static final long serialVersionUID = -1312777627946425901L;
 

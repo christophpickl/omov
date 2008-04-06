@@ -17,8 +17,8 @@ public class ApplicationVersionFetcher {
     private static final Log LOG = LogFactory.getLog(ApplicationVersionFetcher.class);
 
     
-    private static final String VERSION_FILE_NAME = "version2.txt";
-    private static final String WEB_URL = "http://hoerspielcrew.at/" + VERSION_FILE_NAME;
+    private static final String VERSION_FILE_NAME = "version.txt";
+    private static final String WEB_URL = "http://omov.sourceforge.net/" + VERSION_FILE_NAME;
 
     private static final String END_OF_INPUT = "\\Z";
     

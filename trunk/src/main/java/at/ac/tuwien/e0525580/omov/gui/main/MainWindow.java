@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -59,6 +61,18 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
             public void windowClosing(final WindowEvent event) {
                 controller.doQuit();
             }
+        });
+
+        this.addFocusListener(new FocusListener() {
+
+            public void focusGained(FocusEvent e) {
+                System.out.println("focus gained");
+            }
+
+            public void focusLost(FocusEvent e) {
+                System.out.println("focus lost");
+            }
+            
         });
         
         this.moviesTable = new MovieTableX(this, this.moviesModel);
@@ -284,7 +298,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 OSXAdapter.setQuitHandler(target, tClass.getDeclaredMethod("doQuit", (Class[])null));
                 OSXAdapter.setAboutHandler(target, tClass.getDeclaredMethod("doShowAbout", (Class[])null));
                 OSXAdapter.setPreferencesHandler(target, tClass.getDeclaredMethod("doShowPreferences", (Class[])null));
-//                OSXAdapter.setFileHandler(this.controller, getClass().getDeclaredMethod("loadImageFile", new Class[] { String.class }));
+                OSXAdapter.setFileHandler(target, tClass.getDeclaredMethod("doHandleFile", new Class[] { String.class }));
             } catch (Exception e) {
                 LOG.error("Error while loading the OSXAdapter!", e);
                 e.printStackTrace();

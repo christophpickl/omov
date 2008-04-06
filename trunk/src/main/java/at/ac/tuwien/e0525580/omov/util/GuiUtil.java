@@ -15,11 +15,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.Icon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -316,25 +314,6 @@ public final class GuiUtil {
         table.setHighlighters(HighlighterFactory.createAlternateStriping(Constants.getColorRowBackgroundEven(), Constants.getColorRowBackgroundOdd()));
     }
     
-    private static final DefaultListCellRenderer OMOV_LIST_CELL_RENDERER = new DefaultListCellRenderer() {
-        private static final long serialVersionUID = 5300720838872292929L;
-        public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
-            final Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-            
-            if(isSelected == true) {
-                c.setBackground(Constants.getColorSelectedBackground());
-                c.setForeground(Constants.getColorSelectedForeground());
-            } else if(index % 2 == 1) {
-                c.setBackground(Constants.getColorRowBackgroundOdd());
-            } else if(index % 2 == 0) {
-                c.setBackground(Constants.getColorRowBackgroundEven());
-            }
-            return c;
-        }
-    };
-    public static void setOmovCellRenderer(JList list) {
-        list.setCellRenderer(OMOV_LIST_CELL_RENDERER);
-    }
     
     public abstract static class GuiAction {
         public void doAction() {

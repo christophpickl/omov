@@ -53,6 +53,7 @@ public final class MainWindowController extends CommonController implements IRem
     
     public MainWindowController(MainWindow mainWindow) {
         this.mainWindow = mainWindow;
+        
         RemoteServer.getInstance().setMainReceiver(this);
     }
 
@@ -422,6 +423,11 @@ public final class MainWindowController extends CommonController implements IRem
         final SmartCopyDialog dialog = new SmartCopyDialog(this.mainWindow, this);
         dialog.setVisible(true);
     }
+    
+    public void doHandleFile(final String filename) {
+        System.out.println("did handle file: " + filename); // FIXME implement file handle
+    }
+    
     
     /**
      * @see IRemoteDataReceiver#acceptTransmission(String)

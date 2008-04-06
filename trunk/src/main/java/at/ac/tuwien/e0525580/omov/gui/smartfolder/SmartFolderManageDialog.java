@@ -25,6 +25,7 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
 import at.ac.tuwien.e0525580.omov.help.HelpSystem;
@@ -73,7 +74,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         this.smartFolderList.setVisibleRowCount(5);
         this.smartFolderList.setModel(this.listModel);
         this.smartFolderList.addKeyListener(this.escapeDisposer);
-        GuiUtil.setOmovCellRenderer(this.smartFolderList);
+        this.smartFolderList.setCellRenderer(new OmovListCellRenderer());
         // TODO doubleclick on smartfolder list should open the edit dialog
         
         final JScrollPane scroll = new JScrollPane(this.smartFolderList);

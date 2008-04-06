@@ -194,6 +194,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         c.gridy++;
         c.anchor = GridBagConstraints.LAST_LINE_END;
         final JButton btnClose = new JButton("Close");
+        this.getRootPane().setDefaultButton(btnClose);
         btnClose.setOpaque(false);
         btnClose.setActionCommand(CMD_CLOSE);
         btnClose.addActionListener(this);

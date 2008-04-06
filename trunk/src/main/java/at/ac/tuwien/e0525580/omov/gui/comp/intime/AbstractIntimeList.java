@@ -23,6 +23,7 @@ import javax.swing.ListSelectionModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.model.IntimeMovieDatabaseList;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
@@ -45,7 +46,7 @@ public abstract class AbstractIntimeList extends JPanel {
         this.itemName = itemName;
         this.itemNameColumns = itemNameColumns;
         this.list.setVisibleRowCount(visibleRowCount);
-        GuiUtil.setOmovCellRenderer(this.list);
+        this.list.setCellRenderer(new OmovListCellRenderer());
         this.setOpaque(false);
         
         if(this.getIntimeModel() == null) {

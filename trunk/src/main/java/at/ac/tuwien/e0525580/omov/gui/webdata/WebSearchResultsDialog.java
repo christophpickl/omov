@@ -17,7 +17,6 @@ import java.util.Map;
 
 import javax.swing.AbstractListModel;
 import javax.swing.BorderFactory;
-import javax.swing.DefaultListCellRenderer;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -35,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.tools.webdata.IWebExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor;
 import at.ac.tuwien.e0525580.omov.tools.webdata.WebSearchResult;
@@ -74,9 +74,9 @@ public class WebSearchResultsDialog extends JDialog {
         
         this.searchResultPanels = new HashMap<WebSearchResult, ImdbMovieDataPanel>(results.size());
         this.listModel = new ListModel(results);
-        this.list.setModel(this.listModel);
-        this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.list.setCellRenderer(new DefaultListCellRenderer() {
+        this.list.setModel(this.listModel);this.list.setVisibleRowCount(4);
+        
+        this.list.setCellRenderer(new OmovListCellRenderer() {
             private static final long serialVersionUID = -8351623948857154558L;
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component superComponent = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
@@ -87,6 +87,8 @@ public class WebSearchResultsDialog extends JDialog {
                 return superComponent;
             }
         });
+        
+        this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         this.list.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
@@ -144,9 +146,6 @@ public class WebSearchResultsDialog extends JDialog {
         }});
         this.btnFetchDetailData.setOpaque(false);
         this.detailPanelWrapper.setOpaque(false);
-        this.list.setVisibleRowCount(4);
-        
-        GuiUtil.setOmovCellRenderer(this.list);
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.LAST_LINE_START;
@@ -162,8 +161,8 @@ public class WebSearchResultsDialog extends JDialog {
         panel.add(new JScrollPane(this.list), c);
 
         c.fill = GridBagConstraints.NONE;
-        c.anchor = GridBagConstraints.FIRST_LINE_END;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.insets = new Insets(0, 0, 10, 0);
         c.gridy++;
         panel.add(this.btnFetchDetailData, c);
 
@@ -206,6 +205,7 @@ public class WebSearchResultsDialog extends JDialog {
         }
     }
     
+    
     private void updateDetailPanel(ImdbMovieDataPanel panel) {
         LOG.debug("Updating detailpanel with '"+panel+"'");
         this.btnConfirm.setEnabled(panel.getMovie() != null);
@@ -218,7 +218,7 @@ public class WebSearchResultsDialog extends JDialog {
     }
     
     private JPanel newCommandPanel() {
-        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panel.setOpaque(false);
         JButton btnCancel = new JButton("Cancel");
         
@@ -266,7 +266,6 @@ public class WebSearchResultsDialog extends JDialog {
         
         WebSearchResultsDialog dialog = new WebSearchResultsDialog(null, result);
         dialog.setVisible(true);
-        System.out.println("action confirmed: " + dialog.isActionConfirmed());
         
         if(dialog.isActionConfirmed()) {
             Movie movie = dialog.getMovie();
