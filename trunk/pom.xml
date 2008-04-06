@@ -188,4 +188,16 @@
 		</developer>
 	</developers>
 
+	<!-- =================================================================== -->
+	<!-- Subversion                                                          -->
+	<!-- =================================================================== -->
+	
+	<!--
+	<scm>
+	    <connection>https://omov.svn.sourceforge.net/svnroot/omov</connection>
+	    <developerConnection>scm:svn:https://omov.svn.sourceforge.net/svnroot/omov</developerConnection>
+	    <tag>HEAD</tag>
+	    <url>hhttps://omov.svn.sourceforge.net/svnroot/omov</url>
+	</scm>
+	-->
 </project>

@@ -206,7 +206,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     public void didFetchedWebDetail(boolean wasCancelled, WebSearchResult searchResult, Movie movie, Exception thrownException) {
         if(thrownException != null) {
             LOG.error("Could not fetch movie webdetails!", thrownException);
-            GuiUtil.error(this, "Fetching Metadata Failed", "Sorry, but fetching data from server!\nThe error message is: " + thrownException.getMessage()); // TODO do not display text, but use own ExceptionDialog class
+            GuiUtil.error(this, "Fetching Metadata", "Sorry but fetching data from server failed!");
             return;
         }
         

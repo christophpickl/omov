@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -24,6 +26,7 @@ import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer;
 import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
@@ -75,7 +78,21 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         this.smartFolderList.setModel(this.listModel);
         this.smartFolderList.addKeyListener(this.escapeDisposer);
         this.smartFolderList.setCellRenderer(new OmovListCellRenderer());
-        // TODO doubleclick on smartfolder list should open the edit dialog
+        
+        
+        // doubleclick on smartfolder list opens the edit dialog
+        this.smartFolderList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent event) {
+                LOG.debug("mouseClicked on moviesTable: event.getButton()="+event.getButton()+"; clickCount="+event.getClickCount()+"");
+                int row = smartFolderList.getSelectedIndex();
+                if (row > -1 && event.getClickCount() >= 2) {
+                    LOG.debug("Double clicked on table row "+row+"; displaying editDialog.");
+                    controller.doEditSmartFolder(listModel.getSmartFolderAt(row));
+                }
+                
+            }
+        });
+        
         
         final JScrollPane scroll = new JScrollPane(this.smartFolderList);
         scroll.setWheelScrollingEnabled(true);

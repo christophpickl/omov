@@ -34,6 +34,7 @@ CLI ARGs
 
 TODOs
 ==================================
+- gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
 - at startup check if folderImage and folderTemporary exists & if its writeable
 - should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
 - *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!

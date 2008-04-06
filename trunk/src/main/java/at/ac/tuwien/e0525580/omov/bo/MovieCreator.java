@@ -118,6 +118,10 @@ public class MovieCreator {
             LOG.debug("files were null, setting to empty set.");
             this.files = new ArrayList<String>();
         }
+        if(this.duration == -1) {
+            LOG.debug("duration was default value -1, setting to 0.");
+            this.duration = 0;
+        }
         if(this.subtitles == null) {
             LOG.debug("subtitles were null, setting to empty set.");
             this.subtitles = new HashSet<String>();

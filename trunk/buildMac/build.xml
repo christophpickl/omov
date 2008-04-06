@@ -1,8 +1,8 @@
 <project name="OurMovies" default="distmac" basedir=".">
 
 	<property name="app.name" value="OurMovies" />
-	<property name="app.version" value="0.2" />
-	<property name="app.jar" value="OurMovies-0.2-alpha-jar-with-dependencies.jar" />
+	<property name="app.version" value="0.3" />
+	<property name="app.jar" value="OurMovies-0.3-beta-jar-with-dependencies.jar" />
 	
 	<property name="path.base" value="../" />
 	<property name="path.build" value="${path.base}buildMac/" />
@@ -34,6 +34,7 @@
 		
 		<copy file="${packaging}/JavaApplicationStub" todir="${app.dir}/Contents/MacOS"/>
 		<copy file="${path.build}logo.icns" todir="${app.dir}/Contents/Resources/" />
+		<copy file="${path.build}omo_filetype.icns" todir="${app.dir}/Contents/Resources/" />
 		
 		
 		<exec command="chmod 755 &quot;${app.dir}/Contents/MacOS/JavaApplicationStub&quot;"/>
