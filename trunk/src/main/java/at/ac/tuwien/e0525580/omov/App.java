@@ -39,6 +39,7 @@ TODOs
 - should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
 - *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
 - test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
+- if main movie table row is selected, then popup edit dialog, hit next-button -> previously selected row will be unselected (because dao update will be performed -> reselect these rows)
 
 *** web imdb subproject
 * websearch: make webextractor configurable ScanDialog.java
