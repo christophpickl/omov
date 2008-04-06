@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -261,7 +260,7 @@ DATA VERSION HISTORY
         this.fileSizeKb = fileSizeKb;
         this.folderPath = folderPath;
         this.format = format;
-        this.files = Collections.unmodifiableList(files);
+        this.files = new ArrayList<String>(files);// NO "Collections.unmodifiableList(files)" ... because there is a bug concerning db4o + unmodifiable collections
         this.duration = duration;
         this.resolution = resolution;
         this.subtitles = subtitles;
@@ -427,10 +426,24 @@ DATA VERSION HISTORY
     @Override
     public int hashCode() {
         return ((int)this.getId()) + 
-            this.getTitle().hashCode() + this.getRating() + this.getOriginalCoverFile().hashCode() + this.getGenres().hashCode() + this.getLanguages().hashCode() + this.getStyle().hashCode() +
-            this.getActors().hashCode() + this.getYear() + this.comment.hashCode() + this.getQuality().label().hashCode() +
-            ((int)this.getFileSizeKb()) + this.getFolderPath().hashCode() + this.getFormat().hashCode() + this.getFormat().hashCode() + 
-            this.getFiles().hashCode() + this.getDuration() + this.getResolution().hashCode() + this.getSubtitles().hashCode() +
+            this.getTitle().hashCode() + 
+            this.getRating() + 
+            this.getOriginalCoverFile().hashCode() + 
+            this.getGenres().hashCode() + 
+            this.getLanguages().hashCode() + 
+            this.getStyle().hashCode() +
+            this.getActors().hashCode() + 
+            this.getYear() + 
+            this.getComment().hashCode() + 
+            this.getQuality().label().hashCode() +
+            ((int)this.getFileSizeKb()) + 
+            this.getFolderPath().hashCode() + 
+            this.getFormat().hashCode() + 
+            this.getFormat().hashCode() + 
+            this.getFiles().hashCode() + 
+            this.getDuration() + 
+            this.getResolution().hashCode() + 
+            this.getSubtitles().hashCode() +
             73;
     }
     
