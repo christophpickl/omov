@@ -147,8 +147,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         this.itemPlayVlc = VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC); 
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT);
-        BodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE);
+        BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        BodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         new BodyContext(this, itemsSingle, itemsMultiple, this);
     }
     

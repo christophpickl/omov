@@ -412,7 +412,7 @@ DATA VERSION HISTORY
             && this.getActors().equals(that.getActors())
             && this.getYear() == that.getYear()
             && this.getComment().equals(that.getComment())
-            && this.getQuality() == that.getQuality()
+            && this.getQuality().equals(that.getQuality())
             
             && this.getFileSizeKb() == that.getFileSizeKb()
             && this.getFolderPath().equals(that.getFolderPath())

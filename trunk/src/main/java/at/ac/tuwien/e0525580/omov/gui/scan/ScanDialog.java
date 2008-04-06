@@ -3,6 +3,9 @@ package at.ac.tuwien.e0525580.omov.gui.scan;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -15,10 +18,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -55,7 +60,11 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     private static final String CMD_FETCH_METADATA = "CMD_FETCH_METADATA";
     private static final String CMD_REMOVE_METADATA = "CMD_REMOVE_METADATA";
-    
+
+    private static final int MARGIN_TOP    = 12;
+    private static final int MARGIN_LEFT   = 12;
+    private static final int MARGIN_BOTTOM = 12;
+    private static final int MARGIN_RIGHT  = 12;
 
     private final ScanDialogController controller = new ScanDialogController(this);
     
@@ -122,8 +131,6 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     }
     
     private JPanel panelNorth() {
-        final JPanel panel = new JPanel();
-        panel.setOpaque(false);
 
         this.inpScanRoot.setOpaque(false);
         this.btnPrepare.setOpaque(false);
@@ -142,10 +149,50 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
             }}.doAction();
         }});        
 
-        panel.add(this.inpScanRoot);
-        panel.add(this.inpFetchMetadata);
-        panel.add(this.btnPrepare);
-        panel.add(HelpSystem.newButton(HelpEntry.REPOSITORY_SCAN, "What is this scanning for?"));
+        final JPanel panelWest = new JPanel();
+        {
+	        final GridBagConstraints c = new GridBagConstraints();
+	        final GridBagLayout layout = new GridBagLayout();
+	        layout.setConstraints(panelWest, c);
+	        panelWest.setLayout(layout);
+	        panelWest.setOpaque(false);
+
+	        c.anchor = GridBagConstraints.LINE_START;
+	        c.gridy = 0;
+	        c.gridx = 0;
+	        panelWest.add(this.inpScanRoot, c);
+	        c.gridx++;
+	        panelWest.add(this.inpFetchMetadata, c);
+        }
+        
+        
+        final JPanel panelEast = new JPanel(new FlowLayout());
+        {
+	        final GridBagConstraints c = new GridBagConstraints();
+	        final GridBagLayout layout = new GridBagLayout();
+	        layout.setConstraints(panelEast, c);
+	        panelEast.setLayout(layout);
+            panelEast.setOpaque(false);
+
+	        c.anchor = GridBagConstraints.LINE_END;
+	        c.gridy = 0;
+	        c.gridx = 0;
+            panelEast.add(this.btnPrepare, c);
+            c.insets = new Insets(0, 10, 0, 0);
+	        c.gridx++;
+            panelEast.add(HelpSystem.newButton(HelpEntry.REPOSITORY_SCAN, "What is this scanning for?"), c);
+        }
+
+
+        final JPanel panel = new JPanel(new BorderLayout());
+        panel.setOpaque(false);
+        panel.setBorder(BorderFactory.createEmptyBorder(MARGIN_TOP, MARGIN_LEFT, 10, MARGIN_RIGHT));
+
+        panel.add(panelWest, BorderLayout.WEST);
+        final JPanel emptyPanel = new JPanel();
+        emptyPanel.setOpaque(false);
+        panel.add(emptyPanel, BorderLayout.CENTER);
+        panel.add(panelEast, BorderLayout.EAST);
         
         return panel;
     }
@@ -208,8 +255,6 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     }
 
     private JPanel panelSouth() {
-        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        panel.setBackground(Constants.getColorWindowBackground());
         
         this.btnScan.setOpaque(false);
         this.btnScan.setEnabled(false);
@@ -234,11 +279,15 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         this.progressBar.setIndeterminate(false);
         this.progressBar.setString("");
         this.progressBar.setStringPainted(true);
+
+        final JPanel panel = new JPanel(new BorderLayout(20, 0));
+        panel.setBorder(BorderFactory.createEmptyBorder(10, MARGIN_LEFT, MARGIN_BOTTOM, MARGIN_RIGHT));
+        panel.setOpaque(false);
         
-        panel.add(this.btnScan);
+        panel.add(this.btnScan, BorderLayout.WEST);
 //        panel.add(btnClose);
-        panel.add(this.progressBar);
-        panel.add(this.btnImport);
+        panel.add(this.progressBar, BorderLayout.CENTER);
+        panel.add(this.btnImport, BorderLayout.EAST);
         
         
         return panel;

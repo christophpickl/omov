@@ -64,7 +64,8 @@ class TableRenderers {
             if(isSelected) {
                 lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setForeground(Constants.getColorSelectedForeground());
-            }
+            } else 
+            	lbl.setForeground(Color.BLACK);
             return lbl;
         }
     }

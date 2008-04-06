@@ -53,6 +53,22 @@ public final class Quality implements Comparable<Quality> {
     public String toString() {
         return "Quality[id="+this.id+";label="+label+"]";
     }
+    
+    /**
+     * db4o creates other instances of quality singletons :(
+     */
+    @Override
+    public boolean equals(Object object) {
+    	if( (object instanceof Quality) == false) return false;
+    	Quality that = (Quality) object;
+    	return this.id == that.id;
+    }
+
+    @Override
+    public int hashCode() {
+    	return this.id;
+    }
+    
     /*
      * 
     

@@ -74,7 +74,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     
     
     
-    private void initComponents(final ButtonPosition position) {
+    private void initComponents(final ButtonPosition btnPosition) {
         this.setOpaque(false);
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
@@ -82,13 +82,15 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
         this.setLayout(layout);
         c.gridy = 0;
 
-        c.insets = new Insets(0, 0, 0, 4);
+        final int buttonTextGap = 6;
+        
+        c.insets = new Insets(0, 0, 0, (btnPosition == ButtonPosition.LEFT) ? buttonTextGap : 0); // adjust right margin
         c.gridx = 0;
-        this.add((position == ButtonPosition.LEFT) ? this.button : this.directoryPath);
+        this.add((btnPosition == ButtonPosition.LEFT) ? this.button : this.directoryPath, c);
 
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(0, (btnPosition == ButtonPosition.LEFT) ? 0 : buttonTextGap, 0, 0); // adjust left margin
         c.gridx++;
-        this.add((position == ButtonPosition.LEFT) ? this.directoryPath : this.button);
+        this.add((btnPosition == ButtonPosition.LEFT) ? this.directoryPath : this.button, c);
     }
     
     final void setFileOrDir(final File fileOrDir) {

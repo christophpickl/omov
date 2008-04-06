@@ -23,7 +23,7 @@ public class BackupExportPanel extends JPanel {
         final String infoString = "<html>" +
             "This export format will let you create a <b>backup</b><br>" +
             "of your movies, so they can be imported again,<br>" +
-            "either in your or in a friend's OurMovies application.<br>" +
+            "either in your or in a friend's application.<br>" +
             "(<i>The exported movie data version is <b>v"+Movie.DATA_VERSION+"</b></i>)" +
             "</html>";
         

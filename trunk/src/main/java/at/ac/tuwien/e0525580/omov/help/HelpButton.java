@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.help;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -26,6 +27,7 @@ public class HelpButton extends JButton implements MouseListener {
         if(image == null) {
             image = ImageFactory.getInstance().getHelp();
         }
+        this.setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
         this.setIcon(image);
         this.setOpaque(false);
         

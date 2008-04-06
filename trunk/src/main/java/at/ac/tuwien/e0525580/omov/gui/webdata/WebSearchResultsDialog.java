@@ -57,7 +57,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
 
 
     private final JButton btnFetchDetailData = new JButton("Fetch data");
-    private final JButton btnConfirm = new JButton("Confirm");
+    private final JButton btnConfirm = new JButton("Update");
 
     private static final Font FETCHED_FONT = new Font("default", Font.PLAIN, 12);
     private static final Font UNFETCHED_FONT = new Font("default", Font.BOLD, 12);
@@ -159,7 +159,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(0, 0, 4, 0); // margin between list of movies and btn fetch
         c.gridy++;
         panel.add(new JScrollPane(this.list), c);
 

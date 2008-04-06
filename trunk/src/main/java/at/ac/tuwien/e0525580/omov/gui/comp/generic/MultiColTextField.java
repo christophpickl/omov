@@ -15,11 +15,13 @@ public class MultiColTextField extends JTextField {
         this.setBorder(BorderFactory.createEmptyBorder());
         this.setEditable(false);
         this.setOpaque(false);
+        this.setToolTipText(text);
         
     }
     @Override
     public void setText(String text) {
         super.setText(text);
         this.setCaretPosition(0);
+        this.setToolTipText(text);
     }
 }

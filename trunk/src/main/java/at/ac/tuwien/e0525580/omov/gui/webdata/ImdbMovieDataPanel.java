@@ -32,7 +32,7 @@ class ImdbMovieDataPanel extends JPanel {
     private final MultiColTextField txtDirector = new MultiColTextField(10);
     private final MultiColTextField txtActors = new MultiColTextField(20);
     
-    private final CoverImagePanel imagePanel = new CoverImagePanel();
+    private final CoverImagePanel imagePanel = new CoverImagePanel(); // MINOR draw background color only for this panel different (if no cover is set, looks ugly)
     private final JTextArea txtComment = new JTextArea(4, 20);
     private final MultiColTextField txtGenres = new MultiColTextField(20);
     

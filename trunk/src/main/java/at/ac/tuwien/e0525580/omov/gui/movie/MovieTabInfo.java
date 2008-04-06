@@ -45,7 +45,7 @@ class MovieTabInfo extends AbstractMovieTab {
     
     private final DurationPanel inpDuration;
     private final ResolutionPanel inpResolution;
-    private final JCheckBox inpSeen = new JCheckBox(MovieField.SEEN.label());
+    private final JCheckBox inpSeen = new JCheckBox("Yet Seen");
     private final CoverSelector inpCoverSelector = new CoverSelector(this);
     private final IDataList inpGenre;
     
@@ -158,8 +158,8 @@ class MovieTabInfo extends AbstractMovieTab {
         c.anchor = GridBagConstraints.PAGE_START;
         panel.add(this.newInputComponent(this.inpResolution, MovieField.RESOLUTION), c);
         c.gridx = 2;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.insets = new Insets(0, 0, 8, 0); // top left bottom right
+        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.insets = new Insets(0, 0, 4, 0); // top left bottom right
         this.inpSeen.setHorizontalTextPosition(SwingConstants.LEFT);
         panel.add(this.newInputComponent(this.inpSeen, MovieField.SEEN), c); // MINOR gui: inpSeen looks ugly
 

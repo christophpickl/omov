@@ -1,7 +1,9 @@
 package at.ac.tuwien.e0525580.omov.gui.smartcopy;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -40,7 +43,7 @@ public class SmartCopyDialog extends JDialog {
 
     private final JButton btnCopyAnyway = new JButton("Copy Anyway");
     private final JButton btnAbortCopy = new JButton("Abort Copy");
-    private final JTextField inpMovieIds = new JTextField("", 20);
+    private final JTextField inpMovieIds = new JTextField("", 24);
     private final DirectoryChooser inpTargetDirectory = new DirectoryChooser("Copy target directory");
     private final JButton btnStartCopy = new JButton("Start Copying");
     private final JButton btnCancel = new JButton("Cancel");
@@ -80,10 +83,12 @@ public class SmartCopyDialog extends JDialog {
         panel.setBackground(Constants.getColorWindowBackground());
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        c.fill = GridBagConstraints.NONE;
+        
         c.gridx = 0;
-        c.anchor = GridBagConstraints.LINE_START;
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
 
-        c.insets = new Insets(0, 0, 8, 0); // top left bottom right
+        c.insets = new Insets(0, 0, 12, 0); // top left bottom right
         c.gridy = 0;
         panel.add(this.panel1IdString(), c);
         c.gridy = 1;
@@ -124,6 +129,8 @@ public class SmartCopyDialog extends JDialog {
         c.gridy = 0;
         panel.add(new JLabel(label), c);
 
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.gridheight = 1;
         c.gridx = 1;
         c.gridy = 1;
@@ -147,13 +154,16 @@ public class SmartCopyDialog extends JDialog {
 
         this.inpMovieIds.setToolTipText("Enter somthing like: [[13, 42, 78]]");
         
+        c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.LINE_START;
 
+        c.insets = new Insets(0, 0, 10, 0);
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 0;
         contentPanel.add(this.inpMovieIds, c);
 
+        c.insets = new Insets(0, 0, 0, 0);
         c.gridwidth = 1;
         c.gridx = 0;
         c.gridy = 1;
@@ -172,11 +182,12 @@ public class SmartCopyDialog extends JDialog {
             }
         });
         
-        final JPanel contentPanel = new JPanel();
-        contentPanel.add(this.inpTargetDirectory);
+        final JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.add(this.inpTargetDirectory, BorderLayout.WEST);
         contentPanel.setOpaque(false);
         
-        return this._panel123(2, "Select a target directory:", contentPanel);
+        JPanel panel = this._panel123(2, "Select a target directory:", contentPanel);
+        return panel;
     }
 
     private JPanel panel3CopyButton() {
@@ -184,26 +195,37 @@ public class SmartCopyDialog extends JDialog {
         this.btnStartCopy.addActionListener(this.controller);
         this.btnStartCopy.setOpaque(false);
         
-        final JPanel contentPanel = new JPanel();
-        contentPanel.add(this.btnStartCopy);
+        final JPanel contentPanel = new JPanel(new BorderLayout());
+        contentPanel.add(this.btnStartCopy, BorderLayout.WEST);
         contentPanel.setOpaque(false);
         
-        return this._panel123(3, "Hit button and get a cup of tea:", contentPanel);
+        JPanel panel = this._panel123(3, "Hit button and get a cup of tea:", contentPanel);
+        return panel;
     }
     
     
     private JPanel panelProgress() {
-        final JPanel panel = new JPanel();
-        panel.setOpaque(false);
-
         this.btnCancel.setOpaque(false);
         this.btnCancel.setEnabled(false);
         this.btnCancel.addActionListener(this.controller);
         this.btnCancel.setActionCommand(SmartCopyDialogController.CMD_CANCEL_COPY);
         
-        panel.add(new JLabel("Progress"));
-        panel.add(this.progressBar);
-        panel.add(this.btnCancel);
+        final JPanel panel = new JPanel();
+        final GridBagLayout layout = new GridBagLayout();
+        final GridBagConstraints c = new GridBagConstraints();
+        layout.setConstraints(panel, c);
+        panel.setLayout(layout);
+        panel.setOpaque(false);
+
+        c.anchor = GridBagConstraints.LINE_START;
+        c.gridx = 0;
+        c.gridy = 0;
+        panel.add(this.progressBar, c);
+        
+        c.insets = new Insets(0, 6, 0, 0);
+        c.anchor = GridBagConstraints.LINE_END;
+        c.gridx++;
+        panel.add(this.btnCancel, c);
 
         return panel;
     }
@@ -294,6 +316,12 @@ public class SmartCopyDialog extends JDialog {
     }
     
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            LOG.error("Unable to set system look&feel!", ex);
+        }
+        
         new SmartCopyDialog(null, null).setVisible(true);
     }
 }

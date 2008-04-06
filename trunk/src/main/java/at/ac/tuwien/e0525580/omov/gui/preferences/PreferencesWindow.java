@@ -1,7 +1,9 @@
 package at.ac.tuwien.e0525580.omov.gui.preferences;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -14,6 +16,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -102,13 +105,6 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     }
     
     private JPanel initComponents() {
-        final JPanel panel = new JPanel();
-        panel.setBackground(Constants.getColorWindowBackground());
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        final GridBagLayout layout = new GridBagLayout();
-        final GridBagConstraints c = new GridBagConstraints();
-        layout.setConstraints(panel, c);
-        panel.setLayout(layout);
         
         final JButton btnClearPrefs = new JButton("Clear & Shutdown");
         btnClearPrefs.setActionCommand(CMD_CLEAR_PREFERENCES);
@@ -138,45 +134,67 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         this.inpStartupVersion.setOpaque(false);
         this.inpStartupFileSystem.setOpaque(false);
         
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-
-        // ----------------------------
         
+
+        final JPanel panel = new JPanel();
+        panel.setBackground(Constants.getColorWindowBackground());
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        final GridBagLayout layout = new GridBagLayout();
+        final GridBagConstraints c = new GridBagConstraints();
+        layout.setConstraints(panel, c);
+        panel.setLayout(layout);
+        
+        c.anchor = GridBagConstraints.LINE_START;
+        final Insets insetLeft = new Insets(0, 0, 15, 0);
+        final Insets insetRight = new Insets(0, 10, 15, 0);
+        
+        // ----------------------------
+
         c.gridx = 0;
         c.gridy = 0;
+        c.insets = insetLeft;
         panel.add(new JLabel("Username"), c);
         c.gridx = 1;
+        c.insets = insetRight;
         panel.add(this.inpUsername, c);
 
         // ----------------------------
         
         c.gridx = 0;
         c.gridy++;
+        c.insets = insetLeft;
         panel.add(new JLabel("Clear Preferences"), c);
         c.gridx = 1;
+        c.insets = insetRight;
         panel.add(btnClearPrefs, c);
 
         // ----------------------------
 
         c.gridx = 0;
         c.gridy++;
+        c.insets = insetLeft;
         panel.add(new JLabel("Software Update"), c);
-        c.gridx = 1;
-        final JPanel panelSoftwareUpdate = new JPanel();
+        
+        final JPanel panelSoftwareUpdate = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         panelSoftwareUpdate.setOpaque(false);
         panelSoftwareUpdate.add(btnCheckVersion);
         panelSoftwareUpdate.add(this.inpStartupVersion);
+        c.gridx = 1;
+        c.insets = insetRight;
         panel.add(panelSoftwareUpdate, c);
 
 
         c.gridx = 0;
         c.gridy++;
+        c.insets = insetLeft;
         panel.add(new JLabel("FileSystem Check"), c);
-        c.gridx = 1;
-        final JPanel panelFileSystemCheck = new JPanel();
+        
+        final JPanel panelFileSystemCheck = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         panelFileSystemCheck.setOpaque(false);
-         panelFileSystemCheck.add(btnCheckFileSystem);
+        panelFileSystemCheck.add(btnCheckFileSystem);
         panelFileSystemCheck.add(this.inpStartupFileSystem);
+        c.gridx = 1;
+        c.insets = insetRight;
         panel.add(panelFileSystemCheck, c);
 
         // ----------------------------
@@ -198,6 +216,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         btnClose.setOpaque(false);
         btnClose.setActionCommand(CMD_CLOSE);
         btnClose.addActionListener(this);
+        c.insets = new Insets(0, 0, 0, 0);
         panel.add(btnClose, c);
 
         // ----------------------------
@@ -284,4 +303,13 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         }.doAction();
     }
     
+    
+    public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            LOG.error("Unable to set system look&feel!", ex);
+        }
+		new PreferencesWindow(null, null).setVisible(true);
+	}
 }

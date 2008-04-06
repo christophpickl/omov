@@ -142,6 +142,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         c.gridy++;
         panel.add(btnEdit, c);
         c.gridy++;
+        c.insets = new Insets(0, 10, 14, 0); // more margin between delete button and help icon
         panel.add(btnDelete, c);
         c.gridy++;
         c.fill = GridBagConstraints.NONE;

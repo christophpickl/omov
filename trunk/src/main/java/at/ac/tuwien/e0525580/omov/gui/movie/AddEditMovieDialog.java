@@ -204,13 +204,17 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     }
     
     private void setNewPrevNextMovie(Movie oldMovie) {
-        try {
-            LOG.info("Updating old movie because prev/next button was hit; old movie: " + oldMovie);
-            BeanFactory.getInstance().getMovieDao().updateMovie(oldMovie);
-        } catch (BusinessException e) {
-            // TO DO ... use core source icon
-            GuiUtil.error(this, "Core Source Error", "Could not update recent movie!\nChanges were lost, sorry for that dude...");
-        }
+    	if(oldMovie.equals(this.getEditItem()) == true) {
+    		LOG.debug("Not going to update old movie because nothing has changed.");
+    	} else {
+	        try {
+	            LOG.info("Updating old movie because prev/next button was hit; old movie: " + oldMovie);
+	            BeanFactory.getInstance().getMovieDao().updateMovie(oldMovie);
+	        } catch (BusinessException e) {
+	            // TO DO ... use core source icon
+	            GuiUtil.error(this, "Core Source Error", "Could not update recent movie!\nChanges were lost, sorry for that dude...");
+	        }
+    	}
         
         
         final Movie newMovie = this.prevNextProvider.getMovieAt(this.moviePrevNextIndex);
