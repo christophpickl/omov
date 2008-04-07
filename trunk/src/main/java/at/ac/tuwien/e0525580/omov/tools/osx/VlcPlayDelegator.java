@@ -12,9 +12,15 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
+/*
+FEATURE vlc integration for windows
+
+- needs some jvlc.dll and libvlc.dll library
+- jvlc download page: http://jvlc.ihack.it/releases/
+*/
 public class VlcPlayDelegator {
 
-    private static final String SCRIPT =
+    private static final String APPLE_SCRIPT =
         "set theFile to \"{0}\"\n" +
         "tell application \"VLC\"\n" +
             "OpenURL theFile\n" +
@@ -22,7 +28,8 @@ public class VlcPlayDelegator {
         "end tell";
 
     public static boolean isVlcCapable() {
-        return (UserSniffer.isMacOSX() || UserSniffer.isWindows());
+//        return (UserSniffer.isMacOSX() || UserSniffer.isWindows()); // --> wait until VLC release 0.9.0 (JVLC will be supported, i think...)
+        return UserSniffer.isMacOSX();
     }
     
     /**
@@ -43,21 +50,21 @@ public class VlcPlayDelegator {
         
         if(UserSniffer.isMacOSX() == true) {
             playFileMac(file);
-        } else if(UserSniffer.isWindows() == true) {
-            playFileWin(file);
+//        } else if(UserSniffer.isWindows() == true) {
+//            playFileWin(file);
         } else {
             throw new FatalException("Unhandled operating system: " + UserSniffer.getOS());
         }
     }
     
     private static void playFileMac(final File file) throws BusinessException {
-        final String osaScript = SCRIPT.replaceAll("\\{0\\}", file.getAbsolutePath());
+        final String osaScript = APPLE_SCRIPT.replaceAll("\\{0\\}", file.getAbsolutePath());
         AppleScriptNativeExecuter.executeAppleScript(osaScript);
     }
     
-    private static void playFileWin(final File file) throws BusinessException {
-        // FIXME implement play VLC windows
-    }
+//    private static void playFileWin(final File file) throws BusinessException {
+//
+//    }
     
     
 }
