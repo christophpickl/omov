@@ -42,9 +42,10 @@ public abstract class TextMatch extends AbstractMatch<String> {
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
                 String string = this.getValueAt(0);
-                return query.constrain(string).startsWith(false).and(
-                       query.constrain(string).endsWith(false).and(
-                       query.constrain(string).like())); // TODO db4o: how to compare for case-INsensitive equality using db4o?
+//                return query.constrain(string).startsWith(false).and(
+//                       query.constrain(string).endsWith(false).and(
+//                       query.constrain(string).like())); // FEATURE db4o: how to compare for case-INsensitive equality using db4o?
+                return query.constrain(string).equal();
             }
         };
     }

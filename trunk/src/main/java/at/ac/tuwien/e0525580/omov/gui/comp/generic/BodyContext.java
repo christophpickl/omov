@@ -92,11 +92,11 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
 //            System.out.println("event.isConsumed()     => " + event.isConsumed());
 //            System.out.println("event.isMetaDown()     => " + event.isMetaDown());
             
-            if(this.isKeyDown == true) {
-                // TODO gui handling: look if this is really necessary anymore (since isPopupTrigger was added); otherwise remove this.
+            if(this.isKeyDown == true) { // is this really necessary anymore ???
                 LOG.debug("SwingUtilities says right button, but actual only (meta-)key is down :/");
                 return;
             }
+            
             final Point pointRightClick = SwingUtilities.convertPoint(event.getComponent(), event.getPoint(), table);
             this.tableRowSelected = this.table.rowAtPoint(pointRightClick);
             this.table.requestFocus();
@@ -116,11 +116,6 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
             popup.show(this.table, pointRightClick.x, pointRightClick.y);
         }
     }
-    
-    // what for? -> see /.../Lang/java/_java_from/win/java_musterloesung/swing
-//    public void mouseReleased(MouseEvent e) {
-//        mousePressed( e );
-//    }
     
     public void actionPerformed(ActionEvent event) {
         JMenuItem item = (JMenuItem) event.getSource();

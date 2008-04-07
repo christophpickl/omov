@@ -58,6 +58,8 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
                 .languages("EN", "DE")
                 .quality(Quality.BEST)
                 .rating(2)
+                .comment("Comment")
+                .director("John Doe")
                 .get();
     static final Movie MOVIE_ZERO = Movie.create(currentId++)
                 .title("Zero")
@@ -70,6 +72,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
                 .quality(Quality.UNRATED)
                 // no language
                 .rating(0)
+                .comment("COMMENT")
                 .get();
     static final Movie MOVIE_STAR_WARS1 = Movie.create(currentId++)
                 .title("Star Wars 1")
@@ -82,6 +85,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
                 .languages("EN")
                 .quality(Quality.NORMAL)
                 .rating(4)
+                .comment("NO COMMENT")
                 .get();
     static final Movie MOVIE_STAR_WARS2 = Movie.create(currentId++)
                 .title("Star Wars 2")
@@ -94,6 +98,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
                 .languages("EN")
                 .quality(Quality.NORMAL)
                 .rating(5)
+                .comment("COMMENTOS")
                 .get();
     static final Movie MOVIE_STAR_WARS3 = Movie.create(currentId++)
                 .title("Star Wars 3")
@@ -106,6 +111,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
                 .languages("EN")
                 .quality(Quality.GOOD)
                 .rating(4)
+                .comment("ramramram")
                 .get();
     
     static {

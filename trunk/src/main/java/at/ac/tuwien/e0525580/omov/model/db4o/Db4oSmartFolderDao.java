@@ -31,11 +31,14 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
     }
 
     private SmartFolder getSmartFolderById(long id) {
-        ObjectSet<SmartFolder> os = this.objectContainer.get(this.newPrototypeSmartFolderId(id));
+        final ObjectSet<SmartFolder> os = this.objectContainer.get(this.newPrototypeSmartFolderId(id));
         if(os.hasNext() == false) throw new IllegalArgumentException("id: " + id + " (unkown)");
-        SmartFolder folder = os.next();
+        
+        final SmartFolder folder = os.next();
+        
         if(folder == null) throw new IllegalArgumentException("id: " + id + " (null)");
-        if(os.hasNext() == true) throw new IllegalArgumentException("id: " + id + " (more than one)");
+        if(os.hasNext() == true) throw new IllegalArgumentException("id: " + id + " (existing instances with this id "+os.size()+")");
+        
         return folder;
     }
 
@@ -53,10 +56,10 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
     }
 
     public SmartFolder insertSmartFolder(SmartFolder smartFolder) {
-        LOG.info("Inserting smartFolder: " + smartFolder);
         final int id = this.getNextSmartFolderId();
         final SmartFolder result = SmartFolder.byOther(id, smartFolder);
         
+        LOG.info("Inserting smartFolder: " + result);
         this.objectContainer.set(result);
         this.notifyListeners();
         return result;
@@ -118,7 +121,7 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
     }
     
     private static class SmartFolderIdentity {
-        private int nextVal = 0;
+        private int nextVal = 1;
         public int getValueAndIncrement() {
             return this.nextVal++;
         }

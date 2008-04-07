@@ -23,13 +23,13 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -205,24 +205,18 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         
         this.tblScannedMovie.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
-                int row = tblScannedMovie.getSelectedRow();
-                if (row > -1) {
-//                    selectedMovieChanged();
-                    if (event.getClickCount() >= 2) {
-                        
-//                        Component component = SwingUtilities.getDeepestComponentAt( tblScannedMovie, event.getPoint().x, event.getPoint().y);
-//                        if(tblScannedMovie.getSelectedColumn() == -1) { // first column with checkbox was selected
-                        final int column = tblScannedMovie.columnAtPoint(event.getPoint());
-                        System.out.println("column: " + column);
-                        if(column == 0) {
-                            LOG.debug("Ignoring doubleclick on table because it seems as checkbox was clicked (selected column="+tblScannedMovie.getSelectedColumn()+").");
-                        } else {
-                            final ScannedMovie selectedMovie = tblScannedMovieModel.getMovieAt(tblScannedMovie.getSelectedRow());
-                            controller.doEditScannedMovie(selectedMovie);
-                        }
+                final int row = tblScannedMovie.getSelectedRow();
+                if (row > -1 && event.getClickCount() >= 2) {
+                    
+                    final int columnIndex = tblScannedMovie.columnAtPoint(event.getPoint());
+                    final TableColumn column = tblScannedMovie.getColumnModel().getColumn(columnIndex);
+                    if(column.getHeaderValue().equals(ScannedMovieTableModel.TABLE_COLUMN_VALUE_MOVIE_SELECTED)) {
+                        LOG.debug("Ignoring doubleclick on table because it seems as checkbox was clicked (selected column="+tblScannedMovie.getSelectedColumn()+").");
+                    } else {
+                        final ScannedMovie selectedMovie = tblScannedMovieModel.getMovieAt(tblScannedMovie.getSelectedRow());
+                        controller.doEditScannedMovie(selectedMovie);
                     }
                 }
-                
             }
         });
         

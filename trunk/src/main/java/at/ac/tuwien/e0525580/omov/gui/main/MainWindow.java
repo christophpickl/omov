@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -75,18 +73,6 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 // Set up our application to respond to the Mac OS X application menu
                 registerForMacOSXEvents();
             }
-        });
-
-        this.addFocusListener(new FocusListener() {
-
-            public void focusGained(FocusEvent e) {
-                System.out.println("focus gained");
-            }
-
-            public void focusLost(FocusEvent e) {
-                System.out.println("focus lost");
-            }
-            
         });
         
         this.moviesTable = new MovieTableX(this, this.moviesModel);
@@ -321,44 +307,4 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         }
     }
     
-    /*
-    
-    private MenuBar getOmovMenuBar() {
-        return (MenuBar) this.getJMenuBar();
-    }
-    
-    public void actionPerformed(ActionEvent e) {
-        Object source = e.getSource();
-        if (source == this.getOmovMenuBar().getQuitItem()) {
-            System.out.println("quit() by main window");
-        } else if (source == this.getOmovMenuBar().getPreferencesItem()) {
-            System.out.println("preferences() by main window");
-        } else if (source == this.getOmovMenuBar().getAboutItem()) {
-            System.out.println("about() by main window");
-        } else {
-            System.out.println("unhandled action event source: " + source);
-        }
-//        } else if (source == openMI) {
-//            // File:Open action shows a FileDialog for loading displayable images
-//            FileDialog openDialog = new FileDialog(this);
-//            openDialog.setMode(FileDialog.LOAD);
-//            openDialog.setFilenameFilter(new FilenameFilter() {
-//                public boolean accept(File dir, String name) {
-//                    String[] supportedFiles = ImageIO.getReaderFormatNames();
-//                    for (int i = 0; i < supportedFiles.length; i++) {
-//                        if (name.endsWith(supportedFiles[i])) {
-//                            return true;
-//                        }
-//                    }
-//                    return false;
-//                }
-//            });
-//            openDialog.setVisible(true);
-//            String filePath = openDialog.getDirectory() + openDialog.getFile();
-//            if (filePath != null) {
-//                loadImageFile(filePath);
-//            }
-//        }
-    }
-    */
 }

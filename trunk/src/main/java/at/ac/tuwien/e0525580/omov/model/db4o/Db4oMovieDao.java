@@ -341,7 +341,7 @@ List <Cat> cats = db.query(new Predicate<Cat>() {
     }
     
     private static class MovieIdentity {
-        private int nextVal = 0;
+        private int nextVal = 1;
         public int getValueAndIncrement() {
             return this.nextVal++;
         }

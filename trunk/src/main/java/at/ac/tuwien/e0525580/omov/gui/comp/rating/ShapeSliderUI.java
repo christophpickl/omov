@@ -90,7 +90,7 @@ class ShapeSliderUI extends SliderUI{
         BoundedRangeModel model = slider.getModel();
         int pos = model.getValue();
         int end = pos;
-        System.out.println("code "+evt.getKeyCode());
+        
         if(evt.getKeyCode()==KeyEvent.VK_RIGHT){
             if(pos<model.getMaximum())
                 end++;

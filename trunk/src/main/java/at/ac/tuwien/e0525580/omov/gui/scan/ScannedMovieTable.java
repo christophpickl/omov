@@ -60,14 +60,6 @@ class ScannedMovieTable extends JXTable {
         
     }
     
-//    @Override
-//    public Component prepareEditor(TableCellEditor editor, int row, int column) {
-//        Component comp = super.prepareEditor(editor, row, column);
-//        OmovListCellRenderer.prepareComponent(comp, this, row);
-//        return comp;
-//    }
-    
-    
     
     @Override
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
@@ -77,7 +69,10 @@ class ScannedMovieTable extends JXTable {
         final ScannedMovie movie = model.getMovieAt(row);
         final Color unselectedHighlightColor;
         // display row in different color if fetched title != movie folder name
+
+        // MANTIS [24] use string comparison (similarity) library for foldername-fetched movie title check
         if(movie.getFolderPath().length() > 0 && movie.getTitle().equalsIgnoreCase(FileUtil.extractLastFolderName(movie.getFolderPath())) == false) {
+            // TODO if foldername differs from movietitle, do not only use another row bg color, but also put a message in hint table
             unselectedHighlightColor = Color.ORANGE;
         } else {
             unselectedHighlightColor = null;
@@ -88,36 +83,4 @@ class ScannedMovieTable extends JXTable {
         return comp;
     }
 
-//    private static class MyDefaultRenderer extends DefaultTableCellRenderer {
-//        private static final long serialVersionUID = -8927947683805849617L;
-//        
-//        public Component getTableCellRendererComponent(final JTable table, final Object value, final boolean isSelected, final boolean hasFocus, final int row, final int colIndex) {
-//            final Component superComponent = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, colIndex);
-//            
-//            final ScannedMovieTableModel model = (ScannedMovieTableModel) table.getModel();
-//            final ScannedMovie movie = model.getMovieAt(row);
-//            
-//            // MANTIS [24] use string comparison (similarity) library for foldername-fetched movie title check
-//            if(movie.getFolderPath().length() > 0 && movie.getTitle().equalsIgnoreCase(FileUtil.extractLastFolderName(movie.getFolderPath())) == false) {
-//                 superComponent.setBackground(Color.ORANGE); // display row in different color if fetched title != movie folder name
-//                 // TODO if foldername differs from movietitle, do not only use another row bg color, but also put a message in hint table
-//            }
-//            
-//            return superComponent;
-//        }
-//    }
-//    private static class MyBooleanRenderer extends JCheckBox implements TableCellRenderer {
-//
-//        private static final long serialVersionUID = -5947305831514840661L;
-//
-//        MyBooleanRenderer() {
-//            setHorizontalAlignment(JLabel.CENTER);
-//        }
-//
-//        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//            setSelected((value != null && ((Boolean) value).booleanValue()));
-//            return this;
-//        }
-//    }
-    
 }

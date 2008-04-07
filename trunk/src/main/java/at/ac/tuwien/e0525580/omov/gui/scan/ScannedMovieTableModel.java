@@ -26,13 +26,14 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         }
     }
     
+    static final String TABLE_COLUMN_VALUE_MOVIE_SELECTED = "";
     private static final List<ScannedMovieColumn> ALL_COLUMNS;
     private static final List<String> ALL_COLUMN_NAMES;
     private static final Map<String, ScannedMovieColumn> ALL_COLUMN_NAMES_MAP;
     static {
         final List<ScannedMovieColumn> columns = new ArrayList<ScannedMovieColumn>();
         
-        columns.add(new ScannedMovieColumn("", 70, 70, 70) { // selected JCheckBox
+        columns.add(new ScannedMovieColumn(TABLE_COLUMN_VALUE_MOVIE_SELECTED, 70, 70, 70) { // selected JCheckBox
             public Object getValue(ScannedMovie movie) {  return movie.isSelected();  }
             public Class<?> getValueClass() {  return Boolean.class;  }});
         

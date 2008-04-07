@@ -75,6 +75,9 @@ FEATURES
     - provide list of more selectable cover files  for one movie (fetched by different internet provider)
     - fetch slideshow images from www.apunkachoice.com/movies  App.java
 
+
+-> http://www.theserverside.com/tt/articles/article.tss?l=Insidedb4o
+-> http://db4o-tools.blogspot.com/search/label/db4o
 */
 
 public class App {

@@ -26,7 +26,6 @@ import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
-import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer;
 import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
