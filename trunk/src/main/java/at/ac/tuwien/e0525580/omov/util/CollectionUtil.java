@@ -62,6 +62,8 @@ public final class CollectionUtil<T> {
     }
     
     public static String toString(Collection<?> collection) {
+        if(collection.size() == 0) return "";
+        
         StringBuilder sb = new StringBuilder();
         for (Object object : collection) {
             sb.append(", ").append(object.toString());

@@ -16,17 +16,18 @@ import javax.swing.JPanel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.MovieFolderInfo;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.ButtonMovieFolder;
 import at.ac.tuwien.e0525580.omov.gui.comp.ButtonMovieFolder.IButtonFolderListener;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.MultiColTextField;
-import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieActorsList;
-import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieActorsListFilled;
-import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieLanguagesList;
-import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieSubtitlesList;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieDirectorSuggester;
+import at.ac.tuwien.e0525580.omov.gui.comp.suggester.MovieActorsList;
+import at.ac.tuwien.e0525580.omov.gui.comp.suggester.MovieLanguagesList;
+import at.ac.tuwien.e0525580.omov.gui.comp.suggester.MovieSubtitlesList;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.tools.scan.Scanner;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
@@ -38,10 +39,9 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private static final long serialVersionUID = 1757068592935794813L;
     
     private static final int ACTORS_FIXED_CELL_WIDTH = 67;
-    
-    // gui components
-    private final MovieLanguagesList inpLanguages = new MovieLanguagesList(this.owner);
-    private final MovieSubtitlesList inpSubtitles = new MovieSubtitlesList(this.owner);
+
+    private final MovieLanguagesList inpLanguages;
+    private final MovieSubtitlesList inpSubtitles;
     
     private final MovieDirectorSuggester inpDirector = new MovieDirectorSuggester(20);
     private final MovieActorsList inpActors;
@@ -54,17 +54,31 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private final JLabel lblSize = new JLabel("");
     private final JLabel lblFormat = new JLabel("");
 
-    
+    /**
+     * Constructor for adding/editing single movie.
+     */
     public MovieTabDetails(AddEditMovieDialog owner, boolean isAddMode, Movie editMovie) {
         super(owner, isAddMode, editMovie);
 //        this.lblPath.setBackground(Color.ORANGE);
-        this.btnMovieFolder.addButtonFolderListener(this);
         
-        if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
-            LOG.info("edit mode && editMovie instanceof ScannedMovie => going to create prefilled MovieActorsList (actors="+editMovie.getActorsString()+").");
-            this.inpActors = new MovieActorsListFilled(this.owner, editMovie.getActors(), ACTORS_FIXED_CELL_WIDTH);
-        } else {
-            this.inpActors = new MovieActorsList(this.owner, ACTORS_FIXED_CELL_WIDTH);
+        try {
+            this.inpLanguages = new MovieLanguagesList(this.owner);
+            this.inpSubtitles = new MovieSubtitlesList(this.owner);
+        } catch(BusinessException e) {
+            throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
+        }
+        
+        this.btnMovieFolder.addButtonFolderListener(this);
+
+        try {
+            if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
+                LOG.info("edit mode && editMovie instanceof ScannedMovie => going to create prefilled MovieActorsList (actors="+editMovie.getActorsString()+").");
+                this.inpActors = new MovieActorsList(this.owner, editMovie.getActors(), ACTORS_FIXED_CELL_WIDTH);
+            } else {
+                this.inpActors = new MovieActorsList(this.owner, ACTORS_FIXED_CELL_WIDTH);
+            }
+        } catch(BusinessException e) {
+            throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
 
         if(isAddMode == false) {
@@ -96,17 +110,19 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     }
 
     
-    void unregisterFilledListListeners() {
-        if(this.inpActors instanceof MovieActorsListFilled) {
-            MovieActorsListFilled filledList = (MovieActorsListFilled) this.inpActors;
-            filledList.unregisterIntimeDatabaseModel();
-        }
-    }
-    
+    /**
+     * Constructor for editing multiple movies.
+     */
     public MovieTabDetails(EditMoviesDialog owner, List<Movie> editMovies) {
         super(owner, editMovies);
         
-        this.inpActors = new MovieActorsList(this.owner, ACTORS_FIXED_CELL_WIDTH);
+        try {
+            this.inpLanguages = new MovieLanguagesList(this.owner);
+            this.inpSubtitles = new MovieSubtitlesList(this.owner);
+            this.inpActors = new MovieActorsList(this.owner, ACTORS_FIXED_CELL_WIDTH);
+        } catch (BusinessException e) {
+            throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
+        }
         
         this.btnMovieFolder.setEnabled(false);
         this.btnMovieFolder.setToolTipText("Setting Moviefolder is for multiple Movies not possible");

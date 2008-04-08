@@ -1,18 +1,23 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
+import java.awt.Point;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.swing.JMenuItem;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
+import javax.swing.table.TableColumn;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,6 +62,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         this.contextMenuListener = contextMenuListener;
         this.setModel(model);
         
+        this.setShowHorizontalLines(false);
+        this.setShowVerticalLines(false);
         // JXTable features START
         this.setColumnControlVisible(true);
         GuiUtil.setAlternatingBgColor(this);
@@ -98,7 +105,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
 
         this.packAll();
         // JXTable features END
-        
+        this.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         this.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if(event.getValueIsAdjusting() == true) {
@@ -117,7 +124,67 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         
         this.initContextMenu();
     }
+//    private static final Set<MovieField> TOOLTIP_FIELDS;
+    private static final Set<String> TOOLTIP_COLUMN_HEADERS;
+    private static final Map<String, MovieField> TOOLTIP_FIELDS_MAP;
+    static {
+        final Set<MovieField> fields = new HashSet<MovieField>();
+        fields.add(MovieField.TITLE);
+        fields.add(MovieField.FOLDER_PATH);
+        fields.add(MovieField.LANGUAGES);
+        fields.add(MovieField.STYLE);
+        fields.add(MovieField.DIRECTOR);
+        fields.add(MovieField.GENRES);
+        fields.add(MovieField.ACTORS);
+        fields.add(MovieField.FORMAT);
+        fields.add(MovieField.FILES);
+        fields.add(MovieField.SUBTITLES);
+//        TOOLTIP_FIELDS = Collections.unmodifiableSet(fields);
+        
+        final Set<String> headers = new TreeSet<String>();
+        final Map<String, MovieField> map = new HashMap<String, MovieField>(fields.size());
+        for (MovieField field : fields) {
+            headers.add(field.label());
+            map.put(field.label(), field);
+        }
+        TOOLTIP_COLUMN_HEADERS = headers;
+        TOOLTIP_FIELDS_MAP = map;
+    }
     
+    public String getToolTipText(MouseEvent event) {
+        final Point point = event.getPoint();
+        final int rowIndex = this.rowAtPoint(point);
+        int colIndex = this.columnAtPoint(point);
+        final TableColumn column = this.getColumnModel().getColumn(colIndex);
+        
+        final String tip;
+        if (rowIndex != -1 && TOOLTIP_COLUMN_HEADERS.contains(column.getHeaderValue())) {
+            
+            int modelRowIndex = this.convertRowIndexToModel(rowIndex);
+            final Movie movie = ((MovieTableModel) this.getModel()).getMovieAt(modelRowIndex);
+            assert(movie != null);
+            
+            final MovieField field = TOOLTIP_FIELDS_MAP.get(column.getHeaderValue());
+            if(field == MovieField.LANGUAGES) {
+                tip = movie.getLanguagesString();
+            } else if(field == MovieField.SUBTITLES) {
+                tip = movie.getSubtitlesString();
+            } else if(field == MovieField.ACTORS) {
+                tip = movie.getActorsString();
+            } else if(field == MovieField.FILES) {
+                tip = movie.getFilesString();
+            } else if(field == MovieField.GENRES) {
+                tip = movie.getGenresString();
+            } else {
+                tip = field.getValue(movie).toString();
+            }
+        } else {
+//            tip = super.getToolTipText(event);
+            tip = null;
+        }
+        if(tip == null || tip.length() == 0) return null;
+        return tip;
+    }
     private void updatePrefColumnVisibility() {
         final Map<String, Boolean> columns = new HashMap<String, Boolean>();
         

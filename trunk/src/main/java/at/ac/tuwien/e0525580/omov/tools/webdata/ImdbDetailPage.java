@@ -106,6 +106,27 @@ class ImdbDetailPage extends NodeVisitor {
             for (int i = 1; i <= 3; i++) { // skip first, its a TextNode (header); only add top 3 actors
                 TableRow row = (TableRow) tableRows.elementAt(i);
                 // row <- [1] TableColumn <-  [0] LinkTag <- [0] TextNode = actor
+                // FIXME websearch: nullpointer 
+                /*
+                DEBUG 2008-04-07 20:31:56,547 [Thread-7] at.ac.tuwien.e0525580.omov.bo.MovieCreator --- dateAdded was null, setting to 0000-00-00 00:00:00!
+                INFO  2008-04-07 20:31:56,547 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor --- Start search for movie with title 'xyz' ...
+                INFO  2008-04-07 20:31:56,548 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor --- Fetching data form website 'http://imdb.com/find?s=all&q=xyz'...
+                DEBUG 2008-04-07 20:31:57,973 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- Searching start page with term 'xyz'.
+                INFO  2008-04-07 20:31:57,979 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label 'XYZ' and href '/title/tt0229060/'
+                INFO  2008-04-07 20:31:57,979 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label '&#34;Xyz&#34;' and href '/title/tt0384781/'
+                INFO  2008-04-07 20:31:57,979 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label 'RGB XYZ' and href '/title/tt1185670/'
+                INFO  2008-04-07 20:31:57,980 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label 'Coinlaundry XYZ' and href '/title/tt0266418/'
+                INFO  2008-04-07 20:31:57,980 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label 'K&#228;rlekens XYZ' and href '/title/tt0067320/'
+                INFO  2008-04-07 20:31:57,980 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label 'Madam XYZ' and href '/title/tt0156759/'
+                INFO  2008-04-07 20:31:57,980 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label 'Postlagernd XYZ' and href '/title/tt0777266/'
+                INFO  2008-04-07 20:31:57,980 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbStartPage --- adding new target link with label '&#34;XYZ at the Movies&#34;' and href '/title/tt0454758/'
+                INFO  2008-04-07 20:31:57,983 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor --- Found 8 detail pages, for movie title 'xyz'
+                INFO  2008-04-07 20:31:57,983 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.WebImdbExtractor --- fetching details from url: 'http://imdb.com/title/tt0229060/'
+                DEBUG 2008-04-07 20:31:58,174 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- Fetching cover from href '/publicity/'.
+                INFO  2008-04-07 20:31:58,174 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- Found href '/publicity/' does not start with /media/; skipping it.
+                DEBUG 2008-04-07 20:31:58,175 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- setting director to 'Philippe Lifchitz'.
+                DEBUG 2008-04-07 20:31:58,175 [Thread-7] at.ac.tuwien.e0525580.omov.tools.webdata.ImdbDetailPage --- Setting movie genres to 'Short'.
+                 */
                 final String actorName = row.getChildren().elementAt(1).getChildren().elementAt(0).getChildren().elementAt(0).getText().trim();
                 debug("Adding actorName '"+actorName+"'.");
                 actors.add(actorName);

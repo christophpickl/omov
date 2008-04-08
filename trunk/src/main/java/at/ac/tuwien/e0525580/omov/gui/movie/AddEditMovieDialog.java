@@ -104,12 +104,6 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         GuiUtil.setCenterLocation(this);
     }
 
-    @Override
-    public void dispose() {
-        this.tabInfo.unregisterFilledListListeners();
-        this.tabDetails.unregisterFilledListListeners();
-        super.dispose();
-    }
     
     private void initEditMovie(final Movie movie, final int preselectedTabIndex) {
         this.setEditItem(movie);

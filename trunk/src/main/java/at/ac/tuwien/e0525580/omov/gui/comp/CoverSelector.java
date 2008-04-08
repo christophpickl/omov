@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -193,11 +194,15 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
     private void setCoverFile(final File coverFile, final boolean initialSet) {
         LOG.debug("Setting cover file to '" + coverFile.getAbsolutePath() + "' (initialSet=" + initialSet + ").");
+        
         assert (this.isValidCoverFile(coverFile) == true) : "Only a valid coverfile may be set; was '" + coverFile.getAbsolutePath() + "'!";
         this.coverFile = coverFile;
         
-        // TODO coverselector: check if this isnt an already stored image (x-120x160.jpg) and if so, use it instead of resizing image
-        this.imagePanel.setImage(ImageUtil.getResizedCoverImage(this.coverFile, this.imagePanel, CoverFileType.NORMAL));
+        // MINOR coverselector: check if this isnt an already stored image (x-120x160.jpg) and if so, use it instead of resizing image
+        // final boolean isAlreadyResized = coverFile.getAbsolutePath().startsWith(PreferencesDao.getInstance().getCoversFolder().getAbsolutePath());
+        
+        final Image coverImage = ImageUtil.getResizedCoverImage(this.coverFile, this.imagePanel, CoverFileType.NORMAL);
+        this.imagePanel.setImage(coverImage);
                 
         if (initialSet == false) {
             this.coverChanged = true;

@@ -25,9 +25,9 @@ import javax.swing.JTextField;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
+import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;

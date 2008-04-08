@@ -10,7 +10,7 @@ public class ScannedMovie extends SelectableMovie {
 
     private static final long serialVersionUID = 3374310280498510658L;
     
-    // TODO scanner: add boolean:metadataFetched indicating that this scanned movie got fetched metadata?
+    // MINOR scanner: add boolean:metadataFetched indicating that this scanned movie got fetched metadata? -> is this even useful?
 
     private ScannedMovie(Movie movie, boolean selected) {
         super(movie, selected);

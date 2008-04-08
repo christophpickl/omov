@@ -1,4 +1,4 @@
-package at.ac.tuwien.e0525580.omov.gui.comp.intime;
+package at.ac.tuwien.e0525580.omov.gui.comp.suggester;
 
 import java.awt.BorderLayout;
 import java.awt.Dialog;
@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -24,14 +25,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
-import at.ac.tuwien.e0525580.omov.model.IntimeMovieDatabaseList;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public abstract class AbstractIntimeList extends JPanel {
+public abstract class AbstractSuggesterList extends JPanel {
 
-    private static final Log LOG = LogFactory.getLog(AbstractIntimeList.class);
+    private static final Log LOG = LogFactory.getLog(AbstractSuggesterList.class);
     
-    private final JList list = new JList();
+    private final JList list;
     
     private final String itemName;
     private final int itemNameColumns;
@@ -41,19 +41,31 @@ public abstract class AbstractIntimeList extends JPanel {
 //    public AbstractIntimeList(Dialog owner) {
 //        this(owner, false, null, 0);
 //    }
-    public AbstractIntimeList(Dialog owner, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
+
+    AbstractSuggesterList(Dialog owner, List<String> items, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
+        this(owner, items, null, showAddButton, itemName, itemNameColumns, fixedCellWidth, visibleRowCount);
+    }
+    
+    AbstractSuggesterList(Dialog owner, List<String> items, Collection<String> additionalItems, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
+        
+        final List<String> listItems = new ArrayList<String>(items);
+        if(additionalItems != null) {
+            listItems.addAll(additionalItems);
+        }
+        
         this.owner = owner;
         this.itemName = itemName;
         this.itemNameColumns = itemNameColumns;
+        this.list = new JList(listItems.toArray());
         this.list.setVisibleRowCount(visibleRowCount);
         this.list.setCellRenderer(new OmovListCellRenderer());
         this.setOpaque(false);
         
-        if(this.getIntimeModel() == null) {
-            LOG.debug("intime model is empty. hopefully subtype will invoke setListData() method...");
-        } else {
-            this.setListData();
-        }
+//        if(this.getIntimeModel() == null) {
+//            LOG.debug("intime model is empty. hopefully subtype will invoke setListData() method...");
+//        } else {
+//            this.setListData();
+//        }
         
 //        System.out.println(this.getClass().getSimpleName() + ": fixedCellWidth = " + fixedCellWidth);
         this.list.setFixedCellWidth(fixedCellWidth);
@@ -103,12 +115,12 @@ public abstract class AbstractIntimeList extends JPanel {
 //      
     }
 
-    protected final void setListData() {
-        this.list.setListData(this.getIntimeModel().getValues().toArray());
-        LOG.info("Filled list with count elements: " + this.list.getModel().getSize());
-    }
+//    protected final void setListData() {
+//        this.list.setListData(this.getIntimeModel().getValues().toArray());
+//        LOG.info("Filled list with count elements: " + this.list.getModel().getSize());
+//    }
     
-    protected abstract IntimeMovieDatabaseList<String> getIntimeModel();
+//    protected abstract IntimeMovieDatabaseList<String> getIntimeModel();
     
 
     public final void setSelectedItem(String item) {

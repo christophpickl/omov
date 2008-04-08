@@ -17,6 +17,8 @@ import javax.swing.SwingConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
@@ -28,11 +30,10 @@ import at.ac.tuwien.e0525580.omov.gui.comp.QualityField;
 import at.ac.tuwien.e0525580.omov.gui.comp.ResolutionPanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.YearField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDataList;
-import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieGenresList;
-import at.ac.tuwien.e0525580.omov.gui.comp.intime.MovieGenresListFilled;
 import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieStyleSuggester;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieTitleSuggester;
+import at.ac.tuwien.e0525580.omov.gui.comp.suggester.MovieGenresList;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.util.NumberUtil.Duration;
 
@@ -63,24 +64,26 @@ class MovieTabInfo extends AbstractMovieTab {
         
         final int duration = isAddMode ? 0 : editMovie.getDuration(); 
         this.inpDuration = new DurationPanel(Duration.newByTotal(duration));
-        this.inpDuration.setFocusSelection(true);
         
         final Resolution resolution = isAddMode ? Resolution.R0x0 : editMovie.getResolution();
         this.inpResolution = new ResolutionPanel(resolution);
-        this.inpResolution.setFocusSelection(true);
         
         this.inpRating = new RatingPanel(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
         this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
-        this.inpYear.setFocusSelection(true);
+        
         
 //        final int preferredGenreHeight = Constants.COVER_IMAGE_HEIGHT;
         final int fixedCellWidth = 10;
-        if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
-            LOG.info("edit mode && editMovie instanceof ScannedMovie => going to create prefilled MovieGenresList (genres="+editMovie.getGenresString()+").");
-            this.inpGenre = new MovieGenresListFilled(this.owner, editMovie.getGenres(), fixedCellWidth);
-        } else {
-            this.inpGenre = new MovieGenresList(this.owner, fixedCellWidth);
+        try {
+            if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
+                LOG.info("edit mode && editMovie instanceof ScannedMovie => going to create prefilled MovieGenresList (genres="+editMovie.getGenresString()+").");
+                this.inpGenre = new MovieGenresList(this.owner, editMovie.getGenres(), fixedCellWidth);
+            } else {
+                this.inpGenre = new MovieGenresList(this.owner, fixedCellWidth);
+            }
+        } catch(BusinessException e) {
+            throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
         
         if(isAddMode == false) {
@@ -113,7 +116,11 @@ class MovieTabInfo extends AbstractMovieTab {
         
         this.inpDuration = new DurationPanel(Duration.newByTotal(0));
         this.inpResolution = new ResolutionPanel(Resolution.R0x0);
-        this.inpGenre = new MovieGenresList(this.owner, 10);
+        try {
+            this.inpGenre = new MovieGenresList(this.owner, 10);
+        } catch (BusinessException e) {
+            throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
+        }
         this.inpRating = new RatingPanel(0, null, Color.WHITE);
         this.inpYear = new YearField(0);
         this.inpQuality = new QualityField(Quality.UNRATED);
@@ -122,14 +129,12 @@ class MovieTabInfo extends AbstractMovieTab {
         this.add(this.initComponents());
     }
     
-    void unregisterFilledListListeners() {
-        if(this.inpGenre instanceof MovieGenresListFilled) {
-            MovieGenresListFilled filledList = (MovieGenresListFilled) this.inpGenre;
-            filledList.unregisterIntimeDatabaseModel();
-        }
-    }
-    
     private JPanel initComponents() {
+        this.inpDuration.setFocusSelection(true);
+        this.inpResolution.setFocusSelection(true);
+        this.inpYear.setFocusSelection(true);
+        
+        
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);

@@ -76,6 +76,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         });
         
         this.moviesTable = new MovieTableX(this, this.moviesModel);
+        this.moviesModel.setTable(this.moviesTable);
         
 //        this.setPreferredSize(new Dimension(860, 520));
         

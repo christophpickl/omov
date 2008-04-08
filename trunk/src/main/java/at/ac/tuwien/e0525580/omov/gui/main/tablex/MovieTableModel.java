@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,6 +9,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jdesktop.swingx.JXTable;
 
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
@@ -34,8 +36,33 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         BeanFactory.getInstance().getMovieDao().addMovieDaoListener(this);
         this.reloadData();
     }
+    
+    private JXTable table;
+    public void setTable(JXTable table) {
+        this.table = table;
+    }
 
     private void reloadData() {
+
+        final long[] selectedMovieIds;
+        if(this.table != null) {
+            final int rowCount = this.table.getSelectedRowCount();
+            if(rowCount == 0) {
+                selectedMovieIds = new long[] {};
+            } else if(rowCount == 1) {
+                selectedMovieIds = new long[] { getMovieAt(table.convertRowIndexToModel(table.getSelectedRow())).getId() };
+            } else {
+                int[] selectedRows = this.table.getSelectedRows();
+                selectedMovieIds = new long[selectedRows.length];
+                for (int i = 0; i < selectedRows.length; i++) {
+                    selectedMovieIds[i] = getMovieAt(table.convertRowIndexToModel(selectedRows[i])).getId();
+                }
+            }
+            System.out.println("reloading data (before firing event; selected movie ids: " + Arrays.toString(selectedMovieIds) + ")");
+        } else {
+            selectedMovieIds = null;
+        }
+        
         try {
             final IMovieDao movieDao = BeanFactory.getInstance().getMovieDao();
             
@@ -61,8 +88,31 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         } catch (BusinessException e) {
             throw new FatalException("Could not reload data for MovieTable", e);
         }
-        
+
         this.fireTableDataChanged();
+
+        if(this.table != null) {
+            for (long movieId : selectedMovieIds) {
+                for (int row=0; row < this.getRowCount(); row++) {
+                    final long rowMovieId = getMovieAt(table.convertRowIndexToModel(row)).getId();
+                    if(movieId == rowMovieId) {
+                        LOG.debug("Preselecting movie with id " + movieId + " at row "+row+".");
+                        this.table.addRowSelectionInterval(row, row);
+                        break;
+                    }
+                }
+                
+            }
+            
+//            ---> MINOR gui: scroll to row
+//            JTable tabl;
+//            /* table code
+//            and finding row and column to be set as r and c;
+//            */
+//            Rectangle ret = tabl.getCellRect(r,c,true);
+//            Point p = new Point(ret.x,ret.y);
+//            ((JViewport)tabl.getParent()).setViewPosition(p);
+        }
     }
 
     /**
@@ -103,7 +153,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     
     public Movie getMovieAt(final int modelRowIndex) {
         if (modelRowIndex == -1) {
-            LOG.debug("Not any row selected.");
+            LOG.debug("Not any row selected (modelRowIndex == -1).");
             return null;
         }
         return this.data.get(modelRowIndex);

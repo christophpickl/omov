@@ -42,6 +42,7 @@ TODOs
 - test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
 - if main movie table row is selected, then popup edit dialog, hit next-button -> previously selected row will be unselected (because dao update will be performed -> reselect these rows)
 - wenn man in movie table metadata fetched, blocked gui -> eigener swingworker + progress dialog
+- - in MovieDetailPanel unten zusaetzliche zeile mit werten (trailer, und...?)
 
 *** web imdb subproject
 * websearch: make webextractor configurable ScanDialog.java
@@ -78,6 +79,18 @@ FEATURES
 
 -> http://www.theserverside.com/tt/articles/article.tss?l=Insidedb4o
 -> http://db4o-tools.blogspot.com/search/label/db4o
+
+
+ubi brainstorming
+==================================
+- movie titles auch als foldernamen am filesystem umbennen lassen koennen per preference
+    - mit movie files wirds haglig; wenn mehrere existieren -> reihenfolge?; was wenn dvd ist -> eigentlich vordefinierter name!
+- bilder von slideshow
+- links baum zum verwalten von kategorien/smartfolders (wie itunes hat)
+    - darin darstellen einen "autmatisch synced smartfolder" fuer genres. sobald neuer film mit neuem genre eintragen, dann hat dieser smartfolder automatisch eine neue "playlist" mit diesem genre
+- serien verwaltung; displayed directly in main window, in same table
+- ordner repository zwang aufheben: movies muessen nicht als ordner am filesystem existieren -> sondern koennen auch nur einzelnes file sein
+    - dazu muessen beim scannen "movie-pt1.avi" und "movie-pt2.avi" zusammenerkannt werden
 */
 
 public class App {

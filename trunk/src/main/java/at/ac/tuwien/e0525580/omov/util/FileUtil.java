@@ -11,16 +11,19 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.text.DecimalFormat;
+import java.util.Collections;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
+import at.ac.tuwien.e0525580.omov.tools.scan.Scanner;
 
 public final class FileUtil {
 
-    private static final Log LOG = LogFactory.getLog(FileUtil.class);
+    private static final Log LOG = LogFactory.getLog(FileUtilTest.class);
 
     
     private static final Set<String> HIDDEN_FILE_NAMES = CollectionUtil.immutableSet(
@@ -28,6 +31,14 @@ public final class FileUtil {
             ".DS_Store", "Icon\r",
             // windows system files
             "Thumbs.db");
+
+    private static final Set<String> DOT_PREFIXES;
+    static {
+        final Set<String> tmp = new TreeSet<String>();
+        tmp.add("dr");
+        tmp.add("mr");
+        DOT_PREFIXES = Collections.unmodifiableSet(tmp);
+    }
     
     
     private FileUtil() {
@@ -196,39 +207,65 @@ public final class FileUtil {
     }
     
     /**
-     * @param fileWithDots file or folder, does not matter 
+     * Removes additional dots if file is something like "The.Great.Adventure.of.Someone.avi"
+     * @param fileWithDots file or folder, does not matter
+     * @return given string "The.Great.Adventure.of.Someone.avi" returns "The Great Adventure of Someone.avi"
+     * @see Scanner#scanMovieFolderInfo(File)
      */
     public static String clearFileNameDots(final File fileWithDots) {
-        // TODO fileutil: ignore dots with leading "mr" or "dr" (not case-sensitive)
-        return fileWithDots.isFile() ? clearFileDots(fileWithDots) : clearDirectoryDots(fileWithDots);
-    }
+        final String nameWithDots = fileWithDots.getName();
+        final int cntDots = nameWithDots.split("\\.").length - 1;
 
-    private static String clearDirectoryDots(final File directoryWithDots) {
-        final String nameWithDots = directoryWithDots.getName();
-        final int cntDots = nameWithDots.split("\\.").length;
-
-        if(cntDots <= 1) {
-            LOG.debug("No dots to clear for file '"+directoryWithDots.getAbsolutePath()+"'.");
+        if(cntDots <= (fileWithDots.isFile() ? 1 : 0)) {
+            LOG.debug("No dots to clear for "+(fileWithDots.isFile()?"file":"directory")+" '"+fileWithDots.getAbsolutePath()+"'.");
             return nameWithDots;
         }
         
-        return nameWithDots.replaceAll("\\.", " ");
+        final String nameToClear;
+        final String extensionToUse;
+        if(fileWithDots.isFile()) {
+            final String extension = nameWithDots.substring(nameWithDots.lastIndexOf(".")+1); // extension can not be null, because dot count is > 1
+            nameToClear = nameWithDots.substring(0, nameWithDots.length() - (extension.length() + 1));
+            extensionToUse = "." + extension;
+        } else {
+            nameToClear = nameWithDots;
+            extensionToUse = "";
+        }
+//        System.out.println("nameToClear: '"+nameToClear+"'");
+        
+        final StringBuilder sb = new StringBuilder();
+        int lastDotIdx = -1;
+        int dotIdx = nameToClear.indexOf(".");
+        
+        do {
+            final String part = nameToClear.substring(lastDotIdx+1, dotIdx);
+//            System.out.println("part ["+part+"]");
+            
+            sb.append(part);
+            if(isDotPrefix(part)) {
+                sb.append(". "); // this is a valid dot; append whitespace
+            } else {
+                sb.append(" "); // replace of dot
+            }
+            lastDotIdx = dotIdx;
+            
+        } while( (dotIdx = nameToClear.indexOf(".", dotIdx+1)) != -1);
+//        System.out.println("last part ["+nameToClear.substring(lastDotIdx+1)+"]");
+        sb.append(nameToClear.substring(lastDotIdx+1)); // add last part
+        
+        final String result = sb.toString();
+        return result.trim() + extensionToUse;
+//        return nameToClear.replaceAll("\\.", " ") + "." + extensionToUse;
     }
     
-    private static String clearFileDots(final File fileWithDots) {
-        final String nameWithDots = fileWithDots.getName();
-        final int cntDots = nameWithDots.split("\\.").length;
-
-        if(cntDots <= 2) {
-            LOG.debug("No dots to clear for file '"+fileWithDots.getAbsolutePath()+"'.");
-            return nameWithDots;
+    private static boolean isDotPrefix(String s) {
+        final int lastWhitespace = s.lastIndexOf(" ");
+        if(lastWhitespace != -1) {
+            s = s.substring(lastWhitespace + 1);
         }
-        final String extension = nameWithDots.substring(nameWithDots.lastIndexOf(".")+1);
-        
-        String result = nameWithDots.substring(0, nameWithDots.length() - (extension.length() + 1));
-        result = result.replaceAll("\\.", " ");
-        return result + "." + extension;
+        return DOT_PREFIXES.contains(s.toLowerCase());
     }
+
 
     public static boolean isHiddenFile(File file) {
         return HIDDEN_FILE_NAMES.contains(file.getName());
@@ -258,7 +295,7 @@ public final class FileUtil {
         InputStream input = null;
         BufferedReader reader = null;
         try {
-            input = FileUtil.class.getResourceAsStream(jarFile);
+            input = FileUtilTest.class.getResourceAsStream(jarFile);
             reader = new BufferedReader(new InputStreamReader(input));
             String line = null;
             while ( (line = reader.readLine()) != null) {
@@ -310,9 +347,21 @@ public final class FileUtil {
         return new File(path.substring(0, path.lastIndexOf(File.separator)));
     }
     
+//    public static String getCoverFile(Movie movie, CoverFileType type) {
+//        assert(movie.isCoverFileSet()) : "Coverfile not set for movie: " + movie;
+//        
+//        final String extension = movie.getOriginalCoverFile().substring(movie.getOriginalCoverFile().lastIndexOf(".") + 1);
+//        final StringBuilder sb = new StringBuilder(20);
+//        sb.append(movie.getId());
+//        sb.append(type.getFilenamePart());
+//        sb.append(".");
+//        sb.append(extension);
+//        return sb.toString();
+//    }
+    
     
     public static void main(String[] args) {
-        System.out.println(extractLastFolderName("/folder3/folder2/folder1"));
+//        System.out.println(extractLastFolderName("/folder3/folder2/folder1"));
     }
 }
 

@@ -169,6 +169,7 @@ DATA VERSION HISTORY
     private final String format;
     
     private final List<String> files;
+    private final String filesString;
     
     /** in minutes */
     private final int duration;
@@ -261,10 +262,10 @@ DATA VERSION HISTORY
         this.folderPath = folderPath;
         this.format = format;
         this.files = new ArrayList<String>(files);// NO "Collections.unmodifiableList(files)" ... because there is a bug concerning db4o + unmodifiable collections
+        this.filesString = CollectionUtil.toString(this.files);
         this.duration = duration;
         this.resolution = resolution;
         this.subtitles = subtitles;
-
         this.subtitlesString = CollectionUtil.toString(this.subtitles);
     }
     
@@ -510,6 +511,7 @@ DATA VERSION HISTORY
         return sb.toString();
     }
     
+    
     /**
      * handy method
      */
@@ -597,6 +599,10 @@ DATA VERSION HISTORY
 
     public List<String> getFiles() {
         return this.files;
+    }
+    
+    public String getFilesString() {
+        return this.filesString;
     }
 
     public String getFilesFormatted() {

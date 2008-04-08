@@ -43,8 +43,10 @@ class TableRenderers {
         table.getColumnByField(MovieField.YEAR).setCellRenderer(new DefaultRenderer());
         table.getColumnByField(MovieField.STYLE).setCellRenderer(new DefaultRenderer());
         table.getColumnByField(MovieField.LANGUAGES).setCellRenderer(new DefaultRenderer());
-        // director
-        // actors
+        table.getColumnByField(MovieField.FILES).setCellRenderer(new DefaultRenderer());
+        table.getColumnByField(MovieField.ACTORS).setCellRenderer(new DefaultRenderer());
+        table.getColumnByField(MovieField.SUBTITLES).setCellRenderer(new DefaultRenderer());
+        table.getColumnByField(MovieField.DIRECTOR).setCellRenderer(new DefaultRenderer());
     }
 
     private static Movie getMovie(JTable table, final int row) {

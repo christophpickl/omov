@@ -162,7 +162,7 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
     private void doComboBoxClicked() {
         final SmartFolderSelection selection = (SmartFolderSelection) this.comboBox.getSelectedItem();
         final int selectedIndex = this.comboBox.getSelectedIndex();
-        LOG.debug("Combo box clicked; selectedIndex=" + selectedIndex);
+        LOG.debug("Combo box clicked; selectedIndex=" + selectedIndex + "; this.prevComboBoxIndex="+this.prevComboBoxIndex + "; this.prevSmartFolderSelection="+this.prevSmartFolderSelection);
 
         if(selection == SmartFolderSelection.ENUM_INACTIVE) {
             this.movieModel.setSmartFolder(null);
@@ -172,10 +172,13 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
             
         } else if(selection == SmartFolderSelection.ENUM_MANAGE) {
             this.doManage();
-            System.out.println("do manage finished");
+            LOG.debug("Do manage finished.");
             
             if(this.prevSmartFolderSelection != SmartFolderSelection.ENUM_INACTIVE &&
                this.prevSmartFolderSelection != SmartFolderSelection.ENUM_MANAGE &&
+               // check if deleting
+               this.prevComboBoxIndex < this.comboBoxModel.getSize() &&
+               this.comboBoxModel.getSmartFolderAt(this.prevComboBoxIndex).getSmartFolder() != null && // check if not getting "Manage ..." item back
                this.comboBoxModel.getSmartFolderAt(this.prevComboBoxIndex).getSmartFolder().getId() == this.prevSmartFolderSelection.getSmartFolder().getId()) {
                 
                 LOG.debug("Initially selecting same old smartfolder again.");
