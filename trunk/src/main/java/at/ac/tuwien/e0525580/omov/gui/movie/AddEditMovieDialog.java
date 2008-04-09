@@ -30,7 +30,6 @@ import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
-    // TODO movietable: preselect added/edited movie in MainMovieTable
 
     private static final Log LOG = LogFactory.getLog(AddEditMovieDialog.class);
     private static final long serialVersionUID = -499631022640948375L;

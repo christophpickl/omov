@@ -75,6 +75,8 @@ public final class MainWindowController extends CommonController implements IRem
                 if(addDialog.isCoverChanged() == true) {
                     CoverUtil.resetCover(insertedMovie);
                 }
+                this.mainWindow.didAddMovie(insertedMovie);
+                
             } catch (BusinessException e) {
                 LOG.error("Could not add movie '"+newMovie+"'!", e);
                 GuiUtil.error(this.mainWindow, "Adding movie failed", "Could not save movie '"+newMovie.getTitle()+"'!");
@@ -183,7 +185,10 @@ public final class MainWindowController extends CommonController implements IRem
         AddEditMovieDialog editDialog = AddEditMovieDialog.newEditDialog(this.mainWindow, originalMovie, prevNextProvider);
         editDialog.setVisible(true);
         
-        if(editDialog.isActionConfirmed() == true) {
+        if(editDialog.isActionConfirmed() == false) {
+            LOG.debug("doEditMovie aborted by user");
+            return;
+        }
             Movie editMovie = null;
             try {
                 editMovie = editDialog.getConfirmedObject();
@@ -191,15 +196,14 @@ public final class MainWindowController extends CommonController implements IRem
                 if(editDialog.isCoverChanged() == true) {
                     CoverUtil.resetCover(editMovie); // temporary inconsistency will corrected in here if necessary
                 }
+
+                this.mainWindow.didEditMovie(editMovie);
             } catch (BusinessException e) {
                 LOG.error("Could not edit movie: " + editMovie, e);
                 GuiUtil.error(this.mainWindow, "Edit failed", "Could not edit movie '"+originalMovie.getTitle()+"'!");
             }
             LOG.debug("doEditMovie finished");
-            this.mainWindow.reloadTableData();
-        } else {
-            LOG.debug("doEditMovie aborted by user");
-        }
+            // this.mainWindow.reloadTableData(); <-- delete me
     }
     
     public void doEditMovies(final List<Movie> moviesToEdit) {

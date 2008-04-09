@@ -1,5 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -52,18 +54,58 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     private static final String CMD_PLAY_VLC = "playVlc"; // OSX only
 
     private static final int COVER_COLUMN_GAP = 8;
-    
+
+    // private static final Set<MovieField> TOOLTIP_FIELDS;
+    private static final Set<String> TOOLTIP_COLUMN_HEADERS;
+
+    private static final Map<String, MovieField> TOOLTIP_FIELDS_MAP;
+    static {
+        final Set<MovieField> fields = new HashSet<MovieField>();
+        fields.add(MovieField.TITLE);
+        fields.add(MovieField.FOLDER_PATH);
+        fields.add(MovieField.LANGUAGES);
+        fields.add(MovieField.STYLE);
+        fields.add(MovieField.DIRECTOR);
+        fields.add(MovieField.GENRES);
+        fields.add(MovieField.ACTORS);
+        fields.add(MovieField.FORMAT);
+        fields.add(MovieField.FILES);
+        fields.add(MovieField.SUBTITLES);
+        // TOOLTIP_FIELDS = Collections.unmodifiableSet(fields);
+
+        final Set<String> headers = new TreeSet<String>();
+        final Map<String, MovieField> map = new HashMap<String, MovieField>(fields.size());
+        for (MovieField field : fields) {
+            headers.add(field.label());
+            map.put(field.label(), field);
+        }
+        TOOLTIP_COLUMN_HEADERS = headers;
+        TOOLTIP_FIELDS_MAP = map;
+    }
+  
+  
     private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
     private final IMovieTableContextMenuListener contextMenuListener;
     
     private final int defaultRowHeight;
+
+    private JMenuItem itemPlayVlc = null; // can be null all the time
+    private JMenuItem itemRevealFinder = null; // can be null all the time
+    
     
     public MovieTableX(final IMovieTableContextMenuListener contextMenuListener, MovieTableModel model) {
         this.contextMenuListener = contextMenuListener;
         this.setModel(model);
         
-        this.setShowHorizontalLines(false);
-        this.setShowVerticalLines(false);
+//        this.setRowSelectionAllowed(true);
+//        this.setCellSelectionEnabled(false);
+        this.setColumnSelectionAllowed(false);
+        this.setRowSelectionAllowed(true);
+        
+        this.setIntercellSpacing(new Dimension());
+        this.setShowGrid(false);
+        this.setBackground(Color.WHITE);
+        
         // JXTable features START
         this.setColumnControlVisible(true);
         GuiUtil.setAlternatingBgColor(this);
@@ -124,32 +166,6 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         
         this.initContextMenu();
     }
-//    private static final Set<MovieField> TOOLTIP_FIELDS;
-    private static final Set<String> TOOLTIP_COLUMN_HEADERS;
-    private static final Map<String, MovieField> TOOLTIP_FIELDS_MAP;
-    static {
-        final Set<MovieField> fields = new HashSet<MovieField>();
-        fields.add(MovieField.TITLE);
-        fields.add(MovieField.FOLDER_PATH);
-        fields.add(MovieField.LANGUAGES);
-        fields.add(MovieField.STYLE);
-        fields.add(MovieField.DIRECTOR);
-        fields.add(MovieField.GENRES);
-        fields.add(MovieField.ACTORS);
-        fields.add(MovieField.FORMAT);
-        fields.add(MovieField.FILES);
-        fields.add(MovieField.SUBTITLES);
-//        TOOLTIP_FIELDS = Collections.unmodifiableSet(fields);
-        
-        final Set<String> headers = new TreeSet<String>();
-        final Map<String, MovieField> map = new HashMap<String, MovieField>(fields.size());
-        for (MovieField field : fields) {
-            headers.add(field.label());
-            map.put(field.label(), field);
-        }
-        TOOLTIP_COLUMN_HEADERS = headers;
-        TOOLTIP_FIELDS_MAP = map;
-    }
     
     public String getToolTipText(MouseEvent event) {
         final Point point = event.getPoint();
@@ -185,6 +201,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         if(tip == null || tip.length() == 0) return null;
         return tip;
     }
+    
     private void updatePrefColumnVisibility() {
         final Map<String, Boolean> columns = new HashMap<String, Boolean>();
         
@@ -202,8 +219,6 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         PreferencesDao.getInstance().setMovieColumnVisibility(columns);
     }
 
-    private JMenuItem itemPlayVlc = null; // can be null all the time
-    private JMenuItem itemRevealFinder = null; // can be null all the time
     private void initContextMenu() {
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
@@ -295,16 +310,19 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         LOG.info("adding selection listener: " + listener);
         this.selectionListeners.add(listener);
     }
+    
     public void removeTableSelectionListener(ITableSelectionListener listener) {
         final boolean removed = this.selectionListeners.remove(listener);
         LOG.info("removed selection listener (removed="+removed+"): " + listener);
     }
+    
     private void notifyChangedEmpty() {
         
         for (ITableSelectionListener listener : this.selectionListeners) {
             listener.selectionEmptyChanged();
         }
     }
+    
     private void notifyChangedSingle() {
         final Movie newSelectedMovie = ((MovieTableModel) this.getModel()).getMovieAt(this.getSelectedModelRow());
         
@@ -321,6 +339,7 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
             listener.selectionSingleChanged(newSelectedMovie);
         }
     }
+    
     private void notifyChangedMultiple() {
         final MovieTableModel model = ((MovieTableModel) this.getModel());
         final int[] rows = this.getSelectedModelRows();

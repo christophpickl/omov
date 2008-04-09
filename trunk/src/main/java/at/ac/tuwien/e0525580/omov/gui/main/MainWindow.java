@@ -87,7 +87,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        GuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
         GuiUtil.lockOriginalSizeAsMinimum(this);
     }
     
@@ -185,10 +185,10 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         });
     }
     
-    void reloadTableData() {
-        LOG.debug("Reloading main movietable data.");
-        this.moviesModel.movieDataChanged();
-    }
+//    void reloadTableData() {
+//        LOG.debug("Reloading main movietable data.");
+//        this.moviesModel.movieDataChanged();
+//    }
 
     public void selectionEmptyChanged() {
         this.selectedMovie = null;
@@ -236,6 +236,14 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         }
         
         return Collections.unmodifiableList(visibleMovies);
+    }
+    
+    public void didAddMovie(Movie addedMovie) {
+        this.moviesModel.setSelectedRowsByMovieId(true, addedMovie.getId());
+    }
+    
+    public void didEditMovie(Movie editMovie) {
+        this.moviesModel.setSelectedRowsByMovieId(true, editMovie.getId());
     }
 
     public void doEditMovie(int tableRowSelected) {

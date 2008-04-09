@@ -1,10 +1,13 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.JViewport;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.commons.logging.Log;
@@ -58,7 +61,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
                     selectedMovieIds[i] = getMovieAt(table.convertRowIndexToModel(selectedRows[i])).getId();
                 }
             }
-            System.out.println("reloading data (before firing event; selected movie ids: " + Arrays.toString(selectedMovieIds) + ")");
+//            System.out.println("reloading data (before firing event; selected movie ids: " + Arrays.toString(selectedMovieIds) + ")");
         } else {
             selectedMovieIds = null;
         }
@@ -92,26 +95,54 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         this.fireTableDataChanged();
 
         if(this.table != null) {
-            for (long movieId : selectedMovieIds) {
-                for (int row=0; row < this.getRowCount(); row++) {
-                    final long rowMovieId = getMovieAt(table.convertRowIndexToModel(row)).getId();
-                    if(movieId == rowMovieId) {
-                        LOG.debug("Preselecting movie with id " + movieId + " at row "+row+".");
-                        this.table.addRowSelectionInterval(row, row);
-                        break;
-                    }
+            this.setSelectedRowsByMovieId(false, selectedMovieIds);
+        }
+    }
+    
+    public void setSelectedRowsByMovieId(boolean scrollingEnabled, long... selectedMovieIds) {
+        LOG.debug("Setting selected rows by movie IDs: " + Arrays.toString(selectedMovieIds));
+        this.table.clearSelection();
+        
+        for (long movieId : selectedMovieIds) {
+            for (int row=0; row < this.getRowCount(); row++) {
+                final long rowMovieId = getMovieAt(table.convertRowIndexToModel(row)).getId();
+                if(movieId == rowMovieId) {
+                    LOG.debug("Preselecting movie with id " + movieId + " at row "+row+".");
+                    this.table.addRowSelectionInterval(row, row);
+                    break;
                 }
-                
+            }
+        }
+        
+        if(scrollingEnabled && selectedMovieIds.length == 1) { // scroll to selected movie if its only one
+            final long id = selectedMovieIds[0];
+
+            final int col = 0;
+            
+            int tableRow = -1;
+            for (int modelRow = 0; modelRow < this.data.size(); modelRow++) {
+                if(this.data.get(modelRow).getId() == id) {
+                    tableRow = this.table.convertRowIndexToView(modelRow);
+                    LOG.debug("Preselecting table row " + tableRow + " (model row="+modelRow+")");
+                    break;
+                }
+            }
+            if(tableRow == -1) {
+                throw new FatalException("Could not preselect movie in main window table with id "+id+"!");
             }
             
-//            ---> MINOR gui: scroll to row
-//            JTable tabl;
-//            /* table code
-//            and finding row and column to be set as r and c;
-//            */
-//            Rectangle ret = tabl.getCellRect(r,c,true);
-//            Point p = new Point(ret.x,ret.y);
-//            ((JViewport)tabl.getParent()).setViewPosition(p);
+            final Rectangle rectangle = this.table.getCellRect(tableRow, col, true);
+            final Point movieRowPoint = new Point(rectangle.x,rectangle.y);
+            final JViewport viewport = ((JViewport) this.table.getParent());
+            
+            final double visibleYPosition = viewport.getViewPosition().getY();
+            final double desiredYPosition = movieRowPoint.getY();
+            LOG.debug("visibleYPosition = "+visibleYPosition+"; desiredYPosition = " + desiredYPosition);
+            
+            if(Math.abs(visibleYPosition - desiredYPosition) > 250.) { // only scroll if distance is big enough
+                LOG.debug("Setting view position of table to: " + movieRowPoint);
+                viewport.setViewPosition(movieRowPoint);
+            }
         }
     }
 
