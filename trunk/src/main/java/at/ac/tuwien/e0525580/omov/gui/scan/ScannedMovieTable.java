@@ -7,13 +7,15 @@ import java.awt.event.ActionListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXTable;
 
+import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.tools.scan.ScannedMovie;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
@@ -23,41 +25,34 @@ class ScannedMovieTable extends JXTable {
 
     private static final long serialVersionUID = 6546071254953307095L;
     
+
+    
+    private static class BooleanEditor extends DefaultCellEditor implements TableCellEditor {
+        private static final long serialVersionUID = 1L;
+
+        public BooleanEditor(JCheckBox checkBox) {
+            super(checkBox);
+        }        
+    }
+    
     public ScannedMovieTable(final ScannedMovieTableModel model) {
         super(model);
-        
-        final JCheckBox checkbox = new JCheckBox();
-        checkbox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                
-                final int selectedRow = getSelectedRow();
-                
-                model.changeSelectedRow(convertRowIndexToModel(selectedRow));
-                getSelectionModel().setSelectionInterval(selectedRow, selectedRow);
-                
-        }});   
-        final DefaultCellEditor cbEditor = new DefaultCellEditor(checkbox) {
-            private static final long serialVersionUID = -2514315517496249577L;
-            @Override
-            public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-                final Component comp = super.getTableCellEditorComponent(table, value, isSelected, row, column);
-                final JCheckBox checkbox = (JCheckBox) comp;
-                checkbox.setHorizontalAlignment(JLabel.CENTER);
-                checkbox.setOpaque(false);
-                OmovListCellRenderer.prepareComponent(checkbox, table, row);
-                // FIXME gui: table cell bg color from checkbox editor in scan dialog is incorrect
-                return comp;
-            }
-        };
-        this.getColumnModel().getColumn(0).setCellEditor(cbEditor);
-        
-        
+
         GuiUtil.setAlternatingBgColor(this);
-        
-        
         this.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         this.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
+        final JCheckBox checkbox = new JCheckBox();
+        checkbox.setBackground(Constants.getColorSelectedBackground());
+        checkbox.setHorizontalAlignment(SwingConstants.CENTER);
+        checkbox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                final int selectedRow = getSelectedRow();
+                model.changeSelectedRow(convertRowIndexToModel(selectedRow));
+                getSelectionModel().setSelectionInterval(selectedRow, selectedRow);
+                
+        }});
+        this.getColumnModel().getColumn(0).setCellEditor(new BooleanEditor(checkbox));
     }
     
     
