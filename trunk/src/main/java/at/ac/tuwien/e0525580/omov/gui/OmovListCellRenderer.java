@@ -5,7 +5,6 @@ import java.awt.Component;
 
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
-import javax.swing.JTable;
 
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.FatalException;
@@ -21,14 +20,14 @@ public class OmovListCellRenderer extends DefaultListCellRenderer {
         return c;
     }
     
-    public static void prepareComponent(Component c, JTable table, int row) {
-        prepareComponent(c, table, row, null);
-    }
-    public static void prepareComponent(Component c, JTable table, int row, Color unselectedHighlightColor) {
-        final boolean isSelected = (row != -1 && row == table.getSelectedRow()) ? true : false;
-        
-        prepareComponent(c, isSelected, row, unselectedHighlightColor);
-    }
+//    public static void prepareComponent(Component c, JTable table, int row) {
+//        prepareComponent(c, table, row, null);
+//    }
+//    public static void prepareComponent(Component c, JTable table, int row, Color unselectedHighlightColor) {
+//        final boolean isSelected = (row != -1 && row == table.getSelectedRow()) ? true : false;
+//        
+//        prepareComponent(c, isSelected, row, unselectedHighlightColor);
+//    }
     
     public static void prepareComponent(Component c, boolean isSelected, int index, Color unselectedHighlightColor) {
         if(isSelected == true) {

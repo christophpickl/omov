@@ -51,7 +51,7 @@ public class TableRendererBackground {
         frame.setVisible(true);
     }
     
-    private static class BooleanEditor extends DefaultCellEditor implements TableCellEditor {
+    static class BooleanEditor extends DefaultCellEditor implements TableCellEditor {
         private static final long serialVersionUID = 1L;
 
         public BooleanEditor(JCheckBox checkBox) {

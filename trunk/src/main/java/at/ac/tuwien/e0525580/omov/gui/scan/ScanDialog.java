@@ -111,8 +111,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         GuiUtil.setCenterLocation(this);
         
         // shortcut
-//        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));
-//        this.btnScan.setEnabled(true);
+        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));
+        this.btnScan.setEnabled(true);
     }
     
     void updateScannedMovie(ScannedMovie confirmedScannedMovie) {

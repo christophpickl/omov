@@ -23,7 +23,6 @@ import javax.swing.table.TableColumn;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
 
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
@@ -35,14 +34,14 @@ import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory.Icon16x16;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.BodyContext;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.MacLikeTable;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableColumns.IMovieTableColumn;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
 import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
-import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 
-public class MovieTableX extends JXTable implements TableContextMenuListener {
+public class MovieTableX extends MacLikeTable implements TableContextMenuListener {
 
     private static final long serialVersionUID = -6558625595861308741L;
     private static final Log LOG = LogFactory.getLog(MovieTableX.class);
@@ -94,8 +93,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
     
     
     public MovieTableX(final IMovieTableContextMenuListener contextMenuListener, MovieTableModel model) {
+        super(model);
         this.contextMenuListener = contextMenuListener;
-        this.setModel(model);
         
 //        this.setRowSelectionAllowed(true);
 //        this.setCellSelectionEnabled(false);
@@ -108,7 +107,8 @@ public class MovieTableX extends JXTable implements TableContextMenuListener {
         
         // JXTable features START
         this.setColumnControlVisible(true);
-        GuiUtil.setAlternatingBgColor(this);
+//        GuiUtil.setAlternatingBgColor(this);
+        
 //        this.addHighlighter(new ColorHighlighter(Color.RED, Color.BLUE, HighlightPredicate.ROLLOVER_ROW));
         
 //        this.getTableHeader().setColumnModel(columnModel);

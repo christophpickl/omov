@@ -28,6 +28,7 @@ import org.jdesktop.swingx.JXTable;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.DirectoryChooser;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IChooserListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.MacLikeTable;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindowController;
 import at.ac.tuwien.e0525580.omov.tools.smartcopy.SmartCopyPreprocessResult;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
@@ -244,13 +245,13 @@ public class SmartCopyDialog extends JDialog {
         panel.setPreferredSize(new Dimension(this.getWidth() - 20, 140));
         panel.setOpaque(false);
         final PreprocessResultTableModel model = new PreprocessResultTableModel(result);
-        final JXTable table = new JXTable(model);
+        final JXTable table = new MacLikeTable(model);
         table.setHorizontalScrollEnabled(true);
         table.getColumnModel().getColumn(0).setMinWidth(18);
         table.getColumnModel().getColumn(0).setPreferredWidth(18);
         table.getColumnModel().getColumn(0).setMaxWidth(18);
         
-        GuiUtil.setAlternatingBgColor(table);
+//        GuiUtil.setAlternatingBgColor(table);
 //        table.setVisibleRowCount(4);
         table.packAll();
         

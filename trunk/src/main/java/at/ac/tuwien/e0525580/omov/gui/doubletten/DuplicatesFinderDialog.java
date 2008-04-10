@@ -28,6 +28,7 @@ import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.MacLikeTable;
 import at.ac.tuwien.e0525580.omov.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
 import at.ac.tuwien.e0525580.omov.tools.doubletten.DuplicatesFinder;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -50,7 +51,7 @@ public class DuplicatesFinderDialog extends JDialog {
         this.finder = finder;
         
         this.tableModel = new DuplicatesTableModel(this.finder);
-        this.table = new JXTable(this.tableModel) {
+        this.table = new MacLikeTable(this.tableModel) {
             private static final long serialVersionUID = -7772086018064365835L;
             public Component prepareRenderer(TableCellRenderer renderer, int row, int column ) {
                 final Component c = super.prepareRenderer(renderer, row, column);
@@ -77,7 +78,7 @@ public class DuplicatesFinderDialog extends JDialog {
             if(movieColumn.getMaxWidth() != -1) column.setMaxWidth(movieColumn.getMaxWidth());
             if(movieColumn.getMinWidth() != -1) column.setMinWidth(movieColumn.getMinWidth());
         }
-        GuiUtil.setAlternatingBgColor(this.table);
+        
         this.table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         this.table.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
         this.table.packAll();

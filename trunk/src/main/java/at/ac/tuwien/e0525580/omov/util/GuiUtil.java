@@ -310,6 +310,9 @@ public final class GuiUtil {
         System.exit(1);
     }
 
+    /**
+     * @deprecated extend MacLikeTable instead
+     */
     public static void setAlternatingBgColor(JXTable table) {
         table.setHighlighters(HighlighterFactory.createAlternateStriping(Constants.getColorRowBackgroundEven(), Constants.getColorRowBackgroundOdd()));
     }
