@@ -81,38 +81,38 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         TOOLTIP_COLUMN_HEADERS = headers;
         TOOLTIP_FIELDS_MAP = map;
     }
-  
-  
+
+
     private final Set<ITableSelectionListener> selectionListeners = new HashSet<ITableSelectionListener>();
     private final IMovieTableContextMenuListener contextMenuListener;
-    
+
     private final int defaultRowHeight;
 
     private JMenuItem itemPlayVlc = null; // can be null all the time
     private JMenuItem itemRevealFinder = null; // can be null all the time
-    
-    
+
+
     public MovieTableX(final IMovieTableContextMenuListener contextMenuListener, MovieTableModel model) {
         super(model);
         this.contextMenuListener = contextMenuListener;
-        
+
 //        this.setRowSelectionAllowed(true);
 //        this.setCellSelectionEnabled(false);
         this.setColumnSelectionAllowed(false);
         this.setRowSelectionAllowed(true);
-        
-        this.setIntercellSpacing(new Dimension());
-        this.setShowGrid(false);
-        this.setBackground(Color.WHITE);
-        
+
+//        this.setIntercellSpacing(new Dimension());
+//        this.setShowGrid(false);
+//        this.setBackground(Color.WHITE);
+
         // JXTable features START
         this.setColumnControlVisible(true);
 //        GuiUtil.setAlternatingBgColor(this);
-        
+
 //        this.addHighlighter(new ColorHighlighter(Color.RED, Color.BLUE, HighlightPredicate.ROLLOVER_ROW));
-        
+
 //        this.getTableHeader().setColumnModel(columnModel);
-        
+
         this.getColumnByField(MovieField.QUALITY).setComparator(Quality.COMPARATOR);
         TableRenderers.updateRenderers(this);
 
@@ -121,18 +121,18 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         for(IMovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
-            
+
             final Boolean visible = PreferencesDao.getInstance().isMovieColumnVisible(movieColumn.getLabel());
             LOG.debug("Setting column '"+column.getTitle()+"' to visible '"+visible+"'.");
             column.setVisible(visible);
-            
+
             if(movieColumn.getLabel().equals(MovieTableColumns.COVER_COLUMN_LABEL) && visible == true) {
                 this.setRowHeight(CoverFileType.THUMBNAIL.getMaxHeight() + COVER_COLUMN_GAP);
                 column.setMaxWidth(CoverFileType.THUMBNAIL.getMaxWidth() + COVER_COLUMN_GAP);
                 column.setResizable(false);
             }
         }
-        
+
         this.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
             public void columnAdded(TableColumnModelEvent e) {
                 updatePrefColumnVisibility();
@@ -163,23 +163,23 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
                 }
             }
         });
-        
+
         this.initContextMenu();
     }
-    
+
     public String getToolTipText(MouseEvent event) {
         final Point point = event.getPoint();
         final int rowIndex = this.rowAtPoint(point);
         int colIndex = this.columnAtPoint(point);
         final TableColumn column = this.getColumnModel().getColumn(colIndex);
-        
+
         final String tip;
         if (rowIndex != -1 && TOOLTIP_COLUMN_HEADERS.contains(column.getHeaderValue())) {
-            
+
             int modelRowIndex = this.convertRowIndexToModel(rowIndex);
             final Movie movie = ((MovieTableModel) this.getModel()).getMovieAt(modelRowIndex);
             assert(movie != null);
-            
+
             final MovieField field = TOOLTIP_FIELDS_MAP.get(column.getHeaderValue());
             if(field == MovieField.LANGUAGES) {
                 tip = movie.getLanguagesString();
@@ -201,10 +201,10 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         if(tip == null || tip.length() == 0) return null;
         return tip;
     }
-    
+
     private void updatePrefColumnVisibility() {
         final Map<String, Boolean> columns = new HashMap<String, Boolean>();
-        
+
         boolean setRowHeightForCover = false;
         for(IMovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
@@ -215,7 +215,7 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
             }
         }
         this.setRowHeight((setRowHeightForCover) ? CoverFileType.THUMBNAIL.getMaxHeight() + COVER_COLUMN_GAP : this.defaultRowHeight);
-        
+
         PreferencesDao.getInstance().setMovieColumnVisibility(columns);
     }
 
@@ -226,20 +226,20 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         BodyContext.newJMenuSeparator(itemsSingle);
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         this.itemRevealFinder = FinderReveal.addRevealJMenuItem(itemsSingle, CMD_REVEAL);
-        this.itemPlayVlc = VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC); 
+        this.itemPlayVlc = VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
         BodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         new BodyContext(this, itemsSingle, itemsMultiple, this);
     }
-    
+
     public int getSelectedModelRow() {
         final int tableRow = this.getSelectedRow();
         if(tableRow == -1) return -1;
         return this.convertRowIndexToModel(tableRow);
     }
-    
+
     public int[] getSelectedModelRows() {
         final int[] tableRows = this.getSelectedRows();
         assert(tableRows.length > 1);
@@ -249,7 +249,7 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         }
         return modelRows;
     }
-    
+
     public int[] convertRowIndicesToModel(final int[] tableRows) {
         final int[] modelRows = new int[tableRows.length];
         for (int i = 0; i < modelRows.length; i++) {
@@ -264,9 +264,9 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
     TableColumnExt getColumnByLabel(String label) {
         return this.getColumnExt(label);
     }
-    
-    
-    
+
+
+
 
     /**
      * TableContextMenuListener method
@@ -274,7 +274,7 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
     public void contextMenuClicked(JMenuItem item, int tableRowSelected) {
         final String cmd = item.getActionCommand();
         LOG.info("contextMenuClicked(cmd="+cmd+", tableRowSelected="+tableRowSelected+")");
-        
+
         if(cmd.equals(CMD_EDIT)) {
             this.contextMenuListener.doEditMovie(tableRowSelected);
         } else if(cmd.equals(CMD_FETCH_METADATA)) {
@@ -303,29 +303,29 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
             assert(false) : "Invalid menu item command '"+cmd+"'!";
         }
     }
-    
-    
-    
+
+
+
     public void addTableSelectionListener(ITableSelectionListener listener) {
         LOG.info("adding selection listener: " + listener);
         this.selectionListeners.add(listener);
     }
-    
+
     public void removeTableSelectionListener(ITableSelectionListener listener) {
         final boolean removed = this.selectionListeners.remove(listener);
         LOG.info("removed selection listener (removed="+removed+"): " + listener);
     }
-    
+
     private void notifyChangedEmpty() {
-        
+
         for (ITableSelectionListener listener : this.selectionListeners) {
             listener.selectionEmptyChanged();
         }
     }
-    
+
     private void notifyChangedSingle() {
         final Movie newSelectedMovie = ((MovieTableModel) this.getModel()).getMovieAt(this.getSelectedModelRow());
-        
+
         if(this.itemPlayVlc != null) {
             final boolean enabled = newSelectedMovie.isFolderPathSet() && newSelectedMovie.getFiles().size() > 0;
             this.itemPlayVlc.setEnabled(enabled);
@@ -334,12 +334,12 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
             final boolean enabled = newSelectedMovie.isFolderPathSet();
             this.itemRevealFinder.setEnabled(enabled);
         }
-        
+
         for (ITableSelectionListener listener : this.selectionListeners) {
             listener.selectionSingleChanged(newSelectedMovie);
         }
     }
-    
+
     private void notifyChangedMultiple() {
         final MovieTableModel model = ((MovieTableModel) this.getModel());
         final int[] rows = this.getSelectedModelRows();
@@ -347,7 +347,7 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         for (int i = 0; i < rows.length; i++) {
             newSelectedMovies.add(model.getMovieAt(rows[i]));
         }
-        
+
         for (ITableSelectionListener listener : this.selectionListeners) {
             listener.selectionMultipleChanged(newSelectedMovies);
         }

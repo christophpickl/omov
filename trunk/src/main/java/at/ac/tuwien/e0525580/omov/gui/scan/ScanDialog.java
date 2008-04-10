@@ -67,11 +67,11 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     private static final int MARGIN_RIGHT  = 12;
 
     private final ScanDialogController controller = new ScanDialogController(this);
-    
+
     private final DirectoryChooser inpScanRoot = new DirectoryChooser("Select Rootfolder of Repository", new File(PreferencesDao.getInstance().getRecentScanPath()), ButtonPosition.LEFT, "Set Rootfolder");
     private final JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
     private final JProgressBar progressBar = new JProgressBar();
-    
+
     private final JButton btnScan = new JButton("Scan");
     private final JButton btnImport = new JButton("Import");
     private final JButton btnPrepare = new JButton("Prepare Repository");
@@ -82,8 +82,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     private final ScanHintTable tblHints = new ScanHintTable(this.tblHintsModel);
 
     private JSplitPane tableSplitter;
-    
-    
+
+
     public ScanDialog(JFrame owner) {
         super(owner, "Scan Repository", true);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -94,54 +94,54 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
                 controller.doClose();
             }
         });
-        
 
-        
+
+
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_REMOVE_METADATA);
         new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
-        
+
         this.getRootPane().setDefaultButton(this.btnScan);
-        
-        
+
+
         this.getContentPane().add(this.initComponents());
         this.pack();
         GuiUtil.lockOriginalSizeAsMinimum(this);
         GuiUtil.setCenterLocation(this);
-        
+
         // shortcut
-        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));
-        this.btnScan.setEnabled(true);
+//        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));
+//        this.btnScan.setEnabled(true);
     }
-    
+
     void updateScannedMovie(ScannedMovie confirmedScannedMovie) {
         this.tblScannedMovieModel.updateMovieByFolderPath(confirmedScannedMovie);
     }
-    
+
     public JFrame getOwner() {
         return (JFrame) super.getOwner();
     }
-    
+
     private JPanel initComponents() {
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Constants.getColorWindowBackground());
-        
+
         panel.add(this.panelNorth(), BorderLayout.NORTH);
         panel.add(this.panelCenter(), BorderLayout.CENTER);
         panel.add(this.panelSouth(), BorderLayout.SOUTH);
-        
+
         return panel;
     }
-    
+
     private JPanel panelNorth() {
 
         this.inpScanRoot.setOpaque(false);
         this.btnPrepare.setOpaque(false);
         this.inpFetchMetadata.setOpaque(false);
-        
+
         this.btnPrepare.setEnabled(false);
-        
+
         this.inpScanRoot.addChooserListener(this);
         this.inpScanRoot.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
             btnPrepare.setEnabled(true);
@@ -151,7 +151,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
             new GuiAction() { protected void _action() {
                 controller.doPrepareRepository(inpScanRoot.getSelectedDirectory());
             }}.doAction();
-        }});        
+        }});
 
         final JPanel panelWest = new JPanel();
         {
@@ -168,8 +168,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 	        c.gridx++;
 	        panelWest.add(this.inpFetchMetadata, c);
         }
-        
-        
+
+
         final JPanel panelEast = new JPanel(new FlowLayout());
         {
 	        final GridBagConstraints c = new GridBagConstraints();
@@ -197,21 +197,21 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         emptyPanel.setOpaque(false);
         panel.add(emptyPanel, BorderLayout.CENTER);
         panel.add(panelEast, BorderLayout.EAST);
-        
+
         return panel;
     }
-    
+
     private JPanel panelCenter() {
         final JPanel panel = new JPanel(new BorderLayout());
 
         this.tblScannedMovieModel.setColumnModel(this.tblScannedMovie.getColumnModel());
         this.tblScannedMovie.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-        
+
         this.tblScannedMovie.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent event) {
                 final int row = tblScannedMovie.getSelectedRow();
                 if (row > -1 && event.getClickCount() >= 2) {
-                    
+
                     final int columnIndex = tblScannedMovie.columnAtPoint(event.getPoint());
                     final TableColumn column = tblScannedMovie.getColumnModel().getColumn(columnIndex);
                     if(column.getHeaderValue().equals(ScannedMovieTableModel.TABLE_COLUMN_VALUE_MOVIE_SELECTED)) {
@@ -223,15 +223,15 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
                 }
             }
         });
-        
-        
+
+
         this.tblScannedMovie.getColumnModel().getColumn(0).setMaxWidth(20); // checkbox
         this.tblScannedMovie.getColumnModel().getColumn(0).setMinWidth(20); // checkbox
 
         this.tblHints.getColumnModel().getColumn(0).setMinWidth(70);
         this.tblHints.getColumnModel().getColumn(0).setMaxWidth(70);
         this.tblHints.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        
+
         final JScrollPane paneHints = GuiUtil.wrapScroll(this.tblHints, 300, 20);
         paneHints.setMinimumSize(new Dimension(0, 0));
         this.tableSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, GuiUtil.wrapScroll(this.tblScannedMovie, 400, 140), paneHints);
@@ -246,19 +246,19 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
                 tableSplitter.setDividerLocation(700);
             }
         });
-        
+
         panel.add(this.tableSplitter, BorderLayout.CENTER);
         // panel.add(, BorderLayout.SOUTH);
         return panel;
     }
 
     private JPanel panelSouth() {
-        
+
         this.btnScan.setOpaque(false);
         this.btnScan.setEnabled(false);
         this.btnImport.setOpaque(false);
         this.progressBar.setOpaque(false);
-        
+
         this.btnScan.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) { new GuiAction() { protected void _action() {
             doScanStarted();
         }}.doAction(); }});
@@ -266,7 +266,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         this.btnImport.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
                 controller.doImport();
         }});
-        
+
 //        final JButton btnClose = new JButton("Close");
 //        btnClose.addActionListener(new ActionListener() {
 //            public void actionPerformed(ActionEvent e) {
@@ -281,44 +281,44 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         final JPanel panel = new JPanel(new BorderLayout(20, 0));
         panel.setBorder(BorderFactory.createEmptyBorder(10, MARGIN_LEFT, MARGIN_BOTTOM, MARGIN_RIGHT));
         panel.setOpaque(false);
-        
+
         panel.add(this.btnScan, BorderLayout.WEST);
 //        panel.add(btnClose);
         panel.add(this.progressBar, BorderLayout.CENTER);
         panel.add(this.btnImport, BorderLayout.EAST);
-        
-        
+
+
         return panel;
     }
-    
+
     private void doScanStarted() {
         final File scanRoot = this.inpScanRoot.getSelectedDirectory();
         final IWebExtractor extractor = this.inpFetchMetadata.isSelected() ? new WebImdbExtractor() : null; // FEATURE websearch: make webextractor configurable
         this.btnScan.setEnabled(false);
         this.btnImport.setEnabled(false);
         this.getRootPane().setDefaultButton(this.btnImport);
-        
+
         controller.doScan(scanRoot, extractor);
     }
 
     void doScanCompleted(List<ScannedMovie> scannedMovies, List<ScanHint> hints) {
-        
+
         this.btnScan.setEnabled(true);
         this.btnImport.setEnabled(true);
         this.progressBar.setString("Finished");
         // NOTODO sort list of movies first -> leave them as they were scanned (order given by filesystem)
         this.tblScannedMovieModel.setData(scannedMovies);
         this.tblHintsModel.setData(hints);
-        
+
         if(scannedMovies.size() == 0) {
             this.tableSplitter.setDividerLocation(0.4); // 40% movie table, 60% hints
         }
     }
-    
+
     JProgressBar getProgressBar() {
         return this.progressBar;
     }
-    
+
     List<Movie> getSelectedMovies() {
         return this.tblScannedMovieModel.getSelectedMovies();
     }
@@ -328,10 +328,10 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         final String cmd = item.getActionCommand();
         if(cmd.equals(CMD_FETCH_METADATA)) {
             this.controller.doFetchMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
-            
+
         } else if(cmd.equals(CMD_REMOVE_METADATA)) {
             this.controller.doRemoveMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
-            
+
         } else {
             throw new IllegalArgumentException("unhandled action command '"+cmd+"'!");
         }
@@ -340,7 +340,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     public void contextMenuClickedMultiple(JMenuItem item, int[] tableRowsSelected) {
         throw new UnsupportedOperationException();
     }
-    
+
     public static void main(String[] args) {
         new ScanDialog(new JFrame()).setVisible(true);
     }

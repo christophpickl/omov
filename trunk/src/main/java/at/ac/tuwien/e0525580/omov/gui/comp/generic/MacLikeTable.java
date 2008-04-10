@@ -40,7 +40,7 @@ public class MacLikeTable extends JXTable {
     private static final Color MAC_FOCUSED_SELECTED_VERTICAL_LINE_COLOR = new Color(0x346dbe);
     private static final Color MAC_UNFOCUSED_SELECTED_VERTICAL_LINE_COLOR = new Color(0xacacac);
 
-
+    // FIXME vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
 
     private static final Color MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR = new Color(0xd9d9d9);
 
