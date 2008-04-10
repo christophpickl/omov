@@ -37,13 +37,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     private static final Log LOG = LogFactory.getLog(MovieTabDetails.class);
     private static final long serialVersionUID = 1757068592935794813L;
-    
+
     private static final int ACTORS_FIXED_CELL_WIDTH = 67;
 
     private final MovieLanguagesList inpLanguages;
     private final MovieSubtitlesList inpSubtitles;
-    
-    private final MovieDirectorSuggester inpDirector = new MovieDirectorSuggester(20);
+
+    private final MovieDirectorSuggester inpDirector = new MovieDirectorSuggester(17); // FIXME size should not better, but layout should decide actual size of this component
     private final MovieActorsList inpActors;
 
     private List<String> files = new LinkedList<String>();
@@ -60,14 +60,14 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     public MovieTabDetails(AddEditMovieDialog owner, boolean isAddMode, Movie editMovie) {
         super(owner, isAddMode, editMovie);
 //        this.lblPath.setBackground(Color.ORANGE);
-        
+
         try {
             this.inpLanguages = new MovieLanguagesList(this.owner);
             this.inpSubtitles = new MovieSubtitlesList(this.owner);
         } catch(BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
-        
+
         this.btnMovieFolder.addButtonFolderListener(this);
 
         try {
@@ -89,33 +89,33 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
                 this.inpSubtitles.setSelectedItem(subtitle);
             }
             this.inpDirector.setText(editMovie.getDirector());
-            
+
             for (String actor : editMovie.getActors()) {
                 this.inpActors.setSelectedItem(actor);
             }
-            
+
             for (String singleMovieFileName : editMovie.getFiles()) {
                 this.files.add(singleMovieFileName);
             }
             this.fileSizeKb = editMovie.getFileSizeKb();
-            
+
             this.lblPath.setText(editMovie.getFolderPath());
             this.lblFiles.setText(editMovie.getFilesFormatted());
             this.lblSize.setText(editMovie.getFileSizeFormatted());
             this.lblFormat.setText(editMovie.getFormat());
         }
-        
+
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(this.initComponents());
     }
 
-    
+
     /**
      * Constructor for editing multiple movies.
      */
     public MovieTabDetails(EditMoviesDialog owner, List<Movie> editMovies) {
         super(owner, editMovies);
-        
+
         try {
             this.inpLanguages = new MovieLanguagesList(this.owner);
             this.inpSubtitles = new MovieSubtitlesList(this.owner);
@@ -123,15 +123,15 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         } catch (BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
-        
+
         this.btnMovieFolder.setEnabled(false);
         this.btnMovieFolder.setToolTipText("Setting Moviefolder is for multiple Movies not possible");
-        
+
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(this.initComponents());
     }
-    
-    
+
+
     private JPanel initComponents() {
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
@@ -150,7 +150,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         c.gridx = 1;
         c.weightx = 0.9;
         panel.add(this.panelDirectorActors(), c);
-        
+
         c.gridwidth = 2;
         c.gridx = 0;
         c.gridy = 1;
@@ -158,9 +158,9 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         c.insets = new Insets(0, 6, 0, 6); // top left bottom right
         c.weightx = 1.0;
         panel.add(this.panelFolder(), c);
-        
+
 //        panel.setBackground(Color.GRAY);
-        
+
         return panel;
     }
 
@@ -170,26 +170,33 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
         panel.setOpaque(false);
-        
+
         c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.fill = GridBagConstraints.BOTH;
+        // MINOR languages widget is somehow placed below its righthand neighbour director
         c.insets = new Insets(0, 0, 0, 0); // top left bottom right
-        panel.add(this.newInputComponent(this.inpLanguages, MovieField.LANGUAGES), c);
+        JPanel cmp = this.newInputComponent(this.inpLanguages, MovieField.LANGUAGES);
+//        cmp.setOpaque(true);
+//        cmp.setBackground(Color.GREEN);
+        panel.add(cmp, c);
+
         c.gridy = 1;
         c.insets = new Insets(10, 0, 0, 0); // top left bottom right
         panel.add(this.newInputComponent(this.inpSubtitles, MovieField.SUBTITLES), c);
-        
+
+//        panel.setOpaque(true);
 //        panel.setBackground(Color.RED);
+
         return panel;
     }
-    
+
     private JPanel panelDirectorActors() {
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
         panel.setOpaque(false);
-        
+
         c.fill = GridBagConstraints.HORIZONTAL;
         c.insets = new Insets(0, 0, 0, 0); // top left bottom right
         c.gridy = 0;
@@ -198,51 +205,72 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         c.insets = new Insets(20, 0, 0, 0); // top left bottom right
         c.gridy = 1;
         panel.add(this.newInputComponent(this.inpActors, MovieField.ACTORS), c);
-        
+
 //        panel.setBackground(Color.GREEN);
         return panel;
     }
-    
+
     private JPanel panelFolder() {
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
         panel.setOpaque(false);
-        
-        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
+
         c.anchor = GridBagConstraints.FIRST_LINE_START;
+
+
+        c.insets = new Insets(0, 0, 0, 10); // top left bottom right
+        c.gridx = 0;
         c.fill = GridBagConstraints.BOTH;
-        
         panel.add(this.panelFolderLeft(), c);
+
+        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
         c.gridx = 1;
+        c.fill = GridBagConstraints.BOTH;
         panel.add(this.panelFolderRight(), c);
-//        panel.setBackground(Color.CYAN);
+
+//      panel.setOpaque(true);
+//      panel.setBackground(Color.YELLOW);
+
         return panel;
     }
 
-    
+
     private JPanel panelFolderLeft() {
-        final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        final GridBagLayout layout = new GridBagLayout();
+        final GridBagConstraints c = new GridBagConstraints();
+        final JPanel panel = new JPanel(layout);
+        layout.setConstraints(panel, c);
         panel.setOpaque(false);
-        panel.add(this.btnMovieFolder);
+
+        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
+        c.anchor = GridBagConstraints.CENTER;
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 0;
+        c.gridy = 0;
+
+        panel.add(this.btnMovieFolder, c);
+
+//        panel.setOpaque(true);
+//        panel.setBackground(Color.YELLOW);
 
         return panel;
     }
-    
+
     private JPanel panelFolderRight() {
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
         panel.setOpaque(false);
-        
+
         final int gapHorizontal = 6;
         final int gapVertical = 3;
-        
+
         c.fill = GridBagConstraints.BOTH;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
-        
+
         c.insets = new Insets(0, 0, gapVertical, 0); // top left bottom right
         c.gridx = 0;
         c.gridy = 0;
@@ -274,30 +302,31 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         c.insets = new Insets(0, gapHorizontal, 0, 0); // top left bottom right
         c.gridx = 1;
         panel.add(this.lblFormat, c);
-        
-//        panel.setBackground(Color.YELLOW);
+
+//        panel.setOpaque(true);
+//        panel.setBackground(Color.CYAN);
 
         return panel;
     }
-    
+
     private static JLabel lbl(String text) {
         return GuiUtil.newLabelBold(text);
     }
-    
-    
-    
+
+
+
     @Override
     String getTabTitle() {
         return "Details";
     }
-    
-    
+
+
     public void notifyFolderSelected(File folder) {
         MovieFolderInfo folderInfo = Scanner.scanMovieFolderInfo(folder);
 
         this.files = folderInfo.getFiles();
         this.fileSizeKb = folderInfo.getFileSizeKB();
-        
+
         this.lblPath.setText(folderInfo.getFolderPath());
         this.lblFiles.setText(Arrays.toString(folderInfo.getFiles().toArray()));
         this.lblSize.setText(FileUtil.formatFileSize(folderInfo.getFileSizeKB()));
@@ -307,13 +336,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     public void notifyFolderCleared() {
         this.files = new LinkedList<String>();
         this.fileSizeKb = 0L;
-        
+
         this.lblPath.setText("");
         this.lblFiles.setText("");
         this.lblSize.setText("");
         this.lblFormat.setText("");
     }
-    
+
 
 
     void setMovieLanguages(Set<String> languages) {
@@ -338,7 +367,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         }
     }
 
-    
+
     public Set<String> getActors() {
         return this.inpActors.getSelectedItems();
     }
@@ -364,5 +393,5 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         return this.fileSizeKb;
     }
 
-    
+
 }

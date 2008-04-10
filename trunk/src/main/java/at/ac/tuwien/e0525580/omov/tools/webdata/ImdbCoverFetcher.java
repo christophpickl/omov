@@ -20,31 +20,32 @@ import org.htmlparser.visitors.NodeVisitor;
 
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
+import at.ac.tuwien.e0525580.omov.util.CloseableUtil;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 
 class ImdbCoverFetcher extends NodeVisitor {
 
     private static final Log LOG = LogFactory.getLog(ImdbCoverFetcher.class);
-    
+
     public static void main(String[] args) throws BusinessException {
         final String url = "http://ia.imdb.com/media/imdb/01/M/==/QM/yM/jM/5M/TN/wc/TZ/tF/kX/nB/na/B5/lM/B5/FO/4Y/TO/wE/TM/wA/jM/B5/VM._SY400_SX600_.jpg";
         ImdbCoverFetcher.downloadFile(url, new File("/myimg.jpg"));
         System.out.println("finished.");
     }
-    
+
     private static final SimpleDateFormat FILE_NAME_FORMAT = new SimpleDateFormat("yyyy_MM_dd-HH_mm_ss_SSS");
     private static final String DEFAULT_EXTENSION = "jpg";
-    
+
     public void visitTag(Tag tag) {
         if(tag.getTagName().equalsIgnoreCase("table") && tag.getAttribute("id") != null && tag.getAttribute("id").equals("principal")) {
-            
-            // tag (TableTag) -> [1] TableRow -> [0] TableColumn -> [0] ImageTag 
+
+            // tag (TableTag) -> [1] TableRow -> [0] TableColumn -> [0] ImageTag
             ImageTag imageTag = (ImageTag) tag.getChildren().elementAt(1).getChildren().elementAt(0).getChildren().elementAt(0);
             final String absoluteImagePath = imageTag.getAttribute("src");
             LOG.info("found image source '"+absoluteImagePath+"'.");
-            
+
             final String webfileName = absoluteImagePath.substring(absoluteImagePath.lastIndexOf("/") + 1, absoluteImagePath.length());
-            
+
             String extension = FileUtil.extractExtension(webfileName);
             if(extension == null) {
                 LOG.warn("Could not get extension from file '"+webfileName+"'! Setting it to default '"+DEFAULT_EXTENSION+"' extension.");
@@ -59,9 +60,9 @@ class ImdbCoverFetcher extends NodeVisitor {
             this.downloadedFile = target;
         }
     }
-    
+
     private File downloadedFile = null;
-    
+
     public boolean isCoverDownloaded() {
         return this.downloadedFile != null;
     }
@@ -69,17 +70,17 @@ class ImdbCoverFetcher extends NodeVisitor {
         assert(this.isCoverDownloaded() == true);
         return this.downloadedFile;
     }
-    
+
     static void downloadFile(String urlString, File target) throws BusinessException {
         LOG.info("Downloading file form url '"+urlString+"' to path '"+target.getAbsolutePath()+"'.");
-        
+
         if(target.exists() == true) {
             throw new BusinessException("Target file '"+target.getAbsolutePath()+"' already exists!");
         }
         if(target.getParentFile().exists() == false || target.getParentFile().isDirectory() == false) {
             throw new BusinessException("Parent folder '"+target.getParent()+"' does not exist!");
         }
-        
+
         URL realUrl;
         try {
             realUrl = new URL(urlString);
@@ -94,13 +95,13 @@ class ImdbCoverFetcher extends NodeVisitor {
         }
         http.setUseCaches(false);
         http.setDoOutput(false);
-        
+
         try {
             http.connect();
         } catch (IOException e) {
             throw new BusinessException("Could not connect to http-url '"+urlString+"'!");
         }
-        
+
         BufferedInputStream in = null;
         OutputStream out = null;
         try {
@@ -113,18 +114,18 @@ class ImdbCoverFetcher extends NodeVisitor {
             while ((n=in.read(buf))>=0) {
                out.write(buf, 0, n);
             }
-            
+
         } catch (IOException e) {
-            throw new BusinessException("", e);
+            throw new BusinessException("Could not download file from url '"+urlString+"' to file '"+target.getAbsolutePath()+"'!", e);
         } finally {
-            if(in != null) try { in.close(); } catch(IOException ignore) {}
-            if(out != null) try { out.flush(); out.close(); } catch(IOException ignore) {}
+            CloseableUtil.close(in);
+            CloseableUtil.close(out);
         }
-        
+
         http.disconnect();
         LOG.debug("Download complete.");
     }
-    
-    
-    
+
+
+
 }

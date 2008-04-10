@@ -20,6 +20,10 @@ import javax.swing.JTable;
  */
 public class ResizeIcon extends JPanel implements Icon {
 
+    private static final int ICON_WIDTH = 12;
+
+    private static final int ICON_HEIGHT = 12;
+
     private static class ResizeIconControler implements MouseListener, MouseMotionListener {
         private final JFrame frame;
 
@@ -36,19 +40,10 @@ public class ResizeIcon extends JPanel implements Icon {
             System.out.println("clicked");
         }
 
-        public void mouseEntered(MouseEvent e) {
-        }
-
-        public void mouseExited(MouseEvent e) {
-        }
-
         public void mousePressed(MouseEvent e) {
             System.out.println("pressed");
             this.storedMouseEvent = e;
             this.storedFrameDimension = this.frame.getSize();
-        }
-
-        public void mouseReleased(MouseEvent e) {
         }
 
         public void mouseDragged(MouseEvent e) {
@@ -59,22 +54,23 @@ public class ResizeIcon extends JPanel implements Icon {
             this.frame.setSize(new Dimension(newWidth, newHeight));
         }
 
-        public void mouseMoved(MouseEvent e) {
-        }
+        public void mouseEntered(MouseEvent e) { /* nothing to do */ }
+
+        public void mouseExited(MouseEvent e) { /* nothing to do */ }
+
+        public void mouseReleased(MouseEvent e) { /* nothing to do */}
+
+        public void mouseMoved(MouseEvent e) { /* nothing to do */ }
     }
 
     private static final long serialVersionUID = 2175604196539079422L;
 
-    private static final int WIDTH = 12;
-
-    private static final int HEIGHT = 12;
-
     public int getIconHeight() {
-        return HEIGHT + 5;
+        return ResizeIcon.ICON_HEIGHT + 5;
     }
 
     public int getIconWidth() {
-        return WIDTH + 5;
+        return ResizeIcon.ICON_WIDTH + 5;
     }
 
     private static final Color WHITE_LINE_COLOR = new Color(10, 40, 110);
@@ -116,7 +112,7 @@ public class ResizeIcon extends JPanel implements Icon {
 //        final JLabel lbl = new JLabel(icon); // new JLabel("asdf"); ... funtioniert halbert
         final JPanel lbl = new JPanel();
         lbl.setBackground(Color.RED);
-        
+
         ResizeIconControler c = new ResizeIconControler(f);
         lbl.addMouseListener(c);
         lbl.addMouseMotionListener(c);

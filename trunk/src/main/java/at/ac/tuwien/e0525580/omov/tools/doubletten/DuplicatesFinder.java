@@ -15,24 +15,24 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 public class DuplicatesFinder {
 
     private static final Log LOG = LogFactory.getLog(DuplicatesFinder.class);
-    
+
     private boolean aborted = false;
-    
+
     private Exception thrownException = null;
-    
+
     /** cleaned (trimmed&lowered) title, list of movies with this title*/
     private Map<String, List<Movie>> foundDuplicates = null;
-    
+
     public DuplicatesFinder() {
-        
+        /* nothing to do */
     }
-    
+
     public void findDuplicates(IDuplicatesFinderListener listener) {
         LOG.info("Start finding duplicates...");
         this.foundDuplicates = new HashMap<String, List<Movie>>();
-        
+
         try {
-            
+
 //            // --- delete me
 //            for (int i = 0; i < 50 && this.aborted == false; i++) {
 //                try { System.out.println("Thread sleeping...");
@@ -40,21 +40,21 @@ public class DuplicatesFinder {
 //                } catch (InterruptedException e) { e.printStackTrace(); }
 //            }
 //            // ---
-            
+
             final Set<Movie> movies = BeanFactory.getInstance().getMovieDao().getMovies();
-            
+
             for (Movie movie : movies) {
                 final String cleanedTitle = movie.getTitle().trim().toLowerCase();
-                List<Movie> list = this.foundDuplicates.get(cleanedTitle); 
+                List<Movie> list = this.foundDuplicates.get(cleanedTitle);
                 if(list == null) {
                     list = new LinkedList<Movie>();
                     this.foundDuplicates.put(cleanedTitle, list);
                 }
                 list.add(movie);
             }
-            
+
             LOG.info("findDuplicates end (aborted="+aborted+")");
-            
+
             listener.doProgressFinished(this.aborted == false);
         } catch(Exception e) {
             this.thrownException = e;
@@ -62,14 +62,14 @@ public class DuplicatesFinder {
             listener.doProgressFinished(false);
         }
     }
-    
+
     public DoublettenSet getFoundDuplicates() {
         if(this.foundDuplicates == null) {
             LOG.warn("Tried to get found duplicates but was null!");
             return null;
         }
         final DoublettenSet duplicates = new DoublettenSet();
-        
+
         // Map<String, List<Movie>> foundDuplicates
         for (final String cleanedTitle : this.foundDuplicates.keySet()) {
             final List<Movie> movieDuplicateList = this.foundDuplicates.get(cleanedTitle);
@@ -77,20 +77,20 @@ public class DuplicatesFinder {
                 continue;
             }
             LOG.debug("Adding "+movieDuplicateList.size()+" duplicates for title '"+cleanedTitle+"'.");
-            
+
             duplicates.add(movieDuplicateList);
         }
         return duplicates;
     }
-    
+
     public Exception getThrownException() {
         return this.thrownException;
     }
-    
+
     public void doAbort() {
         this.aborted = true;
     }
-    
+
     public static interface IDuplicatesFinderListener {
         /**
          * @param successfullyFinished false if: user aborted or some exception was thrown; true otherwise

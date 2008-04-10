@@ -94,12 +94,12 @@ ubi brainstorming
 */
 
 public class App {
-    
+
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
 
-    
+
     public static void main(String[] args) {
         try {
             App.cliArguments.addAll(Arrays.asList(args));
@@ -110,12 +110,8 @@ public class App {
             System.exit(1);
         }
     }
-    
-    public App() {
-    }
-    
+
     public void startUp() {
-        
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -123,44 +119,44 @@ public class App {
         } catch (Exception ex) {
             LOG.error("Unable to set system look&feel!", ex);
         }
-        
+
         final SplashScreen splashScreen = new SplashScreen();
         splashScreen.setVisible(true);
-        
+
         try {
             final long timeStart = new Date().getTime();
             if(App.checkPreferenceSource() == false) {
                 LOG.warn("Checking preference source version failed!");
                 System.exit(1);
             }
-            
+
             TemporaryFilesCleaner.clean();
             App.addShutdownHook();
-            
+
             if(App.checkDataVersions() == false) {
                 LOG.warn("Checking core data versions failed!");
                 System.exit(1);
             }
-            
+
             if(PreferencesDao.getInstance().isStartupVersionCheck() == true) {
                 LOG.info("Running initial application version check...");
                 final VersionCheckDialog dialog = new VersionCheckDialog();
                 dialog.startCheck();
                 dialog.setVisible(true);
             }
-            
+
 
             App.checkFileSystem();
 
             LOG.debug("Startup nearly finished; displaying main window left.");
             final MainWindow mainWindow = new MainWindow();
-            
+
             final long timeLasted = new Date().getTime() - timeStart;
             final long minimumTimeLasted = 1000L;
             if(timeLasted < minimumTimeLasted) { // avoid very short visibility of splash screen
                 try { Thread.sleep(minimumTimeLasted - timeLasted); } catch (InterruptedException e) { /* delibaretely ignored */ }
             }
-            
+
             splashScreen.setVisible(false);
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
@@ -168,50 +164,50 @@ public class App {
                     mainWindow.setVisible(true);
                 }
             });
-            
+
         } finally {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
         }
     }
-    
+
     private static void checkFileSystem() {
         if(PreferencesDao.getInstance().isStartupFilesystemCheck() == false) {
             return;
         }
         LOG.info("Running automatic file system check.");
-        
+
         try {
             final FileSystemCheckResult result = FileSystemChecker.process();
             if(result.isEverythingOkay() == false) {
                 new FileSystemCheckDialog(result).setVisible(true);
             }
-            
+
         } catch (BusinessException e) {
             LOG.error("Filesystem check failed!", e);
             GuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
         }
     }
-    
+
     private static boolean checkDataVersions() {
         final IDataVersionDao versionDao = BeanFactory.getInstance().getDataVersionDao();
         final int movieDataVersion = versionDao.getMovieDataVersion();
         final int smartfolderDataVersion = versionDao.getSmartfolderDataVersion();
-        
+
         LOG.debug("checking data versions: stored movie = "+movieDataVersion+" (application:"+Movie.DATA_VERSION+"); stored smartfolder = "+smartfolderDataVersion+" (application:"+SmartFolder.DATA_VERSION+")");
-        
+
         if(movieDataVersion == -1) {
             assert(smartfolderDataVersion == -1);
-            
+
             LOG.info("Storing initial data versions (Movie="+Movie.DATA_VERSION+"; SmartFolder="+SmartFolder.DATA_VERSION+").");
             versionDao.storeDataVersions(Movie.DATA_VERSION, SmartFolder.DATA_VERSION);
             LOG.debug("Dataversions are now ok.");
             return true;
         }
-        
+
         // MANTIS [21] write converte for core sources and if none is available, ask for deletion (or display downloadlink for older version)
         if(movieDataVersion != Movie.DATA_VERSION && smartfolderDataVersion != SmartFolder.DATA_VERSION) {
             GuiUtil.error("Datasource Version Mismatch", "It seems as you were using incompatible Movie and Preference Data Sources!\n" +
-                    "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION + "\n" + 
+                    "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION + "\n" +
                     "SmartFolder version: "+smartfolderDataVersion + " -- Application version: "+SmartFolder.DATA_VERSION);
             return false;
         }
@@ -225,15 +221,15 @@ public class App {
                     "SmartFolder version: "+smartfolderDataVersion + " -- Application version: "+SmartFolder.DATA_VERSION);
             return false;
         }
-        
+
         LOG.debug("Dataversions are ok.");
         return true;
     }
-    
+
     public static boolean isArgumentSet(String argument) {
         return App.cliArguments.contains(argument);
     }
-    
+
     private static boolean checkPreferenceSource() {
         LOG.debug("checking preference source...");
         try {
@@ -243,41 +239,41 @@ public class App {
                 LOG.info("Preference datasource was not yet initialized; starting setup wizard.");
                 final SetupWizard wizard = new SetupWizard();
                 wizard.setVisible(true);
-                
+
                 if(wizard.isConfirmed() == false) {
                     LOG.info("User aborted setup.");
                     return false;
                 }
                 assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
-                
+
             } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
                 GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source\n" +
                                 "does not match with the expected version!");
-                
-                
-                
+
+
+
                 // MANTIS [23] startup preference source data converter, if available
                 // MANTIS [23] writer automatic converter v1 to v2 for Preferences Source, because new field 'should check application version at startup'
-                
-//                PreferenceSourceConverter converter = new PreferenceSourceConverter(preferenceSourceData, PreferencesDao.DATA_VERSION); 
+
+//                PreferenceSourceConverter converter = new PreferenceSourceConverter(preferenceSourceData, PreferencesDao.DATA_VERSION);
 //                if(converter.isConvertable() == true) {
 //                    final IConverter realConverter = converter.getConverter();
 //                    realConverter.convertSource(PreferencesDao.getInstance());
 //                    LOG.info("Converted preferences source with converter '"+realConverter.getClass().getSimpleName()+"'.");
 //                    return true;
 //                }
-                
+
                 /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
                 if(GuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies immediatley to take effect?") == true) {
                     PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
                 }
-                
-                return false; 
-                
-                
+
+                return false;
+
+
             } else if(preferenceSourceData == PreferencesDao.DATA_VERSION) {
                 LOG.debug("Perferences source dataversion is compatible; nothing to do.");
-                
+
             } else {
                 throw new FatalException("Unhandled preferences source version '"+preferenceSourceData+"'!");
             }
@@ -286,8 +282,8 @@ public class App {
             GuiUtil.error("Setup failed!", "Could not set initial values: " + e.getMessage());
             return false;
         }
-        
-        
+
+
         try {
             PreferencesDao.getInstance().checkFolderExistence();
         } catch (BusinessException e) {
@@ -295,10 +291,10 @@ public class App {
             GuiUtil.error("Startup failed!", "Could not create application folders!");
             return false;
         }
-        
+
         return true;
     }
-    
+
     private static void addShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread("OmovShutdownHook") {
             public void run() {
@@ -315,5 +311,5 @@ public class App {
             }
         });
     }
-    
+
 }

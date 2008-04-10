@@ -1,6 +1,7 @@
 package at.ac.tuwien.e0525580.omov.gui.comp;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -26,24 +27,25 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
     private final Set<IButtonFolderListener> listeners = new HashSet<IButtonFolderListener>();
     private Timer clickTimer;
     private boolean doubleclick;
-    
+
     private final Component owner;
-    
-    
+
+
     public ButtonMovieFolder(Component owner) {
         super(ImageFactory.getInstance().getIconFolder());
         this.owner = owner;
+        this.setPreferredSize(new Dimension(ImageFactory.getInstance().getIconFolder().getIconWidth(),
+                                            ImageFactory.getInstance().getIconFolder().getIconHeight()));
         this.setOpaque(false);
-        
         this.setBorderPainted(false);
         this.setToolTipText("Choose Movie Folder");
-        
+
 //        this.addActionListener(this);
         this.addMouseListener(this);
         GuiUtil.enableHandCursor(this);
     }
-    
-    
+
+
 //    public void actionPerformed(ActionEvent event) {
 //        LOG.info("Clicked on button.");
 //    }
@@ -51,11 +53,11 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
     public void addButtonFolderListener(IButtonFolderListener listener) {
         this.listeners.add(listener);
     }
-    
+
     public void removeButtonFolderListener(IButtonFolderListener listener) {
         this.listeners.remove(listener);
     }
-    
+
     private void notifyListeners(File folder) {
         for (IButtonFolderListener listener : this.listeners) {
             if(folder == null) {
@@ -65,17 +67,17 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
             }
         }
     }
-    
+
     public static interface IButtonFolderListener {
         void notifyFolderSelected(File folder);
         void notifyFolderCleared();
     }
-    
-    
+
+
     private void doClearFolder() {
         this.notifyListeners(null);
     }
-    
+
     private void doClicked() {
         final File directory = GuiUtil.getDirectory(this.owner, PreferencesDao.getInstance().getRecentMovieFolderPath());
         if (directory == null) {
@@ -85,9 +87,9 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
 
         PreferencesDao.getInstance().setRecentMovieFolderPath(directory.getParent());
         this.notifyListeners(directory);
-        
+
     }
-    
+
 
     public void mouseClicked(MouseEvent event) {
         this.clickTimer = new Timer();
@@ -98,12 +100,12 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
             this.clickTimer.schedule(new ClickTimerTask(), 300);
         }
     }
-    public void mouseEntered(MouseEvent event) { }
-    public void mouseExited(MouseEvent event) { }
-    public void mousePressed(MouseEvent event) { }
-    public void mouseReleased(MouseEvent event) { }
+    public void mouseEntered(MouseEvent event) { /* nothing to do */ }
+    public void mouseExited(MouseEvent event) { /* nothing to do */ }
+    public void mousePressed(MouseEvent event) { /* nothing to do */ }
+    public void mouseReleased(MouseEvent event) { /* nothing to do */ }
 
-    
+
     class ClickTimerTask extends TimerTask {
         public void run() {
             if (doubleclick) {

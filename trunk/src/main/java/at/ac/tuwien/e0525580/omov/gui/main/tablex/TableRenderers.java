@@ -22,11 +22,11 @@ import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
 import at.ac.tuwien.e0525580.omov.util.NumberUtil;
 
 class TableRenderers {
-    
+
     private TableRenderers() {
-        
+        /* no instantiation */
     }
-    
+
     public static void updateRenderers(MovieTableX table) {
         table.getColumnByLabel(MovieTableColumns.COVER_COLUMN_LABEL).setCellRenderer(new CoverRenderer());
         table.getColumnByField(MovieField.TITLE).setCellRenderer(new TitleRenderer());
@@ -61,17 +61,17 @@ class TableRenderers {
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 //            System.out.println("isSelected="+isSelected+"; value="+value);
-            
+
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             if(isSelected) {
                 lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setForeground(Constants.getColorSelectedForeground());
-            } else 
+            } else
             	lbl.setForeground(Color.BLACK);
             return lbl;
         }
     }
-    
+
     private static class CoverRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 2926410557857576765L;
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -86,8 +86,8 @@ class TableRenderers {
             return lbl;
         }
     }
-    
-    
+
+
     private static class TitleRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 3071418230735107442L;
         private static final Font FONT_TITLE_SEEN = new Font("Default", Font.PLAIN, 12);
@@ -95,35 +95,35 @@ class TableRenderers {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             final Movie movie = getMovie(table, row);
-            
+
             lbl.setFont(movie.isSeen() ? FONT_TITLE_SEEN : FONT_TITLE_UNSEEN);
             if(isSelected) {
                 lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setForeground(Constants.getColorSelectedForeground());
             }
-            
+
             return lbl;
         }
     }
-    
+
     private static class RatingRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = -4946524787250006442L;
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Movie movie = getMovie(table, row);
-            
+
             if(movie.getRating() == 0 && isSelected == false) {
                 final JLabel lbl = new JLabel(); // display nothing if not selected and not yet rated
                 if(isSelected) lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setOpaque(true);
                 return lbl;
             }
-            
+
             final Color primaryColor = isSelected ? Constants.getColorSelectedForeground() : null; // null == default (dark gray)
             final RatingPanel ratingPanel = new RatingPanel(movie.getRating(), primaryColor);
             ratingPanel.setOpaque(false);
 
-            
+
             final JPanel panel = new JPanel();
             panel.setOpaque(true);
             if(isSelected) panel.setBackground(Constants.getColorSelectedBackground());
@@ -131,7 +131,7 @@ class TableRenderers {
             final GridBagConstraints c = new GridBagConstraints();
             layout.setConstraints(panel, c);
             panel.setLayout(layout);
-            
+
             c.gridx = 0;
             c.gridy = 0;
             c.anchor = GridBagConstraints.CENTER;
@@ -146,7 +146,7 @@ class TableRenderers {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Quality quality = (Quality) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            
+
             lbl.setText(quality.label());
             if(isSelected) {
                 lbl.setBackground(Constants.getColorSelectedBackground());
@@ -167,13 +167,13 @@ class TableRenderers {
                 lbl.setForeground(Constants.getColorSelectedForeground());
             }
             lbl.setHorizontalAlignment(SwingConstants.RIGHT); // set duration right aligned
-            
+
             return lbl;
         }
     }
 
 
-    
+
     private static class DateAddedRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 5247456238762520415L;
 

@@ -16,6 +16,7 @@ public class TiledImagePanelUI extends BasicPanelUI implements PropertyChangeLis
     public static Image image;
 
     public TiledImagePanelUI() {
+        /* nothing to do */
     }
 
     public TiledImagePanelUI(Image aImage) {

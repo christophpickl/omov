@@ -19,6 +19,7 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.bo.CoverFileType;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
+import at.ac.tuwien.e0525580.omov.util.CloseableUtil;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 
 public class ExporterHtml implements IExporterHtml {
@@ -28,18 +29,18 @@ public class ExporterHtml implements IExporterHtml {
     /** used within html code; e.g.: "Monday, 11 February 2008 - 23:53:59" */
     private static final SimpleDateFormat CURRENT_DATE_FORMAT = new SimpleDateFormat("EEEE, dd MMMM yyyy - HH:mm:ss");
     private static final String COVERS_FOLDER_NAME = "covers";
-    
+
     /**
      * @see {@link http://www.walterzorn.com/tooltip/tooltip_e.htm}
      */
     private static String wzTooltipJsContentCache = null;
-    
-    
+
+
     private final List<HtmlColumn> columns;
     private String targetFilePath = null;
 
-    
-    
+
+
     public static void main(String[] args) throws BusinessException {
 //        List<Movie> movies = new LinkedList<Movie>();
 //        movies.add(Movie.getDummy());
@@ -54,14 +55,14 @@ public class ExporterHtml implements IExporterHtml {
             e.printStackTrace();
         }
     }
-    
+
 
 
     public ExporterHtml(List<HtmlColumn> columns) {
         final List<HtmlColumn> list = new ArrayList<HtmlColumn>();
         list.add(HtmlColumn.COLUMN_ID);
         list.add(HtmlColumn.COLUMN_TITLE);
-        
+
         for (HtmlColumn column : columns) {
             if(column == HtmlColumn.COLUMN_ID) {
                 LOG.warn("Setting column ID is not necessary!");
@@ -78,7 +79,7 @@ public class ExporterHtml implements IExporterHtml {
     }
 
 //    private static final SimpleDateFormat FOLDER_DATE_FORMAT = new SimpleDateFormat("yyyy_MM_dd");
-    
+
     /**
      * @return file[0]=new target file; file[1]=created directory
      */
@@ -89,20 +90,20 @@ public class ExporterHtml implements IExporterHtml {
         if(targetCoverDirectory.mkdirs() == false) {
             throw new BusinessException("Could not create cover folder '"+targetCoverDirectory.getAbsolutePath()+"'!");
         }
-        
+
         for (Movie movie : movies) {
             if(movie.isCoverFileSet()) {
                 copyCoverFile(movie, targetCoverDirectory, true);
                 copyCoverFile(movie, targetCoverDirectory, false);
-                
+
 //                FileUtil.copyFile(new File(coverFolder, movie.getCoverFile()), new File(targetCoverDirectory, movie.getCoverFile()));
             }
         }
-        
+
         targetFile = new File(targetDirectory, targetFile.getName());
         return new File[] {targetFile, targetDirectory};
     }
-    
+
     private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws BusinessException {
         final CoverFileType coverType;
 
@@ -114,17 +115,17 @@ public class ExporterHtml implements IExporterHtml {
             coverType = CoverFileType.NORMAL;
             newCoverFileName = "big_" + movie.getOriginalCoverFile();
         }
-        
+
         final File originalCoverFile = new File(PreferencesDao.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
         final File targetFile = new File(targetCoverDirectory, newCoverFileName);
-        
+
         FileUtil.copyFile(originalCoverFile, targetFile);
     }
-    
+
     private static File getAvailableTargetDirectory(final File targetFile) {
 //        final String folderNameDatePart = FOLDER_DATE_FORMAT.format(new Date());
 //        final File parent = targetFile.getParentFile();
-//        
+//
 //        File dir = new File(parent, folderNameDatePart);
 //        int i = 1;
 //        while(dir.exists() == true) {
@@ -137,10 +138,10 @@ public class ExporterHtml implements IExporterHtml {
         if(extension != null) { // extension should be "html"
             name = name.substring(0, name.length() - (extension.length()+1));
         }
-        
+
         final File parent = targetFile.getParentFile();
         File dir = new File(parent, name);
-        
+
         int i = 1; // start counting with 2 if folder with that name (==filename) already exists
         while(dir.exists() == true) {
             dir = new File(parent, name + "-" + i);
@@ -149,15 +150,15 @@ public class ExporterHtml implements IExporterHtml {
         LOG.debug("Returning getAvailableTargetDirectory(targetFile="+targetFile.getAbsolutePath()+"): '"+dir.getAbsolutePath()+"'");
         return dir;
     }
-    
+
     public String getTargetFilePath() {
         return this.targetFilePath;
     }
-    
+
     private static String getContentsOfWzTooltipJs() throws BusinessException {
         if(wzTooltipJsContentCache == null) {
             LOG.debug("initializing wzTooltipJsContentCache.");
-            
+
             final StringBuilder sb = new StringBuilder(35043 + 50);
             sb.append("\n\n<!-- BEGIN OF wz_tooltip.js -->\n\n\n");
             sb.append("<script type='text/javascript'>\n");
@@ -168,21 +169,21 @@ public class ExporterHtml implements IExporterHtml {
         }
         return wzTooltipJsContentCache;
     }
-    
+
     public void process(List<Movie> movies, File target) throws BusinessException {
         LOG.info("Going to export " + movies.size() + " movies to target '"+target.getAbsolutePath()+"'.");
-        
+
         boolean processFinishedSuccessfully = false;
         File createdDir = null;
         try {
-            
+
             final boolean coversEnabled = columns.contains(HtmlColumn.COLUMN_COVER);
             if(coversEnabled) {
                 final File[] targetFileAndTargetDir = copyCoverFiles(movies, target);
                 LOG.info("Resetting target file to '"+target.getAbsolutePath()+"'.");
                 target = targetFileAndTargetDir[0];
                 createdDir = targetFileAndTargetDir[1]; // e.g.: "/Users/foobar/UserEnteredName/
-                
+
                 // DO NOT copy the .js file but insert its contents directly into generated html page (reason: folder is not always available -if not exporting covers- and therefore js has to be placed directly inside)
 //                try {
 //                    final String urlPath = ExporterHtml.class.getResource("/wz_tooltip.js").getPath();
@@ -193,9 +194,9 @@ public class ExporterHtml implements IExporterHtml {
 //                }
             }
             this.targetFilePath = target.getAbsolutePath();
-            
+
             final String currentDate = CURRENT_DATE_FORMAT.format(new Date());
-            
+
             BufferedWriter writer = null;
             try {
                 LOG.debug("Opening writer for file '"+target.getAbsolutePath()+"'.");
@@ -204,20 +205,20 @@ public class ExporterHtml implements IExporterHtml {
                         "<html>\n" +
                         "<head>\n" +
                         "<title>OurMovies - Movies from "+PreferencesDao.getInstance().getUsername()+"</title>\n");
-                
+
                 writer.write(getHeadContent());
-                
+
                 writer.write(
                         "</head>\n" +
                         "\n" +
                         "<body>\n");
-                
+
 //                if(coversEnabled == true) {
 //                    writer.write("<script type='text/javascript' src='"+COVERS_FOLDER_NAME+"/wz_tooltip.js'></script>");
 //                }
                 LOG.debug("Writing contents of wz_tooltip.js");
                 writer.write(getContentsOfWzTooltipJs());
-                
+
                 writer.write(
                         "<h1>Movies from "+PreferencesDao.getInstance().getUsername()+"</h1>\n" +
                         "<div id='date'>"+currentDate+"</div>\n" +
@@ -226,11 +227,11 @@ public class ExporterHtml implements IExporterHtml {
                         "\n" +
                         "<table id='tbl_data' cellspacing='0' cellpadding='12'>\n" +
                            "   <colgroup>\n");
-            
+
                 for (HtmlColumn column : this.columns) {
                     writer.write("       <col width='"+column.getWidth()+"' valign='middle' /> <!-- "+column.getLabel()+" -->\n");
                 }
-                
+
                 writer.write(
                         "   </colgroup>\n" +
                         "   <tr>\n");
@@ -238,15 +239,15 @@ public class ExporterHtml implements IExporterHtml {
                     writer.write("       <th class='th'>"+column.getLabel()+"</th>\n");
                 }
                 writer.write("   </tr>\n");
-    
-        
+
+
                 boolean isEven = true;
                 LOG.debug("Wrting table rows for "+movies.size()+" movies.");
                 for (final Movie movie : movies) {
                     writer.write(this.getHtmlCodeForMovie(movie, isEven));
                     isEven = !isEven;
                 }
-                
+
                 writer.write(
                         "</table>" +
                         "\n" +
@@ -263,13 +264,13 @@ public class ExporterHtml implements IExporterHtml {
             } catch(IOException e) {
                 throw new BusinessException("Could not generate HTML report!", e);
             } finally {
-                if(writer != null) try { writer.close(); } catch(IOException e) { LOG.error("Could not close filewriter for file '"+target.getAbsolutePath()+"'!", e); };
+                CloseableUtil.close(writer);
             }
-            
+
             LOG.info("Exporting HTML finished.");
             processFinishedSuccessfully = true;
-            
-            
+
+
         } finally {
             if(processFinishedSuccessfully == false && createdDir != null) {
                 LOG.info("Going to delete created directory '"+createdDir.getAbsolutePath()+"' because exporting html failed.");
@@ -281,26 +282,26 @@ public class ExporterHtml implements IExporterHtml {
             }
         }
     }
-    
+
     private String getHtmlCodeForMovie(Movie movie, boolean isEven) {
         final StringBuilder sb = new StringBuilder(100);
 
         final String trClassName = "tr_" + (isEven ? "even" : "odd");
-        
+
         sb.append("   <tr class='").append(trClassName).append("' onmouseover=\"javascript:overTr(this);\" onmouseout=\"javascript:outTr(this, '").append(trClassName).append("');\">\n");
         for (HtmlColumn column : this.columns) {
             sb.append("      <td class='td_").append(column.getStyleClass()).append("'>").append(column.getValue(movie, this)).append("</td>\n");
         }
         sb.append("   </tr>\n");
-        
+
         return sb.toString();
     }
-    
+
     /**
      * @see HtmlFileConverter
      */
     private static String getHeadContent() {
-        return 
+        return
         "<script type='text/javascript'>\n" +
         "\n" +
         "function doGenerateIds() {\n" +
@@ -462,9 +463,9 @@ public class ExporterHtml implements IExporterHtml {
             this.coversFolderCache = new File(new File(this.targetFilePath).getParent(), COVERS_FOLDER_NAME);
             assert(this.coversFolderCache.exists());
         }
-        
+
         return this.coversFolderCache;
     }
-    
+
 
 }

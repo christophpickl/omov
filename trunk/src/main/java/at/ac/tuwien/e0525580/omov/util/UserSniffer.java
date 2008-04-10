@@ -3,7 +3,7 @@ package at.ac.tuwien.e0525580.omov.util;
 import org.apache.log4j.Logger;
 
 /**
- * 
+ *
  * @author Christoph Pickl - e0525580@student.tuwien.ac.at
  */
 public final class UserSniffer {
@@ -12,14 +12,14 @@ public final class UserSniffer {
     private static final Logger LOG = Logger.getLogger(UserSniffer.class);
 
     /**  */
-    public enum OS { WIN, MAC, LINUX, UNIX, SOLARIS, OS2, UNKOWN };
+    public enum OS { WIN, MAC, LINUX, UNIX, SOLARIS, OS2, UNKOWN }
 
     /**  */
     private static OS os;
-    
+
     static {
         final String osname = System.getProperty("os.name");
-        
+
         if (osname.contains("Mac")) {
             UserSniffer.os = UserSniffer.OS.MAC;
         } else if (osname.contains("Windows")) {
@@ -39,28 +39,28 @@ public final class UserSniffer {
         }
         LOG.debug("seems as user is running '" + UserSniffer.os + "'.");
     }
-    
+
     /**
-     * 
+     *
      * @return
      */
     public static OS getOS() {
         return UserSniffer.os;
     }
-    
+
     /**
-     * 
+     *
      * @param os
      * @return
      */
     public static boolean isOS(OS os) {
         return UserSniffer.os.equals(os);
     }
-    
+
     public static boolean isMacOSX() {
         return UserSniffer.os.equals(OS.MAC);
     }
-    
+
     public static boolean isWindows() {
         return UserSniffer.os.equals(OS.WIN);
     }

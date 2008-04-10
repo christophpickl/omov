@@ -19,32 +19,32 @@ public class RemoteServer {
     public static void main(String[] args) throws BusinessException {
         RemoteServer.getInstance().startUp(12222);
     }
-    
+
     private static final Log LOG = LogFactory.getLog(RemoteServer.class);
     private static final RemoteServer INSTANCE = new RemoteServer();
-    
+
     private IRemoteDataReceiver receiver;
     private RemoteServerThread thread;
     private boolean running;
-    
-    
+
+
     private RemoteServer() {
-        
+        /* no instantiation */
     }
-    
+
     public static RemoteServer getInstance() {
         return INSTANCE;
     }
-    
+
     public boolean isRunning() {
         return this.running;
     }
-    
+
     public void startUp(int port) throws BusinessException {
         LOG.info("Starting up at port "+port+".");
         assert(isRunning() == false);
         assert(this.receiver != null);
-        
+
         try {
             this.thread = new RemoteServerThread(new ServerSocket(port), this.receiver);
             new Thread(this.thread).start();
@@ -54,20 +54,20 @@ public class RemoteServer {
         this.running = true;
         LOG.debug("... starting up server finished.");
     }
-    
+
     public void shutDown() throws BusinessException {
         LOG.info("Sutting down server.");
         assert(isRunning() == true);
         this.running = false;
-        
+
         try {
             this.thread.stop();
         } catch (IOException e) {
             throw new BusinessException("Could not shutdown server!", e);
         }
-        
+
     }
-    
+
     private static class RemoteServerThread implements Runnable {
         private final ServerSocket socket;
         private final IRemoteDataReceiver receiver;
@@ -93,13 +93,13 @@ public class RemoteServer {
                             // F I X M E throw runtime exception; or how show that error occured?
                             LOG.error("Error while client communication", e);
                         }
-                    } 
+                    }
                 }
             } finally {
                 LOG.info("Ending service.");
             }
         }
-        
+
         private void communicate(Socket socket, BufferedReader reader, BufferedWriter writer) throws IOException {
             try {
                 final boolean accept = this.receiver.acceptTransmission(socket.getInetAddress().getHostAddress());
@@ -108,25 +108,25 @@ public class RemoteServer {
                 writer.write(msgAccept + "\n");
                 writer.flush();
                 LOG.debug("communicating: permission message sent.");
-                
+
                 if(accept == false) {
                     return;
                 }
-                
+
                 LOG.debug("communicating: waiting for version ...");
                 final int version = Integer.parseInt(reader.readLine());
                 LOG.debug("communicating: got version " + version);
-                
+
                 if(version != Movie.DATA_VERSION) {
                     writer.write(CommunicationConstants.VERSION_NOT_OKAY + "\n");
                     writer.flush();
                     return;
                 }
-                
+
                 LOG.debug("communicating: writing ok.");
                 writer.write(CommunicationConstants.VERSION_OKAY + "\n");
                 writer.flush();
-                
+
                 ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
                 VersionedMovies versionedMovies;
                 try {
@@ -137,7 +137,7 @@ public class RemoteServer {
                 }
                 LOG.debug("Forwarding received versioned movies: " + versionedMovies);
                 this.receiver.dataReceived(versionedMovies);
-                
+
                 LOG.debug("communicating: everything was fine, closing connection.");
             } finally {
                 LOG.debug("communicating: closing reader, writer and socket.");
@@ -147,13 +147,13 @@ public class RemoteServer {
             }
             LOG.debug("communicating: end of communication.");
         }
-        
+
         public void stop() throws IOException {
             this.stop = true;
             this.socket.close();
         }
     }
-    
+
     public void setMainReceiver(IRemoteDataReceiver receiver) {
         LOG.info("Setting main datareceiver to: " + receiver.getClass().getName());
         this.receiver = receiver;

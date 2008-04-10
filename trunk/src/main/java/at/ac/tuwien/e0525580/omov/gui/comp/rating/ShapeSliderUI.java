@@ -30,17 +30,17 @@ import javax.swing.event.MouseInputListener;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.SliderUI;
 
-/** The <code>ShapeSliderUI</code> class is built to present a series of 
- * <code>Shape</code> objects. A primary shape is displayed if the position is 
- * included in the set and a secondary shape is displayed if not. The secondary 
+/** The <code>ShapeSliderUI</code> class is built to present a series of
+ * <code>Shape</code> objects. A primary shape is displayed if the position is
+ * included in the set and a secondary shape is displayed if not. The secondary
  * shapes are only displayed if the control is enabled. You could any shape you
- * want, the default primary shape is a star and the secondary shape is a small 
+ * want, the default primary shape is a star and the secondary shape is a small
  * dot.
- * 
- * For input, it assumes a click on the rightmost two-thirds of a star is a 
- * click on that shape, otherwise it is the previous position. This allows the 
- * user to select zero shapes. The widget also responds to dragging the mouse 
- * in the control area. When the control is focused, the left and right arrow 
+ *
+ * For input, it assumes a click on the rightmost two-thirds of a star is a
+ * click on that shape, otherwise it is the previous position. This allows the
+ * user to select zero shapes. The widget also responds to dragging the mouse
+ * in the control area. When the control is focused, the left and right arrow
  * buttons can change the value.
  *
  * @author Adam Walker <adam@walksoftware.net>
@@ -50,7 +50,7 @@ class ShapeSliderUI extends SliderUI{
 //    private static final Log LOG = LogFactory.getLog(ShapeSliderUI.class);
     private static final Color COLOR_PRIMARY = new Color(127, 127, 127);
     private static final Color COLOR_SECONDARY = new Color(204, 204, 204);
-    
+
     private Shape primaryShape;
     private Shape secondaryShape;
     private Color primaryColor = null;
@@ -59,14 +59,15 @@ class ShapeSliderUI extends SliderUI{
     private MouseInputListener mouseListener;
     private ChangeListener changeListener;
     private KeyListener keyListener;
-    
-    public ShapeSliderUI(){
+
+    public ShapeSliderUI() {
+        /* nothing to do */
     }
-    
+
     public static ComponentUI createUI(JComponent c){
         return new ShapeSliderUI();
     }
-    
+
     protected class ShapeML extends MouseInputAdapter{
         public void mouseClicked(MouseEvent evt){
             select((JSlider)evt.getSource(), evt.getX(), evt.getY());
@@ -90,7 +91,7 @@ class ShapeSliderUI extends SliderUI{
         BoundedRangeModel model = slider.getModel();
         int pos = model.getValue();
         int end = pos;
-        
+
         if(evt.getKeyCode()==KeyEvent.VK_RIGHT){
             if(pos<model.getMaximum())
                 end++;
@@ -155,7 +156,7 @@ class ShapeSliderUI extends SliderUI{
             primaryColor = COLOR_PRIMARY;
         if(secondaryColor==null)
             secondaryColor = COLOR_SECONDARY;
-        
+
     }
     /**
      * Build the star shape. Five armed radial symmetric.
@@ -171,7 +172,7 @@ class ShapeSliderUI extends SliderUI{
             deg += 36;
         }
         return p;
-    }   
+    }
     /**
      * Add a point to a polygon using polar co-ordinates.
      * Assumes a square area between 0 and 100.
@@ -216,7 +217,7 @@ class ShapeSliderUI extends SliderUI{
         JSlider slider = (JSlider)c;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-        
+
         BoundedRangeModel model = slider.getModel();
         int slots = model.getMaximum();
         int setting = model.getValue();
@@ -250,7 +251,7 @@ class ShapeSliderUI extends SliderUI{
         }
         g.fill(s);
     }
-    
+
     public Shape getPrimaryShape() {
         return primaryShape;
     }
@@ -260,38 +261,38 @@ class ShapeSliderUI extends SliderUI{
     public void setPrimaryShape(Shape primaryShape) {
         this.primaryShape = primaryShape;
     }
-    
+
     public Shape getSecondaryShape() {
         return secondaryShape;
     }
-    
+
     /**
      * Shape should be centered in the rect (0,0,100,100).
      **/
     public void setSecondaryShape(Shape secondaryShape) {
         this.secondaryShape = secondaryShape;
     }
-    
+
     public Color getPrimaryColor() {
         return primaryColor;
     }
-    
+
     public void setPrimaryColor(Color primaryColor) {
         this.primaryColor = primaryColor;
     }
-    
+
     public Color getSecondaryColor() {
         return secondaryColor;
     }
-    
+
     public void setSecondaryColor(Color secondaryColor) {
         this.secondaryColor = secondaryColor;
     }
-    
+
     public int getMargin() {
         return margin;
     }
-    
+
     public void setMargin(int margin) {
         this.margin = margin;
     }

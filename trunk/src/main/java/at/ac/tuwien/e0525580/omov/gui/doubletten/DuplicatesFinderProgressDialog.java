@@ -23,32 +23,32 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
     private static final long serialVersionUID = -1210382497017009556L;
 
     private final DuplicatesFinder finder;
-    
+
     private final JProgressBar progressBar = new JProgressBar();
     private final JButton btnCancel = new JButton("Cancel");
-    
-    
+
+
     public DuplicatesFinderProgressDialog(JFrame owner) {
         super(owner, "Finding duplicates ...", true);
         this.finder = new DuplicatesFinder();
-        
+
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
-        
+
         LOG.debug("Starting new thread to find duplicates...");
-        
+
         new Thread(new Runnable() {
             public void run() {
                 finder.findDuplicates(DuplicatesFinderProgressDialog.this);
             }
-        }) {}.start();
-        
-        
+        }).start();
+
+
         this.getContentPane().add(this.initComponents());
         this.pack();
         GuiUtil.setCenterLocation(this);
     }
-    
+
     private JPanel initComponents() {
         final JPanel panel = new JPanel();
 
@@ -58,22 +58,22 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
                 doCancel();
             }
         });
-        
+
         panel.add(this.progressBar);
         panel.add(this.btnCancel);
 
         return panel;
     }
-    
+
     private void doCancel() {
         LOG.debug("User clicked cancel button.");
-        
+
         this.btnCancel.setEnabled(false);
         this.progressBar.setValue(0);
         this.finder.doAbort();
     }
-    
-    
+
+
     public void doProgressFinished(boolean successfullyFinished) {
         LOG.debug("doProgressFinished(successfullyFinished="+successfullyFinished+") invoked");
         if(successfullyFinished == false) {

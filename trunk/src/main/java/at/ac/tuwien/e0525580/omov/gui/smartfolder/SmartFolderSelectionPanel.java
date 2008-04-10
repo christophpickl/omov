@@ -30,8 +30,8 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
     private static final long serialVersionUID = 1641753908738713734L;
     private static final Log LOG = LogFactory.getLog(SmartFolderSelectionPanel.class);
 
-    
-    
+
+
     private final SmartFolderBoxModel comboBoxModel = new SmartFolderBoxModel();
     private final JComboBox comboBox = new JComboBox(this.comboBoxModel);
     private final JFrame owner;
@@ -41,13 +41,14 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
 
         private static final long serialVersionUID = 4529138049753567357L;
         private List<SmartFolderSelection> data = new ArrayList<SmartFolderSelection>();
-        
+
         public SmartFolderBoxModel() {
+            /* nothing to do */
         }
         public SmartFolderSelection getSmartFolderAt(int index) {
             return this.data.get(index);
         }
-        
+
         public void setData(List<SmartFolderSelection> data) {
             this.data = data;
             this.setSelectedItem(this.data.get(0));
@@ -62,21 +63,21 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
             return this.data.size();
         }
     }
-    
-    
+
+
     public SmartFolderSelectionPanel(JFrame owner, MovieTableModel movieModel) {
         this.owner = owner;
         this.movieModel = movieModel;
         BeanFactory.getInstance().getSmartFolderDao().registerMovieDaoListener(this);
         this.setOpaque(false);
-        
+
 //        this.smartFolderModel = new SmartFolderBoxModel<SmartFolder>(smartFolders);
 //        this.smartFolderComboBox.setModel(this.smartFolderModel);
         this.reloadData();
         this.initComponents();
     }
-    
-    
+
+
     private void reloadData() {
         List<SmartFolder> smartFolders;
         try {
@@ -84,9 +85,9 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         } catch (BusinessException e) {
             throw new FatalException("Could not reload data for SmartFolder selection.", e);
         }
-        
+
         LOG.debug("Reloaded "+smartFolders.size()+" smartfolders.");
-        
+
         final int n = smartFolders.size() + 2;
         final List<SmartFolderSelection> elements = new ArrayList<SmartFolderSelection>(n);
         for (int i = 0; i < n; i++) {
@@ -98,24 +99,24 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
                 elements.add(new SmartFolderSelection(smartFolders.get(i-1)));
             }
         }
-        
+
 //        this.comboBoxModel.removeAllElements();
 //        for (String element : elements) {
 //            this.comboBoxModel.addElement(element);
 //        }
         this.comboBoxModel.setData(elements);
     }
-    
-    
+
+
     private void initComponents() {
-        
+
         /*
         this.comboBox.setRenderer(new DefaultListCellRenderer() {
             private static final long serialVersionUID = 3403413804869852906L;
 
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 final SmartFolderSelection selection = (SmartFolderSelection) value;
-                
+
                 final Component comp = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
 //                final JLabel comp = new JLabel(selection.getLabel());
                 JLabel lbl = (JLabel) comp;
@@ -130,17 +131,17 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
             }
         });
         */
-        
+
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         this.setLayout(layout);
         layout.setConstraints(this, c);
-        
+
         c.anchor = GridBagConstraints.LINE_START;
 
         this.comboBox.setOpaque(false);
         this.comboBox.setPreferredSize(new Dimension(200, (int) this.comboBox.getPreferredSize().getHeight()));
-        
+
         this.comboBox.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
             new GuiAction() { protected void _action() {
                     doComboBoxClicked();
@@ -153,12 +154,12 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
 
         c.gridx = 1;
         this.add(this.comboBox, c);
-        
+
     }
 
     private int prevComboBoxIndex = 0;
     private SmartFolderSelection prevSmartFolderSelection = null;
-    
+
     private void doComboBoxClicked() {
         final SmartFolderSelection selection = (SmartFolderSelection) this.comboBox.getSelectedItem();
         final int selectedIndex = this.comboBox.getSelectedIndex();
@@ -169,37 +170,37 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
 
             this.prevComboBoxIndex = selectedIndex;
             this.prevSmartFolderSelection = selection;
-            
+
         } else if(selection == SmartFolderSelection.ENUM_MANAGE) {
             this.doManage();
             LOG.debug("Do manage finished.");
-            
+
             if(this.prevSmartFolderSelection != SmartFolderSelection.ENUM_INACTIVE &&
                this.prevSmartFolderSelection != SmartFolderSelection.ENUM_MANAGE &&
                // check if deleting
                this.prevComboBoxIndex < this.comboBoxModel.getSize() &&
                this.comboBoxModel.getSmartFolderAt(this.prevComboBoxIndex).getSmartFolder() != null && // check if not getting "Manage ..." item back
                this.comboBoxModel.getSmartFolderAt(this.prevComboBoxIndex).getSmartFolder().getId() == this.prevSmartFolderSelection.getSmartFolder().getId()) {
-                
+
                 LOG.debug("Initially selecting same old smartfolder again.");
                 this.comboBox.setSelectedIndex(this.prevComboBoxIndex);
                 final SmartFolder selectedItem = this.comboBoxModel.getSmartFolderAt(this.prevComboBoxIndex).getSmartFolder();
                 assert(selectedItem != null);
-                
+
                 // this.prevComboBoxIndex = this.prevComboBoxIndex;
                 this.prevSmartFolderSelection = (SmartFolderSelection) this.comboBox.getSelectedItem(); // name of smartfolder
                 this.movieModel.setSmartFolder(selectedItem);
-                
+
             } else {
                 LOG.debug("Setting smartfolder to null (maybe because old selected smartfolder was just deleted).");
                 this.comboBox.setSelectedIndex(0);
                 this.movieModel.setSmartFolder(null);
-                
+
                 this.prevComboBoxIndex = selectedIndex;
                 this.prevSmartFolderSelection = selection;
             }
-            
-            
+
+
         } else { // not ENUM_INACTIVE and not ENUM_MANAGE
             final SmartFolder selectedItem = this.comboBoxModel.getSmartFolderAt(selectedIndex).getSmartFolder();
             this.movieModel.setSmartFolder(selectedItem);
@@ -209,8 +210,8 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         }
 
     }
-    
-    
+
+
     private void doManage() {
         final SmartFolderManageDialog dialog = new SmartFolderManageDialog(this.owner);
         dialog.setVisible(true);

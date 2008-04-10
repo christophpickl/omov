@@ -1,7 +1,8 @@
 package at.ac.tuwien.e0525580.omov.tools.remote;
 
 public final class CommunicationConstants {
-    private CommunicationConstants() {}
+
+    private CommunicationConstants() { /* no instantiation */}
 
     public static final String CONNECT_ACCEPTED = "connect accepted";
     public static final String CONNECT_NOT_ACCEPTED = "connect not accepted";

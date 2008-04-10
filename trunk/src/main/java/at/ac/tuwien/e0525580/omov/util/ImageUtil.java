@@ -19,20 +19,20 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.ImagePanel;
 public class ImageUtil {
 
     private static final Logger LOG = Logger.getLogger(ImageUtil.class);
-    
+
     private ImageUtil() {
-        
+        /* no instantiation */
     }
-    
+
     public static WidthHeight recalcMaxWidthHeight(final int oldWidth, final int oldHeight, final int maxWidth, final int maxHeight) {
         final boolean DEBUG = false;
 
         final int newWidth;
         final int newHeight;
-        
+
         final boolean widthOversize = oldWidth > maxWidth;
         final boolean heightOversize = oldHeight > maxHeight;
-        
+
         if(DEBUG) System.out.println("old "+oldWidth+"/"+oldHeight+"; max "+maxWidth+"/"+maxHeight+"-- widthOversize="+widthOversize+", heightOversize="+heightOversize);
         if(widthOversize && heightOversize) {
             if(DEBUG) System.out.println("ImageUtil: width+height oversize");
@@ -62,26 +62,26 @@ public class ImageUtil {
         if(DEBUG) System.out.println("ImageUtil: new "+newWidth+"/"+newHeight);
         return new WidthHeight(newWidth, newHeight);
     }
-    
+
     public static WidthHeight recalcMaxWidthHeight(final File coverFile, final int maxWidth, final int maxHeight) {
         LOG.debug("Recalcing width/height for cover file at '"+coverFile.getAbsolutePath()+"'.");
         final ImagePanel imagePanel = new ImagePanel(maxWidth, maxHeight);
         final MediaTracker media = new MediaTracker(imagePanel);
         final Image source = Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath());
         media.addImage(source,0);
-        
+
         try {
             media.waitForID(0);
             final int oldWidth = source.getWidth(imagePanel);
             final int oldHeight = source.getHeight(imagePanel);
-            
+
             return recalcMaxWidthHeight(oldWidth, oldHeight, maxWidth, maxHeight);
         } catch(InterruptedException e) {
             LOG.error("interrupted while creating resized cover image!", e);
             throw new RuntimeException("interrupted while creating resized cover image!");
         }
     }
-    
+
     public static Image getResizedCoverImage(final File coverFile, final Component component, final CoverFileType fileType) {
         LOG.info("resizing cover image '" + coverFile.getAbsolutePath() + "' to fileType '"+fileType+"'.");
         Date resizeActionStart = new Date();
@@ -96,12 +96,12 @@ public class ImageUtil {
             media.waitForID(0);
             final int oldWidth = source.getWidth(component);
             final int oldHeight = source.getHeight(component);
-            
+
             final WidthHeight newDimension = recalcMaxWidthHeight(oldWidth, oldHeight, maxWidth, maxHeight);
             final int newWidth = newDimension.getWidth();
             final int newHeight = newDimension.getHeight();
 
-            
+
             ImageFilter replicate = new ReplicateScaleFilter(newWidth, newHeight);
             ImageProducer prod = new FilteredImageSource(source.getSource(),replicate);
             resizedImage = Toolkit.getDefaultToolkit().createImage(prod);
@@ -114,7 +114,7 @@ public class ImageUtil {
         LOG.info("resizing image took " + ((double)(new Date(new Date().getTime() - resizeActionStart.getTime())).getTime()/1000) + " seconds.");
         return resizedImage;
     }
-    
+
 
     public static class WidthHeight {
         private final int width;
@@ -130,6 +130,6 @@ public class ImageUtil {
         public int getWidth() {
             return this.width;
         }
-        
+
     }
 }

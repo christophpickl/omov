@@ -13,19 +13,19 @@ import at.ac.tuwien.e0525580.omov.util.MovieFileUtil;
 public class RepositoryPreparer {
 
     private static final Log LOG = LogFactory.getLog(RepositoryPreparer.class);
-    
+
     private final List<PreparerHint> hints = new LinkedList<PreparerHint>();
-    
+
     public static void main(String[] args) {
 
 //        final File directory = GuiUtil.getDirectory(null, null);
 //        if(directory == null) {
 //            return;
 //        }
-        
-        
+
+
         final File directory = new File("/Volumes/MEGADISK/Movies_Holy/_not_yet_seen");
-        
+
         RepositoryPreparer p = new RepositoryPreparer();
         PreparerResult r = p.process(directory);
         System.out.println("moved files: " + r.getCntMovedFiles());
@@ -33,8 +33,9 @@ public class RepositoryPreparer {
             System.out.println(hint);
         }
     }
-    
+
     public RepositoryPreparer() {
+        /* nothing to do */
     }
 
     private void success(String msg) {
@@ -49,17 +50,17 @@ public class RepositoryPreparer {
     private void error(String msg) {
         this.hints.add(PreparerHint.error(msg));
     }
-    
+
     public PreparerResult process(final File directory) {
         if(directory.exists() == false || directory.isDirectory() == false) {
             throw new IllegalArgumentException("Invalid directory '"+directory.getAbsolutePath()+"'!");
         }
-        
+
         this.hints.clear();
         int cntMovedFiles = 0;
         int cntIgnoredDirs = 0;
         int cntIgnoredFiles = 0;
-        
+
         for (File movieFile : directory.listFiles()) {
             LOG.debug("Processing file/directory '"+movieFile.getAbsolutePath()+"' ...");
 
@@ -70,7 +71,7 @@ public class RepositoryPreparer {
                 cntIgnoredDirs++;
                 continue;
             }
-            
+
             if(MovieFileUtil.isMovieFile(movieFile) == false) {
                 if(FileUtil.isHiddenFile(movieFile) == true) {
                     LOG.debug("Ignoring hidden file '"+movieFile.getName()+"'.");
@@ -97,8 +98,8 @@ public class RepositoryPreparer {
                 this.error(msg);
                 continue;
             }
-            
-            
+
+
             final boolean couldMoveFile = movieFile.renameTo(new File(targetDir, fileName));
             if (couldMoveFile == false) {
                 final String msg = "Could not move file '"+fileName+"' to directory '"+targetDirPath+"'!";
@@ -106,21 +107,21 @@ public class RepositoryPreparer {
                 this.error(msg);
                 continue;
             }
-            
+
             final String msg = "Moved movie file '"+fileName+"' to directory '"+targetDirName+"'.";
             LOG.info(msg);
             this.success(msg);
             cntMovedFiles++;
         } // for each file
-        
+
         return new PreparerResult(this.hints, cntMovedFiles, cntIgnoredDirs, cntIgnoredFiles);
     }
-    
-    
-    
-    
 
-    
+
+
+
+
+
     public static class PreparerResult {
         private final List<PreparerHint> hints;
         private final int cntMovedFiles;

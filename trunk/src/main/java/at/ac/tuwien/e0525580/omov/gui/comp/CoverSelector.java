@@ -82,7 +82,7 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
     private boolean coverChanged = false;
     private Timer clickTimer;
     private boolean doubleclick;
-    
+
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
@@ -95,8 +95,8 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
         frame.setVisible(true);
     }
-    
-    
+
+
     public CoverSelector(Component frame) {
         this.frame = frame;
         this.setToolTipText("click to choose or double-click to clear cover");
@@ -150,10 +150,10 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        
+
         // draw some background
         // g.drawRect(0, 0, this.getWidth(), this.getHeight());
-        
+
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, this.getWidth(), this.getHeight());
     }
@@ -194,16 +194,16 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
     private void setCoverFile(final File coverFile, final boolean initialSet) {
         LOG.debug("Setting cover file to '" + coverFile.getAbsolutePath() + "' (initialSet=" + initialSet + ").");
-        
+
         assert (this.isValidCoverFile(coverFile) == true) : "Only a valid coverfile may be set; was '" + coverFile.getAbsolutePath() + "'!";
         this.coverFile = coverFile;
-        
+
         // MINOR coverselector: check if this isnt an already stored image (x-120x160.jpg) and if so, use it instead of resizing image
         // final boolean isAlreadyResized = coverFile.getAbsolutePath().startsWith(PreferencesDao.getInstance().getCoversFolder().getAbsolutePath());
-        
+
         final Image coverImage = ImageUtil.getResizedCoverImage(this.coverFile, this.imagePanel, CoverFileType.NORMAL);
         this.imagePanel.setImage(coverImage);
-                
+
         if (initialSet == false) {
             this.coverChanged = true;
         }
@@ -272,13 +272,13 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
         }
 
     }
-    public void dragEnter(DropTargetDragEvent event) { }
-    public void dragExit(DropTargetEvent dte) { }
-    public void dragOver(DropTargetDragEvent dtde) { }
-    public void dropActionChanged(DropTargetDragEvent dtde) { }
+    public void dragEnter(DropTargetDragEvent event) { /* nothing to do */ }
+    public void dragExit(DropTargetEvent dte) { /* nothing to do */ }
+    public void dragOver(DropTargetDragEvent dtde) { /* nothing to do */ }
+    public void dropActionChanged(DropTargetDragEvent dtde) { /* nothing to do */ }
 
-    
-    
+
+
     public void mouseClicked(MouseEvent event) {
         this.clickTimer = new Timer();
         if (event.getClickCount() == 2){
@@ -288,12 +288,12 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
             this.clickTimer.schedule(new ClickTimerTask(), 300);
         }
     }
-    public void mouseEntered(MouseEvent event) { }
-    public void mouseExited(MouseEvent event) { }
-    public void mousePressed(MouseEvent event) { }
-    public void mouseReleased(MouseEvent event) { }
+    public void mouseEntered(MouseEvent event) { /* nothing to do */ }
+    public void mouseExited(MouseEvent event) { /* nothing to do */ }
+    public void mousePressed(MouseEvent event) { /* nothing to do */ }
+    public void mouseReleased(MouseEvent event) { /* nothing to do */ }
 
-    
+
     class ClickTimerTask extends TimerTask {
         public void run() {
             if (doubleclick) {

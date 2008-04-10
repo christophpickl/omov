@@ -16,33 +16,33 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 public class FileSystemChecker {
 
     private static final Log LOG = LogFactory.getLog(FileSystemChecker.class);
-    
 
-    
+
+
     public static FileSystemCheckResult process() throws BusinessException {
         final FileSystemCheckResult result = new FileSystemCheckResult();
-        
+
         final List<Movie> movies = BeanFactory.getInstance().getMovieDao().getMoviesSorted();
         for (final Movie movie : movies) {
             LOG.debug("Checking movie: " + movie);
-            
+
             if(movie.isFolderPathSet() == false) {
                 LOG.debug("No folder path is set for movie.");
                 continue;
             }
-            
+
             LOG.debug("Checking movie folder '"+movie.getFolderPath()+"'.");
             final File folder = new File(movie.getFolderPath());
-            
+
             if(folder.exists() == false) {
                 LOG.debug("Adding missing folder '"+folder.getAbsolutePath()+"'.");
                 result.addMissingMovieFolder(movie, folder.getAbsolutePath());
-                
+
             } else {
                 // MANTIS [2] filecheck: maybe also check if other moviefiles were added; maybe also recalculate size if files changed
-                
-                // MANTIS [2] filecheck: also check if subdirectories are existing 
-                
+
+                // MANTIS [2] filecheck: also check if subdirectories are existing
+
                 // check subfiles if folder is existing
                 for (String subFileRelativePath : movie.getFiles()) {
                     final File subFile = new File(folder, subFileRelativePath);
@@ -53,23 +53,23 @@ public class FileSystemChecker {
                 } // for each movie file
             }
         }
-        
-        
+
+
         return result;
     }
-    
+
     public static class FileSystemCheckResult {
         private final Map<Movie, List<String>> missingFiles = new LinkedHashMap<Movie, List<String>>();
         private final Map<Movie, List<String>> missingFolders = new LinkedHashMap<Movie, List<String>>();
-        
+
         FileSystemCheckResult() {
-            
+            /* nothing to do */
         }
 
         void addMissingMovieFile(Movie movie, String path) {
             this.addMissingMovieFileOrFolder(this.missingFiles, movie, path);
         }
-        
+
         void addMissingMovieFolder(Movie movie, String path) {
             this.addMissingMovieFileOrFolder(this.missingFolders, movie, path);
         }
@@ -80,10 +80,10 @@ public class FileSystemChecker {
                 paths = new LinkedList<String>();
                 map.put(movie, paths);
             }
-            
+
             paths.add(path);
         }
-        
+
         public boolean isEverythingOkay() {
             return this.missingFiles.size() == 0 && this.missingFolders.size() == 0;
         }
