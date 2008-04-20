@@ -4,13 +4,13 @@
 
 		
 	<bean id="CurrentApplicationVersion" class="at.ac.tuwien.e0525580.omov.common.VersionMinorMajor"><constructor-arg>
-		<value>0.3</value></constructor-arg></bean>
+		<value>0.4</value></constructor-arg></bean>
 		
 		
 		
 		
 	<bean id="IDatabaseConnection" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oConnection">
-		<constructor-arg><value>omov.db4</value></constructor-arg>
+		<constructor-arg><value>omov.db4</value></constructor-arg> <!-- database filename -->
 	</bean>
 	
 	<bean id="IMovieDao" class="at.ac.tuwien.e0525580.omov.model.db4o.Db4oMovieDao"><constructor-arg>

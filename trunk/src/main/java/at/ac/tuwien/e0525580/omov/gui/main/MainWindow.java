@@ -171,8 +171,9 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
             public void keyReleased(KeyEvent event) {
                 final int code = event.getKeyCode();
                 if(code == KeyEvent.VK_BACK_SPACE) {
-
-                    final List<Movie> selectedMovies = getSelectedMovies();
+                	LOG.debug("key event: backspace");
+                	
+                	final List<Movie> selectedMovies = getSelectedMovies();
                     if(selectedMovies.size() == 1) {
                         controller.doDeleteMovie(selectedMovies.get(0));
                     } else if(selectedMovies.size() > 1) {
@@ -181,6 +182,14 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                         assert (selectedMovies.size() == 0);
                         Toolkit.getDefaultToolkit().beep();
                     }
+                } else if(code == KeyEvent.VK_SPACE && UserSniffer.isQTJavaAvailable()) {
+                	LOG.debug("key event: space");
+                	final List<Movie> selectedMovies = getSelectedMovies();
+                	if(selectedMovies.size() == 1) {
+                		controller.doQuickview(selectedMovies.get(0));
+                	} else {
+                		Toolkit.getDefaultToolkit().beep();
+                	}
                 }
             }
             public void keyTyped(KeyEvent event) { /* nothing to do */ }

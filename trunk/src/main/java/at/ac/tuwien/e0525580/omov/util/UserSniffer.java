@@ -64,4 +64,8 @@ public final class UserSniffer {
     public static boolean isWindows() {
         return UserSniffer.os.equals(OS.WIN);
     }
+    
+    public static boolean isQTJavaAvailable() {
+    	return true; // FIXME implement isQTJavaAvailable
+    }
 }

@@ -54,7 +54,12 @@ public class Fullscreen extends JWindow {
         GraphicsDevice d = devices[0];
         d.setFullScreenWindow(b ? this : null);
         
-        
+//        this.invalidate();
+//        this.repaint();
+        if(b == false) {
+        	this.setSize(300, 200);
+        	this.setLocation(200, 200);
+        }
     }
     
     public static void main(String[] args) {
@@ -62,7 +67,9 @@ public class Fullscreen extends JWindow {
         GraphicsDevice[] devices = env.getScreenDevices();
         GraphicsDevice d = devices[0];
         if(d.isFullScreenSupported()) {
-            d.setFullScreenWindow(new Fullscreen());
+//            d.setFullScreenWindow(new Fullscreen());
+        	Fullscreen f = new Fullscreen();
+        	f.setVisible(true);
         } else {
             System.err.println("Fullscreen mode not supported!");
         }

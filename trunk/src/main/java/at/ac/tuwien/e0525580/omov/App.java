@@ -301,13 +301,14 @@ public class App {
         Runtime.getRuntime().addShutdownHook(new Thread("OmovShutdownHook") {
             public void run() {
                 LOG.info("Running shutdown hook.");
+                
                 try {
                     final IDatabaseConnection connection = BeanFactory.getInstance().getDatabaseConnection();
                     if(connection.isConnected()) {
                         connection.close();
                     }
                 } catch(Exception e) {
-                    LOG.error("Could not close database connection!", e);
+                	LOG.error("Could not close database connection!", e);
                     e.printStackTrace();
                 }
             }

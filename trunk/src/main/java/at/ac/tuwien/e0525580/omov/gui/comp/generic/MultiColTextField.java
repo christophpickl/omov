@@ -1,6 +1,5 @@
 package at.ac.tuwien.e0525580.omov.gui.comp.generic;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 
@@ -25,7 +24,7 @@ public class MultiColTextField extends JLabel {
 //        this.setPreferredSize(new Dimension(columns * 2, (int) this.getPreferredSize().getHeight()));
         
     	
-        this.setOpaque(true); this.setBackground(Color.RED);
+//        this.setOpaque(true); this.setBackground(Color.RED);
 //    	this.setOpaque(false);
         
         this.setHorizontalAlignment(JLabel.LEFT);
