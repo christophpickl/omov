@@ -26,6 +26,7 @@ import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.PreferencesDao;
 import at.ac.tuwien.e0525580.omov.gui.main.MainWindowController;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
 public class PreferencesWindow extends JDialog implements ActionListener{
@@ -78,6 +79,10 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                 }
             }
         };
+        
+        if(UserSniffer.isMacOSX()) {
+        	this.getRootPane().putClientProperty("Window.style", "small");
+        }
         
 //        this.inpServerPort = new PreferencesNumber(this, Configuration.getInstance().getServerPort(), 4) {
 //            private static final long serialVersionUID = -2125603612020028656L;

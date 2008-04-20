@@ -11,6 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
 public class HelpButton extends JButton implements MouseListener {
     
@@ -24,17 +25,24 @@ public class HelpButton extends JButton implements MouseListener {
     
     
     public HelpButton(HelpBroker helpBroker, HelpSet helpSet, HelpEntry entry, String tooltipText) {
-        if(image == null) {
-            image = ImageFactory.getInstance().getHelp();
-        }
-        this.setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
-        this.setIcon(image);
+    	
+    	if(UserSniffer.isMacOSX()) {
+    		this.putClientProperty("JButton.buttonType", "help");
+    	} else {
+	        if(image == null) {
+	            image = ImageFactory.getInstance().getHelp();
+	        }
+	        this.setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
+	        this.setIcon(image);
+	        this.setBorderPainted(false);
+    	}
+    	
+
         this.setOpaque(false);
         
         if(tooltipText != null) {
             this.setToolTipText(tooltipText);
         }
-        this.setBorderPainted(false);
         this.addMouseListener(this);
         
         helpBroker.enableHelpOnButton(this, entry.getId(), helpSet);

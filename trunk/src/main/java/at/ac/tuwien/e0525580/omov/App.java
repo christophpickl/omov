@@ -42,7 +42,8 @@ TODOs
 - test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
 - if main movie table row is selected, then popup edit dialog, hit next-button -> previously selected row will be unselected (because dao update will be performed -> reselect these rows)
 - wenn man in movie table metadata fetched, blocked gui -> eigener swingworker + progress dialog
-- - in MovieDetailPanel unten zusaetzliche zeile mit werten (trailer, und...?)
+- in MovieDetailPanel unten zusaetzliche zeile mit werten (trailer, und...?)
+- bei kleinen fenster: jRootPane.putClientProperty("Window.style", "small")
 
 *** web imdb subproject
 * websearch: make webextractor configurable ScanDialog.java
