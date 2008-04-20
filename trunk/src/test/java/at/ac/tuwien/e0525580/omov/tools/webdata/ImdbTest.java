@@ -20,6 +20,7 @@ public class ImdbTest extends TestCase {
     
     private static final Log LOG = LogFactory.getLog(ImdbTest.class);
     
+    // TODO write more unit tests for webextractor
     
     public void xtestSearchResult() throws Exception {
         final String search = "independence day";

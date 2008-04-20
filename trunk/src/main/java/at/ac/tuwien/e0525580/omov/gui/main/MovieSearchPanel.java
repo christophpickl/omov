@@ -11,7 +11,6 @@ import org.apache.commons.logging.LogFactory;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.SearchField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.SearchField.ISearchFieldListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableModel;
-import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
 class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListener {
     
@@ -29,10 +28,6 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
         this.model = model;
         this.inpText.addKeyListener(this);
         this.inpText.addISearchFieldListener(this);
-        
-        if(UserSniffer.isMacOSX()) {
-            this.inpText.putClientProperty("JTextField.variant", "search");
-        }
         
         this.setOpaque(false);
         this.add(inpText);

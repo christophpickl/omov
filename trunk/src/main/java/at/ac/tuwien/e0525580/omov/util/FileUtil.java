@@ -207,10 +207,11 @@ public final class FileUtil {
     }
     
     /**
-     * Removes additional dots if file is something like "The.Great.Adventure.of.Someone.avi"
+     * [Mantis 0000037] Removes additional dots if file is something like "The.Great.Adventure.of.Someone.avi"
      * @param fileWithDots file or folder, does not matter
      * @return given string "The.Great.Adventure.of.Someone.avi" returns "The Great Adventure of Someone.avi"
      * @see Scanner#scanMovieFolderInfo(File)
+     * {@link http://omov.sourceforge.net/mantis/view.php?id=37}
      */
     public static String clearFileNameDots(final File fileWithDots) {
         final String nameWithDots = fileWithDots.getName();

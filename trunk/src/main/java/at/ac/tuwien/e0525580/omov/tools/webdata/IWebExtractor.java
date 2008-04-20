@@ -7,6 +7,8 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 
 // FEATURE websearch: maybe automatically check HOST + "/robots.txt" for permission?!
 public interface IWebExtractor {
+	
+	
     List<WebSearchResult> search(String movieTitle) throws BusinessException;
     
     Movie getDetails(WebSearchResult searchResult, boolean fetchCover) throws BusinessException;

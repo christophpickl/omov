@@ -5,6 +5,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -21,6 +23,11 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.omov.util.UserSniffer;
+
 /**
  * A text field for search/filter interfaces. The extra functionality includes
  * a placeholder string (when the user hasn't yet typed anything), and a button
@@ -30,6 +37,8 @@ import javax.swing.event.MouseInputListener;
  * copyright: {@link http://elliotth.blogspot.com/2004/09/cocoa-like-search-field-for-java.html}
  */
 public class SearchField extends JTextField {
+	
+    private static final Log LOG = LogFactory.getLog(SearchField.class);
     
     private static final long serialVersionUID = -4973040283694201458L;
     
@@ -64,6 +73,17 @@ public class SearchField extends JTextField {
         addFocusListener(new PlaceholderText(placeholderText));
         initBorder();
         initKeyListener();
+
+        if(UserSniffer.isMacOSX()) {
+        	LOG.debug("activating macosx search field.");
+        	
+            this.putClientProperty("JTextField.variant", "search");
+            this.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					cancel();
+				}
+            });
+        }
     }
     
     public SearchField() {
@@ -90,6 +110,7 @@ public class SearchField extends JTextField {
     }
     
     private void cancel() {
+    	LOG.debug("cancel() invoked; notifying listeners.");
         setText("");
         this.notifiyListenersDidResetSearch();
         postActionEvent();
@@ -168,6 +189,7 @@ public class SearchField extends JTextField {
             arm(e);
         }
         public void mouseReleased(MouseEvent e) {
+        	LOG.debug("Mouse released; armed="+armed);
             if (armed) {
                 cancel();
             }

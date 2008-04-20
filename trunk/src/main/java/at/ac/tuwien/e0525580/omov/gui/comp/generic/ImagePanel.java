@@ -17,7 +17,9 @@ public class ImagePanel extends JComponent {
     }
 
     public ImagePanel(Dimension dimension) {
-        this.setPreferredSize(dimension);
+    	this.setPreferredSize(dimension);
+    	this.setMaximumSize(dimension);
+    	this.setMinimumSize(dimension);
     }
 //    public ImagePanel(String img) {
 //      this(new ImageIcon(img).getImage());
