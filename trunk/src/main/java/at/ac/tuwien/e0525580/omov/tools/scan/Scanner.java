@@ -100,7 +100,7 @@ public class Scanner implements IScanner {
         
         final List<Movie> movies = new ArrayList<Movie>(scannedMovies.size());
         for (ScannedMovie scannedMovie : scannedMovies) {
-            movies.add(scannedMovie.toMovie());
+            movies.add(scannedMovie);
         }
         return movies;
     }
@@ -118,7 +118,7 @@ public class Scanner implements IScanner {
             if(this.shouldStop) return null;
             
             // FEATURE scanner: always fetch cover if scanning?
-            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie((Movie) originalMovie, true);
+            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie(originalMovie, true);
             if(enhancedMovie != null) {
                 enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isSelected()));
             } else {

@@ -24,7 +24,8 @@ public class ImageUtil {
         /* no instantiation */
     }
 
-    public static WidthHeight recalcMaxWidthHeight(final int oldWidth, final int oldHeight, final int maxWidth, final int maxHeight) {
+    @SuppressWarnings("cast")
+	public static WidthHeight recalcMaxWidthHeight(final int oldWidth, final int oldHeight, final int maxWidth, final int maxHeight) {
         final boolean DEBUG = false;
 
         final int newWidth;

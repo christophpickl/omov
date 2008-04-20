@@ -169,7 +169,7 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         
         for (SelectableMovie movie : this.movies) {
             if(movie.isSelected()) {
-                result.add(movie.toMovie());
+                result.add(movie);
             }
         }
         

@@ -93,7 +93,6 @@ ubi brainstorming
 - ordner repository zwang aufheben: movies muessen nicht als ordner am filesystem existieren -> sondern koennen auch nur einzelnes file sein
     - dazu muessen beim scannen "movie-pt1.avi" und "movie-pt2.avi" zusammenerkannt werden
 
-FIXME !!!!!!!!!!!!!!! unbedingt ins mantis reinschreiben, dass bug mit rechter maustaste unter windows gefixed wurde !!!!!!!!!!
 */
 
 public class App {

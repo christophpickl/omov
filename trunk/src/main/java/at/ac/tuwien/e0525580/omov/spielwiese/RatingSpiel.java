@@ -4,14 +4,14 @@ import java.awt.Color;
 
 import javax.swing.JFrame;
 
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingSlider;
 
 public class RatingSpiel {
     public static void main(String[] args) {
         
         JFrame f = new JFrame();
         
-        RatingPanel r = new RatingPanel(1, Color.RED);
+        RatingSlider r = new RatingSlider(1, Color.RED);
         
 //        JSlider r = new JSlider(0, 5);
 //        ShapeSliderUI ui = new ShapeSliderUI();

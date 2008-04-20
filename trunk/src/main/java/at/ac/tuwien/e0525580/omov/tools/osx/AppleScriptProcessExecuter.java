@@ -52,7 +52,7 @@ class AppleScriptProcessExecuter {
             final List<String> cmd = new ArrayList<String>();
             cmd.add("/usr/bin/osascript"); 
             cmd.add(getAppleScriptPath(scriptFileName)); 
-            final String[] cmdArray = (String[]) cmd.toArray(new String[0]);
+            final String[] cmdArray = cmd.toArray(new String[0]);
 
             final Process result = Runtime.getRuntime().exec(cmdArray);
             result.waitFor();

@@ -18,7 +18,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Quality;
 import at.ac.tuwien.e0525580.omov.bo.Resolution;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingSlider;
 import at.ac.tuwien.e0525580.omov.util.NumberUtil;
 
 class TableRenderers {
@@ -120,7 +120,7 @@ class TableRenderers {
             }
 
             final Color primaryColor = isSelected ? Constants.getColorSelectedForeground() : null; // null == default (dark gray)
-            final RatingPanel ratingPanel = new RatingPanel(movie.getRating(), primaryColor);
+            final RatingSlider ratingPanel = new RatingSlider(movie.getRating(), primaryColor);
             ratingPanel.setOpaque(false);
 
 

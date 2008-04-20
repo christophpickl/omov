@@ -1,5 +1,9 @@
 package at.ac.tuwien.e0525580.omov.gui.comp.generic;
 
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
@@ -8,6 +12,8 @@ public class MultiColTextField extends JLabel {
     private static final long serialVersionUID = 2860809976529219917L;
     
     private final int visibleTextColumns;
+    private static final Point POINT_0x0 = new Point(0, 0);
+    
     
     public MultiColTextField(int columns) {
         this("", columns);
@@ -18,9 +24,13 @@ public class MultiColTextField extends JLabel {
     	this.visibleTextColumns = columns;
 //        this.setPreferredSize(new Dimension(columns * 2, (int) this.getPreferredSize().getHeight()));
         
-    	this.setHorizontalAlignment(JLabel.LEFT);
-//        this.setOpaque(true); this.setBackground(Color.RED);
-    	this.setOpaque(false);
+    	
+        this.setOpaque(true); this.setBackground(Color.RED);
+//    	this.setOpaque(false);
+        
+        this.setHorizontalAlignment(JLabel.LEFT);
+        this.setVerticalAlignment(JLabel.TOP);
+        
 //    	this.setBackground(null);
         this.setBorder(BorderFactory.createEmptyBorder());
 //        this.setEditable(false);
@@ -41,5 +51,14 @@ public class MultiColTextField extends JLabel {
         super.setText(limitedText);
         this.setToolTipText(text);
 //        this.setCaretPosition(0);
+    }
+    
+
+    @Override
+    public Point getToolTipLocation(MouseEvent e) {
+        if (getToolTipText(e) == null) {
+            return null;
+        }
+        return POINT_0x0;
     }
 }

@@ -25,7 +25,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.CoverImagePanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.MultiColTextField;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingSlider;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.model.IMovieDaoListener;
 import at.ac.tuwien.e0525580.omov.util.ImageUtil;
@@ -43,7 +43,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
     private final CoverImagePanel imagePanel = new CoverImagePanel();
     
     private final MultiColTextField txtTitle = new MultiColTextField(TEXT_FIELD_COLUMNS);
-    private final RatingPanel txtRating = new RatingPanel(0, Color.BLACK, Color.GRAY);
+    private final RatingSlider txtRating = new RatingSlider(0, Color.BLACK, Color.GRAY);
     private final MultiColTextField txtDuration = new MultiColTextField(TEXT_FIELD_COLUMNS);
     private final MultiColTextField txtGenres = new MultiColTextField(TEXT_FIELD_COLUMNS);
 
@@ -109,6 +109,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
         final JPanel panelData = new JPanel();
         panelData.setOpaque(false);
 //        panelData.setBackground(Color.GREEN);
+        
         panelData.add(this.initGridData(
                 new GridDataPair(MovieField.TITLE.label(), this.txtTitle),
                 new GridDataPair(MovieField.RATING.label(), this.txtRating),
@@ -160,7 +161,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
         c.insets = new Insets(0, 0, 10, 4); // top, left, bottom, right
         c.gridy = 0;
         c.gridx = 0;
-        c.anchor = GridBagConstraints.EAST;
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.fill = GridBagConstraints.HORIZONTAL;
 
         for (GridDataPair pair : gridData) {
@@ -179,14 +180,19 @@ public class MovieDetailPanel implements IMovieDaoListener {
     
     private static JLabel newGridLabel(String txt) {
         final JLabel lbl = new JLabel(txt, JLabel.RIGHT);
+        
+        lbl.setVerticalAlignment(JLabel.TOP);
         lbl.setOpaque(false);
         lbl.setFont(LBL_FONT);
+        
         return lbl;
     }
+    
     private static void addGridDataPair(String label, Component component, JPanel panel, GridBagConstraints c) {
-        addGridDataComponent(newGridLabel(label), panel, c);
+        addGridDataComponent(MovieDetailPanel.newGridLabel(label), panel, c);
         addGridDataComponent(component, panel, c);
     }
+    
     private static void addGridDataComponent(Component component, JPanel panel, GridBagConstraints c) {
         panel.add(component, c);
 
@@ -195,11 +201,11 @@ public class MovieDetailPanel implements IMovieDaoListener {
         component.setPreferredSize(dimensionPanel);
         component.setMinimumSize(dimensionPanel);
         
-        final boolean isColumnLabel = (c.anchor == GridBagConstraints.EAST);  
+        final boolean isColumnLabel = (c.anchor == GridBagConstraints.FIRST_LINE_END);  
         
         c.gridx = c.gridx == 0 ? 1 : 0;
         if(c.gridx == 0) c.gridy++;
-        c.anchor = isColumnLabel ? GridBagConstraints.WEST : GridBagConstraints.EAST;
+        c.anchor = isColumnLabel ? GridBagConstraints.FIRST_LINE_END : GridBagConstraints.FIRST_LINE_START;
     }
     
     public JPanel getPanel() {

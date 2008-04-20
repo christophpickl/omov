@@ -28,8 +28,4 @@ public class SelectableMovie extends Movie {
         this.selected = selected;
         return this;
     }
-
-    public Movie toMovie() {
-        return (Movie) this;
-    }
 }

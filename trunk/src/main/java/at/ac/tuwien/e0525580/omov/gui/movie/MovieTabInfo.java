@@ -30,7 +30,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.QualityField;
 import at.ac.tuwien.e0525580.omov.gui.comp.ResolutionPanel;
 import at.ac.tuwien.e0525580.omov.gui.comp.YearField;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.IDataList;
-import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingPanel;
+import at.ac.tuwien.e0525580.omov.gui.comp.rating.RatingSlider;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieStyleSuggester;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieTitleSuggester;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggester.MovieGenresList;
@@ -50,7 +50,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private final CoverSelector inpCoverSelector = new CoverSelector(this);
     private final IDataList inpGenre;
     
-    private final RatingPanel inpRating;
+    private final RatingSlider inpRating;
     private final YearField inpYear;
     private final QualityField inpQuality;
     private final JTextField inpStyle = new MovieStyleSuggester(10);
@@ -68,7 +68,7 @@ class MovieTabInfo extends AbstractMovieTab {
         final Resolution resolution = isAddMode ? Resolution.R0x0 : editMovie.getResolution();
         this.inpResolution = new ResolutionPanel(resolution);
         
-        this.inpRating = new RatingPanel(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
+        this.inpRating = new RatingSlider(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
         this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
         
@@ -121,7 +121,7 @@ class MovieTabInfo extends AbstractMovieTab {
         } catch (BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
-        this.inpRating = new RatingPanel(0, null, Color.WHITE);
+        this.inpRating = new RatingSlider(0, null, Color.WHITE);
         this.inpYear = new YearField(0);
         this.inpQuality = new QualityField(Quality.UNRATED);
 
