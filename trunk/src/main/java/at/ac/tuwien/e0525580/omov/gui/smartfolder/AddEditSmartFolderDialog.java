@@ -90,7 +90,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         if(this.isAddMode()) {
             this.addGuiRow(SmartFolderGuiRow.newDefaultRow(this));
         } else {
-            for (AbstractColumnCriterion criterion: this.getEditItem().getCriteria()) {
+            for (AbstractColumnCriterion<?> criterion: this.getEditItem().getCriteria()) {
                 final String column = criterion.getColumnLabel();
                 final String match = criterion.getMatchLabel();
                 final Object[] values = criterion.getValues();
@@ -141,9 +141,9 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         final String name = (this.inpTitle.getText().length() == 0) ? "N/A" : this.inpTitle.getText();
         final boolean matchAll = this.inpAllAny.getSelectedIndex() == 0;
         
-        final List<AbstractColumnCriterion> criteria = new ArrayList<AbstractColumnCriterion>(this.guiRows.size());
+        final List<AbstractColumnCriterion<?>> criteria = new ArrayList<AbstractColumnCriterion<?>>(this.guiRows.size());
         for(final SmartFolderGuiRow row : this.guiRows) {
-            final AbstractColumnCriterion criterion = row.createCriterion();
+            final AbstractColumnCriterion<?> criterion = row.createCriterion();
             if(criteria == null) {
                 LOG.info("Skipped row " + row);
             } else {

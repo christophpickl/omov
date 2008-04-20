@@ -147,7 +147,7 @@ public class SmartFolderGuiRow  extends JPanel {
     /**
      * @return null if user entered invalid input (see DateField)
      */
-    public AbstractColumnCriterion createCriterion() {
+    public AbstractColumnCriterion<?> createCriterion() {
         final Object[] values = this.field.getValues();
         if(values == null) return null;
         return CriterionFieldFactory.newCriterion(this.selectedColumnLabel, this.selectedMatchLabel, values);

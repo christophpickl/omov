@@ -255,7 +255,7 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
                 event.acceptDrop(DnDConstants.ACTION_MOVE);
 
                 try {
-                    List list = (List) transferable.getTransferData(flavor);
+                    List<?> list = (List<?>) transferable.getTransferData(flavor);
                     if (list.size() != 1) {
                         JOptionPane.showMessageDialog(this.frame, "immer nur 1 datei droppen!", "drop error", JOptionPane.ERROR_MESSAGE);
                         return;

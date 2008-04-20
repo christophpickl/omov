@@ -305,7 +305,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to
                 // use as delegates for various com.apple.eawt.ApplicationListener methods
                 final Object target = this.controller;
-                final Class tClass = target.getClass();
+                final Class<?> tClass = target.getClass();
 
                 OSXAdapter.setQuitHandler(target, tClass.getDeclaredMethod("doQuit", (Class[])null));
                 OSXAdapter.setAboutHandler(target, tClass.getDeclaredMethod("doShowAbout", (Class[])null));

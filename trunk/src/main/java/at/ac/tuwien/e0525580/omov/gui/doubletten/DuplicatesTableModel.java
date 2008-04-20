@@ -126,7 +126,7 @@ public class DuplicatesTableModel extends AbstractTableModel {
         private final int minWidth;
         private final int prefWidth;
         private final int maxWidth;
-        public DuplicatesColumn(String label, Class columnClass, int minWidth, int prefWidth, int maxWidth) {
+        public DuplicatesColumn(String label, Class<?> columnClass, int minWidth, int prefWidth, int maxWidth) {
             this.label = label;
             this.columnClass = columnClass;
             this.minWidth = minWidth;
@@ -136,7 +136,7 @@ public class DuplicatesTableModel extends AbstractTableModel {
         public String getLabel() {
             return this.label;
         }
-        public Class getColumnClass() {
+        public Class<?> getColumnClass() {
             return this.columnClass;
         }
         public int getMinWidth() {

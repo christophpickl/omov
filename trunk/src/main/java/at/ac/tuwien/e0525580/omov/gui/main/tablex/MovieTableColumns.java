@@ -30,15 +30,15 @@ public class MovieTableColumns {
         columns.add(new MovieTableColumn(MovieField.YEAR, 40)          { public Object getValue(Movie movie) { return movie.getYear(); }});
         columns.add(new MovieTableColumn(MovieField.STYLE, 80)         { public Object getValue(Movie movie) { return movie.getStyle(); }});
         columns.add(new MovieTableColumn(MovieField.GENRES, 100)       { public Object getValue(Movie movie) { return movie.getGenresString(); }
-                                                                         public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+                                                                         public Class<?> getColumnClass() { return String.class;} }); // override Set.class with String.class
 
         columns.add(new MovieTableColumn(MovieField.ACTORS, 100)       { public Object getValue(Movie movie) { return movie.getActorsString(); }
-                                                                         public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+                                                                         public Class<?> getColumnClass() { return String.class;} }); // override Set.class with String.class
         columns.add(new MovieTableColumn(MovieField.DIRECTOR, 80)      { public Object getValue(Movie movie) { return movie.getDirector(); }});
         columns.add(new MovieTableColumn(MovieField.LANGUAGES, 100)    { public Object getValue(Movie movie) { return movie.getLanguagesString(); }
-                                                                         public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+                                                                         public Class<?> getColumnClass() { return String.class;} }); // override Set.class with String.class
         columns.add(new MovieTableColumn(MovieField.SUBTITLES, 100)    { public Object getValue(Movie movie) { return movie.getSubtitlesString(); }
-                                                                         public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+                                                                         public Class<?> getColumnClass() { return String.class;} }); // override Set.class with String.class
 
         columns.add(new MovieTableColumn(MovieField.DURATION, 40)      { public Object getValue(Movie movie) { return movie.getDuration(); }});
 
@@ -46,9 +46,9 @@ public class MovieTableColumns {
 
         columns.add(new MovieTableColumn(MovieField.FOLDER_PATH, 100)  { public Object getValue(Movie movie) { return movie.getFolderPath(); }});
         columns.add(new MovieTableColumn(MovieField.FILES, 100)        { public Object getValue(Movie movie) { return movie.getFilesString(); }
-                                                                         public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+                                                                         public Class<?> getColumnClass() { return String.class;} }); // override Set.class with String.class
         columns.add(new MovieTableColumn(MovieField.FILE_SIZE_KB, 60)  { public Object getValue(Movie movie) { return movie.getFileSizeFormatted(); }
-                                                                         public Class getColumnClass() { return String.class;} }); // override Set.class with String.class
+                                                                         public Class<?> getColumnClass() { return String.class;} }); // override Set.class with String.class
         columns.add(new MovieTableColumn(MovieField.RESOLUTION, 40)    { public Object getValue(Movie movie) { return movie.getResolution(); }});
         columns.add(new MovieTableColumn(MovieField.FORMAT, 80)        { public Object getValue(Movie movie) { return movie.getFormat(); }});
 
@@ -79,7 +79,7 @@ public class MovieTableColumns {
 
     static interface IMovieTableColumn {
         String getLabel();
-        Class getColumnClass();
+        Class<?> getColumnClass();
         int getPrefWidth();
         Object getValue(Movie movie);
     }
@@ -94,7 +94,7 @@ public class MovieTableColumns {
         public String getLabel() {
             return this.field.label();
         }
-        public Class getColumnClass() {
+        public Class<?> getColumnClass() {
             return this.field.getFieldClass();
         }
         public int getPrefWidth() {
@@ -110,7 +110,7 @@ public class MovieTableColumns {
         public String getLabel() {
             return COVER_COLUMN_LABEL;
         }
-        public Class getColumnClass() {
+        public Class<?> getColumnClass() {
             return ImageIcon.class;
         }
         public int getPrefWidth() {

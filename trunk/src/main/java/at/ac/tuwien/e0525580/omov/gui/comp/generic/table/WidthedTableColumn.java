@@ -27,26 +27,26 @@ public abstract class WidthedTableColumn<T> {
         this.widthMin = widthMin;
     }
     
-    public static void prepareColumns(TableColumnModel columnModel, Map<String, ? extends WidthedTableColumn> columnNameMap) {
+    public static void prepareColumns(TableColumnModel columnModel, Map<String, ? extends WidthedTableColumn<?>> columnNameMap) {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             final TableColumn tableColumn = columnModel.getColumn(i);
             final String header = (String) tableColumn.getHeaderValue();
-            final WidthedTableColumn column = columnNameMap.get(header);
+            final WidthedTableColumn<?> column = columnNameMap.get(header);
             tableColumn.setMaxWidth(column.getWidthMax());
             tableColumn.setPreferredWidth(column.getWidthPref());
             tableColumn.setMinWidth(column.getWidthMin());
         }
     }
 
-    public static List<String> getColumnLabels(Collection<? extends WidthedTableColumn> originalColumns) {
+    public static List<String> getColumnLabels(Collection<? extends WidthedTableColumn<?>> originalColumns) {
         final List<String> columnNames = new ArrayList<String>(originalColumns.size());
-        for (WidthedTableColumn column : originalColumns) {
+        for (WidthedTableColumn<?> column : originalColumns) {
             columnNames.add(column.getLabel());
         }
         return Collections.unmodifiableList(columnNames);
     }
 
-    public static <V extends WidthedTableColumn> Map<String, V> getColumnLabelsMap(Collection<V> originalColumns) {
+    public static <V extends WidthedTableColumn<?>> Map<String, V> getColumnLabelsMap(Collection<V> originalColumns) {
         final Map<String, V> columnNamesMap = new HashMap<String, V>(originalColumns.size());
         for (V column : originalColumns) {
             columnNamesMap.put(column.getLabel(), column);

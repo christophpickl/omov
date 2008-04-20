@@ -20,10 +20,10 @@ class AppleScriptNativeExecuter {
     private static Method appleScriptMethod;
     private static Method stringResultMethod;
     private static Object nsdictObject;
-    private static Class nsscriptClass;
-    private static Class nsAppleEventDescriptorClass;
-    private static Class nsArrayClass;
-    private static Class nsMutableDictionaryClass;
+    private static Class<?> nsscriptClass;
+    private static Class<?> nsAppleEventDescriptorClass;
+    private static Class<?> nsArrayClass;
+    private static Class<?> nsMutableDictionaryClass;
 
     public static String executeAppleScript(final String script) throws BusinessException {
         assert(UserSniffer.isOS(OS.MAC));
@@ -35,13 +35,13 @@ class AppleScriptNativeExecuter {
                 ClassLoader cl = new URLClassLoader(new URL[] { url });
                 
                 // NSApplication.sharedApplication();
-                Class nsappClass = Class.forName("com.apple.cocoa.application.NSApplication", true, cl);
+                Class<?> nsappClass = Class.forName("com.apple.cocoa.application.NSApplication", true, cl);
                 Method methsharedApp = nsappClass.getMethod("sharedApplication");
                 methsharedApp.invoke(null);
 
                 // NSMutableDictionary errors = new NSMutableDictionary();
                 nsMutableDictionaryClass = Class.forName("com.apple.cocoa.foundation.NSMutableDictionary", true, cl);
-                Constructor dictConst = nsMutableDictionaryClass.getConstructor();
+                Constructor<?> dictConst = nsMutableDictionaryClass.getConstructor();
                 nsdictObject = dictConst.newInstance();
                 
                 nsscriptClass = Class.forName("com.apple.cocoa.foundation.NSAppleScript", true, cl);
@@ -53,10 +53,10 @@ class AppleScriptNativeExecuter {
                 
             }
 
-            Class parts[] = new Class[1];
+            Class<?> parts[] = new Class[1];
             parts[0] = String.class;
             Object scriptArgs[] = { script };
-            Constructor scriptConst = nsscriptClass.getConstructor(parts);
+            Constructor<?> scriptConst = nsscriptClass.getConstructor(parts);
             // NSAppleScript script = new NSAppleScript(String);
             Object nsScriptObject = scriptConst.newInstance(scriptArgs);
             // script.execute(errors)

@@ -158,15 +158,15 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
     }
 
     
-    List<Movie> fetchMovies(boolean matchAll, List<AbstractColumnCriterion> criteria) {
+    List<Movie> fetchMovies(boolean matchAll, List<AbstractColumnCriterion<?>> criteria) {
         final SmartFolder smartFolder = new SmartFolder(-1, "SmartFolder("+this.getName()+")", matchAll, criteria);
         final List<Movie> movies = this.executeSmartFolder(smartFolder);
         return movies;
     }
     
-    List<Movie> checkSomeExisting(AbstractColumnCriterion criterion, int amountExisting) {
+    List<Movie> checkSomeExisting(AbstractColumnCriterion<?> criterion, int amountExisting) {
         final boolean matchAll = true;
-        final List<AbstractColumnCriterion> criteria = new LinkedList<AbstractColumnCriterion>();
+        final List<AbstractColumnCriterion<?>> criteria = new LinkedList<AbstractColumnCriterion<?>>();
         criteria.add(criterion);
         
         final List<Movie> movies = this.fetchMovies(matchAll, criteria);
@@ -175,9 +175,9 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
         return movies;
     }
     
-    Movie checkOneExisting(AbstractColumnCriterion criterion) {
+    Movie checkOneExisting(AbstractColumnCriterion<?> criterion) {
         final boolean matchAll = true;
-        final List<AbstractColumnCriterion> criteria = new LinkedList<AbstractColumnCriterion>();
+        final List<AbstractColumnCriterion<?>> criteria = new LinkedList<AbstractColumnCriterion<?>>();
         criteria.add(criterion);
         
         final List<Movie> movies = this.fetchMovies(matchAll, criteria);
@@ -186,9 +186,9 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
         return movies.get(0);
     }
     
-    void checkNoneExisting(AbstractColumnCriterion criterion) {
+    void checkNoneExisting(AbstractColumnCriterion<?> criterion) {
         final boolean matchAll = true;
-        final List<AbstractColumnCriterion> criteria = new LinkedList<AbstractColumnCriterion>();
+        final List<AbstractColumnCriterion<?>> criteria = new LinkedList<AbstractColumnCriterion<?>>();
         criteria.add(criterion);
         
         final List<Movie> movies = this.fetchMovies(matchAll, criteria);

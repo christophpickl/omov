@@ -12,7 +12,7 @@ import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;
 
-public abstract class AbstractColumnCriterion<M extends AbstractMatch> {
+public abstract class AbstractColumnCriterion<M extends AbstractMatch<?>> {
 
     private static final Log LOG = LogFactory.getLog(AbstractColumnCriterion.class);
     

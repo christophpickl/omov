@@ -41,7 +41,7 @@ public class CriterionFieldFactory {
     private static final int TEXTFIELD_COLUMN_SIZE = 14;
     
 
-    public static AbstractColumnCriterion newCriterion(final String columnLabel, final String matchLabel, final Object[] values) {
+    public static AbstractColumnCriterion<?> newCriterion(final String columnLabel, final String matchLabel, final Object[] values) {
         LOG.info("creating new AbstractColumnCriterion by column '"+columnLabel+"', match '"+matchLabel+"' and values '"+Arrays.toString(values)+"'.");
 
         if(SmartFolderUtil.isBoolColumnLabel(columnLabel)) {

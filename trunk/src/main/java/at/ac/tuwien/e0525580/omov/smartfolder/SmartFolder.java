@@ -28,7 +28,7 @@ public class SmartFolder {
     private final long id;
     private final String name;
     private final boolean matchAll;
-    private final List<AbstractColumnCriterion> criteria;
+    private final List<AbstractColumnCriterion<?>> criteria;
 
     /**
      * used to get from db4o by prototype
@@ -39,15 +39,15 @@ public class SmartFolder {
         this.matchAll = false;
         this.criteria = null;
     }
-    public SmartFolder(long id, String name, boolean matchAll, List<AbstractColumnCriterion> criteria) {
+    public SmartFolder(long id, String name, boolean matchAll, List<AbstractColumnCriterion<?>> criteria) {
         this.id = id;
         this.name = name;
         this.matchAll = matchAll;
-        this.criteria = new ArrayList<AbstractColumnCriterion>(criteria);
+        this.criteria = new ArrayList<AbstractColumnCriterion<?>>(criteria);
     }
     
     public static SmartFolder byOther(long id, SmartFolder that) {
-        return new SmartFolder(id, that.name, that.matchAll, new ArrayList<AbstractColumnCriterion>(that.criteria));
+        return new SmartFolder(id, that.name, that.matchAll, new ArrayList<AbstractColumnCriterion<?>>(that.criteria));
     }
     
     public void pepareQuery(Query query) {
@@ -58,7 +58,7 @@ public class SmartFolder {
         
         List<Constraint> constraints = new ArrayList<Constraint>(this.criteria.size());
         
-        for (AbstractColumnCriterion criterion: this.criteria) {
+        for (AbstractColumnCriterion<?> criterion: this.criteria) {
             constraints.add(criterion.getDb4oConstraint(query));
         }
         
@@ -70,7 +70,7 @@ public class SmartFolder {
         }
     }
     
-    public List<AbstractColumnCriterion> getCriteria() {
+    public List<AbstractColumnCriterion<?>> getCriteria() {
         return Collections.unmodifiableList(this.criteria);
     }
     
@@ -94,7 +94,7 @@ public class SmartFolder {
         sb.append("matchAll=").append(matchAll).append(";");
         sb.append("criteria.length=").append(criteria.size()).append(";");
         boolean first = true;
-        for (AbstractColumnCriterion criterion : this.criteria) {
+        for (AbstractColumnCriterion<?> criterion : this.criteria) {
             if(first == true) first = false;
             else sb.append(";");
             sb.append(criterion.toString());

@@ -1,7 +1,5 @@
 package at.ac.tuwien.e0525580.omov.gui.main.tablex;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;

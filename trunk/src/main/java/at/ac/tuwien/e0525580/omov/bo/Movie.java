@@ -96,8 +96,8 @@ DATA VERSION HISTORY
         
         private final String label;
         private final String column; // DB-column, Db4o-column
-        private final Class fieldClass;
-        private MovieField(String label, String column, Class fieldClass) {
+        private final Class<?> fieldClass;
+        private MovieField(String label, String column, Class<?> fieldClass) {
             this.label = label;
             this.column = column;
             this.fieldClass = fieldClass;
@@ -109,7 +109,7 @@ DATA VERSION HISTORY
         public String column() {
             return this.column;
         }
-        public Class getFieldClass() {
+        public Class<?> getFieldClass() {
             return this.fieldClass;
         }
         public abstract Object getValue(Movie movie);
