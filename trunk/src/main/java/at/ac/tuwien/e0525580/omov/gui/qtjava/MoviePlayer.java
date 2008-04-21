@@ -1,48 +1,10 @@
 package at.ac.tuwien.e0525580.omov.gui.qtjava;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.io.File;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JWindow;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
-import quicktime.QTException;
-import quicktime.app.view.QTFactory;
-import quicktime.app.view.QTJComponent;
-import quicktime.io.OpenMovieFile;
-import quicktime.io.QTFile;
-import quicktime.std.StdQTException;
-import quicktime.std.movies.Movie;
-import at.ac.tuwien.e0525580.omov.Constants;
-import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
-import at.ac.tuwien.e0525580.omov.gui.ImageFactory.IconQuickView;
-import at.ac.tuwien.e0525580.omov.util.GuiUtil;
-import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
-
+public class MoviePlayer {
+/*
 public class MoviePlayer extends JWindow implements ActionListener, MouseListener, MouseMotionListener {
-
+	
     private static final Log LOG = LogFactory.getLog(MoviePlayer.class);
 	private static final long serialVersionUID = -7527249992554309045L;
 	private static final Font WINDOW_TITLE_FONT = new Font("sans", Font.BOLD, 10);
@@ -240,9 +202,15 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 			this.doFullscreen();
 		} else if(cmd.equals(CMD_PLAY_PAUSE)) {
 			this.doPlayPause();
+		} else if(cmd.equals(CMD_BACK)) {
+			this.doBack();
 		} else {
 			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
 		}
+	}
+	
+	private void doBack() {
+		
 	}
 	
 	private void doClose() {
@@ -281,8 +249,12 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
         this.startLocation = this.getLocation( );
     }
 
-    public void mouseClicked(MouseEvent e) { /* nothing to do */ }
-    public void mouseReleased(MouseEvent e) { /* nothing to do */ }
+    public void mouseClicked(MouseEvent e) {
+    	// nothing to do
+    }
+    public void mouseReleased(MouseEvent e) {
+    	// nothing to do
+	}
 
     public void mouseDragged(MouseEvent e) {
     	if(this.isFullScreenMode == true) return;
@@ -297,9 +269,17 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
         this.setLocation(new_location);
      }
 
-    public void mouseMoved(MouseEvent e) { /* nothing to do */}
-    public void mouseEntered(MouseEvent e) { /* nothing to do */ }
-    public void mouseExited(MouseEvent e) { /* nothing to do */ }
+    public void mouseMoved(MouseEvent e) {
+    	// nothing to do
+    }
+    
+    public void mouseEntered(MouseEvent e) {
+    	// nothing to do
+    }
+    
+    public void mouseExited(MouseEvent e) {
+    	// nothing to do
+    }
     
     private Point getScreenLocation(MouseEvent e) {
         Point cursor = e.getPoint( );
@@ -308,5 +288,5 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
             (int) (targetLocation.getX() + cursor.getX()),
             (int) (targetLocation.getY() + cursor.getY()));
     }
-	
+	*/
 }

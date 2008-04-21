@@ -11,6 +11,9 @@
 	... create an initial project (with its filestructure)
 	mvn archetype:create -DgroupId=at.ac.tuwien.e0525580.omov -DartifactId=OurMovies
 	
+	
+// http://maven.apache.org/guides/mini/guide-ide-eclipse.html
+
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -19,7 +22,7 @@
 	<groupId>at.ac.tuwien.e0525580.omov</groupId>
 	<artifactId>OurMovies</artifactId>
 	<packaging>jar</packaging>
-	<version>0.3-beta</version>
+	<version>0.4-beta</version>
 	<name>OurMovies</name>
 	<url>http://maven.apache.org</url>
 

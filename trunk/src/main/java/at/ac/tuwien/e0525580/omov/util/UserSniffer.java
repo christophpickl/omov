@@ -40,7 +40,7 @@ public final class UserSniffer {
         LOG.debug("seems as user is running '" + UserSniffer.os + "'.");
     }
 
-    private static Boolean qtJavaAvailable = null;
+//    private static Boolean qtJavaAvailable = null;
     
     
     private UserSniffer() {
@@ -72,6 +72,7 @@ public final class UserSniffer {
         return UserSniffer.os.equals(OS.WIN);
     }
     
+    /*
     public static boolean isQTJavaAvailable() {
     	if(qtJavaAvailable == null) {
         	try {
@@ -90,7 +91,6 @@ public final class UserSniffer {
     		}
     	}
     	return qtJavaAvailable.booleanValue();
-    	
-    	
     }
+    */
 }

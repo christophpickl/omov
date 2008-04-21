@@ -183,6 +183,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                         assert (selectedMovies.size() == 0);
                         Toolkit.getDefaultToolkit().beep();
                     }
+                    /*
                 } else if(code == KeyEvent.VK_SPACE && UserSniffer.isQTJavaAvailable()) {
                 	LOG.debug("key event: space");
                 	final List<Movie> selectedMovies = getSelectedMovies();
@@ -191,6 +192,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 	} else {
                 		Toolkit.getDefaultToolkit().beep();
                 	}
+                */
                 }
             }
             public void keyTyped(KeyEvent event) { /* nothing to do */ }

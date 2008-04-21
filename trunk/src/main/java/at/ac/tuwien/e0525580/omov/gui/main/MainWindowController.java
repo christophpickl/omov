@@ -14,8 +14,6 @@ import javax.swing.JOptionPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import quicktime.QTException;
-
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
@@ -32,7 +30,6 @@ import at.ac.tuwien.e0525580.omov.gui.export.ExporterChooserDialog;
 import at.ac.tuwien.e0525580.omov.gui.movie.AddEditMovieDialog;
 import at.ac.tuwien.e0525580.omov.gui.movie.EditMoviesDialog;
 import at.ac.tuwien.e0525580.omov.gui.preferences.PreferencesWindow;
-import at.ac.tuwien.e0525580.omov.gui.qtjava.MoviePlayer;
 import at.ac.tuwien.e0525580.omov.gui.scan.ScanDialog;
 import at.ac.tuwien.e0525580.omov.gui.smartcopy.SmartCopyDialog;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
@@ -146,6 +143,7 @@ public final class MainWindowController extends CommonController implements IRem
         }
     }
     
+    /*
     public void doQuickview(Movie movie) {
 
 		if(movie.getFiles().size() == 0) {
@@ -166,6 +164,7 @@ public final class MainWindowController extends CommonController implements IRem
 			GuiUtil.error(this.mainWindow, "QuickView", "Playing movie file failed!");
 		}
     }
+    */
 
     // should be only invoked by menu bar
     public void doEditMovie() {
