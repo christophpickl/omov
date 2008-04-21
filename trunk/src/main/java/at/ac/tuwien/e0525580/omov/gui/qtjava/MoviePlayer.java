@@ -3,6 +3,8 @@ package at.ac.tuwien.e0525580.omov.gui.qtjava;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Point;
@@ -15,9 +17,11 @@ import java.awt.event.MouseMotionListener;
 import java.io.File;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
@@ -32,6 +36,8 @@ import quicktime.io.QTFile;
 import quicktime.std.StdQTException;
 import quicktime.std.movies.Movie;
 import at.ac.tuwien.e0525580.omov.Constants;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory;
+import at.ac.tuwien.e0525580.omov.gui.ImageFactory.IconQuickView;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil.GuiAction;
 
@@ -39,20 +45,26 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 
     private static final Log LOG = LogFactory.getLog(MoviePlayer.class);
 	private static final long serialVersionUID = -7527249992554309045L;
-
-	private static final String CMD_CLOSE = "CMD_CLOSE";
-	private static final String CMD_FULLSCREEN = "CMD_FULLSCREEN";
-	private static final String LBL_FULLSCREEN_YES = "Enter Fullscreen";
-	private static final String LBL_FULLSCREEN_NO = "Exit Fullscreen";
+	private static final Font WINDOW_TITLE_FONT = new Font("sans", Font.BOLD, 10);
+	private static final Color COLOR_GRAY = new Color(168, 168, 168);
 
 	private static final String CMD_PLAY_PAUSE = "CMD_PLAY_PAUSE";
-	private static final String LBL_PLAY = "Play";
-	private static final String LBL_PAUSE = "Pause";
+	private static final String CMD_BACK = "CMD_BACK";
+	private static final String CMD_CLOSE = "CMD_CLOSE";
+	private static final String CMD_FULLSCREEN = "CMD_FULLSCREEN";
+
+	private static final ImageIcon ICON_PLAY = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_PLAY);
+	private static final ImageIcon ICON_PAUSE = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_PAUSE);
+	private static final ImageIcon ICON_BACK = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_BACK);
+	private static final ImageIcon ICON_FULLSCREEN = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_FULLSCREEN);
+	private static final ImageIcon ICON_CLOSE_MINI = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_CLOSE_MINI);
+
 	
-	
+	private final at.ac.tuwien.e0525580.omov.bo.Movie movie;
+	private Movie qtMovie;
+	private File movieFile;
 	private boolean isFullScreenMode = false;
-	private final JButton btnFullScreen = new JButton(LBL_FULLSCREEN_YES);
-	private final JButton btnPlayPause = new JButton(LBL_PLAY);
+	private boolean isMoviePlaying = false;
 
 	private Point startDrag;
 	private Point startLocation;
@@ -61,18 +73,26 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 	private Point previousLocation;
 	private GraphicsDevice graphicsDevice;
 	
-	private Movie qtMovie;
-	private boolean isMoviePlaying = false;
+	
+	private final JButton btnFullScreen = new JButton(ICON_FULLSCREEN);
+	private final JButton btnPlayPause = new JButton(ICON_PLAY);
+	private final JButton btnBack = new JButton(ICON_BACK);
+	
+	private final JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 0));
+	
 	
 	// TODO JComboBox, wo man auch alle anderen movie files auswaehlen kann
 
+	// FIXME retain video size aspect when is in fullscreen mode
+	
 	public MoviePlayer(at.ac.tuwien.e0525580.omov.bo.Movie movie, File movieFile, JFrame owner) throws QTException {
 		super(owner);
-		
 		assert(movieFile.exists()) : movieFile.getAbsolutePath();
-		LOG.debug("Opening file '"+movieFile.getAbsolutePath()+"'.");
-		final JComponent content = this.getQuicktimePlayer(movieFile);
 
+		this.movie = movie;
+		this.movieFile = movieFile;
+		LOG.info("Opening file '"+movieFile.getAbsolutePath()+"'.");
+		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] devices = env.getScreenDevices();
         this.graphicsDevice = devices[0];
@@ -83,54 +103,80 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
 		
-		final JPanel panel = new JPanel(new BorderLayout());
-		panel.setOpaque(false);
-		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		panel.add(content, BorderLayout.CENTER);
-		panel.add(this.newSouthPanel(), BorderLayout.SOUTH);
-		
-		this.getContentPane().add(panel);
-//		this.setTitle("Movie Player - " + movie.getTitle());
-//		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
+		this.getContentPane().add(this.initComponents());
 		this.setBackground(Color.BLACK);
 		this.pack();
 		GuiUtil.setCenterLocation(this);
 	}
-
 	
-	private JPanel newSouthPanel() {
-		final JPanel panel = new JPanel();
-		panel.setBackground(Constants.getColorWindowBackground());
+	private JPanel initComponents() throws QTException {
+		final JComponent content = this.initQuicktimePlayer(movieFile);
 		
-		final JButton btnClose = new JButton("Close");
+		final JPanel panel = new JPanel(new BorderLayout(0, 0));
+		panel.setOpaque(false);
+		panel.setBorder(BorderFactory.createEmptyBorder(4, 10, 10, 10));
+		panel.add(this.newNorthPanel(), BorderLayout.NORTH);
+		panel.add(content, BorderLayout.CENTER);
+		panel.add(this.initSouthPanel(), BorderLayout.SOUTH);
+		
+		return panel;
+	}
 
+	private JPanel newNorthPanel() {
+		final JPanel panel = new JPanel(new BorderLayout(0, 0));
+		panel.setBackground(Color.BLACK);
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0)); // margin-bottom
+		
+		final JLabel windowTitle = new JLabel(this.movie.getTitle() + " - " + this.movieFile.getName());
+		windowTitle.setFont(WINDOW_TITLE_FONT);
+		windowTitle.setBorder(BorderFactory.createEmptyBorder());
+		windowTitle.setForeground(COLOR_GRAY);
+		
+		final JButton btnClose = new JButton(ICON_CLOSE_MINI);
 		btnClose.setActionCommand(CMD_CLOSE);
+		btnClose.setBorderPainted(false);
+		btnClose.addActionListener(this);
+		btnClose.setBorder(BorderFactory.createEmptyBorder());
+		GuiUtil.enableHandCursor(btnClose);
+		
+		panel.add(windowTitle, BorderLayout.WEST);
+		panel.add(btnClose, BorderLayout.EAST);
+		return panel;
+	}
+	
+	private JPanel initSouthPanel() {
+		this.southPanel.setBackground(Constants.getColorWindowBackground());
+		
 		this.btnFullScreen.setActionCommand(CMD_FULLSCREEN);
 		this.btnPlayPause.setActionCommand(CMD_PLAY_PAUSE);
+		this.btnBack.setActionCommand(CMD_BACK);
 		
-		btnClose.addActionListener(this);
+		this.btnFullScreen.setToolTipText("Fullscreen");
+		this.btnPlayPause.setToolTipText("Play/Pause");
+		this.btnBack.setToolTipText("Back");
+		
+		this.btnFullScreen.setBorderPainted(false);
+		this.btnPlayPause.setBorderPainted(false);
+		this.btnBack.setBorderPainted(false);
 		
 		if(this.graphicsDevice == null) {
 			this.btnFullScreen.setEnabled(false);
 			this.btnPlayPause.setEnabled(false);
+			this.btnBack.setEnabled(false);
 		} else {
 			this.btnFullScreen.addActionListener(this);
 			this.btnPlayPause.addActionListener(this);
+			this.btnBack.addActionListener(this);
 		}
 
-		btnClose.putClientProperty("JButton.buttonType", "textured");
-		btnFullScreen.putClientProperty("JButton.buttonType", "textured");
-		btnPlayPause.putClientProperty("JButton.buttonType", "textured");
-
-		panel.add(btnClose);
-		panel.add(this.btnPlayPause);
-		panel.add(this.btnFullScreen);
+		this.southPanel.add(this.btnBack);
+		this.southPanel.add(this.btnPlayPause);
+		this.southPanel.add(this.btnFullScreen);
 		
-		return panel;
+		return this.southPanel;
 	}
 	
-	private JComponent getQuicktimePlayer(File movieFile) throws QTException {
+	private JComponent initQuicktimePlayer(File movieFile) throws QTException {
 		SessionInitializer.openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(movieFile));
 		this.qtMovie = Movie.fromFile(openFile);
@@ -177,7 +223,7 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 			} else {
 				this.qtMovie.start();
 			}
-			this.btnPlayPause.setText(this.isMoviePlaying ? LBL_PLAY: LBL_PAUSE);
+			this.btnPlayPause.setIcon(this.isMoviePlaying ? ICON_PLAY: ICON_PAUSE);
 			
 			this.isMoviePlaying = !this.isMoviePlaying;
 		} catch (StdQTException e) {
@@ -208,21 +254,22 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 	
 	private void doFullscreen() {
 		assert(this.graphicsDevice != null);
+		this.isFullScreenMode = !this.isFullScreenMode;
 		
-		if(this.isFullScreenMode == false) {
+		if(this.isFullScreenMode == true) {
 			this.previousLocation = this.getLocation();
 			this.previousSize = this.getSize();
 		}
 		
-		this.graphicsDevice.setFullScreenWindow(this.isFullScreenMode ? null : MoviePlayer.this);
-		this.btnFullScreen.setText(this.isFullScreenMode ? LBL_FULLSCREEN_YES : LBL_FULLSCREEN_NO);
+		this.graphicsDevice.setFullScreenWindow(this.isFullScreenMode ? MoviePlayer.this : null);
 		
-		if(this.isFullScreenMode == true) {
+		if(this.isFullScreenMode == false) {
 			this.setLocation(this.previousLocation);
 			this.setSize(this.previousSize);
 		}
 
-		this.isFullScreenMode = !this.isFullScreenMode;
+		this.southPanel.setBackground(isFullScreenMode ? Color.BLACK : Constants.getColorWindowBackground());
+		
 	}
 	
 	

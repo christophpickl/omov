@@ -155,16 +155,15 @@ public final class MainWindowController extends CommonController implements IRem
 		
 		final File movieFile = new File(movie.getFolderPath(), movie.getFiles().get(0));
 		if(movieFile.exists() == false) {
-			GuiUtil.info(this.mainWindow, "QuickView", "File does not exist: " + movieFile.getAbsolutePath());
+			GuiUtil.warning(this.mainWindow, "QuickView", "File does not exist: " + movieFile.getAbsolutePath());
 			return;
 		}
 		
     	try {
-			MoviePlayer moviePlayer = new MoviePlayer(movie, movieFile, this.mainWindow);
-			moviePlayer.setVisible(true);
+			new MoviePlayer(movie, movieFile, this.mainWindow).setVisible(true);
 		} catch (QTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Could not play movie file '"+movieFile.getAbsolutePath()+"'!", e);
+			GuiUtil.error(this.mainWindow, "QuickView", "Playing movie file failed!");
 		}
     }
 

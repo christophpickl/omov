@@ -2,10 +2,6 @@ package at.ac.tuwien.e0525580.omov.util;
 
 import org.apache.log4j.Logger;
 
-import at.ac.tuwien.e0525580.omov.gui.qtjava.SessionInitializer;
-
-import quicktime.QTException;
-
 /**
  *
  * @author Christoph Pickl - e0525580@student.tuwien.ac.at
@@ -44,6 +40,13 @@ public final class UserSniffer {
         LOG.debug("seems as user is running '" + UserSniffer.os + "'.");
     }
 
+    private static Boolean qtJavaAvailable = null;
+    
+    
+    private UserSniffer() {
+    	// no instantiation
+    }
+    
     /**
      *
      * @return
@@ -69,7 +72,6 @@ public final class UserSniffer {
         return UserSniffer.os.equals(OS.WIN);
     }
     
-    private static Boolean qtJavaAvailable = null;
     public static boolean isQTJavaAvailable() {
     	if(qtJavaAvailable == null) {
         	try {

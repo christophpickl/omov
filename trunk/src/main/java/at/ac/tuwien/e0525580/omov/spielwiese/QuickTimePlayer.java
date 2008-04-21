@@ -30,7 +30,7 @@ public class QuickTimePlayer {
 		player2();
 	}
 	
-	private static void player1() throws Exception {
+	public static void player1() throws Exception {
 		try {
 			JFrame f = new JFrame();
 			
@@ -82,7 +82,7 @@ public class QuickTimePlayer {
 	 * 
 	 */
 	
-	private static void versionCheck() throws QTException { // 7.4
+	public static void versionCheck() throws QTException { // 7.4
 		QTSession.open();
 		System.out.println("QT version: " + QTSession.getMajorVersion() + "." + QTSession.getMinorVersion());
 //		System.out.println("QTJ version: " + QTBuild.getVersion() + "." + QTBuild.getSubVersion());

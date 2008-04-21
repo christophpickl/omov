@@ -89,8 +89,25 @@ public class ImageFactory {
     public Image getFrameTitleIcon() {
         return this.getImage("logo_frame_title.png").getImage();
     }
+
+
+    public ImageIcon getIcon(IconQuickView iconEnum) {
+        return this.getImage("quickview/" + iconEnum.fileName);
+    }
     
     
+    public enum IconQuickView {
+    	BUTTON_PLAY("button_play.png"),
+    	BUTTON_BACK("button_back.png"),
+    	BUTTON_PAUSE("button_pause.png"),
+    	BUTTON_FULLSCREEN("button_fullscreen.png"),
+    	BUTTON_CLOSE_MINI("button_close_mini.png");
+    	
+        final String fileName;
+        private IconQuickView(String fileName) {
+            this.fileName = fileName;
+        }
+    }
 
 
     public enum Icon16x16 {
