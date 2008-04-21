@@ -80,7 +80,7 @@ public final class UserSniffer {
 //    			SessionInitializer.openSession();
 //    			System.out.println("QT version: " + QTSession.getMajorVersion() + "." + QTSession.getMinorVersion());
 //    			if(QTSession.getMajorVersion() >= 7) {
-//    			FIXME	
+//    			FIXME QTJava - implement availability checker
 //    			}
     			
     			qtJavaAvailable = Boolean.TRUE;

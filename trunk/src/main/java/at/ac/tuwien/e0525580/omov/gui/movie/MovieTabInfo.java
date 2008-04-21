@@ -42,7 +42,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final Log LOG = LogFactory.getLog(MovieTabInfo.class);
     private static final long serialVersionUID = -4273211406354799248L;
     
-    public final JTextField inpTitle = new MovieTitleSuggester(33); // TODO tab info ist wiedermal zu gross
+    public final JTextField inpTitle = new MovieTitleSuggester(33); // TODO GUI - tab info ist wiedermal zu gross
     
     private final DurationPanel inpDuration;
     private final ResolutionPanel inpResolution;

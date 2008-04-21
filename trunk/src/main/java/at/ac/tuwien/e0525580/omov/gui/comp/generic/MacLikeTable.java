@@ -30,7 +30,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
 
     private static final long serialVersionUID = -4690492128203374606L;
 
-    // FIXME vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
+    // FIXME GUI - vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
 
 
     public static void main(String[] args) {
@@ -127,7 +127,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
     }
 
     protected void fixMacOsCellRendererBorder(JComponent renderer, boolean selected, boolean focused, boolean isEditing) {
-    	// FIXME does not work properly (also, isEditing parameter is not used)
+    	// FIXME GUI - does not work properly (also, isEditing parameter is not used)
         Border border;
         if (selected) {
             border = BorderFactory.createMatteBorder(0, 0, 1, 0, focused ? MAC_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR : MAC_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR);

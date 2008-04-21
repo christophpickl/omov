@@ -43,9 +43,9 @@ public class MoviePlayer extends JWindow implements ActionListener, MouseListene
 	private final JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 0));
 	
 	
-	// TODO JComboBox, wo man auch alle anderen movie files auswaehlen kann
+	// TODO QTJava - JComboBox, wo man auch alle anderen movie files auswaehlen kann
 
-	// FIXME retain video size aspect when is in fullscreen mode
+	// FIXME QTJava - retain video size aspect when is in fullscreen mode
 	
 	public MoviePlayer(at.ac.tuwien.e0525580.omov.bo.Movie movie, File movieFile, JFrame owner) throws QTException {
 		super(owner);

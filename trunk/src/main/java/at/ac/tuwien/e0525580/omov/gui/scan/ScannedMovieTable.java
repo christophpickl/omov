@@ -49,7 +49,7 @@ class ScannedMovieTable extends MacLikeTable {
         }});
         this.getColumnModel().getColumn(0).setCellEditor(new BooleanEditor(checkbox));
     }
-    // FIXME grid is not painted right in scanned movie table!
+    // FIXME GUI - grid is not painted right in scanned movie table!
     
 
 //    @Override
