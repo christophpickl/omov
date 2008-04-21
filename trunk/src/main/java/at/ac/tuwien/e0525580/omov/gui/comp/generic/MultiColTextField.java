@@ -6,13 +6,17 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 public class MultiColTextField extends JLabel {
 
+    private static final Log LOG = LogFactory.getLog(MultiColTextField.class);
     private static final long serialVersionUID = 2860809976529219917L;
     
     private final int visibleTextColumns;
     private static final Point POINT_0x0 = new Point(0, 0);
-    
+    private String realText;
     
     public MultiColTextField(int columns) {
         this("", columns);
@@ -21,6 +25,7 @@ public class MultiColTextField extends JLabel {
     public MultiColTextField(final String text, int columns) {
 //    	this.setColumns(columns);
     	this.visibleTextColumns = columns;
+    	this.realText = text;
 //        this.setPreferredSize(new Dimension(columns * 2, (int) this.getPreferredSize().getHeight()));
         
     	
@@ -39,19 +44,23 @@ public class MultiColTextField extends JLabel {
     
     @Override
     public void setText(String text) {
-
+    	this.realText = text;
+    	
         final String limitedText;
         if(text.length() > this.visibleTextColumns) {
         	limitedText = text.substring(0, this.visibleTextColumns) + "...";
         } else {
         	limitedText = text;
         }
-        
+        LOG.debug("Setting text to '"+limitedText+"' and (visibleTextColumns="+visibleTextColumns+") tooltip to '"+text+"'.");
         super.setText(limitedText);
         this.setToolTipText(text);
 //        this.setCaretPosition(0);
     }
     
+    public String getRealText() {
+    	return this.realText;
+    }
 
     @Override
     public Point getToolTipLocation(MouseEvent e) {

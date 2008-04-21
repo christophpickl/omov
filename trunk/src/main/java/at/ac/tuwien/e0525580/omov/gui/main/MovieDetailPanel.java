@@ -33,7 +33,7 @@ import at.ac.tuwien.e0525580.omov.util.ImageUtil;
 public class MovieDetailPanel implements IMovieDaoListener {
 
     private static final Log LOG = LogFactory.getLog(MovieDetailPanel.class);
-    private static final int TEXT_FIELD_COLUMNS = 12;
+    private static final int TEXT_FIELD_COLUMNS = 22;
     private static final Font LBL_FONT = new Font(null, Font.BOLD, 12);
     
     private final JPanel panel = new JPanel();
@@ -57,6 +57,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
         this.initComponents();
         this.setMovie(null);
         this.txtRating.setEnabled(false);
+//        this.txtRating.setSize(txtRating.getWidth(), 4);
         
         BeanFactory.getInstance().getMovieDao().addMovieDaoListener(this);
     }
@@ -158,11 +159,11 @@ public class MovieDetailPanel implements IMovieDaoListener {
         panel.setOpaque(false);
 
         c.ipadx = 10;
-        c.insets = new Insets(0, 0, 10, 4); // top, left, bottom, right
+        c.insets = new Insets(0, 0, 6, 8); // top, left, bottom, right
         c.gridy = 0;
         c.gridx = 0;
         c.anchor = GridBagConstraints.FIRST_LINE_END;
-        c.fill = GridBagConstraints.HORIZONTAL;
+        c.fill = GridBagConstraints.NONE;
 
         for (GridDataPair pair : gridData) {
             addGridDataPair(pair.label, pair.component, panel, c);
@@ -188,15 +189,16 @@ public class MovieDetailPanel implements IMovieDaoListener {
         return lbl;
     }
     
-    private static void addGridDataPair(String label, Component component, JPanel panel, GridBagConstraints c) {
+    private void addGridDataPair(String label, Component component, JPanel panel, GridBagConstraints c) {
         addGridDataComponent(MovieDetailPanel.newGridLabel(label), panel, c);
         addGridDataComponent(component, panel, c);
     }
     
-    private static void addGridDataComponent(Component component, JPanel panel, GridBagConstraints c) {
+    private void addGridDataComponent(Component component, JPanel panel, GridBagConstraints c) {
         panel.add(component, c);
-
-        final Dimension dimensionPanel = new Dimension(100, 30);
+        
+        final int width = (component == this.txtRating) ? 80 : 140;
+        final Dimension dimensionPanel = new Dimension(width, 30);
         component.setMaximumSize(dimensionPanel);
         component.setPreferredSize(dimensionPanel);
         component.setMinimumSize(dimensionPanel);
@@ -205,7 +207,7 @@ public class MovieDetailPanel implements IMovieDaoListener {
         
         c.gridx = c.gridx == 0 ? 1 : 0;
         if(c.gridx == 0) c.gridy++;
-        c.anchor = isColumnLabel ? GridBagConstraints.FIRST_LINE_END : GridBagConstraints.FIRST_LINE_START;
+        c.anchor = isColumnLabel ? GridBagConstraints.FIRST_LINE_START : GridBagConstraints.FIRST_LINE_END;
     }
     
     public JPanel getPanel() {

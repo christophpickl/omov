@@ -26,23 +26,12 @@ import org.jdesktop.swingx.JXTable;
 import at.ac.tuwien.e0525580.omov.Constants;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 
-public class MacLikeTable extends JXTable {
+public class MacLikeTable extends JXTable implements IMacColors {
 
     private static final long serialVersionUID = -4690492128203374606L;
 
-    /** if editting value in cell, this will be background color of all other (unfocused) cells in that row */
-//    private static final Color MAC_UNFOCUSED_SELECTED_CELL_BACKGROUND_COLOR = new Color(0xc0c0c0);
-
-    // for renderer
-    private static final Color MAC_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR = new Color(0x7daaea);
-    private static final Color MAC_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR = new Color(0xe0e0e0);
-    private static final Color MAC_FOCUSED_UNSELECTED_VERTICAL_LINE_COLOR = new Color(0xd9d9d9);
-    private static final Color MAC_FOCUSED_SELECTED_VERTICAL_LINE_COLOR = new Color(0x346dbe);
-    private static final Color MAC_UNFOCUSED_SELECTED_VERTICAL_LINE_COLOR = new Color(0xacacac);
-
     // FIXME vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
 
-    private static final Color MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR = new Color(0xd9d9d9);
 
     public static void main(String[] args) {
         final MacLikeTable table = new MacLikeTable(new DefaultTableModel() {

@@ -308,7 +308,7 @@ public class CriterionFieldFactory {
     
     private static RatingCriterion newRatingCriterion(final String columnLabel, final String matchLabel, final Object[] values) {
         final Integer value = (Integer) values[0];
-        final Integer value2 = (values.length > 0) ? (Integer) values[1] : null;
+        final Integer value2 = (values.length > 1) ? (Integer) values[1] : null;
         final RatingMatch match;
         
         if(matchLabel.equals(RatingMatch.LABEL_EQUALS)) {

@@ -11,4 +11,6 @@ public interface IDataList {
     JPanel getPanel();
     
     Set<String> getSelectedItems();
+    
+    void setVisibleRowCount(int visibleRowCount);
 }

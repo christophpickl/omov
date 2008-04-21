@@ -22,6 +22,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
@@ -329,5 +330,12 @@ public final class GuiUtil {
             }
         }
         protected abstract void _action();
+    }
+    
+    
+    public static void macSmallWindow(JRootPane rootPane) {
+        if(UserSniffer.isMacOSX()) {
+        	rootPane.putClientProperty("Window.style", "small");
+        }
     }
 }

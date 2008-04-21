@@ -2,6 +2,10 @@ package at.ac.tuwien.e0525580.omov.util;
 
 import org.apache.log4j.Logger;
 
+import at.ac.tuwien.e0525580.omov.gui.qtjava.SessionInitializer;
+
+import quicktime.QTException;
+
 /**
  *
  * @author Christoph Pickl - e0525580@student.tuwien.ac.at
@@ -65,7 +69,26 @@ public final class UserSniffer {
         return UserSniffer.os.equals(OS.WIN);
     }
     
+    private static Boolean qtJavaAvailable = null;
     public static boolean isQTJavaAvailable() {
-    	return true; // FIXME implement isQTJavaAvailable
+    	if(qtJavaAvailable == null) {
+        	try {
+    			Class.forName("quicktime.QTSession");
+//    			SessionInitializer.openSession();
+//    			System.out.println("QT version: " + QTSession.getMajorVersion() + "." + QTSession.getMinorVersion());
+//    			if(QTSession.getMajorVersion() >= 7) {
+//    			FIXME	
+//    			}
+    			
+    			qtJavaAvailable = Boolean.TRUE;
+        		LOG.info("QTJava is available.");
+    		} catch (ClassNotFoundException e) {
+    			qtJavaAvailable = Boolean.FALSE;
+        		LOG.info("QTJava is not available.", e);
+    		}
+    	}
+    	return qtJavaAvailable.booleanValue();
+    	
+    	
     }
 }

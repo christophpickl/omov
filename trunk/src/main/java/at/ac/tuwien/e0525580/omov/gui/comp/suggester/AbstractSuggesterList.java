@@ -24,7 +24,7 @@ import javax.swing.ListSelectionModel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.MacLikeList;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 public abstract class AbstractSuggesterList extends JPanel {
@@ -47,7 +47,6 @@ public abstract class AbstractSuggesterList extends JPanel {
     }
     
     AbstractSuggesterList(Dialog owner, List<String> items, Collection<String> additionalItems, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
-        
         final List<String> listItems = new ArrayList<String>(items);
         if(additionalItems != null) {
             listItems.addAll(additionalItems);
@@ -56,9 +55,8 @@ public abstract class AbstractSuggesterList extends JPanel {
         this.owner = owner;
         this.itemName = itemName;
         this.itemNameColumns = itemNameColumns;
-        this.list = new JList(listItems.toArray());
+        this.list = new MacLikeList(listItems.toArray());
         this.list.setVisibleRowCount(visibleRowCount);
-        this.list.setCellRenderer(new OmovListCellRenderer());
         this.setOpaque(false);
         
 //        if(this.getIntimeModel() == null) {
@@ -115,6 +113,9 @@ public abstract class AbstractSuggesterList extends JPanel {
 //      
     }
 
+    public void setVisibleRowCount(int visibleRowCount) {
+    	this.list.setVisibleRowCount(visibleRowCount);
+    }
 //    protected final void setListData() {
 //        this.list.setListData(this.getIntimeModel().getValues().toArray());
 //        LOG.info("Filled list with count elements: " + this.list.getModel().getSize());

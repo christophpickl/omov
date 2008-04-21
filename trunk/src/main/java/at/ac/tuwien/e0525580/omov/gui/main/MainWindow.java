@@ -83,6 +83,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
 
         final MenuBar menuBar = new MenuBar(this.controller);
         this.moviesTable.addTableSelectionListener(menuBar);
+        this.moviesTable.setRowHeight(25);
 
         this.setJMenuBar(menuBar);
         this.getContentPane().add(this.initComponents());

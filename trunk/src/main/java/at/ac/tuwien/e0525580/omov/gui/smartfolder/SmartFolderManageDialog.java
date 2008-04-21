@@ -29,6 +29,7 @@ import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer;
 import at.ac.tuwien.e0525580.omov.gui.OmovListCellRenderer;
 import at.ac.tuwien.e0525580.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.MacLikeList;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
 import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.model.ISmartFolderDao;
@@ -48,7 +49,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     
     private final EscapeDisposer escapeDisposer = new EscapeDisposer(this); 
     
-    private final JList smartFolderList = new JList();
+    private final JList smartFolderList = new MacLikeList();
     private final FolderModel listModel = new FolderModel();
     private final SmartFolderManageController controller;
     
@@ -59,6 +60,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         this.addKeyListener(this.escapeDisposer);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("SmartFolders");
+        GuiUtil.macSmallWindow(this.getRootPane());
         
         this.initComponents();
         this.setSize(300, 180);

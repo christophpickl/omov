@@ -6,13 +6,13 @@ import org.apache.commons.logging.LogFactory;
 import quicktime.QTException;
 import quicktime.QTSession;
 
-class SessionInitializer {
+public class SessionInitializer {
 	
     private static final Log LOG = LogFactory.getLog(SessionInitializer.class);
 
 	private static boolean isOpened = false;
 	
-	static void openSession() throws QTException {
+	public static void openSession() throws QTException {
 		
 		if(isOpened == false) {
 			LOG.info("Opening quicktime session...");

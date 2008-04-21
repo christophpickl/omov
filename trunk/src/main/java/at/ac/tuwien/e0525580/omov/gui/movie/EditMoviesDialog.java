@@ -56,6 +56,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
     {
         for (MovieField field : MULTIPLE_EDIT_FIELDS) {
             final JCheckBox checkBox = new JCheckBox();
+            checkBox.putClientProperty("JComponent.sizeVariant", "mini");
             checkBox.setBackground(Constants.getColorWindowBackground());
             checkBox.setToolTipText("Change "+field.label()+" for all Movies");
             this.fieldCheckBoxes.put(field, checkBox);

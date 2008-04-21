@@ -49,7 +49,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private List<String> files = new LinkedList<String>();
     private long fileSizeKb = 0L;
     private final ButtonMovieFolder btnMovieFolder = new ButtonMovieFolder(this.owner);
-    private final MultiColTextField lblPath = new MultiColTextField("", 22);
+    private final MultiColTextField lblPath = new MultiColTextField(" ", 32);
     private final MultiColTextField lblFiles = new MultiColTextField("", 22);
     private final JLabel lblSize = new JLabel("");
     private final JLabel lblFormat = new JLabel("");
@@ -99,7 +99,11 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
             }
             this.fileSizeKb = editMovie.getFileSizeKb();
 
-            this.lblPath.setText(editMovie.getFolderPath());
+            if(editMovie.isFolderPathSet()) {
+            	this.lblPath.setText(editMovie.getFolderPath());
+            } else {
+            	this.lblPath.setText(" ");
+            }
             this.lblFiles.setText(editMovie.getFilesFormatted());
             this.lblSize.setText(editMovie.getFileSizeFormatted());
             this.lblFormat.setText(editMovie.getFormat());
@@ -211,52 +215,61 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     }
 
     private JPanel panelFolder() {
+    	/*
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
         layout.setConstraints(panel, c);
         panel.setOpaque(false);
 
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-
-
+        c.anchor = GridBagConstraints.LINE_START;
         c.insets = new Insets(0, 0, 0, 10); // top left bottom right
         c.gridx = 0;
-        c.fill = GridBagConstraints.BOTH;
-        panel.add(this.panelFolderLeft(), c);
+        c.gridy = 0;
+        c.fill = GridBagConstraints.VERTICAL;
+//        panel.add(this.panelFolderLeft(), c);
+        panel.add(this.btnMovieFolder, c);
+//        panel.add(new JLabel("xyz"), c);
 
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(0, 0, 0, 0); // top left bottom right
         c.gridx = 1;
-        c.fill = GridBagConstraints.BOTH;
+//        c.fill = GridBagConstraints.NONE;
         panel.add(this.panelFolderRight(), c);
 
-//      panel.setOpaque(true);
-//      panel.setBackground(Color.YELLOW);
+        panel.setOpaque(true);
+		panel.setBackground(Color.GREEN);
 
         return panel;
+        */
+    	final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 10));
+    	panel.setOpaque(false);
+    	panel.add(this.btnMovieFolder);
+    	panel.add(this.panelFolderRight());
+    	return panel;
     }
 
 
-    private JPanel panelFolderLeft() {
-        final GridBagLayout layout = new GridBagLayout();
-        final GridBagConstraints c = new GridBagConstraints();
-        final JPanel panel = new JPanel(layout);
-        layout.setConstraints(panel, c);
-        panel.setOpaque(false);
-
-        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
-        c.anchor = GridBagConstraints.CENTER;
-        c.fill = GridBagConstraints.NONE;
-        c.gridx = 0;
-        c.gridy = 0;
-
-        panel.add(this.btnMovieFolder, c);
-
+//    private JPanel panelFolderLeft() {
+//        final GridBagLayout layout = new GridBagLayout();
+//        final GridBagConstraints c = new GridBagConstraints();
+//        final JPanel panel = new JPanel(layout);
+//        layout.setConstraints(panel, c);
+//        panel.setOpaque(false);
+//
+//        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
+//        c.anchor = GridBagConstraints.CENTER;
+//        c.fill = GridBagConstraints.NONE;
+//        c.gridx = 0;
+//        c.gridy = 0;
+//
+//        panel.add(this.btnMovieFolder, c);
+//
 //        panel.setOpaque(true);
 //        panel.setBackground(Color.YELLOW);
-
-        return panel;
-    }
+//
+//        return panel;
+//    }
 
     private JPanel panelFolderRight() {
         final GridBagLayout layout = new GridBagLayout();
@@ -268,37 +281,48 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         final int gapHorizontal = 6;
         final int gapVertical = 3;
 
-        c.fill = GridBagConstraints.BOTH;
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
+        c.fill = GridBagConstraints.NONE;
 
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.insets = new Insets(0, 0, gapVertical, 0); // top left bottom right
         c.gridx = 0;
         c.gridy = 0;
         panel.add(lbl("Path"), c);
+
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(0, gapHorizontal, gapVertical, 0); // top left bottom right
         c.gridx = 1;
         panel.add(this.lblPath, c);
 
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.insets = new Insets(0, 0, gapVertical, 0); // top left bottom right
         c.gridx = 0;
         c.gridy = 1;
         panel.add(lbl("Files"), c);
+
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(0, gapHorizontal, gapVertical, 0); // top left bottom right
         c.gridx = 1;
         panel.add(this.lblFiles, c);
 
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.insets = new Insets(0, 0, gapVertical, 0); // top left bottom right
         c.gridx = 0;
         c.gridy = 2;
         panel.add(lbl("Size"), c);
+
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(0, gapHorizontal, gapVertical, 0); // top left bottom right
         c.gridx = 1;
         panel.add(this.lblSize, c);
 
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
         c.insets = new Insets(0, 0, 0, 0); // top left bottom right
         c.gridx = 0;
         c.gridy = 3;
         panel.add(lbl("Format"), c);
+
+        c.anchor = GridBagConstraints.FIRST_LINE_START;
         c.insets = new Insets(0, gapHorizontal, 0, 0); // top left bottom right
         c.gridx = 1;
         panel.add(this.lblFormat, c);
@@ -387,7 +411,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         return this.lblFormat.getText();
     }
     public String getFolderPath() {
-        return this.lblPath.getText();
+        return this.lblPath.getRealText().trim();
     }
     public long getFileSizeKb() {
         return this.fileSizeKb;

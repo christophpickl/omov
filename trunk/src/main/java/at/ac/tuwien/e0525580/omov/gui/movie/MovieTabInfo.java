@@ -42,7 +42,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final Log LOG = LogFactory.getLog(MovieTabInfo.class);
     private static final long serialVersionUID = -4273211406354799248L;
     
-    public final JTextField inpTitle = new MovieTitleSuggester(33);
+    public final JTextField inpTitle = new MovieTitleSuggester(33); // TODO tab info ist wiedermal zu gross
     
     private final DurationPanel inpDuration;
     private final ResolutionPanel inpResolution;
@@ -71,7 +71,6 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpRating = new RatingSlider(isAddMode ? 0 : editMovie.getRating(), null, Color.WHITE);
         this.inpQuality = new QualityField((isAddMode ? Quality.UNRATED : editMovie.getQuality()));
         this.inpYear = new YearField(isAddMode ? 0 : editMovie.getYear());
-        
         
 //        final int preferredGenreHeight = Constants.COVER_IMAGE_HEIGHT;
         final int fixedCellWidth = 10;
@@ -134,6 +133,7 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpResolution.setFocusSelection(true);
         this.inpYear.setFocusSelection(true);
         
+        this.inpGenre.setVisibleRowCount(8);
         
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
@@ -163,7 +163,7 @@ class MovieTabInfo extends AbstractMovieTab {
         c.anchor = GridBagConstraints.PAGE_START;
         panel.add(this.newInputComponent(this.inpResolution, MovieField.RESOLUTION), c);
         c.gridx = 2;
-        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.anchor = GridBagConstraints.LINE_START;
         c.insets = new Insets(0, 0, 4, 0); // top left bottom right
         this.inpSeen.setHorizontalTextPosition(SwingConstants.LEFT);
         panel.add(this.newInputComponent(this.inpSeen, MovieField.SEEN), c); // MINOR gui: inpSeen looks ugly

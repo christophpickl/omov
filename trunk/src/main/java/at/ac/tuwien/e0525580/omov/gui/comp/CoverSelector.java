@@ -3,7 +3,6 @@ package at.ac.tuwien.e0525580.omov.gui.comp;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -30,6 +29,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
@@ -99,7 +99,12 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
     public CoverSelector(Component frame) {
         this.frame = frame;
-        this.setToolTipText("click to choose or double-click to clear cover");
+        
+        this.setToolTipText("Click to Choose/double-click to Clear");
+//        this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+        this.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED, Color.WHITE, new Color(153, 153, 153)));
+//        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        this.setBackground(Color.WHITE);
 
         this.addMouseListener(this);
         this.setPreferredSize(CoverSelector.dimension());
@@ -109,7 +114,6 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
         final DropTarget dropTarget = new DropTarget(this, this);
         this.setDropTarget(dropTarget);
 
-        this.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         GridBagLayout layout = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         layout.setConstraints(this, c);
@@ -148,15 +152,15 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
         }
     }
 
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-
-        // draw some background
-        // g.drawRect(0, 0, this.getWidth(), this.getHeight());
-
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, this.getWidth(), this.getHeight());
-    }
+//    public void paintComponent(Graphics g) {
+//        super.paintComponent(g);
+//
+//        // draw some background
+//        // g.drawRect(0, 0, this.getWidth(), this.getHeight());
+//
+//        g.setColor(Color.WHITE);
+//        g.fillRect(0, 0, this.getWidth(), this.getHeight());
+//    }
 
     // public void setInitialImage() {
     // this.imagePanel.setImage(ImageFactory.getInstance().getImgCoverfileInitial());
