@@ -63,7 +63,7 @@ DATA VERSION HISTORY
 
 
  */
-    public static final int DATA_VERSION = 2;
+    public static final int DATA_VERSION = 3;
     
     public static final SimpleDateFormat DATE_ADDED_FORMAT_LONG = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     public static final SimpleDateFormat DATE_ADDED_FORMAT_SHORT = new SimpleDateFormat("yyyy-MM-dd");
