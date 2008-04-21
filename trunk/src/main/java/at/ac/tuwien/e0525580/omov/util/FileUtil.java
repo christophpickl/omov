@@ -23,7 +23,7 @@ import at.ac.tuwien.e0525580.omov.tools.scan.Scanner;
 
 public final class FileUtil {
 
-    private static final Log LOG = LogFactory.getLog(FileUtilTest.class);
+    private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
     
     private static final Set<String> HIDDEN_FILE_NAMES = CollectionUtil.immutableSet(
