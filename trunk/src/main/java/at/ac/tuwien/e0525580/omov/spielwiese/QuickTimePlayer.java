@@ -1,21 +1,8 @@
 package at.ac.tuwien.e0525580.omov.spielwiese;
 
-import java.awt.Component;
-import java.io.File;
-
-import javax.swing.JFrame;
-
-import quicktime.QTException;
-import quicktime.QTSession;
-import quicktime.app.view.QTComponent;
-import quicktime.app.view.QTFactory;
-import quicktime.io.OpenMovieFile;
-import quicktime.io.QTFile;
-import quicktime.std.movies.Movie;
-import quicktime.std.movies.MovieController;
 
 public class QuickTimePlayer {
-
+	/*
 	public static void main(String[] args) throws Exception {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
@@ -78,9 +65,6 @@ public class QuickTimePlayer {
 		f.pack();
 		f.setVisible(true);
 	}
-	/*
-	 * 
-	 */
 	
 	public static void versionCheck() throws QTException { // 7.4
 		QTSession.open();
@@ -88,4 +72,5 @@ public class QuickTimePlayer {
 //		System.out.println("QTJ version: " + QTBuild.getVersion() + "." + QTBuild.getSubVersion());
 		QTSession.close();
 	}
+	*/
 }
