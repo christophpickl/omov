@@ -61,7 +61,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private long fileSizeKb = 0L;
     private final ButtonMovieFolder btnMovieFolder = new ButtonMovieFolder(this.owner);
     private final MultiColTextField lblPath = new MultiColTextField(" ", 32);
-    private final MultiColTextField lblFiles = new MultiColTextField("", 22);
+    private final MultiColTextField lblFiles = new MultiColTextField("", 32);
     private final JLabel lblSize = new JLabel("");
     private final JLabel lblFormat = new JLabel("");
 
@@ -349,8 +349,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 	}
 	
 	private void doFilesRescan() {
-		// FIXME implement doFilesRescan
-		GuiUtil.warning(this.owner, "Ups", "Not yet implemented!");
+		this.scanFolder(new File(this.editMovie.getFolderPath()));
 	}
 
     private JPanel panelFolderRight() {
@@ -428,6 +427,10 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
 
     public void notifyFolderSelected(File folder) {
+    	this.scanFolder(folder);
+    }
+    
+    private void scanFolder(File folder) {
         MovieFolderInfo folderInfo = Scanner.scanMovieFolderInfo(folder);
         
         try {

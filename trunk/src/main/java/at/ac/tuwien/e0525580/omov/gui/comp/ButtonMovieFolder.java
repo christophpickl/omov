@@ -87,7 +87,6 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
 
         PreferencesDao.getInstance().setRecentMovieFolderPath(directory.getParent());
         this.notifyListeners(directory);
-
     }
 
 
