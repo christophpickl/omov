@@ -94,6 +94,10 @@ public class ImageFactory {
     public ImageIcon getIcon(IconQuickView iconEnum) {
         return this.getImage("quickview/" + iconEnum.fileName);
     }
+
+    public ImageIcon getContextMenuButton() {
+        return this.getImage("ContextMenuButton.png");
+    }
     
     
     public enum IconQuickView {

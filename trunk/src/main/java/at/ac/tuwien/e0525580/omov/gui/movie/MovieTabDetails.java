@@ -4,25 +4,32 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.FatalException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
 import at.ac.tuwien.e0525580.omov.bo.MovieFolderInfo;
 import at.ac.tuwien.e0525580.omov.bo.Movie.MovieField;
 import at.ac.tuwien.e0525580.omov.gui.comp.ButtonMovieFolder;
+import at.ac.tuwien.e0525580.omov.gui.comp.MovieFilesReordering;
 import at.ac.tuwien.e0525580.omov.gui.comp.ButtonMovieFolder.IButtonFolderListener;
+import at.ac.tuwien.e0525580.omov.gui.comp.generic.ContextMenuButton;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.MultiColTextField;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggest.MovieDirectorSuggester;
 import at.ac.tuwien.e0525580.omov.gui.comp.suggester.MovieActorsList;
@@ -33,10 +40,14 @@ import at.ac.tuwien.e0525580.omov.tools.scan.Scanner;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
-public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderListener {
+public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderListener, ActionListener {
 
     private static final Log LOG = LogFactory.getLog(MovieTabDetails.class);
     private static final long serialVersionUID = 1757068592935794813L;
+
+    private static final String CMD_FILES_RESCAN = "CMD_FILES_RESCAN";
+    private static final String CMD_FILES_REORDER = "CMD_FILES_REORDER";
+    private static final String CMD_FILES_CLEAR = "CMD_FILES_CLEAR";
 
     private static final int ACTORS_FIXED_CELL_WIDTH = 67;
 
@@ -54,6 +65,14 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private final JLabel lblSize = new JLabel("");
     private final JLabel lblFormat = new JLabel("");
 
+    // popmenu items for folder stuff
+    private ContextMenuButton folderContextMenu;
+    private final JMenuItem itemRescan = new JMenuItem("Rescan");
+    private final JMenuItem itemReorder = new JMenuItem("Reorder Files");
+    private final JMenuItem itemClear = new JMenuItem("Clear Files");
+    
+    private String folderPathOriginally = "";
+    
     /**
      * Constructor for adding/editing single movie.
      */
@@ -107,6 +126,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
             this.lblFiles.setText(editMovie.getFilesFormatted());
             this.lblSize.setText(editMovie.getFileSizeFormatted());
             this.lblFormat.setText(editMovie.getFormat());
+            
+            this.folderPathOriginally = editMovie.getFolderPath();
         }
 
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -131,6 +152,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         this.btnMovieFolder.setEnabled(false);
         this.btnMovieFolder.setToolTipText("Setting Moviefolder is for multiple Movies not possible");
 
+        
         this.setLayout(new FlowLayout(FlowLayout.CENTER));
         this.add(this.initComponents());
     }
@@ -242,34 +264,94 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
         return panel;
         */
+
+    	
     	final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 10));
     	panel.setOpaque(false);
-    	panel.add(this.btnMovieFolder);
+    	panel.add(this.panelFolderLeft());
     	panel.add(this.panelFolderRight());
     	return panel;
     }
+    
 
+    private JPanel panelFolderLeft() {
+		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
+		itemRescan.setActionCommand(CMD_FILES_RESCAN);
+		itemReorder.setActionCommand(CMD_FILES_REORDER);
+		itemClear.setActionCommand(CMD_FILES_CLEAR);
+		itemRescan.addActionListener(this);
+		itemReorder.addActionListener(this);
+		itemClear.addActionListener(this);
+		popupItems.add(itemRescan);
+		popupItems.add(itemReorder);
+		popupItems.add(itemClear);
+    	this.folderContextMenu = new ContextMenuButton(popupItems);
+    	
+    	if(this.isAddMode == true || this.editMovies != null || this.editMovie.isFolderPathSet() == false) {
+    		this.folderContextMenu.setEnabled(false);
+    	}
+    	
+    	final GridBagLayout layout = new GridBagLayout();
+        final GridBagConstraints c = new GridBagConstraints();
+        final JPanel panel = new JPanel(layout);
+        layout.setConstraints(panel, c);
+        panel.setOpaque(false);
 
-//    private JPanel panelFolderLeft() {
-//        final GridBagLayout layout = new GridBagLayout();
-//        final GridBagConstraints c = new GridBagConstraints();
-//        final JPanel panel = new JPanel(layout);
-//        layout.setConstraints(panel, c);
-//        panel.setOpaque(false);
-//
-//        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
-//        c.anchor = GridBagConstraints.CENTER;
-//        c.fill = GridBagConstraints.NONE;
-//        c.gridx = 0;
-//        c.gridy = 0;
-//
-//        panel.add(this.btnMovieFolder, c);
-//
+        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
+        c.anchor = GridBagConstraints.LAST_LINE_START;
+        c.fill = GridBagConstraints.NONE;
+        c.gridx = 0;
+        c.gridy = 0;
+        panel.add(this.btnMovieFolder, c);
+
+        c.anchor = GridBagConstraints.FIRST_LINE_END;
+        c.gridy = 1;
+        panel.add(this.folderContextMenu, c);
+
 //        panel.setOpaque(true);
 //        panel.setBackground(Color.YELLOW);
-//
-//        return panel;
-//    }
+
+        return panel;
+    }
+
+	public void actionPerformed(ActionEvent e) {
+		final String cmd = e.getActionCommand();
+		
+		if(cmd.equals(CMD_FILES_CLEAR)) {
+			this.doFilesClear();
+		} else if(cmd.equals(CMD_FILES_REORDER)) {
+			this.doFilesReorder();
+		} else if(cmd.equals(CMD_FILES_RESCAN)) {
+			this.doFilesRescan();
+		} else {
+			throw new IllegalArgumentException("unhandled action commad '"+cmd+"'!");
+		}
+	}
+	
+	private void doFilesClear() {
+		this.folderContextMenu.setEnabled(false);
+		
+		this.lblPath.setText("");
+		this.files = new ArrayList<String>(0);
+		this.lblFiles.setText("[]");
+		this.lblSize.setText("0.0 KB");
+		this.fileSizeKb = 0L;
+		this.lblFormat.setText("");
+	}
+	
+	private void doFilesReorder() {
+		MovieFilesReordering reordering = new MovieFilesReordering(this.owner, this.files);
+		reordering.setVisible(true);
+		if(reordering.isConfirmed()) {
+			this.files = reordering.getConfirmedList();
+			this.lblFiles.setText(Arrays.toString(this.files.toArray()));
+		}
+	}
+	
+	private void doFilesRescan() {
+		// FIXME implement doFilesRescan
+		GuiUtil.warning(this.owner, "Ups", "Not yet implemented!");
+	}
 
     private JPanel panelFolderRight() {
         final GridBagLayout layout = new GridBagLayout();
@@ -347,7 +429,22 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     public void notifyFolderSelected(File folder) {
         MovieFolderInfo folderInfo = Scanner.scanMovieFolderInfo(folder);
-
+        
+        try {
+			List<String> folderPaths = BeanFactory.getInstance().getMovieDao().getMovieFolderPaths();
+			
+			final String newFolderPath = folderInfo.getFolderPath();
+			if(folderPaths.contains(newFolderPath) == true && this.folderPathOriginally.equals(newFolderPath) == false) {
+				GuiUtil.warning(this.owner, "Could not set folder path", "The path '"+newFolderPath+"' is already in use!");
+				return;
+			}
+			
+		} catch (BusinessException e) {
+			LOG.error("Could not check existing folder paths!");
+		}
+        
+        
+		this.folderContextMenu.setEnabled(true);
         this.files = folderInfo.getFiles();
         this.fileSizeKb = folderInfo.getFileSizeKB();
 
@@ -358,6 +455,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     }
 
     public void notifyFolderCleared() {
+    	this.folderContextMenu.setEnabled(false);
         this.files = new LinkedList<String>();
         this.fileSizeKb = 0L;
 
@@ -411,11 +509,12 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         return this.lblFormat.getText();
     }
     public String getFolderPath() {
-        return this.lblPath.getRealText().trim();
+        return this.lblPath.getFullText().trim();
     }
     public long getFileSizeKb() {
         return this.fileSizeKb;
     }
+
 
 
 }

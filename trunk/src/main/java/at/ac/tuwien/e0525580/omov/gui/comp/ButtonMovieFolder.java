@@ -92,6 +92,11 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
 
 
     public void mouseClicked(MouseEvent event) {
+    	if(event.getButton() == MouseEvent.BUTTON3) {
+    		LOG.debug("Ignoring right mouseclick on button.");
+    		return;
+    	}
+    	
         this.clickTimer = new Timer();
         if (event.getClickCount() == 2){
             this.doubleclick = true;

@@ -58,7 +58,7 @@ public class MultiColTextField extends JLabel {
         }
     }
     
-    public String getRealText() {
+    public String getFullText() {
     	return this.realText;
     }
 
