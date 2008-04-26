@@ -4,7 +4,7 @@
 
 		
 	<bean id="CurrentApplicationVersion" class="at.ac.tuwien.e0525580.omov.common.VersionMinorMajor"><constructor-arg>
-		<value>0.4</value></constructor-arg></bean>
+		<value>0.5</value></constructor-arg></bean>
 		
 		
 		
