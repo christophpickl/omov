@@ -13,7 +13,7 @@ import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer.OS;
 
-class AppleScriptNativeExecuter {
+public class AppleScriptNativeExecuter {
 
     private static final Log LOG = LogFactory.getLog(AppleScriptNativeExecuter.class);
     

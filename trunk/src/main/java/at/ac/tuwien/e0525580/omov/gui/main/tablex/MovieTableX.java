@@ -36,7 +36,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.MacLikeTable;
 import at.ac.tuwien.e0525580.omov.gui.comp.generic.TableContextMenuListener;
 import at.ac.tuwien.e0525580.omov.gui.main.tablex.MovieTableColumns.IMovieTableColumn;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
-import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
+import at.ac.tuwien.e0525580.omov.tools.vlc.VlcPlayerFactory;
 
 
 public class MovieTableX extends MacLikeTable implements TableContextMenuListener {
@@ -224,7 +224,10 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         BodyContext.newJMenuSeparator(itemsSingle);
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         this.itemRevealFinder = FinderReveal.addRevealJMenuItem(itemsSingle, CMD_REVEAL);
-        this.itemPlayVlc = VlcPlayDelegator.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
+        
+        if(VlcPlayerFactory.isVlcCapable()) {
+        	this.itemPlayVlc = BodyContext.newJMenuItem(itemsSingle, "Play in VLC", CMD_PLAY_VLC, ImageFactory.getInstance().getIcon(Icon16x16.VLC));//MacVlcPlayer.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
+        }
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));

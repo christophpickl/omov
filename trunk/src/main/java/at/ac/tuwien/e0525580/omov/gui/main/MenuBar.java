@@ -30,7 +30,7 @@ import at.ac.tuwien.e0525580.omov.gui.comp.generic.ITableSelectionListener;
 import at.ac.tuwien.e0525580.omov.help.HelpEntry;
 import at.ac.tuwien.e0525580.omov.help.HelpSystem;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
-import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
+import at.ac.tuwien.e0525580.omov.tools.vlc.VlcPlayerFactory;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 import at.ac.tuwien.e0525580.omov.util.UserSniffer;
@@ -156,7 +156,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         this.itemMovieDelete = GuiUtil.createMenuItem(menu, 'D', LBL_MOVIE_DELETE, CMD_MOVIE_DELETE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
         this.itemMovieFetchMetadata = GuiUtil.createMenuItem(menu, 'M', LBL_FETCH_METADATA, CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         
-        if(VlcPlayDelegator.isVlcCapable() == true) {
+        if(VlcPlayerFactory.isVlcCapable() == true) {
             this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
         
@@ -255,6 +255,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     
     
     private static class DebugMenu {
+    	private static DebugDatabaseContents databaseContents;
         public static void maybeAddYourself(JMenuBar bar) {
             if(App.isArgumentSet(PreferencesDao.APP_ARG_DEBUG) == false) {
                 return;
@@ -337,6 +338,15 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
                         LOG.error("Resetting movies failed!", e);
                         GuiUtil.error("Reset failed", "Resetting movies failed: " + e.getMessage());
                     }
+           }});
+            
+            GuiUtil.createMenuItem(menu, 'S', "Show Database Contents", "",new ActionListener() {
+                public void actionPerformed(ActionEvent event) {
+                    LOG.info("displaying database contents.");
+                    if(databaseContents == null) {
+                    	databaseContents = new DebugDatabaseContents();
+                    }
+                    databaseContents.setVisible(true);
            }});
             
             

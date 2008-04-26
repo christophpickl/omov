@@ -24,6 +24,8 @@ import at.ac.tuwien.e0525580.omov.smartfolder.SmartFolder;
 import at.ac.tuwien.e0525580.omov.tools.FileSystemChecker;
 import at.ac.tuwien.e0525580.omov.tools.TemporaryFilesCleaner;
 import at.ac.tuwien.e0525580.omov.tools.FileSystemChecker.FileSystemCheckResult;
+import at.ac.tuwien.e0525580.omov.tools.vlc.IVlcPlayer;
+import at.ac.tuwien.e0525580.omov.tools.vlc.VlcPlayerFactory;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
 
 /*
@@ -100,7 +102,8 @@ public class App {
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
-
+    
+    public static final IVlcPlayer VLC_PLAYER = VlcPlayerFactory.newVlcPlayer();
 
     public static void main(String[] args) {
         try {

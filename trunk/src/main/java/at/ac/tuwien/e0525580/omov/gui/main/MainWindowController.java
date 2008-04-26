@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.omov.App;
 import at.ac.tuwien.e0525580.omov.BeanFactory;
 import at.ac.tuwien.e0525580.omov.BusinessException;
 import at.ac.tuwien.e0525580.omov.bo.Movie;
@@ -35,9 +36,9 @@ import at.ac.tuwien.e0525580.omov.gui.smartcopy.SmartCopyDialog;
 import at.ac.tuwien.e0525580.omov.model.IMovieDao;
 import at.ac.tuwien.e0525580.omov.tools.export.ImportExportConstants;
 import at.ac.tuwien.e0525580.omov.tools.osx.FinderReveal;
-import at.ac.tuwien.e0525580.omov.tools.osx.VlcPlayDelegator;
 import at.ac.tuwien.e0525580.omov.tools.remote.IRemoteDataReceiver;
 import at.ac.tuwien.e0525580.omov.tools.remote.RemoteServer;
+import at.ac.tuwien.e0525580.omov.tools.vlc.VlcPlayerFactory;
 import at.ac.tuwien.e0525580.omov.util.CoverUtil;
 import at.ac.tuwien.e0525580.omov.util.FileUtil;
 import at.ac.tuwien.e0525580.omov.util.GuiUtil;
@@ -348,31 +349,39 @@ public final class MainWindowController extends CommonController implements IRem
     
 
     public void doPlayVlc(Movie movie) {
-        assert(VlcPlayDelegator.isVlcCapable());
+        assert(VlcPlayerFactory.isVlcCapable());
         
-        final List<String> files = movie.getFiles();
-        if(files.isEmpty() == true) {
+        final List<String> movieFileNames = movie.getFiles();
+        if(movieFileNames.isEmpty() == true) {
             GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
             return;
         }
         
-        final File movieFile = new File(movie.getFolderPath(), files.iterator().next());
-        if(movieFile.exists() == false) {
-            GuiUtil.error("Play in VLC", "The file at '"+movieFile.getAbsolutePath()+"' does not exist!");
-            return;
-        }
+//        final File movieFile = new File(movie.getFolderPath(), files.iterator().next());
+//        if(movieFile.exists() == false) {
+//            GuiUtil.error("Play in VLC", "The file at '"+movieFile.getAbsolutePath()+"' does not exist!");
+//            return;
+//        }
         
+        File firstMovieFile = null;
         try {
-            VlcPlayDelegator.playFile(movieFile);
+        	assert(movieFileNames.size() > 0);
+        	for (String movieFileName : movieFileNames) {
+        		final File movieFile = new File(movie.getFolderPath(), movieFileName);
+        		if(firstMovieFile == null) firstMovieFile = movieFile;
+        		App.VLC_PLAYER.addFileToPlaylist(movieFile);
+        	}
+        	App.VLC_PLAYER.playFile(firstMovieFile);
+        	
         } catch (BusinessException e) {
-            LOG.error("Could not play file '"+movieFile.getAbsolutePath()+"' in VLC!");
-            GuiUtil.error("Play in VLC failed", "Could not play file '"+movieFile.getAbsolutePath()+"' in VLC!");
+            LOG.error("Could not play file '"+firstMovieFile.getAbsolutePath()+"' in VLC!");
+            GuiUtil.error("Play in VLC failed", "Could not play file '"+firstMovieFile.getAbsolutePath()+"' in VLC!");
         }
     }
 
     // should be only invoked by menu bar
     public void doPlayVlc() {
-        assert(VlcPlayDelegator.isVlcCapable());
+        assert(VlcPlayerFactory.isVlcCapable());
         
         final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
         if(selectedMovies.size() == 0) {
