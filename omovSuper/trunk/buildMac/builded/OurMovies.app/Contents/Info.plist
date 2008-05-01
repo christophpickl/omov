@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>JavaApplicationStub</string>
+	<key>CFBundleIconFile</key>
+	<string>logo.icns</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleGetInfoString</key>
+	<string>OurMovies v0.4 Beta</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.4</string>
+	<key>CFBundleName</key>
+	<string>OurMovies</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>Java</key>
+	<dict>
+		<key>ClassPath</key>
+		<array>
+			<string>$JAVAROOT/OurMovies-0.4-beta-jar-with-dependencies.jar</string>
+		</array>
+		<key>JVMVersion</key>
+		<string>1.5+</string>
+		<key>MainClass</key>
+		<string>at.ac.tuwien.e0525580.omov.App</string>
+		<key>Properties</key>
+		<dict>
+			<key>apple.laf.useScreenMenuBar</key>
+			<string>true</string>
+		</dict>
+	</dict>
+	
+	
+	
+	<!--
+	<key>NSAppleScriptEnabled</key>
+	<true/>
+	-->
+	
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<!-- ???
+		<dict>
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>****</string>
+				<string>fold</string>
+				<string>disk</string>
+			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+		</dict>
+		-->
+		
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>omo</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>omo_filetype.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>OurMovies Backup</string>
+			<!--
+			<key>CFBundleTypeOSTypes</key>
+			<array>
+				<string>hkdb</string>
+			</array>
+			-->
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string> <!-- string>Viewer</string> -->
+			<key>LSIsAppleDefaultForType</key>
+			<string>Yes</string>
+		</dict>
+	</array>
+
+</dict>
+</plist>
