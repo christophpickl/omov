@@ -203,7 +203,7 @@ public class MacTable extends JXTable {
                     // It does however draw a horizontal line under the whole row, and a vertical line separating each column.
                     fixMacOsCellRendererBorder(jc, selected, focused);
                 } else {
-                    // FIXME GUI - doesn't Windows have row-wide selection focus?
+                    // TODO GUI - doesn't Windows have row-wide selection focus?
                     // Hide the cell focus.
                     jc.setBorder(null);
                 }
