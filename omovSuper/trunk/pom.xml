@@ -14,10 +14,14 @@
 
 	<modules>
 		<module>../omovCore</module>
+		<module>../omovApp</module>
 		<module>../omovQtjApi</module>
 		<module>../omovQtjImpl</module>
 	</modules>
 
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
   <dependencyManagement>
 	<dependencies>
 		<!-- DUPLIACTE DEPENDENCY START

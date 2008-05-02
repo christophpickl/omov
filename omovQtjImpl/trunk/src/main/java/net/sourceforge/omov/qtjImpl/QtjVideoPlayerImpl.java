@@ -26,10 +26,11 @@ import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.gui.ImageFactory;
-import net.sourceforge.omov.core.gui.ImageFactory.IconQuickView;
-import net.sourceforge.omov.core.util.GuiUtil;
-import net.sourceforge.omov.core.util.GuiUtil.GuiAction;
+import net.sourceforge.omov.core.FatalException;
+import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.core.ImageFactory.IconQuickView;
+import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 
 import org.apache.commons.logging.Log;
@@ -82,7 +83,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 	private final JButton btnBack = new JButton(ICON_BACK);
 	
 	private final JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 0));
-	
+	private final QtjVideoController controller = new QtjVideoController(this);
 	
 	// TODO QTJava - JComboBox, wo man auch alle anderen movie files auswaehlen kann (oben links, JComboBox aus fileName machen)
 
@@ -99,7 +100,10 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 		QDRect rect = region.getBounds();
 		return new Dimension(rect.getWidth(), rect.getHeight());
 	}
-	 */
+	*/
+	private final JPanel wrapPanel = new JPanel();
+	private final JComponent qtjComponent;
+	
 	public QtjVideoPlayerImpl(net.sourceforge.omov.core.bo.Movie movie, File movieFile, JFrame owner) throws QTException {
 		super(owner);
 		assert(movieFile.exists()) : movieFile.getAbsolutePath();
@@ -117,30 +121,57 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
-		
-		this.getContentPane().add(this.initComponents());
+
+		this.qtjComponent = this.initQuicktimePlayer(movieFile);
+		this.initComponentsSmallscreen();
+		this.getContentPane().add(this.wrapPanel);
 		this.setBackground(Color.BLACK);
 		this.pack();
-		GuiUtil.setCenterLocation(this);
+		SimpleGuiUtil.setCenterLocation(this);
 	}
 	
-	private JPanel initComponents() throws QTException {
-		final JComponent content = this.initQuicktimePlayer(movieFile);
+	private void initComponentsFullscreen() { // TODO still got some top margin...
+		LOG.debug("Initializing components for fullscreen mode.");
+		this.wrapPanel.removeAll();
+		final JPanel panel = new JPanel(new BorderLayout(0, 0));
+		JPanel qtjWrapPanel = new JPanel(new BorderLayout(0, 0));
+		qtjWrapPanel.add(this.qtjComponent, BorderLayout.CENTER);
+		Dimension movieDim;
+		try {
+			movieDim = QtjUtil.getMovieDimension(this.qtMovie);
+		} catch (QTException e) {
+			throw new FatalException("Could not recalculate movie dimension of file '"+this.movieFile.getAbsolutePath()+"'!", e);
+		}
+		final Dimension movieRecalcedSize = QtjUtil.recalcFullscreenMovieDimension(movieDim);
+		qtjWrapPanel.setMinimumSize(movieRecalcedSize);
+		qtjWrapPanel.setMaximumSize(movieRecalcedSize);
+		qtjWrapPanel.setPreferredSize(movieRecalcedSize);
+		qtjWrapPanel.setSize(movieRecalcedSize);
 		
+		panel.add(qtjWrapPanel, BorderLayout.CENTER);
+		this.wrapPanel.add(panel);
+		this.wrapPanel.invalidate();
+		this.wrapPanel.repaint();
+	}
+
+	private void initComponentsSmallscreen() {
+		LOG.debug("Initializing components for smallscreen mode.");
+		this.wrapPanel.removeAll();
 		final JPanel panel = new JPanel(new BorderLayout(0, 0));
 		panel.setOpaque(false);
 		panel.setBorder(BorderFactory.createEmptyBorder(4, 10, 10, 10));
 		panel.add(this.newNorthPanel(), BorderLayout.NORTH);
-		panel.add(content, BorderLayout.CENTER);
+		panel.add(this.qtjComponent, BorderLayout.CENTER);
 		panel.add(this.initSouthPanel(), BorderLayout.SOUTH);
-		
-		return panel;
+		this.wrapPanel.add(panel);
+		this.wrapPanel.invalidate();
+		this.wrapPanel.repaint();
 	}
 
 	private JPanel newNorthPanel() {
 		final JPanel panel = new JPanel(new BorderLayout(0, 0));
 		panel.setBackground(Color.BLACK);
-		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0)); // margin-bottom
+		panel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0)); // margin-bottom
 		
 		final JLabel windowTitle = new JLabel(this.movie.getTitle() + " - " + this.movieFile.getName());
 		windowTitle.setFont(WINDOW_TITLE_FONT);
@@ -152,7 +183,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);
 		btnClose.setBorder(BorderFactory.createEmptyBorder());
-		GuiUtil.enableHandCursor(btnClose);
+		SimpleGuiUtil.enableHandCursor(btnClose);
 		
 		panel.add(windowTitle, BorderLayout.WEST);
 		panel.add(btnClose, BorderLayout.EAST);
@@ -227,7 +258,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 	
 	private void doClickedOnPlayerComponent(MouseEvent e) {
 		if(e.getClickCount() == 2) {
-			this.doFullscreen();
+			this.doSwitchFullscreen();
 		}
 	}
 	
@@ -252,7 +283,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 		if(cmd.equals(CMD_CLOSE)) {
 			this.doClose();
 		} else if(cmd.equals(CMD_FULLSCREEN)) {
-			this.doFullscreen();
+			this.doSwitchFullscreen();
 		} else if(cmd.equals(CMD_PLAY_PAUSE)) {
 			this.doPlayPause();
 		} else if(cmd.equals(CMD_BACK)) {
@@ -273,7 +304,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 		this.dispose();
 	}
 	
-	private void doFullscreen() {
+	private void doSwitchFullscreen() {
 		assert(this.graphicsDevice != null);
 		this.isFullScreenMode = !this.isFullScreenMode;
 		
@@ -289,8 +320,12 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Acti
 			this.setSize(this.previousSize);
 		}
 
-		this.southPanel.setBackground(isFullScreenMode ? Color.BLACK : Constants.getColorWindowBackground());
-		
+//		this.southPanel.setBackground(isFullScreenMode ? Color.BLACK : Constants.getColorWindowBackground());
+		if(this.isFullScreenMode) {
+			this.initComponentsFullscreen();
+		} else {
+			this.initComponentsSmallscreen();
+		}
 	}
 	
 	
