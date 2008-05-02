@@ -7,7 +7,6 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.gui.main.tablex.MovieTableColumns;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -257,7 +256,7 @@ DATA VERSION HISTORY
     public boolean isMovieColumnVisible(String columnName) {
         final Boolean visible = this.columnsVisible.get(columnName);
         assert(visible != null) : "Unkown column '"+columnName+"'!";
-        return visible;
+        return visible.booleanValue();
     }
     
     public void setMovieColumnVisibility(Map<String, Boolean> columns) {
@@ -270,7 +269,7 @@ DATA VERSION HISTORY
         this.flush();
     }
     
-    void checkFolderExistence() throws BusinessException {
+    public void checkFolderExistence() throws BusinessException {
         this.createFolder(PreferencesDao.getInstance().getCoversFolder());
         this.createFolder(PreferencesDao.getInstance().getTemporaryFolder());
         this.createFolder(PreferencesDao.getInstance().getDataFolder());

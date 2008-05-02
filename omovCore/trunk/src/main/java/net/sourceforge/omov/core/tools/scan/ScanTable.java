@@ -1,8 +1,7 @@
 package net.sourceforge.omov.core.tools.scan;
 
-import net.sourceforge.omov.core.gui.comp.generic.AbstractTable;
 
-public class ScanTable extends AbstractTable {
+public class ScanTable { // extends AbstractTable {
 
     private static final long serialVersionUID = -4087819785894075216L;
 //

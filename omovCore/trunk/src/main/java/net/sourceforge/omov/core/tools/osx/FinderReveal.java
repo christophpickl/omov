@@ -1,14 +1,8 @@
 package net.sourceforge.omov.core.tools.osx;
 
 import java.io.File;
-import java.util.List;
-
-import javax.swing.JMenuItem;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.gui.ImageFactory;
-import net.sourceforge.omov.core.gui.ImageFactory.Icon16x16;
-import net.sourceforge.omov.core.gui.comp.generic.BodyContext;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.core.util.UserSniffer.OS;
 
@@ -25,15 +19,6 @@ public class FinderReveal {
             "activate\n" + 
         "end tell";
     
-    public static JMenuItem addRevealJMenuItem(final List<JMenuItem> menuItems, final String actionCommand) {
-        final JMenuItem item;
-        if(UserSniffer.isOS(OS.MAC) == true) {
-            item = BodyContext.newJMenuItem(menuItems, "Reveal in Finder", actionCommand, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
-        } else {
-            item = null;
-        }
-        return item;
-    }
     
     public static void revealFile(final File file) throws BusinessException {
         assert(UserSniffer.isOS(OS.MAC));

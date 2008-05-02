@@ -11,13 +11,14 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.gui.comp.generic.ImagePanel;
 import net.sourceforge.omov.core.model.IMovieDao;
 
 import org.apache.commons.logging.Log;
@@ -154,7 +155,10 @@ public final class CoverUtil {
         LOG.debug("Copying cover type '"+fileType+"' to file '"+coverFileTarget.getAbsolutePath()+"'.");
 
 
-        final ImagePanel imagePanel = new ImagePanel(fileType.getDimension());
+//        final ImagePanel imagePanel = new ImagePanel(fileType.getDimension()); // FIXME verify that this really works
+        final JComponent imagePanel = new JPanel();
+        imagePanel.setSize(fileType.getDimension());
+        
         final Image coverImage = ImageUtil.getResizedCoverImage(coverFileSource, imagePanel, fileType);
         final int w = coverImage.getWidth(null);
         final int h = coverImage.getHeight(null);

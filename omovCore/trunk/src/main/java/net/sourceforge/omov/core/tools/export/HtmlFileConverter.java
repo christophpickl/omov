@@ -6,19 +6,11 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import net.sourceforge.omov.core.util.CloseableUtil;
-import net.sourceforge.omov.core.util.GuiUtil;
 
 public class HtmlFileConverter {
 
     private HtmlFileConverter() {
         /* no instantiation */
-    }
-
-    public static void main(String[] args) throws IOException {
-        final File file = GuiUtil.getFile();
-        if(file != null) {
-            convert(file);
-        }
     }
 
     public static void convert(File file) throws IOException {

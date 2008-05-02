@@ -11,8 +11,11 @@ import java.awt.image.ReplicateScaleFilter;
 import java.io.File;
 import java.util.Date;
 
+import javax.swing.JPanel;
+
+import javax.swing.JComponent;
+
 import net.sourceforge.omov.core.bo.CoverFileType;
-import net.sourceforge.omov.core.gui.comp.generic.ImagePanel;
 
 import org.apache.log4j.Logger;
 
@@ -66,7 +69,9 @@ public class ImageUtil {
 
     public static WidthHeight recalcMaxWidthHeight(final File coverFile, final int maxWidth, final int maxHeight) {
         LOG.debug("Recalcing width/height for cover file at '"+coverFile.getAbsolutePath()+"'.");
-        final ImagePanel imagePanel = new ImagePanel(maxWidth, maxHeight);
+//        final ImagePanel imagePanel = new ImagePanel(maxWidth, maxHeight);
+        final JComponent imagePanel = new JPanel();
+        imagePanel.setSize(maxWidth, maxHeight); // FIXME verify this works
         final MediaTracker media = new MediaTracker(imagePanel);
         final Image source = Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath());
         media.addImage(source,0);
