@@ -17,8 +17,10 @@
 		<version>0.5-BETA</version>
 	</parent>
 
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
 	<dependencies>
-		
 		<!-- DUPLIACTE DEPENDENCY START -->	
 		<dependency>
 			<groupId>log4j</groupId>
