@@ -276,20 +276,31 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     private JPanel panelFolderLeft() {
 		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
-		itemRescan.setActionCommand(CMD_FILES_RESCAN);
-		itemReorder.setActionCommand(CMD_FILES_REORDER);
-		itemClear.setActionCommand(CMD_FILES_CLEAR);
-		itemRescan.addActionListener(this);
-		itemReorder.addActionListener(this);
-		itemClear.addActionListener(this);
-		popupItems.add(itemRescan);
-		popupItems.add(itemReorder);
-		popupItems.add(itemClear);
+		this.itemRescan.setActionCommand(CMD_FILES_RESCAN);
+		this.itemReorder.setActionCommand(CMD_FILES_REORDER);
+		this.itemClear.setActionCommand(CMD_FILES_CLEAR);
+		this.itemRescan.addActionListener(this);
+		
+		if(this.isAddMode == true || this.editMovie.isFolderPathSet() == false) {
+			this.itemRescan.setEnabled(false);
+		}
+		
+		if(this.isAddMode == true || this.editMovie.getFiles().size() <= 1) {
+			this.itemReorder.setEnabled(false);
+		}
+		
+		if(this.isAddMode == true || this.editMovie.getFiles().size() == 0) {
+			this.itemClear.setEnabled(false);
+		}
+		
+		
+		this.itemReorder.addActionListener(this);
+		this.itemClear.addActionListener(this);
+		popupItems.add(this.itemRescan);
+		popupItems.add(this.itemReorder);
+		popupItems.add(this.itemClear);
     	this.folderContextMenu = new ContextMenuButton(popupItems);
     	
-    	if(this.isAddMode == true || this.editMovies != null || this.editMovie.isFolderPathSet() == false) {
-    		this.folderContextMenu.setEnabled(false);
-    	}
     	
     	final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
@@ -328,8 +339,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 		}
 	}
 	
+	/**
+	 * Removes all stored movie files (manipulating data as well gui components).
+	 */
 	private void doFilesClear() {
-		this.folderContextMenu.setEnabled(false);
+		LOG.debug("doFilesClear()");
+		this.itemReorder.setEnabled(false);
+		this.itemClear.setEnabled(false);
 		
 		this.lblPath.setText("");
 		this.files = new ArrayList<String>(0);
@@ -340,6 +356,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 	}
 	
 	private void doFilesReorder() {
+		LOG.debug("doFilesReorder()");
 		MovieFilesReordering reordering = new MovieFilesReordering(this.owner, this.files);
 		reordering.setVisible(true);
 		if(reordering.isConfirmed()) {
@@ -349,6 +366,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 	}
 	
 	private void doFilesRescan() {
+		LOG.debug("doFilesRescan()");
 		this.scanFolder(new File(this.editMovie.getFolderPath()));
 	}
 
@@ -438,14 +456,12 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 			
 			final String newFolderPath = folderInfo.getFolderPath();
 			if(folderPaths.contains(newFolderPath) == true && this.folderPathOriginally.equals(newFolderPath) == false) {
-				GuiUtil.warning(this.owner, "Could not set folder path", "The path '"+newFolderPath+"' is already in use!");
+				GuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!");
 				return;
 			}
-			
 		} catch (BusinessException e) {
 			LOG.error("Could not check existing folder paths!");
 		}
-        
         
 		this.folderContextMenu.setEnabled(true);
         this.files = folderInfo.getFiles();
@@ -455,6 +471,18 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         this.lblFiles.setText(Arrays.toString(folderInfo.getFiles().toArray()));
         this.lblSize.setText(FileUtil.formatFileSize(folderInfo.getFileSizeKB()));
         this.lblFormat.setText(folderInfo.getFormat());
+        
+        if(this.files.size() == 0) {
+        	this.itemReorder.setEnabled(false);
+        	this.itemClear.setEnabled(false);
+        } else if(this.files.size() == 1) {
+        	this.itemReorder.setEnabled(false);
+        	this.itemClear.setEnabled(true);
+        } else {
+        	assert(this.files.size() > 1);
+        	this.itemReorder.setEnabled(true);
+        	this.itemClear.setEnabled(true);
+        }
     }
 
     public void notifyFolderCleared() {
