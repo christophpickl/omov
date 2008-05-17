@@ -14,37 +14,46 @@ public class QtjVideoPlayerFactory {
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerFactory.class);
     
     private static Boolean videoAvailable;
-    
+
+	private static final String QTJ_PLAYER_CLASSNAME = "net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX";
+	private static final String BO_MOVIE_CLASSNAME = "net.sourceforge.omov.core.bo.Movie";
+	private static final String QT_MOVIE_CLASSNAME = "quicktime.std.movies.Movie";
+	
 	public static boolean isQtjAvailable() {
 		if(videoAvailable == null) {
 			try {
-				LOG.info("loading quicktime library ...");
-				Class.forName("quicktime.std.movies.Movie");
-				LOG.info("ok");
-				LOG.info("loading VideoImpl library ...");
-				Class.forName("net.sourceforge.omov.qtjImpl.QtjVideoPlayerImpl");
-				LOG.info("ok");
+				LOG.info("Loading quicktime library by classname '"+QT_MOVIE_CLASSNAME+"' ...");
+				Class.forName(QT_MOVIE_CLASSNAME);
+				LOG.info("Ok.");
+				LOG.info("Loading VideoImpl library by classname '"+QTJ_PLAYER_CLASSNAME+"' ...");
+				Class.forName(QTJ_PLAYER_CLASSNAME);
+				LOG.info("Ok.");
 				videoAvailable = Boolean.TRUE;
 			} catch(Exception e) {
-				LOG.info("Video not available!", e);
+				LOG.info("QtjVideo not available!", e);
 				videoAvailable = Boolean.FALSE;
 			}
 		}
 		return videoAvailable.booleanValue();
 		
 	}
-	
-	private static Class<?> movieClass;
+
+	private static Constructor<?> constructor;
 	// TODO outsource Movie/BusinessException into submodule "Bo" or something like this to avoid cycle references
 	public static IQtjVideoPlayer newVideo(Object movie, File movieFile, JFrame owner) throws Exception {
 		assert(isQtjAvailable());
 		
-		if(movieClass == null) {
-			movieClass = Class.forName("net.sourceforge.omov.core.bo.Movie");
+		if(constructor == null) {
+			
+			LOG.info("Getting class by name: " + BO_MOVIE_CLASSNAME);
+			Class<?> movieClass = Class.forName(BO_MOVIE_CLASSNAME);
+			
+			LOG.info("Getting class by name: " + QTJ_PLAYER_CLASSNAME);
+			Class<?> clazz = Class.forName(QTJ_PLAYER_CLASSNAME);
+			
+			constructor = clazz.getConstructor(movieClass, File.class, JFrame.class);
 		}
 		
-		Class<?> clazz = Class.forName("net.sourceforge.omov.qtjImpl.QtjVideoPlayerImpl");
-		Constructor<?> constructor = clazz.getConstructor(movieClass, File.class, JFrame.class);
 		return (IQtjVideoPlayer) constructor.newInstance(movie, movieFile, owner);
 		// InstantiationException, IllegalAccessException, ClassNotFoundException
 	}
