@@ -21,7 +21,7 @@ public final class QtjUtil {
 	}
 	
 	public static Movie openQtMovie(File file) throws QTException {
-		SessionInitializer.openSession();
+		QtjSessionInitializer.openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(file));
 		return Movie.fromFile(openFile);
 	}

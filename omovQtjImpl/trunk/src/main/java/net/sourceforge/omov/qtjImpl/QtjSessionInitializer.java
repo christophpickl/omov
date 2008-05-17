@@ -7,9 +7,9 @@ import quicktime.QTException;
 import quicktime.QTSession;
 
 
-class SessionInitializer {
+public class QtjSessionInitializer {
 	
-    private static final Log LOG = LogFactory.getLog(SessionInitializer.class);
+    private static final Log LOG = LogFactory.getLog(QtjSessionInitializer.class);
 
 	private static boolean isOpened = false;
 	
