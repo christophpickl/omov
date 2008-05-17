@@ -21,6 +21,9 @@ public class Constants {
     /** table background for selected rows */
     private static final Color COLOR_SELECTED_BG = new Color(61, 128, 223);
 
+    /** table background for selected rows without focus */
+    private static final Color COLOR_SELECTED_NOFOCUS_BG = new Color(212, 212, 212);
+
     /** table foreground for selected rows */
     private static final Color COLOR_SELECTED_FG = Color.WHITE;
 
@@ -79,6 +82,10 @@ public class Constants {
     
     public static Color getColorSelectedBackground() {
         return COLOR_SELECTED_BG;
+    }
+    
+    public static Color getColorSelectedBackgroundNoFocus() {
+        return COLOR_SELECTED_NOFOCUS_BG;
     }
     
     public static Color getColorSelectedForeground() {
