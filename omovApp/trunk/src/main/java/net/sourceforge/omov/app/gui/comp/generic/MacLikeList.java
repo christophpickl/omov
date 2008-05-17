@@ -100,6 +100,10 @@ public class MacLikeList extends JList {
 			if (!isSelected && drawStripes) {
 				c.setBackground(rowColors[index & 1]);
 			}
+			if(isSelected == true && list.hasFocus() == false) {
+				c.setForeground(Color.BLACK);
+				c.setBackground(Constants.getColorSelectedBackgroundNoFocus());
+			}
 			return c;
 		}
 	}

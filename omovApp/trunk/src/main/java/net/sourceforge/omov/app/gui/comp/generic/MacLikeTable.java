@@ -99,8 +99,9 @@ public class MacLikeTable extends JXTable implements IMacColors {
         boolean selected = isCellSelected(row, column);
         if (selected) {
             if (focused == false) {
-                c. setBackground(Constants.getColorSelectedBackground());
-                c.setForeground(Constants.getColorLightGray()); // selected, but got no focus
+            	// selected, but got no focus
+                c.setBackground(Constants.getColorSelectedBackgroundNoFocus());
+                c.setForeground(Color.BLACK); 
             } else {
                 c.setBackground(Constants.getColorSelectedBackground());
                 c.setForeground(Constants.getColorSelectedForeground());

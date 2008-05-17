@@ -121,7 +121,15 @@ class TableRenderers {
                 return lbl;
             }
 
-            final Color primaryColor = isSelected ? Constants.getColorSelectedForeground() : null; // null == default (dark gray)
+            final Color primaryColor;
+            if(isSelected == false) {
+            	primaryColor = null; // null == default (dark gray)
+            } else if(table.hasFocus() == true) {
+            	primaryColor = Constants.getColorSelectedForeground();
+            } else {
+            	primaryColor = null;
+            }
+            
             final RatingSlider ratingPanel = new RatingSlider(movie.getRating(), primaryColor);
             ratingPanel.setOpaque(false);
 

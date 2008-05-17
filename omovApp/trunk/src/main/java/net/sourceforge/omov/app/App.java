@@ -40,7 +40,7 @@ CLI ARGs
 
 TODOs
 ==================================
-! wenn window deactivated => farbe ändern wie 10.5
+! wenn window deactivated => farbe aendern wie 10.5
 - gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
 - gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
 - at startup check if folderImage and folderTemporary exists & if its writeable
