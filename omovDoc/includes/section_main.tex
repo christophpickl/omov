@@ -1,0 +1,118 @@
+%%
+% includes/section_main.tex
+% 
+% overwrites all commands to compile to main document containing all subdocuments
+% lowers every section, e.g.: \SEPMsection will be \subection, etc.
+%
+% @author Christoph Pickl - e0525580@student.tuwien.ac.at
+% @since 12/11/2006
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%
+% \SEPMmainsection
+% 
+% inkludiert das angegebene unterdokument und erzeugt ein zwischenblatt mit unterliegendem logo
+% 
+% { <dokumentname> } name des unterdokuments (zb: projektauftrag)
+% { <zwischenblatt anmerkung> } text der unter der ueberschrift auf dem zwischenblatt gedruckt wird
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMmainsection#1#2{
+	\lhead{}
+	~\vspace{3cm}
+	
+	\begin{figure}[htbp]
+		\begin{center}
+		\includegraphics[width=10cm]{images/logo_bg}
+		\end{center}
+	\end{figure}
+	
+	\vspace{-7cm}
+	 \section{#1}
+	#2
+	
+	\vfill
+	\newpage
+	}
+
+%%
+% \SEPMsection
+% 
+% { <kapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsection#1{
+	\subsection{#1}
+	}
+
+%%
+% \SEPMsectionNoToc
+% 
+% dieses kapitel scheint nicht im inhaltsverzeichnis auf
+%
+% { <kapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsectionNoToc#1{
+	\subsection*{#1}
+	}
+
+%%
+% \SEPMsubsection
+% 
+% { <unterkapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsection#1{
+	\subsubsection{#1}
+	}
+
+%%
+% \SEPMsubsectionAlternate
+% 
+% { <unterkapitel name> } titel der ueberschrift
+% { <unterkapitel toc name> } alternative text der im inhaltsverzeichnis angezeigt wird
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsectionAlternate#1#2 {
+	\subsubsection[#2]{#1}
+	}
+
+%%
+% \SEPMsubsectionNoToc
+% 
+% dieses unterkapitel scheint nicht im inhaltsverzeichnis auf
+%
+% { <unterkapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsectionNoToc#1{
+	\subsubsection*{#1}
+	}
+
+%%
+% \SEPMsubsubsection
+% 
+% { <unterunterkapitel name> } titel der ueberschrift
+% @TODO evtl noch leicht anders formatieren, damit von paragraph unterscheidbar -> selbiges ohne TOC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsubsection#1{
+	\paragraph{#1}
+	}
+
+%%
+% \SEPMsubsubsectionNoToc
+% 
+% dieses unterunterkapitel scheint nicht im inhaltsverzeichnis auf
+%
+% { <unterunterkapitel name> } titel der ueberschrift
+% @TODO evtl noch leicht anders formatieren, damit von paragraph unterscheidbar -> selbiges mit TOC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsubsectionNoToc#1{
+	\paragraph{#1} 
+	}
+
+%%
+% \SEPMinit
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMinit#1{
+	\lhead{\leftmark}
+	\SEPMsetfooter{Projekt \textbf{HD Scan}}
+}

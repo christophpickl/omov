@@ -1,0 +1,92 @@
+%%
+% includes/section_individual.tex
+% 
+% overwrites all commands to compile to a single subdocument
+%
+% @author Christoph Pickl - e0525580@student.tuwien.ac.at
+% @since 12/11/2006
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%
+% \SEPMsection
+% 
+% { <kapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsection#1{
+	\section{#1}
+	}
+
+%%
+% \SEPMsectionNoToc
+% 
+% dieses kapitel scheint nicht im inhaltsverzeichnis auf
+%
+% { <kapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsectionNoToc#1{
+	\section*{#1}
+	}
+
+%%
+% \SEPMsubsection
+% 
+% { <unterkapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsection#1{
+	\subsection{#1}
+	}
+
+%%
+% \SEPMsubsectionAlternate
+% 
+% { <unterkapitel name> } titel der ueberschrift
+% { <unterkapitel toc name> } alternative text der im inhaltsverzeichnis angezeigt wird
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsectionAlternate#1#2 {
+	\subsection[#2]{#1}
+	}
+
+%%
+% \SEPMsubsectionNoToc
+% 
+% dieses unterkapitel scheint nicht im inhaltsverzeichnis auf
+%
+% { <unterkapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsectionNoToc#1{
+	\subsection*{#1}
+	}
+
+%%
+% \SEPMsubsubsection
+% 
+% { <unterunterkapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsubsection#1{
+	\subsubsection{#1}
+	}
+
+%%
+% \SEPMsubsubsectionNoToc
+% 
+% dieses unterunterkapitel scheint nicht im inhaltsverzeichnis auf
+%
+% { <unterunterkapitel name> } titel der ueberschrift
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMsubsubsectionNoToc#1{
+	\subsubsection*{#1}
+	}
+
+
+%%
+% \SEPMinit
+% 
+% { <dokumentname> } text der im linken teil des footers angezeigt wird (zb: projektauftrag)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\SEPMinit#1{
+	\lhead{}
+	\SEPMsetfooter{#1}
+}

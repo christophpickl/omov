@@ -1,0 +1,32 @@
+%%
+% includes/commands.tex
+% 
+% provides all necessary commands used to mainly generate standardized output
+%
+% @author Christoph Pickl - e0525580@student.tuwien.ac.at
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%
+% \SEPMimg
+% 
+% inkludiert ein bild ausschliesslich im png format und platziert dieses in der mitte der seite
+% 
+% { <dateiname> } relativer pfad zu dem bild (ohne dem suffix .png)
+% { <breite> } angabe der breite des bildes (hoehe wird proportional zu diesem mass gewaehlt) plus einheitsmass
+% { <label> } interner name der als referenzierung dient
+% { <beschriftung> } text, der unter der abbildung erscheinen soll
+%
+% @usage \SEPMimg{images/anwendungsfaelle}{14cm}{IMG_anwendungsfaelle}{Anwendungsfalldiagramm erstellt mit Dia}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def \SEPMimg #1#2#3#4{
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=#2]{#1}
+		\label{#3}
+		\caption{#4}
+	\end{figure}
+}
+

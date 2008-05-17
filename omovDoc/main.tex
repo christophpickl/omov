@@ -1,0 +1,82 @@
+%%
+% main.tex
+% 
+% @author Christoph Pickl - e0525580@student.tuwien.ac.at
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\include{includes/header}
+\include{includes/commands}
+\include{includes/environments}
+
+
+%\renewcommand{\thesection}{\Roman{section}}
+%\renewcommand{\thesubsection}{\arabic{subsection}}
+%\renewcommand{\thesubsubsection}{\arabic{subsection}.\arabic{subsubsection}}
+
+
+\begin{document}
+
+
+	\begin{titlepage}
+	
+			
+		\begin{center}
+			 
+		
+			~ % dirty hack
+			\vspace{2.0cm}
+			
+			\begin{LARGE}OurMovies v0.5 \end{LARGE}
+			
+			\vspace{0.3cm}
+			
+			\begin{bf}Yet another movie manager\end{bf}
+			
+			\vspace{0.2cm}
+	
+			
+		
+%		\begin{flushleft}
+			
+			\begin{figure}[htbp]
+				\centering
+				\includegraphics[width=7cm]{images/logo_frontpage}
+				\label{IMG_logo}
+			\end{figure}
+
+			\today		
+%			\begin{table}[!h]\begin{center}\begin{tabular}{p{9cm}}
+%		        	\center ``\textit{some text}''
+%		        \end{tabular}\end{center}\end{table}
+			
+			
+%			\vfill
+%		\end{flushleft}
+		\end{center}
+	\end{titlepage}
+	\newpage
+
+\tableofcontents
+\newpage
+
+
+
+\include{chapters/overview}
+
+\include{chapters/look_and_feel}
+\include{chapters/data_model}
+
+\include{chapters/metadata_fetching}
+\include{chapters/smartfolder}
+\include{chapters/import_export}
+\include{chapters/smartcopy}
+\include{chapters/vlc_integration}
+\include{chapters/video_playback}
+\include{chapters/duplicates_finder}
+
+\include{chapters/change_history}
+
+
+\end{document}
