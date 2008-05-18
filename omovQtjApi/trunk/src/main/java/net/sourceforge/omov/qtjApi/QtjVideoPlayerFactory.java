@@ -21,6 +21,10 @@ public class QtjVideoPlayerFactory {
 	private static final String QTJ_PLAYER_CLASSNAME = "net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX";
 	private static final String BO_MOVIE_CLASSNAME = "net.sourceforge.omov.core.bo.Movie";
 	private static final String QT_MOVIE_CLASSNAME = "quicktime.std.movies.Movie";
+
+	private static Constructor<?> constructor;
+	
+	
 	
 	public static boolean isQtjAvailable() {
 		if(videoAvailable == null) {
@@ -41,7 +45,6 @@ public class QtjVideoPlayerFactory {
 		
 	}
 
-	private static Constructor<?> constructor;
 	// TODO outsource Movie/BusinessException into submodule "Bo" or something like this to avoid cycle references
 	public static IQtjVideoPlayer newVideo(Object movie, File movieFile, JFrame owner) throws Exception {
 		assert(isQtjAvailable());
