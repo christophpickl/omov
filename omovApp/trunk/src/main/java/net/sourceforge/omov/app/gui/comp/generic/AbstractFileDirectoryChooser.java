@@ -151,6 +151,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     abstract boolean getIsRightFileOrDir(final File file);
     
     public final void setDefaultPath(File defaultPath) {
+    	LOG.debug("Setting default path to '"+(defaultPath == null ? "null" : defaultPath.getAbsolutePath())+"'.");
         this.defaultPath = defaultPath;
     }
 

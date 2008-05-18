@@ -177,9 +177,9 @@ public class MovieDetailPanel implements IMovieDaoListener {
         if(gridData.length == 0) throw new IllegalArgumentException("gridData empty");
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
-        final JPanel panel = new JPanel(layout);
-        layout.setConstraints(panel, c);
-        panel.setOpaque(false);
+        final JPanel wrapPanel = new JPanel(layout);
+        layout.setConstraints(wrapPanel, c);
+        wrapPanel.setOpaque(false);
 
         c.ipadx = 10;
         c.insets = new Insets(0, 0, 6, 8); // top, left, bottom, right
@@ -189,17 +189,17 @@ public class MovieDetailPanel implements IMovieDaoListener {
         c.fill = GridBagConstraints.NONE;
 
         for (GridDataPair pair : gridData) {
-            addGridDataPair(pair.label, pair.component, panel, c);
+            addGridDataPair(pair.label, pair.component, wrapPanel, c);
         }
 
         // panel.setBackground(Color.RED);
 
         final Dimension dimensionPanel = new Dimension(420, CoverFileType.NORMAL.getMaxHeight());
-        panel.setMaximumSize(dimensionPanel);
-        panel.setPreferredSize(dimensionPanel);
-        panel.setMinimumSize(dimensionPanel);
+        wrapPanel.setMaximumSize(dimensionPanel);
+        wrapPanel.setPreferredSize(dimensionPanel);
+        wrapPanel.setMinimumSize(dimensionPanel);
 
-        return panel;
+        return wrapPanel;
     }
     
     private static JLabel newGridLabel(String txt) {
@@ -212,13 +212,13 @@ public class MovieDetailPanel implements IMovieDaoListener {
         return lbl;
     }
     
-    private void addGridDataPair(String label, Component component, JPanel panel, GridBagConstraints c) {
-        addGridDataComponent(MovieDetailPanel.newGridLabel(label), panel, c);
-        addGridDataComponent(component, panel, c);
+    private void addGridDataPair(String label, Component component, JPanel contentPanel, GridBagConstraints c) {
+        addGridDataComponent(MovieDetailPanel.newGridLabel(label), contentPanel, c);
+        addGridDataComponent(component, contentPanel, c);
     }
     
-    private void addGridDataComponent(Component component, JPanel panel, GridBagConstraints c) {
-        panel.add(component, c);
+    private void addGridDataComponent(Component component, JPanel contentPanel, GridBagConstraints c) {
+        contentPanel.add(component, c);
         
         final int width = (component == this.txtRating) ? 80 : 140;
         final Dimension dimensionPanel = new Dimension(width, 30);

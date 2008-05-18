@@ -47,10 +47,10 @@ public class DateRangeField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        final Date dateFrom = this.dateFrom.getDate();
-        final Date dateTo = this.dateTo.getDate();
-        if(dateFrom == null || dateTo == null) return null;
-        return new Date[] { dateFrom, dateTo };
+        final Date from = this.dateFrom.getDate();
+        final Date to = this.dateTo.getDate();
+        if(from == null || to == null) return null;
+        return new Date[] { from, to };
     }
     
 }

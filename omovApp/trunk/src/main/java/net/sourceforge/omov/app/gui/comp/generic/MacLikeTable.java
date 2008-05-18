@@ -199,10 +199,10 @@ public class MacLikeTable extends JXTable implements IMacColors {
             // Mac OS' Aqua LAF never draws vertical grid lines, so we have to draw them ourselves.
             if (UserSniffer.isMacOSX() && getShowVerticalLines()) {
                 g.setColor(MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR);
-                TableColumnModel columnModel = getColumnModel();
+                TableColumnModel model = getColumnModel();
                 int x = 0;
-                for (int i = 0; i < columnModel.getColumnCount(); ++i) {
-                    TableColumn column = columnModel.getColumn(i);
+                for (int i = 0; i < model.getColumnCount(); ++i) {
+                    TableColumn column = model.getColumn(i);
                     x += column.getWidth();
                     g.drawLine(x - 1, rowCount * rowHeight, x - 1, height);
                 }

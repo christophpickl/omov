@@ -83,6 +83,10 @@ class SmartFolderManageController {
     }
     
     void doDeleteSmartFolder(final SmartFolder folder) {
+    	if(GuiUtil.getYesNoAnswer(this.owner, "Delete SmartFolder", "Do you really want to delete '"+folder.getName()+"'?") == false) {
+    		return;
+    	}
+    		
         try {
             DAO.deleteSmartFolder(folder);
         } catch (BusinessException e) {

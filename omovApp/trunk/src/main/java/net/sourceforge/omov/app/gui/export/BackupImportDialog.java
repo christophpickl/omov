@@ -40,6 +40,7 @@ import net.sourceforge.omov.app.gui.comp.generic.IChooserListener;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
+import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.tools.export.ImportExportConstants;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -72,12 +73,15 @@ public class BackupImportDialog extends JDialog implements ActionListener {
         
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.controller = new BackupImportController(this);
-        
+
+        this.inpFileChooser.setDefaultPath(new File(PreferencesDao.getInstance().getRecentBackupImportPath()));
         this.inpFileChooser.addChooserListener(new IChooserListener() {
             public void doChoosen(final File backupFile) {
                 new GuiAction() {
                     @Override
                     protected void _action() {
+
+                        PreferencesDao.getInstance().setRecentBackupImportPath(backupFile.getParentFile().getAbsolutePath());
                         btnImport.setEnabled(true);
                     }
                 }.doAction();

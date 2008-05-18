@@ -312,7 +312,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 			this.itemReorder.setEnabled(false);
 		}
 		
-		if(this.isAddMode == true || this.editMovie.getFiles().size() == 0) {
+		if(this.isAddMode == true || this.editMovie.isFolderPathSet() == false) {
 			this.itemClear.setEnabled(false);
 		}
 		
@@ -323,6 +323,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 		popupItems.add(this.itemReorder);
 		popupItems.add(this.itemClear);
     	this.folderContextMenu = new ContextMenuButton(popupItems);
+    	this.folderContextMenu.setOpaque(false);
     	
     	
     	final GridBagLayout layout = new GridBagLayout();
@@ -367,14 +368,16 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 	 */
 	private void doFilesClear() {
 		LOG.debug("doFilesClear()");
+		this.itemRescan.setEnabled(false);
 		this.itemReorder.setEnabled(false);
 		this.itemClear.setEnabled(false);
+
+		this.fileSizeKb = 0L;
+		this.files = new ArrayList<String>(0);
 		
 		this.lblPath.setText("");
-		this.files = new ArrayList<String>(0);
 		this.lblFiles.setText("[]");
 		this.lblSize.setText("0.0 KB");
-		this.fileSizeKb = 0L;
 		this.lblFormat.setText("");
 	}
 	
@@ -504,29 +507,21 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         this.lblFormat.setText(folderInfo.getFormat());
         
         this.itemRescan.setEnabled(true);
+        this.itemClear.setEnabled(true);
         
         if(this.files.size() == 0) {
         	this.itemReorder.setEnabled(false);
-        	this.itemClear.setEnabled(false);
         } else if(this.files.size() == 1) {
         	this.itemReorder.setEnabled(false);
-        	this.itemClear.setEnabled(true);
         } else {
         	assert(this.files.size() > 1);
         	this.itemReorder.setEnabled(true);
-        	this.itemClear.setEnabled(true);
+        	
         }
     }
 
     public void notifyFolderCleared() {
-    	this.folderContextMenu.setEnabled(false);
-        this.files = new LinkedList<String>();
-        this.fileSizeKb = 0L;
-
-        this.lblPath.setText("");
-        this.lblFiles.setText("");
-        this.lblSize.setText("");
-        this.lblFormat.setText("");
+        this.doFilesClear();
     }
 
 

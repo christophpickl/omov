@@ -116,9 +116,9 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         GuiUtil.lockOriginalSizeAsMinimum(this);
     }
     
-    private void windowDidActivate(boolean activated) {
+    private void windowDidActivate(boolean didActivate) {
     	LOG.debug("Main window "+(activated ? "activated" : "deactivated")+".");
-    	this.activated = activated;
+    	this.activated = didActivate;
     	this.backgroundPanel.setActive(activated);
     	this.repaint();
     }
@@ -185,8 +185,8 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
 
                         if (event.getClickCount() >= 2) {
                             LOG.debug("Double clicked on table tableRow "+tableRow+" (modelRow "+modelRow+"); displaying editDialog.");
-                            final Movie selectedMovie = moviesModel.getMovieAt(modelRow);
-                            controller.doEditMovie(selectedMovie, newPrevNextMovieProvider());
+                            
+                            controller.doEditMovie(moviesModel.getMovieAt(modelRow), newPrevNextMovieProvider());
                         }
                     }
                 }}.doAction();

@@ -24,10 +24,10 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ImageIcon;
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
+import net.sourceforge.omov.app.gui.comp.generic.MacLikeTable;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 
@@ -38,7 +38,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class ScanHintTable extends JTable {
+class ScanHintTable extends MacLikeTable {
     
     private static final long serialVersionUID = -2976103722587870541L;
     

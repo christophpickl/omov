@@ -196,8 +196,8 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     /****   IMovieTableModel
     /******************************************************************************************************************/
     
-    public void doSearch(String searchTerm) {
-        this.searchTerm = searchTerm;
+    public void doSearch(String givenSearchTerm) {
+        this.searchTerm = givenSearchTerm;
         this.reloadData();
     }
     

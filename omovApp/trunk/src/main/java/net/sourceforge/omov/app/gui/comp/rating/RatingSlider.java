@@ -49,10 +49,10 @@ public class RatingSlider extends JSlider {
         this.setEnabled(true);
         this.setOpaque(false);
         
-        ShapeSliderUI ui = new ShapeSliderUI();
-        if(primaryColor != null) ui.setPrimaryColor(primaryColor);
-        if(secondaryColor != null) ui.setSecondaryColor(secondaryColor);
-        this.setUI(ui); // or with star-outterline: StrokedShapeSliderUI
+        ShapeSliderUI sliderUi = new ShapeSliderUI();
+        if(primaryColor != null) sliderUi.setPrimaryColor(primaryColor);
+        if(secondaryColor != null) sliderUi.setSecondaryColor(secondaryColor);
+        this.setUI(sliderUi); // or with star-outterline: StrokedShapeSliderUI
     }
     
     public int getRating() {

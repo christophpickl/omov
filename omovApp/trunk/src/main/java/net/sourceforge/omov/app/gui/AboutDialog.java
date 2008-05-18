@@ -67,7 +67,7 @@ public class AboutDialog extends JDialog {
         final GridBagConstraints c = new GridBagConstraints();
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 80, 40, 80)); // top, left, bottom, right
+        panel.setBorder(BorderFactory.createEmptyBorder(10, 20, 15, 20)); // top, left, bottom, right
 
 
 //        final JButton logo = new JButton(ImageFactory.getInstance().getAboutLogo());
@@ -93,24 +93,28 @@ public class AboutDialog extends JDialog {
         }
         
         final JLabel title = new JLabel("OurMovies", JLabel.CENTER);
-        title.setFont(new Font("default", Font.BOLD, 13));
+        title.setFont(new Font("default", Font.BOLD, 14));
         final JLabel versionLabel = new JLabel("Version " + BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString(), JLabel.CENTER);
         versionLabel.setFont(new Font("default", Font.PLAIN, 11));
         
         c.anchor = GridBagConstraints.CENTER;
         c.gridx = 0;
 
-        c.insets = new Insets(0, 0, 20, 0); // top, left, bottom, right
+        c.insets = new Insets(0, 0, 2, 0); // top, left, bottom, right
         c.gridy = 0;
-        panel.add(logo, c);
-
-        c.insets = new Insets(0, 0, 6, 0); // top, left, bottom, right
-        c.gridy = 1;
         panel.add(title, c);
 
-        c.insets = new Insets(0, 0, 0, 0); // top, left, bottom, right
-        c.gridy = 2;
+        c.insets = new Insets(0, 0, 8, 0); // top, left, bottom, right
+        c.gridy++;
         panel.add(versionLabel, c);
+
+        c.insets = new Insets(0, 0, 10, 0); // top, left, bottom, right
+        c.gridy++;
+        panel.add(logo, c);
+
+        c.insets = new Insets(0, 0, 0, 0); // top, left, bottom, right
+        c.gridy++;
+        panel.add(new JLabel("<html>http://omov.sourceforge.net &copy; GPL v2</html>"), c);
         
         
         return panel;

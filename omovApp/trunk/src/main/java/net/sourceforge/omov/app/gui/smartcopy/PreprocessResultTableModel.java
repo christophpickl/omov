@@ -39,31 +39,31 @@ class PreprocessResultTableModel extends DefaultTableModel {
     
     private static final String[] COLUMNS = new String[] { "" , "Message" };
     
-    private List<RowData> rowData = new LinkedList<RowData>();
+    private List<RowData> rowDataList = new LinkedList<RowData>();
     
     
     public PreprocessResultTableModel(SmartCopyPreprocessResult result) {
 
         for (String msg : result.getFatalErrors()) {
-            this.rowData.add(new RowData(Severity.ERROR, msg));
+            this.rowDataList.add(new RowData(Severity.ERROR, msg));
         }
         for (String msg : result.getMajorErrors()) {
-            this.rowData.add(new RowData(Severity.WARNING, msg));
+            this.rowDataList.add(new RowData(Severity.WARNING, msg));
         }
         for (String msg : result.getMinorErrors()) {
-            this.rowData.add(new RowData(Severity.INFO, msg));
+            this.rowDataList.add(new RowData(Severity.INFO, msg));
         }
         
         this.fireTableDataChanged();
     }
     
     public int getRowCount() {
-        if(this.rowData == null) return 0;
-        return this.rowData.size();
+        if(this.rowDataList == null) return 0;
+        return this.rowDataList.size();
     }
     
     public Object getValueAt(int row, int col) {
-        final RowData rowData = this.rowData.get(row);
+        final RowData rowData = this.rowDataList.get(row);
         if(col == 0) {
             return ImageFactory.getInstance().getSeverityIcon(rowData.getSeverity());
         }
