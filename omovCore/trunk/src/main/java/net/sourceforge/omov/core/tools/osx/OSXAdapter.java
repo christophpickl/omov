@@ -66,7 +66,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * 
  * @see {@link http://developer.apple.com/samplecode/OSXAdapter/listing3.html}
+ * @author christoph_pickl@users.sourceforge.net
  */
 public class OSXAdapter implements InvocationHandler {
 

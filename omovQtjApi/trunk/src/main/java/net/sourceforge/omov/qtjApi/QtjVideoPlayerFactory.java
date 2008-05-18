@@ -8,7 +8,10 @@ import javax.swing.JFrame;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
+/**
+ * 
+ * @author christoph_pickl@users.sourceforge.net
+ */
 public class QtjVideoPlayerFactory {
 
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerFactory.class);

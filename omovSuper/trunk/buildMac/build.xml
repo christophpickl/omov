@@ -1,3 +1,10 @@
+
+<!--
+  OurMovies - Yet another movie manager
+  Copyright (C) 2008 Christoph Pickl (christoph_pickl@users.sourceforge.net)
+  http://omov.sourceforge.net
+-->
+
 <project name="OurMovies" default="distmac" basedir=".">
 
 	<property name="app.name" value="OurMovies" />
