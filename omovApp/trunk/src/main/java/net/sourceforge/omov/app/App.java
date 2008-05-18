@@ -59,7 +59,6 @@ CLI ARGs
 
 TODOs
 ==================================
-! wenn window deactivated => farbe aendern wie 10.5
 - gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
 - gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
 - at startup check if folderImage and folderTemporary exists & if its writeable
@@ -102,7 +101,7 @@ FEATURES
 - write more external plugins: fetch data from different websites; e.g.:
     - provide list of more selectable cover files  for one movie (fetched by different internet provider)
     - fetch slideshow images from www.apunkachoice.com/movies  App.java
-
+- could popup dialog with result of rescanning one or more movie folders (display what has changed)
 
 -> http://www.theserverside.com/tt/articles/article.tss?l=Insidedb4o
 -> http://db4o-tools.blogspot.com/search/label/db4o

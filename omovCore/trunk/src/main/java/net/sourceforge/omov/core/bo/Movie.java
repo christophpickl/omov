@@ -328,7 +328,26 @@ DATA VERSION HISTORY
                 m.director, m.actors, m.year, m.comment, m.quality, m.dateAdded,
                 m.fileSizeKb, m.folderPath, m.format, m.files, m.duration, m.resolution, m.subtitles);
     }
+    
+    public static Movie newByOtherMovieFolderInfo(Movie m, MovieFolderInfo info) {
+        LOG.debug("Creating movie by other and setting folder info to '"+info+"'.");
+        
+        if(info != null) {
+	        assert(m.folderPath.equals(info.getFolderPath()));
+	        
+	        return new Movie(m.id,
+	                m.title, m.seen, m.rating, m.coverFile, m.genres, m.languages, m.style,
+	                m.director, m.actors, m.year, m.comment, m.quality, m.dateAdded,
+	                info.getFileSizeKB(), m.folderPath, info.getFormat(), info.getFiles(), m.duration, m.resolution, m.subtitles);
+        }
 
+        // reset folder info
+        return new Movie(m.id,
+                m.title, m.seen, m.rating, m.coverFile, m.genres, m.languages, m.style,
+                m.director, m.actors, m.year, m.comment, m.quality, m.dateAdded,
+                0, "", "", new ArrayList<String>(0), m.duration, m.resolution, m.subtitles);
+        
+    }
     /**
      * always keep updatedfields in sync with ImdbMovieData:
      * @param metadata updated fields: title, director, comment, year, duration, genres, actors, coverFile

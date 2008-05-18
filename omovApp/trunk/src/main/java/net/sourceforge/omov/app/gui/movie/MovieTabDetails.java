@@ -90,9 +90,9 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     // popmenu items for folder stuff
     private ContextMenuButton folderContextMenu;
-    private final JMenuItem itemRescan = new JMenuItem("Rescan");
+    private final JMenuItem itemRescan = new JMenuItem("Rescan Folder");
     private final JMenuItem itemReorder = new JMenuItem("Reorder Files");
-    private final JMenuItem itemClear = new JMenuItem("Clear Files");
+    private final JMenuItem itemClear = new JMenuItem("Clear");
     
     private String folderPathOriginally = "";
     
@@ -390,7 +390,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 	
 	private void doFilesRescan() {
 		LOG.debug("doFilesRescan()");
-		this.scanFolder(new File(this.editMovie.getFolderPath()));
+		
+		final String path = this.lblPath.getFullText();
+		// do NOT use this.editMovie, because it could be out-of-date
+		// -> lblPath stores the most recent data (renewed by rescan action)
+		
+		assert(path.length() > 0);
+		this.scanFolder(new File(path));
 	}
 
     private JPanel panelFolderRight() {
@@ -479,11 +485,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 			
 			final String newFolderPath = folderInfo.getFolderPath();
 			if(folderPaths.contains(newFolderPath) == true && this.folderPathOriginally.equals(newFolderPath) == false) {
-				GuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!");
+				GuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
 				return;
 			}
 		} catch (BusinessException e) {
 			LOG.error("Could not check existing folder paths!");
+			GuiUtil.error(this.owner, "Scan Folder Error", "Could not scan folder due to an interal error!");
+			return;
 		}
         
 		this.folderContextMenu.setEnabled(true);
@@ -494,6 +502,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         this.lblFiles.setText(Arrays.toString(folderInfo.getFiles().toArray()));
         this.lblSize.setText(FileUtil.formatFileSize(folderInfo.getFileSizeKB()));
         this.lblFormat.setText(folderInfo.getFormat());
+        
+        this.itemRescan.setEnabled(true);
         
         if(this.files.size() == 0) {
         	this.itemReorder.setEnabled(false);

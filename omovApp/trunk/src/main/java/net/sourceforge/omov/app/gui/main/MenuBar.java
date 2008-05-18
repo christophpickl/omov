@@ -114,6 +114,9 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
 
     private static final String LBL_FIND_DUPLICATES = "Find Duplicates";
     private static final String CMD_FIND_DUPLICATES = "CMD_FIND_DUPLICATES";
+
+    private static final String LBL_RESCAN_FOLDERS = "Rescan Folder(s)";
+    private static final String CMD_RESCAN_FOLDERS = "CMD_RESCAN_FOLDERS";
     
     private static final String LBL_PREFERENCES = "Preferences...";
     private static final String CMD_PREFERENCES = "CMD_PREFERENCES";
@@ -133,6 +136,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private JMenuItem itemMovieFetchMetadata;
     private JMenuItem itemMovieRevealFinder;
     private JMenuItem itemMoviePlayVlc;
+    private JMenuItem itemRescanFolders;
     
     
     
@@ -205,6 +209,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this);
         
+        this.itemRescanFolders = GuiUtil.createMenuItem(menu, 'R', LBL_RESCAN_FOLDERS, CMD_RESCAN_FOLDERS, this);
+        
 //      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
         if(UserSniffer.isMacOSX() == false) { // Mac OS X got its own preferences menuitem in a system-own menu
@@ -266,6 +272,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
                 controller.doRevealMovie();
             } else if(cmd.equals(CMD_MOVIE_PLAY_VLC)) {
                 controller.doPlayVlc();
+            } else if(cmd.equals(CMD_RESCAN_FOLDERS)) {
+                controller.doRescanFolders();
 //            } else if(cmd.equals(CMD_REMOTE)) {
 //                this.controller.doRemoteConnect();
             } else {
@@ -386,12 +394,15 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         return this.quitItem;
     }
 
+    
+    
     public void selectionEmptyChanged() {
         this.itemMovieInfo.setText(LBL_MOVIE_INFO);
         this.itemMovieDelete.setText(LBL_MOVIE_DELETE);
         
         this.itemMovieDelete.setEnabled(false);
         this.itemMovieInfo.setEnabled(false);
+        this.itemRescanFolders.setEnabled(false);
         
         this.itemMovieFetchMetadata.setEnabled(false);
         if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(false);
@@ -404,6 +415,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         this.itemMovieDelete.setEnabled(true);
         this.itemMovieInfo.setEnabled(true);
+        this.itemRescanFolders.setEnabled(true);
         
         this.itemMovieFetchMetadata.setEnabled(true);
         if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(true);
@@ -416,6 +428,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         this.itemMovieDelete.setEnabled(true);
         this.itemMovieInfo.setEnabled(true);
+        this.itemRescanFolders.setEnabled(true);
         
         this.itemMovieFetchMetadata.setEnabled(false);
         if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(false);

@@ -46,6 +46,7 @@ import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.core.bo.MovieFolderInfo;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.VersionedMovies;
@@ -55,6 +56,7 @@ import net.sourceforge.omov.core.tools.export.ImportExportConstants;
 import net.sourceforge.omov.core.tools.osx.FinderReveal;
 import net.sourceforge.omov.core.tools.remote.IRemoteDataReceiver;
 import net.sourceforge.omov.core.tools.remote.RemoteServer;
+import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.FileUtil;
@@ -68,7 +70,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public final class MainWindowController extends CommonController implements IRemoteDataReceiver {
+public final class MainWindowController extends CommonController<Movie> implements IRemoteDataReceiver {
 
     private static final Log LOG = LogFactory.getLog(MainWindowController.class);
     
@@ -428,6 +430,44 @@ public final class MainWindowController extends CommonController implements IRem
         }
     }
     
+    public void doRescanFolders() {
+    	LOG.info("doRescanFolders()");
+    	
+        final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
+            GuiUtil.warning(this.mainWindow, "Rescan Folder(s)", "Not any movie was selected.");
+            return;
+        }
+        
+        final IMovieDao dao = BeanFactory.getInstance().getMovieDao();
+        for (Movie movie : selectedMovies) {
+        	LOG.debug("Try to rescan " + movie);
+        	if(movie.isFolderPathSet() == false) {
+        		LOG.debug("Skipping movie because folderpath is not set.");
+        		continue;
+        	}
+        	
+        	final File folder = new File(movie.getFolderPath());
+        	LOG.debug("Rescanning folder '"+folder.getAbsolutePath()+"' (exists="+folder.exists()+").");
+        	final Movie rescannedMovie;
+        	if(folder.exists() == false) {
+        		rescannedMovie = Movie.newByOtherMovieFolderInfo(movie, null);
+        	} else {
+        		MovieFolderInfo folderInfo = Scanner.scanMovieFolderInfo(folder);
+        		rescannedMovie = Movie.newByOtherMovieFolderInfo(movie, folderInfo);
+        	}
+        	if(movie.equals(rescannedMovie) == false) {
+	        	try {
+					dao.updateMovie(rescannedMovie);
+				} catch (BusinessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+		}
+    }
     
     public void doShowPreferences() {
         if(this.preferencesWindow == null) {

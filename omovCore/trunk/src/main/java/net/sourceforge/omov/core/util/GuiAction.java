@@ -29,6 +29,8 @@ public abstract class GuiAction {
             this._action();
         } catch(NoClassDefFoundError e) {
         	SimpleGuiUtil.handleFatalException(e);
+        } catch(NullPointerException e) {
+        	SimpleGuiUtil.handleFatalException(e);
         } catch(Exception e) {
         	SimpleGuiUtil.handleFatalException(e);
         }
