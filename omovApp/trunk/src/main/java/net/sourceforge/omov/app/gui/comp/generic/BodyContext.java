@@ -34,6 +34,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.omov.core.util.GuiAction;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -141,21 +143,25 @@ public class BodyContext extends MouseAdapter implements ActionListener, KeyList
         }
     }
     
-    public void actionPerformed(ActionEvent event) {
-        JMenuItem item = (JMenuItem) event.getSource();
-        LOG.debug("actionPerformed(cmd="+item.getActionCommand()+"; row="+this.tableRowSelected+"; selection=" + (wasPopupShownSingle?"single":"multiple")+")");
-        
-        if(event.getModifiers() == ActionEvent.META_MASK) {
-            LOG.debug("Ignoring performed action because modifier indicates that right button was clicked.");
-            return;
-        }
-        
-        
-        if(this.wasPopupShownSingle == true) {
-            this.listener.contextMenuClicked(item, this.tableRowSelected);
-        } else {
-            this.listener.contextMenuClickedMultiple(item, this.table.getSelectedRows());
-        }
+    public void actionPerformed(final ActionEvent event) {
+    	new GuiAction() {
+			@Override
+			protected void _action() {
+				JMenuItem item = (JMenuItem) event.getSource();
+		        LOG.debug("actionPerformed(cmd="+item.getActionCommand()+"; row="+tableRowSelected+"; selection=" + (wasPopupShownSingle?"single":"multiple")+")");
+		        
+		        if(event.getModifiers() == ActionEvent.META_MASK) {
+		            LOG.debug("Ignoring performed action because modifier indicates that right button was clicked.");
+		            return;
+		        }
+		        
+		        if(wasPopupShownSingle == true) {
+		            listener.contextMenuClicked(item, tableRowSelected);
+		        } else {
+		            listener.contextMenuClickedMultiple(item, table.getSelectedRows());
+		        }
+			}
+    	}.doAction();
     }
     
 

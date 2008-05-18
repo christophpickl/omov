@@ -50,15 +50,15 @@ public class Db4oMovieTest extends TestCase {
     
     public void testInsert() throws BusinessException {
         final int expectedSize = this.dao.getMovies().size() + 1;
-        this.dao.insertMovie(Movie.getDummy("Das ist ein dummy movie in Db4oMovieTest (insert)"));
+        this.dao.insertMovie(newDummy("Das ist ein dummy movie in Db4oMovieTest (insert)"));
         
         assertEquals(expectedSize, this.dao.getMovies().size());
     }
     
     public void testInsertId() throws BusinessException {
-        final Movie insertedMovie1 = this.dao.insertMovie(Movie.getDummy("Das ist ein dummy movie in Db4oMovieTest (insertid1)"));
+        final Movie insertedMovie1 = this.dao.insertMovie(newDummy("Das ist ein dummy movie in Db4oMovieTest (insertid1)"));
         final long expectedNextId = insertedMovie1.getId() + 1;
-        final Movie insertedMovie2 = this.dao.insertMovie(Movie.getDummy("Das ist ein dummy movie in Db4oMovieTest (insertid2)"));
+        final Movie insertedMovie2 = this.dao.insertMovie(newDummy("Das ist ein dummy movie in Db4oMovieTest (insertid2)"));
         
         assertEquals(expectedNextId, insertedMovie2.getId());
     }
@@ -67,4 +67,9 @@ public class Db4oMovieTest extends TestCase {
 //        final Movie insertMovie = Movie.newByScan("junit test", 12, "path");
 //        
 //    }
+    
+
+    private static Movie newDummy(String title) {
+        return Movie.create(-1).title(title).year(2008).get();
+    }
 }

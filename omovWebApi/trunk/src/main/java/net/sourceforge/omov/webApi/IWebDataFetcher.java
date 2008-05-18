@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.webdata.WebSearchResult;
 
 
 //FEATURE websearch: maybe automatically check HOST + "/robots.txt" for permission?!

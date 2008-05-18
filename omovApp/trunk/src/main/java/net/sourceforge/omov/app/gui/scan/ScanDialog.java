@@ -65,9 +65,9 @@ import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.webApi.IWebDataFetcher;
+import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -316,12 +316,11 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     private void doScanStarted() {
         final File scanRoot = this.inpScanRoot.getSelectedDirectory();
-        final IWebExtractor extractor = this.inpFetchMetadata.isSelected() ? new WebImdbExtractor() : null; // FEATURE websearch: make webextractor configurable
         this.btnScan.setEnabled(false);
         this.btnImport.setEnabled(false);
         this.getRootPane().setDefaultButton(this.btnImport);
 
-        controller.doScan(scanRoot, extractor);
+        controller.doScan(scanRoot, this.inpFetchMetadata.isSelected());
     }
 
     void doScanCompleted(List<ScannedMovie> scannedMovies, List<ScanHint> hints) {

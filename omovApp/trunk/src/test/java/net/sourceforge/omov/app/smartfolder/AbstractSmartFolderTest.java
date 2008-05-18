@@ -207,7 +207,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
         
         final List<Movie> movies = this.fetchMovies(matchAll, criteria);
         
-        assertEquals(1, movies.size());
+        assertEquals(this.fetchAllMovies().size()+" movies stored.", 1, movies.size());
         return movies.get(0);
     }
     

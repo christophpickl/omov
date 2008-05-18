@@ -37,8 +37,9 @@ import net.sourceforge.omov.core.tools.scan.ScanThread;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
 import net.sourceforge.omov.core.util.CoverUtil;
+import net.sourceforge.omov.webApi.IWebDataFetcher;
+import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -47,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class ScanDialogController extends CommonController implements IScanListener {
+class ScanDialogController extends CommonController<ScannedMovie> implements IScanListener {
 
     private static final Log LOG = LogFactory.getLog(ScanDialogController.class);
     
@@ -187,7 +188,7 @@ class ScanDialogController extends CommonController implements IScanListener {
         
     }
     
-    public void doScan(final File scanRoot, final IWebExtractor webExtractor) {
+    public void doScan(final File scanRoot, final boolean useWebExtractor) { // IWebDataFetcher webExtractor) {
         if(scanRoot == null || scanRoot.exists() == false || scanRoot.isDirectory() == false) {
             GuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
             return;
@@ -197,6 +198,7 @@ class ScanDialogController extends CommonController implements IScanListener {
         final boolean insertDatabase = false;
         
         try {
+        	final IWebDataFetcher webExtractor = useWebExtractor ? WebDataFetcherFactory.newWebDataFetcher() : null; // FEATURE websearch: make webextractor configurable
             // MANTIS [8] scanner: make scanner type configurable as plug-in
             final IScanner scanner = new Scanner(this, scanRoot, insertDatabase, webExtractor);
             
@@ -207,23 +209,30 @@ class ScanDialogController extends CommonController implements IScanListener {
             this.scanThread.start();
             
         } catch (Exception e) {
-            LOG.error("Scanning  failed! insertDatabase='"+insertDatabase+"'; webExtractor='"+webExtractor+"'; scanRoot='"+scanRoot.getAbsolutePath()+"'", e);
+            LOG.error("Scanning  failed! insertDatabase='"+insertDatabase+"'; useWebExtractor='"+useWebExtractor+"'; scanRoot='"+scanRoot.getAbsolutePath()+"'", e);
             GuiUtil.error(this.dialog, "Scan failed", "Performing scan on folder '"+scanRoot.getName()+"' failed!");
         }
     }
     
     public void doFetchMetaData(ScannedMovie movieFetchingData) {
-        final Movie metadataEnhancedMovie = this._doFetchMetaData(this.dialog, movieFetchingData);
+    	this._doFetchMetaData(this.dialog.getOwner(), movieFetchingData); // this method will invoke didFetchedMetaData afterwards
+    }
+    
+	@Override
+	protected void didFetchedMetaData(ScannedMovie movieFetchingData, Movie metadataEnhancedMovie) {
         if(metadataEnhancedMovie == null) {
             return;
         }
         
         final ScannedMovie confirmedScannedMovie = ScannedMovie.updateByMetadataMovie(movieFetchingData, metadataEnhancedMovie);
         this.dialog.updateScannedMovie(confirmedScannedMovie);
-    }
+	}
     
+	
     public void doRemoveMetaData(ScannedMovie scannedMovie) {
         final ScannedMovie confirmedScannedMovie = ScannedMovie.clearMetadataMovie(scannedMovie);
         this.dialog.updateScannedMovie(confirmedScannedMovie);
     }
+
+
 }

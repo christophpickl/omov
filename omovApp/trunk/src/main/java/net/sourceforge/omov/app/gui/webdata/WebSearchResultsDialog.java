@@ -54,9 +54,10 @@ import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebSearchResult;
+import net.sourceforge.omov.core.util.StringUtil;
+import net.sourceforge.omov.webApi.IWebDataFetcher;
+import net.sourceforge.omov.webApi.WebDataFetcherFactory;
+import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -70,22 +71,27 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     private static final Log LOG = LogFactory.getLog(WebSearchResultsDialog.class);
     private static final long serialVersionUID = -9157261964634920565L;
 
-    private final JList list = new JList();
-    private final ListModel listModel;
-    private boolean actionConfirmed = false;
-    
-    private final Map<WebSearchResult, ImdbMovieDataPanel> searchResultPanels;
-
-    private final JPanel detailPanelWrapper = new JPanel();
-
-
-    private final JButton btnFetchDetailData = new JButton("Fetch data");
-    private final JButton btnConfirm = new JButton("Update");
+    private static final int RESULTS_LIST_MAX_CHARS = 50;
+    private static final int RESULTS_LIST_VISIBLE_ROWS = 6;
 
     private static final Font FETCHED_FONT = new Font("default", Font.PLAIN, 12);
     private static final Font UNFETCHED_FONT = new Font("default", Font.BOLD, 12);
     
-    public WebSearchResultsDialog(JFrame owner, List<WebSearchResult> results) {
+    
+    
+    
+    private boolean actionConfirmed = false;
+    
+    private final Map<WebSearchResult, ImdbMovieDataPanel> searchResultPanels = new HashMap<WebSearchResult, ImdbMovieDataPanel>();
+    private final JList resultsList = new JList();
+    private final ListModel resultsListModel;
+    private final JPanel detailPanelWrapper = new JPanel();
+    private final JButton btnFetchDetailData = new JButton("Fetch data");
+    private final JButton btnConfirm = new JButton("Update");
+    
+    
+    
+    public WebSearchResultsDialog(JFrame owner, List<WebSearchResult> webSearchResults) {
         super(owner);
         this.setModal(true);
         this.setTitle("Metadata Search");
@@ -97,25 +103,30 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
             }
         });
         
-        this.searchResultPanels = new HashMap<WebSearchResult, ImdbMovieDataPanel>(results.size());
         this.btnFetchDetailData.setEnabled(false); // disable when dialog gets visible
         
-        this.listModel = new ListModel(results);
-        this.list.setModel(this.listModel);this.list.setVisibleRowCount(4);
-        this.list.setCellRenderer(new OmovListCellRenderer() {
+        this.resultsListModel = new ListModel(webSearchResults);
+        this.resultsList.setModel(this.resultsListModel);
+        this.resultsList.setVisibleRowCount(RESULTS_LIST_VISIBLE_ROWS);
+        this.resultsList.setCellRenderer(new OmovListCellRenderer() {
             private static final long serialVersionUID = -8351623948857154558L;
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component superComponent = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-                WebSearchResult searchResult = listModel.getResultAt(index);
-                
+                WebSearchResult searchResult = resultsListModel.getResultAt(index);
+                // render cells which were already fetched in non-bold font
                 superComponent.setFont(searchResultPanels.get(searchResult) == null ? UNFETCHED_FONT : FETCHED_FONT );
+                
+                String oldLabel = (String) value;
+                String newLabel = StringUtil.enforceMaxWidth(oldLabel, RESULTS_LIST_MAX_CHARS);
+                JLabel label = (JLabel) superComponent;
+                label.setText(newLabel);
                 
                 return superComponent;
             }
         });
         
-        this.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        this.list.addListSelectionListener(new ListSelectionListener() {
+        this.resultsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.resultsList.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
                 if(event.getValueIsAdjusting() == false) {
                     doSelectionChanged();
@@ -133,9 +144,9 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     }
     
     private void doSelectionChanged() {
-        final int row = this.list.getSelectedIndex();
+        final int row = this.resultsList.getSelectedIndex();
         // ??? handle row -1 ???
-        final WebSearchResult result = this.listModel.getResultAt(row);
+        final WebSearchResult result = this.resultsListModel.getResultAt(row);
         final ImdbMovieDataPanel cachedPanel = this.searchResultPanels.get(result);
         if(cachedPanel != null) {
             LOG.info("selection changed to already fetched searchresult (searchresult="+result+").");
@@ -167,7 +178,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
 
-        this.btnFetchDetailData.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent arg0) {
+        this.btnFetchDetailData.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) {
             doFetchDetailData();
         }});
         this.btnFetchDetailData.setOpaque(false);
@@ -184,7 +195,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         c.anchor = GridBagConstraints.CENTER;
         c.insets = new Insets(0, 0, 4, 0); // margin between list of movies and btn fetch
         c.gridy++;
-        panel.add(new JScrollPane(this.list), c);
+        panel.add(new JScrollPane(this.resultsList), c);
 
         c.fill = GridBagConstraints.NONE;
         c.anchor = GridBagConstraints.FIRST_LINE_START;
@@ -208,11 +219,11 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     
     
     private void doFetchDetailData() {
-        if(this.list.getSelectedIndex() < 0) {
+        if(this.resultsList.getSelectedIndex() < 0) {
             return;
         }
 
-        final WebSearchResult searchResult = this.listModel.getResultAt(this.list.getSelectedIndex());
+        final WebSearchResult searchResult = this.resultsListModel.getResultAt(this.resultsList.getSelectedIndex());
         assert(this.searchResultPanels.get(searchResult) == null); // assert nothing yet stored for this entry
         
         final WebFetchingProgress progressDialog = new WebFetchingProgress(this, this, searchResult);
@@ -244,7 +255,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         
         this.updateDetailPanel(panel);
         this.btnFetchDetailData.setEnabled(false);
-        this.list.repaint(); // fetched movie entry's title should not be painted bold anymore
+        this.resultsList.repaint(); // fetched movie entry's title should not be painted bold anymore
     }
     
     private void updateDetailPanel(ImdbMovieDataPanel panel) {
@@ -295,14 +306,14 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     public Movie getMovie() {
         assert(this.isActionConfirmed());
         
-        final int row = this.list.getSelectedIndex();
-        final WebSearchResult searchResult = this.listModel.getResultAt(row);
+        final int row = this.resultsList.getSelectedIndex();
+        final WebSearchResult searchResult = this.resultsListModel.getResultAt(row);
         return this.searchResultPanels.get(searchResult).getMovie();
     }
     
     
     public static void main(String[] args) throws BusinessException {
-        IWebExtractor ex = new WebImdbExtractor();
+        IWebDataFetcher ex = WebDataFetcherFactory.newWebDataFetcher();
         List<WebSearchResult> result = ex.search("Matrix");
         
         WebSearchResultsDialog dialog = new WebSearchResultsDialog(null, result);
@@ -322,6 +333,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         private final List<WebSearchResult> data;
         
         public ListModel(List<WebSearchResult> data) {
+        	if(data == null) throw new NullPointerException("data");
             this.data = data;
         }
         

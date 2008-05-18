@@ -50,6 +50,14 @@ public class StringUtil {
         return withLineFeeds.replaceAll("\n", "\\\\n");
     }
     
+    public static String enforceMaxWidth(String text, int maxWidth) {
+    	if(text.length() <= maxWidth) {
+    		return text;
+        }
+    	
+    	return text.substring(0, maxWidth) + "...";
+    }
+    
 //    private static final NeedlemanWunch NEEDLEMAN_WUNCH = new NeedlemanWunch();
 //    /**
 //     * @see StringSimilarity#needleman()

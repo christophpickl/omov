@@ -1,24 +1,6 @@
-/*
- * OurMovies - Yet another movie manager
- * Copyright (C) 2008 Christoph Pickl (christoph_pickl@users.sourceforge.net)
- * 
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License
- * as published by the Free Software Foundation; either version 2
- * of the License, or (at your option) any later version.
- * 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- */
-
 package net.sourceforge.omov.app.gui.webdata;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -31,37 +13,32 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.webApi.WebSearchResult;
+import net.sourceforge.omov.core.bo.Movie;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- * 
- * @author christoph_pickl@users.sourceforge.net
- */
-class WebFetchingProgress extends JDialog {
+public class WebSearchProgress<N extends Movie> extends JDialog {
 
-    private static final Log LOG = LogFactory.getLog(WebFetchingProgress.class);
-    private static final long serialVersionUID = -3610540267639682892L;
+    private static final Log LOG = LogFactory.getLog(WebSearchProgress.class);
+	private static final long serialVersionUID = -5671264355595639975L;
+
+	private boolean aborted = false;
     
-    private boolean aborted = false;
+    private final WebSearchWorker<N> worker;
     
-    private final FetchWebDetailWorker worker;
-    
-    public WebFetchingProgress(JDialog owner, IFetchedWebDetail fetchedDetailListener, WebSearchResult searchResult) {
-        super(owner, "Fetching Metadata", true);
-        
-        GuiUtil.macSmallWindow(this.getRootPane());
-        
+	public WebSearchProgress(JFrame owner, Component parent, N movieFetchingData, IWebSearchWorkerListener<N> listener) {
+		super(owner, "Fetching Metadata", true);
+		GuiUtil.macSmallWindow(this.getRootPane());
+
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent event) {
@@ -74,13 +51,24 @@ class WebFetchingProgress extends JDialog {
         this.setResizable(false);
         GuiUtil.setCenterLocation(this);
         
-        
-        this.worker = new FetchWebDetailWorker(this, searchResult, fetchedDetailListener);
+        this.worker = new WebSearchWorker<N>(this, listener, movieFetchingData, parent);
         LOG.debug("worker.execute();");
         this.worker.execute();
+	}
+    
+    private void doCancel() {
+        LOG.info("User canceled fetching detail metadata");
+        this.worker.cancel(true);
+        this.aborted = true;
+        this.dispose();
     }
     
+    public boolean isAborted() {
+        return this.aborted;
+    }
+
     private JPanel initComponents() {
+    	// TODO duplicate code: see WebFetchingProgress
         final JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         progressBar.setPreferredSize(new Dimension(200, 30));
@@ -107,7 +95,7 @@ class WebFetchingProgress extends JDialog {
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
-        panel.add(new JLabel("Downloading data..."), c);
+        panel.add(new JLabel("Looking up movies..."), c);
 
         c.anchor = GridBagConstraints.LINE_START;
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -127,16 +115,4 @@ class WebFetchingProgress extends JDialog {
 
         return panel;
     }
-    
-    private void doCancel() {
-        LOG.info("User canceled fetching detail metadata");
-        this.worker.cancel(true);
-        this.aborted = true;
-        this.dispose();
-    }
-    
-    public boolean isAborted() {
-        return this.aborted;
-    }
-
 }

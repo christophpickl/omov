@@ -1,13 +1,14 @@
-package net.sourceforge.omov.webImpl;
+package net.sourceforge.omov.webApi;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 
 /**
+ * Value class, storing results of websearch (by movie title).
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class WebSearchResult {
+public class WebSearchResult { // FIXME rename class to something like "WebSearchTarget"
     
     private final String label;
     

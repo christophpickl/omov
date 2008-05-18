@@ -7,8 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebSearchResult;
+import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

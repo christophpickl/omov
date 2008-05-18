@@ -19,16 +19,16 @@
 
 package net.sourceforge.omov.app.gui;
 
-import java.awt.Component;
 import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import net.sourceforge.omov.app.gui.webdata.IWebSearchWorkerListener;
+import net.sourceforge.omov.app.gui.webdata.WebSearchProgress;
 import net.sourceforge.omov.app.gui.webdata.WebSearchResultsDialog;
-import net.sourceforge.omov.app.util.GuiUtil;
-import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebSearchResult;
+import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,30 +37,42 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class CommonController {
-
+public abstract class CommonController<M extends Movie> implements IWebSearchWorkerListener<M> {	
+	
     private static final Log LOG = LogFactory.getLog(CommonController.class);
     
-    protected Movie _doFetchMetaData(Component parent, Movie movieFetchingData) {
+    protected void _doFetchMetaData(JFrame owner, M movieFetchingData) {
         LOG.info("fetching metadata for movie '"+movieFetchingData+"'.");
-        IWebExtractor ex = new WebImdbExtractor();
-        List<WebSearchResult> result;
-        try {
-            result = ex.search(movieFetchingData.getTitle());
-        } catch (BusinessException e) {
-            LOG.error("Could not fetch movie details for movie '"+movieFetchingData+"'!", e);
-            GuiUtil.error(parent, "Fetching Metadata Failed", "Could not get metadta for movie '"+movieFetchingData.getTitle()+"'!\nPlease check your internet connection.");
-            return null;
-        }
         
+        final WebSearchProgress<M> progressDialog = new WebSearchProgress<M>(owner, owner, movieFetchingData, this);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                progressDialog.setVisible(true); // will invoke didSearchByTitle later on
+            }
+        });
+    }
+    
+    public final void didSearchByTitle(boolean wasCancelled, List<WebSearchResult> result, M movieFetchingData, Exception thrownException) {
+    	LOG.debug("didSearchByTitle(wasCancelled="+wasCancelled+",result.size="+(result == null ? "null" : result.size())+")");
+    	if(wasCancelled == true) {
+    		return;
+    	}
+    	
         final WebSearchResultsDialog dialog = new WebSearchResultsDialog(null, result);
         dialog.setVisible(true);
         
         if(dialog.isActionConfirmed()) {
             final Movie newMovie = dialog.getMovie();
             LOG.info("Confirmed new metadata for movie '"+newMovie+"'");
-            return newMovie;
+            this.didFetchedMetaData(movieFetchingData, newMovie);
+        } else {
+        	this.didFetchedMetaData(movieFetchingData, null);
         }
-        return null;
     }
+    
+    /**
+     * 
+     * @param movie can be null
+     */
+    protected abstract void didFetchedMetaData(M movieFetchingData, Movie metadataEnhancedMovie);
 }

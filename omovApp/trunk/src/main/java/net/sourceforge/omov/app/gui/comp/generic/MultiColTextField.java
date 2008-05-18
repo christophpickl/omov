@@ -25,6 +25,8 @@ import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import net.sourceforge.omov.core.util.StringUtil;
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
@@ -63,16 +65,7 @@ public class MultiColTextField extends JLabel {
     @Override
     public void setText(String text) {
     	this.realText = text;
-    	
-    	
-        final String limitedText;
-        if(text.length() > this.visibleTextColumns) {
-        	limitedText = text.substring(0, this.visibleTextColumns) + "...";
-        } else {
-        	limitedText = text;
-        }
-//        LOG.debug("Setting text to '"+limitedText+"' and (visibleTextColumns="+visibleTextColumns+") tooltip to '"+text+"'.");
-        super.setText(limitedText);
+        super.setText(StringUtil.enforceMaxWidth(text, this.visibleTextColumns));
         
         if(text.length() == 0) {
         	this.setToolTipText(null);

@@ -22,9 +22,9 @@ package net.sourceforge.omov.app.gui.webdata;
 import javax.swing.JDialog;
 
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebSearchResult;
+import net.sourceforge.omov.webApi.IWebDataFetcher;
+import net.sourceforge.omov.webApi.WebDataFetcherFactory;
+import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -55,7 +55,7 @@ public class FetchWebDetailWorker extends SwingWorker<Movie, String> {
         LOG.debug("doInBackground() started");
         
         try {
-            final IWebExtractor ex = new WebImdbExtractor();
+            final IWebDataFetcher ex = WebDataFetcherFactory.newWebDataFetcher();
             LOG.info("Fetching details for searchresult '"+searchResult+"'");
             this.movie = ex.getDetails(searchResult, true);
         } catch(Exception e) {

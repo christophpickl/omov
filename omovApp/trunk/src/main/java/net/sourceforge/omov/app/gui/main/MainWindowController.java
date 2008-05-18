@@ -315,7 +315,11 @@ public final class MainWindowController extends CommonController implements IRem
         }
     }
     public void doFetchMetaData(Movie movieFetchingData) {
-        final Movie metadataEnhancedMovie = this._doFetchMetaData(this.mainWindow, movieFetchingData);
+    	this._doFetchMetaData(this.mainWindow, movieFetchingData); // this method will invoke didFetchedMetaData afterwards
+    }
+
+	@Override
+	protected void didFetchedMetaData(Movie movieFetchingData, Movie metadataEnhancedMovie) {
         if(metadataEnhancedMovie == null) {
             return;
         }
@@ -331,7 +335,9 @@ public final class MainWindowController extends CommonController implements IRem
             GuiUtil.error(this.mainWindow, "Edit with Metadata failed", "Could not enhance movie '" + updatedMovie.getTitle()
                     + "' with given metadata!");
         }
-    }
+	}
+	
+	
     
     public void doRevealMovie(Movie movie) {
         assert(UserSniffer.isMacOSX());

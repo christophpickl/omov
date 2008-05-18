@@ -80,7 +80,8 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /******************************************************************************************************************/
     
     public void testEqualsTitle() throws Exception {
-        final String expectedTitle = "IndePEndence day";
+        final String expectedTitle = "IndePEndence day"; // TODO does only work with db4o-hack
+//    	final String expectedTitle = MOVIE_INDEPENDENCE_DAY.getTitle();
         final TextCriterion criterion= TextCriterion.newTitle(TextMatch.newEquals(expectedTitle));
         final Movie movie = this.checkOneExisting(criterion);
         

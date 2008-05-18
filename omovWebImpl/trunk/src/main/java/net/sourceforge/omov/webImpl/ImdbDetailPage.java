@@ -5,7 +5,6 @@ import java.util.Set;
 
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
 import net.sourceforge.omov.core.util.CollectionUtil;
 
 import org.apache.commons.logging.Log;
@@ -219,7 +218,7 @@ class ImdbDetailPage extends NodeVisitor {
             LOG.debug("Setting movie genres to '"+CollectionUtil.toString(genres)+"'.");
             this.movieData.setGenres(genres);
 
-        } else if(lbl.equals("Plot Outline:")) {
+        } else if(lbl.equals("Plot Outline:") || lbl.equals("Plot:")) {
             final String comment = infoTag.getChildren().elementAt(2).getText().trim();
             LOG.debug("setting comment to '"+comment+"'.");
             this.movieData.setComment(comment);

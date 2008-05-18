@@ -26,10 +26,10 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebSearchResult;
 import net.sourceforge.omov.core.util.CollectionUtil;
+import net.sourceforge.omov.webApi.IWebDataFetcher;
+import net.sourceforge.omov.webApi.WebDataFetcherFactory;
+import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,7 +60,7 @@ public class ImdbTest extends TestCase {
         expectedUrls.add("http://imdb.com/title/tt0357791/");
         expectedUrls.add("http://imdb.com/title/tt0818604/");
         
-        IWebExtractor ex = new WebImdbExtractor();
+        IWebDataFetcher ex = WebDataFetcherFactory.newWebDataFetcher();
         List<WebSearchResult> result = ex.search(search);
         
         final List<String> actualUrls = new LinkedList<String>();
@@ -80,7 +80,7 @@ public class ImdbTest extends TestCase {
         
         final Movie expected = Movie.create(-1).title(title).genres(genres).director(director).comment(comment).year(year).actors(actors).duration(duration).get();
         
-        final IWebExtractor ex = new WebImdbExtractor();
+        final IWebDataFetcher ex = WebDataFetcherFactory.newWebDataFetcher();
         LOG.info("Fetching details for independence day.");
         final Movie actual = ex.getDetails(new WebSearchResult("", detailPageUrl), false);
         

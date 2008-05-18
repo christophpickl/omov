@@ -89,6 +89,10 @@ public class MovieCreator {
             LOG.debug("rating was default value -1, setting to 0.");
             this.rating = 0;
         }
+        if(this.year == -1) {
+            LOG.debug("year was default value -1, setting to 0.");
+            this.year = 0;
+        }
         if(this.style == null) {
             LOG.debug("style was null, setting to empty string.");
             this.style = "";

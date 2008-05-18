@@ -7,6 +7,7 @@ import java.util.List;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
+import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,12 +18,12 @@ import org.htmlparser.util.ParserException;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ImdbWebDataFetcher { // implements IWebDataFetcher {
+public class ImdbWebDataFetcher implements IWebDataFetcher {
 
     private static final Log LOG = LogFactory.getLog(ImdbWebDataFetcher.class);
     static final String HOST = "http://imdb.com";
     static final boolean DEBUG = false;
-    /*
+    
     
     
     public static void main(String[] args) throws Exception {
@@ -125,7 +126,7 @@ public class ImdbWebDataFetcher { // implements IWebDataFetcher {
      * @param o original movie (by scanner)
      * @param m metadata enhanced movie
      * @see ImdbMovieData#getMovie()
-     *
+     */
     private static Movie enhanceMovie(Movie o, Movie m) {
          return Movie.create(o.getId())
              .title(m.getTitle()).genres(m.getGenres()).director(m.getDirector()).year(m.getYear()).comment(m.getComment()).actors(m.getActors()).duration(m.getDuration()).coverFile(m.getOriginalCoverFile())
@@ -138,7 +139,7 @@ public class ImdbWebDataFetcher { // implements IWebDataFetcher {
      * invokes this.search(movie.getTitle()) and uses first WebSearchResult to enhance the given movie.
      * 
      * @return null if nothing was found.
-     *
+     */
     public Movie fetchAndEnhanceMovie(Movie originalMovie, boolean fetchCover) throws BusinessException {
         final String movieTitle = originalMovie.getTitle();
         final List<WebSearchResult> results = this.search(movieTitle);
@@ -153,6 +154,5 @@ public class ImdbWebDataFetcher { // implements IWebDataFetcher {
         return enhanceMovie(originalMovie, metadataMovie);
     }
     
-*/
 
 }
