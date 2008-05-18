@@ -29,38 +29,51 @@ import java.awt.Graphics2D;
 import java.awt.Paint;
 
 import javax.swing.JComponent;
-import javax.swing.plaf.ComponentUI;
 
 /**
  * 
  * @author http://blog.elevenworks.com/?p=10
+ * @author christoph_pickl@users.sourceforge.net
  */
 public class HighlightedImagePanelUI extends TiledImagePanelUI {
     
-    public static ComponentUI createUI(JComponent c) {
+	private boolean active = true;
+	
+    public static HighlightedImagePanelUI createUI(JComponent c) {
         return new HighlightedImagePanelUI();
     }
 
     public void paint(Graphics g, JComponent c) {
         super.paint(g, c);
-        Dimension vSize = c.getSize();
-        Graphics2D g2d = (Graphics2D) g;
+        
+        final Dimension vSize = c.getSize();
+        final Graphics2D g2d = (Graphics2D) g;
+        
         // Create the paint for the second layer of the button
-        Color vGradientStartColor = Color.GRAY;
-        Color vGradientEndColor = Color.WHITE;
-        int vHorizontalCenter = vSize.width / 2;
-        int vOffset = (int) (vSize.width * .1);
-        Composite vPreviousComposite = g2d.getComposite();
+        final Color vGradientStartColor = active ? Color.GRAY : Color.WHITE;
+        final Color vGradientEndColor = Color.WHITE;
+        
+        final int vHorizontalCenter = vSize.width / 2;
+        final int vOffset = (int) (vSize.width * .1);
+        
+        final Composite vPreviousComposite = g2d.getComposite();
         g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .3f));
         g2d.setColor(Color.WHITE);
         g2d.fillRect(vHorizontalCenter - vOffset, 0, vOffset * 2, vSize.height);
-        Paint vPaint = new GradientPaint(0, 0, vGradientStartColor, vHorizontalCenter - vOffset, 0, vGradientEndColor, false);
+        
+        final Paint vPaint = new GradientPaint(0, 0, vGradientStartColor, vHorizontalCenter - vOffset, 0, vGradientEndColor, false);
         g2d.setPaint(vPaint);
         g2d.fillRect(0, 0, vHorizontalCenter - vOffset, vSize.height);
-        vPaint = new GradientPaint(vSize.width, 0, vGradientStartColor, vHorizontalCenter + vOffset, 0, vGradientEndColor, false);
-        g2d.setPaint(vPaint);
+        
+        final Paint vPaint2 = new GradientPaint(vSize.width, 0, vGradientStartColor, vHorizontalCenter + vOffset, 0, vGradientEndColor, false);
+        g2d.setPaint(vPaint2);
         g2d.fillRect(vHorizontalCenter + vOffset, 0, vHorizontalCenter - vOffset, vSize.height);
         g2d.setComposite(vPreviousComposite);
+    }
+    
+
+    public void setActive(boolean active) {
+    	this.active = active;
     }
 }
 

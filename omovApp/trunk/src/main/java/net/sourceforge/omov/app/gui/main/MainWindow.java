@@ -64,8 +64,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MainWindow extends JFrame implements IMovieTableContextMenuListener, ITableSelectionListener {
 
-    private static final long serialVersionUID = -1367955221953478216L;
     private static final Log LOG = LogFactory.getLog(MainWindow.class);
+    private static final long serialVersionUID = -1367955221953478216L;
 
     private final MainWindowController controller = new MainWindowController(this);
 
@@ -75,8 +75,9 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     private final MovieDetailPanel movieDetailPanel = new MovieDetailPanel();
     private Movie selectedMovie;
     private boolean activated = false;
+    private final BrushedMetalPanel backgroundPanel = new BrushedMetalPanel();
 
-
+    
     public MainWindow() {
         this.setTitle("OurMovies");
         this.setIconImage(ImageFactory.getInstance().getFrameTitleIcon());
@@ -87,12 +88,10 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 controller.doQuit();
             }
             public void windowActivated(WindowEvent event) {
-                LOG.debug("Main window activated.");
-                activated = true;
+            	windowDidActivate(true);
             }
             public void windowDeactivated(WindowEvent event) {
-                LOG.debug("Main window deactivated.");
-                activated = false;
+            	windowDidActivate(false);
             }
             public void windowOpened(WindowEvent event) {
                 // Set up our application to respond to the Mac OS X application menu
@@ -116,20 +115,25 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         GuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
         GuiUtil.lockOriginalSizeAsMinimum(this);
     }
+    
+    private void windowDidActivate(boolean activated) {
+    	LOG.debug("Main window "+(activated ? "activated" : "deactivated")+".");
+    	this.activated = activated;
+    	this.backgroundPanel.setActive(activated);
+    	this.repaint();
+    }
 
     boolean isActivated() {
         return this.activated;
     }
 
     private JPanel initComponents() {
-        final JPanel panel = new BrushedMetalPanel();
-        panel.setLayout(new BorderLayout());
-        panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+    	this.backgroundPanel.setLayout(new BorderLayout());
+    	this.backgroundPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // top, left, bottom, right
+    	this.backgroundPanel.add(this.initNorthPanel(), BorderLayout.NORTH);
+    	this.backgroundPanel.add(this.initComponentTable(), BorderLayout.CENTER);
 
-        panel.add(this.initNorthPanel(), BorderLayout.NORTH);
-        panel.add(this.initComponentTable(), BorderLayout.CENTER);
-
-        return panel;
+        return this.backgroundPanel;
     }
 
     private JPanel initNorthPanel() {
