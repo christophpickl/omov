@@ -125,7 +125,7 @@ ubi brainstorming
  * @author christoph_pickl@users.sourceforge.net
  */
 public class App {
-
+	// TODO ebenfalls progress dialog, wenn repository scanned movies importen tun
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();

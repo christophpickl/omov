@@ -316,6 +316,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         final File scanRoot = this.inpScanRoot.getSelectedDirectory();
         this.btnScan.setEnabled(false);
         this.btnImport.setEnabled(false);
+        // FIXME this. some-more-widget .setEnabled(false);
         this.getRootPane().setDefaultButton(this.btnImport);
 
         controller.doScan(scanRoot, this.inpFetchMetadata.isSelected());

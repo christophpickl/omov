@@ -20,6 +20,7 @@
 package net.sourceforge.omov.app.gui.scan;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sourceforge.omov.app.gui.CommonController;
@@ -31,6 +32,7 @@ import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.IScanListener;
 import net.sourceforge.omov.core.tools.scan.IScanner;
+import net.sourceforge.omov.core.tools.scan.IScannerStopped;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.core.tools.scan.ScanThread;
@@ -91,7 +93,8 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
     
     public void doEditScannedMovie(ScannedMovie scannedInputMovie) {
         LOG.info("doEditScannedMovie(" + scannedInputMovie + ")");
-        AddEditMovieDialog editDialog = AddEditMovieDialog.newEditScanMovieDialog(this.dialog.getOwner(), scannedInputMovie);
+        AddEditMovieDialog editDialog = AddEditMovieDialog.newEditScanMovieDialog(
+        		this.dialog.getOwner(), scannedInputMovie);
         editDialog.setVisible(true);
         
         if(editDialog.isActionConfirmed()) {
@@ -106,7 +109,8 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         if(this.scanInProgress == true) {
             assert(this.scanThread != null);
             
-            if(GuiUtil.getYesNoAnswer(this.dialog, "Really close", "A scan is currently in progress.\nDo you really want to abort it?") == false) {
+            if(GuiUtil.getYesNoAnswer(this.dialog, "Really close",
+            		"A scan is currently in progress.\nDo you really want to abort it?") == false) {
                 return;
             }
             LOG.debug("User choosen to close window although scan is in progress.");
@@ -179,8 +183,8 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
                     CoverUtil.resetCover(movie);
                 }
             }
-            
-            GuiUtil.info(this.dialog, "Movies imported", "Successfully imported "+movies.size()+" scanned movie"+(movies.size()==1?"":"s")+"!");
+            final String msg = "Successfully imported "+movies.size()+" scanned movie"+(movies.size()==1?"":"s")+"!";
+            GuiUtil.info(this.dialog, "Movies imported", msg);
         } catch (BusinessException e) {
             LOG.error("Importing scanned movies failed!", e);
             GuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
@@ -188,7 +192,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         
     }
     
-    public void doScan(final File scanRoot, final boolean useWebExtractor) { // IWebDataFetcher webExtractor) {
+    public void doScan(final File scanRoot, final boolean useWebExtractor) {
         if(scanRoot == null || scanRoot.exists() == false || scanRoot.isDirectory() == false) {
             GuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
             return;
@@ -198,9 +202,8 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         final boolean insertDatabase = false;
         
         try {
-        	final IWebDataFetcher webExtractor = useWebExtractor ? WebDataFetcherFactory.newWebDataFetcher() : null; // FEATURE websearch: make webextractor configurable
             // MANTIS [8] scanner: make scanner type configurable as plug-in
-            final IScanner scanner = new Scanner(this, scanRoot, insertDatabase, webExtractor);
+            final IScanner scanner = new Scanner(this, scanRoot, insertDatabase, useWebExtractor);
             
             this.scanThread = new ScanThread(scanner);
             this.scanInProgress = true;
@@ -209,13 +212,15 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
             this.scanThread.start();
             
         } catch (Exception e) {
-            LOG.error("Scanning  failed! insertDatabase='"+insertDatabase+"'; useWebExtractor='"+useWebExtractor+"'; scanRoot='"+scanRoot.getAbsolutePath()+"'", e);
+            LOG.error("Scanning  failed! insertDatabase='"+insertDatabase+"'; " +
+            		"useWebExtractor='"+useWebExtractor+"'; scanRoot='"+scanRoot.getAbsolutePath()+"'", e);
             GuiUtil.error(this.dialog, "Scan failed", "Performing scan on folder '"+scanRoot.getName()+"' failed!");
         }
     }
     
     public void doFetchMetaData(ScannedMovie movieFetchingData) {
-    	this._doFetchMetaData(this.dialog.getOwner(), movieFetchingData); // this method will invoke didFetchedMetaData afterwards
+    	// this method will invoke didFetchedMetaData afterwards
+    	this._doFetchMetaData(this.dialog.getOwner(), movieFetchingData);
     }
     
 	@Override
@@ -224,7 +229,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
             return;
         }
         
-        final ScannedMovie confirmedScannedMovie = ScannedMovie.updateByMetadataMovie(movieFetchingData, metadataEnhancedMovie);
+        ScannedMovie confirmedScannedMovie = ScannedMovie.updateByMetadataMovie(movieFetchingData, metadataEnhancedMovie);
         this.dialog.updateScannedMovie(confirmedScannedMovie);
 	}
     
@@ -233,6 +238,35 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         final ScannedMovie confirmedScannedMovie = ScannedMovie.clearMetadataMovie(scannedMovie);
         this.dialog.updateScannedMovie(confirmedScannedMovie);
     }
+
+
+	public List<ScannedMovie> doEnhanceWithMetaData(List<ScannedMovie> originalMovies, List<ScanHint> hints,
+			IScannerStopped stopped, IScanListener listener) throws BusinessException {
+		// assert(Scanner.useWebExtractor == true)
+		
+    	final IWebDataFetcher fetcher = WebDataFetcherFactory.newWebDataFetcher();    	
+        final List<ScannedMovie> enhancedMovies = new ArrayList<ScannedMovie>(originalMovies.size());
+        
+        for (ScannedMovie originalMovie : originalMovies) {
+            if(stopped.isShouldStop() == true) return null;
+            
+            // FEATURE scanner: always fetch cover if scanning?
+            
+            final Movie enhancedMovie = fetcher.fetchAndEnhanceMovie(originalMovie, true);
+            
+            if(enhancedMovie != null) {
+                enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isSelected()));
+            } else {
+                enhancedMovies.add(originalMovie);
+                hints.add(ScanHint.error("Could not fetch Metadata for movie '"+originalMovie.getTitle()+"'!"));
+            }
+            if(listener != null) {
+                listener.doNextFinished();
+            }
+        }
+        
+        return enhancedMovies;
+	}
 
 
 }

@@ -46,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class Scanner implements IScanner {
+public class Scanner implements IScanner, IScannerStopped {
 
     private static final Log LOG = LogFactory.getLog(Scanner.class);
     
@@ -60,7 +60,6 @@ public class Scanner implements IScanner {
 //    }
     
     private final File scanRoot;
-    private final Object webExtractor;
     private final boolean insertDatabase;
     
     private final List<ScannedMovie> result = new ArrayList<ScannedMovie>();
@@ -68,28 +67,30 @@ public class Scanner implements IScanner {
     private boolean wasProcessed = false;
     private final IScanListener listener;
     private boolean shouldStop = false;
+    private final boolean useWebExtractor;
     
     public Scanner(IScanListener listener, File scanRoot) throws BusinessException {
-        this(listener, scanRoot, false, null);
+        this(listener, scanRoot, false, false);
     }
 
     public Scanner(IScanListener listener, File scanRoot, boolean insertDatabase) throws BusinessException {
-        this(listener, scanRoot, insertDatabase, null);
+        this(listener, scanRoot, insertDatabase, false);
     }
     
     public File getScanRoot() {
         return this.scanRoot;
     }
     
-    public Scanner(IScanListener listener, File scanRoot, boolean insertDatabase, Object webExtractor) throws BusinessException {
+    public Scanner(IScanListener listener, File scanRoot, boolean insertDatabase, boolean useWebExtractor) throws BusinessException {
         if(scanRoot.exists() == false) throw new BusinessException("Scandirectory '"+scanRoot.getAbsolutePath()+"' does not exist!");
         if(scanRoot.isDirectory() == false) throw new BusinessException("File at '"+scanRoot.getAbsolutePath()+"' is not a directory!");
         
         this.listener = listener;
         this.scanRoot = scanRoot;
         this.insertDatabase = insertDatabase;
-        this.webExtractor = webExtractor;
+        this.useWebExtractor = useWebExtractor;
     }
+    
     
     public List<Movie> process() throws BusinessException {
         if(this.wasProcessed == true) {
@@ -100,11 +101,16 @@ public class Scanner implements IScanner {
         List<ScannedMovie> scannedMovies = this.scanMovies();
         if(this.shouldStop == true) return null;
         
-        if(this.webExtractor != null) {
-            LOG.info("Starting web extraction.");
-            scannedMovies = this.enhanceWithMetaData(scannedMovies);
-            if(this.shouldStop == true) return null;
+        if(this.useWebExtractor == true && this.listener != null) {
+        	this.listener.doNextPhase("Fetching Metadata");
+        	scannedMovies = this.listener.doEnhanceWithMetaData(scannedMovies, this.hints, this, this.listener);
         }
+        
+//        if(this.webExtractor != null) {
+//            LOG.info("Starting web extraction.");
+//            scannedMovies = this.enhanceWithMetaData(scannedMovies);
+//            if(this.shouldStop == true) return null;
+//        }
         
         if(this.insertDatabase == true) {
             LOG.info("Inserting scanned movies.");
@@ -123,38 +129,6 @@ public class Scanner implements IScanner {
             movies.add(scannedMovie);
         }
         return movies;
-    }
-    
-    private List<ScannedMovie> enhanceWithMetaData(List<ScannedMovie> originalMovies) throws BusinessException {
-        assert(this.webExtractor != null);
-        
-        if(this.listener != null) {
-            this.listener.doNextPhase("Fetching Metadata");
-        }
-        
-        final List<ScannedMovie> enhancedMovies = new ArrayList<ScannedMovie>(originalMovies.size());
-        
-        for (ScannedMovie originalMovie : originalMovies) {
-            if(this.shouldStop) return null;
-            
-            // FEATURE scanner: always fetch cover if scanning?
-            
-            // FIXME !!!!!!! dependeny on webApi; but should not be within core -> outsource this logic to invoker !!!!!!!!
-//            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie(originalMovie, true);
-            final Movie enhancedMovie = null;
-            
-            if(enhancedMovie != null) {
-                enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isSelected()));
-            } else {
-                enhancedMovies.add(originalMovie);
-                this.hints.add(ScanHint.error("Could not fetch Metadata for movie '"+originalMovie.getTitle()+"'!"));
-            }
-            if(this.listener != null) {
-                this.listener.doNextFinished();
-            }
-        }
-        
-        return enhancedMovies;
     }
     
     private void insertMovies(List<ScannedMovie> insertMovies) throws BusinessException {
