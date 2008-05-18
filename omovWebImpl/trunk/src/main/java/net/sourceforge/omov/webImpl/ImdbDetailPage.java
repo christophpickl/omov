@@ -238,10 +238,10 @@ class ImdbDetailPage extends NodeVisitor {
     }
     
     /**
-     * @param releaseDateString e.g.: "18 May 2001 (USA)" OR "1990 (UK)"
+     * @param releaseDateString e.g.: "18 May 2001 (USA)" OR "1990 (UK)" OR "3 September 1969 (South Korea)"
      * @return null if could not parse;
      */
-    private static Integer parseYear(String releaseDateString) {
+    private static Integer parseYear(String releaseDateString) { 
         debug("parsing release year string '"+releaseDateString+"'");
         
         String[] parts = releaseDateString.split(" ");
@@ -249,7 +249,7 @@ class ImdbDetailPage extends NodeVisitor {
             final String yearPart;
             if(parts.length == 2) {
                 yearPart = parts[0];
-            } else if(parts.length == 4) {
+            } else if(parts.length >= 4) {
                 yearPart = parts[2];
             } else {
                 throw new IllegalArgumentException("Could not parse release date '"+releaseDateString+"'!");
