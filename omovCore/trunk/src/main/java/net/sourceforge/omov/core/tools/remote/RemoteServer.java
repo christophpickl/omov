@@ -123,9 +123,9 @@ public class RemoteServer {
             }
         }
 
-        private void communicate(Socket socket, BufferedReader reader, BufferedWriter writer) throws IOException {
+        private void communicate(Socket clientSocket, BufferedReader reader, BufferedWriter writer) throws IOException {
             try {
-                final boolean accept = this.receiver.acceptTransmission(socket.getInetAddress().getHostAddress());
+                final boolean accept = this.receiver.acceptTransmission(clientSocket.getInetAddress().getHostAddress());
                 final String msgAccept = accept ? CommunicationConstants.CONNECT_ACCEPTED : CommunicationConstants.CONNECT_NOT_ACCEPTED ;
                 LOG.debug("communicating: sending permission message '"+msgAccept+"'.");
                 writer.write(msgAccept + "\n");
@@ -150,7 +150,7 @@ public class RemoteServer {
                 writer.write(CommunicationConstants.VERSION_OKAY + "\n");
                 writer.flush();
 
-                ObjectInputStream objectInput = new ObjectInputStream(socket.getInputStream());
+                ObjectInputStream objectInput = new ObjectInputStream(clientSocket.getInputStream());
                 VersionedMovies versionedMovies;
                 try {
                     versionedMovies = (VersionedMovies) objectInput.readObject();
@@ -166,7 +166,7 @@ public class RemoteServer {
                 LOG.debug("communicating: closing reader, writer and socket.");
                 ServerUtil.closeReader(reader);
                 ServerUtil.closeWriter(writer);
-                ServerUtil.closeSocket(socket);
+                ServerUtil.closeSocket(clientSocket);
             }
             LOG.debug("communicating: end of communication.");
         }

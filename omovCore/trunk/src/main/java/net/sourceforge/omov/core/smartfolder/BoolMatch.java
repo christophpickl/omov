@@ -53,8 +53,8 @@ public abstract class BoolMatch extends AbstractMatch<Boolean> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                Boolean value = this.getValueAt(0);
-                return query.constrain(value);
+                Boolean equals = this.getValueAt(0);
+                return query.constrain(equals);
             }
         };
     }
@@ -63,8 +63,8 @@ public abstract class BoolMatch extends AbstractMatch<Boolean> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                Boolean value = this.getValueAt(0);
-                return query.constrain(value).not();
+                Boolean notEquals = this.getValueAt(0);
+                return query.constrain(notEquals).not();
             }
         };
     }

@@ -52,13 +52,13 @@ public abstract class TextMultipleMatch extends AbstractMatch<String> {
         return new TextMultipleMatch(LABEL_CONTAINS, new String[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final String value = this.getValueAt(0);
-                LOG.debug("Preparing contains for value '"+value+"'.");
+                final String contains = this.getValueAt(0);
+                LOG.debug("Preparing contains for value '"+contains+"'.");
 
-                if(value.length() == 0) {
-                    return query.constrain(this.getValueAt(0)).equal();
+                if(contains.length() == 0) {
+                    return query.constrain(contains).equal();
                 }
-                return query.constrain(this.getValueAt(0)).like();
+                return query.constrain(contains).like();
                 
             }
         };
@@ -68,13 +68,13 @@ public abstract class TextMultipleMatch extends AbstractMatch<String> {
         return new TextMultipleMatch(LABEL_NOT_CONTAINS, new String[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final String value = this.getValueAt(0);
-                LOG.debug("Preparing contains for value '"+value+"'.");
+                final String notContains = this.getValueAt(0);
+                LOG.debug("Preparing contains for value '"+notContains+"'.");
 
-                if(value.length() == 0) {
-                    return query.constrain(this.getValueAt(0)).not().equal();
+                if(notContains.length() == 0) {
+                    return query.constrain(notContains).not().equal();
                 }
-                return query.constrain(this.getValueAt(0)).not().like();
+                return query.constrain(notContains).not().like();
                 
             }
         };

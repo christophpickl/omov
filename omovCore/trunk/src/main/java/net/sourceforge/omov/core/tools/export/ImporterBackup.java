@@ -111,7 +111,7 @@ public class ImporterBackup implements ImportExportConstants {
                 final List<String> movieFolderPaths = dao.getMovieFolderPaths();
                 for (Movie movie : backedUpMovies) {
                     // check path; if exsists, skip + add user info
-                    if(movieFolderPaths.contains(movie.getFolderPath())) {
+                    if(movie.isFolderPathSet() == true && movieFolderPaths.contains(movie.getFolderPath())) {
                         LOG.debug("Skipping movie because its folder path '"+movie.getFolderPath()+"' is already in use (movie="+movie+").");
                         result.addSkippedMovie(movie);
                         continue;

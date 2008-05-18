@@ -88,17 +88,11 @@ public final class DateUtil {
     }
     
     public static int compareWithoutTime(Date d1, Date d2) {
-        d1 = getDateWithoutTime(d1);
-        d2 = getDateWithoutTime(d2);
-        
-        return d1.compareTo(d2);
+        return getDateWithoutTime(d1).compareTo(getDateWithoutTime(d2));
     }
     
     public static int compareWithoutMilliSeconds(Date d1, Date d2) {
-        d1 = getDateWithoutMilliSeconds(d1);
-        d2 = getDateWithoutMilliSeconds(d2);
-        
-        return d1.compareTo(d2);
+        return getDateWithoutMilliSeconds(d1).compareTo(getDateWithoutMilliSeconds(d2));
     }
     
     public static void main(String[] args) throws ParseException {

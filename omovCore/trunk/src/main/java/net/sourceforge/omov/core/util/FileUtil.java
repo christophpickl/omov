@@ -218,6 +218,24 @@ public final class FileUtil {
                 if(subFile.delete() == false) {
                     throw new BusinessException("Could not delete file '"+subFile.getAbsolutePath()+"'!");
                 }
+                /* FIXME
+DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.model.db4o.AbstractDb4oDao --- Setting auto commit to true.
+DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.util.FileUtil --- Deleting directory 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921' recursive.
+DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.util.FileUtil --- Deleting file 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921\movies.xml'.
+ERROR 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.tools.export.ImporterBackup --- Could not delete temporary import directory 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921'.
+net.sourceforge.omov.core.BusinessException: Could not delete file 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921\movies.xml'!
+	at net.sourceforge.omov.core.util.FileUtil.deleteDirectoryRecursive(FileUtil.java:219)
+	at net.sourceforge.omov.core.tools.export.ImporterBackup.process(ImporterBackup.java:148)
+	at net.sourceforge.omov.app.gui.export.ImportSwingWorker.doInBackground(ImportSwingWorker.java:47)
+	at net.sourceforge.omov.app.gui.export.ImportSwingWorker.doInBackground(ImportSwingWorker.java:1)
+	at org.jdesktop.swingworker.SwingWorker$1.call(Unknown Source)
+	at java.util.concurrent.FutureTask$Sync.innerRun(Unknown Source)
+	at java.util.concurrent.FutureTask.run(Unknown Source)
+	at org.jdesktop.swingworker.SwingWorker.run(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.runTask(Unknown Source)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+	at java.lang.Thread.run(Unknown Source)
+                 */
             } else {
                 deleteDirectoryRecursive(subFile);
             }

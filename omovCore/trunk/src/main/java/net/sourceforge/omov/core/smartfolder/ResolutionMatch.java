@@ -55,8 +55,8 @@ public abstract class ResolutionMatch extends AbstractMatch<Resolution> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                Resolution value = this.getValueAt(0);
-                return query.constrain(value);
+                Resolution equals = this.getValueAt(0);
+                return query.constrain(equals);
             }
         };
     }
@@ -69,9 +69,9 @@ public abstract class ResolutionMatch extends AbstractMatch<Resolution> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing greater for value '"+this.getValueAt(0)+"'.");
-                Resolution value = this.getValueAt(0);
-                return query.descend("width").constrain(value.getWidth()).greater().and(
-                        query.descend("height").constrain(value.getHeight()).greater());
+                Resolution greater = this.getValueAt(0);
+                return query.descend("width").constrain(greater.getWidth()).greater().and(
+                        query.descend("height").constrain(greater.getHeight()).greater());
             }
         };
     }

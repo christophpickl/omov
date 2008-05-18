@@ -50,11 +50,9 @@ public class VersionMinorMajor {
     public VersionMinorMajor(String versionString) {
         LOG.debug("Creating version instance by string '"+versionString+"'.");
         String parts[] = versionString.split("\\.");
-        int minor = Integer.parseInt(parts[0]);
-        int major = Integer.parseInt(parts[1]);
-
-        this.minor = minor;
-        this.major = major;
+        
+        this.minor = Integer.parseInt(parts[0]);
+        this.major = Integer.parseInt(parts[1]);
         this.versionString = minor + "." + major;
     }
     

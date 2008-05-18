@@ -52,9 +52,11 @@ DATA VERSION HISTORY
     * startup version check
     * startup filesystem check
 
+===>   v2 -> v3
+- added: recent backup import path
 
  */
-    public static final int DATA_VERSION = 2;
+    public static final int DATA_VERSION = 3;
     
     private enum PrefKey {
         IS_CONFIGURED,
@@ -64,7 +66,7 @@ DATA VERSION HISTORY
         USERNAME,
         STARTUP_VERSION_CHECK, STARTUP_FILESYSTEM_CHECK,
         
-        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH;
+        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH, RECENT_BACKUP_IMPORT_PATH;
     }
     
     private String folderCovers, folderTemporary, folderData;
@@ -72,7 +74,7 @@ DATA VERSION HISTORY
     private String username;
 //    private int serverPort;
     
-    private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath, recentScanPath;
+    private String recentExportDestination, recentCoverSelectorPath, recentMovieFolderPath, recentScanPath, recentBackupImportPath;
     private boolean startupVersionCheck, startupFilesystemCheck;
     private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
     
@@ -119,6 +121,7 @@ DATA VERSION HISTORY
         this.recentCoverSelectorPath = prefs.get(PrefKey.RECENT_COVER_SELECTOR_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentMovieFolderPath = prefs.get(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentScanPath = prefs.get(PrefKey.RECENT_SCAN_PATH.name(), File.listRoots()[0].getAbsolutePath());
+        this.recentBackupImportPath = prefs.get(PrefKey.RECENT_BACKUP_IMPORT_PATH.name(), File.listRoots()[0].getAbsolutePath());
         
         for (String columnName : MovieTableColumns.getColumnNames()) {
             final Boolean initialVisible;
@@ -272,6 +275,16 @@ DATA VERSION HISTORY
         this.setPreferencesString(PrefKey.RECENT_SCAN_PATH, recentScanPath);
         this.recentScanPath = recentScanPath;
     }
+
+    public String getRecentBackupImportPath() {
+        return this.recentBackupImportPath;
+    }
+    public void setRecentBackupImportPath(final String recentBackupImportPath) {
+        this.setPreferencesString(PrefKey.RECENT_BACKUP_IMPORT_PATH, recentBackupImportPath);
+        this.recentBackupImportPath = recentBackupImportPath;
+    }
+    
+    
     
     
     

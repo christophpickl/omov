@@ -80,8 +80,8 @@ public abstract class DateMatch extends AbstractMatch<Date> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing not equals for value '"+this.getValueAt(0)+"'.");
-                Date value = this.getValueAt(0);
-                return query.constrain(value).not();
+                Date notEqualsDate = this.getValueAt(0);
+                return query.constrain(notEqualsDate).not();
             }
         };
     }
@@ -90,8 +90,8 @@ public abstract class DateMatch extends AbstractMatch<Date> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing after for value '"+this.getValueAt(0)+"'.");
-                Date value = this.getValueAt(0);
-                return query.constrain(value).greater();
+                Date afterDate = this.getValueAt(0);
+                return query.constrain(afterDate).greater();
             }
         };
     }
@@ -100,8 +100,8 @@ public abstract class DateMatch extends AbstractMatch<Date> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing before for value '"+this.getValueAt(0)+"'.");
-                Date value = this.getValueAt(0);
-                return query.constrain(value).smaller();
+                Date beforeDate = this.getValueAt(0);
+                return query.constrain(beforeDate).smaller();
             }
         };
     }

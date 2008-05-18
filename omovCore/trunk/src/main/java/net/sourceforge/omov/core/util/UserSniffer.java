@@ -78,8 +78,8 @@ public final class UserSniffer {
      * @param os
      * @return
      */
-    public static boolean isOS(OS os) {
-        return UserSniffer.os.equals(os);
+    public static boolean isOS(final OS isOs) {
+        return UserSniffer.os.equals(isOs);
     }
 
     public static boolean isMacOSX() {

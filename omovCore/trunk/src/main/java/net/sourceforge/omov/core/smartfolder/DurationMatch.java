@@ -56,10 +56,10 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         return new DurationMatch(LABEL_EQUALS, new Duration[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Duration value = this.getValueAt(0);
-                LOG.debug("Preparing equals for value '"+value+"'.");
+                final Duration equals = this.getValueAt(0);
+                LOG.debug("Preparing equals for value '"+equals+"'.");
                 
-                return query.constrain(value.getTotalInMinutes()).equal();
+                return query.constrain(equals.getTotalInMinutes()).equal();
             }
         };
     }
@@ -68,10 +68,10 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         return new DurationMatch(LABEL_LONGER, new Duration[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Duration value = this.getValueAt(0);
-                LOG.debug("Preparing longer for value '"+value+"'.");
+                final Duration longer = this.getValueAt(0);
+                LOG.debug("Preparing longer for value '"+longer+"'.");
                 
-                return query.constrain(value.getTotalInMinutes()).greater();
+                return query.constrain(longer.getTotalInMinutes()).greater();
             }
         };
     }
@@ -80,10 +80,10 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         return new DurationMatch(LABEL_SHORTER, new Duration[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Duration value = this.getValueAt(0);
-                LOG.debug("Preparing shorter for value '"+value+"'.");
+                final Duration shorter = this.getValueAt(0);
+                LOG.debug("Preparing shorter for value '"+shorter+"'.");
                 
-                return query.constrain(value.getTotalInMinutes()).smaller();
+                return query.constrain(shorter.getTotalInMinutes()).smaller();
             }
         };
     }

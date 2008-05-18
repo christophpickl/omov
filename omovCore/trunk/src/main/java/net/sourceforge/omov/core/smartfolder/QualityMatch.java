@@ -56,10 +56,10 @@ public abstract class QualityMatch extends AbstractMatch<Quality> {
         return new QualityMatch(LABEL_EQUALS, new Quality[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Quality value = this.getValueAt(0);
-                LOG.debug("Preparing equals for value '"+value+"'.");
+                final Quality equals = this.getValueAt(0);
+                LOG.debug("Preparing equals for value '"+equals+"'.");
                 
-                return query.constrain(value.getId()).equal();
+                return query.constrain(equals.getId()).equal();
             }
         };
     }
@@ -68,10 +68,10 @@ public abstract class QualityMatch extends AbstractMatch<Quality> {
         return new QualityMatch(LABEL_BETTER, new Quality[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Quality value = this.getValueAt(0);
-                LOG.debug("Preparing better for value '"+value+"'.");
+                final Quality better = this.getValueAt(0);
+                LOG.debug("Preparing better for value '"+better+"'.");
                 
-                return query.constrain(value.getId()).greater();
+                return query.constrain(better.getId()).greater();
             }
         };
     }
@@ -80,10 +80,10 @@ public abstract class QualityMatch extends AbstractMatch<Quality> {
         return new QualityMatch(LABEL_WORSE, new Quality[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Quality value = this.getValueAt(0);
-                LOG.debug("Preparing worse for value '"+value+"'.");
+                final Quality worse = this.getValueAt(0);
+                LOG.debug("Preparing worse for value '"+worse+"'.");
                 
-                return query.constrain(value.getId()).smaller();
+                return query.constrain(worse.getId()).smaller();
             }
         };
     }
