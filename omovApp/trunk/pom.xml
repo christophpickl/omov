@@ -58,6 +58,18 @@
 			<version>0.5-BETA</version>
 			<scope>compile</scope>
 		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.omov.webApi</groupId>
+			<artifactId>omovWebApi</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.omov.webImpl</groupId>
+			<artifactId>omovWebImpl</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.swinglabs</groupId>

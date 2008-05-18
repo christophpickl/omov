@@ -17,6 +17,8 @@
 		<module>../omovApp</module>
 		<module>../omovQtjApi</module>
 		<module>../omovQtjImpl</module>
+		<module>../omovWebApi</module>
+		<module>../omovWebImpl</module>
 	</modules>
 
 	<!-- =================================================================== -->

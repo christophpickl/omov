@@ -35,8 +35,6 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.MovieFolderInfo;
 import net.sourceforge.omov.core.bo.RawScannedMovie;
 import net.sourceforge.omov.core.model.IMovieDao;
-import net.sourceforge.omov.core.tools.webdata.IWebExtractor;
-import net.sourceforge.omov.core.tools.webdata.WebImdbExtractor;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.MovieFileUtil;
 
@@ -52,16 +50,17 @@ public class Scanner implements IScanner {
 
     private static final Log LOG = LogFactory.getLog(Scanner.class);
     
-    public static void main(String[] args) throws BusinessException {
-        Scanner scanner = new Scanner(null, new File("/Users/phudy/Movies/Holy"), false, new WebImdbExtractor());
-        for (Movie movie : scanner.process()) {
-            System.out.println(movie);
-        }
-        System.out.println("Finished.");
-    }
+//    public static void main(String[] args) throws BusinessException {
+//    	final IWebDataFetcher webFetcher = WebDataFetcherFactory.newWebDataFetcher();
+//        Scanner scanner = new Scanner(null, new File("/Users/phudy/Movies/Holy"), false, webFetcher);
+//        for (Movie movie : scanner.process()) {
+//            System.out.println(movie);
+//        }
+//        System.out.println("Finished.");
+//    }
     
     private final File scanRoot;
-    private final IWebExtractor webExtractor;
+    private final Object webExtractor;
     private final boolean insertDatabase;
     
     private final List<ScannedMovie> result = new ArrayList<ScannedMovie>();
@@ -82,7 +81,7 @@ public class Scanner implements IScanner {
         return this.scanRoot;
     }
     
-    public Scanner(IScanListener listener, File scanRoot, boolean insertDatabase, IWebExtractor webExtractor) throws BusinessException {
+    public Scanner(IScanListener listener, File scanRoot, boolean insertDatabase, Object webExtractor) throws BusinessException {
         if(scanRoot.exists() == false) throw new BusinessException("Scandirectory '"+scanRoot.getAbsolutePath()+"' does not exist!");
         if(scanRoot.isDirectory() == false) throw new BusinessException("File at '"+scanRoot.getAbsolutePath()+"' is not a directory!");
         
@@ -139,7 +138,11 @@ public class Scanner implements IScanner {
             if(this.shouldStop) return null;
             
             // FEATURE scanner: always fetch cover if scanning?
-            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie(originalMovie, true);
+            
+            // FIXME !!!!!!! dependeny on webApi; but should not be within core -> outsource this logic to invoker !!!!!!!!
+//            final Movie enhancedMovie = this.webExtractor.fetchAndEnhanceMovie(originalMovie, true);
+            final Movie enhancedMovie = null;
+            
             if(enhancedMovie != null) {
                 enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isSelected()));
             } else {
