@@ -33,7 +33,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JWindow;
 
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -100,7 +99,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
 	private final JPanel wrapPanel = new JPanel();
 	private final JComponent qtjComponent;
 	
-	public QtjVideoPlayerImplX(net.sourceforge.omov.core.bo.Movie movie, File movieFile, JFrame owner) throws QTException {
+	public QtjVideoPlayerImplX(net.sourceforge.omov.core.bo.Movie movie, File movieFile) throws QTException {
 //		super(owner); ... frames cant be modal
 		assert(movieFile.exists()) : movieFile.getAbsolutePath();
 
@@ -245,7 +244,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
 
 	
 	void doBack() {
-		
+		// TODO QTJ: implement doBack()
 	}
 	
 	void doClose() {

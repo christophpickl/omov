@@ -23,11 +23,6 @@ import java.awt.Dimension;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.Rectangle;
-import java.io.File;
-
-import net.sourceforge.omov.core.BeanFactory;
-import net.sourceforge.omov.core.model.IMovieDao;
-import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX;
 
 /**
  * 
@@ -52,10 +47,10 @@ public class SomeStuff {
         */
 		
 
-		final IMovieDao dao = BeanFactory.getInstance().getMovieDao();
-		final net.sourceforge.omov.core.bo.Movie m = dao.getMovie(1);
-		final File f = new File(m.getFolderPath(), m.getFiles().get(0));
-		QtjVideoPlayerImplX x = new QtjVideoPlayerImplX(m, f, null);
+//		final IMovieDao dao = BeanFactory.getInstance().getMovieDao();
+//		final net.sourceforge.omov.core.bo.Movie m = dao.getMovie(1);
+//		final File f = new File(m.getFolderPath(), m.getFiles().get(0));
+//		QtjVideoPlayerImplX x = new QtjVideoPlayerImplX(m, f, null);
 	}
 	
 	public static Dimension getScreenDimension(final GraphicsDevice graphicsDevice) {

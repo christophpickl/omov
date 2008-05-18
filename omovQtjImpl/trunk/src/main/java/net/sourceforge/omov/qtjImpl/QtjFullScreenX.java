@@ -41,6 +41,7 @@ public class QtjFullScreenX implements IVideoPlayerListener, IQtjFloaterListener
 	
 	
 	public QtjFullScreenX(QtjVideoPlayerImplX player) {
+		LOG.debug("Creating new QtjFullScreenX instance.");
 		this.player = player;
 		this.floater = new QtjFloater(this.player, this.player, this);
 	}

@@ -21,12 +21,8 @@ package net.sourceforge.omov.qtjImpl;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -49,6 +45,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
+ * @deprecated replaced by QtjSmallScreenX
  */
 public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants, ActionListener, IQtjScreenListener { // implements IScreenSwitchListener
 

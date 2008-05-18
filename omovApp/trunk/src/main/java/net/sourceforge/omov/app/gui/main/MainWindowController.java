@@ -184,7 +184,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
 		}
 		
     	try {
-    		QtjVideoPlayerFactory.newVideo(movie, movieFile, this.mainWindow).setVisible(true);
+    		QtjVideoPlayerFactory.newVideo(movie, movieFile).setVisible(true);
 //			new MoviePlayer(movie, movieFile, this.mainWindow).setVisible(true);
 		} catch (Exception e) {
 			LOG.error("Could not play movie file '"+movieFile.getAbsolutePath()+"'!", e);

@@ -199,11 +199,7 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 
 	private static Color OPAC_COLOR_FRONT = Color.WHITE;
 	private static Color OPAC_COLOR_BACK = Color.BLUE;
-	
-//	private TimerTask task;
-//	private final Timer t = new Timer();
 
-	private int oldOpacity = this.opacity.getValue();
 	
 	private static final Map<Color, Map<Integer, Color>> OPACITY_MAP = new HashMap<Color, Map<Integer, Color>>();
 	static {
@@ -238,8 +234,6 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 		
 		this.frame.invalidate();
 		this.frame.repaint();
-		
-		this.oldOpacity = opacity;
 	}
 	
 	private MyThread thread;

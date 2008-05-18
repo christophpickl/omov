@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -38,6 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 
 /**
@@ -49,7 +49,7 @@ class DebugDatabaseContents extends JFrame {
 	private static final long serialVersionUID = -4684617117221230671L;
 	
 	private final JTable table = new JTable();
-	
+	// TODO DebugDatabaseContents work in progress -> implement me
 	public DebugDatabaseContents() {
 		super("Database Contents");
 		this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
@@ -81,8 +81,7 @@ class DebugDatabaseContents extends JFrame {
 			this.table.setModel(new TableModel(BeanFactory.getInstance().getMovieDao().getMoviesSorted(), Movie.class));
 			this.table.repaint();
 		} catch (BusinessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FatalException("Could not get database contents!", e);
 		}
 	}
 	
@@ -90,7 +89,7 @@ class DebugDatabaseContents extends JFrame {
 
 		private static final long serialVersionUID = 123097421428534313L;
 		private final List<?> data;
-		private final List<String> columns = new ArrayList<String>();
+//		private final List<String> columns = new ArrayList<String>();
 		
 		public TableModel(List<?> data, Class<?> dataClass) {
 			this.data = data;

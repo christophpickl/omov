@@ -30,6 +30,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
+ * @deprecated replaced by QtjFullScreenX
  */
 public class QtjFullScreen extends JPanel implements ISmallFullScreenConstants {
 

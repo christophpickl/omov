@@ -66,8 +66,6 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.webApi.IWebDataFetcher;
-import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

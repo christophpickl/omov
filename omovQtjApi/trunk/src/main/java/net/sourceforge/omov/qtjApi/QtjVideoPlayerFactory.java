@@ -3,8 +3,6 @@ package net.sourceforge.omov.qtjApi;
 import java.io.File;
 import java.lang.reflect.Constructor;
 
-import javax.swing.JFrame;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,7 +44,7 @@ public class QtjVideoPlayerFactory {
 	}
 
 	// TODO outsource Movie/BusinessException into submodule "Bo" or something like this to avoid cycle references
-	public static IQtjVideoPlayer newVideo(Object movie, File movieFile, JFrame owner) throws Exception {
+	public static IQtjVideoPlayer newVideo(Object movie, File movieFile) throws Exception {
 		assert(isQtjAvailable());
 		
 		if(constructor == null) {
@@ -57,10 +55,10 @@ public class QtjVideoPlayerFactory {
 			LOG.info("Getting class by name: " + QTJ_PLAYER_CLASSNAME);
 			Class<?> clazz = Class.forName(QTJ_PLAYER_CLASSNAME);
 			
-			constructor = clazz.getConstructor(movieClass, File.class, JFrame.class);
+			constructor = clazz.getConstructor(movieClass, File.class);
 		}
 		
-		return (IQtjVideoPlayer) constructor.newInstance(movie, movieFile, owner);
+		return (IQtjVideoPlayer) constructor.newInstance(movie, movieFile);
 		// InstantiationException, IllegalAccessException, ClassNotFoundException
 	}
 }

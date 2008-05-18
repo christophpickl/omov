@@ -41,7 +41,7 @@ public class QtjPlayground {
 //		new QtjVideoPlayerImplX(m, f).setVisible(true);
 		
 		System.out.println("getting video player");
-		IQtjVideoPlayer player = QtjVideoPlayerFactory.newVideo(m, f, null);
+		IQtjVideoPlayer player = QtjVideoPlayerFactory.newVideo(m, f);
 		player.setVisible(true);
 	}
 }

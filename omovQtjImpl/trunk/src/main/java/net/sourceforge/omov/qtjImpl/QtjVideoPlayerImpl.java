@@ -22,16 +22,12 @@ package net.sourceforge.omov.qtjImpl;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
@@ -47,6 +43,7 @@ import quicktime.QTException;
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
+ * @deprecated replaced by QtjVideoPlayerImplX
  */
 public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, MouseListener, MouseMotionListener {
 
@@ -69,6 +66,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Mous
 	
 	
 	public QtjVideoPlayerImpl(net.sourceforge.omov.core.bo.Movie movie, File movieFile, JFrame owner) throws QTException {
+		super(owner);
 		this.controller = new QtjVideoController(this, movie, movieFile);
 		this.controller.getQtjComponent().addMouseListener(this);
 		this.controller.getQtjComponent().addMouseMotionListener(this);

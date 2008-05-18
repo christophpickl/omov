@@ -44,6 +44,7 @@ import quicktime.std.movies.Movie;
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
+ * @deprecated will be replaced by QtjVideoControllerX
  */
 public class QtjVideoController {
 	
@@ -167,11 +168,11 @@ public class QtjVideoController {
 	public void removeQtjScreenListener(IQtjScreenListener listener) {
 		this.switchListeners.remove(listener);
 	}
-	private void broadcastSwitchFullscreen(boolean fullscreen) {
-		for (IQtjScreenListener listener : this.switchListeners) {
-			listener.switchedFullscreen(fullscreen);
-		}
-	}
+//	private void broadcastSwitchFullscreen(boolean fullscreen) {
+//		for (IQtjScreenListener listener : this.switchListeners) {
+//			listener.switchedFullscreen(fullscreen);
+//		}
+//	}
 	private void broadcastStateChanged(QtjState state) {
 		for (IQtjScreenListener listener : this.switchListeners) {
 			listener.stateChanged(state);
