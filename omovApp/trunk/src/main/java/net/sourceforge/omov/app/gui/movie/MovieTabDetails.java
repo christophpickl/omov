@@ -364,7 +364,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 	}
 	
 	/**
-	 * Removes all stored movie files (manipulating data as well gui components).
+	 * Clears folderpath/files/size/format attribute (manipulating visible gui components only).
 	 */
 	private void doFilesClear() {
 		LOG.debug("doFilesClear()");

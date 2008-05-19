@@ -117,9 +117,9 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     }
     
     private void windowDidActivate(boolean didActivate) {
-    	LOG.debug("Main window "+(activated ? "activated" : "deactivated")+".");
+//    	LOG.debug("Main window "+(didActivate ? "activated" : "deactivated")+".");
     	this.activated = didActivate;
-    	this.backgroundPanel.setActive(activated);
+    	this.backgroundPanel.setActive(didActivate);
     	this.repaint();
     }
 
@@ -215,7 +215,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 	LOG.debug("key event: space");
                 	final List<Movie> selectedMovies = getSelectedMovies();
                 	if(selectedMovies.size() == 1) {
-                		controller.doQuickview(selectedMovies.get(0));
+                		controller.doPlayQuickView(selectedMovies.get(0));
                 	} else {
                 		Toolkit.getDefaultToolkit().beep();
                 	}

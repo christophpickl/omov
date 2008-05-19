@@ -60,7 +60,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerImplX.class);
 	private static final long serialVersionUID = -7527249992554309045L;
 
-
+	// TODO QTJ: when close-shortcut hit, close window (win: alt-f4, mac: cmd-w); also leave fullscreen if esc hit
 
 	
 	private final net.sourceforge.omov.core.bo.Movie movie;

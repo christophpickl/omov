@@ -20,7 +20,7 @@ public class QtjVideoPlayerFactory {
 	private static final String BO_MOVIE_CLASSNAME = "net.sourceforge.omov.core.bo.Movie";
 	private static final String QT_MOVIE_CLASSNAME = "quicktime.std.movies.Movie";
 
-	private static Constructor<?> constructor;
+	private static Constructor<?> qtjPlayerConstructor;
 	
 	
 	
@@ -47,18 +47,18 @@ public class QtjVideoPlayerFactory {
 	public static IQtjVideoPlayer newVideo(Object movie, File movieFile) throws Exception {
 		assert(isQtjAvailable());
 		
-		if(constructor == null) {
+		if(qtjPlayerConstructor == null) {
 			
-			LOG.info("Getting class by name: " + BO_MOVIE_CLASSNAME);
+			LOG.info("Getting OmovMovie class by name: " + BO_MOVIE_CLASSNAME);
 			Class<?> movieClass = Class.forName(BO_MOVIE_CLASSNAME);
 			
-			LOG.info("Getting class by name: " + QTJ_PLAYER_CLASSNAME);
-			Class<?> clazz = Class.forName(QTJ_PLAYER_CLASSNAME);
+			LOG.info("Getting QtjPlayer class by name: " + QTJ_PLAYER_CLASSNAME);
+			Class<?> qtjPlayerClazz = Class.forName(QTJ_PLAYER_CLASSNAME);
 			
-			constructor = clazz.getConstructor(movieClass, File.class);
+			qtjPlayerConstructor = qtjPlayerClazz.getConstructor(movieClass, File.class);
 		}
 		
-		return (IQtjVideoPlayer) constructor.newInstance(movie, movieFile);
+		return (IQtjVideoPlayer) qtjPlayerConstructor.newInstance(movie, movieFile);
 		// InstantiationException, IllegalAccessException, ClassNotFoundException
 	}
 }

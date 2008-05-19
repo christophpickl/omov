@@ -37,7 +37,9 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import net.sourceforge.omov.app.gui.comp.generic.MacLikeTable;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CollectionUtil;
@@ -56,6 +58,8 @@ public class RepositoryPreparerResultWindow extends JDialog {
         super(owner, "Repository Preparer Result", true);
         this.result = result;
         
+        this.setBackground(Constants.getColorWindowBackground());
+        GuiUtil.macSmallWindow(this.getRootPane());
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         
         this.getContentPane().add(this.initComponents());
@@ -78,6 +82,8 @@ public class RepositoryPreparerResultWindow extends JDialog {
     
     private JPanel initNorth() {
         final JPanel wrapPanel = new JPanel(new BorderLayout());
+        wrapPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 6, 0));
+        
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
@@ -86,9 +92,9 @@ public class RepositoryPreparerResultWindow extends JDialog {
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         c.gridy = 0;
-        panel.add(new JLabel("Moved Files"), c);
+        panel.add(GuiUtil.labelBold("Moved Files"), c);
         c.gridx = 1;
-        panel.add(new JLabel(""+this.result.getCntMovedFiles()), c);
+        panel.add(GuiUtil.labelBold(String.valueOf(this.result.getCntMovedFiles())), c);
         
         c.gridx = 0;
         c.gridy = 1;
@@ -109,7 +115,7 @@ public class RepositoryPreparerResultWindow extends JDialog {
     private JPanel initCenter() {
         final JPanel panel = new JPanel(new BorderLayout());
 
-        final JTable table = new JTable(new PreparerResultTableModel(this.result.getHints()));
+        final JTable table = new MacLikeTable(new PreparerResultTableModel(this.result.getHints()));
         table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         table.getColumnModel().getColumn(0).setMaxWidth(80);
         table.getColumnModel().getColumn(0).setMinWidth(80);

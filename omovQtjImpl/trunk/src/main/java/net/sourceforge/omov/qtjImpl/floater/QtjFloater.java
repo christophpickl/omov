@@ -82,7 +82,8 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 	private boolean isMouseEntered = false;
 	private FadeOutThread thread;
 
-	private final JLabel lbl = new JLabel("This is just a preview ...");
+	// TODO GUI QTJ: implement QtjFloater
+	private final JLabel lbl = new JLabel("... experimental implementation of a video player ...");
 	private final JButton btnPlayPause = new JButton("Play");
 	
 	private final IQtjFloaterListener listener;

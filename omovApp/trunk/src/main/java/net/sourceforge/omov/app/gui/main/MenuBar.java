@@ -42,6 +42,7 @@ import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.PreferencesDao;
@@ -51,6 +52,7 @@ import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -102,6 +104,9 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private static final String LBL_MOVIE_PLAY_VLC = "Play in VLC";
     private static final String CMD_MOVIE_PLAY_VLC = "CMD_MOVIE_PLAY_VLC";
     
+    private static final String LBL_MOVIE_PLAY_QV = "QuickView";
+    private static final String CMD_MOVIE_PLAY_QV = "CMD_MOVIE_PLAY_QV";
+    
     private static final String LBL_FETCH_METADATA = "Fetch Metadata";
     private static final String CMD_FETCH_METADATA = "CMD_FETCH_METADATA";
     
@@ -136,6 +141,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private JMenuItem itemMovieFetchMetadata;
     private JMenuItem itemMovieRevealFinder;
     private JMenuItem itemMoviePlayVlc;
+    private JMenuItem itemMovieQuickView;
     private JMenuItem itemRescanFolders;
     
     
@@ -181,9 +187,15 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         this.itemMovieInfo = GuiUtil.createMenuItem(menu, 'I', LBL_MOVIE_INFO, CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
         this.itemMovieDelete = GuiUtil.createMenuItem(menu, 'D', LBL_MOVIE_DELETE, CMD_MOVIE_DELETE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
         this.itemMovieFetchMetadata = GuiUtil.createMenuItem(menu, 'M', LBL_FETCH_METADATA, CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        
+
         if(VlcPlayerFactory.isVlcCapable() == true) {
             this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+        }
+        
+        if(QtjVideoPlayerFactory.isQtjAvailable() == true) {
+//        	final int keyMask = 0; // disable accelerator (ctrl/command)
+//        	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, KeyEvent.VK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW), keyMask);
+        	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
         }
         
         if(UserSniffer.isMacOSX()) {
@@ -272,12 +284,14 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
                 controller.doRevealMovie();
             } else if(cmd.equals(CMD_MOVIE_PLAY_VLC)) {
                 controller.doPlayVlc();
+            } else if(cmd.equals(CMD_MOVIE_PLAY_QV)) {
+                controller.doPlayQuickView();
             } else if(cmd.equals(CMD_RESCAN_FOLDERS)) {
                 controller.doRescanFolders();
 //            } else if(cmd.equals(CMD_REMOTE)) {
 //                this.controller.doRemoteConnect();
             } else {
-                assert(false) : "Unhandled menu item clicked '"+cmd+"'!";
+                throw new FatalException("Unhandled menu item clicked '"+cmd+"'!");
             }
         }}.doAction();
     }
@@ -406,6 +420,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         this.itemMovieFetchMetadata.setEnabled(false);
         if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(false);
+        if(this.itemMovieQuickView != null) this.itemMovieQuickView.setEnabled(false);
         if(this.itemMovieRevealFinder != null) this.itemMovieRevealFinder.setEnabled(false);
     }
 
@@ -419,6 +434,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         this.itemMovieFetchMetadata.setEnabled(true);
         if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(true);
+        if(this.itemMovieQuickView != null) this.itemMovieQuickView.setEnabled(true);
         if(this.itemMovieRevealFinder != null) this.itemMovieRevealFinder.setEnabled(true);
     }
 
@@ -432,6 +448,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         this.itemMovieFetchMetadata.setEnabled(false);
         if(this.itemMoviePlayVlc != null) this.itemMoviePlayVlc.setEnabled(false);
+        if(this.itemMovieQuickView != null) this.itemMovieQuickView.setEnabled(false);
         if(this.itemMovieRevealFinder != null) this.itemMovieRevealFinder.setEnabled(false);
     }
 

@@ -141,7 +141,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 			this.btnBack.addActionListener(this);
 		}
 
-		panel.add(this.btnBack);
+//		panel.add(this.btnBack); // TODO GUI QTJ: implement controller buttons for smallscreen
 		panel.add(this.btnPlayPause);
 		panel.add(this.btnFullScreen);
 		

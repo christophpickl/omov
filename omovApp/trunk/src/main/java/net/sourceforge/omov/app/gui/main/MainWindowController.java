@@ -170,7 +170,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
     }
     
     
-    public void doQuickview(Movie movie) {
+    public void doPlayQuickView(Movie movie) {
 
 		if(movie.getFiles().size() == 0) {
 			GuiUtil.info(this.mainWindow, "QuickView", "No files to play for movie '"+movie.getTitle()+"'.");
@@ -407,7 +407,8 @@ public final class MainWindowController extends CommonController<Movie> implemen
         	
         } catch (BusinessException e) {
             LOG.error("Could not play file '"+firstMovieFile.getAbsolutePath()+"' in VLC!");
-            GuiUtil.error("Play in VLC failed", "Could not play file '"+firstMovieFile.getAbsolutePath()+"' in VLC!");
+            GuiUtil.error("Play in VLC failed", "<html>Could not play movie file in VLC!<br>" +
+            		"Maybe VLC's <b>Web Interface</b> is not up and running.</html>");
         }
     }
 
@@ -429,6 +430,25 @@ public final class MainWindowController extends CommonController<Movie> implemen
             GuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
         }
     }
+    
+    public void doPlayQuickView() {
+        assert(QtjVideoPlayerFactory.isQtjAvailable() == true);
+
+        final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
+        if(selectedMovies.size() == 0) {
+            // should not be possible anyway!
+            assert(false);
+            GuiUtil.warning(this.mainWindow, "QuickView Error", "Not any movie was selected.");
+        } else if(selectedMovies.size() == 1) {
+            this.doPlayQuickView(selectedMovies.get(0));
+            
+        } else {
+            // should not be possible anyway!
+            assert(false);
+            GuiUtil.info(this.mainWindow, "QuickView Error", "Playing multiple movies at once is not supported.");
+        }
+    }
+    
     
     public void doRescanFolders() {
     	LOG.info("doRescanFolders()");

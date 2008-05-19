@@ -312,20 +312,31 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         return panel;
     }
 
+    // @see #doScanCompleted()
     private void doScanStarted() {
-        final File scanRoot = this.inpScanRoot.getSelectedDirectory();
-        this.btnScan.setEnabled(false);
-        this.btnImport.setEnabled(false);
-        // FIXME this. some-more-widget .setEnabled(false);
+    	final File scanRoot = this.inpScanRoot.getSelectedDirectory();
+        
+    	this.enableUi(false);
+        
         this.getRootPane().setDefaultButton(this.btnImport);
 
         controller.doScan(scanRoot, this.inpFetchMetadata.isSelected());
     }
 
+    private void enableUi(final boolean enabled) {
+
+        this.inpScanRoot.setEnabled(enabled);
+        this.inpFetchMetadata.setEnabled(enabled);
+        this.btnPrepare.setEnabled(enabled);
+        this.btnScan.setEnabled(enabled);
+        this.btnImport.setEnabled(enabled);
+    }
+    
     void doScanCompleted(List<ScannedMovie> scannedMovies, List<ScanHint> hints) {
 
-        this.btnScan.setEnabled(true);
-        this.btnImport.setEnabled(true);
+        
+    	this.enableUi(true);
+        
         this.progressBar.setString("Finished");
         // NOTODO sort list of movies first -> leave them as they were scanned (order given by filesystem)
         this.tblScannedMovieModel.setData(scannedMovies);

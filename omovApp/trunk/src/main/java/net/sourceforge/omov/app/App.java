@@ -38,6 +38,7 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.FatalException.FatalReason;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IDataVersionDao;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
@@ -59,6 +60,7 @@ CLI ARGs
 
 TODOs
 ==================================
+! write in help (maybe also in some docu): if using vlc, you need to enable local webinterface -> howto enable web interface
 - gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
 - gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
 - at startup check if folderImage and folderTemporary exists & if its writeable
@@ -199,7 +201,27 @@ public class App {
                     mainWindow.setVisible(true);
                 }
             });
-
+        } catch(Exception e) {
+        	LOG.error("Startup failed!", e);
+        	
+        	final StringBuilder sb = new StringBuilder();
+        	sb.append("The application crashed due to internal errors.\n");
+        	
+        	Throwable cause = e;
+        	while( (cause = cause.getCause()) != null) {
+        		if(cause instanceof FatalException) {
+        			final FatalException fe = (FatalException) cause;
+            		if(fe.getReason() == FatalReason.DB_LOCKED) {
+            			sb.append("The database seems to be already in use!\n");
+            		}
+        			break;
+        		}
+        	}
+        	
+        	sb.append("\nPlease lookup logs for details and contact maintainer if necessary.");
+        	
+        	GuiUtil.error("Startup Error", sb.toString());
+        	System.exit(1);
         } finally {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
         }

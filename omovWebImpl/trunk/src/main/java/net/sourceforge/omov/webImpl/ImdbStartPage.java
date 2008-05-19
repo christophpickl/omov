@@ -77,7 +77,7 @@ class ImdbStartPage extends NodeVisitor {
         if(this.alreadyAdded(searchResult) == true) {
             LOG.debug("Skipping duplicate searchresult entry '"+searchResult+"'.");
         } else {
-            LOG.info("adding new target link with label '"+linkLabel+"' and href '" + href + "'");
+            LOG.debug("adding new target link with label '"+linkLabel+"' and href '" + href + "'");
             this.targetLinks.add(searchResult);
         }
     }
