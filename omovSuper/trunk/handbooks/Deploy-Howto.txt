@@ -69,7 +69,7 @@ last edited: 19.5.08
   - change log
  (- screenshots)
 
-
+!!! update version.txt file on webserver !!!
 - commit and TAG // only if successfully deployed on sourceforge
 
 FINISHED
