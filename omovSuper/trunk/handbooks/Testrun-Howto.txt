@@ -1,0 +1,33 @@
+OurMovies Testhandbook
+=========================
+
+last edited: 18.5.08
+
+
+
+- create new movie
+  - set some attributes, confirm
+  - update and set folder
+- fetch metadata, fetch some details, confirm one
+- reveal in finder
+- play in vlc
+  - test with empty/filled playlist and with playing/paused state
+- quickview
+  - play video, switch to fullscreen, switch back, pause, exit
+- delete movie(s)
+- scan repository with fetching metadata
+  - set rootfolder to proper directory
+  - prepare repository
+  - scan with metadata fetching enabled
+  - delete metadata for single movie again
+  - change attributes for a movie, update
+  - uncheck single movie, import
+- select movie with movie files
+  - reorder files
+  - delete movie file on harddisk
+  - rescan and confirm, clear and check disabled entries
+
+! continous filter
+! smartfolder
+! export/import
+! smartcopy
