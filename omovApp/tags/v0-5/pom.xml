@@ -1,0 +1,179 @@
+<!-- OMOV APP -->
+
+<!--
+	MAVEN HINTS
+	===================
+	
+	... build a deployable package
+	mvn assembly:assembly
+	
+	... build a deployable package withouth running the tests
+	mvn -Dmaven.test.skip=true assembly:assembly
+	
+	... create an initial project (with its filestructure)
+	mvn archetype:create -DgroupId=net.sourceforge.omov.app -DartifactId=omovApp
+	
+	
+	// http://maven.apache.org/guides/mini/guide-ide-eclipse.html
+	
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sourceforge.omov.app</groupId>
+	<artifactId>omovApp</artifactId>
+	<packaging>jar</packaging>
+	<version>0.5-BETA</version>
+	<name>omovApp</name>
+	<url>http://maven.apache.org</url>
+
+
+	<parent>
+		<groupId>net.sourceforge.omov</groupId>
+		<artifactId>omovSuper</artifactId>
+		<version>0.5-BETA</version>
+	</parent>
+
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
+	<dependencies>
+		<dependency>
+			<groupId>net.sourceforge.omov.core</groupId>
+			<artifactId>omovCore</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.omov.qtjApi</groupId>
+			<artifactId>omovQtjApi</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.omov.qtjImpl</groupId>
+			<artifactId>omovQtjImpl</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.omov.webApi</groupId>
+			<artifactId>omovWebApi</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>net.sourceforge.omov.webImpl</groupId>
+			<artifactId>omovWebImpl</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swingx</artifactId>
+			<version>0.9.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- workaround START to also get dependencies of swingx artifact -->
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swing-worker</artifactId>
+			<version>1.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>swing-layout</artifactId>
+			<version>1.0.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.swinglabs</groupId>
+			<artifactId>multiplegradientpaint</artifactId>
+			<version>1.0</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- workaround END -->
+
+		<!-- java help -->
+		<dependency>
+			<groupId>javax.help</groupId>
+			<artifactId>javahelp</artifactId>
+			<version>2.0.02</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+
+
+		<!-- DUPLIACTE DEPENDENCY START -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- DUPLIACTE DEPENDENCY END -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<!-- NOTE: We don't need a groupId specification because the group is
+					org.apache.maven.plugins ...which is assumed by default.
+					<groupId>org.apache.maven.plugins</groupId>
+				-->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<!-- <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile> -->
+						<manifest>
+							<mainClass>
+								net.sourceforge.omov.app.App
+							</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>
+							jar-with-dependencies
+						</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>
