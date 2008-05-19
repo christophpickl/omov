@@ -12,8 +12,8 @@
 <executableName>OurMovies.exe</executableName>
 <iconLocation>omov_logo.png</iconLocation>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>OurMovies-0.2-alpha-jar-with-dependencies.jar</jarLocation>
-<mainClassName>at.ac.tuwien.e0525580.omov.App</mainClassName>
+<jarLocation>omovApp-0.5-BETA-jar-with-dependencies.jar</jarLocation>
+<mainClassName>net.sourceforge.omov.app.App</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
 <minimumVersion>1.5</minimumVersion>
