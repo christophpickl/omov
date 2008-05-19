@@ -167,7 +167,7 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 	}
 	
 	public boolean playFile(final File file) throws BusinessException {
-		final String uri = file.getAbsolutePath(); // FIXME for windows, use some uri conform string, e.g. "file://x/y/z.mpg"
+		final String uri = file.getAbsolutePath(); // MANTIS [22] for windows, use some uri conform string, e.g. "file://x/y/z.mpg"
 		LOG.debug("Playing file in VLC (uri=" + uri + ")");
 		Integer id = getPlaylist().getIdByUri(uri);
 		if(id != null) {

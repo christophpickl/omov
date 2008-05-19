@@ -34,14 +34,19 @@ public class QtjSessionInitializer {
     private static final Log LOG = LogFactory.getLog(QtjSessionInitializer.class);
 
 	private static boolean isOpened = false;
+
+	private static Integer javaVersion;
+	private static Integer majorVersion;
+	private static Integer minorVersion;
+	
+	
 	
 	public static void openSession() throws QTException {
 		
 		if(isOpened == false) {
 			LOG.info("Opening quicktime session...");
 			QTSession.open();
-			LOG.info("QT version: " + QTSession.getMajorVersion() + "." + QTSession.getMinorVersion());
-			// TODO check for qt version > 7 ?
+			LOG.info("QT version: " + QTSession.getMajorVersion() + "." + QTSession.getMinorVersion() + " and Java version: " + QTSession.getJavaVersion());
 			
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 				public void run() {
@@ -49,8 +54,9 @@ public class QtjSessionInitializer {
 					try {
 						QTSession.close();
 					} catch(Exception e) {
-						LOG.error("Could not close QuickTime session!", e);
+						System.err.println("Could not close quicktime session!");
 	                    e.printStackTrace();
+						LOG.error("Could not close QuickTime session!", e);
 					}
 				}
 			}));
@@ -58,5 +64,38 @@ public class QtjSessionInitializer {
 			isOpened = true;
 		}
 	}
+
 	
+	
+	public static int getJavaVersion() {
+		assert(isOpened == true);
+		
+		if(javaVersion == null) {
+			javaVersion = QTSession.getJavaVersion();
+		}
+		
+		return javaVersion.intValue();
+	}
+	
+	// TODO QTJ check for qt version > 7.0 ?
+	public static int getQuicktimeMajorVersion() {
+		assert(isOpened == true);
+		
+		if(majorVersion == null) {
+			// getQTMajorVersion: This returns the major version of QuickTime
+			// getMajorVersion: This contains the version of QuickTime that is currently present
+			majorVersion = QTSession.getMajorVersion();
+		}
+		return majorVersion.intValue();
+	}
+	
+	public static int getQuicktimeMinorVersion() {
+		assert(isOpened == true);
+		
+		if(minorVersion == null) {
+			minorVersion = QTSession.getMinorVersion();
+		}
+		
+		return minorVersion.intValue();
+	}
 }

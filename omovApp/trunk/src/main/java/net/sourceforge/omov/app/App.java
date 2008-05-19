@@ -63,6 +63,7 @@ TODOs
 ! write in help (maybe also in some docu): if using vlc, you need to enable local webinterface -> howto enable web interface
 ! gui: wenn macList/-Table nicht activated ist, dann wirds ja grau dargestellt -> erster klick dann drauf soll keinen effect but activate it; da sonst man draufklickt und automatisch die selektion aendert; soll aber NICHT so sein
 - gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
+- gui: in windows wird vertical grid in main table nur bis dahin gezeichnet, wo row-entries da sind; und NICHT ganz durchgezogen
 - gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
 - at startup check if folderImage and folderTemporary exists & if its writeable
 - should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
@@ -129,8 +130,8 @@ ubi brainstorming
  */
 public class App {
 	
-	// TODO ebenfalls progress dialog, wenn repository scanned movies importen tun
-	// TODO GUI: macliketables loose focus -> bg will only get partly gray/repainted on win systems
+	// TODO GUI - ebenfalls progress dialog, wenn repository scanned movies importen tun
+	// TODO GUI - macliketables loose focus -> bg will only get partly gray/repainted on win systems
 	
     private static final Log LOG = LogFactory.getLog(App.class);
 

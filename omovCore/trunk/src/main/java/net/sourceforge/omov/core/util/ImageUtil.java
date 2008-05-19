@@ -94,7 +94,7 @@ public class ImageUtil {
         LOG.debug("Recalcing width/height for cover file at '"+coverFile.getAbsolutePath()+"'.");
 //        final ImagePanel imagePanel = new ImagePanel(maxWidth, maxHeight);
         final JComponent imagePanel = new JPanel();
-        imagePanel.setSize(maxWidth, maxHeight); // FIXME verify this works
+        imagePanel.setSize(maxWidth, maxHeight); // FIXME UTIL verify that recalculation of width/height for cover files works
         final MediaTracker media = new MediaTracker(imagePanel);
         final Image source = Toolkit.getDefaultToolkit().getImage(coverFile.getAbsolutePath());
         media.addImage(source,0);

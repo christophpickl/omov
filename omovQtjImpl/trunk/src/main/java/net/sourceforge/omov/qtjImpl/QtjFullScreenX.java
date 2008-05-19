@@ -35,7 +35,7 @@ public class QtjFullScreenX implements IVideoPlayerListener, IQtjFloaterListener
 
     private static final Log LOG = LogFactory.getLog(QtjFullScreenX.class);
     
-    // TODO QTJ: hide cursor if not moved for a while
+    // TODO QTJ - hide cursor if not moved for a while
     
 	private final QtjVideoPlayerImplX player;
 	private final QtjFloater floater;

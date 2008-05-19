@@ -54,6 +54,7 @@ public class QtjVideoController {
 	
 	private final File movieFile;
 	private final JComponent qtjComponent;
+	private boolean isMoviePlaying = false;
 	
 	/** currently played qtj movie file */
 	private Movie qtjMovie;
@@ -106,7 +107,7 @@ public class QtjVideoController {
 	}
 	
 	public void doBack() {
-		System.out.println("not yet implemented"); // TODO implement
+		System.out.println("not yet implemented");
 	}
 	
 	public GraphicsDevice getDisplay() {
@@ -186,7 +187,6 @@ public class QtjVideoController {
 		PAUSE, PLAY;
 	}
 
-	private boolean isMoviePlaying = false;
 	public void doPlayPause() {
 		try {
 			if(this.isMoviePlaying == true) {
@@ -194,14 +194,12 @@ public class QtjVideoController {
 			} else {
 				this.qtjMovie.start();
 			}
-			
-			
-			this.isMoviePlaying = !this.isMoviePlaying;
-			this.broadcastStateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
 		} catch (StdQTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FatalException("Could not play/pause quicktime movie!", e);
 		}
+		
+		this.isMoviePlaying = !this.isMoviePlaying;
+		this.broadcastStateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
 	}
 
 	

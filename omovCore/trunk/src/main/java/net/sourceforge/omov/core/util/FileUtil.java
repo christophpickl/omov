@@ -216,9 +216,9 @@ public final class FileUtil {
             if(subFile.isFile()) {
                 LOG.debug("Deleting file '"+subFile.getAbsolutePath()+"'.");
                 if(subFile.delete() == false) {
-                    throw new BusinessException("Could not delete file '"+subFile.getAbsolutePath()+"'!");
+                    throw new BusinessException("Could not delete file '"+subFile.getAbsolutePath()+"' (existing="+subFile.exists()+")!");
                 }
-                /* FIXME
+                /* FIXME UTIL - could not delete regular file
 DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.model.db4o.AbstractDb4oDao --- Setting auto commit to true.
 DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.util.FileUtil --- Deleting directory 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921' recursive.
 DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.util.FileUtil --- Deleting file 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921\movies.xml'.

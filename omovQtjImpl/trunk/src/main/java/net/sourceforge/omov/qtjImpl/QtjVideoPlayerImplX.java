@@ -60,7 +60,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerImplX.class);
 	private static final long serialVersionUID = -7527249992554309045L;
 
-	// TODO QTJ: when close-shortcut hit, close window (win: alt-f4, mac: cmd-w); also leave fullscreen if esc hit
+	// TODO QTJ - when close-shortcut hit, close window (win: alt-f4, mac: cmd-w); also leave fullscreen if esc hit
 
 	
 	private final net.sourceforge.omov.core.bo.Movie movie;
@@ -81,7 +81,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
 //	private final JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 0));
 //	private final QtjVideoController controller = new QtjVideoController(this);
 	
-	// TODO QTJava - JComboBox, wo man auch alle anderen movie files auswaehlen kann (oben links, JComboBox aus fileName machen)
+	// TODO QTJ - JComboBox, wo man auch alle anderen movie files auswaehlen kann (oben links, JComboBox aus fileName machen)
 
 	
 	/*	
@@ -152,7 +152,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
 		} catch (QTException e) {
 			throw new FatalException("Could not recalculate movie dimension of file '"+this.movieFile.getAbsolutePath()+"'!", e);
 		}
-		// TODO do not recalc every full/smallscreen-switch -> outsource in QtjFullScreenX
+		// TODO QTJ do not recalc every full/smallscreen-switch -> outsource in QtjFullScreenX
 		final Dimension movieRecalcedSize = QtjUtil.recalcFullscreenMovieDimension(movieDim);
 		qtjWrapPanel.setMinimumSize(movieRecalcedSize);
 		qtjWrapPanel.setMaximumSize(movieRecalcedSize);
@@ -232,19 +232,18 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer {
 			} else {
 				this.qtMovie.start();
 			}
-			
-			this.isMoviePlaying = !this.isMoviePlaying;
-			this.smallScreen.stateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
-			this.fullScreen.stateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
 		} catch (StdQTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new FatalException("Could not play/pause quicktime movie!", e);
 		}
+			
+		this.isMoviePlaying = !this.isMoviePlaying;
+		this.smallScreen.stateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
+		this.fullScreen.stateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
 	}
 
 	
 	void doBack() {
-		// TODO QTJ: implement doBack()
+		// TODO QTJ - implement doBack()
 	}
 	
 	void doClose() {

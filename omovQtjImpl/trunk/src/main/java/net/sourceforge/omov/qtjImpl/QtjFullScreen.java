@@ -63,7 +63,7 @@ public class QtjFullScreen extends JPanel implements ISmallFullScreenConstants {
 		JPanel qtjWrapPanel = new JPanel(new BorderLayout(0, 0));
 		qtjWrapPanel.add(this.controller.getQtjComponent(), BorderLayout.CENTER);
 		
-		final Dimension movieRecalcedSize = this.controller.getRecalcedFullMovieDimension(); // TODO still got some top margin...
+		final Dimension movieRecalcedSize = this.controller.getRecalcedFullMovieDimension(); // NOTODO still got some top margin...
 		qtjWrapPanel.setMinimumSize(movieRecalcedSize);
 		qtjWrapPanel.setMaximumSize(movieRecalcedSize);
 		qtjWrapPanel.setPreferredSize(movieRecalcedSize);

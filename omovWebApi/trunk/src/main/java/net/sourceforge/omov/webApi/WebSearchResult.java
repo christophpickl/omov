@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringEscapeUtils;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class WebSearchResult { // FIXME rename class to something like "WebSearchTarget"
+public class WebSearchResult { // TODO rename class to something like "WebSearchTarget"
     
     private final String label;
     

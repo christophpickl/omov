@@ -178,7 +178,8 @@ public final class CoverUtil {
         LOG.debug("Copying cover type '"+fileType+"' to file '"+coverFileTarget.getAbsolutePath()+"'.");
 
 
-//        final ImagePanel imagePanel = new ImagePanel(fileType.getDimension()); // FIXME verify that this really works
+        // should also work without ImagePanel; resolved module dependency, therefore using generic JPanel
+        // final ImagePanel imagePanel = new ImagePanel(fileType.getDimension()); 
         final JComponent imagePanel = new JPanel();
         imagePanel.setSize(fileType.getDimension());
         

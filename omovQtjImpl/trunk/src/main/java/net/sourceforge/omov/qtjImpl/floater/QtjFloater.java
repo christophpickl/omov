@@ -82,7 +82,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 	private boolean isMouseEntered = false;
 	private FadeOutThread thread;
 
-	// TODO GUI QTJ: implement QtjFloater
+	// TODO QTJ GUI - implement QtjFloater
 	private final JLabel lbl = new JLabel("... experimental implementation of a video player ...");
 	private final JButton btnPlayPause = new JButton("Play");
 	
@@ -173,7 +173,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 	public void mouseExited(MouseEvent e) {
 		if(this.player.isFullScreenMode() == false) return;
 		
-		LOG.debug("mouseExited"); // FIXME auch mouseExited, wenn ueber Button innerhalb Floater hovered!
+		LOG.debug("mouseExited"); // FIXME QTJ GUI - auch mouseExited, wenn ueber Button innerhalb Floater hovered!
 		this.isMouseEntered = false;
 	}
 
@@ -189,7 +189,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		LOG.info("actionPerformed(cmd="+cmd+")");
 		
 		if(cmd.equals(CMD_PLAY_PAUSE)) {
-			this.listener.doPlayPause(); // FIXME funkt nicht
+			this.listener.doPlayPause(); // FIXME QTJ - play/pause funkt in floater nicht
 		} else {
 			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
 		}

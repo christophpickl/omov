@@ -195,7 +195,7 @@ public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants,
 	}
 
 	public void switchedFullscreen(boolean fullscreen) {
-		// TODO Auto-generated method stub
+		// NOTODO Auto-generated method stub
 		
 	}
 }
