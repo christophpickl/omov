@@ -1,0 +1,67 @@
+<!-- OMOV QTJ API -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sourceforge.omov.qtjApi</groupId>
+	<artifactId>omovQtjApi</artifactId>
+	<packaging>jar</packaging>
+	<version>0.5-BETA</version>
+	<name>omovQtjApi</name>
+	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>net.sourceforge.omov</groupId>
+		<artifactId>omovSuper</artifactId>
+		<version>0.5-BETA</version>
+	</parent>
+
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
+	<dependencies>
+	
+		<dependency>
+			<groupId>net.sourceforge.omov.core</groupId>
+			<artifactId>omovCore</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<!-- DUPLIACTE DEPENDENCY START -->	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- DUPLIACTE DEPENDENCY END -->
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
