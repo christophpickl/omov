@@ -41,10 +41,10 @@ import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
 import net.sourceforge.omov.app.gui.comp.ButtonMovieFolder.IButtonFolderListener;
 import net.sourceforge.omov.app.gui.comp.generic.ContextMenuButton;
 import net.sourceforge.omov.app.gui.comp.generic.MultiColTextField;
-import net.sourceforge.omov.app.gui.comp.suggest.MovieDirectorSuggester;
-import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsList;
-import net.sourceforge.omov.app.gui.comp.suggester.MovieLanguagesList;
-import net.sourceforge.omov.app.gui.comp.suggester.MovieSubtitlesList;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsListSuggester;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieDirectorTextSuggester;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieLanguagesListSuggester;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieSubtitlesListSuggester;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
@@ -74,11 +74,11 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     private static final int ACTORS_FIXED_CELL_WIDTH = 67;
 
-    private final MovieLanguagesList inpLanguages;
-    private final MovieSubtitlesList inpSubtitles;
+    private final MovieLanguagesListSuggester inpLanguages;
+    private final MovieSubtitlesListSuggester inpSubtitles;
 
-    private final MovieDirectorSuggester inpDirector = new MovieDirectorSuggester(17); // FIXME GUI - size should not be specified by columns, but layout should decide actual size of this component
-    private final MovieActorsList inpActors;
+    private final MovieDirectorTextSuggester inpDirector = new MovieDirectorTextSuggester(17); // FIXME GUI - size should not be specified by columns, but layout should decide actual size of this component
+    private final MovieActorsListSuggester inpActors;
 
     private List<String> files = new LinkedList<String>();
     private long fileSizeKb = 0L;
@@ -104,8 +104,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 //        this.lblPath.setBackground(Color.ORANGE);
 
         try {
-            this.inpLanguages = new MovieLanguagesList(this.owner);
-            this.inpSubtitles = new MovieSubtitlesList(this.owner);
+            this.inpLanguages = new MovieLanguagesListSuggester(this.owner);
+            this.inpSubtitles = new MovieSubtitlesListSuggester(this.owner);
         } catch(BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
@@ -115,9 +115,9 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         try {
             if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
                 LOG.info("edit mode && editMovie instanceof ScannedMovie => going to create prefilled MovieActorsList (actors="+editMovie.getActorsString()+").");
-                this.inpActors = new MovieActorsList(this.owner, editMovie.getActors(), ACTORS_FIXED_CELL_WIDTH);
+                this.inpActors = new MovieActorsListSuggester(this.owner, editMovie.getActors(), ACTORS_FIXED_CELL_WIDTH);
             } else {
-                this.inpActors = new MovieActorsList(this.owner, ACTORS_FIXED_CELL_WIDTH);
+                this.inpActors = new MovieActorsListSuggester(this.owner, ACTORS_FIXED_CELL_WIDTH);
             }
         } catch(BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
@@ -165,9 +165,9 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         super(owner, editMovies);
 
         try {
-            this.inpLanguages = new MovieLanguagesList(this.owner);
-            this.inpSubtitles = new MovieSubtitlesList(this.owner);
-            this.inpActors = new MovieActorsList(this.owner, ACTORS_FIXED_CELL_WIDTH);
+            this.inpLanguages = new MovieLanguagesListSuggester(this.owner);
+            this.inpSubtitles = new MovieSubtitlesListSuggester(this.owner);
+            this.inpActors = new MovieActorsListSuggester(this.owner, ACTORS_FIXED_CELL_WIDTH);
         } catch (BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }

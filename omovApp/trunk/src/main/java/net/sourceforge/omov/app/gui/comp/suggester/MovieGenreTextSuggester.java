@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.app.gui.comp.suggest;
+package net.sourceforge.omov.app.gui.comp.suggester;
 
 import java.util.List;
 
@@ -28,24 +28,25 @@ import net.sourceforge.omov.core.model.IntimeMovieDatabaseList;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieStyleSuggester extends AbstractTextSuggester {
+public class MovieGenreTextSuggester extends AbstractTextSuggester {
 
     private static final long serialVersionUID = -163599779199212347L;
 
     private static final IntimeMovieDatabaseList<String> model = new IntimeMovieDatabaseList<String>() {
         @Override
         protected List<String> reloadValues() throws BusinessException {
-            return MOVIE_DAO.getMovieStyles();
+            return MOVIE_DAO.getMovieGenres();
         }
     };
-
-    public MovieStyleSuggester(final int columns) {
+    
+    
+    public MovieGenreTextSuggester(final int columns) {
         super(columns);
     }
 
     @Override
     protected List<String> getValues() {
-        return MovieStyleSuggester.model.getValues();
+        return MovieGenreTextSuggester.model.getValues();
     }
 
 }

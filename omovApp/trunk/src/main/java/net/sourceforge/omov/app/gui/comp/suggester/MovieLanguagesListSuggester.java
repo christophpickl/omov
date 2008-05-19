@@ -29,7 +29,7 @@ import net.sourceforge.omov.core.BusinessException;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieLanguagesList extends AbstractSuggesterList {
+public class MovieLanguagesListSuggester extends AbstractListSuggester {
     
     private static final long serialVersionUID = -4512946734145833891L;
 
@@ -61,11 +61,11 @@ public class MovieLanguagesList extends AbstractSuggesterList {
 //        super(owner, true, "Language", TEXTFIELD_COLUMNS, fixedCellWidth, visibleRowCount);
 //    }
 
-    public MovieLanguagesList(Dialog owner, Collection<String> additionalItems) throws BusinessException {
+    public MovieLanguagesListSuggester(Dialog owner, Collection<String> additionalItems) throws BusinessException {
         super(owner, BeanFactory.getInstance().getMovieDao().getMovieLanguages(), additionalItems, true, DEFAULT_ITEM_NAME, TEXTFIELD_COLUMNS, DEFAULT_CELL_WIDTH, DEFAULT_VISIBLE_ROWCOUNT);
         
     }
-    public MovieLanguagesList(Dialog owner) throws BusinessException {
+    public MovieLanguagesListSuggester(Dialog owner) throws BusinessException {
         super(owner, BeanFactory.getInstance().getMovieDao().getMovieLanguages(), true, DEFAULT_ITEM_NAME, TEXTFIELD_COLUMNS , DEFAULT_CELL_WIDTH, DEFAULT_VISIBLE_ROWCOUNT);
     }
     

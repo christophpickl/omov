@@ -29,7 +29,7 @@ import net.sourceforge.omov.core.BusinessException;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieActorsList extends AbstractSuggesterList {
+public class MovieActorsListSuggester extends AbstractListSuggester {
     
     
     private static final long serialVersionUID = -4512946734145833891L;
@@ -39,12 +39,12 @@ public class MovieActorsList extends AbstractSuggesterList {
     private static final int DEFAULT_VISIBLE_ROWCOUNT = 4;
     
 
-    public MovieActorsList(Dialog owner, Collection<String> additionalItems, int fixedCellWidth) throws BusinessException {
+    public MovieActorsListSuggester(Dialog owner, Collection<String> additionalItems, int fixedCellWidth) throws BusinessException {
         super(owner, BeanFactory.getInstance().getMovieDao().getMovieActors(), additionalItems, true, DEFAULT_ITEM_NAME, TEXTFIELD_COLUMNS, fixedCellWidth, DEFAULT_VISIBLE_ROWCOUNT);
         
     }
     
-    public MovieActorsList(Dialog owner, int fixedCellWidth) throws BusinessException {
+    public MovieActorsListSuggester(Dialog owner, int fixedCellWidth) throws BusinessException {
         super(owner, BeanFactory.getInstance().getMovieDao().getMovieActors(), true, DEFAULT_ITEM_NAME, TEXTFIELD_COLUMNS , fixedCellWidth, DEFAULT_VISIBLE_ROWCOUNT);
     }
 }

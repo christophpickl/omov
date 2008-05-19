@@ -47,9 +47,9 @@ import net.sourceforge.omov.app.gui.comp.ResolutionPanel;
 import net.sourceforge.omov.app.gui.comp.YearField;
 import net.sourceforge.omov.app.gui.comp.generic.IDataList;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
-import net.sourceforge.omov.app.gui.comp.suggest.MovieStyleSuggester;
-import net.sourceforge.omov.app.gui.comp.suggest.MovieTitleSuggester;
-import net.sourceforge.omov.app.gui.comp.suggester.MovieGenresList;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieGenresListSuggester;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieStyleTextSuggester;
+import net.sourceforge.omov.app.gui.comp.suggester.MovieTitleTextSuggester;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.util.NumberUtil.Duration;
 
@@ -65,7 +65,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private static final Log LOG = LogFactory.getLog(MovieTabInfo.class);
     private static final long serialVersionUID = -4273211406354799248L;
     
-    public final JTextField inpTitle = new MovieTitleSuggester(33); // TODO GUI - tab info ist wiedermal zu gross
+    public final JTextField inpTitle = new MovieTitleTextSuggester(33); // TODO GUI - tab info ist wiedermal zu gross
     
     private final DurationPanel inpDuration;
     private final ResolutionPanel inpResolution;
@@ -76,7 +76,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private final RatingSlider inpRating;
     private final YearField inpYear;
     private final QualityField inpQuality;
-    private final JTextField inpStyle = new MovieStyleSuggester(10);
+    private final JTextField inpStyle = new MovieStyleTextSuggester(10);
 
     void requestInitialFocus() {
         this.inpTitle.requestFocusInWindow();
@@ -100,9 +100,9 @@ class MovieTabInfo extends AbstractMovieTab {
         try {
             if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
                 LOG.info("edit mode && editMovie instanceof ScannedMovie => going to create prefilled MovieGenresList (genres="+editMovie.getGenresString()+").");
-                this.inpGenre = new MovieGenresList(this.owner, editMovie.getGenres(), fixedCellWidth);
+                this.inpGenre = new MovieGenresListSuggester(this.owner, editMovie.getGenres(), fixedCellWidth);
             } else {
-                this.inpGenre = new MovieGenresList(this.owner, fixedCellWidth);
+                this.inpGenre = new MovieGenresListSuggester(this.owner, fixedCellWidth);
             }
         } catch(BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
@@ -139,7 +139,7 @@ class MovieTabInfo extends AbstractMovieTab {
         this.inpDuration = new DurationPanel(Duration.newByTotal(0));
         this.inpResolution = new ResolutionPanel(Resolution.R0x0);
         try {
-            this.inpGenre = new MovieGenresList(this.owner, 10);
+            this.inpGenre = new MovieGenresListSuggester(this.owner, 10);
         } catch (BusinessException e) {
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }

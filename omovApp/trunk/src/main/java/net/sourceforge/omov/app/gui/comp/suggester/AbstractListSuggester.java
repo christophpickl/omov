@@ -50,9 +50,9 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class AbstractSuggesterList extends JPanel {
+public abstract class AbstractListSuggester extends JPanel {
 
-    private static final Log LOG = LogFactory.getLog(AbstractSuggesterList.class);
+    private static final Log LOG = LogFactory.getLog(AbstractListSuggester.class);
     
     private final JList list;
     
@@ -65,11 +65,11 @@ public abstract class AbstractSuggesterList extends JPanel {
 //        this(owner, false, null, 0);
 //    }
 
-    AbstractSuggesterList(Dialog owner, List<String> items, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
+    AbstractListSuggester(Dialog owner, List<String> items, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
         this(owner, items, null, showAddButton, itemName, itemNameColumns, fixedCellWidth, visibleRowCount);
     }
     
-    AbstractSuggesterList(Dialog owner, List<String> items, Collection<String> additionalItems, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
+    AbstractListSuggester(Dialog owner, List<String> items, Collection<String> additionalItems, boolean showAddButton, String itemName, int itemNameColumns, int fixedCellWidth, int visibleRowCount) {
         final List<String> listItems = new ArrayList<String>(items);
         if(additionalItems != null) {
             listItems.addAll(additionalItems);
