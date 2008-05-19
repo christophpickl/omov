@@ -22,6 +22,7 @@ package net.sourceforge.omov.app.playground;
 import java.io.File;
 
 import net.sourceforge.omov.core.BeanFactory;
+import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.model.IMovieDao;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
@@ -32,7 +33,7 @@ import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
  */
 public class QtjPlayground {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws BusinessException {
 		
 		System.out.println("fetching movie");
 		final IMovieDao dao = BeanFactory.getInstance().getMovieDao();

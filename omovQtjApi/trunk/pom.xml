@@ -21,6 +21,14 @@
 	<!-- Dependencies                                                        -->
 	<!-- =================================================================== -->
 	<dependencies>
+	
+		<dependency>
+			<groupId>net.sourceforge.omov.core</groupId>
+			<artifactId>omovCore</artifactId>
+			<version>0.5-BETA</version>
+			<scope>compile</scope>
+		</dependency>
+		
 		<!-- DUPLIACTE DEPENDENCY START -->	
 		<dependency>
 			<groupId>log4j</groupId>

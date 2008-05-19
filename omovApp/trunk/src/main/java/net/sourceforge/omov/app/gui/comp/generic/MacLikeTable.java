@@ -150,8 +150,9 @@ public class MacLikeTable extends JXTable implements IMacColors {
         return c;
     }
 
+    // MINOR GUI - does not work properly (also, isEditing parameter is not used)
+    @SuppressWarnings("unused")
     protected void fixMacOsCellRendererBorder(JComponent renderer, boolean selected, boolean focused, boolean isEditing) {
-    	// FIXME GUI - does not work properly (also, isEditing parameter is not used)
         Border border;
         if (selected) {
             border = BorderFactory.createMatteBorder(0, 0, 1, 0, focused ? MAC_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR : MAC_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR);
