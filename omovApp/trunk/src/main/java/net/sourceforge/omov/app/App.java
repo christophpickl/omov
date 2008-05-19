@@ -129,10 +129,11 @@ ubi brainstorming
  * @author christoph_pickl@users.sourceforge.net
  */
 public class App {
-	
+	// TODO GUI - give feedback, if Rescan Movie(s) was selected
 	// TODO GUI - ebenfalls progress dialog, wenn repository scanned movies importen tun
 	// TODO GUI - macliketables loose focus -> bg will only get partly gray/repainted on win systems
-	
+	// FIXME write in mantis: fetch metadata for > 1 movies
+	// FIXME wenn scan repository, dann metadata disablen und scannen; dann movies weghacken und dann metadata enablen und nochmals scannen -> er holt auch metadata fuer weggehakten filme + hackt diese wieder von alleine an!
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
