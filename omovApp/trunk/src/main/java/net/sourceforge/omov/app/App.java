@@ -61,6 +61,7 @@ CLI ARGs
 TODOs
 ==================================
 ! write in help (maybe also in some docu): if using vlc, you need to enable local webinterface -> howto enable web interface
+! gui: wenn macList/-Table nicht activated ist, dann wirds ja grau dargestellt -> erster klick dann drauf soll keinen effect but activate it; da sonst man draufklickt und automatisch die selektion aendert; soll aber NICHT so sein
 - gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
 - gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
 - at startup check if folderImage and folderTemporary exists & if its writeable
@@ -304,8 +305,8 @@ public class App {
                 assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
 
             } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
-                GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source\n" +
-                                "does not match with the expected version!");
+                GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
+                                "does not match with the expected version "+PreferencesDao.DATA_VERSION+"!");
 
 
 
@@ -321,8 +322,9 @@ public class App {
 //                }
 
                 /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
-                if(GuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies immediatley to take effect?") == true) {
+                if(GuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies to immediately take effect?") == true) {
                     PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
+                    GuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
                 }
 
                 return false;
