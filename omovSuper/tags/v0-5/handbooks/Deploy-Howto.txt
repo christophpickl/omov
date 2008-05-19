@@ -1,0 +1,75 @@
+OurMovies Deployhandbook
+=========================
+
+last edited: 19.5.08
+
+// good howto build custom dmg for osx
+   http://digital-sushi.org/entry/how-to-create-a-disk-image-installer-for-apple-mac-os-x/
+
+
+- make unit tests run successfully
+  - check if no testcase was outcommented
+- make sure someone checked the manuall test howto
+
+
+// create deployable artifact
+// ----------------------------
+- execute the buildJar/buildJar.sh script
+- for osx:
+  - update build.xml, info.plist, version.plist
+  - ant int buildMac
+  // build a DMG
+  - startup disk utility and open sparseimage
+  - replace OurMovies.app file
+  - vertically align icons
+  - umount the diskimage
+  # hdiutil convert OurMovies.sparseimage  -format UDBZ -o OurMovies-0.5.dmg
+
+- for win:
+  // JSmooth EXE wrapping
+  - check you have following files:
+    msvcr71.dll, omov_jsmooth.jsmooth, (omov_logo.ico?) omov_logo.png, OurMovies-9.9-Xyz-jar-with-dependencies.jar
+  - copy the the latest omov jar if necessary
+  - open up the JSmooth file
+  - update in Application/Embedded the jar file
+  - hit save and generate
+  - confirm exe starts up
+  - copy back jsmooth file to proper SVN directory
+  // advanced installer MSI creation
+  - copy files to deploy (OurMovies.exe!) into advinstaller directory (OurMovies_Distribution)
+  - open OurMoviesConfig.aip
+  - in ProductDetails: update Product Version
+  - in Files&Folders: check if content of TargetComputer/ApplicationFolder is correct (OurMovies.exe was automatically updated)
+  - save, build and test
+  - copy back *.aip file to proper SVN directory
+
+
+// sourceforge stuff
+// ----------------------------
+- create release
+  - go to Admin/FileRelease/AddRelease and enter name (e.g.: "0.5-beta")
+  - upload release
+    - connect to webserver: https://frs.sourceforge.net/c/ch/christoph_pickl/uploads and copy release files
+    // http://alexandria.wiki.sourceforge.net/File+Release+System+-+Offering+Files+for+Download
+  - mantis: set current version as released
+    - copy and reformat changelog for current version
+  - paste changelog text into sourceforge field
+  - wait until files have completed uploading
+  - select uploaded files in webinterface, sepcify file types
+  - check if files are beeing displayed on public download page
+- write news about new released versions
+
+
+
+// ----------------------------
+
+- update website
+  - news
+  - downloads
+  - change log
+ (- screenshots)
+
+!!! update version.txt file on webserver !!!
+- commit and TAG // only if successfully deployed on sourceforge
+
+FINISHED

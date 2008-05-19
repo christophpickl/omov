@@ -1,0 +1,100 @@
+<!-- OMOV SUPER -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.sourceforge.omov</groupId>
+	<artifactId>omovSuper</artifactId>
+	<packaging>pom</packaging>
+	<version>0.5-BETA</version>
+	<name>omovSuper</name>
+	<url>http://maven.apache.org</url>
+
+
+	<modules>
+		<module>../omovCore</module>
+		<module>../omovApp</module>
+		<module>../omovQtjApi</module>
+		<module>../omovQtjImpl</module>
+		<module>../omovWebApi</module>
+		<module>../omovWebImpl</module>
+	</modules>
+
+	<!-- =================================================================== -->
+	<!-- Dependencies                                                        -->
+	<!-- =================================================================== -->
+  <dependencyManagement>
+	<dependencies>
+		<!-- DUPLIACTE DEPENDENCY START
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.12</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.0.4</version>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		     DUPLIACTE DEPENDENCY END -->
+	</dependencies>
+  </dependencyManagement>
+
+
+	<!-- =================================================================== -->
+	<!-- Repositories                                                        -->
+	<!-- =================================================================== -->
+	<repositories>
+		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository -->
+		<repository>
+			<id>52north.org</id>
+			<url>
+				http://incubator.52north.org/maven/maven-repo/releases
+			</url>
+		</repository>
+	</repositories>
+
+
+
+	<!-- =================================================================== -->
+	<!-- Developers                                                          -->
+	<!-- =================================================================== -->
+	<developers>
+		<developer>
+			<id>CP</id>
+			<name>Christoph Pickl</name>
+			<organization>Vienna University of Technology</organization>
+			<roles>
+				<role>Everything</role>
+			</roles>
+			<email>e0525580@student.tuwien.ac.at</email>
+			<properties>
+				<skype>xphudyx</skype>
+			</properties>
+		</developer>
+	</developers>
+
+	<!-- =================================================================== -->
+	<!-- Subversion                                                          -->
+	<!-- =================================================================== -->
+	
+	<!--
+	<scm>
+	    <connection>https://omov.svn.sourceforge.net/svnroot/omov</connection>
+	    <developerConnection>scm:svn:https://omov.svn.sourceforge.net/svnroot/omov</developerConnection>
+	    <tag>HEAD</tag>
+	    <url>https://omov.svn.sourceforge.net/svnroot/omov</url>
+	</scm>
+	-->
+
+</project>
