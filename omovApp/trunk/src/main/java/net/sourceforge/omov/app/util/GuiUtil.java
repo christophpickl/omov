@@ -272,4 +272,16 @@ public class GuiUtil extends SimpleGuiUtil {
         	rootPane.putClientProperty("Window.style", "small");
         }
     }
+    
+    private static Font labelBoldFontCache;
+    
+    public static JLabel labelBold(String msg) {
+    	if(labelBoldFontCache == null) {
+    		labelBoldFontCache = new Font(null, Font.BOLD, 12);
+    	}
+    	
+    	final JLabel label = new JLabel(msg);
+    	label.setFont(labelBoldFontCache);
+    	return label;
+    }
 }

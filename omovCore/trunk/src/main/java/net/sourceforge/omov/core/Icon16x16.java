@@ -28,6 +28,7 @@ public enum Icon16x16 {
     NEW_MOVIE("new_movie.png"),
     HELP("help.png"),
     VLC("vlc.png"),
+    QUICKVIEW("quickview.png"),
     PREFERENCES("preferences.png"),
     INFORMATION("information.png"),
     SCAN("scan.png"),

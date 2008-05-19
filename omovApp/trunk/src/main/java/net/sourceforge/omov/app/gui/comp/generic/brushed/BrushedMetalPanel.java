@@ -75,7 +75,7 @@ public class BrushedMetalPanel extends TiledImagePanel {
     }
 
     public void setActive(boolean active) {
-    	LOG.debug("setActive(active="+active+")");
+//    	LOG.debug("setActive(active="+active+")");
     	this.ui.setActive(active);
     }
 }

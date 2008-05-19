@@ -22,12 +22,15 @@ package net.sourceforge.omov.core.model.db4o;
 import java.io.File;
 
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.FatalException.FatalReason;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.db4o.DatabaseFileLockedException;
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
 
@@ -60,7 +63,13 @@ public class Db4oConnection implements IDatabaseConnection {
         }
         
         LOG.info("Opening database file '"+dbFileName+"'.");
-        this.connection = Db4o.openFile(dbFileName);
+        try {
+        	this.connection = Db4o.openFile(dbFileName);
+        } catch(DatabaseFileLockedException e) {
+        	throw new FatalException("Database file '"+dbFileName+"' already in use!", e, FatalReason.DB_LOCKED);
+        } catch(Exception e) {
+        	throw new FatalException("Could not open db4o file '"+dbFileName+"'!", e);
+        }
     }
 
     public void close() throws BusinessException {
