@@ -77,7 +77,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private final MovieLanguagesListSuggester inpLanguages;
     private final MovieSubtitlesListSuggester inpSubtitles;
 
-    private final MovieDirectorTextSuggester inpDirector = new MovieDirectorTextSuggester(17); // FIXME GUI - size should not be specified by columns, but layout should decide actual size of this component
+    private final MovieDirectorTextSuggester inpDirector = new MovieDirectorTextSuggester(17); // TODO GUI - size should not be specified by columns, but layout should decide actual size of this component
     private final MovieActorsListSuggester inpActors;
 
     private List<String> files = new LinkedList<String>();

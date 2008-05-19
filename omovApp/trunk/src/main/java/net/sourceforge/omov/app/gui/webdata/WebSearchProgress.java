@@ -68,7 +68,7 @@ public class WebSearchProgress<N extends Movie> extends JDialog {
     }
 
     private JPanel initComponents() {
-    	// TODO duplicate code: see WebFetchingProgress
+    	// TODO GUI duplicate code progress dialogs (see WebFetchingProgress)
         final JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         progressBar.setPreferredSize(new Dimension(200, 30));

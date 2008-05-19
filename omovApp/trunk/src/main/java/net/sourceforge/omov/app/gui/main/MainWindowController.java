@@ -45,6 +45,7 @@ import net.sourceforge.omov.app.gui.smartcopy.SmartCopyDialog;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.MovieFolderInfo;
 import net.sourceforge.omov.core.bo.Quality;
@@ -462,28 +463,31 @@ public final class MainWindowController extends CommonController<Movie> implemen
         }
         
         final IMovieDao dao = BeanFactory.getInstance().getMovieDao();
-        for (Movie movie : selectedMovies) {
-        	LOG.debug("Try to rescan " + movie);
-        	if(movie.isFolderPathSet() == false) {
+        
+        for (final Movie selectedMovie : selectedMovies) {
+        	LOG.debug("Try to rescan selected movie: " + selectedMovie);
+        	
+        	if(selectedMovie.isFolderPathSet() == false) {
         		LOG.debug("Skipping movie because folderpath is not set.");
         		continue;
         	}
         	
-        	final File folder = new File(movie.getFolderPath());
+        	final File folder = new File(selectedMovie.getFolderPath());
         	LOG.debug("Rescanning folder '"+folder.getAbsolutePath()+"' (exists="+folder.exists()+").");
         	final Movie rescannedMovie;
         	if(folder.exists() == false) {
-        		rescannedMovie = Movie.newByOtherMovieFolderInfo(movie, null);
+        		rescannedMovie = Movie.newByOtherMovieFolderInfo(selectedMovie, null);
         	} else {
         		MovieFolderInfo folderInfo = Scanner.scanMovieFolderInfo(folder);
-        		rescannedMovie = Movie.newByOtherMovieFolderInfo(movie, folderInfo);
+        		rescannedMovie = Movie.newByOtherMovieFolderInfo(selectedMovie, folderInfo);
         	}
-        	if(movie.equals(rescannedMovie) == false) {
+        	
+        	// update in database if something has changed
+        	if(selectedMovie.equals(rescannedMovie) == false) {
 	        	try {
 					dao.updateMovie(rescannedMovie);
 				} catch (BusinessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new FatalException("Could not update rescanned movie '"+rescannedMovie.getTitle()+"' (ID = "+rescannedMovie.getId()+")!", e);
 				}
         	}
 		}

@@ -53,7 +53,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
 
     private static final long serialVersionUID = -4690492128203374606L;
 
-    // FIXME GUI - vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
+    // TODO GUI - vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
 
 
     public static void main(String[] args) {
