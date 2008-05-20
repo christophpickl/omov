@@ -52,6 +52,7 @@
 			<version>0.5-BETA</version>
 			<scope>compile</scope>
 		</dependency>
+		<!--  nicht alls dependency, sondern bei assembly dazu, wie ein plugin dazu -->
 		<dependency>
 			<groupId>net.sourceforge.omov.qtjImpl</groupId>
 			<artifactId>omovQtjImpl</artifactId>
