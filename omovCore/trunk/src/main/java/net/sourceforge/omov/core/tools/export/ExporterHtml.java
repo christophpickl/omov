@@ -41,6 +41,11 @@ import net.sourceforge.omov.core.util.FileUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+// TODO generated output is crap: width of columns is fixed; looks ugly :(
+// - nice to have: resizable columns + swapable columns
+// - nice to have: fixed table headers when scrolling
+// only display generate id field, if hit on button
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
@@ -245,7 +250,7 @@ public class ExporterHtml implements IExporterHtml {
                 writer.write(
                         "<h1>Movies from "+PreferencesDao.getInstance().getUsername()+"</h1>\n" +
                         "<div id='date'>"+currentDate+"</div>\n" +
-                        "\n" +
+                        "<br />\n" +
                         "<form id='data_form'>\n" +
                         "\n" +
                         "<table id='tbl_data' cellspacing='0' cellpadding='12'>\n" +
@@ -330,12 +335,20 @@ public class ExporterHtml implements IExporterHtml {
         "function doGenerateIds() {\n" +
         "   form = document.getElementById('data_form');\n" +
         "   output = '';\n" +
-        "   for(i=0; i < form.inpId.length; i++) {\n" +
-        "       currentInpId = form.inpId[i];\n" +
-        "       if(currentInpId.checked == true) {\n" +
+        // bugfix [mantis 0000060]
+        "   if(form.inpId.length == undefined) {\n" +
+        "      if(form.inpId.checked == true) {\n" +
+        "         output = form.inpId.value;\n" +
+        "      }\n" +
+        "  } else {\n" +
+        // bugfix end
+        "     for(i=0; i < form.inpId.length; i++) {\n" +
+        "        currentInpId = form.inpId[i];\n" +
+        "        if(currentInpId.checked == true) {\n" +
         "           if(output != '') output += '|';\n" +
         "           output += currentInpId.value;\n" +
-        "       }\n" +
+        "         }\n" +
+        "      }\n" +
         "   }\n" +
         "   if(output == '') {\n" +
         "       alert('Not any movie was selected.');\n" +
@@ -418,6 +431,7 @@ public class ExporterHtml implements IExporterHtml {
         "   padding:6px 0px 6px 0px;\n" +
         "   padding-left:6px;\n" +
         "   padding-right:6px;\n" +
+        "   font-size:14px;\n" +
         "}\n" +
         ".td_id {\n" +
         "   text-align:center;\n" +
@@ -444,6 +458,7 @@ public class ExporterHtml implements IExporterHtml {
         "   border-bottom:1px solid #999999;\n" +
         "   padding:6px 10px 6px 10px;\n" +
         "   empty-cells:show;\n" +
+        "   font-size:14px;\n" +
         "}\n" +
         ".title_link {\n" +
         "   text-decoration:none;\n" +
