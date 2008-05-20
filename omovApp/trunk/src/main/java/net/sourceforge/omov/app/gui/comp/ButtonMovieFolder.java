@@ -91,17 +91,12 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
         }
     }
 
-    public static interface IButtonFolderListener {
-        void notifyFolderSelected(File folder);
-        void notifyFolderCleared();
-    }
-
 
     private void doClearFolder() {
         this.notifyListeners(null);
     }
 
-    private void doClicked() {
+    public void doClicked() {
         final File directory = GuiUtil.getDirectory(this.owner, PreferencesDao.getInstance().getRecentMovieFolderPath());
         if (directory == null) {
             LOG.debug("Setting movie folder aborted by user.");
@@ -133,7 +128,7 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
     public void mouseReleased(MouseEvent event) { /* nothing to do */ }
 
 
-    class ClickTimerTask extends TimerTask {
+    private class ClickTimerTask extends TimerTask {
         public void run() {
             if (doubleclick) {
 //                System.out.println("doClearFolder();");

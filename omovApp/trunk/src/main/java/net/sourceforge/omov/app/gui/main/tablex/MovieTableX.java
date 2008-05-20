@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import javax.swing.JMenuItem;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ListSelectionEvent;
@@ -118,6 +119,8 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         super(model);
         this.contextMenuListener = contextMenuListener;
 
+        this.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
+        
 //        this.setRowSelectionAllowed(true);
 //        this.setCellSelectionEnabled(false);
         this.setColumnSelectionAllowed(false);
@@ -154,7 +157,7 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
                 column.setResizable(false);
             }
         }
-
+        // TODO GUI if not yet seen, do not only draw title bold, but also other text fields
         this.getColumnModel().addColumnModelListener(new TableColumnModelListener() {
             public void columnAdded(TableColumnModelEvent e) {
                 updatePrefColumnVisibility();

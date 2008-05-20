@@ -38,7 +38,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
 import net.sourceforge.omov.app.gui.comp.generic.ITableSelectionListener;
@@ -165,9 +164,13 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         return panel;
     }
 
+    /**
+     * adds following listeners: TableSelectionListener, MouseListener and KeyListener
+     */
     private void initMovieTable() {
-        this.moviesTable.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 
+        this.moviesTable.addTableSelectionListener(this);
+    	
         this.moviesTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent event) {
                 new GuiAction() { protected void _action() {
@@ -192,8 +195,6 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 }}.doAction();
             }
         });
-
-        this.moviesTable.addTableSelectionListener(this);
 
         this.moviesTable.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent event) { /* nothing to do */ }
@@ -224,11 +225,6 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
             public void keyTyped(KeyEvent event) { /* nothing to do */ }
         });
     }
-
-//    void reloadTableData() {
-//        LOG.debug("Reloading main movietable data.");
-//        this.moviesModel.movieDataChanged();
-//    }
 
     public void selectionEmptyChanged() {
         this.selectedMovie = null;

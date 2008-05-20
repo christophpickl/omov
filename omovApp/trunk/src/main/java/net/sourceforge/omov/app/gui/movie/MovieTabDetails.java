@@ -37,8 +37,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.comp.ButtonMovieFolder;
+import net.sourceforge.omov.app.gui.comp.IButtonFolderListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
-import net.sourceforge.omov.app.gui.comp.ButtonMovieFolder.IButtonFolderListener;
 import net.sourceforge.omov.app.gui.comp.generic.ContextMenuButton;
 import net.sourceforge.omov.app.gui.comp.generic.MultiColTextField;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsListSuggester;
@@ -68,6 +68,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
     private static final Log LOG = LogFactory.getLog(MovieTabDetails.class);
     private static final long serialVersionUID = 1757068592935794813L;
 
+    private static final String CMD_SELECT_FOLDER = "CMD_SELECT_FOLDER";
     private static final String CMD_FILES_RESCAN = "CMD_FILES_RESCAN";
     private static final String CMD_FILES_REORDER = "CMD_FILES_REORDER";
     private static final String CMD_FILES_CLEAR = "CMD_FILES_CLEAR";
@@ -90,6 +91,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     // popmenu items for folder stuff
     private ContextMenuButton folderContextMenu;
+    private final JMenuItem itemSelectFolder = new JMenuItem("Select Folder");
     private final JMenuItem itemRescan = new JMenuItem("Rescan Folder");
     private final JMenuItem itemReorder = new JMenuItem("Reorder Files");
     private final JMenuItem itemClear = new JMenuItem("Clear");
@@ -206,7 +208,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         c.anchor = GridBagConstraints.LINE_START;
         c.insets = new Insets(0, 6, 0, 6); // top left bottom right
         c.weightx = 1.0;
-        panel.add(this.panelFolder(), c);
+        panel.add(this.panelMovieFolder(), c);
 
 //        panel.setBackground(Color.GRAY);
 
@@ -259,50 +261,27 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         return panel;
     }
 
-    private JPanel panelFolder() {
-    	/*
-        final GridBagLayout layout = new GridBagLayout();
-        final GridBagConstraints c = new GridBagConstraints();
-        final JPanel panel = new JPanel(layout);
-        layout.setConstraints(panel, c);
-        panel.setOpaque(false);
-
-        c.anchor = GridBagConstraints.LINE_START;
-        c.insets = new Insets(0, 0, 0, 10); // top left bottom right
-        c.gridx = 0;
-        c.gridy = 0;
-        c.fill = GridBagConstraints.VERTICAL;
-//        panel.add(this.panelFolderLeft(), c);
-        panel.add(this.btnMovieFolder, c);
-//        panel.add(new JLabel("xyz"), c);
-
-        c.anchor = GridBagConstraints.FIRST_LINE_START;
-        c.insets = new Insets(0, 0, 0, 0); // top left bottom right
-        c.gridx = 1;
-//        c.fill = GridBagConstraints.NONE;
-        panel.add(this.panelFolderRight(), c);
-
-        panel.setOpaque(true);
-		panel.setBackground(Color.GREEN);
-
-        return panel;
-        */
-
-    	
+    private JPanel panelMovieFolder() {
     	final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 10));
     	panel.setOpaque(false);
-    	panel.add(this.panelFolderLeft());
-    	panel.add(this.panelFolderRight());
+    	panel.add(this.panelMovieFolderControl());
+    	panel.add(this.panelMovieFolderInfo());
     	return panel;
     }
     
 
-    private JPanel panelFolderLeft() {
+    private JPanel panelMovieFolderControl() {
 		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
+		
+		this.itemSelectFolder.setActionCommand(CMD_SELECT_FOLDER);
 		this.itemRescan.setActionCommand(CMD_FILES_RESCAN);
 		this.itemReorder.setActionCommand(CMD_FILES_REORDER);
 		this.itemClear.setActionCommand(CMD_FILES_CLEAR);
+		
+		this.itemSelectFolder.addActionListener(this);
 		this.itemRescan.addActionListener(this);
+		this.itemReorder.addActionListener(this);
+		this.itemClear.addActionListener(this);
 		
 		if(this.isAddMode == true || this.editMovie.isFolderPathSet() == false) {
 			this.itemRescan.setEnabled(false);
@@ -316,12 +295,11 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 			this.itemClear.setEnabled(false);
 		}
 		
-		
-		this.itemReorder.addActionListener(this);
-		this.itemClear.addActionListener(this);
+		popupItems.add(this.itemSelectFolder);
 		popupItems.add(this.itemRescan);
 		popupItems.add(this.itemReorder);
 		popupItems.add(this.itemClear);
+		
     	this.folderContextMenu = new ContextMenuButton(popupItems);
     	this.folderContextMenu.setOpaque(false);
     	
@@ -358,6 +336,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 			this.doFilesReorder();
 		} else if(cmd.equals(CMD_FILES_RESCAN)) {
 			this.doFilesRescan();
+		} else if(cmd.equals(CMD_SELECT_FOLDER)) {
+			this.btnMovieFolder.doClicked(); // invoke button programatically
 		} else {
 			throw new IllegalArgumentException("unhandled action commad '"+cmd+"'!");
 		}
@@ -402,7 +382,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 		this.scanFolder(new File(path));
 	}
 
-    private JPanel panelFolderRight() {
+    private JPanel panelMovieFolderInfo() {
         final GridBagLayout layout = new GridBagLayout();
         final GridBagConstraints c = new GridBagConstraints();
         final JPanel panel = new JPanel(layout);
