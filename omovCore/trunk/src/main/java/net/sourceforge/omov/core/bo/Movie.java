@@ -65,7 +65,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class Movie implements Serializable {
+public class Movie implements Serializable, Comparable<Movie> {
 
     private static final long serialVersionUID = -1005281123869400266L;
     private static final Log LOG = LogFactory.getLog(Movie.class);
@@ -398,6 +398,14 @@ DATA VERSION HISTORY
 //        return new Movie(id, title, genre, fileSize, languages, filePath, coverFile, seen, rating);
 //    }
 
+
+	public int compareTo(Movie that) {
+		final int titleCompared = this.getTitle().compareTo(that.getTitle());
+		if(titleCompared != 0) {
+			return titleCompared;
+		}
+		return (this.getId() == that.getId() ? 0 : (this.getId() < that.getId() ? -1 : 1) );
+	}
 
     @Override
     public String toString() {
