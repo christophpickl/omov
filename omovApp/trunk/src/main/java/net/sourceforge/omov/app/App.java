@@ -63,16 +63,11 @@ TODOs
 ! write in help (maybe also in some docu): if using vlc, you need to enable local webinterface -> howto enable web interface
 ! gui: wenn macList/-Table nicht activated ist, dann wirds ja grau dargestellt -> erster klick dann drauf soll keinen effect but activate it; da sonst man draufklickt und automatisch die selektion aendert; soll aber NICHT so sein
 - gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
-- gui: in windows wird vertical grid in main table nur bis dahin gezeichnet, wo row-entries da sind; und NICHT ganz durchgezogen
-- gui general enhancement: enable in lists/tables doubleclick (edit) and backspace (delete).
-- at startup check if folderImage and folderTemporary exists & if its writeable
-- should catch all (runtime-)exceptions at top of every user-invocations (actionPerformed, mouseClicked, ...)
 - *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
 - test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
 - if main movie table row is selected, then popup edit dialog, hit next-button -> previously selected row will be unselected (because dao update will be performed -> reselect these rows)
 - wenn man in movie table metadata fetched, blocked gui -> eigener swingworker + progress dialog
 - in MovieDetailPanel unten zusaetzliche zeile mit werten (trailer, und...?)
-- bei kleinen fenster: jRootPane.putClientProperty("Window.style", "small")
 
 *** web imdb subproject
 * websearch: make webextractor configurable ScanDialog.java
@@ -90,6 +85,8 @@ TODOs
 
 ** write more external plugins
   fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
+  trailer/trailer-uri
+  rating from other users
 
 ** bzgl editable table cell rows: [http://forum.java.sun.com/thread.jspa?forumID=57&threadID=5120161]
   Given that we have very little information to go by, I'm guessing that you have a custom TableModel and you are not firing
@@ -132,8 +129,6 @@ public class App {
 	// TODO GUI - give feedback, if Rescan Movie(s) was selected
 	// TODO GUI - ebenfalls progress dialog, wenn repository scanned movies importen tun
 	// TODO GUI - macliketables loose focus -> bg will only get partly gray/repainted on win systems
-	// FIXME write in mantis: fetch metadata for > 1 movies
-	// FIXME wenn scan repository, dann metadata disablen und scannen; dann movies weghacken und dann metadata enablen und nochmals scannen -> er holt auch metadata fuer weggehakten filme + hackt diese wieder von alleine an!
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
