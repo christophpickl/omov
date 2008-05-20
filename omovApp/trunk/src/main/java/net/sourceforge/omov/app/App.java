@@ -200,20 +200,27 @@ public class App {
                 }
             });
         } catch(Exception e) {
-        	LOG.error("Startup failed!", e);
         	
         	final StringBuilder sb = new StringBuilder();
         	sb.append("The application crashed due to internal errors.\n");
+        	
+        	boolean alreadyLogged = false;
         	
         	Throwable cause = e;
         	while( (cause = cause.getCause()) != null) {
         		if(cause instanceof FatalException) {
         			final FatalException fe = (FatalException) cause;
             		if(fe.getReason() == FatalReason.DB_LOCKED) {
+            			LOG.warn("Startup failed because database is locked!", e);
+            			alreadyLogged = true;
             			sb.append("The database seems to be already in use!\n");
             		}
         			break;
         		}
+        	}
+        	
+        	if(alreadyLogged == false) {
+            	LOG.error("Startup failed!", e);
         	}
         	
         	sb.append("\nPlease lookup logs for details and contact maintainer if necessary.");
