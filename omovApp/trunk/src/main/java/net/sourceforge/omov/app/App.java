@@ -53,81 +53,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /*
+
 CLI ARGs
 ==================================
 - "DEBUG" ... enables debug menubar entry
-
-
-FIXMEs
-==================================
-! outsource omovWebImpl as runtime-plugin (instead of compile-time necessary submodule) !
-  - qtj impl abhaengigkeit
-	- keine codeabhaenigkeit (kein dependency von omovApp)
-	  sondern zusaetzlich bei assembly (von omovApp) angeben
-	- in omovSuper, qtjImpl nicht als untermodul
-	  wohl aber int qtjImpl, omovSuper als superPom angeben
-- dialog at (every?) startup "this is just beta. could be bugs. please report, or contact if any requests"
-
-TODOs
-==================================
-! write in help (maybe also in some docu): if using vlc, you need to enable local webinterface -> howto enable web interface
-! gui: wenn macList/-Table nicht activated ist, dann wirds ja grau dargestellt -> erster klick dann drauf soll keinen effect but activate it; da sonst man draufklickt und automatisch die selektion aendert; soll aber NICHT so sein
-- gui: in windows lockOriginalSize does not work properly! (also min size of mainwindow is set too big)
-- *ListFilled nicht nur fuer actor und genre, sondern auch fuer: language, subtitle !!! aber immer dran denken das model auch UNREGISTERN!!!
-- test class which automatically checks data source converters (e.g.: reset pref version to 1, then use code which needs v2 -> check updated values)
-- if main movie table row is selected, then popup edit dialog, hit next-button -> previously selected row will be unselected (because dao update will be performed -> reselect these rows)
-- wenn man in movie table metadata fetched, blocked gui -> eigener swingworker + progress dialog
-- in MovieDetailPanel unten zusaetzliche zeile mit werten (trailer, und...?)
-
-*** web imdb subproject
-* websearch: make webextractor configurable ScanDialog.java
-*  zuerst "Popular Titles" anzeigen, dann andere ImdbStartPage.java
-
-? not seperating between here means they might use the same files (e.g.: coverfolder/db-file will not be deleted) ... hm... :( Constants.java
-? wirklich auf index 0 ruecksetzen, wenn auf doManage-smartfolders geklickt hat?!   SmartFolderSelectionPanel.java
-
-... minor/misc
-- outsource common code (NumberMatch) into superclass (or something like that; factory, ...) RatingMatch.java
-- private final boolean metadataFetched; ... oder so halt.   ScannedMovie.java
-- look if this is really necessary anymore (since isPopupTrigger was added); otherwise remove this.  BodyContext.java
-- :( too bad, how to check without wrapper?  MovieCreator.java
-
-
-** write more external plugins
-  fetch data from different websites; e.g.: fetch slideshow images from www.apunkachoice.com/movies
-  trailer/trailer-uri
-  rating from other users
-
-** bzgl editable table cell rows: [http://forum.java.sun.com/thread.jspa?forumID=57&threadID=5120161]
-  Given that we have very little information to go by, I'm guessing that you have a custom TableModel and you are not firing
-  the TableCellUpdated() method when you change the data, so the table doesn't know it should repaint the cell.
-
-** bzgl listener von dao unregistern:
-  eigentlich ist registern nicht notwendig, da wenn user movie added/edited, kann datenbestand gar nicht aendern.
-  -> loesung: dem Movie*ListFilled einfach eine List<String> uebergeben!
-
-
-FEATURES
-==================================
-- write more external plugins: fetch data from different websites; e.g.:
-    - provide list of more selectable cover files  for one movie (fetched by different internet provider)
-    - fetch slideshow images from www.apunkachoice.com/movies  App.java
-- could popup dialog with result of rescanning one or more movie folders (display what has changed)
-
--> http://www.theserverside.com/tt/articles/article.tss?l=Insidedb4o
--> http://db4o-tools.blogspot.com/search/label/db4o
-
-
-ubi brainstorming
-==================================
-- movie titles auch als foldernamen am filesystem umbennen lassen koennen per preference
-    - mit movie files wirds haglig; wenn mehrere existieren -> reihenfolge?; was wenn dvd ist -> eigentlich vordefinierter name!
-- bilder von slideshow
-- links baum zum verwalten von kategorien/smartfolders (wie itunes hat)
-    - darin darstellen einen "autmatisch synced smartfolder" fuer genres. sobald neuer film mit neuem genre eintragen, dann hat dieser smartfolder automatisch eine neue "playlist" mit diesem genre
-- serien verwaltung; displayed directly in main window, in same table
-- ordner repository zwang aufheben: movies muessen nicht als ordner am filesystem existieren -> sondern koennen auch nur einzelnes file sein
-    - dazu muessen beim scannen "movie-pt1.avi" und "movie-pt2.avi" zusammenerkannt werden
 
 */
 
