@@ -58,6 +58,16 @@ CLI ARGs
 - "DEBUG" ... enables debug menubar entry
 
 
+FIXMEs
+==================================
+! outsource omovWebImpl as runtime-plugin (instead of compile-time necessary submodule) !
+  - qtj impl abhaengigkeit
+	- keine codeabhaenigkeit (kein dependency von omovApp)
+	  sondern zusaetzlich bei assembly (von omovApp) angeben
+	- in omovSuper, qtjImpl nicht als untermodul
+	  wohl aber int qtjImpl, omovSuper als superPom angeben
+- dialog at (every?) startup "this is just beta. could be bugs. please report, or contact if any requests"
+
 TODOs
 ==================================
 ! write in help (maybe also in some docu): if using vlc, you need to enable local webinterface -> howto enable web interface
