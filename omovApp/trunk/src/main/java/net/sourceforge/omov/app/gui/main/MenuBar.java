@@ -130,6 +130,9 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     // Help
     private static final String LBL_HELP = "Omov Help";
     private static final String CMD_HELP = "CMD_HELP";
+    private static final String LBL_WEBSITE = "Visit Website";
+    private static final String CMD_WEBSITE = "CMD_WEBSITE";
+    
     
     private static final String LBL_ABOUT = "About";
     private static final String CMD_ABOUT = "CMD_ABOUT";
@@ -239,9 +242,14 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', LBL_HELP, CMD_HELP, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
         HelpSystem.enableHelp(helpItem, HelpEntry.HOME);
         
+        // TODO GUI set tooltips for every menu item (also for every button, etc. and anything)    helpItem.setToolTipText("Popups an own window containing the Help System");
+        
         if(UserSniffer.isMacOSX() == false) {
             menu.add(this.aboutItem);
         }
+        
+        menu.addSeparator();
+        GuiUtil.createMenuItem(menu, 'W', LBL_WEBSITE, CMD_WEBSITE, this); // FIXME GUI create web icon    -1, ImageFactory.getInstance().getIcon(Icon16x16.WEB));        
         
         return menu;
     }
@@ -288,6 +296,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
                 controller.doPlayQuickView();
             } else if(cmd.equals(CMD_RESCAN_FOLDERS)) {
                 controller.doRescanFolders();
+            } else if(cmd.equals(CMD_WEBSITE)) {
+                controller.doVisitWebsite();
 //            } else if(cmd.equals(CMD_REMOTE)) {
 //                this.controller.doRemoteConnect();
             } else {

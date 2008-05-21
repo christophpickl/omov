@@ -59,6 +59,7 @@ import net.sourceforge.omov.core.tools.remote.IRemoteDataReceiver;
 import net.sourceforge.omov.core.tools.remote.RemoteServer;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
+import net.sourceforge.omov.core.util.BrowserUtil;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
@@ -490,6 +491,15 @@ public final class MainWindowController extends CommonController<Movie> implemen
 					throw new FatalException("Could not update rescanned movie '"+rescannedMovie.getTitle()+"' (ID = "+rescannedMovie.getId()+")!", e);
 				}
         	}
+		}
+    }
+    
+    public void doVisitWebsite() {
+    	try {
+			BrowserUtil.openOmovWebsite();
+		} catch (BusinessException e) {
+			LOG.error("Could not open omov website!", e);
+			GuiUtil.error("Internal Error", "Could not open OurMovies website!");
 		}
     }
     
