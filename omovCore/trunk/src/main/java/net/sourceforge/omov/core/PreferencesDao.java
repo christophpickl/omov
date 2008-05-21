@@ -57,6 +57,10 @@ DATA VERSION HISTORY
 
  */
     public static final int DATA_VERSION = 3;
+
+    
+    private static final boolean DEFAULT_STARTUP_VERSION_CHECK = true;
+    
     
     private enum PrefKey {
         IS_CONFIGURED,
@@ -112,7 +116,7 @@ DATA VERSION HISTORY
         this.folderTemporary = prefs.get(PrefKey.FOLDER_TEMPORARY.name(), null);
         this.folderData = prefs.get(PrefKey.FOLDER_DATA.name(), null);
         this.username = prefs.get(PrefKey.USERNAME.name(), null);
-        this.startupVersionCheck = Boolean.valueOf(prefs.get(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(false)));
+        this.startupVersionCheck = Boolean.valueOf(prefs.get(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(DEFAULT_STARTUP_VERSION_CHECK)));
         this.startupFilesystemCheck = Boolean.valueOf(prefs.get(PrefKey.STARTUP_FILESYSTEM_CHECK.name(), Boolean.toString(false)));
         
 //        this.serverPort = prefs.getInt(KEY.SERVER_PORT.name(), 1789);

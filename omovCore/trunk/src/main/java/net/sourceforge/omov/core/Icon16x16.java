@@ -41,6 +41,8 @@ public enum Icon16x16 {
     SEVERITY_WARNING("severity_warning.gif"),
     SEVERITY_ERROR("severity_error.gif");
     
+//    WEB("web_globe.png");
+    
     final String fileName;
     private Icon16x16(String fileName) {
         this.fileName = fileName;
