@@ -40,8 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
-import net.sourceforge.omov.app.gui.comp.generic.ITableSelectionListener;
-import net.sourceforge.omov.app.gui.comp.generic.brushed.BrushedMetalPanel;
 import net.sourceforge.omov.app.gui.main.tablex.IMovieTableContextMenuListener;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableX;
@@ -52,6 +50,8 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.osx.OSXAdapter;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.gui.ITableSelectionListener;
+import net.sourceforge.omov.gui.brushed.BrushedMetalPanel;
 import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
 
 import org.apache.commons.logging.Log;

@@ -29,13 +29,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
-import net.sourceforge.omov.app.gui.comp.generic.LabeledComponent;
-import net.sourceforge.omov.app.gui.comp.generic.MultiColTextField;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
+import net.sourceforge.omov.gui.LabeledComponent;
+import net.sourceforge.omov.gui.MultiColTextField;
 
 /**
  * 

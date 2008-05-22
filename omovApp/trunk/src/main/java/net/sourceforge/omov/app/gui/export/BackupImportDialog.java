@@ -34,9 +34,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import net.sourceforge.omov.app.gui.comp.generic.ButtonPosition;
-import net.sourceforge.omov.app.gui.comp.generic.FileChooser;
-import net.sourceforge.omov.app.gui.comp.generic.IChooserListener;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -44,6 +41,9 @@ import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.tools.export.ImportExportConstants;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.ButtonPosition;
+import net.sourceforge.omov.gui.FileChooser;
+import net.sourceforge.omov.gui.IChooserListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

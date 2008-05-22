@@ -27,7 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.bo.Resolution;
-import net.sourceforge.omov.app.gui.comp.generic.NumberField;
+import net.sourceforge.omov.gui.NumberField;
 
 /**
  * 

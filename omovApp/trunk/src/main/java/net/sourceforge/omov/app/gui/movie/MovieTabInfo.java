@@ -45,13 +45,13 @@ import net.sourceforge.omov.app.gui.comp.DurationPanel;
 import net.sourceforge.omov.app.gui.comp.QualityField;
 import net.sourceforge.omov.app.gui.comp.ResolutionPanel;
 import net.sourceforge.omov.app.gui.comp.YearField;
-import net.sourceforge.omov.app.gui.comp.generic.IDataList;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieGenresListSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieStyleTextSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieTitleTextSuggester;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.util.NumberUtil.Duration;
+import net.sourceforge.omov.gui.IDataList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

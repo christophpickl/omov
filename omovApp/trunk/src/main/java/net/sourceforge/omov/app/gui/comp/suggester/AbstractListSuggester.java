@@ -40,8 +40,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
-import net.sourceforge.omov.app.gui.comp.generic.MacLikeList;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.gui.MacLikeList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

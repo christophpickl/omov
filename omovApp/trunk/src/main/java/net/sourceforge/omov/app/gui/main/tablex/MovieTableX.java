@@ -39,10 +39,6 @@ import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.omov.app.gui.comp.generic.BodyContext;
-import net.sourceforge.omov.app.gui.comp.generic.ITableSelectionListener;
-import net.sourceforge.omov.app.gui.comp.generic.MacLikeTable;
-import net.sourceforge.omov.app.gui.comp.generic.TableContextMenuListener;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.MovieTableColumns;
@@ -55,6 +51,10 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.core.util.UserSniffer.OS;
+import net.sourceforge.omov.gui.BodyContext;
+import net.sourceforge.omov.gui.ITableSelectionListener;
+import net.sourceforge.omov.gui.MacLikeTable;
+import net.sourceforge.omov.gui.TableContextMenuListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

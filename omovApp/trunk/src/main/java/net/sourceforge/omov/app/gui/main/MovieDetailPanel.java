@@ -40,11 +40,11 @@ import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
-import net.sourceforge.omov.app.gui.comp.generic.MultiColTextField;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
 import net.sourceforge.omov.core.model.IMovieDao;
 import net.sourceforge.omov.core.model.IMovieDaoListener;
 import net.sourceforge.omov.core.util.ImageUtil;
+import net.sourceforge.omov.gui.MultiColTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

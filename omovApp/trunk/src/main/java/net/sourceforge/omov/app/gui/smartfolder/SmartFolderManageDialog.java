@@ -38,10 +38,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.OmovListCellRenderer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
-import net.sourceforge.omov.app.gui.comp.generic.MacLikeList;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -53,6 +49,8 @@ import net.sourceforge.omov.core.model.ISmartFolderDao;
 import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.MacLikeList;
+import net.sourceforge.omov.gui.MacLikeListCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SmartFolderManageDialog extends JDialog implements ActionListener, IEscapeDisposeReceiver {
+public class SmartFolderManageDialog extends JDialog implements ActionListener {
     
     private static final long serialVersionUID = -6096464702194946519L;
     private static final Log LOG = LogFactory.getLog(SmartFolderManageDialog.class);
@@ -69,8 +67,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     private static final String CMD_ADD = "Add";
     private static final String CMD_EDIT = "Edit";
     private static final String CMD_DELETE = "Delete";
-    
-    private final EscapeDisposer escapeDisposer = new EscapeDisposer(this); 
+     
     
     private final JList smartFolderList = new MacLikeList();
     private final FolderModel listModel = new FolderModel();
@@ -80,7 +77,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         super(owner, true);
         
         this.controller = new SmartFolderManageController(this, owner);
-        this.addKeyListener(this.escapeDisposer);
+        
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setTitle("SmartFolders");
         GuiUtil.macSmallWindow(this.getRootPane());
@@ -100,8 +97,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         
         this.smartFolderList.setVisibleRowCount(5);
         this.smartFolderList.setModel(this.listModel);
-        this.smartFolderList.addKeyListener(this.escapeDisposer);
-        this.smartFolderList.setCellRenderer(new OmovListCellRenderer());
+        this.smartFolderList.setCellRenderer(new MacLikeListCellRenderer());
         
         
         // doubleclick on smartfolder list opens the edit dialog
@@ -143,11 +139,6 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         btnAdd.addActionListener(this);
         btnEdit.addActionListener(this);
         btnDelete.addActionListener(this);
-
-        btnAdd.addKeyListener(this.escapeDisposer);
-        btnEdit.addKeyListener(this.escapeDisposer);
-        btnDelete.addKeyListener(this.escapeDisposer);
-        
         
         final JPanel panel = new JPanel();
         panel.setOpaque(false);

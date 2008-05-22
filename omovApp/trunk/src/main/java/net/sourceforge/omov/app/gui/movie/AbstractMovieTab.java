@@ -29,9 +29,9 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.app.gui.comp.generic.CheckedComponent;
-import net.sourceforge.omov.app.gui.comp.generic.LabeledCheckedComponent;
-import net.sourceforge.omov.app.gui.comp.generic.LabeledComponent;
+import net.sourceforge.omov.gui.CheckedComponent;
+import net.sourceforge.omov.gui.LabeledCheckedComponent;
+import net.sourceforge.omov.gui.LabeledComponent;
 
 /**
  * 

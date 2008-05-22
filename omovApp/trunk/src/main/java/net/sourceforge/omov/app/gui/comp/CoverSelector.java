@@ -51,13 +51,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 
-import net.sourceforge.omov.app.gui.comp.generic.ImagePanel;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.ImageUtil;
+import net.sourceforge.omov.gui.ImagePanel;
 
 import org.apache.log4j.Logger;
 

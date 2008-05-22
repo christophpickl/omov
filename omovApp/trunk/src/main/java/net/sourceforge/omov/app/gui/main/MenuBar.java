@@ -36,7 +36,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
 import net.sourceforge.omov.app.App;
-import net.sourceforge.omov.app.gui.comp.generic.ITableSelectionListener;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -52,6 +51,7 @@ import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.gui.ITableSelectionListener;
 import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
 
 import org.apache.commons.logging.Log;

@@ -39,8 +39,6 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.app.gui.comp.ButtonMovieFolder;
 import net.sourceforge.omov.app.gui.comp.IButtonFolderListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
-import net.sourceforge.omov.app.gui.comp.generic.ContextMenuButton;
-import net.sourceforge.omov.app.gui.comp.generic.MultiColTextField;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsListSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieDirectorTextSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieLanguagesListSuggester;
@@ -55,6 +53,8 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.omov.gui.ContextMenuButton;
+import net.sourceforge.omov.gui.MultiColTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

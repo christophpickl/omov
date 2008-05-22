@@ -37,12 +37,12 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import net.sourceforge.omov.app.gui.comp.generic.MacLikeTable;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CollectionUtil;
+import net.sourceforge.omov.gui.MacLikeTable;
 
 /**
  * 

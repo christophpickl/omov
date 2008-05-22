@@ -48,13 +48,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.sourceforge.omov.app.gui.OmovListCellRenderer;
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.StringUtil;
+import net.sourceforge.omov.gui.MacLikeListCellRenderer;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 import net.sourceforge.omov.webApi.WebSearchResult;
@@ -108,7 +108,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         this.resultsListModel = new ListModel(webSearchResults);
         this.resultsList.setModel(this.resultsListModel);
         this.resultsList.setVisibleRowCount(RESULTS_LIST_VISIBLE_ROWS);
-        this.resultsList.setCellRenderer(new OmovListCellRenderer() {
+        this.resultsList.setCellRenderer(new MacLikeListCellRenderer() {
             private static final long serialVersionUID = -8351623948857154558L;
             public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component superComponent = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);

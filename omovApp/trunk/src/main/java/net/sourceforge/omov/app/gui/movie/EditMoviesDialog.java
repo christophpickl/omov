@@ -35,7 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.omov.app.gui.comp.generic.AbstractAddEditDialog;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
@@ -249,4 +248,9 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         editDialog.setVisible(true);
         System.exit(0);
     }
+    
+	public void doEscape() {
+		// TODO GUI any checks necessary in doEscpe() before invoking doCancel() ?
+		this.doCancel();
+	}
 }

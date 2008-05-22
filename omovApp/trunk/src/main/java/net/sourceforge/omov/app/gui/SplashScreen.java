@@ -26,10 +26,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
-import net.sourceforge.omov.app.gui.comp.generic.brushed.BrushedMetalPanel;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.gui.brushed.BrushedMetalPanel;
 
 /**
  * 

@@ -32,8 +32,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.gui.comp.generic.DraggableList;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.gui.DraggableList;
 
 /**
  * 

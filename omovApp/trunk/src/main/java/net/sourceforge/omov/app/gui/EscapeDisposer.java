@@ -19,30 +19,30 @@
 
 package net.sourceforge.omov.app.gui;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import javax.swing.JPanel;
+
+import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.core.util.SimpleGuiUtil.GlobalKey;
+import net.sourceforge.omov.core.util.SimpleGuiUtil.IGlobalKeyListener;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public final class EscapeDisposer extends KeyAdapter {
-    
-    private final IEscapeDisposeReceiver receiver;
-    
-    public EscapeDisposer(final IEscapeDisposeReceiver receiver) {
-        this.receiver = receiver;
+public final class EscapeDisposer {
+        
+    public EscapeDisposer(JPanel rootPanel, final IEscapeDisposeReceiver receiver) {
+		SimpleGuiUtil.addGlobalKeyListener(rootPanel, new IGlobalKeyListener() {
+			public void doKeyPressed(GlobalKey key) {
+				if(key == GlobalKey.ESCAPE) {
+					receiver.doEscape();
+				}
+			}
+		});
     }
-    
-    public void keyReleased(final KeyEvent event) {
-        if(event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            this.receiver.escapeEntered();
-        }
-    }
-    
     
     public static interface IEscapeDisposeReceiver {
-        void escapeEntered();
+        void doEscape();
     }
 }
 

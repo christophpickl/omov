@@ -42,10 +42,10 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
-import net.sourceforge.omov.app.gui.comp.generic.brushed.BrushedMetalPanel;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.gui.brushed.BrushedMetalPanel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

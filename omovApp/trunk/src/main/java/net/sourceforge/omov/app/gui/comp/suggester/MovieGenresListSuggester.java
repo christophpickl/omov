@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.app.gui.comp.generic.IDataList;
+import net.sourceforge.omov.gui.IDataList;
 
 /**
  * 

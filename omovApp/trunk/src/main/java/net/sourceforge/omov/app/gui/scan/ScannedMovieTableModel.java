@@ -30,9 +30,9 @@ import javax.swing.table.TableColumnModel;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.SelectableMovie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.app.gui.comp.generic.table.WidthedTableColumn;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.omov.gui.table.WidthedTableColumn;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

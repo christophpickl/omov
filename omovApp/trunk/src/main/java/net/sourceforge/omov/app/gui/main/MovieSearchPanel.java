@@ -24,9 +24,9 @@ import java.awt.event.KeyListener;
 
 import javax.swing.JPanel;
 
-import net.sourceforge.omov.app.gui.comp.generic.SearchField;
-import net.sourceforge.omov.app.gui.comp.generic.SearchField.ISearchFieldListener;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
+import net.sourceforge.omov.gui.SearchField;
+import net.sourceforge.omov.gui.SearchField.ISearchFieldListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

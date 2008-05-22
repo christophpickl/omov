@@ -35,7 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
-import net.sourceforge.omov.app.gui.comp.generic.AbstractAddEditDialog;
+import net.sourceforge.omov.app.gui.movie.AbstractAddEditDialog;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
@@ -193,4 +193,9 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
             addWindow.getConfirmedObject();
         }
     }
+
+	public void doEscape() {
+		// TODO GUI any checks necessary in doEscpe() before invoking doCancel() ?
+		this.doCancel();
+	}
 }
