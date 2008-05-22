@@ -552,6 +552,16 @@ public final class MainWindowController extends CommonController<Movie> implemen
     }
 
     public void doExport() {
+    	try {
+	    	int moviesStored = BeanFactory.getInstance().getMovieDao().getMovies().size();
+	    	if(moviesStored == 0) { // [mantis 0000060]
+	    		GuiUtil.warning(this.mainWindow, "Movie Export", "Sorry, but there are no movies to export.");
+	    		return;
+	    	}
+    	} catch(BusinessException e) {
+    		LOG.error("Could not get movies!", e);
+    	}
+    	
         ExporterChooserDialog chooser = new ExporterChooserDialog(this.mainWindow, this);
         chooser.setVisible(true);
     }

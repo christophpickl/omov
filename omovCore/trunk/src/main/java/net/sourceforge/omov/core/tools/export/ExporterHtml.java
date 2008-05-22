@@ -197,6 +197,15 @@ public class ExporterHtml implements IExporterHtml {
         }
         return wzTooltipJsContentCache;
     }
+    
+    private static boolean gotAnyMovieCoverSet(List<Movie> movies) {
+    	for (Movie movie : movies) {
+			if(movie.isCoverFileSet() == true) {
+				return true;
+			}
+		}
+    	return false;
+    }
 
     public void process(List<Movie> movies, File target) throws BusinessException {
         LOG.info("Going to export " + movies.size() + " movies to target '"+target.getAbsolutePath()+"'.");
@@ -205,7 +214,9 @@ public class ExporterHtml implements IExporterHtml {
         File createdDir = null;
         try {
 
-            final boolean coversEnabled = columns.contains(HtmlColumn.COLUMN_COVER);
+            final boolean coversEnabled = columns.contains(HtmlColumn.COLUMN_COVER)
+            						   && gotAnyMovieCoverSet(movies); // [mantis 0000060]
+            
             if(coversEnabled) {
                 final File[] targetFileAndTargetDir = copyCoverFiles(movies, target);
                 LOG.info("Resetting target file to '"+target.getAbsolutePath()+"'.");

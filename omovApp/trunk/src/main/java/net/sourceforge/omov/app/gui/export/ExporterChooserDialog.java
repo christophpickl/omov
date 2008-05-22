@@ -202,6 +202,12 @@ public class ExporterChooserDialog extends JDialog {
     private void doConfirm() {
         final List<Movie> movies = this.getMoviesToExport();
         
+        if(movies.size() == 0) { // [mantis 0000060]
+        	GuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
+        	return;
+        }
+        
+        
         if(this.btnHtml.isSelected()) {
             this.controller.doExportHtml(this.panelHtml.getHtmlColumns(), movies);
         } else if(this.btnBackup.isSelected()) {
@@ -209,8 +215,8 @@ public class ExporterChooserDialog extends JDialog {
         } else {
             throw new FatalException("Unkown export format selected.");
         }
-        
         this.dispose();
+        
     }
     
     private List<Movie> getMoviesToExport() {
