@@ -26,6 +26,9 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.io.File;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import quicktime.QTException;
 import quicktime.io.OpenMovieFile;
 import quicktime.io.QTFile;
@@ -38,6 +41,10 @@ import quicktime.std.movies.Movie;
  * @author christoph_pickl@users.sourceforge.net
  */
 public final class QtjUtil {
+
+    private static final Log LOG = LogFactory.getLog(QtjUtil.class);
+    
+	private static Dimension screenDimension;
 	
 	private QtjUtil() {
 		// no instantiation
@@ -61,27 +68,28 @@ public final class QtjUtil {
 	}
 
 	
-	public static Dimension getScreenDimension(final GraphicsDevice graphicsDevice) {
-		final GraphicsConfiguration configuration = graphicsDevice.getDefaultConfiguration();
-		final Rectangle graphicsRectangle = configuration.getBounds();
-        final int screenWidth = graphicsRectangle.width;
-        final int screenHeight = graphicsRectangle.height;
-//        System.out.println("screen size "+screenWidth+"x"+screenHeight);
-        return new Dimension(screenWidth, screenHeight);
-	}
-
-	private static Dimension screenDimension;
-	public static Dimension recalcFullscreenMovieDimension(Dimension movie) {
+	public static Dimension getScreenDimension() {
 		if(screenDimension == null) {
 			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
 	        GraphicsDevice[] devices = env.getScreenDevices();
 	        GraphicsDevice graphicsDevice = devices[0];
-			screenDimension = getScreenDimension(graphicsDevice);
+			final GraphicsConfiguration configuration = graphicsDevice.getDefaultConfiguration();
+			final Rectangle graphicsRectangle = configuration.getBounds();
+	        final int screenWidth = graphicsRectangle.width;
+	        final int screenHeight = graphicsRectangle.height;
+	//        System.out.println("screen size "+screenWidth+"x"+screenHeight);
+	
+			screenDimension = new Dimension(screenWidth, screenHeight);
 		}
-		return recalcFullscreenMovieDimension(movie, screenDimension);
+		return screenDimension;
+	}
+
+	public static Dimension recalcFullscreenMovieDimension(Dimension movie) {
+		return recalcFullscreenMovieDimension(movie, getScreenDimension());
 	}
 	
-	public static Dimension recalcFullscreenMovieDimension(Dimension movie, Dimension screen) {
+	// only used by unit tests
+	public static Dimension recalcFullscreenMovieDimension(Dimension movie, final Dimension screen) {
 		final int sw = screen.width;
 		final int sh = screen.height;
 		double sRatio = sw / (double) sh; // 1280 x 800 <---> 1.6 x 1.0
@@ -106,7 +114,8 @@ public final class QtjUtil {
 			mh2 = (int) Math.round((sw / (double) mw) * mh); // new movie height == old movie height multiplied with ratio screen width vs movie width
 		}
 		
-		
-		return new Dimension(mw2, mh2);
+		final Dimension result = new Dimension(mw2, mh2);
+		LOG.info("Recalced movie dimension ("+movie+") to: "+result);
+		return result;
 	}
 }

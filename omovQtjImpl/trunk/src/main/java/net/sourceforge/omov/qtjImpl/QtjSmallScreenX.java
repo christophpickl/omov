@@ -31,6 +31,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -70,9 +71,9 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 
 	private final QtjVideoPlayerImplX player;
 	
-	private final JButton btnFullScreen = new JButton(ICON_FULLSCREEN);
-	private final JButton btnPlayPause = new JButton(ICON_PLAY);
-	private final JButton btnBack = new JButton(ICON_BACK);
+	private final JButton btnFullScreen = new JButtonUnfocusable(ICON_FULLSCREEN);
+	private final JButton btnPlayPause = new JButtonUnfocusable(ICON_PLAY);
+	private final JButton btnBack = new JButtonUnfocusable(ICON_BACK);
 
 	private final JPanel northPanel;
 	private final JPanel southPanel;
@@ -92,6 +93,17 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 	public JPanel getSouthPanel() {
 		return this.southPanel;
 	}
+	
+	private static class JButtonUnfocusable extends JButton {
+		private static final long serialVersionUID = 4692041677980312903L;
+		public JButtonUnfocusable(Icon icon) {
+			super(icon);
+		}
+		@Override
+		public boolean isFocusTraversable() {
+			return false;
+		}
+	}
 
 	private JPanel newNorthPanel() {
 		final JPanel panel = new JPanel(new BorderLayout(0, 0));
@@ -103,7 +115,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		windowTitle.setBorder(BorderFactory.createEmptyBorder());
 		windowTitle.setForeground(COLOR_GRAY);
 		
-		final JButton btnClose = new JButton(ICON_CLOSE_MINI);
+		final JButton btnClose = new JButtonUnfocusable(ICON_CLOSE_MINI);
 		btnClose.setActionCommand(CMD_CLOSE);
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);

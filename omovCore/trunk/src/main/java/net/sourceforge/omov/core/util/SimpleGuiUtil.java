@@ -23,10 +23,17 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Map;
 
+import javax.swing.AbstractAction;
+import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -118,4 +125,43 @@ public class SimpleGuiUtil {
         System.exit(1);
     }
 
+    
+    public static void addGlobalKeyListener(final JPanel contentPanel, final IGlobalKeyListener listener) {
+    	addGlobalKeyListenerDetails(contentPanel, listener, GlobalKey.ESCAPE);
+    	addGlobalKeyListenerDetails(contentPanel, listener, GlobalKey.SPACE);
+    }
+    
+    private static void addGlobalKeyListenerDetails(final JPanel contentPanel, final IGlobalKeyListener listener, final GlobalKey key) {
+    	contentPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(key.getKeyStroke(), key.getActionCommand());
+		contentPanel.getActionMap().put(key.getActionCommand(), new AbstractAction() {
+			private static final long serialVersionUID = -266823267636545239L;
+			public void actionPerformed(ActionEvent event) {
+				listener.doKeyPressed(key);
+		    }
+		});
+    }
+    
+    
+    
+    public enum GlobalKey {
+    	ESCAPE("CMD_GLOBAL_KEY_ESCAPE", KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0)),
+    	SPACE("CMD_GLOBAL_KEY_SPACE", KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0));
+    	
+    	private final String actionCommand;
+    	private final KeyStroke keyStroke;
+    	private GlobalKey(String actionCommand, KeyStroke keyStroke) {
+    		this.actionCommand = actionCommand;
+    		this.keyStroke = keyStroke;
+    	}
+    	public String getActionCommand() {
+    		return this.actionCommand;
+    	}
+    	public KeyStroke getKeyStroke() {
+    		return this.keyStroke;
+    	}
+    }
+    
+    public static interface IGlobalKeyListener {
+    	void doKeyPressed(GlobalKey key);
+    }
 }
