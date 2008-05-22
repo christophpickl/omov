@@ -116,7 +116,7 @@ public class App {
                 LOG.info("Running initial application version check...");
                 final VersionCheckDialog dialog = new VersionCheckDialog();
                 dialog.startCheck();
-                dialog.setVisible(true);
+                dialog.setVisible(true); // MINOR do not display dialog, but display state in splashscreen; but operation should block this App#startUp method!
             }
 
 

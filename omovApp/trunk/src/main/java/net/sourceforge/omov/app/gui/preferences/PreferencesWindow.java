@@ -30,7 +30,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -60,23 +59,31 @@ public class PreferencesWindow extends JDialog implements ActionListener{
 
     private static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
     private static final String CMD_CHECK_VERSION_NOW = "CMD_CHECK_VERSION_NOW";
-    private static final String CMD_INP_STARTUP_VERSION = "CMD_INP_STARTUP_VERSION";
     private static final String CMD_CHECK_FILESYSTEM_NOW = "CMD_CHECK_FILESYSTEM_NOW";
-    private static final String CMD_INP_STARTUP_FILESYSTEM = "CMD_INP_STARTUP_FILESYSTEM";
+    
+    
     private static final String CMD_CLOSE = "CMD_CLOSE";
     
 //    private static final String CMD_SERVER_START = "CMD_SERVER_START";
 //    private static final String CMD_SERVER_STOP = "CMD_SERVER_STOP";
     
-    private final PreferencesText inpUsername;
-    private final JCheckBox inpStartupVersion = new JCheckBox("Check at startup");
+    
 
-    private final JCheckBox inpStartupFileSystem = new JCheckBox("Check at startup");
+    private final MainWindowController mainController;
+    
+    
+    private final AbstractPreferencesStringFieldX inpUsername;
+    
+    private final AbstractPreferencesBooleanFieldX inpStartupVersion;
+    private final AbstractPreferencesBooleanFieldX inpStartupFileSystem;
     
 //    private final PreferencesNumber inpServerPort;
 //    private final JButton btnStartStopServer = new JButton("Start");
+
+    private final AbstractPreferencesBooleanFieldX inpProxyEnabled;
+    private final AbstractPreferencesIntFieldX inpProxyPort;
+    private final AbstractPreferencesStringFieldX inpProxyHost; // TODO check if proper url entered by user for proxy host
     
-    private final MainWindowController mainController;
     
     
     public PreferencesWindow(JFrame owner, MainWindowController mainController) {
@@ -91,16 +98,52 @@ public class PreferencesWindow extends JDialog implements ActionListener{
             }
         });
         
-        this.inpUsername = new PreferencesText(this, PreferencesDao.getInstance().getUsername(), 20) {
-            private static final long serialVersionUID = 6708820331894620336L;
+        this.inpUsername = new AbstractPreferencesStringFieldX(this, PreferencesDao.getInstance().getUsername(), 20) {
             void saveData() throws BusinessException {
-                if(this.getData().length() > 0) {
-                    CONF.setUsername(this.getData());
-                } else {
-                    LOG.info("ignoring empty username");
-                }
+            	CONF.setUsername(this.getData());
             }
         };
+
+
+        this.inpStartupVersion = new AbstractPreferencesBooleanFieldX(this, PreferencesDao.getInstance().isStartupVersionCheck(), "Check at startup") {
+			@Override
+			void saveData() throws BusinessException {
+				CONF.setStartupVersionCheck(this.getData());
+			}
+        };
+        this.inpStartupVersion.getComponent().setToolTipText("Whenever you start OurMovies a version check will be performed");
+        
+        this.inpStartupFileSystem = new AbstractPreferencesBooleanFieldX(this, PreferencesDao.getInstance().isStartupFilesystemCheck(), "Check at startup") {
+			@Override
+			void saveData() throws BusinessException {
+				CONF.setStartupFilesystemCheck(this.getData());
+			}
+        };
+        this.inpStartupFileSystem.getComponent().setToolTipText("Whenever you start OurMovies a filesystem check will be performed");
+        
+        this.inpProxyHost = new AbstractPreferencesStringFieldX(this, PreferencesDao.getInstance().getProxyHost(), 10) {
+			void saveData() throws BusinessException {
+				CONF.setProxyHost(this.getData());
+            }
+        };
+        
+        this.inpProxyPort = new AbstractPreferencesIntFieldX(this, PreferencesDao.getInstance().getProxyPort(), 0L, 65535L, 4) {
+			@Override
+			void saveData() throws BusinessException {
+				CONF.setProxyPort(this.getData());
+			}
+        	
+        };
+        
+        this.inpProxyEnabled = new AbstractPreferencesBooleanFieldX(this, PreferencesDao.getInstance().isProxyEnabled(), null) {
+			@Override
+			void saveData() throws BusinessException {
+				CONF.setProxyEnabled(this.getData());
+			}
+        };
+        this.inpProxyEnabled.getComponent().setToolTipText("Select this if you are using a proxy to access the internet");
+         
+        
         GuiUtil.macSmallWindow(this.getRootPane());
         
 //        this.inpServerPort = new PreferencesNumber(this, Configuration.getInstance().getServerPort(), 4) {
@@ -141,22 +184,10 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         final JButton btnCheckFileSystem = new JButton("Check Now");
         btnCheckFileSystem.setActionCommand(CMD_CHECK_FILESYSTEM_NOW);
         btnCheckFileSystem.addActionListener(this);
-
-        this.inpStartupVersion.setToolTipText("Whenever you start OurMovies a version check will be performed");
-        this.inpStartupVersion.setActionCommand(CMD_INP_STARTUP_VERSION);
-        this.inpStartupVersion.addActionListener(this);
-        this.inpStartupVersion.setSelected(PreferencesDao.getInstance().isStartupVersionCheck());
-
-        this.inpStartupFileSystem.setToolTipText("Whenever you start OurMovies a filesystem check will be performed");
-        this.inpStartupFileSystem.setActionCommand(CMD_INP_STARTUP_FILESYSTEM);
-        this.inpStartupFileSystem.addActionListener(this);
-        this.inpStartupFileSystem.setSelected(PreferencesDao.getInstance().isStartupFilesystemCheck());
         
         btnClearPrefs.setOpaque(false);
         btnCheckVersion.setOpaque(false);
         btnCheckFileSystem.setOpaque(false);
-        this.inpStartupVersion.setOpaque(false);
-        this.inpStartupFileSystem.setOpaque(false);
         
         
 
@@ -180,7 +211,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         panel.add(new JLabel("Username"), c);
         c.gridx = 1;
         c.insets = insetRight;
-        panel.add(this.inpUsername, c);
+        panel.add(this.inpUsername.getComponent(), c);
 
         // ----------------------------
         
@@ -202,11 +233,12 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         final JPanel panelSoftwareUpdate = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         panelSoftwareUpdate.setOpaque(false);
         panelSoftwareUpdate.add(btnCheckVersion);
-        panelSoftwareUpdate.add(this.inpStartupVersion);
+        panelSoftwareUpdate.add(this.inpStartupVersion.getComponent());
         c.gridx = 1;
         c.insets = insetRight;
         panel.add(panelSoftwareUpdate, c);
 
+        // ----------------------------
 
         c.gridx = 0;
         c.gridy++;
@@ -216,7 +248,7 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         final JPanel panelFileSystemCheck = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         panelFileSystemCheck.setOpaque(false);
         panelFileSystemCheck.add(btnCheckFileSystem);
-        panelFileSystemCheck.add(this.inpStartupFileSystem);
+        panelFileSystemCheck.add(this.inpStartupFileSystem.getComponent());
         c.gridx = 1;
         c.insets = insetRight;
         panel.add(panelFileSystemCheck, c);
@@ -228,6 +260,24 @@ public class PreferencesWindow extends JDialog implements ActionListener{
 //
 //        panel.add(new JLabel("Start/Stop Server"));
 //        panel.add(this.btnStartStopServer);
+        // ----------------------------
+
+		c.gridx = 0;
+        c.gridy++;
+        c.insets = insetLeft;
+		panel.add(new JLabel("Proxy"), c);
+		
+		
+		JPanel proxyPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+		proxyPanel.setOpaque(false);
+		proxyPanel.add(this.inpProxyEnabled.getComponent());
+		proxyPanel.add(new JLabel(" Host"));
+		proxyPanel.add(this.inpProxyHost.getComponent());
+		proxyPanel.add(new JLabel(" Port"));
+		proxyPanel.add(this.inpProxyPort.getComponent());
+		c.gridx = 1;
+        c.insets = insetRight;
+		panel.add(proxyPanel, c);
 
         // ----------------------------
 
@@ -244,7 +294,9 @@ public class PreferencesWindow extends JDialog implements ActionListener{
         panel.add(btnClose, c);
 
         // ----------------------------
-        
+
+		
+		
         return panel;
     }
     
@@ -306,16 +358,6 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                     
                 } else  if(cmd.equals(CMD_CHECK_FILESYSTEM_NOW)) {
                     preferencesController.doCheckFileSystem();
-                    
-                } else  if(cmd.equals(CMD_INP_STARTUP_VERSION)) {
-                    final boolean isStartupVersionChecked = inpStartupVersion.isSelected();
-                    LOG.debug("Storing preferences source value isStartupVersionChecked="+isStartupVersionChecked);
-                    PreferencesDao.getInstance().setStartupVersionCheck(isStartupVersionChecked);
-                    
-                } else  if(cmd.equals(CMD_INP_STARTUP_FILESYSTEM)) {
-                    final boolean isStartupFileSystemChecked = inpStartupFileSystem.isSelected();
-                    LOG.debug("Storing preferences source value isStartupFileSystemChecked="+isStartupFileSystemChecked);
-                    PreferencesDao.getInstance().setStartupFilesystemCheck(isStartupFileSystemChecked);
                     
                 } else  if(cmd.equals(CMD_CLOSE)) {
                     doClose();

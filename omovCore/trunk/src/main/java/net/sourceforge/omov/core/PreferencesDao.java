@@ -55,8 +55,11 @@ DATA VERSION HISTORY
 ===>   v2 -> v3
 - added: recent backup import path
 
+===>   v3 -> v4
+- added: proxy-host and proxy-port
+
  */
-    public static final int DATA_VERSION = 3;
+    public static final int DATA_VERSION = 4;
 
     
     private static final boolean DEFAULT_STARTUP_VERSION_CHECK = true;
@@ -70,7 +73,10 @@ DATA VERSION HISTORY
         USERNAME,
         STARTUP_VERSION_CHECK, STARTUP_FILESYSTEM_CHECK,
         
-        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH, RECENT_BACKUP_IMPORT_PATH;
+        RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH, RECENT_BACKUP_IMPORT_PATH,
+        
+        PROXY_HOST, PROXY_PORT, PROXY_ENABLED
+        ;
     }
     
     private String folderCovers, folderTemporary, folderData;
@@ -82,6 +88,11 @@ DATA VERSION HISTORY
     private boolean startupVersionCheck, startupFilesystemCheck;
     private Map<String, Boolean> columnsVisible = new HashMap<String, Boolean>();
     
+    private String proxyHost;
+    private int proxyPort;
+    private boolean proxyEnabled;
+    
+    
     
     public static final String APP_ARG_DEBUG = "DEBUG";
     
@@ -91,8 +102,14 @@ DATA VERSION HISTORY
         }
     }
     
-    public void setPreferences(String folderCovers, String folderTemporary, String folderData, String username, boolean checkVersionStartup, boolean checkFilesystemStartup) {
-        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';folderData='"+folderData+"';checkVersionStartup='"+checkVersionStartup+"';checkFilesystemStartup='"+checkFilesystemStartup+"').");
+    public void setPreferences(
+    		String folderCovers, String folderTemporary, String folderData,
+    		String username,
+    		boolean checkVersionStartup, boolean checkFilesystemStartup,
+    		String proxyHost, int proxyPort, boolean proxyEnabled) {
+        LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';" +
+        		"folderData='"+folderData+"';checkVersionStartup='"+checkVersionStartup+"';checkFilesystemStartup='"+checkFilesystemStartup+"';" +
+        				"proxyHost="+proxyHost+";proxyPort="+proxyPort+";proxyEnabled="+proxyEnabled+").");
         
         assert(folderCovers != null && folderTemporary != null && username != null);
         assert(new File(folderCovers).exists() && new File(folderTemporary).exists());
@@ -105,6 +122,10 @@ DATA VERSION HISTORY
         this.prefs.put(PrefKey.IS_CONFIGURED.name(), String.valueOf(DATA_VERSION));
         this.prefs.put(PrefKey.STARTUP_VERSION_CHECK.name(), Boolean.toString(checkVersionStartup));
         this.prefs.put(PrefKey.STARTUP_FILESYSTEM_CHECK.name(), Boolean.toString(checkFilesystemStartup));
+
+        this.prefs.put(PrefKey.PROXY_HOST.name(), proxyHost);
+        this.prefs.putInt(PrefKey.PROXY_PORT.name(), proxyPort);
+        this.prefs.putBoolean(PrefKey.PROXY_ENABLED.name(), proxyEnabled);
         
         this.flush();
         this.loadPreferences();
@@ -126,6 +147,11 @@ DATA VERSION HISTORY
         this.recentMovieFolderPath = prefs.get(PrefKey.RECENT_MOVIE_FOLDER_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentScanPath = prefs.get(PrefKey.RECENT_SCAN_PATH.name(), File.listRoots()[0].getAbsolutePath());
         this.recentBackupImportPath = prefs.get(PrefKey.RECENT_BACKUP_IMPORT_PATH.name(), File.listRoots()[0].getAbsolutePath());
+
+        this.proxyHost = prefs.get(PrefKey.PROXY_HOST.name(), "");
+        this.proxyPort = prefs.getInt(PrefKey.PROXY_PORT.name(), 0);
+        this.proxyEnabled = prefs.getBoolean(PrefKey.PROXY_ENABLED.name(), false);
+        
         
         for (String columnName : MovieTableColumns.getColumnNames()) {
             final Boolean initialVisible;
@@ -246,6 +272,18 @@ DATA VERSION HISTORY
         this.prefs.put(key.name(), value);
         this.flush();
     }
+
+    private void setPreferencesInt(PrefKey key, int value) {
+        LOG.debug("Setting '"+key.name()+"' to '"+value+"'.");
+        this.prefs.putInt(key.name(), value);
+        this.flush();
+    }
+
+    private void setPreferencesBoolean(PrefKey key, boolean value) {
+        LOG.debug("Setting '"+key.name()+"' to '"+value+"'.");
+        this.prefs.putBoolean(key.name(), value);
+        this.flush();
+    }
     
     
     public String getRecentExportDestination() {
@@ -286,6 +324,31 @@ DATA VERSION HISTORY
     public void setRecentBackupImportPath(final String recentBackupImportPath) {
         this.setPreferencesString(PrefKey.RECENT_BACKUP_IMPORT_PATH, recentBackupImportPath);
         this.recentBackupImportPath = recentBackupImportPath;
+    }
+
+    
+    public String getProxyHost() {
+        return this.proxyHost;
+    }
+    public void setProxyHost(final String proxyHost) {
+        this.setPreferencesString(PrefKey.PROXY_HOST, proxyHost);
+        this.proxyHost = proxyHost;
+    }
+    
+    public int getProxyPort() {
+        return this.proxyPort;
+    }
+    public void setProxyPort(final int proxyPort) {
+        this.setPreferencesInt(PrefKey.PROXY_PORT, proxyPort);
+        this.proxyPort = proxyPort;
+    }
+    
+    public boolean isProxyEnabled() {
+        return this.proxyEnabled;
+    }
+    public void setProxyEnabled(final boolean proxyEnabled) {
+        this.setPreferencesBoolean(PrefKey.PROXY_ENABLED, proxyEnabled);
+        this.proxyEnabled = proxyEnabled;
     }
     
     

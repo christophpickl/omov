@@ -14,6 +14,7 @@ import java.util.Date;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.util.CloseableUtil;
 import net.sourceforge.omov.core.util.FileUtil;
 
@@ -94,7 +95,7 @@ class ImdbCoverFetcher extends NodeVisitor {
         }
         HttpURLConnection http;
         try {
-            http = (HttpURLConnection) realUrl.openConnection();
+            http = (HttpURLConnection) ProxyEnabledConnectionFactory.openConnection(realUrl);
         } catch (IOException e) {
             throw new BusinessException("Could not open connection to server '"+realUrl.getHost()+"'!", e);
         }

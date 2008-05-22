@@ -32,9 +32,12 @@ import net.sourceforge.omov.core.PreferencesDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
+ * @deprecated use AbstractPreferencesFieldX instead
  */
 abstract class AbstractPreferencesField<T> extends JTextField implements FocusListener {
 
@@ -81,6 +84,9 @@ abstract class AbstractPreferencesField<T> extends JTextField implements FocusLi
 
 
 
+/**
+ * @deprecated 
+ */
 abstract class PreferencesText extends AbstractPreferencesField<String> {
     
     
@@ -94,6 +100,9 @@ abstract class PreferencesText extends AbstractPreferencesField<String> {
     }
 }
 
+/**
+ * @deprecated 
+ */
 abstract class PreferencesNumber extends AbstractPreferencesField<Integer> {
     
     public PreferencesNumber(Dialog owner, Integer initialValue, int columns) {
@@ -108,3 +117,4 @@ abstract class PreferencesNumber extends AbstractPreferencesField<Integer> {
         }
     }
 }
+

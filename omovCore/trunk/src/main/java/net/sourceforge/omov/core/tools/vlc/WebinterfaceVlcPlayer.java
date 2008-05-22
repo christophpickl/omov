@@ -69,7 +69,7 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 		final String fullUrl = HOST + page;
 		LOG.debug("Fetching local page: " + fullUrl);
 		URL url = new URL(fullUrl);
-		URLConnection connection = url.openConnection();
+		URLConnection connection = url.openConnection(); // no proxy!
 //		HttpURLConnection httpConn = (HttpURLConnection) connection;
 		
 		StringBuilder sb = new StringBuilder();

@@ -70,8 +70,11 @@ public class SetupWizard extends JDialog {
     private final DirectoryChooser inpFolderCovers = new DirectoryChooser("Choose Covers Folder");
 
     private final DirectoryChooser inpFolderData = new DirectoryChooser("Choose Data Folder");
+    
 
     private boolean isConfirmed = false;
+    
+    
     
     
     public SetupWizard() {
@@ -201,11 +204,11 @@ public class SetupWizard extends JDialog {
             panel.add(this.inpFolderData, c);
         }
 
-//        c.gridy++;
-//        c.gridx = 0;
-//        panel.add(new JLabel("some other"), c);
-//        c.gridx = 1;
-//        panel.add(new JLabel("---"), c);
+//      c.gridy++;
+//      c.gridx = 0;
+//      panel.add(new JLabel("some other"), c);
+//      c.gridx = 1;
+//      panel.add(new JLabel("---"), c);
 
         return panel;
     }
@@ -270,8 +273,13 @@ public class SetupWizard extends JDialog {
         final boolean startupVersionCheck = false; // by default
         final boolean startupFilesystemCheck = false; // by default
         
+        final String proxyHost = ""; // by default
+        final int proxyPort = 0; // by default
+        final boolean proxyEnabled = false; // by default
+        
         // finally store entered values in preferences source
-        PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username, startupVersionCheck, startupFilesystemCheck);
+        PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username,
+        		startupVersionCheck, startupFilesystemCheck, proxyHost, proxyPort, proxyEnabled);
         
         // delete temporary msi install hint file (if existing)
         final File installedByMsiFile = new File("installed_by_msi");

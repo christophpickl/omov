@@ -1,9 +1,14 @@
 package net.sourceforge.omov.webImpl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashSet;
 import java.util.Set;
 
 import net.sourceforge.omov.core.FatalException;
+import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.CollectionUtil;
 
@@ -71,10 +76,18 @@ class ImdbDetailPage extends NodeVisitor {
                 return false;
             }
             final String url = ImdbWebDataFetcher.HOST + href;
-            
+
+        	URLConnection connection;
+    		try {
+    			connection = ProxyEnabledConnectionFactory.openConnection(new URL(url));
+    		} catch (MalformedURLException e) { // MalformedURLException, IOException
+    			throw new FatalException("Malformed url given '"+url+"'!", e);
+    		} catch (IOException e) {
+    			throw new FatalException("Could not connect to website by url '"+url+"'!", e);
+    		}
             
             try {
-                Parser parser = new Parser(url);
+                Parser parser = new Parser(connection); // FIXME PROXY - check if proxy settings works
                 final ImdbCoverFetcher visitor = new ImdbCoverFetcher();
                 parser.visitAllNodesWith(visitor);
                 
@@ -84,7 +97,7 @@ class ImdbDetailPage extends NodeVisitor {
                     this.movieData.setCoverFile(newCoverFile);
                 }
             } catch (ParserException e) {
-                throw new FatalException("Could not fetch cover!", e);
+                throw new FatalException("Could not fetch cover for url '"+url+"'!", e);
             }
             return true;
         }

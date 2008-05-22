@@ -1,10 +1,15 @@
 package net.sourceforge.omov.webImpl;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.LinkedList;
 import java.util.List;
 
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebSearchResult;
@@ -74,13 +79,26 @@ public class ImdbWebDataFetcher implements IWebDataFetcher {
     }
 
 
-    public List<WebSearchResult> search(final String movieTitle) throws BusinessException{
+    public List<WebSearchResult> search(final String movieTitle) throws BusinessException {
         LOG.info("Start search for movie with title '"+movieTitle+"' ...");
         try {
             final String urlEncodedSearch = URLEncoder.encode(movieTitle, "UTF-8");
             final String fullUrlEncoded = HOST + "/find?s=all&q="+urlEncodedSearch;
             LOG.info("Fetching data form website '"+fullUrlEncoded+"'...");
-            final Parser parser = new Parser(fullUrlEncoded);
+            
+            
+
+        	URLConnection connection;
+    		try {
+    			connection = ProxyEnabledConnectionFactory.openConnection(new URL(fullUrlEncoded));
+    		} catch (MalformedURLException e) {
+    			throw new BusinessException("Malformed url given '"+fullUrlEncoded+"'!", e);
+    		} catch (IOException e) {
+    			throw new BusinessException("Could not connect to website by url '"+fullUrlEncoded+"'!", e);
+    		}
+    		
+            
+            final Parser parser = new Parser(connection); // FIXME PROXY - check if proxy settings works
             final ImdbStartPage visitor = new ImdbStartPage(movieTitle);
             parser.visitAllNodesWith(visitor);
             
@@ -97,8 +115,17 @@ public class ImdbWebDataFetcher implements IWebDataFetcher {
         final String detailUrl = searchResult.getUrl();
         LOG.info("fetching details from url: '" + detailUrl + "'");
         
+    	URLConnection connection;
+		try {
+			connection = ProxyEnabledConnectionFactory.openConnection(new URL(detailUrl));
+		} catch (MalformedURLException e) { // MalformedURLException, IOException
+			throw new BusinessException("Malformed url given '"+detailUrl+"'!", e);
+		} catch (IOException e) {
+			throw new BusinessException("Could not connect to website by url '"+detailUrl+"'!", e);
+		}
+
         try {
-            final Parser parser = new Parser(detailUrl);
+            final Parser parser = new Parser(connection); // FIXME PROXY - check if proxy settings works
             final ImdbDetailPage visitor = new ImdbDetailPage(fetchCover);
             parser.visitAllNodesWith(visitor);
             
@@ -106,7 +133,7 @@ public class ImdbWebDataFetcher implements IWebDataFetcher {
             LOG.debug("found movie details: " + movie);
             return movie;
         } catch(ParserException e) {
-            throw new BusinessException("", e);
+            throw new BusinessException("Could not get movie details from '"+detailUrl+"'!", e);
         }
     }
 
