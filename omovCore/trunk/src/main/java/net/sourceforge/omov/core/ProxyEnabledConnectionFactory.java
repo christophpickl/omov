@@ -39,7 +39,7 @@ public final class ProxyEnabledConnectionFactory {
     		return url.openConnection(proxy);
     	}
     	
-    	LOG.info("Returning connection without connection.");
+    	LOG.info("Returning connection without proxy.");
     	return url.openConnection();
     }
     
