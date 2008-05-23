@@ -41,6 +41,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -58,7 +59,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SetupWizard extends JDialog {
+public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(SetupWizard.class);
     private static final long serialVersionUID = 4418685920529669271L;
@@ -87,6 +88,7 @@ public class SetupWizard extends JDialog {
                 doCancel();
             }
         });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
 //        this.setPreferredSize(new Dimension(600, 400));
         
@@ -309,4 +311,8 @@ public class SetupWizard extends JDialog {
     public boolean isConfirmed() {
         return this.isConfirmed;
     }
+
+	public void doEscape() {
+		this.doCancel();
+	}
 }

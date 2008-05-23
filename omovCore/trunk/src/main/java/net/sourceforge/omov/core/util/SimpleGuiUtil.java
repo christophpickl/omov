@@ -31,7 +31,6 @@ import java.awt.event.MouseListener;
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import org.apache.commons.logging.Log;
@@ -125,12 +124,13 @@ public class SimpleGuiUtil {
     }
 
     
-    public static void addGlobalKeyListener(final JPanel contentPanel, final IGlobalKeyListener listener) {
+    public static void addGlobalKeyListener(final JComponent contentPanel, final IGlobalKeyListener listener) {
     	addGlobalKeyListenerDetails(contentPanel, listener, GlobalKey.ESCAPE);
     	addGlobalKeyListenerDetails(contentPanel, listener, GlobalKey.SPACE);
     }
     
-    private static void addGlobalKeyListenerDetails(final JPanel contentPanel, final IGlobalKeyListener listener, final GlobalKey key) {
+    // WHEN_ANCESTOR_OF_FOCUSED_COMPONENT
+    private static void addGlobalKeyListenerDetails(final JComponent contentPanel, final IGlobalKeyListener listener, final GlobalKey key) {
     	contentPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(key.getKeyStroke(), key.getActionCommand());
 		contentPanel.getActionMap().put(key.getActionCommand(), new AbstractAction() {
 			private static final long serialVersionUID = -266823267636545239L;

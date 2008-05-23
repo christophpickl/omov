@@ -120,7 +120,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private static final String LBL_FIND_DUPLICATES = "Find Duplicates";
     private static final String CMD_FIND_DUPLICATES = "CMD_FIND_DUPLICATES";
 
-    private static final String LBL_RESCAN_FOLDERS = "Rescan Folder(s)";
+    private static final String LBL_RESCAN_FOLDERS = "Rescan Folder(s)"; // TODO GUI change label for multiple movies
     private static final String CMD_RESCAN_FOLDERS = "CMD_RESCAN_FOLDERS";
     
     private static final String LBL_PREFERENCES = "Preferences...";

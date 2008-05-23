@@ -27,6 +27,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
@@ -38,6 +40,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -59,7 +63,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SmartFolderManageDialog extends JDialog implements ActionListener {
+public class SmartFolderManageDialog extends JDialog implements ActionListener, IEscapeDisposeReceiver {
     
     private static final long serialVersionUID = -6096464702194946519L;
     private static final Log LOG = LogFactory.getLog(SmartFolderManageDialog.class);
@@ -77,8 +81,16 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener {
         super(owner, true);
         
         this.controller = new SmartFolderManageController(this, owner);
+
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent event) {
+                doClose();
+            }
+        });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
         this.setTitle("SmartFolders");
         GuiUtil.macSmallWindow(this.getRootPane());
         
@@ -251,5 +263,13 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener {
         }
         
     }
+
+    private void doClose() {
+    	this.dispose();
+    }
+
+	public void doEscape() {
+		this.doClose();
+	}
     
 }

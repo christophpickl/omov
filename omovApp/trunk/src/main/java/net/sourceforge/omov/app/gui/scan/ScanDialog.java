@@ -50,6 +50,8 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -74,8 +76,10 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ScanDialog extends JDialog implements TableContextMenuListener, IChooserListener {
+public class ScanDialog extends JDialog implements TableContextMenuListener, IChooserListener, IEscapeDisposeReceiver {
 
+	// TODO if was yet scanned (-> rows in table), and then user prepares repository -> could be that rows have wrong data (either adjust them, or simply clear all table rows)
+	
     private static final Log LOG = LogFactory.getLog(ScanDialog.class);
     private static final long serialVersionUID = 8730290488508038854L;
 
@@ -107,15 +111,15 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     public ScanDialog(JFrame owner) {
         super(owner, "Scan Repository", true);
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        this.setResizable(true);
 
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent event) {
                 controller.doClose();
             }
         });
-
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        EscapeDisposer.enableEscape(this.tblScannedMovie, this);
 
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
@@ -128,6 +132,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
         this.getContentPane().add(this.initComponents());
         this.pack();
+        this.setResizable(true);
         GuiUtil.lockOriginalSizeAsMinimum(this);
         GuiUtil.setCenterLocation(this);
 
@@ -381,4 +386,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         PreferencesDao.getInstance().setRecentScanPath(dir.getParentFile().getAbsolutePath());
         this.inpScanRoot.setDefaultPath(dir.getParentFile());
     }
+
+	public void doEscape() {
+		this.controller.doClose();
+	}
 }

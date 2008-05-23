@@ -36,6 +36,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
@@ -50,7 +52,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class PreferencesWindow extends JDialog implements ActionListener{
+public class PreferencesWindow extends JDialog implements ActionListener, IEscapeDisposeReceiver {
 
     private static final long serialVersionUID = -3157582134656737177L;
     private static final Log LOG = LogFactory.getLog(PreferencesWindow.class);
@@ -66,7 +68,9 @@ public class PreferencesWindow extends JDialog implements ActionListener{
     
 //    private static final String CMD_SERVER_START = "CMD_SERVER_START";
 //    private static final String CMD_SERVER_STOP = "CMD_SERVER_STOP";
+
     
+    private boolean escapeHit;
     
 
     private final MainWindowController mainController;
@@ -97,52 +101,99 @@ public class PreferencesWindow extends JDialog implements ActionListener{
                 doClose();
             }
         });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        
+
+        
+        // ---------------------------------------------------------------------------
         
         this.inpUsername = new AbstractPreferencesStringFieldX(this, PreferencesDao.getInstance().getUsername(), 20) {
             void saveData() throws BusinessException {
+            	if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpUsername.setVisibleData(CONF.getUsername()); // reset value
+            		return;
+            	}
             	CONF.setUsername(this.getData());
             }
         };
 
+        // ---------------------------------------------------------------------------
 
         this.inpStartupVersion = new AbstractPreferencesBooleanFieldX(this, PreferencesDao.getInstance().isStartupVersionCheck(), "Check at startup") {
 			@Override
 			void saveData() throws BusinessException {
-				CONF.setStartupVersionCheck(this.getData());
+				if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpStartupVersion.setVisibleData(CONF.isStartupVersionCheck()); // reset value
+            		return;
+            	}
+            	CONF.setStartupVersionCheck(this.getData());
 			}
         };
         this.inpStartupVersion.getComponent().setToolTipText("Whenever you start OurMovies a version check will be performed");
+
+        // ---------------------------------------------------------------------------
         
         this.inpStartupFileSystem = new AbstractPreferencesBooleanFieldX(this, PreferencesDao.getInstance().isStartupFilesystemCheck(), "Check at startup") {
 			@Override
 			void saveData() throws BusinessException {
-				CONF.setStartupFilesystemCheck(this.getData());
+				if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpStartupFileSystem.setVisibleData(CONF.isStartupFilesystemCheck()); // reset value
+            		return;
+            	}
+            	CONF.setStartupFilesystemCheck(this.getData());
 			}
         };
         this.inpStartupFileSystem.getComponent().setToolTipText("Whenever you start OurMovies a filesystem check will be performed");
+
+        // ---------------------------------------------------------------------------
         
         this.inpProxyHost = new AbstractPreferencesStringFieldX(this, PreferencesDao.getInstance().getProxyHost(), 10) {
 			void saveData() throws BusinessException {
-				CONF.setProxyHost(this.getData());
+				if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpProxyHost.setVisibleData(CONF.getProxyHost()); // reset value
+            		return;
+            	}
+            	CONF.setProxyHost(this.getData());
             }
         };
+
+        // ---------------------------------------------------------------------------
         
         this.inpProxyPort = new AbstractPreferencesIntFieldX(this, PreferencesDao.getInstance().getProxyPort(), 0L, 65535L, 4) {
 			@Override
 			void saveData() throws BusinessException {
-				CONF.setProxyPort(this.getData());
+				if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpProxyPort.setVisibleData(CONF.getProxyPort()); // reset value
+            		return;
+            	}
+            	CONF.setProxyPort(this.getData());
 			}
         	
         };
+
+        // ---------------------------------------------------------------------------
         
         this.inpProxyEnabled = new AbstractPreferencesBooleanFieldX(this, PreferencesDao.getInstance().isProxyEnabled(), null) {
 			@Override
 			void saveData() throws BusinessException {
-				CONF.setProxyEnabled(this.getData());
+				if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpProxyEnabled.setVisibleData(CONF.isProxyEnabled()); // reset value
+            		return;
+            	}
+            	CONF.setProxyEnabled(this.getData());
 			}
         };
         this.inpProxyEnabled.getComponent().setToolTipText("Select this if you are using a proxy to access the internet");
-         
+
+        // ---------------------------------------------------------------------------
+        
+        
         
         GuiUtil.macSmallWindow(this.getRootPane());
         
@@ -377,5 +428,22 @@ public class PreferencesWindow extends JDialog implements ActionListener{
             LOG.error("Unable to set system look&feel!", ex);
         }
 		new PreferencesWindow(null, null).setVisible(true);
+	}
+
+	public void doEscape() {
+		this.escapeHit = true;
+		this.doClose();
+	}
+	
+	public boolean isEscapeHit() {
+		return this.escapeHit;
+	}
+	
+	public void setVisible(boolean visible) {
+		if(visible == true) {
+			// reset visible-lifetime data
+			this.escapeHit = false;
+		}
+		super.setVisible(visible);
 	}
 }

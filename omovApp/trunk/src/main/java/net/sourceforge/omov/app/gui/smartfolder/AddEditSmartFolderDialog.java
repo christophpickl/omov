@@ -89,9 +89,6 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.setOpaque(false);
         this.inpAllAny.setOpaque(false);
-
-//        this.inpTitle.addKeyListener(this.escapeDisposer);
-//        this.inpAllAny.addKeyListener(this.escapeDisposer);
         
         if(this.isAddMode() == false) {
             this.inpTitle.setText(this.getEditItem().getName());
@@ -193,9 +190,4 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
             addWindow.getConfirmedObject();
         }
     }
-
-	public void doEscape() {
-		// TODO GUI any checks necessary in doEscpe() before invoking doCancel() ?
-		this.doCancel();
-	}
 }

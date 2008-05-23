@@ -40,6 +40,8 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.CompoundBorder;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.export.ComboMovieSelection.MovieSelectionMode;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -54,7 +56,7 @@ import net.sourceforge.omov.core.util.GuiAction;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ExporterChooserDialog extends JDialog {
+public class ExporterChooserDialog extends JDialog implements IEscapeDisposeReceiver {
 
     private static final long serialVersionUID = -683746227786551236L;
     
@@ -75,6 +77,8 @@ public class ExporterChooserDialog extends JDialog {
         this.mainController = mainController;
         this.setTitle("Export");
         this.setModal(true);
+        
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -239,4 +243,9 @@ public class ExporterChooserDialog extends JDialog {
     private void doCancel() {
         this.dispose();
     }
+
+	public void doEscape() {
+		this.doCancel();
+	}
+
 }

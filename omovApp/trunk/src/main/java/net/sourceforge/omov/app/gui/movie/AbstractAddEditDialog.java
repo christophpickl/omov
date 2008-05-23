@@ -54,18 +54,17 @@ public abstract class AbstractAddEditDialog<T> extends JDialog implements IEscap
     public AbstractAddEditDialog(JFrame owner, T editObject) {
         super(owner, true);
         
-        new EscapeDisposer((JPanel) this.getContentPane(), this);
-        
         this.editItem = editObject;
         this.isAddMode = editObject == null;
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        
         this.setResizable(false);
     }
     
@@ -140,10 +139,15 @@ public abstract class AbstractAddEditDialog<T> extends JDialog implements IEscap
     }
 
     protected final void doCancel() {
-        LOG.info("doCancel()");
+        LOG.debug("doCancel()");
         this.dispose();
     }
     
     
 
+
+	public void doEscape() {
+		LOG.debug("doEscape()");
+		this.doCancel();
+	}
 }

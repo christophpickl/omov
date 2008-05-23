@@ -298,11 +298,6 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         editDialog.setVisible(true);
         System.exit(0);
     }
-    
-	public void doEscape() {
-		// TODO GUI any checks necessary in doEscpe() before invoking doCancel() ?
-		this.doCancel();
-	}
 
 }
 

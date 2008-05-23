@@ -48,6 +48,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
@@ -66,7 +68,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail {
+public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail, IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(WebSearchResultsDialog.class);
     private static final long serialVersionUID = -9157261964634920565L;
@@ -78,7 +80,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     private static final Font UNFETCHED_FONT = new Font("default", Font.BOLD, 12);
     
     
-    
+    // TODO GUI when selecting an already/notyet-fetched entry, window repacks -> window size changes
     
     private boolean actionConfirmed = false;
     
@@ -95,13 +97,15 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         super(owner);
         this.setModal(true);
         this.setTitle("Metadata Search");
+        
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
+        
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.btnFetchDetailData.setEnabled(false); // disable when dialog gets visible
         
@@ -310,6 +314,10 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         final WebSearchResult searchResult = this.resultsListModel.getResultAt(row);
         return this.searchResultPanels.get(searchResult).getMovie();
     }
+
+	public void doEscape() {
+		this.doCancel();
+	}
     
     
     public static void main(String[] args) throws BusinessException {
@@ -350,6 +358,8 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         }
         
     }
+
+
 
 
 }

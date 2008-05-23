@@ -23,23 +23,29 @@ import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.gui.DraggableList;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieFilesReordering extends JDialog implements ActionListener {
+public class MovieFilesReordering extends JDialog implements ActionListener, IEscapeDisposeReceiver {
 
 	private static final long serialVersionUID = 6755261514670084157L;
 
@@ -57,6 +63,16 @@ public class MovieFilesReordering extends JDialog implements ActionListener {
 		
 		this.list = new DraggableList(new Vector<String>(files));
 		this.list.setVisibleRowCount(4);
+		
+		this.setBackground(Constants.getColorWindowBackground());
+
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent event) {
+                doCancel();
+            }
+        });
+		EscapeDisposer.enableEscape(this.getRootPane(), this);
 		
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(new JScrollPane(this.list), BorderLayout.CENTER);
@@ -87,10 +103,9 @@ public class MovieFilesReordering extends JDialog implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		final String cmd = e.getActionCommand();
 		if(cmd.equals(CMD_CONFIRM)) {
-			this.confirmed = true;
-			this.dispose();
+			this.doConfirm();
 		} else if(cmd.equals(CMD_CANCEL)) {
-			this.dispose();
+			this.doCancel();
 		} else {
 			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
 		}
@@ -105,4 +120,16 @@ public class MovieFilesReordering extends JDialog implements ActionListener {
 		return this.confirmed;
 	}
 	
+	private void doConfirm() {
+		this.confirmed = true;
+		this.dispose();
+	}
+	
+	private void doCancel() {
+		this.dispose();
+	}
+
+	public void doEscape() {
+		this.doCancel();
+	}
 }

@@ -40,6 +40,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
@@ -57,7 +59,7 @@ import org.jdesktop.swingx.JXTable;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SmartCopyDialog extends JDialog {
+public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(SmartCopyDialog.class);
     private static final long serialVersionUID = -2141494736445865021L;
@@ -87,6 +89,7 @@ public class SmartCopyDialog extends JDialog {
                 doClose();
             }
         });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
@@ -346,4 +349,8 @@ public class SmartCopyDialog extends JDialog {
         
         new SmartCopyDialog(null, null).setVisible(true);
     }
+
+	public void doEscape() {
+		this.doClose();
+	}
 }

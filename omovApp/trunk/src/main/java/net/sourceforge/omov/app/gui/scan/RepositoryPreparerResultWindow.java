@@ -24,6 +24,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,6 +39,8 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
@@ -48,7 +52,7 @@ import net.sourceforge.omov.gui.MacLikeTable;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class RepositoryPreparerResultWindow extends JDialog {
+public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDisposeReceiver {
 
     private static final long serialVersionUID = 967471175757339990L;
 
@@ -58,10 +62,18 @@ public class RepositoryPreparerResultWindow extends JDialog {
         super(owner, "Repository Preparer Result", true);
         this.result = result;
         
-        this.setBackground(Constants.getColorWindowBackground());
-        GuiUtil.macSmallWindow(this.getRootPane());
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent event) {
+                doClose();
+            }
+        });
         
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
+
+        GuiUtil.macSmallWindow(this.getRootPane());
+        
+        this.setBackground(Constants.getColorWindowBackground());
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
@@ -119,6 +131,8 @@ public class RepositoryPreparerResultWindow extends JDialog {
         table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         table.getColumnModel().getColumn(0).setMaxWidth(80);
         table.getColumnModel().getColumn(0).setMinWidth(80);
+
+        EscapeDisposer.enableEscape(table, this);
         
         panel.add(GuiUtil.wrapScroll(table, 500, 180), BorderLayout.CENTER);
         return panel;
@@ -130,7 +144,7 @@ public class RepositoryPreparerResultWindow extends JDialog {
         final JButton btnClose = new JButton("Close");
         this.getRootPane().setDefaultButton(btnClose);
         btnClose.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-            dispose();
+            doClose();
         }});
         panel.add(btnClose, BorderLayout.EAST);
         
@@ -179,4 +193,12 @@ public class RepositoryPreparerResultWindow extends JDialog {
             return false;
         }
     }
+    
+    private void doClose() {
+    	this.dispose();
+    }
+
+	public void doEscape() {
+		this.doClose();
+	}
 }

@@ -56,10 +56,12 @@ abstract class AbstractPreferencesFieldX<T> implements FocusListener {
         }
     }
     
+    abstract void setVisibleData(T data);
+    
 
     // should be overwritten by subclasses
     String getInvalidInputString() {
-        return "Given input was incorret!!";
+        return "Given input was incorret!";
     }
 
 }
@@ -83,6 +85,10 @@ abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX
 	final JComponent getComponent() {
 		return this.textField;
 	}
+	
+	final void setVisibleData(String data) {
+		this.textField.setText(data);
+	}
 }
 
 abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<Integer> {
@@ -104,6 +110,10 @@ abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<In
 	
 	final JComponent getComponent() {
 		return this.numberField;
+	}
+	
+	final void setVisibleData(Integer data) {
+		this.numberField.setNumber(data);
 	}
 	
 }
@@ -130,5 +140,9 @@ abstract class AbstractPreferencesBooleanFieldX extends AbstractPreferencesField
 	
 	final JComponent getComponent() {
 		return this.checkBox;
+	}
+	
+	final void setVisibleData(Boolean data) {
+		this.checkBox.setSelected(data);
 	}
 }

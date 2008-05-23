@@ -19,22 +19,67 @@
 
 package net.sourceforge.omov.app.gui;
 
-import javax.swing.JPanel;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JTable;
 
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.core.util.SimpleGuiUtil.GlobalKey;
 import net.sourceforge.omov.core.util.SimpleGuiUtil.IGlobalKeyListener;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
 public final class EscapeDisposer {
-        
-    public EscapeDisposer(JPanel rootPanel, final IEscapeDisposeReceiver receiver) {
-		SimpleGuiUtil.addGlobalKeyListener(rootPanel, new IGlobalKeyListener() {
+	
+	private static final Log LOG = LogFactory.getLog(EscapeDisposer.class);
+	
+	
+	private EscapeDisposer() {
+		// no instantiation
+	}
+	
+	public static void enableEscapeOnDialogWithoutFocusableComponents(JDialog dialog, final IEscapeDisposeReceiver receiver) {
+		LOG.debug("Enabling dialog-without-focusable-components escape notification on receiver with class '"+receiver.getClass().getName()+"'.");
+    	
+		dialog.addKeyListener(new KeyAdapter() {
+    		public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					LOG.debug("Broadcasting dialog-without-focusable-components escape event to listener with class '"+receiver.getClass().getName()+"'.");
+					receiver.doEscape();
+				}
+			}
+    	});
+	}
+    
+    public static void enableEscape(JTable table, final IEscapeDisposeReceiver receiver) {
+    	LOG.debug("Enabling table escape notification on receiver with class '"+receiver.getClass().getName()+"'.");
+    	
+    	table.addKeyListener(new KeyAdapter() {
+    		public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					LOG.debug("Broadcasting table escape event to listener with class '"+receiver.getClass().getName()+"'.");
+					receiver.doEscape();
+				}
+			}
+    	});
+    	
+    }
+	//  JComponent JRootPane
+    public static void enableEscape(JComponent rootPane, final IEscapeDisposeReceiver receiver) {
+    	LOG.debug("Enabling rootpane escape notification on receiver with class '"+receiver.getClass().getName()+"'.");
+    	
+		SimpleGuiUtil.addGlobalKeyListener(rootPane, new IGlobalKeyListener() {
 			public void doKeyPressed(GlobalKey key) {
 				if(key == GlobalKey.ESCAPE) {
+					LOG.debug("Broadcasting rootpane escape event to listener with class '"+receiver.getClass().getName()+"'.");
 					receiver.doEscape();
 				}
 			}

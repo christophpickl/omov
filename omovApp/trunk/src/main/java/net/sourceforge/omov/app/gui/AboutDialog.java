@@ -25,6 +25,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.net.MalformedURLException;
 
 import javax.swing.BorderFactory;
@@ -33,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
@@ -46,7 +49,7 @@ import org.jdesktop.swingx.action.OpenBrowserAction;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(AboutDialog.class);
     private static final long serialVersionUID = -6058616320816195022L;
@@ -54,6 +57,14 @@ public class AboutDialog extends JDialog {
     
     public AboutDialog(JFrame owner) {
         super(owner, "About", true);
+        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent event) {
+                doClose();
+            }
+        });
+        EscapeDisposer.enableEscapeOnDialogWithoutFocusableComponents(this, this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
@@ -124,4 +135,12 @@ public class AboutDialog extends JDialog {
     public static void main(String[] args) {
         new AboutDialog(null).setVisible(true);
     }
+
+    private void doClose() {
+    	this.dispose();
+    }
+    
+	public void doEscape() {
+		this.doClose();
+	}
 }

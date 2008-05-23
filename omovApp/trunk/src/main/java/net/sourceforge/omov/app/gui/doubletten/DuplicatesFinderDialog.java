@@ -24,6 +24,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -33,11 +35,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
@@ -57,7 +60,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class DuplicatesFinderDialog extends JDialog {
+public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(DuplicatesFinderDialog.class);
     private static final long serialVersionUID = 747517539473473198L;
@@ -95,6 +98,18 @@ public class DuplicatesFinderDialog extends JDialog {
             }
         };
         
+
+        
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent event) {
+                doClose();
+            }
+        });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        EscapeDisposer.enableEscape(this.table, this);
+        
+        
         for(DuplicatesColumn movieColumn : DuplicatesTableModel.getColumns()) {
             final TableColumnExt column = this.table.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
@@ -116,8 +131,6 @@ public class DuplicatesFinderDialog extends JDialog {
             }
         });
         
-        
-        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
@@ -174,7 +187,7 @@ public class DuplicatesFinderDialog extends JDialog {
         final JButton btnClose = new JButton("Close");
         btnClose.setOpaque(false);
         btnClose.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-            DuplicatesFinderDialog.this.dispose();
+            DuplicatesFinderDialog.this.doClose();
         }});
         this.getRootPane().setDefaultButton(btnClose);
         
@@ -209,6 +222,14 @@ public class DuplicatesFinderDialog extends JDialog {
             GuiUtil.error("Delete Duplicate Movie", "The movie '"+duplicate.getTitle()+"' could not be deleted!\nAlthough it now had disappeared from duplicates.");
         }
     }
+
+    private void doClose() {
+    	this.dispose();
+    }
+    
+	public void doEscape() {
+		this.doClose();
+	}
     
     /*
     private class SimilarHighlighterRenderer extends DefaultTableCellRenderer {

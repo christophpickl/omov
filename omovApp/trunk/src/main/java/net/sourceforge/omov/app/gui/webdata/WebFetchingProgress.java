@@ -36,6 +36,8 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
@@ -48,7 +50,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class WebFetchingProgress extends JDialog {
+class WebFetchingProgress extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(WebFetchingProgress.class);
     private static final long serialVersionUID = -3610540267639682892L;
@@ -68,6 +70,7 @@ class WebFetchingProgress extends JDialog {
                 doCancel();
             }
         });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
@@ -138,5 +141,9 @@ class WebFetchingProgress extends JDialog {
     public boolean isAborted() {
         return this.aborted;
     }
+
+	public void doEscape() {
+		this.doCancel();
+	}
 
 }

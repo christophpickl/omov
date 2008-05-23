@@ -23,6 +23,8 @@ import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,12 +36,15 @@ import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.gui.MacLikeList;
 
@@ -246,7 +251,7 @@ public abstract class AbstractListSuggester extends JPanel {
     }
     
     
-    private static class AddDialog extends JDialog {
+    private static class AddDialog extends JDialog implements IEscapeDisposeReceiver {
         
         private static final long serialVersionUID = 3839605440287009967L;
         
@@ -260,6 +265,14 @@ public abstract class AbstractListSuggester extends JPanel {
             this.inpItem.setColumns(inpItemColumns);
             this.setTitle("Add " + title);
             this.setModal(true);
+            
+            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            this.addWindowListener(new WindowAdapter() {
+                public void windowClosing(final WindowEvent event) {
+                    doClose();
+                }
+            });
+            EscapeDisposer.enableEscape(this.getRootPane(), this);
             
             final JPanel panel = new JPanel();
             JButton btnSave = new JButton("Save");
@@ -286,6 +299,13 @@ public abstract class AbstractListSuggester extends JPanel {
         public String getInpItem() {
             return this.inpItem.getText();
         }
+        private void doClose() {
+        	this.dispose();
+        }
+
+		public void doEscape() {
+			this.doClose();
+		}
     }
     
 }

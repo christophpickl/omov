@@ -19,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
@@ -26,7 +28,7 @@ import net.sourceforge.omov.core.bo.Movie;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class WebSearchProgress<N extends Movie> extends JDialog {
+public class WebSearchProgress<N extends Movie> extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(WebSearchProgress.class);
 	private static final long serialVersionUID = -5671264355595639975L;
@@ -45,6 +47,7 @@ public class WebSearchProgress<N extends Movie> extends JDialog {
                 doCancel();
             }
         });
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
@@ -115,4 +118,8 @@ public class WebSearchProgress<N extends Movie> extends JDialog {
 
         return panel;
     }
+
+	public void doEscape() {
+		this.doCancel();
+	}
 }

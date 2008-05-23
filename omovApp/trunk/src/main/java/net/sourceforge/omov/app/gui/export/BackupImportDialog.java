@@ -25,6 +25,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 
 import javax.swing.BorderFactory;
@@ -34,6 +36,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import net.sourceforge.omov.app.gui.EscapeDisposer;
+import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -52,7 +56,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class BackupImportDialog extends JDialog implements ActionListener {
+public class BackupImportDialog extends JDialog implements ActionListener, IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(BackupImportDialog.class);
     private static final long serialVersionUID = 2471103972559399413L;
@@ -71,7 +75,15 @@ public class BackupImportDialog extends JDialog implements ActionListener {
     public BackupImportDialog(JFrame owner) {
         super(owner, "Import Backup", true);
         
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        EscapeDisposer.enableEscape(this.getRootPane(), this);
+
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(final WindowEvent event) {
+                doCancel();
+            }
+        });
+        
         this.controller = new BackupImportController(this);
 
         this.inpFileChooser.setDefaultPath(new File(PreferencesDao.getInstance().getRecentBackupImportPath()));
@@ -181,5 +193,13 @@ public class BackupImportDialog extends JDialog implements ActionListener {
             }
         }.doAction();
     }
+
+    private void doCancel() {
+    	this.dispose();
+    }
+    
+	public void doEscape() {
+		this.doCancel();
+	}
     
 }
