@@ -98,7 +98,7 @@ public class ImdbWebDataFetcher implements IWebDataFetcher {
     		}
     		
             
-            final Parser parser = new Parser(connection); // FIXME PROXY - check if proxy settings works
+            final Parser parser = new Parser(connection);
             final ImdbStartPage visitor = new ImdbStartPage(movieTitle);
             parser.visitAllNodesWith(visitor);
             
@@ -125,7 +125,7 @@ public class ImdbWebDataFetcher implements IWebDataFetcher {
 		}
 
         try {
-            final Parser parser = new Parser(connection); // FIXME PROXY - check if proxy settings works
+            final Parser parser = new Parser(connection);
             final ImdbDetailPage visitor = new ImdbDetailPage(fetchCover);
             parser.visitAllNodesWith(visitor);
             

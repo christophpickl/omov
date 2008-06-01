@@ -87,7 +87,7 @@ class ImdbDetailPage extends NodeVisitor {
     		}
             
             try {
-                Parser parser = new Parser(connection); // FIXME PROXY - check if proxy settings works
+                Parser parser = new Parser(connection);
                 final ImdbCoverFetcher visitor = new ImdbCoverFetcher();
                 parser.visitAllNodesWith(visitor);
                 
