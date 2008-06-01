@@ -7,14 +7,14 @@
 	<groupId>net.sourceforge.omov.qtjApi</groupId>
 	<artifactId>omovQtjApi</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5-BETA</version>
+	<version>0.6-Beta</version>
 	<name>omovQtjApi</name>
 	<url>http://maven.apache.org</url>
 
 	<parent>
 		<groupId>net.sourceforge.omov</groupId>
 		<artifactId>omovSuper</artifactId>
-		<version>0.5-BETA</version>
+		<version>0.6-Beta</version>
 	</parent>
 
 	<!-- =================================================================== -->
@@ -25,7 +25,7 @@
 		<dependency>
 			<groupId>net.sourceforge.omov.core</groupId>
 			<artifactId>omovCore</artifactId>
-			<version>0.5-BETA</version>
+			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
 		

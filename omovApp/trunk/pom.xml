@@ -25,7 +25,7 @@
 	<groupId>net.sourceforge.omov.app</groupId>
 	<artifactId>omovApp</artifactId>
 	<packaging>jar</packaging>
-	<version>0.5-BETA</version>
+	<version>0.6-Beta</version>
 	<name>omovApp</name>
 	<url>http://maven.apache.org</url>
 
@@ -33,7 +33,7 @@
 	<parent>
 		<groupId>net.sourceforge.omov</groupId>
 		<artifactId>omovSuper</artifactId>
-		<version>0.5-BETA</version>
+		<version>0.6-Beta</version>
 	</parent>
 
 	<!-- =================================================================== -->
@@ -43,32 +43,32 @@
 		<dependency>
 			<groupId>net.sourceforge.omov.core</groupId>
 			<artifactId>omovCore</artifactId>
-			<version>0.5-BETA</version>
+			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.omov.qtjApi</groupId>
 			<artifactId>omovQtjApi</artifactId>
-			<version>0.5-BETA</version>
+			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
 		<!--  nicht alls dependency, sondern bei assembly dazu, wie ein plugin dazu -->
 		<dependency>
 			<groupId>net.sourceforge.omov.qtjImpl</groupId>
 			<artifactId>omovQtjImpl</artifactId>
-			<version>0.5-BETA</version>
+			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.omov.webApi</groupId>
 			<artifactId>omovWebApi</artifactId>
-			<version>0.5-BETA</version>
+			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.omov.webImpl</groupId>
 			<artifactId>omovWebImpl</artifactId>
-			<version>0.5-BETA</version>
+			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
 		
@@ -139,7 +139,8 @@
 		</dependency>
 		<!-- DUPLIACTE DEPENDENCY END -->
 	</dependencies>
-
+  
+  
 	<build>
 		<plugins>
 			<plugin>
@@ -176,5 +177,5 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 </project>

@@ -73,6 +73,8 @@ public class App {
 	
 	// FIXME in superpom, do not encapsulate dependencies-tag within dependencyManagement tag (cause dependencies should actually be inherited by submodules)
 	
+	// FIXME outsource QTJ-impl in own plugin with own version number (not sub-pom of superOmov-pom)
+	
 	// TODO zusaetzlich zu jar-with-dependencies assembly: src assembly!
 	
     private static final Log LOG = LogFactory.getLog(App.class);

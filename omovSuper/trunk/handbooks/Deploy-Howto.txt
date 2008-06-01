@@ -23,7 +23,7 @@ last edited: 19.5.08
   - replace OurMovies.app file
   - vertically align icons
   - umount the diskimage
-  # hdiutil convert OurMovies.sparseimage  -format UDBZ -o OurMovies-0.5.dmg
+  # hdiutil convert OurMovies.sparseimage  -format UDBZ -o OurMovies-0.6.dmg
 
 - for win:
   // JSmooth EXE wrapping

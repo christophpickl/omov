@@ -11,9 +11,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleGetInfoString</key>
-	<string>OurMovies v0.5 Beta</string>
+	<string>OurMovies v0.6 Beta</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.5</string>
+	<string>0.6</string>
 	<key>CFBundleName</key>
 	<string>OurMovies</string>
 	<key>CFBundlePackageType</key>
@@ -26,7 +26,7 @@
 	<dict>
 		<key>ClassPath</key>
 		<array>
-			<string>$JAVAROOT/omovApp-0.5-BETA-jar-with-dependencies.jar</string>
+			<string>$JAVAROOT/omovApp-0.6-BETA-jar-with-dependencies.jar</string>
 		</array>
 		<key>JVMVersion</key>
 		<string>1.5+</string>

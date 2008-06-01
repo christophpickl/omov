@@ -3,11 +3,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<!-- TODO make these properties available to submodules
+	<properties>
+		<omov.version.artifact>0.6-Beta</omov.version.artifact>
+	</properties>
+	 -->
+	
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.omov</groupId>
 	<artifactId>omovSuper</artifactId>
 	<packaging>pom</packaging>
-	<version>0.5-BETA</version>
+	<version>0.6-Beta</version>
 	<name>omovSuper</name>
 	<url>http://maven.apache.org</url>
 

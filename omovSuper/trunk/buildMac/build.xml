@@ -8,8 +8,8 @@
 <project name="OurMovies" default="distmac" basedir=".">
 
 	<property name="app.name" value="OurMovies" />
-	<property name="app.version" value="0.5" />
-	<property name="app.jar" value="omovApp-0.5-BETA-jar-with-dependencies.jar" />
+	<property name="app.version" value="0.6" />
+	<property name="app.jar" value="omovApp-0.6-BETA-jar-with-dependencies.jar" />
 	
 	<property name="path.base" value="../" />
 	<property name="path.build" value="${path.base}buildMac/" />

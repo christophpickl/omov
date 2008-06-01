@@ -12,7 +12,7 @@
 <executableName>OurMovies.exe</executableName>
 <iconLocation>omov_logo.png</iconLocation>
 <initialMemoryHeap>-1</initialMemoryHeap>
-<jarLocation>omovApp-0.5-BETA-jar-with-dependencies.jar</jarLocation>
+<jarLocation>omovApp-0.6-BETA-jar-with-dependencies.jar</jarLocation>
 <mainClassName>net.sourceforge.omov.app.App</mainClassName>
 <maximumMemoryHeap>-1</maximumMemoryHeap>
 <maximumVersion></maximumVersion>
