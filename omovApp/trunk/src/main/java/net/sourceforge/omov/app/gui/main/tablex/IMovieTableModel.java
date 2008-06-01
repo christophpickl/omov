@@ -21,6 +21,7 @@ package net.sourceforge.omov.app.gui.main.tablex;
 
 import java.util.List;
 
+import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 
@@ -30,7 +31,7 @@ import net.sourceforge.omov.core.smartfolder.SmartFolder;
  */
 public interface IMovieTableModel {
 
-    void doSearch(String searchTerm);
+    void doSearch(ContinuousFilter filter);
     
     void setSmartFolder(SmartFolder smartFolder);
     

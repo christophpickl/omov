@@ -19,13 +19,21 @@
 
 package net.sourceforge.omov.app.gui.main;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
+import net.sourceforge.omov.core.ContinuousFilter;
+import net.sourceforge.omov.core.ContinuousFilter.ContinuousFilterField;
 import net.sourceforge.omov.gui.SearchField;
+import net.sourceforge.omov.gui.SelectableContextMenuButton;
 import net.sourceforge.omov.gui.SearchField.ISearchFieldListener;
 
 import org.apache.commons.logging.Log;
@@ -39,6 +47,12 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
     
     private static final long serialVersionUID = -7250410345453624595L;
     private static final Log LOG = LogFactory.getLog(MovieSearchPanel.class);
+
+    private static final String CMD_ALL = "CMD_ALL";
+    private static final String CMD_TITLE = "CMD_TITLE";
+    private static final String CMD_PEOPLE = "CMD_PEOPLE";
+    private static final String CMD_COMMENT = "CMD_COMMENT";
+    
     
     private final MovieTableModel model;
     
@@ -46,21 +60,83 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
 
     private boolean keyTyped = false;
     
+    private final SelectableContextMenuButton contextMenu;
+    
+    
     
     public MovieSearchPanel(MovieTableModel model) {
         this.model = model;
         this.inpText.addKeyListener(this);
         this.inpText.addISearchFieldListener(this);
         
-        this.setOpaque(false);
-        this.add(inpText);
+
+		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
+		final JMenuItem itemSearchHeader = newMenuItem("Search", null, popupItems);
+		itemSearchHeader.setEnabled(false);
+		newMenuItem("All", CMD_ALL, popupItems);
+		newMenuItem("Title", CMD_TITLE, popupItems);
+		newMenuItem("People", CMD_PEOPLE, popupItems);
+		newMenuItem("Comment", CMD_COMMENT, popupItems);
+        this.contextMenu = new SelectableContextMenuButton(popupItems, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				doChangedFilterField();
+			}
+        });
+        
+        this.initComponents();
+    }
+    
+    private void doChangedFilterField() {
+    	LOG.info("Changed filter field (selected action command="+this.contextMenu.getSelectedActionCommand()+").");
+    	this.resetModelSearch(this.inpText.getText());
     }
 
     
+    private void initComponents() {
+    	this.setOpaque(false);
+    	
+    	this.contextMenu.setToolTipText("Set fields the continuous filter should ab applied to");
 
-    private void resetModelSearch(String search) {
-        LOG.info("Searching for '"+search+"'.");
-        this.model.doSearch(search);
+	    this.add(this.contextMenu);
+	    this.add(this.inpText);
+    }
+    
+    private static JMenuItem newMenuItem(String label, String actionCmd, List<JMenuItem> list) {
+		final JMenuItem item = new JMenuItem(label);
+		item.setActionCommand(actionCmd);
+		list.add(item);
+		return item;
+    }
+    
+
+    private void resetModelSearch(String searchString) {
+        LOG.info("Searching for '"+searchString+"'.");
+        this.model.doSearch(this.createContinuousFilter(searchString));
+    }
+    
+    private ContinuousFilter createContinuousFilter(String searchString) {
+    	if(searchString == null || searchString.length() == 0) {
+    		return null;
+    	}
+    	if(this.inpText.isShowingPlaceholderText() == true) {
+    		LOG.debug("Resetting data because is showing placeholder text only.");
+    		return null;
+    	}
+    	final String cmd = this.contextMenu.getSelectedActionCommand();
+    	final ContinuousFilterField continuousFilterField;
+    	if(cmd.equals(CMD_ALL)) {
+    		continuousFilterField = ContinuousFilterField.ALL;
+    	} else if(cmd.equals(CMD_TITLE)) {
+    		continuousFilterField = ContinuousFilterField.TITLE;
+    	} else if(cmd.equals(CMD_PEOPLE)) {
+    		continuousFilterField = ContinuousFilterField.PEOPLE;
+    	} else if(cmd.equals(CMD_COMMENT)) {
+    		continuousFilterField = ContinuousFilterField.COMMENT;
+    	} else {
+    		throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
+    	}
+    	
+    	return new ContinuousFilter(searchString, continuousFilterField);
     }
 
     public void keyPressed(KeyEvent event) {
@@ -115,4 +191,5 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
     public void didResetSearch() {
         this.resetModelSearch(null);
     }
+
 }

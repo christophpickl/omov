@@ -23,7 +23,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JViewport;
@@ -31,6 +31,7 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.MovieTableColumns;
 import net.sourceforge.omov.core.bo.Movie;
@@ -56,7 +57,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
 
 
     private SmartFolder smartFolder;
-    private String searchTerm;
+    private ContinuousFilter continuousFilter;
     
     
     public MovieTableModel() {
@@ -93,22 +94,22 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         try {
             final IMovieDao movieDao = BeanFactory.getInstance().getMovieDao();
             
-            if(this.smartFolder == null && this.searchTerm == null) {
-                LOG.debug("reloading data whole...");
+            if(this.smartFolder == null && this.continuousFilter == null) {
+                LOG.debug("reloading whole data (neither smartfolder nor continuous filter set) ...");
                 this.data = new ArrayList<Movie>(movieDao.getMoviesSorted());
                 
-            } else if(this.smartFolder == null && this.searchTerm != null) {
-                LOG.debug("reloading data by search string '"+this.searchTerm+"'...");
-                this.data = naiveSearch(movieDao.getMoviesSorted(), searchTerm);
+            } else if(this.smartFolder == null && this.continuousFilter != null) {
+                LOG.debug("reloading data by continuous filter '"+this.continuousFilter+"'...");
+                this.data = naiveSearch(movieDao.getMoviesSorted(), this.continuousFilter);
                 
-            } else if(this.smartFolder != null && this.searchTerm == null) {
-                LOG.debug("reloading data by criteria...");
+            } else if(this.smartFolder != null && this.continuousFilter == null) {
+                LOG.debug("reloading data by smartfolder...");
                 this.data = new ArrayList<Movie>(movieDao.getMoviesBySmartFolder(this.smartFolder));
                 
             } else {
-                assert(this.smartFolder != null && this.searchTerm != null);
-                LOG.debug("reloading data by criteria and search '"+this.searchTerm+"'...");
-                this.data = naiveSearch(movieDao.getMoviesBySmartFolder(this.smartFolder), searchTerm);
+                assert(this.smartFolder != null && this.continuousFilter != null);
+                LOG.debug("reloading data by smartfolder and continuous filter '"+this.continuousFilter+"'...");
+                this.data = naiveSearch(movieDao.getMoviesBySmartFolder(this.smartFolder), this.continuousFilter);
             }
             
             LOG.debug("reloaded "+this.data.size()+" movies.");
@@ -174,15 +175,16 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     /**
      * compares only following to attributes with given search string: title and genres
      */
-    private static List<Movie> naiveSearch(List<Movie> source, String search) {
-        List<Movie> result = new LinkedList<Movie>();
+    private static List<Movie> naiveSearch(List<Movie> source, ContinuousFilter continuousFilter) {
+        List<Movie> result = new ArrayList<Movie>();
+        
         for (Movie movie : source) {
-            if (movie.getTitle().toLowerCase().contains(search.toLowerCase())
-             || movie.getGenresString().toLowerCase().contains(search.toLowerCase())) {
-                result.add(movie);
-            }
+        	if(continuousFilter.isMatching(movie)) {
+        		result.add(movie);
+        	}
+            
         }
-        return result;
+        return Collections.unmodifiableList(result);
     }
 
     /**
@@ -196,8 +198,8 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
     /****   IMovieTableModel
     /******************************************************************************************************************/
     
-    public void doSearch(String givenSearchTerm) {
-        this.searchTerm = givenSearchTerm;
+    public void doSearch(ContinuousFilter filter) {
+        this.continuousFilter = filter;
         this.reloadData();
     }
     

@@ -117,6 +117,10 @@ public class SearchField extends JTextField {
         addMouseMotionListener(mouseInputListener);
     }
     
+    public boolean isShowingPlaceholderText() {
+    	return this.showingPlaceholderText;
+    }
+    
     private void initKeyListener() {
         addKeyListener(new KeyAdapter() {
             public void keyReleased(KeyEvent e) {

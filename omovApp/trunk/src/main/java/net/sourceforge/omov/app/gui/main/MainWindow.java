@@ -145,6 +145,8 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         return panel;
     }
 
+    
+    
 
     private Component initComponentTable() {
         this.initMovieTable();

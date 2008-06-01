@@ -43,6 +43,47 @@ import net.sourceforge.omov.core.util.SimpleGuiUtil;
 public class ContextMenuButton extends JButton {
 	
 	private static final long serialVersionUID = -2658781971359830733L;
+	
+	private final JPopupMenu popupMenu = new JPopupMenu();
+	
+	/**
+	 * 
+	 * @param popupItems if added a null-value in list -> will add a separator line
+	 * @param listener attache dto every menu item; can be null
+	 */
+	public ContextMenuButton(List<JMenuItem> popupItems, ActionListener listener) {
+		super(ImageFactory.getInstance().getContextMenuButton());
+		
+		this.setBorderPainted(false);
+		SimpleGuiUtil.enableHandCursor(this);
+		
+		for (JMenuItem menuItem : popupItems) {
+			if(menuItem == null) {
+				this.popupMenu.addSeparator();
+			} else {
+				this.popupMenu.add(menuItem);
+				if(listener != null) {
+					menuItem.addActionListener(listener);
+				}
+			}
+		}
+		
+		this.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Point p = ContextMenuButton.this.getMousePosition();
+				popupMenu.show(ContextMenuButton.this, p.x, p.y);
+			}
+		});
+		
+	}
+
+	
+	
+	
+	
+	
+	
+
 
 	public static void main(String[] args) {
 		
@@ -65,7 +106,7 @@ public class ContextMenuButton extends JButton {
 		
 		JPanel p = new JPanel();
 		p.add(new JLabel("press me"));
-		ContextMenuButton cmb = new ContextMenuButton(popupItems);
+		ContextMenuButton cmb = new ContextMenuButton(popupItems, null);
 		p.add(cmb);
 		
 		
@@ -73,29 +114,5 @@ public class ContextMenuButton extends JButton {
 		f.setSize(300, 200);
 		SimpleGuiUtil.setCenterLocation(f);
 		f.setVisible(true);
-	}
-	
-	private final JPopupMenu popupMenu = new JPopupMenu();
-	
-	public ContextMenuButton(List<JMenuItem> popupItems) {
-		super(ImageFactory.getInstance().getContextMenuButton());
-		this.setBorderPainted(false);
-		SimpleGuiUtil.enableHandCursor(this);
-		
-		for (JMenuItem menuItem : popupItems) {
-			if(menuItem == null) {
-				this.popupMenu.addSeparator();
-			} else {
-				this.popupMenu.add(menuItem);
-			}
-		}
-		
-		this.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Point p = ContextMenuButton.this.getMousePosition();
-				popupMenu.show(ContextMenuButton.this, p.x, p.y);
-			}
-		});
-		// popup.show(this.table, pointRightClick.x, pointRightClick.y);
 	}
 }

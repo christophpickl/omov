@@ -278,11 +278,6 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 		this.itemReorder.setActionCommand(CMD_FILES_REORDER);
 		this.itemClear.setActionCommand(CMD_FILES_CLEAR);
 		
-		this.itemSelectFolder.addActionListener(this);
-		this.itemRescan.addActionListener(this);
-		this.itemReorder.addActionListener(this);
-		this.itemClear.addActionListener(this);
-		
 		if(this.isAddMode == true || this.editMovie.isFolderPathSet() == false) {
 			this.itemRescan.setEnabled(false);
 		}
@@ -300,7 +295,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 		popupItems.add(this.itemReorder);
 		popupItems.add(this.itemClear);
 		
-    	this.folderContextMenu = new ContextMenuButton(popupItems);
+    	this.folderContextMenu = new ContextMenuButton(popupItems, this);
     	this.folderContextMenu.setOpaque(false);
     	
     	
