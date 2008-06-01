@@ -27,11 +27,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+
+import net.sourceforge.omov.gui.ErrorDialog;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -100,11 +106,26 @@ public class SimpleGuiUtil {
         JOptionPane.showMessageDialog(parent, message, title, JOptionPane.WARNING_MESSAGE);
     }
 
+    
+    
     public static void error(String title, String message) {
-        error(null, title, message);
+    	ErrorDialog.newDialog(title, message).setVisible(true);
     }
-    public static void error(Component parent, String title, String message) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
+    public static void error(String title, String message, Exception exception) {
+    	ErrorDialog.newDialog(title, message, exception).setVisible(true);
+    }
+    public static void error(JDialog owner, String title, String message) {
+//      JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
+    	ErrorDialog.newDialog(owner, title, message).setVisible(true);
+    }
+    public static void error(JDialog owner, String title, String message, Exception exception) {
+    	ErrorDialog.newDialog(owner, title, message, exception).setVisible(true);
+    }
+    public static void error(JFrame owner, String title, String message) {
+    	ErrorDialog.newDialog(owner, title, message).setVisible(true);
+    }
+    public static void error(JFrame owner, String title, String message, Exception exception) {
+    	ErrorDialog.newDialog(owner, title, message, exception).setVisible(true);
     }
     
     
@@ -114,13 +135,15 @@ public class SimpleGuiUtil {
      * should be used if exceptions was thrown, which forces an application shutdown.
      * use it to surround user invoked methods (within actionPerformed & co).
      */
-    static void handleFatalException(Throwable e) {
-        e.printStackTrace();
-        LOG.error("Application error! Shutdown...", e);
-        SimpleGuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)\n" +
-                                                 "The evil source is a "+e.getClass().getSimpleName()+".");
+    static void handleFatalException(Exception exception) {
+        exception.printStackTrace();
+        LOG.error("Application error! Shutdown...", exception);
+        SimpleGuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)<br>" +
+                                                 "The evil source is a "+exception.getClass().getSimpleName()+".", exception);
         // MANTIS [25] gui: use swingx panel + collapsable details containing stack trace
+        LOG.debug("System.exit(1);");
         System.exit(1);
+        
     }
 
     
@@ -162,5 +185,31 @@ public class SimpleGuiUtil {
     
     public static interface IGlobalKeyListener {
     	void doKeyPressed(GlobalKey key);
+    }
+
+    public static String convertExceptionToString(Exception e) {
+    	return convertExceptionToString(e, false);
+    }
+    public static String convertExceptionToString(Exception e, boolean withCause) {
+    	final StringBuffer sb = new StringBuffer();
+    	
+    	sb.append(convertSingleException(e));
+    	
+    	if(withCause == true) {
+    		Throwable cause = e;
+    		while( (cause = cause.getCause()) != null) {
+    			sb.append("Caused by:");
+    			sb.append(convertSingleException(cause));
+    		}
+    	}
+    	
+    	return sb.toString();
+    }
+    
+    private static String convertSingleException(Throwable t) {
+    	final StringWriter sw = new StringWriter();
+    	final PrintWriter pw = new PrintWriter(sw);
+    	t.printStackTrace(pw);
+    	return sw.toString();
     }
 }

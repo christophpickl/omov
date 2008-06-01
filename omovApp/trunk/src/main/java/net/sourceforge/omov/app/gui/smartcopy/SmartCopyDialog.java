@@ -40,16 +40,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.gui.DirectoryChooser;
+import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.IChooserListener;
 import net.sourceforge.omov.gui.MacLikeTable;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

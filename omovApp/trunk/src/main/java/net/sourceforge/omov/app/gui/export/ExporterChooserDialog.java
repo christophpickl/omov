@@ -40,8 +40,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.border.CompoundBorder;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.export.ComboMovieSelection.MovieSelectionMode;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -51,6 +49,8 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 /**
  * 

@@ -35,11 +35,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.gui.DraggableList;
+import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 /**
  * 

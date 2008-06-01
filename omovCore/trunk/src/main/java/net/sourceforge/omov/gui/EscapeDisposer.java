@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.app.gui;
+package net.sourceforge.omov.gui;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

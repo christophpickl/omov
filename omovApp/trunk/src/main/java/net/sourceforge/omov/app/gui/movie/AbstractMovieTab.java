@@ -21,9 +21,9 @@ package net.sourceforge.omov.app.gui.movie;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Dialog;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.Constants;
@@ -39,7 +39,7 @@ import net.sourceforge.omov.gui.LabeledComponent;
  */
 abstract class AbstractMovieTab extends JPanel {
 
-    final Dialog owner;
+    final JDialog owner;
     final boolean isAddMode;
     final Movie editMovie;
     final List<Movie> editMovies;

@@ -40,8 +40,6 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -53,8 +51,10 @@ import net.sourceforge.omov.core.model.ISmartFolderDao;
 import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.MacLikeList;
 import net.sourceforge.omov.gui.MacLikeListCellRenderer;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

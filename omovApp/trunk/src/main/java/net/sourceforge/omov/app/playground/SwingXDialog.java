@@ -19,7 +19,10 @@
 
 package net.sourceforge.omov.app.playground;
 
+import java.awt.Dialog;
+
 import net.sourceforge.omov.core.FatalException;
+import net.sourceforge.omov.core.ImageFactory;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -30,8 +33,63 @@ import org.jdesktop.swingx.error.ErrorLevel;
  * @author christoph_pickl@users.sourceforge.net
  */
 public class SwingXDialog {
-    public static void main(String[] args) {
-        // DO NOT use this one; its ugly! better write your own extended dialog box (displaying the stack trace)
-        JXErrorPane.showDialog(null, new ErrorInfo("s1: Bold title", "s2: message", null, "s4", new FatalException("blua"), ErrorLevel.WARNING, null));
+	
+	
+    
+    public static void _warning(String windowTitle, Exception exception) {
+    	JXErrorPane pane = new JXErrorPane();
+//        pane.setIcon(ImageFactory.getInstance().getHelp());
+        ErrorInfo info = new ErrorInfo(
+        		"Show Error",
+        		"Looks like you've got some issues ... ",
+        		null, // "Describe error - bla b la bla bla" ,
+        		null, // "TopPane Category",
+        		exception,
+        		ErrorLevel.WARNING,
+        		null
+        		);
+        pane.setErrorInfo(info);
+        
+        Dialog dialog = JXErrorPane.createDialog(null, pane);
+        
+        dialog.setTitle(windowTitle);
+//        dialog.setResizable(false);
+        dialog.setVisible(true);
+    	
+    }
+    
+    public static void show2() {
+    	JXErrorPane pane = new JXErrorPane();
+        pane.setIcon(ImageFactory.getInstance().getHelp());
+        ErrorInfo info = new ErrorInfo(
+        		"Show Error",
+        		"Looks like you've got some issues ... ",
+        		"Describe error - bla b la bla bla" ,
+        		"TopPane Category",
+        		null,
+        		ErrorLevel.SEVERE,
+        		null
+        		);
+        pane.setErrorInfo(info);
+        
+        Dialog dialog = JXErrorPane.createDialog(null, pane);
+        System.out.println(dialog.getClass().getName());
+        dialog.setTitle("err");
+        dialog.setVisible(true);
+    }
+    
+    public static void show1() {
+    	ErrorInfo errorInfo = new ErrorInfo(
+    			"s1: Bold title", // title
+    			"s2: basic error message", // basicErrorMessage
+    			"s3: detailed error message", // detailedErrorMessage
+    			"s4: category", // category
+    			new FatalException("exception message"), // errorException
+    			ErrorLevel.WARNING, // errorLevel
+    			null); // Map<String, String> state
+    	
+    	JXErrorPane.showDialog(
+    			null, // owner
+        		errorInfo);
     }
 }

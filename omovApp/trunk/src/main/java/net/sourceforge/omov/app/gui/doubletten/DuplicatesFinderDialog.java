@@ -39,8 +39,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
@@ -49,7 +47,9 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.MacLikeTable;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

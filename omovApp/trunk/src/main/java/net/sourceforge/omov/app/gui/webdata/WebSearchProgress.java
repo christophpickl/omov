@@ -1,6 +1,5 @@
 package net.sourceforge.omov.app.gui.webdata;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -19,11 +18,11 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +36,7 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IEsca
     
     private final WebSearchWorker<N> worker;
     
-	public WebSearchProgress(JFrame owner, Component parent, N movieFetchingData, IWebSearchWorkerListener<N> listener) {
+	public WebSearchProgress(JFrame owner, JFrame parent, N movieFetchingData, IWebSearchWorkerListener<N> listener) {
 		super(owner, "Fetching Metadata", true);
 		GuiUtil.macSmallWindow(this.getRootPane());
 

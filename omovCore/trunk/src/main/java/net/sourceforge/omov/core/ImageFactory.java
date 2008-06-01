@@ -115,6 +115,10 @@ public class ImageFactory {
         return this.getImage("help.png");
     }
 
+    public ImageIcon getDialogError() {
+        return this.getImage("dialog/error.png");
+    }
+
     public ImageIcon getSetupWizardBanner() {
         return this.getImage("setup_wizard_banner.png");
     }

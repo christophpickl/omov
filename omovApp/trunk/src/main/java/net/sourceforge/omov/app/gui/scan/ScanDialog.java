@@ -50,8 +50,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.omov.app.gui.EscapeDisposer;
-import net.sourceforge.omov.app.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
@@ -66,8 +64,10 @@ import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.BodyContext;
 import net.sourceforge.omov.gui.ButtonPosition;
 import net.sourceforge.omov.gui.DirectoryChooser;
+import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.IChooserListener;
 import net.sourceforge.omov.gui.TableContextMenuListener;
+import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

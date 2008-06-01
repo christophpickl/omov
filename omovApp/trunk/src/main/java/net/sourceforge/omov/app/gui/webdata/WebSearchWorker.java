@@ -1,9 +1,9 @@
 package net.sourceforge.omov.app.gui.webdata;
 
-import java.awt.Component;
 import java.util.List;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
@@ -23,11 +23,11 @@ public class WebSearchWorker<O extends Movie> extends SwingWorker<List<WebSearch
     private final JDialog progressDialog;
 	private List<WebSearchResult> result;
 	private final O movieFetchingData;
-	private final Component parent;
+	private final JFrame parent;
 	private final IWebSearchWorkerListener<O> listener;
     private Exception thrownException= null;
     
-    public WebSearchWorker(JDialog progressDialog, IWebSearchWorkerListener<O> listener, O movieFetchingData, Component parent) {
+    public WebSearchWorker(JDialog progressDialog, IWebSearchWorkerListener<O> listener, O movieFetchingData, JFrame parent) {
 		this.progressDialog = progressDialog;
 		this.movieFetchingData = movieFetchingData;
 		this.parent = parent;

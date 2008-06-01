@@ -561,7 +561,6 @@ public final class MainWindowController extends CommonController<Movie> implemen
     	} catch(BusinessException e) {
     		LOG.error("Could not get movies!", e);
     	}
-    	
         ExporterChooserDialog chooser = new ExporterChooserDialog(this.mainWindow, this);
         chooser.setVisible(true);
     }
