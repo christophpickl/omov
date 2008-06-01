@@ -20,12 +20,15 @@
 package net.sourceforge.omov.core.model.db4o;
 
 import java.io.File;
+import java.io.IOException;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.FatalException.FatalReason;
+import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
+import net.sourceforge.omov.core.smartfolder.SmartFolder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,6 +36,9 @@ import org.apache.commons.logging.LogFactory;
 import com.db4o.DatabaseFileLockedException;
 import com.db4o.Db4o;
 import com.db4o.ObjectContainer;
+import com.db4o.config.Configuration;
+import com.db4o.defragment.Defragment;
+import com.db4o.defragment.DefragmentConfig;
 
 // http://developer.db4o.com/resources/api/db4o-java/
 
@@ -54,6 +60,21 @@ public class Db4oConnection implements IDatabaseConnection {
     public void setAutoCommit(boolean autoCommit) {
         this.autoCommit = autoCommit;
     }
+    
+    private static void defragment(String dbFileName) throws IOException {
+    	if(new File(dbFileName).exists() == false) {
+    		LOG.info("Skip defragmentation because the DB-file '"+dbFileName+"' does not exist.");
+    		return;
+    	}
+    	LOG.info("Running defragment operation ...");
+    	
+    	final DefragmentConfig config = new DefragmentConfig(dbFileName);
+    	config.forceBackupDelete(true); // delete old backup file
+    	
+        Defragment.defrag(config);
+        
+        LOG.info("Defragmentation complete.");
+    }
 
     public Db4oConnection(String dbFileName) {
         final boolean isRunningJunitTest = System.getProperty("omovTestRunning") != null;
@@ -61,9 +82,32 @@ public class Db4oConnection implements IDatabaseConnection {
         if(isRunningJunitTest == false) {
             dbFileName = new File(PreferencesDao.getInstance().getDataFolder(), dbFileName).getAbsolutePath();
         }
-        
         LOG.info("Opening database file '"+dbFileName+"'.");
         try {
+
+        	defragment(dbFileName);
+        	
+        	final Configuration config = Db4o.configure();
+        	
+            LOG.info("Setting cascade update for class: " + Movie.class.getName());
+            config.objectClass(Movie.class).cascadeOnUpdate(true);
+
+            LOG.info("Setting cascade update for class: " + SmartFolder.class.getName());
+            config.objectClass(SmartFolder.class).cascadeOnUpdate(true); 
+
+            // would also delete unused Resolution objects in database...
+            // but have to make sure, not any other object is referencing the cascading deleted object
+//            Db4o.configure().objectClass(Movie.class).cascadeOnDelete(true); 
+            
+            // deactivate callbacks because not used by omov; increases performance
+            config.callbacks(false);
+            
+            // default is true anyway; detects class changes at startup (added/removed fields)
+            // config.detectSchemaChanges(true);
+            
+            // if not storable (e.g.: object to store references ObjectContainer) -> throw a ObjectNotStorableException instead of silently ignoring
+            config.exceptionsOnNotStorable(true);
+            
         	this.connection = Db4o.openFile(dbFileName);
         } catch(DatabaseFileLockedException e) {
         	throw new FatalException("Database file '"+dbFileName+"' already in use!", e, FatalReason.DB_LOCKED);

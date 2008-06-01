@@ -32,7 +32,6 @@ import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.db4o.Db4o;
 import com.db4o.ObjectSet;
 
 /**
@@ -48,9 +47,6 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
     
     public Db4oSmartFolderDao(Db4oConnection connection) {
         super(connection);
-
-        LOG.info("Setting cascade update for class: " + SmartFolder.class.getName());
-        Db4o.configure().objectClass(SmartFolder.class.getName()).cascadeOnUpdate(true); 
     }
 
     private SmartFolder getSmartFolderById(long id) {

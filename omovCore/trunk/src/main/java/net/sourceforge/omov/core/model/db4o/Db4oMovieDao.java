@@ -36,7 +36,6 @@ import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import com.db4o.Db4o;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
@@ -66,9 +65,6 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
     
     public Db4oMovieDao(Db4oConnection connection) {
         super(connection);
-        
-        LOG.info("Setting cascade update for class: " + Movie.class.getName());
-        Db4o.configure().objectClass(Movie.class.getName()).cascadeOnUpdate(true); 
     }
     
     
