@@ -25,8 +25,8 @@ package net.sourceforge.omov.app.playground;
  */
 public class Db4oSpiel {
     public static void main(String[] args) {
-//        if(new File("spielerei.db4").exists()) new File("spielerei.db4").delete();
-//        ObjectContainer db = Db4o.openFile("spielerei.db4");
+//        if(new File("spielerei.yap").exists()) new File("spielerei.yap").delete();
+//        ObjectContainer db = Db4o.openFile("spielerei.yap");
 //
 //        
 //        db.set(new Person("aaa --X"));

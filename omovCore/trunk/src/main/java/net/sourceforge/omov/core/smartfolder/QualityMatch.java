@@ -93,7 +93,7 @@ public abstract class QualityMatch extends AbstractMatch<Quality> {
     }
 
 //    public static void main(String[] args) {
-//        ObjectContainer DB = Db4o.openFile("junit_test.db4");
+//        ObjectContainer DB = Db4o.openFile("junit_test.yap");
 //        final Query query = DB.query();
 //        query.constrain(Movie.class);
 //        

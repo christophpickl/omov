@@ -30,9 +30,9 @@ import net.sourceforge.omov.core.model.db4o.Db4oDataVersionDao;
  */
 public class Db4oDataVersionDaoTest extends AbstractTestCase {
 
-    private static final IDataVersionDao DAO = new Db4oDataVersionDao(new Db4oConnection("Db4oDataVersionDaoTest.db4"));
+    private static final IDataVersionDao DAO = new Db4oDataVersionDao(new Db4oConnection("Db4oDataVersionDaoTest.yap"));
 
-//    protected static final ObjectContainer objectContainer = Db4oUtil.getDbConnection("Db4oDataVersionDaoTest.db4");
+//    protected static final ObjectContainer objectContainer = Db4oUtil.getDbConnection("Db4oDataVersionDaoTest.yap");
 
 
     public void testInitialStore() {
