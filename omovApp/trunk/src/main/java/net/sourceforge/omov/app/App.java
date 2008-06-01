@@ -68,6 +68,13 @@ public class App {
 	// TODO GUI - give feedback, if Rescan Movie(s) was selected
 	// TODO GUI - ebenfalls progress dialog, wenn repository scanned movies importen tun
 	// TODO GUI - macliketables loose focus -> bg will only get partly gray/repainted on win systems
+	
+	// TODO while importing scanned movie, use QTJ (if available) to get more data (resolution, etc)
+	
+	// FIXME in superpom, do not encapsulate dependencies-tag within dependencyManagement tag (cause dependencies should actually be inherited by submodules)
+	
+	// TODO zusaetzlich zu jar-with-dependencies assembly: src assembly!
+	
     private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
