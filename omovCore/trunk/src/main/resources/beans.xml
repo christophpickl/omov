@@ -24,13 +24,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 		
 	<bean id="CurrentApplicationVersion" class="net.sourceforge.omov.core.common.VersionMinorMajor"><constructor-arg>
-		<value>0.5</value></constructor-arg></bean>
+		<value>0.6</value></constructor-arg></bean>
 		
 		
 		
 		
 	<bean id="IDatabaseConnection" class="net.sourceforge.omov.core.model.db4o.Db4oConnection">
-		<constructor-arg><value>omov.db4</value></constructor-arg> <!-- database filename -->
+		<constructor-arg><value>omov.yap</value></constructor-arg> <!-- database filename -->
 	</bean>
 	
 	<bean id="IMovieDao" class="net.sourceforge.omov.core.model.db4o.Db4oMovieDao"><constructor-arg>
