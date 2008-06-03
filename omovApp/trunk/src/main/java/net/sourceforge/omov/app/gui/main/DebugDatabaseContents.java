@@ -21,7 +21,6 @@ package net.sourceforge.omov.app.gui.main;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.List;
@@ -39,6 +38,7 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
  * 
@@ -66,8 +66,8 @@ class DebugDatabaseContents extends JFrame {
 		panel.add(new JScrollPane(this.table), BorderLayout.CENTER);
 		
 		JButton btnMovie = new JButton("Show Movie Contents");
-		btnMovie.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnMovie.addActionListener(new GuiActionListener() {
+			public void action(ActionEvent e) {
 				showMovieContents();
 			}
 		});

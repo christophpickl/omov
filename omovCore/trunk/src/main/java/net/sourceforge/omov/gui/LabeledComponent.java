@@ -21,10 +21,11 @@ package net.sourceforge.omov.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.Font;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import net.sourceforge.omov.core.Constants;
 
 /**
  * 
@@ -43,7 +44,8 @@ public class LabeledComponent extends JPanel {
         super(new BorderLayout());
         
         final JLabel label = new JLabel(labelText);
-        label.setFont(new Font("sans", Font.BOLD, 10));
+        
+        label.setFont(Constants.getFontLabeledComponent());
         
         this.setOpaque(false);
         

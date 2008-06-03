@@ -46,7 +46,7 @@ import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.ButtonPosition;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.FileChooser;
-import net.sourceforge.omov.gui.IChooserListener;
+import net.sourceforge.omov.gui.IFileDirectoryChooserListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
@@ -87,7 +87,7 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
         this.controller = new BackupImportController(this);
 
         this.inpFileChooser.setDefaultPath(new File(PreferencesDao.getInstance().getRecentBackupImportPath()));
-        this.inpFileChooser.addChooserListener(new IChooserListener() {
+        this.inpFileChooser.addChooserListener(new IFileDirectoryChooserListener() {
             public void doChoosen(final File backupFile) {
                 new GuiAction() {
                     @Override

@@ -24,7 +24,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -40,6 +39,7 @@ import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDeta
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.webApi.WebSearchResult;
 
@@ -91,7 +91,7 @@ class WebFetchingProgress extends JDialog implements IEscapeDisposeReceiver {
         final JButton btnCancel = new JButton("Cancel");
         btnCancel.setOpaque(false);
         this.getRootPane().setDefaultButton(btnCancel);
-        btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doCancel();
        }});
         

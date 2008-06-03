@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.ImageFactory.IconQuickView;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjImpl.QtjVideoController.IQtjScreenListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoController.QtjState;
@@ -171,19 +172,24 @@ public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants,
 //	}
 	
 
-	public void actionPerformed(ActionEvent e) {
-		final String cmd = e.getActionCommand();
-		if(cmd.equals(CMD_CLOSE)) {
-			this.controller.doClose();
-		} else if(cmd.equals(CMD_FULLSCREEN)) {
-			this.controller.doSwitchFullscreen();
-		} else if(cmd.equals(CMD_PLAY_PAUSE)) {
-			this.controller.doPlayPause();
-		} else if(cmd.equals(CMD_BACK)) {
-			this.controller.doBack();
-		} else {
-			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
-		}
+	public void actionPerformed(final ActionEvent e) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = e.getActionCommand();
+				if(cmd.equals(CMD_CLOSE)) {
+					controller.doClose();
+				} else if(cmd.equals(CMD_FULLSCREEN)) {
+					controller.doSwitchFullscreen();
+				} else if(cmd.equals(CMD_PLAY_PAUSE)) {
+					controller.doPlayPause();
+				} else if(cmd.equals(CMD_BACK)) {
+					controller.doBack();
+				} else {
+					throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
+				}
+			}
+		}.doAction();
 	}
 
 	public void stateChanged(QtjState state) {

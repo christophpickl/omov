@@ -21,7 +21,6 @@ package net.sourceforge.omov.app.gui.movie;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -44,6 +43,7 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -181,10 +181,10 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.btnPrev.setOpaque(false);
         this.btnNext.setOpaque(false);
 
-        this.btnPrev.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnPrev.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doShowPrevMovie();
         }});
-        this.btnNext.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnNext.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doShowNextMovie();
         }});
 

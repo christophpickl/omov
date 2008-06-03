@@ -22,11 +22,12 @@ package net.sourceforge.omov.app.playground;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
+
+import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
  * 
@@ -46,20 +47,20 @@ public class Fullscreen extends JWindow {
         final JPanel panel = new JPanel();
 
         JButton btnExit = new JButton("exit");
-        btnExit.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnExit.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 System.exit(0);
             }
         });
         JButton btnNoFullScreen = new JButton("leave full screen");
-        btnNoFullScreen.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnNoFullScreen.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 enterFullScreen(false);
             }
         });
         JButton btnFullScreen = new JButton("enter full screen");
-        btnFullScreen.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnFullScreen.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 enterFullScreen(true);
             }
         });

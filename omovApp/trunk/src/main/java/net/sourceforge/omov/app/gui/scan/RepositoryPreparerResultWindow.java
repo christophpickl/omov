@@ -23,7 +23,6 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -45,6 +44,7 @@ import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CollectionUtil;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.MacLikeTable;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -143,7 +143,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
 
         final JButton btnClose = new JButton("Close");
         this.getRootPane().setDefaultButton(btnClose);
-        btnClose.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+        btnClose.addActionListener(new GuiActionListener() {public void action(ActionEvent e) {
             doClose();
         }});
         panel.add(btnClose, BorderLayout.EAST);

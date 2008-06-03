@@ -21,13 +21,16 @@ package net.sourceforge.omov.app.gui.scan;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
 import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.core.common.Severity;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.gui.MacLikeTable;
 
@@ -41,6 +44,7 @@ import org.apache.commons.logging.LogFactory;
 class ScanHintTable extends MacLikeTable {
     
     private static final long serialVersionUID = -2976103722587870541L;
+
     
     public ScanHintTable(ScanHintTableModel model) {
         super(model);
@@ -65,6 +69,18 @@ class ScanHintTableModel extends AbstractTableModel {
         }
         ALL_COLUMN_NAMES = Collections.unmodifiableList(list);
     }
+
+    private static final Map<Severity, ImageIcon> SEVERITY_ICONS_CACHE;
+    static {
+    	final Map<Severity, ImageIcon> tmp = new HashMap<Severity, ImageIcon>();
+    	final ImageFactory factory = ImageFactory.getInstance();
+    	tmp.put(Severity.INFO, factory.getSeverityIcon(Severity.INFO));
+    	tmp.put(Severity.WARNING, factory.getSeverityIcon(Severity.WARNING));
+    	tmp.put(Severity.ERROR, factory.getSeverityIcon(Severity.ERROR));
+    	SEVERITY_ICONS_CACHE = Collections.unmodifiableMap(tmp);
+    }
+    
+    
     
     private List<ScanHint> scanHints = new ArrayList<ScanHint>(0);
     
@@ -86,11 +102,11 @@ class ScanHintTableModel extends AbstractTableModel {
     public int getRowCount() {
         return this.scanHints.size();
     }
-
+    
     public Object getValueAt(int row, int col) {
         final ScanHint hint = this.scanHints.get(row);
         switch(col) {
-            case IND_SEVERITY: return ImageFactory.getInstance().getSeverityIcon(hint.getSeverity());
+            case IND_SEVERITY: return SEVERITY_ICONS_CACHE.get(hint.getSeverity());
             case IND_MESSAGE: return hint.getHint();
             default: throw new IllegalArgumentException("unhandled column: " + col);
         }

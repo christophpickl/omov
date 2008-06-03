@@ -23,7 +23,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +38,7 @@ import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
  * 
@@ -139,7 +139,7 @@ public class FileSystemCheckDialog extends JDialog {
         
         final JButton btnClose = new JButton("Close");
         this.getRootPane().setDefaultButton(btnClose);
-        btnClose.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnClose.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doClose();
         }});
         btnClose.setOpaque(false);

@@ -23,7 +23,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +38,7 @@ import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -165,11 +164,8 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         this.comboBox.setOpaque(false);
         this.comboBox.setPreferredSize(new Dimension(200, (int) this.comboBox.getPreferredSize().getHeight()));
 
-        this.comboBox.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            new GuiAction() { protected void _action() {
-                    doComboBoxClicked();
-                }
-            }.doAction();
+        this.comboBox.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+            doComboBoxClicked();
         }});
 
         c.gridx = 0;

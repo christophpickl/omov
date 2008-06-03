@@ -126,6 +126,11 @@ public class ImageFactory {
         return this.getImage("logo_frame_title.png").getImage();
     }
 
+    public Image getBigScanImage() {
+        return this.getImage("scan-90x90_alpha18.png").getImage();
+    }
+
+    
 
     public ImageIcon getIcon(IconQuickView iconEnum) {
         return this.getImage("quickview/" + iconEnum.fileName);

@@ -51,6 +51,7 @@ import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.ITableSelectionListener;
 import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
 
@@ -373,14 +374,14 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
             }
             final PrefDialog prefDialog = new PrefDialog();
             
-            GuiUtil.createMenuItem(menu, 'P', "Show Preferences & Stuff", "", new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
+            GuiUtil.createMenuItem(menu, 'P', "Show Preferences & Stuff", "", new GuiActionListener() {
+                public void action(ActionEvent event) {
                     prefDialog.setVisible(true);
                 }
             });
             
-            GuiUtil.createMenuItem(menu, 'D', "Drop Movies", "",new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
+            GuiUtil.createMenuItem(menu, 'D', "Drop Movies", "",new GuiActionListener() {
+                public void action(ActionEvent event) {
                     LOG.info("resetting movies.");
                     try {
                         IMovieDao dao = BeanFactory.getInstance().getMovieDao();
@@ -394,8 +395,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
                     }
            }});
             
-            GuiUtil.createMenuItem(menu, 'S', "Show Database Contents", "",new ActionListener() {
-                public void actionPerformed(ActionEvent event) {
+            GuiUtil.createMenuItem(menu, 'S', "Show Database Contents", "",new GuiActionListener() {
+                public void action(ActionEvent event) {
                     LOG.info("displaying database contents.");
                     if(databaseContents == null) {
                     	databaseContents = new DebugDatabaseContents();

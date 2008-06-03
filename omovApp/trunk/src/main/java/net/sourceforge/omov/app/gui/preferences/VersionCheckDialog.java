@@ -20,7 +20,6 @@
 package net.sourceforge.omov.app.gui.preferences;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -33,7 +32,7 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.common.VersionMinorMajor;
 import net.sourceforge.omov.core.tools.ApplicationVersionFetcher;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -81,9 +80,9 @@ public class VersionCheckDialog extends JDialog {
         progressBar.setIndeterminate(true);
         
         final JButton btnCancel = new JButton("Cancel");
-        btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) { new GuiAction() { protected void _action() {
+        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doCancel();
-        }}.doAction(); }});
+        }});
 
         panel.add(progressBar);
         panel.add(btnCancel);

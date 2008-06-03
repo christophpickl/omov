@@ -29,11 +29,11 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
 
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.ImageFactory;
-import net.sourceforge.omov.core.PreferencesDao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -42,47 +42,53 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ButtonMovieFolder extends JButton implements MouseListener {
+public class FolderChooseButton extends JButton implements MouseListener {
 
-    private static final Log LOG = LogFactory.getLog(ButtonMovieFolder.class);
+    private static final Log LOG = LogFactory.getLog(FolderChooseButton.class);
+    
     private static final long serialVersionUID = -5849286761216157191L;
 
-    private final Set<IButtonFolderListener> listeners = new HashSet<IButtonFolderListener>();
+    
+    private final Set<IFolderChooseListener> listeners = new HashSet<IFolderChooseListener>();
+    
     private Timer clickTimer;
+    
     private boolean doubleclick;
 
     private final Component owner;
 
+    private String initialPath;
+    
+    
 
-    public ButtonMovieFolder(Component owner) {
-        super(ImageFactory.getInstance().getIconFolder());
+    public FolderChooseButton(Component owner) {
+    	this(owner, ImageFactory.getInstance().getIconFolder());
+    }
+
+    public FolderChooseButton(Component owner, Icon icon) {
+        super(icon);
         this.owner = owner;
         this.setPreferredSize(new Dimension(ImageFactory.getInstance().getIconFolder().getIconWidth(),
                                             ImageFactory.getInstance().getIconFolder().getIconHeight()));
         this.setOpaque(false);
         this.setBorderPainted(false);
-        this.setToolTipText("Choose Movie Folder");
+        this.setToolTipText("<html>Single click: Choose Folder<br>Double click: Clear Folder</html>");
 
-//        this.addActionListener(this);
         this.addMouseListener(this);
         GuiUtil.enableHandCursor(this);
     }
 
 
-//    public void actionPerformed(ActionEvent event) {
-//        LOG.info("Clicked on button.");
-//    }
-
-    public void addButtonFolderListener(IButtonFolderListener listener) {
+    public void addFolderChooseListener(IFolderChooseListener listener) {
         this.listeners.add(listener);
     }
 
-    public void removeButtonFolderListener(IButtonFolderListener listener) {
+    public void removeFolderChooseListener(IFolderChooseListener listener) {
         this.listeners.remove(listener);
     }
 
     private void notifyListeners(File folder) {
-        for (IButtonFolderListener listener : this.listeners) {
+        for (IFolderChooseListener listener : this.listeners) {
             if(folder == null) {
                 listener.notifyFolderCleared();
             } else {
@@ -96,21 +102,33 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
         this.notifyListeners(null);
     }
 
+    public void setInitialPath(String initialPath) {
+    	this.initialPath = initialPath;
+    }
+    
     public void doClicked() {
-        final File directory = GuiUtil.getDirectory(this.owner, PreferencesDao.getInstance().getRecentMovieFolderPath());
+        final File directory = GuiUtil.getDirectory(this.owner, this.initialPath);
         if (directory == null) {
             LOG.debug("Setting movie folder aborted by user.");
             return;
         }
 
-        PreferencesDao.getInstance().setRecentMovieFolderPath(directory.getParent());
+        this.initialPath = directory.getParent(); // automatically stores most recent path
         this.notifyListeners(directory);
     }
+    
+    
+    
 
 
     public void mouseClicked(MouseEvent event) {
+    	if(this.isEnabled() == false) {
+    		LOG.debug("Ignoring mouseclick on folder button because component is disabled.");
+    		return;
+    	}
+    	
     	if(event.getButton() == MouseEvent.BUTTON3) {
-    		LOG.debug("Ignoring right mouseclick on button.");
+    		LOG.debug("Ignoring right mouseclick on folder button.");
     		return;
     	}
     	
@@ -131,10 +149,8 @@ public class ButtonMovieFolder extends JButton implements MouseListener {
     private class ClickTimerTask extends TimerTask {
         public void run() {
             if (doubleclick) {
-//                System.out.println("doClearFolder();");
                 doClearFolder();
             } else {
-//                System.out.println("doClicked();");
                 doClicked();
             }
             clickTimer.cancel();

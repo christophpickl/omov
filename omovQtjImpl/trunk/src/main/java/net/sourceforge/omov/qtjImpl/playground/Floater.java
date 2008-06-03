@@ -21,7 +21,6 @@ package net.sourceforge.omov.qtjImpl.playground;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -35,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
  * 
@@ -142,8 +142,8 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 		btnPlayPause.setBorderPainted(false);
 		SimpleGuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
-		btnPlayPause.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnPlayPause.addActionListener(new GuiActionListener() {
+			public void action(ActionEvent e) {
 				System.out.println("play/pause");
 			}
 		});

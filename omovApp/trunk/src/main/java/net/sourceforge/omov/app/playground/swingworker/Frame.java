@@ -20,12 +20,13 @@
 package net.sourceforge.omov.app.playground.swingworker;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.jdesktop.swingworker.SwingWorker;
 
@@ -46,14 +47,14 @@ public class Frame extends JFrame {
     private final JButton btnCancel = new JButton("cancel");
     public Frame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.btnStart.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+        this.btnStart.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 doStart();
             }
         });
         this.btnCancel.setEnabled(false);
-        this.btnCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+        this.btnCancel.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 doCancel();
             }
         });

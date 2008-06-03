@@ -120,7 +120,7 @@ public class GuiUtil extends SimpleGuiUtil {
         lockMinimumWindowSize(window, 0, window.getSize().height, false, true);
     }
 
-    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, final String actionCmd, ActionListener listener) {
+    public static JMenuItem createMenuItem(final JMenu menu, final char mnemonicChar, final String label, final String actionCmd, ActionListener listener) { // TODO check if action listener is "gui-safe"
         return createMenuItem(menu, mnemonicChar, label, actionCmd, listener, -1, null);
     }
 

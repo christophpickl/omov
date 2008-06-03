@@ -25,7 +25,6 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -48,8 +47,8 @@ import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 /**
@@ -94,10 +93,10 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         this.btnHtml.setSelected(true);
         this.doButtonSelected(this.btnHtml);
         
-        this.btnHtml.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnHtml.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doButtonSelected(btnHtml);
         }});
-        this.btnBackup.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnBackup.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
            doButtonSelected(btnBackup);
         }});
         
@@ -185,15 +184,11 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
 
         this.getRootPane().setDefaultButton(btnConfirm);
 
-        btnConfirm.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) {
-            new GuiAction() { protected void _action() {
-                doConfirm();
-            }}.doAction();
+        btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent event) {
+            doConfirm();
         }});
-        btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) {
-            new GuiAction() { protected void _action() {
-                doCancel();
-            }}.doAction();
+        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent event) {
+            doCancel();
         }});
         
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));

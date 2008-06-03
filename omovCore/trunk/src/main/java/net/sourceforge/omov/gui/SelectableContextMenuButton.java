@@ -21,8 +21,8 @@ public class SelectableContextMenuButton extends ContextMenuButton {
 	public SelectableContextMenuButton(List<JMenuItem> popupItems, ActionListener clickedListener) {
 		super(popupItems, clickedListener);
 		
-		final ActionListener changeListener =  new ActionListener() {
-			public void actionPerformed(ActionEvent event) {
+		final GuiActionListener changeListener =  new GuiActionListener() {
+			public void action(ActionEvent event) {
 				selectItem(menuItemByCmd.get(recentSelectActionCommand), false);
 				selectItem(menuItemByCmd.get(event.getActionCommand()), true);
 				

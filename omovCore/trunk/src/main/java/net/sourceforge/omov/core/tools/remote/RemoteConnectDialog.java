@@ -20,7 +20,6 @@
 package net.sourceforge.omov.core.tools.remote;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -35,6 +34,7 @@ import javax.swing.JTextField;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,8 +68,8 @@ public class RemoteConnectDialog extends JDialog {
         JPanel panel = new JPanel();
 
         final JButton btnConnect = new JButton("Send Movies");
-        btnConnect.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnConnect.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 doSendMovies();
             }});
         

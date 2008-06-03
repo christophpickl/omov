@@ -40,6 +40,7 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.ImageFactory.IconQuickView;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.IVideoPlayerListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
@@ -160,19 +161,24 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		return panel;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		final String cmd = e.getActionCommand();
-		if(cmd.equals(CMD_CLOSE)) {
-			this.player.doClose();
-		} else if(cmd.equals(CMD_FULLSCREEN)) {
-			this.player.doSwitchFullscreen();
-		} else if(cmd.equals(CMD_PLAY_PAUSE)) {
-			this.player.doPlayPause();
-		} else if(cmd.equals(CMD_BACK)) {
-			this.player.doBack();
-		} else {
-			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
-		}
+	public void actionPerformed(final ActionEvent e) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = e.getActionCommand();
+				if(cmd.equals(CMD_CLOSE)) {
+					player.doClose();
+				} else if(cmd.equals(CMD_FULLSCREEN)) {
+					player.doSwitchFullscreen();
+				} else if(cmd.equals(CMD_PLAY_PAUSE)) {
+					player.doPlayPause();
+				} else if(cmd.equals(CMD_BACK)) {
+					player.doBack();
+				} else {
+					throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
+				}
+			}
+		}.doAction();
 	}
 	
 	

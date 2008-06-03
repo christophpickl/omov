@@ -36,7 +36,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.Constants;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 
@@ -112,8 +114,8 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		btnPlayPause.addActionListener(this);
 		SimpleGuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
-		btnPlayPause.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnPlayPause.addActionListener(new GuiActionListener() {
+			public void action(ActionEvent e) {
 				listener.doPlayPause();
 			}
 		});
@@ -184,15 +186,20 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 
 	
 	
-	public void actionPerformed(ActionEvent e) {
-		final String cmd = e.getActionCommand();
-		LOG.info("actionPerformed(cmd="+cmd+")");
-		
-		if(cmd.equals(CMD_PLAY_PAUSE)) {
-			this.listener.doPlayPause(); // FIXME QTJ - play/pause funkt in floater nicht
-		} else {
-			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
-		}
+	public void actionPerformed(final ActionEvent e) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = e.getActionCommand();
+				LOG.info("actionPerformed(cmd="+cmd+")");
+				
+				if(cmd.equals(CMD_PLAY_PAUSE)) {
+					listener.doPlayPause(); // FIXME QTJ - play/pause funkt in floater nicht
+				} else {
+					throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
+				}
+			}
+		}.doAction();
 	}
 	
 }

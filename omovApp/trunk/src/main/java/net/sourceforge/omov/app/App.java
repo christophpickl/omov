@@ -309,17 +309,21 @@ public class App {
     private static void addShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread("OmovShutdownHook") {
             public void run() {
-                LOG.info("Running shutdown hook.");
+                LOG.info("Running shutdown hook...");
                 
                 try {
+                	LOG.debug("Receiving database connection...");
                     final IDatabaseConnection connection = BeanFactory.getInstance().getDatabaseConnection();
                     if(connection.isConnected()) {
+                    	LOG.debug("Closing database connection...");
                         connection.close();
                     }
                 } catch(Exception e) {
                 	LOG.error("Could not close database connection!", e);
                     e.printStackTrace();
                 }
+                
+                LOG.info("Shutdown hook finished.");
             }
         });
     }

@@ -22,7 +22,6 @@ package net.sourceforge.omov.app.gui.comp.suggester;
 import java.awt.BorderLayout;
 import java.awt.Dialog;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -44,7 +43,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.MacLikeList;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -117,8 +118,8 @@ public abstract class AbstractListSuggester extends JPanel {
         
         if(showAddButton == true) {
             final JButton btnAdd = new JButton("add");
-            btnAdd.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+            btnAdd.addActionListener(new GuiActionListener() {
+                public void action(ActionEvent e) {
                     doAdd();
             }});
             this.add(btnAdd, BorderLayout.SOUTH);
@@ -269,7 +270,12 @@ public abstract class AbstractListSuggester extends JPanel {
             this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             this.addWindowListener(new WindowAdapter() {
                 public void windowClosing(final WindowEvent event) {
-                    doClose();
+                	new GuiAction() {
+						@Override
+						protected void _action() {
+							doClose();
+						}
+                	}.doAction();
                 }
             });
             EscapeDisposer.enableEscape(this.getRootPane(), this);
@@ -277,8 +283,8 @@ public abstract class AbstractListSuggester extends JPanel {
             final JPanel panel = new JPanel();
             JButton btnSave = new JButton("Save");
             this.getRootPane().setDefaultButton(btnSave);
-            btnSave.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+            btnSave.addActionListener(new GuiActionListener() {
+                public void action(ActionEvent e) {
                     confirmed = true;
                     dispose();
             }});

@@ -20,7 +20,6 @@
 package net.sourceforge.omov.app.gui.doubletten;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,6 +31,7 @@ import javax.swing.WindowConstants;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder.IDuplicatesFinderListener;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,8 +76,8 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
         final JPanel panel = new JPanel();
 
         this.progressBar.setIndeterminate(true);
-        this.btnCancel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        this.btnCancel.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 doCancel();
             }
         });

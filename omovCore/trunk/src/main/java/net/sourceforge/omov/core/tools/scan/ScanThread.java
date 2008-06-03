@@ -50,7 +50,7 @@ public class ScanThread extends Thread {
         try {
             this.scanner.process();
         } catch (BusinessException e) {
-            // TODO SCAN - use swing worker thread and observe state (because scanner.process could throw runtime exception which will NOT be handled!)
+            // FIXME SCAN  [mantis 65] - use swing worker thread and observe state (because scanner.process could throw runtime exception which will NOT be handled!)
             throw new FatalException("Scanning '"+this.scanner.getScanRoot()+"' failed!", e);
         }
         LOG.info("scan thread is going to die now.");

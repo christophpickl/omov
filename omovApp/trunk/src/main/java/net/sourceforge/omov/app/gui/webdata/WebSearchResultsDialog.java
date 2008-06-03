@@ -27,7 +27,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.HashMap;
@@ -55,6 +54,7 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.StringUtil;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.MacLikeListCellRenderer;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
@@ -182,7 +182,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
 
-        this.btnFetchDetailData.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent event) {
+        this.btnFetchDetailData.addActionListener(new GuiActionListener() { public void action(ActionEvent event) {
             doFetchDetailData();
         }});
         this.btnFetchDetailData.setOpaque(false);
@@ -278,10 +278,10 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         panel.setOpaque(false);
         JButton btnCancel = new JButton("Cancel");
         
-        btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
                 doCancel();
         }});
-        this.btnConfirm.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
                 doConfirm();
         }});
         btnCancel.setOpaque(false);

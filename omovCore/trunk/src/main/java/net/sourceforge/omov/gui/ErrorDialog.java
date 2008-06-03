@@ -8,7 +8,6 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -163,7 +162,7 @@ public class ErrorDialog  extends JDialog {
 		stackTraceText.setColumns(45);
 		
 		final JButton btnCopyClipboard = new JButton("Copy to Clipboard");
-		btnCopyClipboard.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+		btnCopyClipboard.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
 			doCopyClipboard();
 		}});
 		
@@ -203,10 +202,10 @@ public class ErrorDialog  extends JDialog {
 		if(this.exception != null) {
 			southPanel.add(this.btnDetails);
 		}
-		btnClose.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+		btnClose.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
 			doClose();
 		}});
-		this.btnDetails.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+		this.btnDetails.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
 			doDetails();
 		}});
 		this.getRootPane().setDefaultButton(btnClose);

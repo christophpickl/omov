@@ -20,7 +20,6 @@
 package net.sourceforge.omov.app.gui.scan;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
@@ -30,6 +29,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 
 import net.sourceforge.omov.core.Constants;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.MacLikeTable;
 
 /**
@@ -63,8 +63,8 @@ class ScannedMovieTable extends MacLikeTable {
         final JCheckBox checkbox = new JCheckBox();
         checkbox.setBackground(Constants.getColorSelectedBackground());
         checkbox.setHorizontalAlignment(SwingConstants.CENTER);
-        checkbox.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        checkbox.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 final int selectedRow = getSelectedRow();
                 model.changeSelectedRow(convertRowIndexToModel(selectedRow));
                 getSelectionModel().setSelectionInterval(selectedRow, selectedRow);

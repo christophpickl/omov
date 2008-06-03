@@ -21,7 +21,6 @@ package net.sourceforge.omov.app.gui.movie;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -31,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
@@ -81,10 +81,10 @@ public abstract class AbstractAddEditDialog<T> extends JDialog implements IEscap
         btnCancel.setOpaque(false);
         btnConfirm.setOpaque(false);
         
-        btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
                 doCancel();
         }});
-        btnConfirm.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
                 doConfirm();
         }});
         

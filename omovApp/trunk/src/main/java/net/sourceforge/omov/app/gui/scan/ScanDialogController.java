@@ -19,6 +19,8 @@
 
 package net.sourceforge.omov.app.gui.scan;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,7 @@ import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CoverUtil;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 
@@ -50,9 +53,15 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class ScanDialogController extends CommonController<ScannedMovie> implements IScanListener {
+class ScanDialogController extends CommonController<ScannedMovie> implements IScanListener, ActionListener {
 
     private static final Log LOG = LogFactory.getLog(ScanDialogController.class);
+
+    static final String CMD_OPTIONS_PREPARE_FOLDER = "CMD_PREPARE_FOLDER";
+    static final String CMD_SCAN = "CMD_SCAN";
+    static final String CMD_IMPORT_MOVIES = "CMD_IMPORT_MOVIES";
+    static final String CMD_CLOSE = "CMD_CLOSE";
+    
     
     private final ScanDialog dialog;
     
@@ -67,7 +76,8 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
     }
     
 
-    public void doPrepareRepository(final File directory) {
+    public void doPrepareRepository() {
+    	final File directory = new File(this.dialog.getScanRootFolder());
         LOG.info("doPrepareRepoistory on directory '"+directory.getAbsolutePath()+"'...");
 //        final File directory = GuiUtil.getDirectory(null, null);
 //        if (directory == null) {
@@ -117,7 +127,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
             this.scanThread.shouldStop();
             LOG.debug("Waiting for scan thread to die...");
             try {
-                this.scanThread.join();
+                this.scanThread.join(); // FIXME thread does not die here immediatly -> therefore blocks user interface!!
             } catch (InterruptedException e) {
                 throw new FatalException("Interrupted while waiting for scan thread to die!", e);
             }
@@ -266,6 +276,28 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         }
         
         return enhancedMovies;
+	}
+
+
+	public void actionPerformed(final ActionEvent event) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = event.getActionCommand();
+				if(cmd.equals(CMD_SCAN)) {
+					dialog.doScanStart();
+				} else if(cmd.equals(CMD_OPTIONS_PREPARE_FOLDER)) {
+					doPrepareRepository();
+				} else if(cmd.equals(CMD_IMPORT_MOVIES)) {
+					doImport();
+				} else if(cmd.equals(CMD_CLOSE)) {
+					doClose();
+				} else {
+					throw new IllegalArgumentException("Unhandled command '"+cmd+"'!");
+				}
+			}
+			
+		}.doAction();
 	}
 
 

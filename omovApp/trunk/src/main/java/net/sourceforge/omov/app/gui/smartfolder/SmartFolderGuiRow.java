@@ -22,7 +22,6 @@ package net.sourceforge.omov.app.gui.smartfolder;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +37,7 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
 import net.sourceforge.omov.core.smartfolder.SmartFolderUtil;
 import net.sourceforge.omov.core.smartfolder.TextMatch;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -93,10 +92,10 @@ public class SmartFolderGuiRow  extends JPanel {
         final Dimension btnDimension = new Dimension(60, (int) this.btnAdd.getPreferredSize().getHeight());
         this.btnAdd.setPreferredSize(btnDimension);
         this.btnDelete.setPreferredSize(btnDimension);
-        this.btnAdd.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnAdd.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             listener.doAddRow();
         }});
-        this.btnDelete.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        this.btnDelete.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             listener.doDeleteRow(SmartFolderGuiRow.this);
         }});
         
@@ -106,15 +105,11 @@ public class SmartFolderGuiRow  extends JPanel {
         this.add(this.comboMatches);
         this.add(this.fieldWrapper);
 
-        this.comboColumn.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            new GuiAction() { protected void _action() {
-                doChangeColumn();
-            }}.doAction();
+        this.comboColumn.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+            doChangeColumn();
         }});
-        this.comboMatches.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            new GuiAction() { protected void _action() {
-                doChangeMatch();
-            }}.doAction();
+        this.comboMatches.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+            doChangeMatch();
         }});
         
         this.btnAdd.setOpaque(false);

@@ -20,6 +20,7 @@
 package net.sourceforge.omov.core;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
 
 import net.sourceforge.omov.core.util.UserSniffer;
@@ -58,8 +59,11 @@ public class Constants {
     private static final String OMOV_WEBSITE_URL = "http://omov.sourceforge.net";
 
     public static final String LINE_SEPARATOR = System.getProperty("line.separator", "\n");
-    
 
+    private static final Font FONT_HEADER_1 = new Font(null, Font.BOLD, 14);
+    private static final Font FONT_LABELED_COMPONENT = new Font("sans", Font.BOLD, 10);
+    private static final Font FONT_SMALL = new Font(null, Font.PLAIN, 10);
+    
     
 
     private static File osxApplicationSupportFolderCache = null;
@@ -121,6 +125,19 @@ public class Constants {
 
     public static Color getColorRowBackgroundOdd() {
         return COLOR_ROW_BACKGROUND_ODD;
+    }
+
+
+    public static Font getFontHeader1() {
+    	return FONT_HEADER_1;
+    }
+
+    public static Font getFontLabeledComponent() {
+    	return FONT_LABELED_COMPONENT;
+    }
+
+    public static Font getFontSmall() {
+    	return FONT_SMALL;
     }
     
 }

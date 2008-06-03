@@ -20,6 +20,7 @@
 package net.sourceforge.omov.core.tools.export;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -139,6 +140,7 @@ public class ImporterBackup implements ImportExportConstants {
             
             result.setInsertedMovie(insertedMovies);
             result.succeeded();
+            LOG.debug("Import ended successfully; going to do some cleanup work.");
             return result;
             
         } finally {
@@ -196,10 +198,14 @@ public class ImporterBackup implements ImportExportConstants {
     private static List<Movie> parseXmlMovies(File targetDirectory) throws BusinessException {
         final File xmlFile = new File(targetDirectory, FILE_MOVIES_XML);
         final XStream xstream = new XStream();
+        FileReader fileReader = null;
         try {
-            return (List<Movie>) xstream.fromXML(new FileReader(xmlFile));
+        	fileReader = new FileReader(xmlFile);
+            return (List<Movie>) xstream.fromXML(fileReader);
         } catch (FileNotFoundException e) {
             throw new BusinessException("Could not read movies by xml '"+xmlFile.getAbsolutePath()+"' because it does not exist!", e);
+        } finally {
+        	FileUtil.closeCloseable(fileReader);
         }
     }
     

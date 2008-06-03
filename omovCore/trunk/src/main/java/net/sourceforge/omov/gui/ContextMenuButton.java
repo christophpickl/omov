@@ -51,7 +51,7 @@ public class ContextMenuButton extends JButton {
 	 * @param popupItems if added a null-value in list -> will add a separator line
 	 * @param listener attache dto every menu item; can be null
 	 */
-	public ContextMenuButton(List<JMenuItem> popupItems, ActionListener listener) {
+	public ContextMenuButton(List<JMenuItem> popupItems, ActionListener listener) { // TODO check if guisafe actionlistener
 		super(ImageFactory.getInstance().getContextMenuButton());
 		
 		this.setBorderPainted(false);
@@ -68,19 +68,22 @@ public class ContextMenuButton extends JButton {
 			}
 		}
 		
-		this.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Point p = ContextMenuButton.this.getMousePosition();
+		this.addActionListener(new GuiActionListener() {
+			@Override
+			protected void action(final ActionEvent event) {
+				final Point p = ContextMenuButton.this.getMousePosition();
+				
+				// would be dirty hack to get mouse position just because of existing GlassPane
+				if(p == null) {
+//					System.out.println("Could not get mouse position, therefore going to use position relative to glass pane.");
+//					p = ContextMenuButton.this.getRootPane().getGlassPane().getMousePosition(); ... does NOT return correct position!
+					throw new NullPointerException("Could not get mouse position! (maybe an existing GlassPane overlays content)");
+				}
 				popupMenu.show(ContextMenuButton.this, p.x, p.y);
 			}
 		});
-		
 	}
-
-	
-	
-	
-	
+		
 	
 	
 
@@ -90,8 +93,8 @@ public class ContextMenuButton extends JButton {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-		ActionListener al = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		GuiActionListener al = new GuiActionListener() {
+			public void action(ActionEvent e) {
 				System.out.println("cmb clicked: " + e.getActionCommand());
 			}
 		};

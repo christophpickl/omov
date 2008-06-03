@@ -164,7 +164,7 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
             final double desiredYPosition = movieRowPoint.getY();
             LOG.debug("visibleYPosition = "+visibleYPosition+"; desiredYPosition = " + desiredYPosition);
             
-            // FIXME GUI - scrolling to selected row does not work properly
+            // FIXME GUI - scrolling to selected row in main movietable does not work properly
             if(Math.abs(visibleYPosition - desiredYPosition) > 250.) { // only scroll if distance is big enough
                 LOG.debug("Setting view position of table to: " + movieRowPoint);
                 viewport.setViewPosition(movieRowPoint);

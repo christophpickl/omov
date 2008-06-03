@@ -37,6 +37,7 @@ import javax.swing.WindowConstants;
 
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.DraggableList;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
@@ -100,15 +101,20 @@ public class MovieFilesReordering extends JDialog implements ActionListener, IEs
 		return panel;
 	}
 
-	public void actionPerformed(ActionEvent e) {
-		final String cmd = e.getActionCommand();
-		if(cmd.equals(CMD_CONFIRM)) {
-			this.doConfirm();
-		} else if(cmd.equals(CMD_CANCEL)) {
-			this.doCancel();
-		} else {
-			throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
-		}
+	public void actionPerformed(final ActionEvent event) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = event.getActionCommand();
+				if(cmd.equals(CMD_CONFIRM)) {
+					doConfirm();
+				} else if(cmd.equals(CMD_CANCEL)) {
+					doCancel();
+				} else {
+					throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
+				}
+			}
+		}.doAction();
 	}
 	
 	public List<String> getConfirmedList() {

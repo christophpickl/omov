@@ -23,7 +23,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -46,8 +45,8 @@ import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
-import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.MacLikeTable;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -178,15 +177,15 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
         
         this.btnDelete.setEnabled(false);
         this.btnDelete.setOpaque(false);
-        this.btnDelete.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
-            new GuiAction() { protected void _action() { // if in need of another ActionListener -> write actionPerformed() method and outsource GuiAction instantiation
-                doDelete();
-            }}.doAction();
+        // if in need of another ActionListener -> write actionPerformed() method and outsource GuiAction instantiation
+        this.btnDelete.addActionListener(new GuiActionListener() {
+        	public void action(final ActionEvent event) {
+        		doDelete();
         }});
 
         final JButton btnClose = new JButton("Close");
         btnClose.setOpaque(false);
-        btnClose.addActionListener(new ActionListener() {public void actionPerformed(ActionEvent e) {
+        btnClose.addActionListener(new GuiActionListener() {public void action(ActionEvent e) {
             DuplicatesFinderDialog.this.doClose();
         }});
         this.getRootPane().setDefaultButton(btnClose);

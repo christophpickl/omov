@@ -20,7 +20,6 @@
 package net.sourceforge.omov.app.playground;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 import javax.swing.JButton;
@@ -30,6 +29,8 @@ import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+
+import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
  * 
@@ -57,8 +58,8 @@ public class TableSelection {
         });
         
         JButton b = new JButton("tut");
-        b.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
+        b.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 model.deleteAll();
             }
         });

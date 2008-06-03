@@ -23,7 +23,6 @@ import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.ImageObserver;
 import java.io.File;
 import java.net.URI;
@@ -37,6 +36,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+
+import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
  * 
@@ -52,8 +53,8 @@ public class TableIcon {
         setImageObserver(tbl);
         
         JButton btn = new JButton("reload");
-        btn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btn.addActionListener(new GuiActionListener() {
+            public void action(ActionEvent e) {
                 model.reload();
             }
         });

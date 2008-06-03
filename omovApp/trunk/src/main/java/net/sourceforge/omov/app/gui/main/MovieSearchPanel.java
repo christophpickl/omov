@@ -20,7 +20,6 @@
 package net.sourceforge.omov.app.gui.main;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
@@ -30,8 +29,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
+import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.ContinuousFilter.ContinuousFilterField;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.SearchField;
 import net.sourceforge.omov.gui.SelectableContextMenuButton;
 import net.sourceforge.omov.gui.SearchField.ISearchFieldListener;
@@ -71,14 +72,14 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
         
 
 		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
-		final JMenuItem itemSearchHeader = newMenuItem("Search", null, popupItems);
+		final JMenuItem itemSearchHeader = GuiUtil.newMenuItem("Search", null, popupItems);
 		itemSearchHeader.setEnabled(false);
-		newMenuItem("All", CMD_ALL, popupItems);
-		newMenuItem("Title", CMD_TITLE, popupItems);
-		newMenuItem("People", CMD_PEOPLE, popupItems);
-		newMenuItem("Comment", CMD_COMMENT, popupItems);
-        this.contextMenu = new SelectableContextMenuButton(popupItems, new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		GuiUtil.newMenuItem("All", CMD_ALL, popupItems);
+		GuiUtil.newMenuItem("Title", CMD_TITLE, popupItems);
+		GuiUtil.newMenuItem("People", CMD_PEOPLE, popupItems);
+		GuiUtil.newMenuItem("Comment", CMD_COMMENT, popupItems);
+        this.contextMenu = new SelectableContextMenuButton(popupItems, new GuiActionListener() {
+			public void action(ActionEvent e) {
 				doChangedFilterField();
 			}
         });
@@ -101,12 +102,6 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
 	    this.add(this.inpText);
     }
     
-    private static JMenuItem newMenuItem(String label, String actionCmd, List<JMenuItem> list) {
-		final JMenuItem item = new JMenuItem(label);
-		item.setActionCommand(actionCmd);
-		list.add(item);
-		return item;
-    }
     
 
     private void resetModelSearch(String searchString) {

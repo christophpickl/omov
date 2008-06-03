@@ -64,7 +64,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     
     private final JButton button;
 
-    private final Set<IChooserListener> listeners = new HashSet<IChooserListener>();
+    private final Set<IFileDirectoryChooserListener> listeners = new HashSet<IFileDirectoryChooserListener>();
     
     
     
@@ -177,7 +177,7 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
                 assert(selectedFileOrDir != null);
                 setFileOrDir(selectedFileOrDir);
                 
-                for (final IChooserListener listener : listeners) {
+                for (final IFileDirectoryChooserListener listener : listeners) {
                     listener.doChoosen(selectedFileOrDir);
                 }
             } else {
@@ -187,10 +187,10 @@ abstract class AbstractFileDirectoryChooser extends JPanel implements ActionList
     }
     
     
-    public final void addChooserListener(IChooserListener listener) {
+    public final void addChooserListener(IFileDirectoryChooserListener listener) {
         this.listeners.add(listener);
     }
-    public final void removeDirectoryChooserListener(IChooserListener listener) {
+    public final void removeDirectoryChooserListener(IFileDirectoryChooserListener listener) {
         this.listeners.remove(listener);
     }
     

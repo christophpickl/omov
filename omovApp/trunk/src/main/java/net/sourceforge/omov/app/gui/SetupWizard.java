@@ -26,7 +26,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -50,7 +49,8 @@ import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.gui.DirectoryChooser;
 import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.IChooserListener;
+import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.IFileDirectoryChooserListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
@@ -131,15 +131,15 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         this.inpFolderCovers.__unchecked_setFileOrDir(new File("covers"));
         this.inpFolderData.__unchecked_setFileOrDir(new File("data"));
 
-        this.inpFolderTemporary.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
+        this.inpFolderTemporary.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderCovers.setDefaultPath(dir.getParentFile());
             inpFolderData.setDefaultPath(dir.getParentFile());
         }});
-        this.inpFolderCovers.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
+        this.inpFolderCovers.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
             inpFolderData.setDefaultPath(dir.getParentFile());
         }});
-        this.inpFolderData.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
+        this.inpFolderData.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
             inpFolderCovers.setDefaultPath(dir.getParentFile());
         }});
@@ -222,10 +222,10 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         final JButton btnConfirm = new JButton("Setup");
         final JButton btnCancel = new JButton("Cancel");
 
-        btnConfirm.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doConfirm();
         }});
-        btnCancel.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
             doCancel();
         }});
         

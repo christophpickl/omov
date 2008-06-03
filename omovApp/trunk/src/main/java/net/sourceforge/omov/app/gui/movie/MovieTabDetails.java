@@ -36,8 +36,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import net.sourceforge.omov.app.gui.comp.ButtonMovieFolder;
-import net.sourceforge.omov.app.gui.comp.IButtonFolderListener;
+import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
+import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsListSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieDirectorTextSuggester;
@@ -47,12 +47,14 @@ import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
+import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.MovieFolderInfo;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.ContextMenuButton;
 import net.sourceforge.omov.gui.MultiColTextField;
 
@@ -60,10 +62,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * got two constructors: one for add/edit single, and one for edit multiple movies. 
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderListener, ActionListener {
+public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseListener, ActionListener {
 
     private static final Log LOG = LogFactory.getLog(MovieTabDetails.class);
     private static final long serialVersionUID = 1757068592935794813L;
@@ -83,7 +86,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     private List<String> files = new LinkedList<String>();
     private long fileSizeKb = 0L;
-    private final ButtonMovieFolder btnMovieFolder = new ButtonMovieFolder(this.owner);
+    private final FolderChooseButton btnMovieFolder = new FolderChooseButton(this.owner);
     private final MultiColTextField lblPath = new MultiColTextField(" ", 32);
     private final MultiColTextField lblFiles = new MultiColTextField("", 32);
     private final JLabel lblSize = new JLabel("");
@@ -112,7 +115,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
             throw new FatalException("Could not open dialog because fetching movie data from database failed!", e);
         }
 
-        this.btnMovieFolder.addButtonFolderListener(this);
+        this.btnMovieFolder.addFolderChooseListener(this);
+        this.btnMovieFolder.setInitialPath(PreferencesDao.getInstance().getRecentMovieFolderPath());
 
         try {
             if(isAddMode == false && (editMovie instanceof ScannedMovie)) {
@@ -322,20 +326,25 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         return panel;
     }
 
-	public void actionPerformed(ActionEvent e) {
-		final String cmd = e.getActionCommand();
-		
-		if(cmd.equals(CMD_FILES_CLEAR)) {
-			this.doFilesClear();
-		} else if(cmd.equals(CMD_FILES_REORDER)) {
-			this.doFilesReorder();
-		} else if(cmd.equals(CMD_FILES_RESCAN)) {
-			this.doFilesRescan();
-		} else if(cmd.equals(CMD_SELECT_FOLDER)) {
-			this.btnMovieFolder.doClicked(); // invoke button programatically
-		} else {
-			throw new IllegalArgumentException("unhandled action commad '"+cmd+"'!");
-		}
+	public void actionPerformed(final ActionEvent e) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = e.getActionCommand();
+				
+				if(cmd.equals(CMD_FILES_CLEAR)) {
+					doFilesClear();
+				} else if(cmd.equals(CMD_FILES_REORDER)) {
+					doFilesReorder();
+				} else if(cmd.equals(CMD_FILES_RESCAN)) {
+					doFilesRescan();
+				} else if(cmd.equals(CMD_SELECT_FOLDER)) {
+					btnMovieFolder.doClicked(); // invoke button programatically
+				} else {
+					throw new IllegalArgumentException("unhandled action commad '"+cmd+"'!");
+				}
+			}
+		}.doAction();
 	}
 	
 	/**
@@ -374,7 +383,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 		// -> lblPath stores the most recent data (renewed by rescan action)
 		
 		assert(path.length() > 0);
-		this.scanFolder(new File(path));
+		this.doScanFolder(new File(path));
 	}
 
     private JPanel panelMovieFolderInfo() {
@@ -450,12 +459,8 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
         return "Details";
     }
 
-
-    public void notifyFolderSelected(File folder) {
-    	this.scanFolder(folder);
-    }
     
-    private void scanFolder(File folder) {
+    private void doScanFolder(File folder) {
         MovieFolderInfo folderInfo = Scanner.scanMovieFolderInfo(folder);
         
         try {
@@ -497,6 +502,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IButtonFolderLi
 
     public void notifyFolderCleared() {
         this.doFilesClear();
+    }
+
+    public void notifyFolderSelected(File folder) {
+    	// update recently stored folder
+    	PreferencesDao.getInstance().setRecentMovieFolderPath(folder.getParent());
+    	
+    	this.doScanFolder(folder);
     }
 
 

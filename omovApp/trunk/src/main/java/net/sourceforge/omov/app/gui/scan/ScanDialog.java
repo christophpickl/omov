@@ -22,11 +22,11 @@ package net.sourceforge.omov.app.gui.scan;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -38,20 +38,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.omov.app.help.HelpEntry;
-import net.sourceforge.omov.app.help.HelpSystem;
+import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
+import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.Icon16x16;
@@ -60,12 +63,9 @@ import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.BodyContext;
-import net.sourceforge.omov.gui.ButtonPosition;
-import net.sourceforge.omov.gui.DirectoryChooser;
+import net.sourceforge.omov.gui.ContextMenuButton;
 import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.IChooserListener;
 import net.sourceforge.omov.gui.TableContextMenuListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -76,15 +76,18 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ScanDialog extends JDialog implements TableContextMenuListener, IChooserListener, IEscapeDisposeReceiver {
+public class ScanDialog extends JDialog implements TableContextMenuListener, IEscapeDisposeReceiver, IFolderChooseListener {
 
 	// TODO if was yet scanned (-> rows in table), and then user prepares repository -> could be that rows have wrong data (either adjust them, or simply clear all table rows)
 	
     private static final Log LOG = LogFactory.getLog(ScanDialog.class);
     private static final long serialVersionUID = 8730290488508038854L;
 
-    private static final String CMD_FETCH_METADATA = "CMD_FETCH_METADATA";
-    private static final String CMD_REMOVE_METADATA = "CMD_REMOVE_METADATA";
+    private static final String CMD_CONTEXT_FETCH_METADATA = "CMD_FETCH_METADATA";
+    private static final String CMD_CONTEXT_REMOVE_METADATA = "CMD_REMOVE_METADATA";
+    
+    
+    private static final String DEFAULT_SCAN_ROOT_PATH_TEXT = "Select Scan Root";
 
     private static final int MARGIN_TOP    = 12;
     private static final int MARGIN_LEFT   = 12;
@@ -93,13 +96,19 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     private final ScanDialogController controller = new ScanDialogController(this);
 
-    private final DirectoryChooser inpScanRoot = new DirectoryChooser("Select Rootfolder of Repository", new File(PreferencesDao.getInstance().getRecentScanPath()), ButtonPosition.LEFT, "Set Rootfolder");
-    private final JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
+//    private final DirectoryChooser inpScanRoot = new DirectoryChooser("Select Rootfolder of Repository", new File(PreferencesDao.getInstance().getRecentScanPath()), ButtonPosition.LEFT, "Choose Folder ...");
+    private final FolderChooseButton btnSetScanFolder = new FolderChooseButton(this); 
+    private String scanRootFolder;
+    private final JTextField txtScanFolder = new JTextField(DEFAULT_SCAN_ROOT_PATH_TEXT, 22);
+    
     private final JProgressBar progressBar = new JProgressBar();
 
-    private final JButton btnScan = new JButton("Scan");
-    private final JButton btnImport = new JButton("Import");
-    private final JButton btnPrepare = new JButton("Prepare Repository");
+    private final JButton btnDoScan = new JButton("Scan");
+    private final JCheckBox inpFetchMetadata = new JCheckBox("Fetch Metadata");
+    
+    
+    private final JButton btnDoImportMovies = new JButton("Import");
+    private final JButton btnPrepare = new JButton("Prepare Repository ...");
 
     private final ScannedMovieTableModel tblScannedMovieModel = new ScannedMovieTableModel();
     private final ScannedMovieTable tblScannedMovie = new ScannedMovieTable(this.tblScannedMovieModel);
@@ -107,6 +116,11 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     private final ScanHintTable tblHints = new ScanHintTable(this.tblHintsModel);
 
     private JSplitPane tableSplitter;
+
+    private ContextMenuButton btnAdvancedOptions; // actually final variable
+
+    private JMenuItem itemPrepareFolder; // actually final variable
+    
 
 
     public ScanDialog(JFrame owner) {
@@ -123,11 +137,11 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_REMOVE_METADATA);
+        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
         new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
 
-        this.getRootPane().setDefaultButton(this.btnScan);
+        this.getRootPane().setDefaultButton(this.btnDoScan);
 
 
         this.getContentPane().add(this.initComponents());
@@ -150,6 +164,13 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
     }
 
     private JPanel initComponents() {
+    	
+    	// using glasspane to draw background image would intercept all events (including null value will be returned by getMousePosition within ContextMenuButton!)
+//    	JPanel glassPane = (JPanel) this.getGlassPane();
+//    	glassPane.setLayout(new FlowLayout(FlowLayout.LEFT));
+//    	glassPane.add(new JLabel(ImageFactory.getInstance().getBigScanIcon()));
+//    	glassPane.setVisible(true);
+    	
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setBackground(Constants.getColorWindowBackground());
 
@@ -157,74 +178,165 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         panel.add(this.panelCenter(), BorderLayout.CENTER);
         panel.add(this.panelSouth(), BorderLayout.SOUTH);
 
+        
         return panel;
     }
-
+    
     private JPanel panelNorth() {
+    	
+    	// draw background image
+    	final Image img = ImageFactory.getInstance().getBigScanImage();
+    	final JPanel panelCenter = new JPanel(new BorderLayout()) {
+			private static final long serialVersionUID = 0L;
+    	    @Override
+    	    public void paint(Graphics g) {
+    	    	g.drawImage(img, 0, 0, this);
+    			super.paint(g);
+    		}
 
-        this.inpScanRoot.setOpaque(false);
-        this.btnPrepare.setOpaque(false);
-        this.inpFetchMetadata.setOpaque(false);
+    	};
+    	
+    	panelCenter.setOpaque(false);
+    	{
+    		final JPanel panelCenterNorth = new JPanel();
+    		panelCenterNorth.setLayout(new BoxLayout(panelCenterNorth, BoxLayout.Y_AXIS));
+	    	panelCenterNorth.setOpaque(false);
+	    	final JLabel lblHeader = new JLabel("Scan Repository");
+	    	lblHeader.setFont(Constants.getFontHeader1());
+	    	lblHeader.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
+	      	panelCenterNorth.add(lblHeader);
+	    	final JLabel lblMain1 = new JLabel("Just select a root folder to scan for movies.");
+	    	panelCenterNorth.add(lblMain1);
+	    	final JLabel lblMain2 = new JLabel("Afterwards, you can import all selected entries at once.");
+	    	panelCenterNorth.add(lblMain2);
+	    	
+	    	List<JMenuItem> advancedOptions = new ArrayList<JMenuItem>(1);
+	    	this.itemPrepareFolder = GuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
+	    	this.itemPrepareFolder.setToolTipText("Create necessary folders for scan root");
+//	    	GuiUtil.newMenuItem("...", ScanDialogController.CMD_OPTIONS_..., advancedOptions);
+	    	// FEATURE additional advanced options for scan folder:
+	    	// - edit list of movie extensions
+	    	// - 
+	    	// 
+	    	this.itemPrepareFolder.setEnabled(false); //initially disabled
+	    	this.btnAdvancedOptions = new ContextMenuButton(advancedOptions, this.controller);
+	    	this.btnAdvancedOptions.setOpaque(false);
+	    	final JPanel panelCenterSouth = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	    	panelCenterSouth.setOpaque(false);
+	    	final JLabel lblAdvancedOptions = new JLabel("Advanced Options");
+	    	lblAdvancedOptions.setFont(Constants.getFontSmall());
+	    	panelCenterSouth.add(lblAdvancedOptions);
+	    	panelCenterSouth.add(this.btnAdvancedOptions);
+	    	
+	    	panelCenter.add(panelCenterNorth, BorderLayout.NORTH);
+	    	panelCenter.add(panelCenterSouth, BorderLayout.SOUTH);
+    	}
+    	
+    	
+    	final JPanel panelEast = new JPanel();
+    	{
+	    	final GridBagLayout layout = new GridBagLayout();
+	    	final GridBagConstraints c = new GridBagConstraints();
+	    	layout.setConstraints(panelEast, c);
+	    	panelEast.setLayout(layout);
+	    	panelEast.setOpaque(false);
+	    	
+	    	this.btnSetScanFolder.setInitialPath(PreferencesDao.getInstance().getRecentScanPath());
+	    	this.btnSetScanFolder.addFolderChooseListener(this);
+	    	this.txtScanFolder.setHorizontalAlignment(JTextField.RIGHT);
+	    	this.txtScanFolder.setEditable(false);
+	    	this.txtScanFolder.setForeground(Constants.getColorDarkGray());
+	    	this.txtScanFolder.setBackground(Constants.getColorWindowBackground());
+	    	this.txtScanFolder.setBorder(BorderFactory.createEmptyBorder());
+	    	
+	    	c.fill = GridBagConstraints.NONE;
+	    	c.anchor = GridBagConstraints.LAST_LINE_END;
+	    	c.gridx = 0;
+	    	c.gridy = 0;
+	    	c.insets = new Insets(0, 0, 0, 16);
+	    	panelEast.add(this.btnSetScanFolder, c);
+	
+	    	c.fill = GridBagConstraints.HORIZONTAL;
+	    	c.anchor = GridBagConstraints.LAST_LINE_START;
+	    	c.gridx = 0;
+	    	c.gridy = 1;
+	    	c.insets = new Insets(0, 0, 0, 0);
+	    	panelEast.add(this.txtScanFolder, c);
+    	}
+    	
 
-        this.btnPrepare.setEnabled(false);
-
-        this.inpScanRoot.addChooserListener(this);
-        this.inpScanRoot.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
-            btnPrepare.setEnabled(true);
-            btnScan.setEnabled(true);
-        }});
-        this.btnPrepare.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-            new GuiAction() { protected void _action() {
-                controller.doPrepareRepository(inpScanRoot.getSelectedDirectory());
-            }}.doAction();
-        }});
-
-        final JPanel panelWest = new JPanel();
-        {
-	        final GridBagConstraints c = new GridBagConstraints();
-	        final GridBagLayout layout = new GridBagLayout();
-	        layout.setConstraints(panelWest, c);
-	        panelWest.setLayout(layout);
-	        panelWest.setOpaque(false);
-
-	        c.anchor = GridBagConstraints.LINE_START;
-	        c.gridy = 0;
-	        c.gridx = 0;
-	        panelWest.add(this.inpScanRoot, c);
-	        c.gridx++;
-	        panelWest.add(this.inpFetchMetadata, c);
-        }
-
-
-        final JPanel panelEast = new JPanel(new FlowLayout());
-        {
-	        final GridBagConstraints c = new GridBagConstraints();
-	        final GridBagLayout layout = new GridBagLayout();
-	        layout.setConstraints(panelEast, c);
-	        panelEast.setLayout(layout);
-            panelEast.setOpaque(false);
-
-	        c.anchor = GridBagConstraints.LINE_END;
-	        c.gridy = 0;
-	        c.gridx = 0;
-            panelEast.add(this.btnPrepare, c);
-            c.insets = new Insets(0, 10, 0, 0);
-	        c.gridx++;
-            panelEast.add(HelpSystem.newButton(HelpEntry.REPOSITORY_SCAN, "What is this scanning for?"), c);
-        }
-
-
-        final JPanel panel = new JPanel(new BorderLayout());
-        panel.setOpaque(false);
-        panel.setBorder(BorderFactory.createEmptyBorder(MARGIN_TOP, MARGIN_LEFT, 10, MARGIN_RIGHT));
-
-        panel.add(panelWest, BorderLayout.WEST);
-        final JPanel emptyPanel = new JPanel();
-        emptyPanel.setOpaque(false);
-        panel.add(emptyPanel, BorderLayout.CENTER);
-        panel.add(panelEast, BorderLayout.EAST);
-
+    	final JPanel panel = new JPanel(new BorderLayout());
+    	panel.setOpaque(false);
+    	panel.setBorder(BorderFactory.createEmptyBorder(MARGIN_TOP, MARGIN_LEFT, 0, MARGIN_RIGHT));
+    	panel.add(panelCenter, BorderLayout.CENTER);
+    	panel.add(panelEast, BorderLayout.EAST);
+    	
         return panel;
+        
+
+    	// old gui
+    	// -----------
+//        this.inpScanRoot.setOpaque(false);
+//        this.btnPrepare.setOpaque(false);
+//        this.inpFetchMetadata.setOpaque(false);
+//
+//        this.btnPrepare.setEnabled(false);
+//
+//        this.inpScanRoot.addChooserListener(this);
+//        this.inpScanRoot.addChooserListener(new IChooserListener() { public void doChoosen(File dir) {
+//            btnPrepare.setEnabled(true);
+//            btnScan.setEnabled(true);
+//        }});
+//        this.btnPrepare.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
+//            new GuiAction() { protected void _action() {
+//                controller.doPrepareRepository(inpScanRoot.getSelectedDirectory());
+//            }}.doAction();
+//        }});
+//
+//        final JPanel panelWest = new JPanel();
+//        {
+//	        final GridBagConstraints c = new GridBagConstraints();
+//	        final GridBagLayout layout = new GridBagLayout();
+//	        layout.setConstraints(panelWest, c);
+//	        panelWest.setLayout(layout);
+//	        panelWest.setOpaque(false);
+//
+//	        c.anchor = GridBagConstraints.LINE_START;
+//	        c.gridy = 0;
+//	        c.gridx = 0;
+//	        panelWest.add(this.inpScanRoot, c);
+//	        c.gridx++;
+//	        panelWest.add(this.inpFetchMetadata, c);
+//        }
+//
+//
+//        final JPanel panelEast = new JPanel(new FlowLayout());
+//        {
+//	        final GridBagConstraints c = new GridBagConstraints();
+//	        final GridBagLayout layout = new GridBagLayout();
+//	        layout.setConstraints(panelEast, c);
+//	        panelEast.setLayout(layout);
+//            panelEast.setOpaque(false);
+//
+//	        c.anchor = GridBagConstraints.LINE_END;
+//	        c.gridy = 0;
+//	        c.gridx = 0;
+//            panelEast.add(this.btnPrepare, c);
+//            c.insets = new Insets(0, 10, 0, 0);
+//	        c.gridx++;
+//            panelEast.add(HelpSystem.newButton(HelpEntry.REPOSITORY_SCAN, "What is this scanning for?"), c);
+//        }
+//
+//
+//        final JPanel panel = new JPanel(new BorderLayout());
+//        panel.setOpaque(false);
+//        panel.setBorder(BorderFactory.createEmptyBorder(MARGIN_TOP, MARGIN_LEFT, 10, MARGIN_RIGHT));
+//
+//        panel.add(panelWest, BorderLayout.WEST);
+//        final JPanel emptyPanel = new JPanel();
+//        emptyPanel.setOpaque(false);
+//        panel.add(emptyPanel, BorderLayout.CENTER);
+//        panel.add(panelEast, BorderLayout.EAST);
     }
 
     private JPanel panelCenter() {
@@ -278,26 +390,28 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         return panel;
     }
 
+    
     private JPanel panelSouth() {
-
-        this.btnScan.setOpaque(false);
-        this.btnScan.setEnabled(false);
-        this.btnImport.setOpaque(false);
+    	
+        this.btnDoScan.setOpaque(false);
+        this.inpFetchMetadata.setOpaque(false);
+        this.btnDoImportMovies.setOpaque(false);
         this.progressBar.setOpaque(false);
 
-        this.btnScan.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) { new GuiAction() { protected void _action() {
-            doScanStarted();
-        }}.doAction(); }});
-        this.btnImport.setEnabled(false);
-        this.btnImport.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {
-                controller.doImport();
-        }});
+        this.btnDoScan.setEnabled(false);
+        this.inpFetchMetadata.setEnabled(false);
+        this.btnDoImportMovies.setEnabled(false);
+        
+        this.btnDoScan.setActionCommand(ScanDialogController.CMD_SCAN);
+        this.btnDoImportMovies.setActionCommand(ScanDialogController.CMD_IMPORT_MOVIES);
 
-//        final JButton btnClose = new JButton("Close");
-//        btnClose.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                controller.doClose();
-//        }});
+        this.btnDoScan.addActionListener(this.controller);
+        this.btnDoImportMovies.addActionListener(this.controller);
+        
+
+        final JButton btnClose = new JButton("Close");
+        btnClose.setActionCommand(ScanDialogController.CMD_CLOSE);
+        btnClose.addActionListener(this.controller);
 
         this.progressBar.setPreferredSize(new Dimension(400, (int) this.progressBar.getPreferredSize().getHeight()));
         this.progressBar.setIndeterminate(false);
@@ -308,38 +422,53 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         panel.setBorder(BorderFactory.createEmptyBorder(10, MARGIN_LEFT, MARGIN_BOTTOM, MARGIN_RIGHT));
         panel.setOpaque(false);
 
-        panel.add(this.btnScan, BorderLayout.WEST);
-//        panel.add(btnClose);
+        final JPanel panelWest = new JPanel();
+        panelWest.setOpaque(false);
+        panelWest.add(this.btnDoScan);
+        panelWest.add(this.inpFetchMetadata);
+        
+        panel.add(panelWest, BorderLayout.WEST);
         panel.add(this.progressBar, BorderLayout.CENTER);
-        panel.add(this.btnImport, BorderLayout.EAST);
+        
+        final JPanel panelEast = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        panelEast.setOpaque(false);
+        panelEast.add(btnClose);
+        panelEast.add(this.btnDoImportMovies);
+        
+        panel.add(panelEast, BorderLayout.EAST);
 
 
         return panel;
     }
 
-    // @see #doScanCompleted()
-    private void doScanStarted() {
-    	final File scanRoot = this.inpScanRoot.getSelectedDirectory();
-        
+    /**
+     * invoked by controller if user hits scan button
+     */
+    void doScanStart() { // MINOR refactor strange code
+    	assert(this.scanRootFolder != null);
+//    	final File scanRoot = this.inpScanRoot.getSelectedDirectory();
+        final File scanRoot = new File(this.scanRootFolder);
+    	
     	this.enableUi(false);
         
-        this.getRootPane().setDefaultButton(this.btnImport);
+        this.getRootPane().setDefaultButton(this.btnDoImportMovies);
 
-        controller.doScan(scanRoot, this.inpFetchMetadata.isSelected());
+        this.controller.doScan(scanRoot, this.inpFetchMetadata.isSelected());
     }
 
+    /**
+     * used by scan-start/stop to en/disable whole user interface
+     */
     private void enableUi(final boolean enabled) {
-
-        this.inpScanRoot.setEnabled(enabled);
+    	this.btnAdvancedOptions.setEnabled(enabled);
+    	this.btnSetScanFolder.setEnabled(enabled);
         this.inpFetchMetadata.setEnabled(enabled);
         this.btnPrepare.setEnabled(enabled);
-        this.btnScan.setEnabled(enabled);
-        this.btnImport.setEnabled(enabled);
+        this.btnDoScan.setEnabled(enabled);
+        this.btnDoImportMovies.setEnabled(enabled);
     }
     
     void doScanCompleted(List<ScannedMovie> scannedMovies, List<ScanHint> hints) {
-
-        
     	this.enableUi(true);
         
         this.progressBar.setString("Finished");
@@ -363,10 +492,10 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
 
     public void contextMenuClicked(JMenuItem item, int tableRowSelected) {
         final String cmd = item.getActionCommand();
-        if(cmd.equals(CMD_FETCH_METADATA)) {
+        if(cmd.equals(CMD_CONTEXT_FETCH_METADATA)) {
             this.controller.doFetchMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
 
-        } else if(cmd.equals(CMD_REMOVE_METADATA)) {
+        } else if(cmd.equals(CMD_CONTEXT_REMOVE_METADATA)) {
             this.controller.doRemoveMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
 
         } else {
@@ -378,16 +507,67 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, ICh
         throw new UnsupportedOperationException();
     }
 
-    public static void main(String[] args) {
-        new ScanDialog(new JFrame()).setVisible(true);
-    }
-
-    public void doChoosen(File dir) {
-        PreferencesDao.getInstance().setRecentScanPath(dir.getParentFile().getAbsolutePath());
-        this.inpScanRoot.setDefaultPath(dir.getParentFile());
-    }
-
 	public void doEscape() {
 		this.controller.doClose();
 	}
+
+	public void notifyFolderCleared() {
+		this.scanRootFolder = null;
+		this.txtScanFolder.setText(DEFAULT_SCAN_ROOT_PATH_TEXT);
+		this.itemPrepareFolder.setEnabled(false);
+		this.btnDoScan.setEnabled(false);
+		this.inpFetchMetadata.setEnabled(false);
+	}
+
+	public void notifyFolderSelected(File folder) {
+    	// update recently stored folder
+    	PreferencesDao.getInstance().setRecentScanPath(folder.getParent());
+    	
+		this.scanRootFolder = folder.getAbsolutePath();
+		this.txtScanFolder.setText(this.scanRootFolder);
+		this.itemPrepareFolder.setEnabled(true);
+		this.btnDoScan.setEnabled(true);
+		this.inpFetchMetadata.setEnabled(true);
+	}
+	
+	String getScanRootFolder() {
+		return this.scanRootFolder;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+    public static void main(String[] args) {
+//        JFrame f = new JFrame();
+//
+//        
+//        final JPanel p = new JPanel();
+//        p.add(new JLabel("<html>zeile 1<br>das ist next<br>ende.</html>"));
+//        p.add(new JButton("das ist ein button"));
+//        f.getContentPane().add(p);
+//        
+//
+//
+////        JPanel gp2 = new JPanel();
+////        gp2.add(new JButton("glassasdfasfasdfasdf"));
+////        gp2.setVisible(true);
+////        f.setGlassPane(gp2);
+//        
+//        JPanel gp = (JPanel) f.getGlassPane();
+//        gp.setLayout(new BorderLayout());
+//        gp.add(new JLabel("glassss"), BorderLayout.SOUTH);
+//        gp.setVisible(true);
+//        
+//        
+//        
+//        f.pack();
+//        f.setVisible(true);
+    	
+    	new ScanDialog(new JFrame()).setVisible(true);
+    }
 }

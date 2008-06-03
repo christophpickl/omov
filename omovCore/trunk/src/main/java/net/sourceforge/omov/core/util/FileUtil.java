@@ -218,7 +218,7 @@ public final class FileUtil {
                 if(subFile.delete() == false) {
                     throw new BusinessException("Could not delete file '"+subFile.getAbsolutePath()+"' (existing="+subFile.exists()+")!");
                 }
-                /* FIXME UTIL - could not delete regular file
+                /* MINOR already fixed (???) - could not delete regular file -> maybe by closing xml file within 'ImporterBackup.parseXmlMovies' -> should work now.
 DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.model.db4o.AbstractDb4oDao --- Setting auto commit to true.
 DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.util.FileUtil --- Deleting directory 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921' recursive.
 DEBUG 2008-05-19 01:30:07,046 [SwingWorker-pool-11343231-thread-2] net.sourceforge.omov.core.util.FileUtil --- Deleting file 'C:\JavaDev\omovApp\temp\backupImport-20080519_013006921\movies.xml'.
@@ -366,7 +366,7 @@ net.sourceforge.omov.core.BusinessException: Could not delete file 'C:\JavaDev\o
             try {
                 closeable.close();
             } catch(IOException e) {
-                LOG.warn("Could not close closeable.");
+            	LOG.warn("Could not close '"+closeable.getClass().getSimpleName()+"'!", e);
             }
         }
     }

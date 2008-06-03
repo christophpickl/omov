@@ -26,7 +26,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -98,8 +97,8 @@ public class SearchField extends JTextField {
         	LOG.debug("activating macosx search field.");
         	
             this.putClientProperty("JTextField.variant", "search");
-            this.putClientProperty("JTextField.Search.CancelAction", new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+            this.putClientProperty("JTextField.Search.CancelAction", new GuiActionListener() {
+				public void action(ActionEvent e) {
 					cancel();
 				}
             });

@@ -29,11 +29,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
@@ -211,5 +213,13 @@ public class SimpleGuiUtil {
     	final PrintWriter pw = new PrintWriter(sw);
     	t.printStackTrace(pw);
     	return sw.toString();
+    }
+    
+
+    public static JMenuItem newMenuItem(String label, String actionCmd, List<JMenuItem> list) {
+		final JMenuItem item = new JMenuItem(label);
+		item.setActionCommand(actionCmd);
+		list.add(item);
+		return item;
     }
 }

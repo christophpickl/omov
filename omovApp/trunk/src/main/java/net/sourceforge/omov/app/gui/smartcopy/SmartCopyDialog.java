@@ -47,7 +47,7 @@ import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.gui.DirectoryChooser;
 import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.IChooserListener;
+import net.sourceforge.omov.gui.IFileDirectoryChooserListener;
 import net.sourceforge.omov.gui.MacLikeTable;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -201,7 +201,7 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
     }
 
     private JPanel panel2TargetDirectory() {
-        this.inpTargetDirectory.addChooserListener(new IChooserListener() {
+        this.inpTargetDirectory.addChooserListener(new IFileDirectoryChooserListener() {
             public void doChoosen(File dir) {
                 btnStartCopy.setEnabled(true);
             }
