@@ -91,6 +91,11 @@ public class App {
     
     public static final IVlcPlayer VLC_PLAYER = VlcPlayerFactory.newVlcPlayer();
 
+    public static final String APP_ARG_DEBUG = "DEBUG";
+    
+    
+    
+
     public static void main(String[] args) {
         try {
             App.cliArguments.addAll(Arrays.asList(args));
@@ -103,6 +108,11 @@ public class App {
     }
     
     private static void showBetaVersionWarning() {
+    	if(App.isArgumentSet(App.APP_ARG_DEBUG)) {
+    		LOG.info("Surpressing beta-version warning because DEBUG cli arg was passed to app.");
+    		return;
+    	}
+    	
 		final JPanel panel = new JPanel();
 		final GridBagLayout layout = new GridBagLayout();
 		final GridBagConstraints c = new GridBagConstraints();

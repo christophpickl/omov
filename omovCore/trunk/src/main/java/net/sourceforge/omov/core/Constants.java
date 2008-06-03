@@ -63,6 +63,7 @@ public class Constants {
     private static final Font FONT_HEADER_1 = new Font(null, Font.BOLD, 14);
     private static final Font FONT_LABELED_COMPONENT = new Font("sans", Font.BOLD, 10);
     private static final Font FONT_SMALL = new Font(null, Font.PLAIN, 10);
+
     
     
 

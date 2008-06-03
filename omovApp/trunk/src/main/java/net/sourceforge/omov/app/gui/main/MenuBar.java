@@ -312,7 +312,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private static class DebugMenu {
     	private static DebugDatabaseContents databaseContents;
         public static void maybeAddYourself(JMenuBar bar) {
-            if(App.isArgumentSet(PreferencesDao.APP_ARG_DEBUG) == false) {
+            if(App.isArgumentSet(App.APP_ARG_DEBUG) == false) {
                 return;
             }
             LOG.info("adding debug menu.");

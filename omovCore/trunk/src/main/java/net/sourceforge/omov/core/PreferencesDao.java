@@ -94,7 +94,6 @@ DATA VERSION HISTORY
     
     
     
-    public static final String APP_ARG_DEBUG = "DEBUG";
     
     private PreferencesDao() {
         if(this.getSoredVersion() == DATA_VERSION) {
