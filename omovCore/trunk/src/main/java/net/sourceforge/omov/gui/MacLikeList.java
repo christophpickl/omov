@@ -23,12 +23,19 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import net.sourceforge.omov.core.Constants;
+import net.sourceforge.omov.core.util.GuiAction;
 
 // http://nadeausoftware.com/articles/2008/01/java_tip_how_add_zebra_background_stripes_jlist
 
@@ -58,6 +65,31 @@ public class MacLikeList extends JList {
 	
 	private void pseudoConstructor() {
 		this.setCellRenderer(new MacLikeListCellRenderer());
+		
+//		this.addMouseListener(new MouseAdapter() {
+//		     public void mouseClicked(MouseEvent e) {
+//		         if (e.getClickCount() == 2) {
+//		             final int index = MacLikeList.this.locationToIndex(e.getPoint());
+//		             System.out.println("Double clicked on Item " + index);
+//		          }
+//		     }
+//		 });
+		this.addKeyListener(new KeyAdapter() {
+			public void keyPressed(final KeyEvent event) {
+				new GuiAction() {
+					@Override
+					protected void _action() {
+						if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+							doBackspaceHit();
+						}
+					}
+				}.doAction();
+			}
+		});
+	}
+	
+	protected void doBackspaceHit() {
+		// should be overridden by subcalss
 	}
 
 	/******************************************************************************************************************/

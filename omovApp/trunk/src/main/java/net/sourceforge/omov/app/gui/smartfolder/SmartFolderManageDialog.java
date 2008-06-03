@@ -23,6 +23,7 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -36,9 +37,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
 
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
@@ -73,8 +74,19 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
     private static final String CMD_DELETE = "Delete";
      
     
-    private final JList smartFolderList = new MacLikeList();
-    private final FolderModel listModel = new FolderModel();
+    private final MacLikeList smartFolderList = new MacLikeList() {
+		private static final long serialVersionUID = -3314875437719043433L;
+		@Override
+    	protected void doBackspaceHit() {
+    		final int selectedIndex = smartFolderList.getSelectedIndex();
+    		if(selectedIndex == -1) {
+    			Toolkit.getDefaultToolkit().beep();
+    			return;
+    		}
+    		controller.doDeleteSmartFolder(smartFolderListModel.getSmartFolderAt(selectedIndex));
+    	}
+    };
+    private final FolderModel smartFolderListModel = new FolderModel();
     private final SmartFolderManageController controller;
     
     public SmartFolderManageDialog(JFrame owner) {
@@ -108,9 +120,9 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         this.smartFolderList.setVisibleRowCount(5);
-        this.smartFolderList.setModel(this.listModel);
+        this.smartFolderList.setModel(this.smartFolderListModel);
         this.smartFolderList.setCellRenderer(new MacLikeListCellRenderer());
-        
+        this.smartFolderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         // doubleclick on smartfolder list opens the edit dialog
         this.smartFolderList.addMouseListener(new MouseAdapter() {
@@ -119,7 +131,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
                 int row = smartFolderList.getSelectedIndex();
                 if (row > -1 && event.getClickCount() >= 2) {
                     LOG.debug("Double clicked on table row "+row+"; displaying editDialog.");
-                    controller.doEditSmartFolder(listModel.getSmartFolderAt(row));
+                    controller.doEditSmartFolder(smartFolderListModel.getSmartFolderAt(row));
                 }
                 
             }
@@ -193,7 +205,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
                 if(index < 0) return; // nothing selected
                 
                 
-                final SmartFolder folder = listModel.getSmartFolderAt(index);
+                final SmartFolder folder = smartFolderListModel.getSmartFolderAt(index);
                 LOG.debug("edit on position: " + index + "; folder: " + folder);
                 controller.doEditSmartFolder(folder);
                 
@@ -204,7 +216,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
                     return;
                 }
                 
-                final SmartFolder folder = listModel.getSmartFolderAt(index);
+                final SmartFolder folder = smartFolderListModel.getSmartFolderAt(index);
                 LOG.debug("deleting on position: " + index + "; folder: " + folder);
                 controller.doDeleteSmartFolder(folder);
                 
@@ -264,6 +276,24 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         
     }
 
+    void setSelectedSmartFolder(final SmartFolder selectedSmartFolder) {
+    	LOG.debug("Setting selected smartfolder to: " + selectedSmartFolder);
+    	if(selectedSmartFolder == null) {
+    		this.smartFolderList.setSelectedIndices(new int[0]);
+    		return;
+    	}
+    	
+    	// select at proper index
+    	for (int i = 0; i < this.smartFolderListModel.getSize(); i++) {
+			final SmartFolder sf = this.smartFolderListModel.getSmartFolderAt(i);
+			if(sf.equals(selectedSmartFolder)) {
+				this.smartFolderList.setSelectedIndex(i);
+				return;
+			}
+		}
+    	throw new IllegalArgumentException("Could not update index for smartfolder: " + selectedSmartFolder);
+    }
+    
     private void doClose() {
     	this.dispose();
     }

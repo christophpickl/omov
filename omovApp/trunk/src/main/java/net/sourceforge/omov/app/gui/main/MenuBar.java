@@ -250,7 +250,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         }
         
         menu.addSeparator();
-        GuiUtil.createMenuItem(menu, 'W', LBL_WEBSITE, CMD_WEBSITE, this); // FIXME GUI create web icon    -1, ImageFactory.getInstance().getIcon(Icon16x16.WEB));        
+        GuiUtil.createMenuItem(menu, 'W', LBL_WEBSITE, CMD_WEBSITE, this); // TODO GUI create web icon    -1, ImageFactory.getInstance().getIcon(Icon16x16.WEB));        
         
         return menu;
     }

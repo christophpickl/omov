@@ -56,7 +56,6 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 
     private final JTextField inpTitle = new JTextField(15);
 
-    // FEATURE smartfolder gui: do not show this combox + cut off "of" part of "of the following criteria" -> IF only one criterion is present!
     private final JComboBox inpAllAny = new JComboBox(CollectionUtil.asArray("all", "any"));
 
     private final JPanel rowWrapPanel = new JPanel();
@@ -84,20 +83,32 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         return panel;
     }
 
+    private static final String LBL_MATCH_CRITERIA = "of the following criteria for folder ";
+    private static final String LBL_MATCH_CRITERION = "the following criterion for folder ";
+    
+    private final JLabel lblMatchCriteria = new JLabel();
     
     private JPanel newTopPanel() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.setOpaque(false);
         this.inpAllAny.setOpaque(false);
         
+//        this.inpAllAny.setBorder(BorderFactory.createEmptyBorder(arg0, arg1, arg2, arg3));
+        
+        final String lblMatchCriteriaText;
         if(this.isAddMode() == false) {
             this.inpTitle.setText(this.getEditItem().getName());
             this.inpAllAny.setSelectedIndex(this.getEditItem().isMatchAll() ? 0 : 1);
+            lblMatchCriteriaText = (this.getEditItem().getCriteria().size() == 1) ? LBL_MATCH_CRITERION : LBL_MATCH_CRITERIA;
+        } else {
+        	lblMatchCriteriaText = LBL_MATCH_CRITERION;
         }
         
-        panel.add(new JLabel("Match "));
+        this.lblMatchCriteria.setText(lblMatchCriteriaText);
+        
+        panel.add(new JLabel("Match"));
         panel.add(this.inpAllAny);
-        panel.add(new JLabel("of the following criteria for folder "));
+        panel.add(this.lblMatchCriteria);
         panel.add(this.inpTitle);
 
         return panel;
@@ -132,8 +143,12 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         
         if(this.guiRows.size() == 1) {
             this.guiRows.get(0).setDeleteButtonEnabled(false); // very first time
+            this.inpAllAny.setVisible(false);
         } else {
+        	assert(this.guiRows.size() > 1);
             this.guiRows.get(0).setDeleteButtonEnabled(true);
+            this.inpAllAny.setVisible(true);
+            this.lblMatchCriteria.setText(LBL_MATCH_CRITERIA);
         }
         this.pack();
     }
@@ -147,6 +162,8 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 
         if(this.guiRows.size() == 1) {
             this.guiRows.get(0).setDeleteButtonEnabled(false);
+            this.inpAllAny.setVisible(false);
+            this.lblMatchCriteria.setText(LBL_MATCH_CRITERION);
         }
         this.pack();
     }

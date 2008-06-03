@@ -19,12 +19,14 @@
 
 package net.sourceforge.omov.app.gui.main;
 
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
@@ -98,8 +100,13 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
     	
     	this.contextMenu.setToolTipText("Set fields the continuous filter should ab applied to");
 
-	    this.add(this.contextMenu);
-	    this.add(this.inpText);
+    	final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    	panel.setOpaque(false);
+    	this.contextMenu.setBorder(BorderFactory.createEmptyBorder());
+    	panel.add(this.contextMenu);
+    	panel.add(this.inpText);
+    	
+    	this.add(panel);
     }
     
     

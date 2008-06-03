@@ -48,6 +48,8 @@ public final class FileUtil {
 
     private static final Log LOG = LogFactory.getLog(FileUtil.class);
 
+    private static long FIVE_MEGABYTE_IN_BYTE = 1024 * 1024 * 5;
+    
     
     private static final Set<String> HIDDEN_FILE_NAMES = CollectionUtil.immutableSet(
             // apple system files
@@ -85,13 +87,12 @@ public final class FileUtil {
         return null;
     }
     
-    private static long MB5 = 1024 * 1024 * 5;
     public static void copyFile(File sourceFile, File targetFile) throws BusinessException {
         if(sourceFile.exists() == false) {
             throw new IllegalArgumentException("Could not copy given file '"+sourceFile.getAbsolutePath()+"' becaus it does not exist!");
         }
         
-        if(sourceFile.length() > MB5) {
+        if(sourceFile.length() > FIVE_MEGABYTE_IN_BYTE) {
             copyBigFile(sourceFile, targetFile);
         } else {
             copySmallFile(sourceFile, targetFile);

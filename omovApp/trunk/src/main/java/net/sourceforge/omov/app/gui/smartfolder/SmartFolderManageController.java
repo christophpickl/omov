@@ -57,11 +57,12 @@ class SmartFolderManageController {
         if(addWindow.isActionConfirmed()) {
             LOG.info("Confirmed adding new smartfolder.");
 
-            final SmartFolder addedSmartfolder = addWindow.getConfirmedObject();
+            final SmartFolder confirmedSmartfolder = addWindow.getConfirmedObject();
             try {
-                DAO.insertSmartFolder(addedSmartfolder);
+                final SmartFolder addedSmartfolder = DAO.insertSmartFolder(confirmedSmartfolder);
+                this.dialog.setSelectedSmartFolder(addedSmartfolder);
             } catch (BusinessException e) {
-                GuiUtil.error(this.dialog, "Insert Error", "Could not save SmartFolder '"+addedSmartfolder.getName()+"'!");
+                GuiUtil.error(this.dialog, "Insert Error", "Could not save SmartFolder '"+confirmedSmartfolder.getName()+"'!");
             }
         }
     }
