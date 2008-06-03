@@ -17,25 +17,23 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.list;
 
-import java.awt.Color;
+import java.util.Set;
 
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
+import javax.swing.JPanel;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class AbstractTable extends JTable {
-
-    private static final long serialVersionUID = -5091805617511109893L;
-
-    public AbstractTable() {
-//        this.model = model;
-        this.setShowGrid(true);
-        this.setGridColor(Color.LIGHT_GRAY);
-        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    }
+public interface IDataList {
+    
+    void setSelectedItem(String item);
+    
+    JPanel getPanel();
+    
+    Set<String> getSelectedItems();
+    
+    void setVisibleRowCount(int visibleRowCount);
 }

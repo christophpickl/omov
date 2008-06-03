@@ -53,9 +53,9 @@ import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.MacLikeList;
-import net.sourceforge.omov.gui.MacLikeListCellRenderer;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.list.MacLikeList;
+import net.sourceforge.omov.gui.list.MacLikeListCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -39,7 +39,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 
-import net.sourceforge.omov.gui.ErrorDialog;
+import net.sourceforge.omov.gui.dialogs.ErrorDialog;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

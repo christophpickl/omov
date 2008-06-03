@@ -47,11 +47,11 @@ import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.gui.DirectoryChooser;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.IFileDirectoryChooserListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.chooser.DirectoryChooser;
+import net.sourceforge.omov.gui.chooser.IFileDirectoryChooserListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

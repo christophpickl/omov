@@ -30,7 +30,7 @@ import javax.swing.table.TableCellEditor;
 
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.MacLikeTable;
+import net.sourceforge.omov.gui.table.MacLikeTable;
 
 /**
  * 

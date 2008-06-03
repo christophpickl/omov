@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.inputfields;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -43,6 +43,7 @@ import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -17,23 +17,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.table;
 
-import java.util.Set;
-
-import javax.swing.JPanel;
+import javax.swing.JMenuItem;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface IDataList {
+public interface TableContextMenuListener {
     
-    void setSelectedItem(String item);
+    void contextMenuClicked(JMenuItem item, int tableRowSelected);
     
-    JPanel getPanel();
+    void contextMenuClickedMultiple(JMenuItem item, int[] tableRowsSelected);
     
-    Set<String> getSelectedItems();
-    
-    void setVisibleRowCount(int visibleRowCount);
 }

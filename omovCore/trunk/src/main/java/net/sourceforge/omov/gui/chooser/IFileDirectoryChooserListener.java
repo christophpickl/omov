@@ -17,18 +17,20 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.chooser;
 
-import javax.swing.JMenuItem;
+import java.io.File;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface TableContextMenuListener {
-    
-    void contextMenuClicked(JMenuItem item, int tableRowSelected);
-    
-    void contextMenuClickedMultiple(JMenuItem item, int[] tableRowsSelected);
+public interface IFileDirectoryChooserListener {
+
+    /**
+     * gets invoked if user has choosen directory and approved operation.
+     * @param dir is never null
+     */
+    void doChoosen(File dir);
     
 }

@@ -19,7 +19,7 @@
 
 package net.sourceforge.omov.core;
 
-import net.sourceforge.omov.core.common.VersionMinorMajor;
+import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.model.IDataVersionDao;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
 import net.sourceforge.omov.core.model.IMovieDao;
@@ -69,8 +69,8 @@ public final class BeanFactory {
         return (IDataVersionDao) getBean("IDataVersionDao");
     }
     
-    public VersionMinorMajor getCurrentApplicationVersion() {
-        return (VersionMinorMajor) getBean("CurrentApplicationVersion");
+    public VersionMajorMinor getCurrentApplicationVersion() {
+        return (VersionMajorMinor) getBean("CurrentApplicationVersion");
     }
     
     @SuppressWarnings("unused")

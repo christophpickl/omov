@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <beans>
 
 		
-	<bean id="CurrentApplicationVersion" class="net.sourceforge.omov.core.common.VersionMinorMajor"><constructor-arg>
+	<bean id="CurrentApplicationVersion" class="net.sourceforge.omov.core.common.VersionMajorMinor"><constructor-arg>
 		<value>0.6</value></constructor-arg></bean>
 		
 		

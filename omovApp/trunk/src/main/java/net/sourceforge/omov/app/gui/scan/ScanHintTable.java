@@ -32,7 +32,7 @@ import javax.swing.table.TableColumn;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.common.Severity;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
-import net.sourceforge.omov.gui.MacLikeTable;
+import net.sourceforge.omov.gui.table.MacLikeTable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

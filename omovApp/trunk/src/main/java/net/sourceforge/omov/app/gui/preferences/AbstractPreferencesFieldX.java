@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
-import net.sourceforge.omov.gui.NumberField;
+import net.sourceforge.omov.gui.inputfields.NumberField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

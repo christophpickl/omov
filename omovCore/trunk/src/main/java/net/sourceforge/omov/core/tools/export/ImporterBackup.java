@@ -20,7 +20,6 @@
 package net.sourceforge.omov.core.tools.export;
 
 import java.io.BufferedReader;
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;

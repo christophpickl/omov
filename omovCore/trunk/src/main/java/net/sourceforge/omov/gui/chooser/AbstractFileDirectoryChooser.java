@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.chooser;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -36,6 +36,7 @@ import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.ButtonPosition;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -1,4 +1,4 @@
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.dialogs;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -26,12 +26,14 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class ErrorDialog  extends JDialog {
+public class ErrorDialog extends JDialog {
 
     private static final Log LOG = LogFactory.getLog(ErrorDialog.class);
 	private static final long serialVersionUID = 2690262434402199523L;

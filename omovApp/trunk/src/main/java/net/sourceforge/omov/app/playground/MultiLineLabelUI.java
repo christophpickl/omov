@@ -64,7 +64,7 @@ public class MultiLineLabelUI extends BasicLabelUI {
 	protected String layoutCL(JLabel label, FontMetrics fontMetrics,
 			String text, Icon icon, Rectangle viewR, Rectangle iconR,
 			Rectangle textR) {
-		String s = layoutCompoundLabel((JComponent) label, fontMetrics,
+		String s = layoutCompoundLabel(label, fontMetrics,
 				splitStringByLines(text), icon, label.getVerticalAlignment(),
 				label.getHorizontalAlignment(),
 				label.getVerticalTextPosition(), label

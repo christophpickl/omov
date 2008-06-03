@@ -19,8 +19,8 @@
 
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
-import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.app.gui.comp.QualityField;
+import net.sourceforge.omov.core.bo.Quality;
 
 /**
  * 

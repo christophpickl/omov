@@ -56,7 +56,7 @@ import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.ContextMenuButton;
-import net.sourceforge.omov.gui.MultiColTextField;
+import net.sourceforge.omov.gui.inputfields.MultiColTextField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

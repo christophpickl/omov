@@ -10,11 +10,15 @@ import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import org.jdesktop.swingx.util.StringUtils;
-
+/**
+ * @author http://forum.java.sun.com/thread.jspa?threadID=5158520&messageID=9602544
+ */
 public class MultilineLabel extends JLabel {
-	 
+
+	private static final long serialVersionUID = -7025750900063457581L;
+
 	public MultilineLabel() {
+		// nothing to do
 	}
  
 	public MultilineLabel(String arg0) {
@@ -120,7 +124,7 @@ public class MultilineLabel extends JLabel {
 		int newlines = 42;
 //		int newlines = StringUtils.count(getText(), '\n') + 1;
 //		return newlines;
-		return 0;
+		return 2;
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -138,9 +142,9 @@ public class MultilineLabel extends JLabel {
 			fm = g.getFontMetrics(f);
 		}
 		else fm = g.getFontMetrics();
-		int wid = fm.charWidth('W');
+//		int wid = fm.charWidth('W');
 		int width = getWidth();
-		int charsPerLine = getWidth() / wid;
+//		int charsPerLine = getWidth() / wid;
 		String txt = getText();
 		int height = fm.getHeight();
 		int currHeight = height;

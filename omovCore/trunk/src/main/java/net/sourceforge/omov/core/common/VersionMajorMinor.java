@@ -26,59 +26,62 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class VersionMinorMajor {
+public class VersionMajorMinor {
 
-    private static final Log LOG = LogFactory.getLog(VersionMinorMajor.class);
-    
-    private final int minor;
+    private static final Log LOG = LogFactory.getLog(VersionMajorMinor.class);
     
     private final int major;
+    
+    private final int minor;
     
     private final String versionString;
     
     
     
-    public VersionMinorMajor(final int minor, final int major) {
-        this.minor = minor;
-        this.major = major;
+    public VersionMajorMinor(final int minor, final int major) {
+        this.major = minor;
+        this.minor = major;
         this.versionString = minor + "." + major;
     }
     
     /**
      * @param versionString something like "0.1"
      */
-    public VersionMinorMajor(String versionString) {
+    public VersionMajorMinor(String versionString) {
         LOG.debug("Creating version instance by string '"+versionString+"'.");
         String parts[] = versionString.split("\\.");
         
-        this.minor = Integer.parseInt(parts[0]);
-        this.major = Integer.parseInt(parts[1]);
-        this.versionString = minor + "." + major;
+        this.major = Integer.parseInt(parts[0]);
+        this.minor = Integer.parseInt(parts[1]);
+        this.versionString = major + "." + minor;
     }
     
-    
-    public int getMajor() {
-        return this.major;
-    }
     
     public int getMinor() {
         return this.minor;
     }
     
+    public int getMajor() {
+        return this.major;
+    }
+    
     @Override
     public boolean equals(final Object object) {
-        if( (object instanceof VersionMinorMajor) == false) {
+        if( (object instanceof VersionMajorMinor) == false) {
             return false;
         }
-        final VersionMinorMajor that = (VersionMinorMajor) object;
-        return (this.minor == that.minor && this.major == that.major);
+        final VersionMajorMinor that = (VersionMajorMinor) object;
+        return (this.major == that.major && this.minor == that.minor);
     }
     
     @Override
     public int hashCode() {
-        return this.minor * 3 + this.major * 17;
+        return this.major * 3 + this.minor * 17;
     }
     
+    /**
+     * @return something like "0.6"
+     */
     public String getVersionString() {
         return this.versionString;
     }

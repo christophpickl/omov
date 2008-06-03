@@ -30,7 +30,7 @@ import javax.swing.JProgressBar;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.common.VersionMinorMajor;
+import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.tools.ApplicationVersionFetcher;
 import net.sourceforge.omov.gui.GuiActionListener;
 
@@ -103,7 +103,7 @@ public class VersionCheckDialog extends JDialog {
     private void workerFinished() {
         LOG.debug("Worker finished work (isCancelled = " + worker.isCancelled() + ").");
         if(this.worker.isCancelled() == false) {
-            VersionMinorMajor versionFetched = null;
+            VersionMajorMinor versionFetched = null;
             try {
                 versionFetched = this.worker.get();
             } catch (Exception e) { // InterruptedException, ExecutionException
@@ -112,7 +112,7 @@ public class VersionCheckDialog extends JDialog {
             if(versionFetched == null) {
                 GuiUtil.warning(this, "Application Software Update", "Could not connect to the internet.");
             } else { // (versionFetched != null)
-                final VersionMinorMajor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
+                final VersionMajorMinor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
                 if(versionInUse.equals(versionFetched) == true) {
                     
                     LOG.debug("Application in use (v"+versionInUse+") is up to date.");
@@ -131,10 +131,10 @@ public class VersionCheckDialog extends JDialog {
         this.dispose();
     }
     
-    private class VersionCheckWorker extends SwingWorker<VersionMinorMajor, String> {
+    private class VersionCheckWorker extends SwingWorker<VersionMajorMinor, String> {
 
         @Override
-        protected VersionMinorMajor doInBackground() throws Exception {
+        protected VersionMajorMinor doInBackground() throws Exception {
             LOG.debug("worker is working in background");
             
             return ApplicationVersionFetcher.fetchVersion();

@@ -35,9 +35,9 @@ import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.ContinuousFilter.ContinuousFilterField;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.SearchField;
 import net.sourceforge.omov.gui.SelectableContextMenuButton;
-import net.sourceforge.omov.gui.SearchField.ISearchFieldListener;
+import net.sourceforge.omov.gui.inputfields.SearchField;
+import net.sourceforge.omov.gui.inputfields.SearchField.ISearchFieldListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

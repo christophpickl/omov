@@ -35,6 +35,7 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.gui.table.TableContextMenuListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

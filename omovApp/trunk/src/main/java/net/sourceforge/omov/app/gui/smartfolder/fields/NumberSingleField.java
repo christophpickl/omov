@@ -19,7 +19,7 @@
 
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
-import net.sourceforge.omov.gui.NumberField;
+import net.sourceforge.omov.gui.inputfields.NumberField;
 
 /**
  * 

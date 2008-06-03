@@ -45,8 +45,8 @@ import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CollectionUtil;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.MacLikeTable;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.table.MacLikeTable;
 
 /**
  * 

@@ -147,7 +147,7 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
         MOVIE_TEST_DATA.add(MOVIE_STAR_WARS3);
     }
 
-    protected static final ObjectContainer objectContainer = Db4oUtil.getDbConnection("AbstractSmartFolderTest.db4");
+    protected static final ObjectContainer objectContainer = Db4oUtil.getDbConnection("AbstractSmartFolderTest.yap");
 
     
     static Date newDate(String s) {

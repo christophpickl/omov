@@ -29,6 +29,8 @@ import java.util.Vector;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
+import net.sourceforge.omov.gui.list.MacLikeList;
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net

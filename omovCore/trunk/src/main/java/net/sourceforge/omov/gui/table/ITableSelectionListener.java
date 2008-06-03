@@ -17,20 +17,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.table;
 
-import java.io.File;
+import java.util.List;
+
+import net.sourceforge.omov.core.bo.Movie;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface IFileDirectoryChooserListener {
+public interface ITableSelectionListener {
 
-    /**
-     * gets invoked if user has choosen directory and approved operation.
-     * @param dir is never null
-     */
-    void doChoosen(File dir);
+    void selectionEmptyChanged();
+    
+    void selectionSingleChanged(final Movie newSelectedMovie);
+    
+    void selectionMultipleChanged(final List<Movie> newSelectedMovies);
     
 }

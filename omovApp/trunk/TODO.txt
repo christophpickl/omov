@@ -8,7 +8,6 @@ FIXMEs
 	  sondern zusaetzlich bei assembly (von omovApp) angeben
 	- in omovSuper, qtjImpl nicht als untermodul
 	  wohl aber int qtjImpl, omovSuper als superPom angeben
-- dialog at (every?) startup "this is just beta. could be bugs. please report, or contact if any requests"
 
 
 ====================================================================

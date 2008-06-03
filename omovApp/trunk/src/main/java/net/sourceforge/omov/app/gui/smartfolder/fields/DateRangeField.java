@@ -23,7 +23,7 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
-import net.sourceforge.omov.gui.DateField;
+import net.sourceforge.omov.gui.inputfields.DateField;
 
 /**
  * 

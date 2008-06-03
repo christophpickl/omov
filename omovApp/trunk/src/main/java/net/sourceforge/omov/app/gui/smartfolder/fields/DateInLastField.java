@@ -25,7 +25,7 @@ import java.awt.Insets;
 
 import javax.swing.JComboBox;
 
-import net.sourceforge.omov.gui.NumberField;
+import net.sourceforge.omov.gui.inputfields.NumberField;
 
 /**
  * 

@@ -19,8 +19,8 @@
 
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
-import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.app.gui.comp.ResolutionPanel;
+import net.sourceforge.omov.core.bo.Resolution;
 
 /**
  * 

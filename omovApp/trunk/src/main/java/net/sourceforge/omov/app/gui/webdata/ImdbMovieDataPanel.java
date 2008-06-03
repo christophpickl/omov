@@ -35,7 +35,7 @@ import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
 import net.sourceforge.omov.gui.LabeledComponent;
-import net.sourceforge.omov.gui.MultiColTextField;
+import net.sourceforge.omov.gui.inputfields.MultiColTextField;
 
 /**
  * 

@@ -66,8 +66,8 @@ import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.gui.BodyContext;
 import net.sourceforge.omov.gui.ContextMenuButton;
 import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.TableContextMenuListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.table.TableContextMenuListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

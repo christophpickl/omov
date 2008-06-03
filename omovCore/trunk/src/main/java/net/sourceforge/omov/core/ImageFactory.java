@@ -118,7 +118,10 @@ public class ImageFactory {
     public ImageIcon getDialogError() {
         return this.getImage("dialog/error.png");
     }
-
+    public ImageIcon getDialogWarning() {
+        return this.getImage("dialog/warning.png");
+    }
+    
     public ImageIcon getSetupWizardBanner() {
         return this.getImage("setup_wizard_banner.png");
     }

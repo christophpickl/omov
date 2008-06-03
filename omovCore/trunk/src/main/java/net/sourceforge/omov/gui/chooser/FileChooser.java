@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.chooser;
 
 import java.io.File;
 import java.util.Arrays;
@@ -29,6 +29,7 @@ import javax.swing.filechooser.FileFilter;
 
 import net.sourceforge.omov.core.util.CollectionUtil;
 import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.omov.gui.ButtonPosition;
 
 /**
  * 

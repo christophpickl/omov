@@ -17,22 +17,25 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui;
+package net.sourceforge.omov.gui.table;
 
-import java.util.List;
+import java.awt.Color;
 
-import net.sourceforge.omov.core.bo.Movie;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface ITableSelectionListener {
+public class AbstractTable extends JTable {
 
-    void selectionEmptyChanged();
-    
-    void selectionSingleChanged(final Movie newSelectedMovie);
-    
-    void selectionMultipleChanged(final List<Movie> newSelectedMovies);
-    
+    private static final long serialVersionUID = -5091805617511109893L;
+
+    public AbstractTable() {
+//        this.model = model;
+        this.setShowGrid(true);
+        this.setGridColor(Color.LIGHT_GRAY);
+        this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
 }

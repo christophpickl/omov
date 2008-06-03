@@ -19,12 +19,17 @@
 
 package net.sourceforge.omov.app;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -40,6 +45,7 @@ import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.FatalException.FatalReason;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.model.IDataVersionDao;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
@@ -48,6 +54,8 @@ import net.sourceforge.omov.core.tools.TemporaryFilesCleaner;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.tools.vlc.IVlcPlayer;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
+import net.sourceforge.omov.gui.HyperlinkLabel;
+import net.sourceforge.omov.gui.dialogs.WarningDialog;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -93,7 +101,32 @@ public class App {
             System.exit(1);
         }
     }
-
+    
+    private static void showBetaVersionWarning() {
+		final JPanel panel = new JPanel();
+		final GridBagLayout layout = new GridBagLayout();
+		final GridBagConstraints c = new GridBagConstraints();
+		layout.setConstraints(panel, c);
+		panel.setLayout(layout);
+		
+		c.anchor = GridBagConstraints.FIRST_LINE_START;
+		c.gridx = 0;
+		c.gridy = 0;
+		panel.add(new JLabel(
+		"<html><b>Attention:</b><br>" +
+		"This is only a beta version,<br>" +
+		"which means that there still could be some major errors.<br>" +
+		"In such case, please contact developer via the website:</html>"), c);
+		
+		c.insets = new Insets(5, 0, 0, 0);
+		c.gridy = 1;
+		panel.add(new HyperlinkLabel("http://omov.sourceforge.net"), c);
+		final VersionMajorMinor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
+		final WarningDialog dialog = WarningDialog.newWarningDialog("Beta Version " + versionInUse.getVersionString(), panel);
+		dialog.setButtonLabel("Continue");
+		dialog.setVisible(true);
+    }
+    
     public void startUp() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
@@ -105,6 +138,8 @@ public class App {
 
         final SplashScreen splashScreen = new SplashScreen();
         splashScreen.setVisible(true);
+        
+        showBetaVersionWarning();
 
         try {
             final long timeStart = new Date().getTime();

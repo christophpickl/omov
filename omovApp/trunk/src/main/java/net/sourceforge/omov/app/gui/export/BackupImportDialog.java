@@ -45,9 +45,9 @@ import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.ButtonPosition;
 import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.FileChooser;
-import net.sourceforge.omov.gui.IFileDirectoryChooserListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.chooser.FileChooser;
+import net.sourceforge.omov.gui.chooser.IFileDirectoryChooserListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

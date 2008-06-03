@@ -47,8 +47,8 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.MacLikeTable;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.table.MacLikeTable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

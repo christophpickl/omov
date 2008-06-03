@@ -27,7 +27,7 @@ import java.util.Scanner;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
-import net.sourceforge.omov.core.common.VersionMinorMajor;
+import net.sourceforge.omov.core.common.VersionMajorMinor;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,7 +46,7 @@ public class ApplicationVersionFetcher {
 
     private static final String END_OF_INPUT = "\\Z";
     
-    public static VersionMinorMajor fetchVersion() throws BusinessException {
+    public static VersionMajorMinor fetchVersion() throws BusinessException {
         LOG.info("Fetching version from url '"+WEB_URL+"'.");
         URL url = null;
         try {
@@ -65,7 +65,7 @@ public class ApplicationVersionFetcher {
             final String versionString = scanner.next();
             
             try {
-                VersionMinorMajor version = new VersionMinorMajor(versionString);
+                VersionMajorMinor version = new VersionMajorMinor(versionString);
                 LOG.debug("Successfully fetched version '"+version+"' from web.");
                 return version;
             } catch(Exception e) {

@@ -52,7 +52,7 @@ import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.ITableSelectionListener;
+import net.sourceforge.omov.gui.table.ITableSelectionListener;
 import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
 
 import org.apache.commons.logging.Log;

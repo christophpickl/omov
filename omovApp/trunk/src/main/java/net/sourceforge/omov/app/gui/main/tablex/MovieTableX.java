@@ -52,9 +52,9 @@ import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.core.util.UserSniffer.OS;
 import net.sourceforge.omov.gui.BodyContext;
-import net.sourceforge.omov.gui.ITableSelectionListener;
-import net.sourceforge.omov.gui.MacLikeTable;
-import net.sourceforge.omov.gui.TableContextMenuListener;
+import net.sourceforge.omov.gui.table.ITableSelectionListener;
+import net.sourceforge.omov.gui.table.MacLikeTable;
+import net.sourceforge.omov.gui.table.TableContextMenuListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
