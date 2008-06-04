@@ -27,8 +27,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -36,13 +39,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.core.util.LanguageUtil;
+import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
@@ -87,8 +94,12 @@ public class PreferencesWindow extends JDialog implements ActionListener, IEscap
     private final AbstractPreferencesBooleanFieldX inpProxyEnabled;
     private final AbstractPreferencesIntFieldX inpProxyPort;
     private final AbstractPreferencesStringFieldX inpProxyHost; // TODO check if proper url entered by user for proxy host
-    
-    
+    private final AbstractPreferencesComboBoxFieldX<LanguageCode> inpLanguageBox;
+
+    public static interface IComboBoxModelX<T> extends ComboBoxModel {
+    	T getTypedElementAt(int index);
+    	int getItemIndex(T item);
+    }
     
     public PreferencesWindow(JFrame owner, MainWindowController mainController) {
         super(owner, true);
@@ -103,7 +114,6 @@ public class PreferencesWindow extends JDialog implements ActionListener, IEscap
         });
         EscapeDisposer.enableEscape(this.getRootPane(), this);
         
-
         
         // ---------------------------------------------------------------------------
         
@@ -191,6 +201,60 @@ public class PreferencesWindow extends JDialog implements ActionListener, IEscap
         };
         this.inpProxyEnabled.getComponent().setToolTipText("Select this if you are using a proxy to access the internet");
 
+        // ---------------------------------------------------------------------------
+        
+
+        class LanguageBoxModel extends DefaultComboBoxModel implements IComboBoxModelX<LanguageCode> {
+    		private static final long serialVersionUID = 6862102176774378797L;
+    		private final List<LanguageCode> data = LanguageUtil.getLanguagesSorted();
+        	public LanguageBoxModel() {
+        		// nothing to do
+        	}
+        	@Override
+        	public int getSize() {
+        		return this.data.size();
+        	}
+        	@Override
+        	public Object getElementAt(int index) {
+        		return this.data.get(index).getLocale().getDisplayLanguage();
+        	}
+        	public LanguageCode getTypedElementAt(int index) {
+        		return this.data.get(index);
+        	}
+			public int getItemIndex(LanguageCode item) {
+				for (int i = 0; i < this.getSize(); i++) {
+					if(this.data.get(i) == item) {
+						return i;
+					}
+				}
+				throw new IllegalArgumentException("Could not get index of item: " + item);
+			}
+        }
+        
+        this.inpLanguageBox = new AbstractPreferencesComboBoxFieldX<LanguageCode>(this, new LanguageBoxModel(), PreferencesDao.getInstance().getLanguage()) {
+			@Override
+			void saveData() throws BusinessException {
+				if(isEscapeHit() == true) {
+            		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
+            		inpLanguageBox.setVisibleData(CONF.getLanguage()); // reset value
+            		return;
+            	}
+            	CONF.setLanguage(this.getData());
+			}
+        };
+        this.inpLanguageBox.getComponent().setToolTipText("Select Language and restart program to take effect");
+        // TODO add flags
+        this.inpLanguageBox.getComponent().addActionListener(new GuiActionListener() {
+			@Override
+			protected void action(ActionEvent event) {
+				if(GuiUtil.getYesNoAnswer(PreferencesWindow.this, "Language changed",
+						"<html>Changing the language takes effect after a restart.<br>" +
+						"Do you want to restart the application now?</html>")
+						== true) {
+					App.restartApplication();
+				}
+			}
+        });
         // ---------------------------------------------------------------------------
         
         
@@ -331,6 +395,20 @@ public class PreferencesWindow extends JDialog implements ActionListener, IEscap
 		panel.add(proxyPanel, c);
 
         // ----------------------------
+
+        c.gridx = 0;
+        c.gridy++;
+        c.insets = insetLeft;
+        panel.add(new JLabel("Language"), c);
+        
+        final JPanel panelLanguage = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        panelLanguage.setOpaque(false);
+        panelLanguage.add(this.inpLanguageBox.getComponent());
+        c.gridx = 1;
+        c.insets = insetRight;
+        panel.add(panelLanguage, c);
+
+        // ----------------------------------------------------------------
 
         c.gridx = 0;
         c.gridwidth = 2;

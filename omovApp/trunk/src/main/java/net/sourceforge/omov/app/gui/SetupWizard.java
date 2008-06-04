@@ -47,6 +47,7 @@ import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
@@ -279,10 +280,11 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         final String proxyHost = ""; // by default
         final int proxyPort = 0; // by default
         final boolean proxyEnabled = false; // by default
+        final LanguageCode language = LanguageCode.ENGLISH; // by default
         
         // finally store entered values in preferences source
         PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username,
-        		startupVersionCheck, startupFilesystemCheck, proxyHost, proxyPort, proxyEnabled);
+        		startupVersionCheck, startupFilesystemCheck, proxyHost, proxyPort, proxyEnabled, language);
         
         // delete temporary msi install hint file (if existing)
         final File installedByMsiFile = new File("installed_by_msi");

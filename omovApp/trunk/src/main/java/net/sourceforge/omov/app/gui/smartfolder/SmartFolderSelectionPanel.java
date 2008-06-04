@@ -22,6 +22,7 @@ package net.sourceforge.omov.app.gui.smartfolder;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,8 @@ import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
+import net.sourceforge.omov.core.Msg;
+import net.sourceforge.omov.core.Msg.MsgKey;
 import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.gui.GuiActionListener;
@@ -169,9 +172,10 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         }});
 
         c.gridx = 0;
-        this.add(new JLabel("SmartFolder "), c);
+        this.add(new JLabel(Msg.get(MsgKey.W_SMARTFOLDER)), c);
 
         c.gridx = 1;
+        c.insets = new Insets(0, 6, 0, 0);
         this.add(this.comboBox, c);
 
     }

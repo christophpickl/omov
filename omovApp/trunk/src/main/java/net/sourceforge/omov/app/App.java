@@ -22,6 +22,8 @@ package net.sourceforge.omov.app;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -54,6 +56,10 @@ import net.sourceforge.omov.core.tools.TemporaryFilesCleaner;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.tools.vlc.IVlcPlayer;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
+import net.sourceforge.omov.core.util.CollectionUtil;
+import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.core.util.UserSniffer.OS;
 import net.sourceforge.omov.gui.HyperlinkLabel;
 import net.sourceforge.omov.gui.dialogs.WarningDialog;
 
@@ -65,6 +71,7 @@ import org.apache.commons.logging.LogFactory;
 CLI ARGs
 ==================================
 - "DEBUG" ... enables debug menubar entry
+- "DEVELOP" ... usefull if currently developing (paths for eclipse, etc)
 
 */
 
@@ -91,7 +98,8 @@ public class App {
     
     public static final IVlcPlayer VLC_PLAYER = VlcPlayerFactory.newVlcPlayer();
 
-    public static final String APP_ARG_DEBUG = "DEBUG";
+    public static final String APPARG_DEBUG = "DEBUG";
+    public static final String APPARG_DEVELOP = "DEVELOP";
     
     
     
@@ -103,12 +111,14 @@ public class App {
         } catch(Exception e) {
             e.printStackTrace();
             LOG.fatal("Application could not startup!", e);
+            SimpleGuiUtil.error("Fatal Application Error", "Whups, the application could not startup. Sorry for that dude :)<br>" +
+                    "The evil source is a "+e.getClass().getSimpleName()+".", e);
             System.exit(1);
         }
     }
     
     private static void showBetaVersionWarning() {
-    	if(App.isArgumentSet(App.APP_ARG_DEBUG)) {
+    	if(App.isArgumentSet(App.APPARG_DEBUG)) {
     		LOG.info("Surpressing beta-version warning because DEBUG cli arg was passed to app.");
     		return;
     	}
@@ -137,7 +147,17 @@ public class App {
 		dialog.setVisible(true);
     }
     
+    private static void logSystemProperties() {
+    	LOG.info("-------------------------------------");
+    	LOG.info("Starting OurMovies v" + BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString());
+    	LOG.info("Running in Java VM: " + System.getProperty("java.version"));
+    	LOG.info("CLI Arguments: " + CollectionUtil.toString(cliArguments));
+    	LOG.info("Execution path: " + new File("").getAbsolutePath());
+    	LOG.info("-------------------------------------");
+    }
+    
     public void startUp() {
+    	logSystemProperties();
         JFrame.setDefaultLookAndFeelDecorated(true);
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -372,5 +392,43 @@ public class App {
             }
         });
     }
+    
+    private static File getLaunchFile() {
+    	assert(App.isArgumentSet(App.APPARG_DEVELOP) == false);
+    	final OS os = UserSniffer.getOS();
+    	
+    	final File launchCmd;
+    	if(os == OS.WIN) {
+			launchCmd = new File("./OurMovies.exe"); // FIXME test restart app method!
+    	} else if(os == OS.MAC) {
+			launchCmd = new File("./OurMovies.app/Contents/Resources/restart_ourmovies.command");
+    	} else {
+    		launchCmd = new File("./OurMovies.sh"); // FIXME test restart app method!
+    	}
+    	assert(launchCmd.exists());
+    	return launchCmd;
+    }
 
+    public static void restartApplication() {
+    	if(App.isArgumentSet(App.APPARG_DEVELOP)) {
+    		System.out.println("Restart not available while running in eclipse.");
+    		System.exit(0);
+    	}
+    	
+    	final String cliArgs = CollectionUtil.toString(cliArguments, " ");
+    	final File launchCmd = getLaunchFile();
+    	
+    	LOG.info("Restarting application (launchCmd="+launchCmd.getAbsolutePath()+"; cliArgs="+cliArgs+")");
+    	ProcessBuilder pb = new ProcessBuilder(launchCmd.getAbsolutePath(), cliArgs);
+
+		try {
+			LOG.debug("Starting process builder...");
+			pb.start();
+		} catch (IOException e) {
+			GuiUtil.handleFatalException(e);
+		} finally {
+			LOG.debug("Shuttind down application via System.exit(0)");
+			System.exit(0);
+		}
+    }
 }

@@ -170,8 +170,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
      * adds following listeners: TableSelectionListener, MouseListener and KeyListener
      */
     private void initMovieTable() {
-
-        this.moviesTable.addTableSelectionListener(this);
+    	this.moviesTable.addTableSelectionListener(this);
     	
         this.moviesTable.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent event) {

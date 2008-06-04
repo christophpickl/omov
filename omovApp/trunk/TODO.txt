@@ -21,7 +21,7 @@ TODOs
 - if main movie table row is selected, then popup edit dialog, hit next-button -> previously selected row will be unselected (because dao update will be performed -> reselect these rows)
 - wenn man in movie table metadata fetched, blocked gui -> eigener swingworker + progress dialog
 - in MovieDetailPanel unten zusaetzliche zeile mit werten (trailer, und...?)
-
+- use following attributes for osx native stuff: java -Dcom.apple.macos.useScreenMenuBar=true -Xdock:name="OurMovies" -Dcom.apple.mrj.application.apple.menu.about.name=OurMovies -Dcom.apple.mrj.application.growbox.intrudes=false -Dcom.apple.mrj.application.live-resize=true -Dcom.apple.macos.smallTabs=true
 
 ====================================================================
 web imdb subproject

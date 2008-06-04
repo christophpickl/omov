@@ -67,4 +67,17 @@ public class StringUtil {
 //        LOG.debug("returning similarity of '"+similarity+"' for string s1 '"+s1+"' and s2 '"+s2+"'.");
 //        return similarity;
 //    }
+    
+
+    /**
+     * @author aTunes team
+     */
+	public static String getString(Object... strings) {
+		StringBuilder objStringBuilder = new StringBuilder();
+
+		for (Object element : strings)
+			objStringBuilder.append(element);
+
+		return objStringBuilder.toString();
+	}
 }

@@ -107,14 +107,21 @@ public final class CollectionUtil<T> {
     public static List<String> immutableList(String... values) {
         return Collections.unmodifiableList(new ArrayList<String>(Arrays.asList(values)));
     }
-    
+
     public static String toString(Set<String> set) {
+    	return toString(set, ", ");
+    }
+    
+    public static String toString(Set<String> set, String separator) {
         if(set.size() == 0) return "";
         
+        boolean first = true;
         final StringBuilder sb = new StringBuilder();
         for (String s : set) {
-            sb.append(", ").append(s);
+        	if(first == true) first = false;
+        	else sb.append(separator);
+            sb.append(s);
         }
-        return sb.substring(2);
+        return sb.toString();
     }
 }

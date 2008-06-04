@@ -5,12 +5,15 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 
+import net.sourceforge.omov.app.gui.preferences.PreferencesWindow.IComboBoxModelX;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.inputfields.NumberField;
 
 import org.apache.commons.logging.Log;
@@ -20,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @param <T> Boolean, Integer, String
  */
-abstract class AbstractPreferencesFieldX<T> implements FocusListener {
+abstract class AbstractPreferencesFieldX<T, F extends JComponent> implements FocusListener {
 
     private static final Log LOG = LogFactory.getLog(AbstractPreferencesFieldX.class);
 
@@ -35,7 +38,7 @@ abstract class AbstractPreferencesFieldX<T> implements FocusListener {
     	this.owner = owner;
     }
     
-    abstract JComponent getComponent();
+    abstract F getComponent();
     
     abstract T getData();
     
@@ -47,13 +50,18 @@ abstract class AbstractPreferencesFieldX<T> implements FocusListener {
 
     public final void focusLost(FocusEvent event) {
     	LOG.debug("focus lost, saving data.");
-        try {
-            this.saveData();
-//            this.initialValue = this.getData();
-        } catch (BusinessException e) {
-            GuiUtil.warning(this.owner, "Invalid Input", this.getInvalidInputString());
-//            this.setText(this.initialValue.toString());
-        }
+    	new GuiAction() {
+			@Override
+			protected void _action() {
+				try {
+		            saveData();
+//		            this.initialValue = this.getData();
+		        } catch (BusinessException e) {
+		            GuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
+//		            this.setText(this.initialValue.toString());
+		        }
+			}
+    	}.doAction();
     }
     
     abstract void setVisibleData(T data);
@@ -66,7 +74,7 @@ abstract class AbstractPreferencesFieldX<T> implements FocusListener {
 
 }
 
-abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX<String> {
+abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX<String, JTextField> {
 
 	private final JTextField textField;
 	
@@ -82,7 +90,7 @@ abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX
 		return this.textField.getText();
 	}
 	
-	final JComponent getComponent() {
+	final JTextField getComponent() {
 		return this.textField;
 	}
 	
@@ -91,7 +99,7 @@ abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX
 	}
 }
 
-abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<Integer> {
+abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<Integer, NumberField> {
 
 	private final NumberField numberField;
 	
@@ -108,7 +116,7 @@ abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<In
 		return (int) this.numberField.getNumber();
 	}
 	
-	final JComponent getComponent() {
+	final NumberField getComponent() {
 		return this.numberField;
 	}
 	
@@ -118,7 +126,7 @@ abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<In
 	
 }
 
-abstract class AbstractPreferencesBooleanFieldX extends AbstractPreferencesFieldX<Boolean> {
+abstract class AbstractPreferencesBooleanFieldX extends AbstractPreferencesFieldX<Boolean, JCheckBox> {
 
 	private final JCheckBox checkBox = new JCheckBox();
 	
@@ -138,11 +146,43 @@ abstract class AbstractPreferencesBooleanFieldX extends AbstractPreferencesField
 		return this.checkBox.isSelected();
 	}
 	
-	final JComponent getComponent() {
+	final JCheckBox getComponent() {
 		return this.checkBox;
 	}
 	
 	final void setVisibleData(Boolean data) {
 		this.checkBox.setSelected(data);
+	}
+}
+
+abstract class AbstractPreferencesComboBoxFieldX<T> extends AbstractPreferencesFieldX<T, JComboBox> {
+
+    private static final Log LOG = LogFactory.getLog(AbstractPreferencesComboBoxFieldX.class);
+    
+	private final JComboBox comboBox = new JComboBox();
+	private final IComboBoxModelX<T> model;
+	
+	public AbstractPreferencesComboBoxFieldX(Dialog owner, IComboBoxModelX<T> model, T initValue) {
+		super(owner);
+		this.model = model;
+		
+		this.comboBox.setModel(model);
+		this.comboBox.setOpaque(false);
+		LOG.info("Setting preselected item to: " + initValue);
+		this.comboBox.setSelectedIndex(this.model.getItemIndex(initValue));
+		
+    	this.getComponent().addFocusListener(this); // hack: has to be invoked by each and every extends AbstractPreferencesFieldX
+	}
+	
+	final T getData() {
+		return this.model.getTypedElementAt(this.comboBox.getSelectedIndex());
+	}
+	
+	final JComboBox getComponent() {
+		return this.comboBox;
+	}
+	
+	final void setVisibleData(T data) {
+		this.comboBox.setSelectedItem(data);
 	}
 }

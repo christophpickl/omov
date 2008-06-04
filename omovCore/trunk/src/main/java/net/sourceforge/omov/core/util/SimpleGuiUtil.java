@@ -137,7 +137,7 @@ public class SimpleGuiUtil {
      * should be used if exceptions was thrown, which forces an application shutdown.
      * use it to surround user invoked methods (within actionPerformed & co).
      */
-    static void handleFatalException(Exception exception) {
+    public static void handleFatalException(Exception exception) {
         exception.printStackTrace();
         LOG.error("Application error! Shutdown...", exception);
         SimpleGuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)<br>" +

@@ -26,6 +26,8 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import net.sourceforge.omov.core.bo.Movie.MovieField;
+import net.sourceforge.omov.core.util.LanguageUtil;
+import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -58,6 +60,10 @@ DATA VERSION HISTORY
 ===>   v3 -> v4
 - added: proxy-host and proxy-port
 
+===>   v4 -> v5
+- added locale
+
+
  */
     public static final int DATA_VERSION = 4;
 
@@ -75,7 +81,9 @@ DATA VERSION HISTORY
         
         RECENT_EXPORT_DESTINATION, RECENT_COVER_SELECTOR_PATH, RECENT_MOVIE_FOLDER_PATH, RECENT_SCAN_PATH, RECENT_BACKUP_IMPORT_PATH,
         
-        PROXY_HOST, PROXY_PORT, PROXY_ENABLED
+        PROXY_HOST, PROXY_PORT, PROXY_ENABLED,
+        
+        LANGUAGE_CODE
         ;
     }
     
@@ -92,6 +100,7 @@ DATA VERSION HISTORY
     private int proxyPort;
     private boolean proxyEnabled;
     
+    private String languageCode;
     
     
     
@@ -105,10 +114,10 @@ DATA VERSION HISTORY
     		String folderCovers, String folderTemporary, String folderData,
     		String username,
     		boolean checkVersionStartup, boolean checkFilesystemStartup,
-    		String proxyHost, int proxyPort, boolean proxyEnabled) {
+    		String proxyHost, int proxyPort, boolean proxyEnabled, LanguageCode language) {
         LOG.info("Setting preferences (username='"+username+"';folderCovers='"+folderCovers+"';folderTemporary='"+folderTemporary+"';" +
         		"folderData='"+folderData+"';checkVersionStartup='"+checkVersionStartup+"';checkFilesystemStartup='"+checkFilesystemStartup+"';" +
-        				"proxyHost="+proxyHost+";proxyPort="+proxyPort+";proxyEnabled="+proxyEnabled+").");
+        				"proxyHost="+proxyHost+";proxyPort="+proxyPort+";proxyEnabled="+proxyEnabled+";language="+language+").");
         
         assert(folderCovers != null && folderTemporary != null && username != null);
         assert(new File(folderCovers).exists() && new File(folderTemporary).exists());
@@ -125,6 +134,8 @@ DATA VERSION HISTORY
         this.prefs.put(PrefKey.PROXY_HOST.name(), proxyHost);
         this.prefs.putInt(PrefKey.PROXY_PORT.name(), proxyPort);
         this.prefs.putBoolean(PrefKey.PROXY_ENABLED.name(), proxyEnabled);
+        
+        this.prefs.put(PrefKey.LANGUAGE_CODE.name(), language.getCode());
         
         this.flush();
         this.loadPreferences();
@@ -151,6 +162,7 @@ DATA VERSION HISTORY
         this.proxyPort = prefs.getInt(PrefKey.PROXY_PORT.name(), 0);
         this.proxyEnabled = prefs.getBoolean(PrefKey.PROXY_ENABLED.name(), false);
         
+        this.languageCode = prefs.get(PrefKey.LANGUAGE_CODE.name(), LanguageCode.ENGLISH.getCode());
         
         for (String columnName : MovieTableColumns.getColumnNames()) {
             final Boolean initialVisible;
@@ -385,4 +397,14 @@ DATA VERSION HISTORY
             }
         }
     }
+    
+    public void setLanguage(LanguageCode language) {
+    	this.setPreferencesString(PrefKey.LANGUAGE_CODE, language.getCode());
+        this.languageCode = language.getCode();
+    }
+    
+    public LanguageCode getLanguage() {
+    	return LanguageUtil.byCode(this.languageCode);
+    }
+    
 }

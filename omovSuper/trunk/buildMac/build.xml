@@ -13,7 +13,10 @@
 	
 	<property name="path.base" value="../" />
 	<property name="path.build" value="${path.base}buildMac/" />
-	<property name="path.target" value="${path.base}../omovApp/target/" />
+
+	<property name="path.project.omovApp" value="${path.base}../omovApp/" />
+	<property name="path.target" value="${path.project.omovApp}target/" />
+	
 	
 <!--<property name="path.source" value="${path.base}src/" />
 	<property name="path.source.java" value="${path.source}/main/java" />
@@ -42,9 +45,11 @@
 		<copy file="${packaging}/JavaApplicationStub" todir="${app.dir}/Contents/MacOS"/>
 		<copy file="${path.build}logo.icns" todir="${app.dir}/Contents/Resources/" />
 		<copy file="${path.build}omo_filetype.icns" todir="${app.dir}/Contents/Resources/" />
+		<copy file="${path.project.omovApp}restart_ourmovies.command" todir="${app.dir}/Contents/Resources/" />
 		
-		
+		<exec command="chmod 775 &quot;${app.dir}/Contents/Resources/restart_ourmovies.command&quot;"/>
 		<exec command="chmod 755 &quot;${app.dir}/Contents/MacOS/JavaApplicationStub&quot;"/>
+		
 		<copy file="${path.build}Info.plist" todir="${app.dir}/Contents"/>
 		<copy file="${path.build}version.plist" todir="${app.dir}/Contents"/>
 		<copy file="${path.target}${app.jar}" todir="${app.dir}/Contents/Resources/Java"/>
