@@ -142,11 +142,11 @@ public class SimpleGuiUtil {
      */
     public static void handleFatalException(Exception exception) {
         exception.printStackTrace();
-        LOG.error("Application error! Shutdown...", exception);
+        LOG.error("Handling fatal exception", exception);
         SimpleGuiUtil.error("Fatal Application Error", "Whups, the application crashed. Sorry for that dude :)<br>" +
                                                  "The evil source is a "+exception.getClass().getSimpleName()+".", exception);
-        // MANTIS [25] gui: use swingx panel + collapsable details containing stack trace
-        LOG.debug("System.exit(1);");
+        
+        LOG.info("System.exit(1);");
         System.exit(1);
         
     }

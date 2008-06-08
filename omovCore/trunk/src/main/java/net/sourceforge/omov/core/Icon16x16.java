@@ -43,8 +43,13 @@ public enum Icon16x16 {
     
 //    WEB("web_globe.png");
     
-    final String fileName;
+    private final String fileName;
+    
     private Icon16x16(String fileName) {
         this.fileName = fileName;
+    }
+    
+    public String getFileName() {
+    	return this.fileName;
     }
 }
