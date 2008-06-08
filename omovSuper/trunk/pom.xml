@@ -63,12 +63,24 @@
 	<!-- =================================================================== -->
 	<repositories>
 		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository -->
+		<!--
 		<repository>
 			<id>52north.org</id>
 			<url>
 				http://incubator.52north.org/maven/maven-repo/releases
 			</url>
 		</repository>
+		-->
+		
+		<!-- used to get following libraries: db4o, substance -->
+		<!-- Downloading: http://omov.sourceforge.net/maven-repo/net/java/dev/substance/4.3/substance-4.3.pom ??? -->
+		<repository>
+			<id>omov.sourceforge.net</id>
+			<url>
+				http://omov.sourceforge.net/maven-repo
+			</url>
+		</repository>
+		
 	</repositories>
 
 
