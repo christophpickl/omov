@@ -91,9 +91,6 @@ public class AppImageFactory extends CoreImageFactory {
     	return this.getImage("ContextMenuButton.png");
     }
     
-    public Image getQuickTimeImage() {
-    	return this.getImage("QuickTimeBgLogo.png").getImage();
-    }
     
     
 }

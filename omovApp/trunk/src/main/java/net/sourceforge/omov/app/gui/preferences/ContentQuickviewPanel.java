@@ -1,17 +1,14 @@
 package net.sourceforge.omov.app.gui.preferences;
 
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
-import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.qtjApi.IQtjSessionManager;
@@ -25,7 +22,6 @@ class ContentQuickviewPanel extends AbstractPreferencesContent {
     private static final Log LOG = LogFactory.getLog(ContentQuickviewPanel.class);
 	private static final long serialVersionUID = -2114513454360496570L;
 	
-	private static final Image QUICKTIME_BG_LOGO = AppImageFactory.getInstance().getQuickTimeImage();
 	
 	
 
@@ -85,10 +81,10 @@ class ContentQuickviewPanel extends AbstractPreferencesContent {
 		this.add(panel);
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		GuiUtil.paintCenteredBackgroundImage(g, this, QUICKTIME_BG_LOGO);
-	}
+//	@Override
+//	public void paint(Graphics g) {
+//		super.paint(g);
+//		GuiUtil.paintCenteredBackgroundImage(g, this, QUICKTIME_BG_LOGO);
+//	}
 	
 }
