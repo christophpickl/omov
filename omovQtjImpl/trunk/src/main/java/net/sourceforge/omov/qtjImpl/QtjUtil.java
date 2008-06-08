@@ -26,6 +26,8 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.io.File;
 
+import net.sourceforge.omov.core.BusinessException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -50,8 +52,8 @@ public final class QtjUtil {
 		// no instantiation
 	}
 	
-	public static Movie openQtMovie(File file) throws QTException {
-		QtjSessionInitializer.openSession();
+	public static Movie openQtMovie(File file) throws QTException, BusinessException {
+		QtjSessionManager.getInstance().openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(file));
 		return Movie.fromFile(openFile);
 	}

@@ -52,7 +52,7 @@ import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.gui.brushed.BrushedMetalPanel;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
-import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
+import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -213,7 +213,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                         assert (selectedMovies.size() == 0);
                         Toolkit.getDefaultToolkit().beep();
                     }
-                } else if(code == KeyEvent.VK_SPACE && QtjVideoPlayerFactory.isQtjAvailable()) {
+                } else if(code == KeyEvent.VK_SPACE && QtjFactory.isQtjAvailable()) {
                 	LOG.debug("key event: space");
                 	final List<Movie> selectedMovies = getSelectedMovies();
                 	if(selectedMovies.size() == 1) {

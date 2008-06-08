@@ -133,6 +133,22 @@ public class ImageFactory {
         return this.getImage("scan-90x90_alpha18.png").getImage();
     }
 
+    public ImageIcon getIconPrefToolBar(PrefToolBarIcon whichIcon) {
+        return this.getImage("preferences_toolbar/"+whichIcon.getFileName());
+    }
+    
+    public enum PrefToolBarIcon {
+    	GENERAL("general.png"),
+    	QUICKVIEW("quickview.png");
+    	
+    	private final String fileName;
+    	PrefToolBarIcon(String fileName) {
+    		this.fileName = fileName;
+    	}
+    	String getFileName() {
+    		return this.fileName;
+    	}
+    }
     
 
     public ImageIcon getIcon(IconQuickView iconEnum) {
@@ -140,7 +156,11 @@ public class ImageFactory {
     }
 
     public ImageIcon getContextMenuButton() {
-        return this.getImage("ContextMenuButton.png");
+    	return this.getImage("ContextMenuButton.png");
+    }
+    
+    public Image getQuickTimeImage() {
+    	return this.getImage("QuickTimeBgLogo.png").getImage();
     }
     
     

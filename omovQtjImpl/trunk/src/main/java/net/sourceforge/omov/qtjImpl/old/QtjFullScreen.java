@@ -17,12 +17,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.qtjImpl;
+package net.sourceforge.omov.qtjImpl.old;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
+
+import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
+import net.sourceforge.omov.qtjImpl.QtjVideoController;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

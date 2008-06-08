@@ -11,7 +11,7 @@
 	mvn -Dmaven.test.skip=true assembly:assembly
 	
 	... create an initial project (with its filestructure)
-	mvn archetype:create -DgroupId=net.sourceforge.omov.app -DartifactId=omovApp
+	mvn archetype:generate -DgroupId=net.sourceforge.omov.app -DartifactId=omovApp
 	
 	
 	// http://maven.apache.org/guides/mini/guide-ide-eclipse.html

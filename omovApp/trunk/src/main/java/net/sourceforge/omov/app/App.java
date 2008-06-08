@@ -411,7 +411,7 @@ public class App {
 
     public static void restartApplication() {
     	if(App.isArgumentSet(App.APPARG_DEVELOP)) {
-    		System.out.println("Restart not available while running in eclipse.");
+    		GuiUtil.info("Develop Mode", "Restart not available while in development mode.");
     		System.exit(0);
     	}
     	

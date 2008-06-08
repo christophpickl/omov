@@ -19,12 +19,20 @@
 
 package net.sourceforge.omov.app.gui.preferences;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
+import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.ImageFactory.PrefToolBarIcon;
 import net.sourceforge.omov.core.tools.FileSystemChecker;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
+import net.sourceforge.omov.core.util.GuiAction;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,14 +41,36 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class PreferencesWindowController {
+public class PreferencesWindowController implements ActionListener {
 
     private static final Log LOG = LogFactory.getLog(PreferencesWindowController.class);
+
+    static final String CMD_PANE_GENERAL = "CMD_PANE_GENERAL";
+    static final String CMD_PANE_QUICKVIEW = "CMD_PANE_QTJ";
+
+    static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
+    static final String CMD_CHECK_VERSION_NOW = "CMD_CHECK_VERSION_NOW";
+    static final String CMD_CHECK_FILESYSTEM_NOW = "CMD_CHECK_FILESYSTEM_NOW";
+    
+    
+    static final String CMD_CLOSE = "CMD_CLOSE";
+    
+//    private static final String CMD_SERVER_START = "CMD_SERVER_START";
+//    private static final String CMD_SERVER_STOP = "CMD_SERVER_STOP";
     
     private final PreferencesWindow window;
+
+    final PrefToolBarItem prefItemGeneral;
+    final PrefToolBarItem prefItemQuickView;
+
+    private final MainWindowController mainController;
     
-    public PreferencesWindowController(PreferencesWindow window) {
+    public PreferencesWindowController(PreferencesWindow window, MainWindowController mainController) {
         this.window = window;
+        this.mainController = mainController;
+        
+        this.prefItemGeneral = new PrefToolBarItem("General", PreferencesWindowController.CMD_PANE_GENERAL, PrefToolBarIcon.GENERAL, new ContentGeneralPanel(window, this));
+        this.prefItemQuickView = new PrefToolBarItem("QuickView", PreferencesWindowController.CMD_PANE_QUICKVIEW, PrefToolBarIcon.QUICKVIEW, new ContentQuickviewPanel());
     }
     
     public void doClearPreferences() throws BusinessException {
@@ -70,6 +100,55 @@ public class PreferencesWindowController {
             GuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
         }
     }
+
+	public void actionPerformed(final ActionEvent event) {
+		new GuiAction() {
+			@Override
+			protected void _action() {
+				final String cmd = event.getActionCommand();
+				LOG.debug("Action performed, cmd='"+cmd+"'.");
+				
+				if(cmd.equals(CMD_PANE_GENERAL)) {
+					window.switchContent(prefItemGeneral);
+
+				} else if(cmd.equals(CMD_PANE_QUICKVIEW)) {
+					window.switchContent(prefItemQuickView);
+					
+
+				} else if(cmd.equals(CMD_CLEAR_PREFERENCES)) {
+					if(GuiUtil.getYesNoAnswer(window, "Clear Preferences", "Do you really want to clear every perferences you set\nand shutdown OurMovies immediately?") == false) {
+                        return;
+                    }
+                    
+                    try {
+                        doClearPreferences();
+                        mainController.doQuit(); // do only quit, if clearing preferences was successfull
+                        
+                    } catch (BusinessException e) {
+                        LOG.error("Could not clear preferences!", e);
+                        GuiUtil.error(window, "Error", "Could not clear preferences!");
+                    }
+                    
+                } else  if(cmd.equals(CMD_CHECK_VERSION_NOW)) {
+                    doCheckApplicationVersion();
+                    
+                } else  if(cmd.equals(CMD_CHECK_FILESYSTEM_NOW)) {
+                    doCheckFileSystem();
+                    
+                } else  if(cmd.equals(CMD_CLOSE)) {
+                    doClose();
+                    
+                    
+				} else {
+					throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
+				}
+			}
+		}.doAction();
+	}
+
+    void doClose() {
+        this.window.setVisible(false);
+    }
     
 //    public boolean doStartServer(int port) {
 //        try {
@@ -91,4 +170,35 @@ public class PreferencesWindowController {
 //            return false;
 //        }
 //    }
+	
+	
+
+
+    static final class PrefToolBarItem {
+    	private final String label;
+    	private final String cmd;
+    	private final PrefToolBarIcon icon;
+    	private final JPanel panel;
+    	
+    	private PrefToolBarItem(String label, String cmd, PrefToolBarIcon icon, JPanel panel) {
+    		this.label = label;
+    		this.cmd = cmd;
+    		this.icon = icon;
+    		this.panel = panel;
+    	}
+    	
+    	String getLabel() {
+    		return this.label;
+    	}
+    	String getActionCommand() {
+    		return this.cmd;
+    	}
+    	PrefToolBarIcon getIcon() {
+    		return this.icon;
+    	}
+    	JPanel getPanel() {
+    		return this.panel;
+    	}
+    }
+    
 }

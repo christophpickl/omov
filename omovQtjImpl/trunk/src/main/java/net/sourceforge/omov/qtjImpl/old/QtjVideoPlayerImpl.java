@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.qtjImpl;
+package net.sourceforge.omov.qtjImpl.old;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -32,8 +32,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
+import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
+import net.sourceforge.omov.qtjImpl.QtjVideoController;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -65,7 +67,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Mous
 	
 	
 	
-	public QtjVideoPlayerImpl(net.sourceforge.omov.core.bo.Movie movie, File movieFile, JFrame owner) throws QTException {
+	public QtjVideoPlayerImpl(net.sourceforge.omov.core.bo.Movie movie, File movieFile, JFrame owner) throws QTException, BusinessException {
 		super(owner);
 		this.controller = new QtjVideoController(this, movie, movieFile);
 		this.controller.getQtjComponent().addMouseListener(this);

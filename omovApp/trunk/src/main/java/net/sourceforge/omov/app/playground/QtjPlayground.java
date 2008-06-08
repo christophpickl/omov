@@ -25,7 +25,7 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.model.IMovieDao;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
-import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
+import net.sourceforge.omov.qtjApi.QtjFactory;
 
 /**
  * 
@@ -42,7 +42,7 @@ public class QtjPlayground {
 //		new QtjVideoPlayerImplX(m, f).setVisible(true);
 		
 		System.out.println("getting video player");
-		IQtjVideoPlayer player = QtjVideoPlayerFactory.newVideo(m, f);
+		IQtjVideoPlayer player = QtjFactory.newQtjVideoPlayer(m, f);
 		player.setVisible(true);
 	}
 }

@@ -53,7 +53,7 @@ import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
-import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
+import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -196,7 +196,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
             this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
         
-        if(QtjVideoPlayerFactory.isQtjAvailable() == true) {
+        if(QtjFactory.isQtjAvailable() == true) {
 //        	final int keyMask = 0; // disable accelerator (ctrl/command)
 //        	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, KeyEvent.VK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW), keyMask);
         	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));

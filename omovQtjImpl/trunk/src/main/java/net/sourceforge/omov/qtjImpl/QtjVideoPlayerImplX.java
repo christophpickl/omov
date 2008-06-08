@@ -35,6 +35,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
@@ -103,7 +104,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 	private final JPanel wrapPanel = new JPanel();
 	private final JComponent qtjComponent;
 	
-	public QtjVideoPlayerImplX(net.sourceforge.omov.core.bo.Movie movie, File movieFile) throws QTException {
+	public QtjVideoPlayerImplX(net.sourceforge.omov.core.bo.Movie movie, File movieFile) throws QTException, BusinessException {
 //		super(owner); ... frames cant be modal
 		assert(movieFile.exists()) : movieFile.getAbsolutePath();
 
@@ -226,8 +227,8 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 	}
 
 	
-	private JComponent initQuicktimePlayer(File movieFile) throws QTException {
-		QtjSessionInitializer.openSession();
+	private JComponent initQuicktimePlayer(File movieFile) throws QTException, BusinessException {
+		QtjSessionManager.getInstance().openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(movieFile));
 		this.qtMovie = Movie.fromFile(openFile);
 		

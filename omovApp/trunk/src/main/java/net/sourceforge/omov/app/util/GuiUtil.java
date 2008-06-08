@@ -183,7 +183,7 @@ public class GuiUtil extends SimpleGuiUtil {
 
 
     public static boolean getYesNoAnswer(Component owner, String title, String message) {
-        return JOptionPane.showConfirmDialog(owner, message, title, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
+    	return JOptionPane.showConfirmDialog(owner, message, title, JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION;
     }
 
     public static File getFile() {

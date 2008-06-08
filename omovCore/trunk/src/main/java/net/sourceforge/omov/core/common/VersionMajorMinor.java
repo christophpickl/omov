@@ -38,10 +38,10 @@ public class VersionMajorMinor {
     
     
     
-    public VersionMajorMinor(final int minor, final int major) {
-        this.major = minor;
-        this.minor = major;
-        this.versionString = minor + "." + major;
+    public VersionMajorMinor(final int major, final int minor) {
+        this.major = major;
+        this.minor = minor;
+        this.versionString = major + "." + minor;
     }
     
     /**
@@ -55,14 +55,14 @@ public class VersionMajorMinor {
         this.minor = Integer.parseInt(parts[1]);
         this.versionString = major + "." + minor;
     }
-    
-    
-    public int getMinor() {
-        return this.minor;
-    }
+
     
     public int getMajor() {
         return this.major;
+    }
+    
+    public int getMinor() {
+        return this.minor;
     }
     
     @Override

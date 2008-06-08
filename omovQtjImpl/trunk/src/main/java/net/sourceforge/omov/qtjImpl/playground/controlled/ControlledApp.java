@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
@@ -48,21 +48,53 @@ public class ControlledApp extends JFrame {
 	private final JPanel panelSouth = new JPanel();
 	private boolean playing = false;
 	
-	private final JProgressBar progressBar = new JProgressBar(0, 100);
+//	private final JProgressBar progressBar = new JProgressBar(0, 100);
+	private final MySlider timeSlider = new MySlider();
+	private static class MySlider extends JSlider {
+		private static final long serialVersionUID = 1L;
+		private boolean pressed;
+		public void setPressed(boolean pressed) {
+			this.pressed = pressed;
+		}
+		public boolean isPressed() {
+			return this.pressed;
+		}
+	}
 	
 	private final JLabel lblTime = new JLabel();
 	
-	private final int maxMs;
+	private final int maxMicros;
 	private final String maxTimeString;
 	private void updateTimeUi() {
 		try {
-			final int curMs = player.getTimeBase().getTime();
+			if(player.getTimeBase().getTime() == maxMicros && playing) {
+				System.out.println("EndOfVideo -> stop()");
+				movie.stop();
+				playing = false;
+			}
+		} catch (QTException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		if(timeSlider.isPressed()) {
+			System.out.println("updateTimeUi aborting; timeSlider.isPressed == true");
 			
-			final String curTime = TimeUtil.microSecondsToString(curMs);
+			final int draggedMicros = timeSlider.getValue();
+			final String draggedTime = TimeUtil.microSecondsToString(draggedMicros);
+			this.lblTime.setText(draggedTime+"/"+maxTimeString);
+			return;
+		}
+		try {
+			final int curMicros = player.getTimeBase().getTime();
+			
+			final String curTime = TimeUtil.microSecondsToString(curMicros);
 			this.lblTime.setText(curTime+"/"+maxTimeString);
-			final int percent = (int) (curMs / ((double)maxMs) * 100);
-			System.out.println("percent: " + percent + "(curMs:"+curMs+"; maxMs:"+maxMs+")");
-			progressBar.setValue(percent);
+//			final int percent = (int) (curMs / ((double)maxMs) * 100);
+//			System.out.println("percent: " + percent + "(curMs:"+curMs+"; maxMs:"+maxMs+")");
+			
+			
+//			timeSlider.setValue(curMs);
 			
 		} catch (QTException e) {
 			throw new RuntimeException(e);
@@ -72,12 +104,13 @@ public class ControlledApp extends JFrame {
 	
 	public ControlledApp() throws Exception{
 		this.movie = QtjUtil.openQtMovie(new File("/movie.mov"));
+		this.movie.setTimeScale(1000000); // in micro seconds
 		this.player = new MoviePlayer(movie);
 		final QTJComponent qtPlayercomponent = QTFactory.makeQTJComponent(player);
 		final JComponent playerComponent = qtPlayercomponent.asJComponent();
 
-		this.maxMs = player.getTimeBase().getStopTime();
-		final int maxTimeInSeconds = maxMs / 1000000;
+		this.maxMicros = player.getTimeBase().getStopTime();
+		final int maxTimeInSeconds = maxMicros / 1000000;
 		System.out.println("movie length in seconds: "+maxTimeInSeconds);
 		this.maxTimeString = TimeUtil.microSecondsToString(player.getTimeBase().getStopTime());
 		
@@ -139,8 +172,8 @@ public class ControlledApp extends JFrame {
 //			System.out.println("time: " + time + "; startPTime: " + startPTime + "; stopPTime: " + stopPTime + "; pTime: " + pTime + "; ");
 			
 			final int curTime = player.getTimeBase().getTime();
-			final int percPlayed = (int) (curTime / ((double)maxMs) * 100);
-			System.out.println(curTime+"/"+maxMs+" ("+percPlayed+"%) -- timescale: " + movie.getTimeScale());
+			final int percPlayed = (int) (curTime / ((double)maxMicros) * 100);
+			System.out.println(curTime+"/"+maxMicros+" ("+percPlayed+"%) -- timescale: " + movie.getTimeScale());
 		}});
 
 		// always true: movie.getActive()
@@ -153,28 +186,62 @@ public class ControlledApp extends JFrame {
 		}});
 
 		
+		addBtn("timevalue=5s", new A() { public void a() throws Exception {
+			player.setTime(5000000);
+			/*
+			 * 5000 setTime --> results in curMs: 8333334
+			 */
+			
+//			movie.setTime(new TimeRecord(movie.getTimeScale(), 5000));
+//			movie.start();
+			
+			
+//			movie.stop();
+//			movie.setTimeValue(5);
+//			movie.start();
+			
+		}});
 
-		this.progressBar.setValue(0);
-		this.progressBar.setFocusable(false);
-		this.progressBar.addMouseListener(new MouseAdapter() {
+		
+		this.timeSlider.setValue(0);
+		this.timeSlider.setMaximum(maxMicros);
+		// this.timeSlider.putClientProperty("JSlider.isFilled", Boolean.TRUE); // does not work on OSX :(
+		this.timeSlider.setFocusable(false);
+		this.timeSlider.addMouseListener(new MouseAdapter() {
+			public void mousePressed(final MouseEvent e) {
+				System.out.println("timeSlider pressed");
+				timeSlider.setPressed(true);
+			}
 			public void mouseReleased(final MouseEvent e) {
-				if (e.getSource().equals(progressBar) && progressBar.isEnabled()) {
-					System.out.println("mouse released");
-					//int value = ((JSlider)e.getSource()).getValue();
-					//double perCent = (double) value / ((JSlider)e.getSource()).getMaximum();
-					//double perCentOfSong = value * 1000000 / duration;
+				System.out.println("timeSlider released");
+				timeSlider.setPressed(false);
+				if (e.getSource().equals(timeSlider) && timeSlider.isEnabled()) {
+//					final int value = timeSlider.getValue();
+//					System.out.println("mouse released; timeSlider.getValue() = " + value);
+//					seekToMs(value);
+					
+//					int value = ((JSlider)e.getSource()).getValue();
+//					double perCent = (double) value / ((JSlider)e.getSource()).getMaximum();
+//					double perCentOfSong = value * 1000000 / duration;
+					
 					int widthClicked = e.getPoint().x;
-
-					int widthOfProgressBar = progressBar.getSize().width;
+					int widthOfProgressBar = timeSlider.getSize().width;
 					double perCent = (double) widthClicked / (double) widthOfProgressBar;
-					seek(perCent);
+//					System.out.println("widthClicked="+widthClicked+"; widthOfProgressBar="+widthOfProgressBar);
+
+					if(perCent > 1.0) perCent = 1.0;
+					if(perCent < 0.0) perCent = 0.0;
+					
+					final int newTimeMicros = (int) (maxMicros * perCent);
+					System.out.println("perCent="+perCent+"% -> seeking to " + (newTimeMicros/1000)+"ms ("+TimeUtil.microSecondsToString(newTimeMicros)+")");
+					seekToMicros(newTimeMicros);
 				}
 			}
 		});
 		
 		final JPanel northPanel = new JPanel();
 		northPanel.add(this.lblTime);
-		northPanel.add(this.progressBar);
+		northPanel.add(this.timeSlider);
 		
 		final JPanel panel = new JPanel(new BorderLayout());
 		panel.add(northPanel, BorderLayout.NORTH);
@@ -199,9 +266,20 @@ public class ControlledApp extends JFrame {
 		Timer timer = new Timer();
 		timer.schedule(task, 0, 200);
 	}
+
+	private void seekToMicros(int microsecs) {
+		System.out.println("seeking to microsecs "+microsecs);
+		try {
+			player.setTime(microsecs); // timevalue == 1000000 (microseconds)
+		} catch (StdQTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	private void seek(double percent) {
-		final int newTime = (int) (maxMs * percent);
-		System.out.println("seeking to " +percent+"% -> " + newTime + " of " + maxMs);
+		final int newTime = (int) (maxMicros * percent);
+		System.out.println("seeking to " +percent+"% -> " + newTime + " of " + maxMicros);
 		try {
 //			movie.setTime(newTime);
 			player.setTime((int) Math.round(percent * 100)); // FIXME which value?

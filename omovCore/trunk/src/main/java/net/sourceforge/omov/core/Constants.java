@@ -35,7 +35,7 @@ public class Constants {
     private static final Color COLOR_WINDOW_BACKGROUND = new Color(196, 196, 196);
     
     /** misc purpose (eg used in doubletten dialog as row background*/
-    private static final Color COLOR_LIGHT_GRAY = new Color(192, 192, 192);
+    private static final Color COLOR_LIGHT_GRAY = new Color(210, 210, 210);
     
 //    /**  */
 //    private static final Color COLOR_VERY_LIGHT_GRAY = new Color(230, 230, 230);

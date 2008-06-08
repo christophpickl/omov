@@ -13,7 +13,7 @@ public final class LanguageUtil {
 	private static final Map<String, LanguageCode> MAP = new HashMap<String, LanguageCode>(2);
 	static {
 		MAP.put(LanguageCode.ENGLISH.getCode(), LanguageCode.ENGLISH);
-		MAP.put(LanguageCode.GERMAN.getCode(), LanguageCode.GERMAN);
+//		MAP.put(LanguageCode.GERMAN.getCode(), LanguageCode.GERMAN);
 	}
 
 	private static List<LanguageCode> languagesSorted;
@@ -60,8 +60,8 @@ public final class LanguageUtil {
 	
 	
     public static enum LanguageCode {
-    	ENGLISH("en", Locale.ENGLISH),
-    	GERMAN("de", Locale.GERMAN);
+    	ENGLISH("en", Locale.ENGLISH);
+//    	GERMAN("de", Locale.GERMAN);
     	
     	private final String code;
     	private final Locale locale;

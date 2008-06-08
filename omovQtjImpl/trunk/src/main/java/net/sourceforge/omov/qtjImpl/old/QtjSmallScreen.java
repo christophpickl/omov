@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.qtjImpl;
+package net.sourceforge.omov.qtjImpl.old;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -35,6 +35,8 @@ import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.ImageFactory.IconQuickView;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
+import net.sourceforge.omov.qtjImpl.QtjVideoController;
 import net.sourceforge.omov.qtjImpl.QtjVideoController.IQtjScreenListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoController.QtjState;
 

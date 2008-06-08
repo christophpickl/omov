@@ -22,6 +22,8 @@ package net.sourceforge.omov.core.util;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -37,6 +39,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 
 import net.sourceforge.omov.gui.dialogs.ErrorDialog;
@@ -222,4 +225,10 @@ public class SimpleGuiUtil {
 		list.add(item);
 		return item;
     }
+    
+    public static void paintCenteredBackgroundImage(Graphics g, JPanel panel, Image image) {
+		final int x = (int) ((panel.getSize().getWidth() - image.getWidth(panel)) / 2);
+		final int y = (int) ((panel.getSize().getHeight() - image.getHeight(panel)) / 2);
+		g.drawImage(image, x, y, panel);
+	}
 }

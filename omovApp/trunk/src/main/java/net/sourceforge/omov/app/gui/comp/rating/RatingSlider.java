@@ -34,6 +34,8 @@ public class RatingSlider extends JSlider {
     
     private static final long serialVersionUID = -4967962025253623550L;
 
+    private static final int VALUE_MIN = 0; // TODO refactor: write own Rating class
+    private static final int VALUE_MAX = 5;
     
     public RatingSlider(final int rating) {
         this(rating, null, null);
@@ -43,8 +45,8 @@ public class RatingSlider extends JSlider {
         this(rating, primaryColor, null);
     }
     public RatingSlider(final int rating, Color primaryColor, Color secondaryColor) {
-        super(0, 5, rating);
-        assert(rating >= 0 && rating <= 5) : "rating must be between 0-5 (was: "+rating+")!";
+        super(VALUE_MIN, VALUE_MAX, rating);
+        assert(rating >= VALUE_MIN && rating <= VALUE_MAX) : "rating must be between "+VALUE_MIN+"-"+VALUE_MAX+" (was: "+rating+")!";
 
         this.setEnabled(true);
         this.setOpaque(false);
@@ -61,7 +63,7 @@ public class RatingSlider extends JSlider {
     
     @Override
     public void setValue(int value) {
-        assert(value >= 0 && value <= 5) : "rating must be between 0-5 (was: "+value+")!";
+        assert(value >= VALUE_MIN && value <= VALUE_MAX) : "rating must be between "+VALUE_MIN+"-"+VALUE_MAX+" (was: "+value+")!";
         super.setValue(value);
     }
     

@@ -63,7 +63,7 @@ import net.sourceforge.omov.core.util.BrowserUtil;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.qtjApi.QtjVideoPlayerFactory;
+import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -186,7 +186,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
 		}
 		
     	try {
-    		QtjVideoPlayerFactory.newVideo(movie, movieFile).setVisible(true);
+    		QtjFactory.newQtjVideoPlayer(movie, movieFile).setVisible(true);
 //			new MoviePlayer(movie, movieFile, this.mainWindow).setVisible(true);
 		} catch (BusinessException e) {
 			LOG.error("Could not play movie file '"+movieFile.getAbsolutePath()+"'!", e);
@@ -434,7 +434,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
     }
     
     public void doPlayQuickView() {
-        assert(QtjVideoPlayerFactory.isQtjAvailable() == true);
+        assert(QtjFactory.isQtjAvailable() == true);
 
         final List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
         if(selectedMovies.size() == 0) {

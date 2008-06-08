@@ -30,8 +30,10 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
+import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.qtjImpl.old.QtjVideoPlayerImpl;
 import quicktime.QTException;
 import quicktime.app.view.MoviePlayer;
 import quicktime.app.view.QTFactory;
@@ -64,7 +66,7 @@ public class QtjVideoController {
 	
 	
 	
-	public QtjVideoController(QtjVideoPlayerImpl player, net.sourceforge.omov.core.bo.Movie movie, File movieFile) throws QTException {
+	public QtjVideoController(QtjVideoPlayerImpl player, net.sourceforge.omov.core.bo.Movie movie, File movieFile) throws QTException, BusinessException {
 		this.player = player;
 		this.movie = movie;
 		this.movieFile = movieFile;
@@ -203,8 +205,8 @@ public class QtjVideoController {
 	}
 
 	
-	private static Movie openQtMovie(File file) throws QTException {
-		QtjSessionInitializer.openSession();
+	private static Movie openQtMovie(File file) throws QTException, BusinessException {
+		QtjSessionManager.getInstance().openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(file));
 		return Movie.fromFile(openFile);
 	}

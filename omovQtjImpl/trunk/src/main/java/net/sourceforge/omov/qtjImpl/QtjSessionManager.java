@@ -19,6 +19,10 @@
 
 package net.sourceforge.omov.qtjImpl;
 
+import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.common.VersionMajorMinor;
+import net.sourceforge.omov.qtjApi.IQtjSessionManager;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -29,23 +33,34 @@ import quicktime.QTSession;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class QtjSessionInitializer {
+public class QtjSessionManager implements IQtjSessionManager {
 	
-    private static final Log LOG = LogFactory.getLog(QtjSessionInitializer.class);
+    private static final Log LOG = LogFactory.getLog(QtjSessionManager.class);
+    
+    private static final QtjSessionManager INSTANCE = new QtjSessionManager();
+    
+	private boolean isOpened = false;
 
-	private static boolean isOpened = false;
-
-	private static Integer javaVersion;
-	private static Integer majorVersion;
-	private static Integer minorVersion;
+	private Integer javaVersion;
+	private VersionMajorMinor quicktimeVersion;
 	
+	private QtjSessionManager() {
+		// singleton
+	}
 	
+	public static QtjSessionManager getInstance() {
+		return INSTANCE;
+	}
 	
-	public static void openSession() throws QTException {
+	public void openSession() throws BusinessException {
 		
 		if(isOpened == false) {
 			LOG.info("Opening quicktime session...");
-			QTSession.open();
+			try {
+				QTSession.open();
+			} catch (QTException e) {
+				throw new BusinessException("Could not open quicktime session!", e);
+			}
 			LOG.info("QT version: " + QTSession.getMajorVersion() + "." + QTSession.getMinorVersion() + " and Java version: " + QTSession.getJavaVersion());
 			
 			Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
@@ -67,7 +82,7 @@ public class QtjSessionInitializer {
 
 	
 	
-	public static int getJavaVersion() {
+	public int getJavaVersion() {
 		assert(isOpened == true);
 		
 		if(javaVersion == null) {
@@ -77,25 +92,17 @@ public class QtjSessionInitializer {
 		return javaVersion.intValue();
 	}
 	
+
 	// TODO QTJ check for qt version > 7.0 ?
-	public static int getQuicktimeMajorVersion() {
+	public VersionMajorMinor getQuicktimeVersion() {
 		assert(isOpened == true);
 		
-		if(majorVersion == null) {
+		if(quicktimeVersion == null) {
 			// getQTMajorVersion: This returns the major version of QuickTime
 			// getMajorVersion: This contains the version of QuickTime that is currently present
-			majorVersion = QTSession.getMajorVersion();
+			quicktimeVersion = new VersionMajorMinor(QTSession.getMajorVersion(), QTSession.getMinorVersion());
 		}
-		return majorVersion.intValue();
+		return quicktimeVersion;
 	}
 	
-	public static int getQuicktimeMinorVersion() {
-		assert(isOpened == true);
-		
-		if(minorVersion == null) {
-			minorVersion = QTSession.getMinorVersion();
-		}
-		
-		return minorVersion.intValue();
-	}
 }
