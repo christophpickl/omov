@@ -25,7 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.gui.CoreImageFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,7 +39,7 @@ public class BrushedMetalPanel extends TiledImagePanel {
     private static final Log LOG = LogFactory.getLog(BrushedMetalPanel.class);
     private static final long serialVersionUID = -8717131766395076544L;
 
-    private static Image image = ImageFactory.getInstance().getImgBrushed();
+    private static Image image = CoreImageFactory.getInstance().getImgBrushed();
 
     public static void main(String[] args) {
         try {

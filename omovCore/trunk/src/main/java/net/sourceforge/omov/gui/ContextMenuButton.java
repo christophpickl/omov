@@ -22,18 +22,13 @@ package net.sourceforge.omov.gui;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 
 /**
@@ -51,8 +46,8 @@ public class ContextMenuButton extends JButton {
 	 * @param popupItems if added a null-value in list -> will add a separator line
 	 * @param listener attache dto every menu item; can be null
 	 */
-	public ContextMenuButton(List<JMenuItem> popupItems, ActionListener listener) { // TODO check if guisafe actionlistener
-		super(ImageFactory.getInstance().getContextMenuButton());
+	public ContextMenuButton(Icon icon, List<JMenuItem> popupItems, ActionListener listener) { // TODO check if guisafe actionlistener
+		super(icon);
 		
 		this.setBorderPainted(false);
 		SimpleGuiUtil.enableHandCursor(this);
@@ -88,34 +83,34 @@ public class ContextMenuButton extends JButton {
 	
 
 
-	public static void main(String[] args) {
-		
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-		GuiActionListener al = new GuiActionListener() {
-			public void action(ActionEvent e) {
-				System.out.println("cmb clicked: " + e.getActionCommand());
-			}
-		};
-		
-		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
-		JMenuItem item1 = new JMenuItem("Open");
-		JMenuItem item2 = new JMenuItem("Save");
-		item1.addActionListener(al);
-		item2.addActionListener(al);
-		popupItems.add(item1);
-		popupItems.add(item2);
-		
-		JPanel p = new JPanel();
-		p.add(new JLabel("press me"));
-		ContextMenuButton cmb = new ContextMenuButton(popupItems, null);
-		p.add(cmb);
-		
-		
-		f.add(p);
-		f.setSize(300, 200);
-		SimpleGuiUtil.setCenterLocation(f);
-		f.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		
+//		JFrame f = new JFrame();
+//		f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+//
+//		GuiActionListener al = new GuiActionListener() {
+//			public void action(ActionEvent e) {
+//				System.out.println("cmb clicked: " + e.getActionCommand());
+//			}
+//		};
+//		
+//		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
+//		JMenuItem item1 = new JMenuItem("Open");
+//		JMenuItem item2 = new JMenuItem("Save");
+//		item1.addActionListener(al);
+//		item2.addActionListener(al);
+//		popupItems.add(item1);
+//		popupItems.add(item2);
+//		
+//		JPanel p = new JPanel();
+//		p.add(new JLabel("press me"));
+//		ContextMenuButton cmb = new ContextMenuButton(xyz, popupItems, null);
+//		p.add(cmb);
+//		
+//		
+//		f.add(p);
+//		f.setSize(300, 200);
+//		SimpleGuiUtil.setCenterLocation(f);
+//		f.setVisible(true);
+//	}
 }

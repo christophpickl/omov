@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
 public class SelectableContextMenuButton extends ContextMenuButton {
@@ -18,8 +19,8 @@ public class SelectableContextMenuButton extends ContextMenuButton {
 	private final Map<String, JMenuItem> menuItemByCmd = new HashMap<String, JMenuItem>();
 	
 	
-	public SelectableContextMenuButton(List<JMenuItem> popupItems, ActionListener clickedListener) {
-		super(popupItems, clickedListener);
+	public SelectableContextMenuButton(Icon icon, List<JMenuItem> popupItems, ActionListener clickedListener) {
+		super(icon, popupItems, clickedListener);
 		
 		final GuiActionListener changeListener =  new GuiActionListener() {
 			public void action(ActionEvent event) {

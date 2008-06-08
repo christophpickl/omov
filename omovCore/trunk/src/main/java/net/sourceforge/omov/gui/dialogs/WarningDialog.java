@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.gui.CoreImageFactory;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
@@ -118,7 +118,7 @@ public class WarningDialog extends JDialog {
 
 		JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		westPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
-		westPanel.add(new JLabel(ImageFactory.getInstance().getDialogWarning()));
+		westPanel.add(new JLabel(CoreImageFactory.getInstance().getDialogWarning()));
 
 		final JPanel centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		centerPanel.add(contentPanel);
