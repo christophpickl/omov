@@ -31,14 +31,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.ImageFactory;
-import net.sourceforge.omov.core.ImageFactory.IconQuickView;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
-import net.sourceforge.omov.qtjImpl.QtjVideoController;
-import net.sourceforge.omov.qtjImpl.QtjVideoController.IQtjScreenListener;
-import net.sourceforge.omov.qtjImpl.QtjVideoController.QtjState;
+import net.sourceforge.omov.qtjImpl.QtjImageFactory;
+import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
+import net.sourceforge.omov.qtjImpl.old.QtjVideoController.IQtjScreenListener;
+import net.sourceforge.omov.qtjImpl.old.QtjVideoController.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,11 +59,11 @@ public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants,
 	private static final String CMD_FULLSCREEN = "CMD_FULLSCREEN";
 	private static final String CMD_CLOSE = "CMD_CLOSE";
 	
-	private static final ImageIcon ICON_CLOSE_MINI = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_CLOSE_MINI);
-	private static final ImageIcon ICON_PLAY = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_PLAY);
-	private static final ImageIcon ICON_PAUSE = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_PAUSE);
-	private static final ImageIcon ICON_BACK = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_BACK);
-	private static final ImageIcon ICON_FULLSCREEN = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_FULLSCREEN);
+	private static final ImageIcon ICON_CLOSE_MINI = QtjImageFactory.getInstance().getCloseMini();
+	private static final ImageIcon ICON_PLAY = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.PLAY);
+	private static final ImageIcon ICON_PAUSE = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.PAUSE);
+	private static final ImageIcon ICON_BACK = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.BACK);
+	private static final ImageIcon ICON_FULLSCREEN = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.FULLSCREEN);
 	
 	
 	private final QtjVideoController controller;

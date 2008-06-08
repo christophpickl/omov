@@ -19,6 +19,10 @@
 
 package net.sourceforge.omov.qtjImpl;
 
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
+
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.IVideoPlayerListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 import net.sourceforge.omov.qtjImpl.floater.IQtjFloaterListener;
@@ -40,14 +44,27 @@ public class QtjFullScreenX implements IVideoPlayerListener, IQtjFloaterListener
 	private final QtjVideoPlayerImplX player;
 	private final QtjFloater floater;
 	
+	private static final Cursor DEFAULT_CURSOR = new Cursor(Cursor.DEFAULT_CURSOR);
+	private static final Cursor HIDDEN_CURSOR;
+	static {
+		HIDDEN_CURSOR = Toolkit.getDefaultToolkit().createCustomCursor(
+				QtjImageFactory.getInstance().getTransparentPixelImage(), new Point(0, 0), "");
+	}
+	
+	
 	public QtjFullScreenX(QtjVideoPlayerImplX player) {
 		LOG.debug("Creating new QtjFullScreenX instance.");
 		this.player = player;
+		this.player.addVideoPlayerListener(this);
 		this.floater = new QtjFloater(this.player, this.player, this);
 	}
 
 	public QtjFloater getFloater() {
 		return this.floater;
+	}
+	
+	void startFloaterFadeoutThread() {
+		this.floater.startFadeOutThread();
 	}
 
 	public void stateChanged(QtjState state) {
@@ -60,5 +77,20 @@ public class QtjFullScreenX implements IVideoPlayerListener, IQtjFloaterListener
 
 	public void doPlayPause() {
 		this.player.doPlayPause();
+	}
+
+	public void didHide() {
+		if(this.player.isFullScreenMode() == true) {
+			LOG.debug("Hiding Cursor");
+			this.player.setCursor(HIDDEN_CURSOR);
+		} else {
+			this.didShow();
+		}
+		
+	}
+	
+	public void didShow() {
+		LOG.debug("Showing Cursor");
+		this.player.setCursor(DEFAULT_CURSOR);
 	}
 }

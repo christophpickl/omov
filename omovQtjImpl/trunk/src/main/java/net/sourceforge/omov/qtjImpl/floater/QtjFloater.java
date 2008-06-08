@@ -21,6 +21,7 @@ package net.sourceforge.omov.qtjImpl.floater;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -34,6 +35,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -99,7 +101,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		this.addMouseListener(this);
 		this.initComponents();
 		this.setOpaque(true);
-		this.opacityChanged(this.opacity.getValue());
+		this.opacityChanged(this.opacity.getValue(), true);
 		
 		final Dimension dim = new Dimension(600, 40);
 		this.setPreferredSize(dim);
@@ -125,7 +127,8 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 //		this.add(btnPlayPause);
 	}
 
-	void opacityChanged(int opacity) {
+	void opacityChanged(int opacity, boolean firstTime) {
+//		System.out.println("opacity = " + opacity + " (firstTime="+firstTime+")");
 		final Color fg = OPACITY_MAP.get(OPAC_COLOR_FRONT).get(opacity);
 		final Color bg = OPACITY_MAP.get(OPAC_COLOR_BACK).get(opacity);
 		assert(fg != null && bg != null);
@@ -136,6 +139,10 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		
 		this.frame.invalidate();
 		this.frame.repaint();
+		
+		if(opacity == 0 && firstTime == false) {
+			this.listener.didHide();
+		}
 	}
 	
 	public void setPlayPauseButton(QtjState state) {
@@ -145,7 +152,11 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 	
 	
 	
-	
+	public void startFadeOutThread() {
+		LOG.debug("Creating new FadeOutThread.");
+		thread = new FadeOutThread(this.lifetime, this.opacity);
+		thread.start();
+	}
 	
     public void mouseMoved(MouseEvent e) {
     	if(this.isMouseEntered == true || this.player.isFullScreenMode() == false) return;
@@ -155,15 +166,14 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		this.opacity.reset();
 		
 		if(thread == null || thread.getState() == State.TERMINATED) {
-			LOG.debug("Creating new FadeOutThread.");
-			thread = new FadeOutThread(this.lifetime, this.opacity);
-			thread.start();
+			this.startFadeOutThread();
+			this.listener.didShow(); // TODO QTJ - should this line also be moved into startFadeOutThread???
 		}
 	}
 
 	public void mouseEntered(MouseEvent e) {
 		if(this.player.isFullScreenMode() == false) return;
-		
+		// MINOR QTJ - will be invoked at very first time, therefore thread.shouldStop will be invoked and fadeOutThread will NOT decrease opacity!
 		LOG.debug("mouseEntered");
 		this.isMouseEntered = true;
 		if(this.thread != null) {

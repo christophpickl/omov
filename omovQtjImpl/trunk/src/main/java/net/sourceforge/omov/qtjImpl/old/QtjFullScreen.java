@@ -25,7 +25,6 @@ import java.awt.Dimension;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
-import net.sourceforge.omov.qtjImpl.QtjVideoController;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

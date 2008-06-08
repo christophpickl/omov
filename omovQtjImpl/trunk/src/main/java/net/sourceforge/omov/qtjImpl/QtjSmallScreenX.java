@@ -26,6 +26,7 @@ import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -36,12 +37,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.ImageFactory;
-import net.sourceforge.omov.core.ImageFactory.IconQuickView;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.core.util.TimeUtil;
+import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.IVideoPlayerListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 
@@ -63,27 +65,53 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 	private static final String CMD_BACK = "CMD_BACK";
 	private static final String CMD_CLOSE = "CMD_CLOSE";
 	private static final String CMD_FULLSCREEN = "CMD_FULLSCREEN";
+	private static final String CMD_BACKWARD = "CMD_BACKWARD";
+	private static final String CMD_FORWARD  = "CMD_FORWARD";
 	
-	private static final ImageIcon ICON_BACK = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_BACK);
-	private static final ImageIcon ICON_FULLSCREEN = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_FULLSCREEN);
-	private static final ImageIcon ICON_CLOSE_MINI = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_CLOSE_MINI);
-	private static final ImageIcon ICON_PLAY = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_PLAY);
-	private static final ImageIcon ICON_PAUSE = ImageFactory.getInstance().getIcon(IconQuickView.BUTTON_PAUSE);
+	private static final ImageIcon ICON_BACK = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.BACK);
+	private static final ImageIcon ICON_FULLSCREEN = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.FULLSCREEN);
+	private static final ImageIcon ICON_CLOSE_MINI = QtjImageFactory.getInstance().getCloseMini();
+	private static final ImageIcon ICON_PLAY = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.PLAY);
+	private static final ImageIcon ICON_PAUSE = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.PAUSE);
+	private static final ImageIcon ICON_BACKWARD = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.BACKWARD);
+	private static final ImageIcon ICON_FORWARD = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.FORWARD);
 
 	private final QtjVideoPlayerImplX player;
 	
 	private final JButton btnFullScreen = new JButtonUnfocusable(ICON_FULLSCREEN);
 	private final JButton btnPlayPause = new JButtonUnfocusable(ICON_PLAY);
 	private final JButton btnBack = new JButtonUnfocusable(ICON_BACK);
+	private final JButton btnBackward = new JButtonUnfocusable(ICON_BACKWARD);
+	private final JButton btnForward = new JButtonUnfocusable(ICON_FORWARD);
 
+	private final MySlider timeSlider = new MySlider();
+	private static class MySlider extends JSlider {
+		private static final long serialVersionUID = 1L;
+		private boolean pressed;
+		public void setPressed(boolean pressed) {
+			this.pressed = pressed;
+		}
+		public boolean isPressed() {
+			return this.pressed;
+		}
+	}
+	
+	
 	private final JPanel northPanel;
 	private final JPanel southPanel;
 
 	private Point startDrag;
 	private Point startLocation;
 	
+	private final int movieTimeMaxInMicros;
+
+	private final JLabel lblTime = new JLabel("");
+	
+	
 	public QtjSmallScreenX(QtjVideoPlayerImplX player) {
 		this.player = player;
+		this.player.addVideoPlayerListener(this);
+		this.movieTimeMaxInMicros = this.player.getMovieTimeMaxInMicros();
 		this.northPanel = this.newNorthPanel();
 		this.southPanel = this.newSouthPanel();
 	}
@@ -135,30 +163,99 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		this.btnFullScreen.setActionCommand(CMD_FULLSCREEN);
 		this.btnPlayPause.setActionCommand(CMD_PLAY_PAUSE);
 		this.btnBack.setActionCommand(CMD_BACK);
+		this.btnBackward.setActionCommand(CMD_BACKWARD);
+		this.btnForward.setActionCommand(CMD_FORWARD);
 		
 		this.btnFullScreen.setToolTipText("Fullscreen");
 		this.btnPlayPause.setToolTipText("Play/Pause");
 		this.btnBack.setToolTipText("Back");
+		this.btnBackward.setToolTipText("Seek Backward");
+		this.btnForward.setToolTipText("Seek Forward");
 		
 		this.btnFullScreen.setBorderPainted(false);
 		this.btnPlayPause.setBorderPainted(false);
 		this.btnBack.setBorderPainted(false);
+		this.btnBackward.setBorderPainted(false);
+		this.btnForward.setBorderPainted(false);
 		
+		
+		
+		this.timeSlider.addMouseListener(new MouseAdapter() {
+			public void mousePressed(final MouseEvent e) {
+				LOG.debug("timeSlider pressed");
+				timeSlider.setPressed(true);
+			}
+			public void mouseReleased(final MouseEvent e) {
+				LOG.debug("timeSlider released");
+				timeSlider.setPressed(false);
+				if (e.getSource().equals(timeSlider) && timeSlider.isEnabled()) {
+//					final int value = timeSlider.getValue();
+//					System.out.println("mouse released; timeSlider.getValue() = " + value);
+//					seekToMs(value);
+					
+//					int value = ((JSlider)e.getSource()).getValue();
+//					double perCent = (double) value / ((JSlider)e.getSource()).getMaximum();
+//					double perCentOfSong = value * 1000000 / duration;
+					
+					int widthClicked = e.getPoint().x;
+					int widthOfProgressBar = timeSlider.getSize().width;
+					double perCent = (double) widthClicked / (double) widthOfProgressBar;
+//					System.out.println("widthClicked="+widthClicked+"; widthOfProgressBar="+widthOfProgressBar);
+
+					if(perCent > 1.0) perCent = 1.0;
+					if(perCent < 0.0) perCent = 0.0;
+					
+					final int newTimeMicros = (int) (movieTimeMaxInMicros * perCent);
+					LOG.debug("perCent="+perCent+"% -> seeking to " + (newTimeMicros/1000)+"ms ("+TimeUtil.microSecondsToString(newTimeMicros)+")");
+					player.doSeek(newTimeMicros);
+				}
+			}
+		});
+		
+		this.timeSlider.setFocusable(false);
+		this.timeSlider.setValue(0);
+		this.timeSlider.setMaximum(movieTimeMaxInMicros);
+		
+		
+
+		this.btnPlayPause.addActionListener(this);
+		this.btnBackward.addActionListener(this);
+		this.btnForward.addActionListener(this);
+		this.btnBack.addActionListener(this);
 		if(this.player.getDisplay() == null) {
 			this.btnFullScreen.setEnabled(false);
-			this.btnPlayPause.setEnabled(false);
-			this.btnBack.setEnabled(false);
+//			this.btnPlayPause.setEnabled(false); ... sollte eigentlich zum loeschen gehen (?)
+//			this.btnBack.setEnabled(false);
 		} else {
 			this.btnFullScreen.addActionListener(this);
-			this.btnPlayPause.addActionListener(this);
-			this.btnBack.addActionListener(this);
 		}
 
-//		panel.add(this.btnBack); // TODO QTJ GUI - implement controller buttons for smallscreen
+		panel.add(this.btnBack);
+		panel.add(this.btnBackward);
 		panel.add(this.btnPlayPause);
+		panel.add(this.btnForward);
 		panel.add(this.btnFullScreen);
+		panel.add(this.timeSlider);
+		this.updateLblTime(0);
+		panel.add(this.lblTime);
 		
 		return panel;
+	}
+	
+	private void updateLblTime(final int curMs) {
+		this.lblTime.setText(TimeUtil.microSecondsToString(curMs) + " / " + this.player.getMovieTimeMaxFormatted());
+	}
+	
+	void updateUi() {
+		if(timeSlider.isPressed()) {
+//			System.out.println("updateTimeUi aborting; timeSlider.isPressed == true");
+			updateLblTime(timeSlider.getValue());
+			return;
+		}
+
+		final int curMs = this.player.getMovieCurrentTimeInMicros();
+		this.updateLblTime(curMs);
+		this.timeSlider.setValue(curMs);
 	}
 
 	public void actionPerformed(final ActionEvent e) {
@@ -168,12 +265,21 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 				final String cmd = e.getActionCommand();
 				if(cmd.equals(CMD_CLOSE)) {
 					player.doClose();
+					
 				} else if(cmd.equals(CMD_FULLSCREEN)) {
 					player.doSwitchFullscreen();
+					
 				} else if(cmd.equals(CMD_PLAY_PAUSE)) {
 					player.doPlayPause();
+					
 				} else if(cmd.equals(CMD_BACK)) {
-					player.doBack();
+					player.doSeekBeginning();
+					
+				} else if(cmd.equals(CMD_BACKWARD)) {
+					player.doSeekBackward();
+					
+				} else if(cmd.equals(CMD_FORWARD)) {
+					player.doSeekForward();
 				} else {
 					throw new IllegalArgumentException("Unhandled action command '"+cmd+"'!");
 				}
@@ -236,7 +342,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 	}
 
 	public void stateChanged(QtjState state) {
-		LOG.debug("state changed to " + state);
+		LOG.debug("state changed to: " + state);
 		this.btnPlayPause.setIcon(state == QtjState.PAUSE ? ICON_PLAY: ICON_PAUSE);
 	}
 }

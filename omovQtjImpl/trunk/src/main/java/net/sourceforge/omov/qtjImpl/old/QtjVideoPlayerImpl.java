@@ -35,7 +35,6 @@ import javax.swing.JWindow;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
-import net.sourceforge.omov.qtjImpl.QtjVideoController;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

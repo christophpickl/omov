@@ -53,7 +53,8 @@ public class FadeOutThread extends Thread {
 	public void run() {
 		LOG.info("Fadeout thread is running ...");
 		
-		while(isShouldStop == false && (lifetime.isMinValue() == false || opacity.isMinValue() == false)) {
+		while(isShouldStop == false &&
+			 (lifetime.isMinValue() == false || opacity.isMinValue() == false)) {
 //			System.out.println("thread: lifetime="+lifetime+"; opacity="+opacity);
 			
 			if(lifetime.isMinValue() == false) {
@@ -69,6 +70,6 @@ public class FadeOutThread extends Thread {
 				LOG.warn("Thread was interrupted.", e);
 			}
 		}
-		LOG.info("Fadeout thread is dying.");
+		LOG.info("Fadeout thread is dying (isShouldStop="+isShouldStop+"; lifetime="+lifetime+"; opacity="+opacity+").");
 	}
 }

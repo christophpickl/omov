@@ -26,5 +26,8 @@ package net.sourceforge.omov.qtjImpl.floater;
 public interface IQtjFloaterListener {
 
 	void doPlayPause();
+
+	void didShow();
 	
+	void didHide();
 }

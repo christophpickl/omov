@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.qtjImpl;
+package net.sourceforge.omov.qtjImpl.old;
 
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -33,7 +33,8 @@ import javax.swing.JComponent;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.qtjImpl.old.QtjVideoPlayerImpl;
+import net.sourceforge.omov.qtjImpl.QtjSessionManager;
+import net.sourceforge.omov.qtjImpl.QtjUtil;
 import quicktime.QTException;
 import quicktime.app.view.MoviePlayer;
 import quicktime.app.view.QTFactory;

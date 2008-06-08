@@ -29,6 +29,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
@@ -39,6 +43,7 @@ import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
+import net.sourceforge.omov.core.util.TimeUtil;
 import net.sourceforge.omov.core.util.SimpleGuiUtil.GlobalKey;
 import net.sourceforge.omov.core.util.SimpleGuiUtil.IGlobalKeyListener;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
@@ -64,11 +69,17 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerImplX.class);
 	private static final long serialVersionUID = -7527249992554309045L;
 
+	private static final int QTJ_TIME_SCALE = 1000000; // in micro seconds
+	
+	
 	// TODO QTJ - when close-shortcut hit, close window (win: alt-f4, mac: cmd-w); also leave fullscreen if esc hit
-
+	// TODO QTJ features: volume +/-, mute, switch double size in smallscreen, +/- 10secs 
 	
 	private final net.sourceforge.omov.core.bo.Movie movie;
+	
 	private Movie qtMovie;
+	private MoviePlayer player;
+	
 	private File movieFile;
 	private boolean fullScreenMode = false;
 	private boolean isMoviePlaying = false;
@@ -81,7 +92,9 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 	private final QtjFullScreenX fullScreen;
 	private final QtjSmallScreenX smallScreen;
 
-	
+
+	private int movieTimeMaxInMicros;
+	private String movieTimeMaxFormatted;
 	
 //	private final JPanel southPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 4, 0));
 //	private final QtjVideoController controller = new QtjVideoController(this);
@@ -114,7 +127,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] devices = env.getScreenDevices();
-        this.display = devices[0];
+        this.display = devices[0]; // MINOR QTJ - make fullscreen display selectable if screens.count > 1
         if(display.isFullScreenSupported() == false) {
         	this.display = null;
         }
@@ -135,8 +148,8 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.pack();
 		SimpleGuiUtil.setCenterLocation(this);
 		
-		this.addMouseListener(this.smallScreen);
-		this.addMouseMotionListener(this.smallScreen);
+		this.wrapPanel.addMouseListener(this.smallScreen);
+		this.wrapPanel.addMouseMotionListener(this.smallScreen);
 
 		this.qtjComponent.addMouseListener(this.smallScreen);
 		this.qtjComponent.addMouseMotionListener(this.smallScreen);
@@ -147,6 +160,36 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.wrapPanel.addMouseListener(this);
 		
 		SimpleGuiUtil.addGlobalKeyListener((JPanel) this.getContentPane(), this);
+		
+		
+
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+//				System.out.println("Running update UI task.");
+				updateUi();
+			}
+		};
+		Timer timer = new Timer();
+		timer.schedule(task, 0, 200);
+	}
+	
+	private void updateUi() {
+
+		try {
+			if(this.getMovieCurrentTimeInMicros() == this.movieTimeMaxInMicros && this.isMoviePlaying == true) {
+				LOG.debug("EndOfVideo -> stop()");
+				this.qtMovie.stop();
+				this.isMoviePlaying = false;
+				this.broadcastStateChanged(QtjState.PAUSE);
+			}
+		} catch (QTException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
+		this.smallScreen.updateUi();
 	}
 	
 	public void doKeyPressed(GlobalKey key) {
@@ -190,8 +233,6 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		final JPanel northPanelMargin = new JPanel();
 		final Dimension northPanelSize = new Dimension(800, marginTop);
 		northPanelMargin.setOpaque(false);
-//		northPanelMargin.setOpaque(true);
-//		northPanelMargin.setBackground(Color.GREEN);
 		northPanelMargin.setMinimumSize(northPanelSize);
 		northPanelMargin.setMaximumSize(northPanelSize);
 		northPanelMargin.setPreferredSize(northPanelSize);
@@ -206,6 +247,8 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.wrapPanel.add(panel);
 		this.wrapPanel.invalidate();
 		this.wrapPanel.repaint();
+		
+		this.fullScreen.startFloaterFadeoutThread();
 	}
 	
 	
@@ -217,7 +260,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.wrapPanel.removeAll();
 		final JPanel panel = new JPanel(new BorderLayout(0, 0));
 		panel.setOpaque(false);
-		panel.setBorder(BorderFactory.createEmptyBorder(4, 10, 10, 10));
+		panel.setBorder(BorderFactory.createEmptyBorder(4, 6, 6, 6));
 		panel.add(this.smallScreen.getNorthPanel(), BorderLayout.NORTH);
 		panel.add(this.qtjComponent, BorderLayout.CENTER);
 		panel.add(this.smallScreen.getSouthPanel(), BorderLayout.SOUTH);
@@ -226,19 +269,34 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.wrapPanel.repaint();
 	}
 
+	int getMovieTimeMaxInMicros() {
+		return this.movieTimeMaxInMicros;
+	}
+	String getMovieTimeMaxFormatted() {
+		return this.movieTimeMaxFormatted;
+	}
 	
 	private JComponent initQuicktimePlayer(File movieFile) throws QTException, BusinessException {
 		QtjSessionManager.getInstance().openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(movieFile));
 		this.qtMovie = Movie.fromFile(openFile);
+		this.qtMovie.setTimeScale(QTJ_TIME_SCALE);
 		
 //		MovieController controller = new MovieController(qtMovie);
 //		QTComponent qtControllerComponent = QTFactory.makeQTComponent(controller);
 //		Component controllerComponent = qtControllerComponent.asComponent();
 ////	controller.setKeysEnabled(true); // enabling the keys so the user can interact with the movie with the keyboard
 		
-		MoviePlayer player = new MoviePlayer(qtMovie);
-		QTJComponent qtPlayercomponent = QTFactory.makeQTJComponent(player);
+		this.player = new MoviePlayer(qtMovie);
+		
+		this.movieTimeMaxInMicros = player.getTimeBase().getStopTime();
+		this.movieTimeMaxFormatted = TimeUtil.microSecondsToString(this.movieTimeMaxInMicros);
+		
+		
+		
+		// GUI part
+		// ---------
+		QTJComponent qtPlayercomponent = QTFactory.makeQTJComponent(this.player);
 		
 		JComponent playerComponent = qtPlayercomponent.asJComponent();
 		
@@ -253,9 +311,6 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 			}
 		});
 		
-//		final JPanel panel = new JPanel(new BorderLayout());
-//		panel.add(playerComponent, BorderLayout.CENTER);
-//		panel.add(controllerComponent, BorderLayout.SOUTH);
 		return playerComponent;
 	}
 	
@@ -278,13 +333,52 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		}
 			
 		this.isMoviePlaying = !this.isMoviePlaying;
-		this.smallScreen.stateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
-		this.fullScreen.stateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
+		this.broadcastStateChanged(this.isMoviePlaying ? QtjState.PLAY : QtjState.PAUSE);
 	}
 
+	int getMovieCurrentTimeInMicros() {
+		try {
+			return this.player.getTimeBase().getTime();
+		} catch (QTException e) {
+			throw new FatalException("QuickView error while getting TimeBase.time!", e);
+		}
+	}
+
+	void doSeekBeginning() {
+		this.doSeek(0);
+	}
+
+	void doSeekForward() {
+		LOG.debug("doSeekForward");
+		this.doSeekBackForward(false);
+	}
+
+	void doSeekBackward() {
+		LOG.debug("doSeekBackward");
+		this.doSeekBackForward(true);
+	}
+	private static final int SEEK_BACK_FORWARD_MICROSECONDS = 5 * 1000000;
+	private void doSeekBackForward(final boolean isBackward) {
+		final int curMs = this.getMovieCurrentTimeInMicros();
+		
+		int targetMs;
+		if(isBackward) targetMs = curMs - SEEK_BACK_FORWARD_MICROSECONDS;
+		else targetMs = curMs + SEEK_BACK_FORWARD_MICROSECONDS;
+		
+		if(targetMs < 0) targetMs = 0;
+		if(targetMs > this.getMovieTimeMaxInMicros()) targetMs = this.getMovieTimeMaxInMicros();
+		
+		this.doSeek(targetMs);
+	}
 	
-	void doBack() {
-		// TODO QTJ - implement doBack()
+	void doSeek(int microseconds) {
+		LOG.debug("doSeek(microseconds="+microseconds+")");
+		try {
+			this.player.setTime(microseconds);
+		} catch (StdQTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	void doClose() {
@@ -316,8 +410,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 			this.setSize(this.previousSize);
 		}
 		
-		this.smallScreen.switchedFullscreen(this.fullScreenMode);
-		this.fullScreen.switchedFullscreen(this.fullScreenMode);
+		this.broadcastSwitchedFullscreen(this.fullScreenMode);
 
 		if(this.fullScreenMode) {
 			this.initComponentsFullscreen();
@@ -326,11 +419,31 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		}
 	}
 	
-	
+
+	// -------------------------- START LISTENER
 	static interface IVideoPlayerListener {
 		void switchedFullscreen(boolean fullscreen);
 		void stateChanged(QtjState state);
 	}
+	private final Set<IVideoPlayerListener> listeners = new HashSet<IVideoPlayerListener>();
+	public void addVideoPlayerListener(IVideoPlayerListener listener) {
+		this.listeners.add(listener);
+	}
+	public boolean removeVideoPlayerListener(IVideoPlayerListener listener) {
+		return this.listeners.remove(listener);
+	}
+	private void broadcastStateChanged(QtjState state) {
+		for (IVideoPlayerListener listener : this.listeners) {
+			listener.stateChanged(state);
+		}
+	}
+	private void broadcastSwitchedFullscreen(boolean fullscreen) {
+		for (IVideoPlayerListener listener : this.listeners) {
+			listener.switchedFullscreen(fullscreen);
+		}
+	}
+	// -------------------------- END LISTENER
+	
 	public enum QtjState {
 		PLAY, PAUSE;
 	}

@@ -41,12 +41,12 @@ class Opacity {
 	}
 	public synchronized void decrease() {
 		this.value -= 10;
-		listener.opacityChanged(this.value);
+		listener.opacityChanged(this.value, false);
 	}
 	/** sets to MAX */
 	public synchronized void reset() {
 		this.value = 100;
-		listener.opacityChanged(this.value);
+		listener.opacityChanged(this.value, false);
 	}
 	public String toString() {
 		return "" + value;
