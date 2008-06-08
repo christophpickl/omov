@@ -20,7 +20,7 @@ public class TimeUtil {
 		return StringUtil.getString(
 				hours, ":",
 				(minutes < 10 ? "0" : ""),
-				minutes,
+				minutes, ":",
 				(seconds < 10 ? "0" : ""),
 				seconds);
 	}

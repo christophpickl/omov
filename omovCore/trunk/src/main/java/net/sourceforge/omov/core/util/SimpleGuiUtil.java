@@ -19,11 +19,15 @@
 
 package net.sourceforge.omov.core.util;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -230,5 +234,19 @@ public class SimpleGuiUtil {
 		final int x = (int) ((panel.getSize().getWidth() - image.getWidth(panel)) / 2);
 		final int y = (int) ((panel.getSize().getHeight() - image.getHeight(panel)) / 2);
 		g.drawImage(image, x, y, panel);
+	}
+    
+
+	public static void paintGradient(Graphics2D g2, Color colorTop, Color colorBottom, Dimension size) {
+		final float x1 = 0;
+		final float y1 = 0;
+		final float x2 = 0;
+		final float y2 = size.height;
+		final GradientPaint gp = new GradientPaint(x1, y1, colorTop, x2, y2, colorBottom, false);
+		g2.setPaint(gp);
+
+		final Rectangle r = new Rectangle(size.width, size.height);
+		g2.fill(r);
+		g2.draw(r);
 	}
 }
