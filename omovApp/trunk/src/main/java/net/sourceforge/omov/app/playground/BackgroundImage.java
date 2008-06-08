@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.util.GuiUtil;
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.app.util.AppImageFactory;
 
 public class BackgroundImage {
 	
@@ -20,7 +20,7 @@ public class BackgroundImage {
 	
 	private static class PanelX extends JPanel {
 		private static final long serialVersionUID = 1L;
-		private final Image image = ImageFactory.getInstance().getAboutLogo().getImage();
+		private final Image image = AppImageFactory.getInstance().getAboutLogo().getImage();
 		public PanelX() {
 			this.add(new JLabel("PanelX"));
 		}

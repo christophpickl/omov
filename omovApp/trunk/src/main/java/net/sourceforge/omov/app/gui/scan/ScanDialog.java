@@ -55,10 +55,11 @@ import javax.swing.table.TableColumn;
 
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
+import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.Icon16x16;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
@@ -137,7 +138,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
         new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
 
@@ -185,7 +186,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
     private JPanel panelNorth() {
     	
     	// draw background image
-    	final Image img = ImageFactory.getInstance().getBigScanImage();
+    	final Image img = AppImageFactory.getInstance().getBigScanImage();
     	final JPanel panelCenter = new JPanel(new BorderLayout()) {
 			private static final long serialVersionUID = 0L;
     	    @Override
@@ -219,7 +220,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 	    	// - 
 	    	// 
 	    	this.itemPrepareFolder.setEnabled(false); //initially disabled
-	    	this.btnAdvancedOptions = new ContextMenuButton(advancedOptions, this.controller);
+	    	this.btnAdvancedOptions = new OmovContextMenuButton(advancedOptions, this.controller);
 	    	this.btnAdvancedOptions.setOpaque(false);
 	    	final JPanel panelCenterSouth = new JPanel(new FlowLayout(FlowLayout.LEFT));
 	    	panelCenterSouth.setOpaque(false);

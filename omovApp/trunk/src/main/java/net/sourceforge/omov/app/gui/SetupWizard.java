@@ -41,9 +41,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.UserSniffer;
@@ -115,7 +115,7 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
     private JPanel panelNorth() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         panel.setBackground(Color.WHITE);
-        final JLabel lbl = new JLabel(ImageFactory.getInstance().getSetupWizardBanner(), JLabel.RIGHT);
+        final JLabel lbl = new JLabel(AppImageFactory.getInstance().getSetupWizardBanner(), JLabel.RIGHT);
         panel.add(lbl);
         return panel;
     }

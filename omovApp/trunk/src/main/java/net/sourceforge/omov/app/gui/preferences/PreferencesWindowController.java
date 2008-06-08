@@ -27,9 +27,9 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.app.util.AppImageFactory.PrefToolBarIcon;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
-import net.sourceforge.omov.core.ImageFactory.PrefToolBarIcon;
 import net.sourceforge.omov.core.tools.FileSystemChecker;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -47,6 +47,7 @@ public class PreferencesWindowController implements ActionListener {
 
     static final String CMD_PANE_GENERAL = "CMD_PANE_GENERAL";
     static final String CMD_PANE_QUICKVIEW = "CMD_PANE_QTJ";
+    static final String CMD_PANE_ADVANCED = "CMD_PANE_ADVANCED";
 
     static final String CMD_CLEAR_PREFERENCES = "CMD_CLEAR_PREFERENCES";
     static final String CMD_CHECK_VERSION_NOW = "CMD_CHECK_VERSION_NOW";
@@ -62,6 +63,7 @@ public class PreferencesWindowController implements ActionListener {
 
     final PrefToolBarItem prefItemGeneral;
     final PrefToolBarItem prefItemQuickView;
+    final PrefToolBarItem prefItemAdvanced;
 
     private final MainWindowController mainController;
     
@@ -70,7 +72,8 @@ public class PreferencesWindowController implements ActionListener {
         this.mainController = mainController;
         
         this.prefItemGeneral = new PrefToolBarItem("General", PreferencesWindowController.CMD_PANE_GENERAL, PrefToolBarIcon.GENERAL, new ContentGeneralPanel(window, this));
-        this.prefItemQuickView = new PrefToolBarItem("QuickView", PreferencesWindowController.CMD_PANE_QUICKVIEW, PrefToolBarIcon.QUICKVIEW, new ContentQuickviewPanel());
+        this.prefItemQuickView = new PrefToolBarItem("QuickView", PreferencesWindowController.CMD_PANE_QUICKVIEW, PrefToolBarIcon.QUICKVIEW, new ContentQuickviewPanel(window, this));
+        this.prefItemAdvanced = new PrefToolBarItem("Advanced", PreferencesWindowController.CMD_PANE_ADVANCED, PrefToolBarIcon.ADVANCED, new ContentAdvancedPanel(window, this));
     }
     
     public void doClearPreferences() throws BusinessException {
@@ -113,6 +116,9 @@ public class PreferencesWindowController implements ActionListener {
 
 				} else if(cmd.equals(CMD_PANE_QUICKVIEW)) {
 					window.switchContent(prefItemQuickView);
+
+				} else if(cmd.equals(CMD_PANE_ADVANCED)) {
+					window.switchContent(prefItemAdvanced);
 					
 
 				} else if(cmd.equals(CMD_CLEAR_PREFERENCES)) {
@@ -172,19 +178,35 @@ public class PreferencesWindowController implements ActionListener {
 //    }
 	
 	
+    static abstract class AbstractPreferencesContent extends JPanel {
+    	private final PreferencesWindow owner;
+    	private final PreferencesWindowController preferencesController;
+    
+    	public AbstractPreferencesContent(PreferencesWindow owner, PreferencesWindowController preferencesController) {
+    		this.owner = owner;
+    		this.preferencesController = preferencesController;
+    	}
 
+		protected PreferencesWindow getOwner() {
+			return this.owner;
+		}
+
+		protected PreferencesWindowController getPreferencesController() {
+			return this.preferencesController;
+		}
+    }
 
     static final class PrefToolBarItem {
     	private final String label;
     	private final String cmd;
     	private final PrefToolBarIcon icon;
-    	private final JPanel panel;
+    	private final AbstractPreferencesContent content;
     	
-    	private PrefToolBarItem(String label, String cmd, PrefToolBarIcon icon, JPanel panel) {
+    	private PrefToolBarItem(String label, String cmd, PrefToolBarIcon icon, AbstractPreferencesContent content) {
     		this.label = label;
     		this.cmd = cmd;
     		this.icon = icon;
-    		this.panel = panel;
+    		this.content = content;
     	}
     	
     	String getLabel() {
@@ -196,8 +218,8 @@ public class PreferencesWindowController implements ActionListener {
     	PrefToolBarIcon getIcon() {
     		return this.icon;
     	}
-    	JPanel getPanel() {
-    		return this.panel;
+    	AbstractPreferencesContent getContent() {
+    		return this.content;
     	}
     }
     

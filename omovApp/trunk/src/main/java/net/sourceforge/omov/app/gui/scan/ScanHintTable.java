@@ -29,7 +29,7 @@ import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.common.Severity;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.gui.table.MacLikeTable;
@@ -73,7 +73,7 @@ class ScanHintTableModel extends AbstractTableModel {
     private static final Map<Severity, ImageIcon> SEVERITY_ICONS_CACHE;
     static {
     	final Map<Severity, ImageIcon> tmp = new HashMap<Severity, ImageIcon>();
-    	final ImageFactory factory = ImageFactory.getInstance();
+    	final AppImageFactory factory = AppImageFactory.getInstance();
     	tmp.put(Severity.INFO, factory.getSeverityIcon(Severity.INFO));
     	tmp.put(Severity.WARNING, factory.getSeverityIcon(Severity.WARNING));
     	tmp.put(Severity.ERROR, factory.getSeverityIcon(Severity.ERROR));

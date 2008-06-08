@@ -21,8 +21,8 @@ package net.sourceforge.omov.app.playground;
 
 import java.awt.Dialog;
 
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.ImageFactory;
 
 import org.jdesktop.swingx.JXErrorPane;
 import org.jdesktop.swingx.error.ErrorInfo;
@@ -60,7 +60,7 @@ public class SwingXDialog {
     
     public static void show2() {
     	JXErrorPane pane = new JXErrorPane();
-        pane.setIcon(ImageFactory.getInstance().getHelp());
+        pane.setIcon(AppImageFactory.getInstance().getHelp());
         ErrorInfo info = new ErrorInfo(
         		"Show Error",
         		"Looks like you've got some issues ... ",

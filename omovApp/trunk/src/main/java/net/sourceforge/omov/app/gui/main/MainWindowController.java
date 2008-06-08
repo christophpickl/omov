@@ -190,7 +190,8 @@ public final class MainWindowController extends CommonController<Movie> implemen
 //			new MoviePlayer(movie, movieFile, this.mainWindow).setVisible(true);
 		} catch (BusinessException e) {
 			LOG.error("Could not play movie file '"+movieFile.getAbsolutePath()+"'!", e);
-			GuiUtil.error(this.mainWindow, "QuickView", "Playing movie file failed!");
+			
+			GuiUtil.error(this.mainWindow, "QuickView", "Playing movie file failed because of some internal error!", e);
 		}
     }
     

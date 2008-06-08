@@ -8,6 +8,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
 
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
@@ -169,8 +170,11 @@ abstract class AbstractPreferencesComboBoxFieldX<T> extends AbstractPreferencesF
 		this.comboBox.setOpaque(false);
 		LOG.info("Setting preselected item to: " + initValue);
 		this.comboBox.setSelectedIndex(this.model.getItemIndex(initValue));
-		
     	this.getComponent().addFocusListener(this); // hack: has to be invoked by each and every extends AbstractPreferencesFieldX
+	}
+	
+	final void setRenderer(ListCellRenderer renderer) {
+		this.comboBox.setRenderer(renderer);
 	}
 	
 	final T getData() {

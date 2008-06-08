@@ -39,6 +39,7 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
+import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsListSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieDirectorTextSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieLanguagesListSuggester;
@@ -299,7 +300,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
 		popupItems.add(this.itemReorder);
 		popupItems.add(this.itemClear);
 		
-    	this.folderContextMenu = new ContextMenuButton(popupItems, this);
+    	this.folderContextMenu = new OmovContextMenuButton(popupItems, this);
     	this.folderContextMenu.setOpaque(false);
     	
     	

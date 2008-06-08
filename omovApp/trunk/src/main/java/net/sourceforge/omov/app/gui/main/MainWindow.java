@@ -45,7 +45,7 @@ import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableX;
 import net.sourceforge.omov.app.gui.smartfolder.SmartFolderSelectionPanel;
 import net.sourceforge.omov.app.util.GuiUtil;
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.osx.OSXAdapter;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -79,7 +79,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     
     public MainWindow() {
         this.setTitle("OurMovies");
-        this.setIconImage(ImageFactory.getInstance().getFrameTitleIcon());
+        this.setIconImage(AppImageFactory.getInstance().getFrameTitleIcon());
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -199,29 +199,40 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
 
         this.moviesTable.addKeyListener(new KeyListener() {
             public void keyPressed(KeyEvent event) { /* nothing to do */ }
-            public void keyReleased(KeyEvent event) {
-                final int code = event.getKeyCode();
-                if(code == KeyEvent.VK_BACK_SPACE) {
-                	LOG.debug("key event: backspace");
-                	
-                	final List<Movie> selectedMovies = getSelectedMovies();
-                    if(selectedMovies.size() == 1) {
-                        controller.doDeleteMovie(selectedMovies.get(0));
-                    } else if(selectedMovies.size() > 1) {
-                        controller.doDeleteMovies(selectedMovies);
-                    } else {
-                        assert (selectedMovies.size() == 0);
-                        Toolkit.getDefaultToolkit().beep();
-                    }
-                } else if(code == KeyEvent.VK_SPACE && QtjFactory.isQtjAvailable()) {
-                	LOG.debug("key event: space");
-                	final List<Movie> selectedMovies = getSelectedMovies();
-                	if(selectedMovies.size() == 1) {
-                		controller.doPlayQuickView(selectedMovies.get(0));
-                	} else {
-                		Toolkit.getDefaultToolkit().beep();
-                	}
-                }
+            public void keyReleased(final KeyEvent event) {
+            	new GuiAction() {
+					@Override
+					protected void _action() {
+						final int code = event.getKeyCode();
+		                LOG.debug("main movies table got key event with code "+code+" ("+event.getKeyChar()+").");
+		                
+		                if(code == KeyEvent.VK_BACK_SPACE || code == KeyEvent.VK_DELETE) {
+		                	LOG.debug("key event: backspace or delete");
+		                	
+		                	final List<Movie> selectedMovies = getSelectedMovies();
+		                    if(selectedMovies.size() == 1) {
+		                        controller.doDeleteMovie(selectedMovies.get(0));
+		                        
+		                    } else if(selectedMovies.size() > 1) {
+		                        controller.doDeleteMovies(selectedMovies);
+		                        
+		                    } else {
+		                        assert (selectedMovies.size() == 0);
+		                        Toolkit.getDefaultToolkit().beep();
+		                    }
+		                } else if(code == KeyEvent.VK_SPACE && QtjFactory.isQtjAvailable()) {
+		                	LOG.debug("key event: space");
+		                	
+		                	final List<Movie> selectedMovies = getSelectedMovies();
+		                	if(selectedMovies.size() == 1) {
+		                		controller.doPlayQuickView(selectedMovies.get(0));
+		                	} else {
+		                		Toolkit.getDefaultToolkit().beep();
+		                	}
+		                }
+					}
+            		
+            	}.doAction();
             }
             public void keyTyped(KeyEvent event) { /* nothing to do */ }
         });

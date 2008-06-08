@@ -20,6 +20,7 @@
 package net.sourceforge.omov.app.gui.preferences;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -41,10 +42,11 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import net.sourceforge.omov.app.gui.main.MainWindowController;
+import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.PrefToolBarItem;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -81,6 +83,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
 	        List<PrefToolBarItem> tmp = new ArrayList<PrefToolBarItem>(2);
 	    	tmp.add(this.preferencesController.prefItemGeneral);
 	    	tmp.add(this.preferencesController.prefItemQuickView);
+	    	tmp.add(this.preferencesController.prefItemAdvanced);
 	    	toolBarItems = Collections.unmodifiableList(tmp);
         }
 
@@ -126,9 +129,37 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
         this.wrapPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         this.getContentPane().add(this.wrapPanel, BorderLayout.CENTER);
         this.getContentPane().add(this.newSouthPanel(), BorderLayout.SOUTH);
-        this.pack();
+        
+        this.adjustSize();
+        
         this.setResizable(false);
         GuiUtil.setCenterLocation(this);
+    }
+    
+    private void adjustSize() {
+    	int minWidth = -1;
+    	int minHeight = -1;
+    	
+    	for (PrefToolBarItem item : this.toolBarItems) {
+			final AbstractPreferencesContent content = item.getContent();
+			final Dimension size = content.getPreferredSize();
+			LOG.debug("PrefContent preferred size for " + item.getLabel() + ": " + size.width+"x"+size.height);
+			if(size.width > minWidth) {
+				minWidth = size.width;
+			}
+			if(size.height > minHeight) {
+				minHeight = size.height;
+			}
+		}
+    	// TODO GUI hack :)
+    	minWidth += 40; // adjusting does not work properly; advanced content got not enough space to draw whole content
+    	
+    	LOG.debug("Adjusting wrap panel size to: " + minWidth + "x" + minHeight);
+    	final Dimension minDimension = new Dimension(minWidth, minHeight);
+    	this.wrapPanel.setSize(minDimension);
+    	this.wrapPanel.setMinimumSize(minDimension);
+    	this.wrapPanel.setPreferredSize(minDimension);
+    	this.pack();
     }
     
     private JPanel newSouthPanel() {
@@ -156,7 +187,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
     	}
     	this.prefToolBarButtons.get(item).setEnabled(false);
     	this.wrapPanel.removeAll();
-    	this.wrapPanel.add(item.getPanel());
+    	this.wrapPanel.add(item.getContent());
     	this.wrapPanel.revalidate();
     	this.wrapPanel.repaint();
     	this.recentPrefToolBarItem = item;
@@ -176,7 +207,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
     	bar.setBackground(Constants.getColorDarkGray()); // MINOR GUI - draw background gradient at top of window
 
     	for (PrefToolBarItem item : toolBarItems) {
-    		final JButton btn = newToolBarButton(item.getLabel(), item.getActionCommand(), ImageFactory.getInstance().getIconPrefToolBar(item.getIcon()), this.preferencesController);
+    		final JButton btn = newToolBarButton(item.getLabel(), item.getActionCommand(), AppImageFactory.getInstance().getIconPrefToolBar(item.getIcon()), this.preferencesController);
     		prefToolBarButtons.put(item, btn);
 			bar.add(btn);
 		}

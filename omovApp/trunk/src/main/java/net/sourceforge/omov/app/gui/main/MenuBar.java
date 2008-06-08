@@ -39,11 +39,11 @@ import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.Icon16x16;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IMovieDao;
@@ -151,7 +151,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     
     
     public MenuBar(MainWindowController controller) {
-        this.preferencesItem = GuiUtil.createMenuItem(null, 'P', LBL_PREFERENCES, CMD_PREFERENCES, this, KeyEvent.VK_P, ImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
+        this.preferencesItem = GuiUtil.createMenuItem(null, 'P', LBL_PREFERENCES, CMD_PREFERENCES, this, KeyEvent.VK_P, AppImageFactory.getInstance().getIcon(Icon16x16.PREFERENCES));
         this.aboutItem = GuiUtil.createMenuItem(null, 'A', LBL_ABOUT, CMD_ABOUT, this);
         this.quitItem = GuiUtil.createMenuItem(null, 'Q', LBL_QUIT, CMD_QUIT, this, KeyEvent.VK_Q);
         
@@ -171,8 +171,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         GuiUtil.createMenuItem(menu, 'S', LBL_SMART_COPY, CMD_SMART_COPY, this);
         menu.addSeparator();
-        GuiUtil.createMenuItem(menu, 'E', LBL_EXPORT, CMD_EXPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
-        GuiUtil.createMenuItem(menu, 'I', LBL_IMPORT, CMD_IMPORT, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
+        GuiUtil.createMenuItem(menu, 'E', LBL_EXPORT, CMD_EXPORT, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.EXPORT));
+        GuiUtil.createMenuItem(menu, 'I', LBL_IMPORT, CMD_IMPORT, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
         
         
         if(UserSniffer.isMacOSX() == false) {
@@ -186,24 +186,24 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private JMenu menuMovie() {
         final JMenu menu = new JMenu("Movie");
 
-        GuiUtil.createMenuItem(menu, 'N', LBL_NEW_MOVIE, CMD_NEW_MOVIE, this, KeyEvent.VK_N, ImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
+        GuiUtil.createMenuItem(menu, 'N', LBL_NEW_MOVIE, CMD_NEW_MOVIE, this, KeyEvent.VK_N, AppImageFactory.getInstance().getIcon(Icon16x16.NEW_MOVIE));
         menu.addSeparator();
-        this.itemMovieInfo = GuiUtil.createMenuItem(menu, 'I', LBL_MOVIE_INFO, CMD_MOVIE_INFO, this, KeyEvent.VK_I, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        this.itemMovieDelete = GuiUtil.createMenuItem(menu, 'D', LBL_MOVIE_DELETE, CMD_MOVIE_DELETE, this, KeyEvent.VK_BACK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
-        this.itemMovieFetchMetadata = GuiUtil.createMenuItem(menu, 'M', LBL_FETCH_METADATA, CMD_FETCH_METADATA, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        this.itemMovieInfo = GuiUtil.createMenuItem(menu, 'I', LBL_MOVIE_INFO, CMD_MOVIE_INFO, this, KeyEvent.VK_I, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        this.itemMovieDelete = GuiUtil.createMenuItem(menu, 'D', LBL_MOVIE_DELETE, CMD_MOVIE_DELETE, this, KeyEvent.VK_BACK_SPACE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE), 0); // disable meta mask
+        this.itemMovieFetchMetadata = GuiUtil.createMenuItem(menu, 'M', LBL_FETCH_METADATA, CMD_FETCH_METADATA, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
 
         if(VlcPlayerFactory.isVlcCapable() == true) {
-            this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, ImageFactory.getInstance().getIcon(Icon16x16.VLC));
+            this.itemMoviePlayVlc = GuiUtil.createMenuItem(menu, 'V', LBL_MOVIE_PLAY_VLC, CMD_MOVIE_PLAY_VLC, this, KeyEvent.VK_V, AppImageFactory.getInstance().getIcon(Icon16x16.VLC));
         }
         
         if(QtjFactory.isQtjAvailable() == true) {
 //        	final int keyMask = 0; // disable accelerator (ctrl/command)
 //        	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, KeyEvent.VK_SPACE, ImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW), keyMask);
-        	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
+        	this.itemMovieQuickView = GuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
         }
         
         if(UserSniffer.isMacOSX()) {
-            this.itemMovieRevealFinder = GuiUtil.createMenuItem(menu, 'R', LBL_MOVIE_REVEAL_FINDER, CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+            this.itemMovieRevealFinder = GuiUtil.createMenuItem(menu, 'R', LBL_MOVIE_REVEAL_FINDER, CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, AppImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
         }
         
         return menu;
@@ -221,7 +221,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private JMenu menuExtras() {
         final JMenu menu = new JMenu("Extras");
 
-        GuiUtil.createMenuItem(menu, 'S', LBL_SCAN, CMD_SCAN, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.SCAN));
+        GuiUtil.createMenuItem(menu, 'S', LBL_SCAN, CMD_SCAN, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.SCAN));
         
         GuiUtil.createMenuItem(menu, 'F', LBL_FIND_DUPLICATES, CMD_FIND_DUPLICATES, this);
         
@@ -240,7 +240,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     private JMenu menuHelp() {
         final JMenu menu = new JMenu("Help");
 
-        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', LBL_HELP, CMD_HELP, this, -1, ImageFactory.getInstance().getIcon(Icon16x16.HELP));
+        final JMenuItem helpItem = GuiUtil.createMenuItem(menu, 'H', LBL_HELP, CMD_HELP, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.HELP));
         HelpSystem.enableHelp(helpItem, HelpEntry.HOME);
         
         // TODO GUI set tooltips for every menu item (also for every button, etc. and anything)    helpItem.setToolTipText("Popups an own window containing the Help System");

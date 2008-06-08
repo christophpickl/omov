@@ -36,9 +36,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.util.GuiUtil;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -91,7 +91,7 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
 //        } catch (MalformedURLException e) {
 //            LOG.error("OpenBrowserAction failed.", e);
 //        }
-        final JLabel logo = new JLabel(ImageFactory.getInstance().getAboutLogo(), JLabel.CENTER);
+        final JLabel logo = new JLabel(AppImageFactory.getInstance().getAboutLogo(), JLabel.CENTER);
         try {
             final OpenBrowserAction openBrowser = new OpenBrowserAction(Constants.getWebUrl());
             logo.addMouseListener(new MouseAdapter() {

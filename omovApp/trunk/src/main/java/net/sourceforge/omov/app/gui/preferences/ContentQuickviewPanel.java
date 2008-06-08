@@ -10,25 +10,27 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.qtjApi.IQtjSessionManager;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-class ContentQuickviewPanel extends JPanel {
+class ContentQuickviewPanel extends AbstractPreferencesContent {
 
     private static final Log LOG = LogFactory.getLog(ContentQuickviewPanel.class);
 	private static final long serialVersionUID = -2114513454360496570L;
 	
-	private static final Image QUICKTIME_BG_LOGO = ImageFactory.getInstance().getQuickTimeImage();
+	private static final Image QUICKTIME_BG_LOGO = AppImageFactory.getInstance().getQuickTimeImage();
 	
 	
 
-	public ContentQuickviewPanel() {
+	public ContentQuickviewPanel(PreferencesWindow owner, PreferencesWindowController preferencesController) {
+		super(owner, preferencesController);
 		this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
 		this.setOpaque(false);
 		

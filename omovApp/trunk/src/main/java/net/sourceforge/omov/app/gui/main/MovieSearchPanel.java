@@ -30,6 +30,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import net.sourceforge.omov.app.gui.comp.OmovSelectableContextMenuButton;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.ContinuousFilter;
@@ -80,7 +81,7 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
 		GuiUtil.newMenuItem("Title", CMD_TITLE, popupItems);
 		GuiUtil.newMenuItem("People", CMD_PEOPLE, popupItems);
 		GuiUtil.newMenuItem("Comment", CMD_COMMENT, popupItems);
-        this.contextMenu = new SelectableContextMenuButton(popupItems, new GuiActionListener() {
+        this.contextMenu = new OmovSelectableContextMenuButton(popupItems, new GuiActionListener() {
 			public void action(ActionEvent e) {
 				doChangedFilterField();
 			}

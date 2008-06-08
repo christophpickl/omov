@@ -25,7 +25,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.common.Severity;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
 
@@ -65,7 +65,7 @@ class PreprocessResultTableModel extends DefaultTableModel {
     public Object getValueAt(int row, int col) {
         final RowData rowData = this.rowDataList.get(row);
         if(col == 0) {
-            return ImageFactory.getInstance().getSeverityIcon(rowData.getSeverity());
+            return AppImageFactory.getInstance().getSeverityIcon(rowData.getSeverity());
         }
         return rowData.getMessage();
     }

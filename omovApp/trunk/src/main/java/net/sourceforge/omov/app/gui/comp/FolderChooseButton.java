@@ -33,7 +33,7 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 
 import net.sourceforge.omov.app.util.GuiUtil;
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.app.util.AppImageFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,14 +62,14 @@ public class FolderChooseButton extends JButton implements MouseListener {
     
 
     public FolderChooseButton(Component owner) {
-    	this(owner, ImageFactory.getInstance().getIconFolder());
+    	this(owner, AppImageFactory.getInstance().getIconFolder());
     }
 
     public FolderChooseButton(Component owner, Icon icon) {
         super(icon);
         this.owner = owner;
-        this.setPreferredSize(new Dimension(ImageFactory.getInstance().getIconFolder().getIconWidth(),
-                                            ImageFactory.getInstance().getIconFolder().getIconHeight()));
+        this.setPreferredSize(new Dimension(AppImageFactory.getInstance().getIconFolder().getIconWidth(),
+                                            AppImageFactory.getInstance().getIconFolder().getIconHeight()));
         this.setOpaque(false);
         this.setBorderPainted(false);
         this.setToolTipText("<html>Single click: Choose Folder<br>Double click: Clear Folder</html>");

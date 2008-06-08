@@ -29,7 +29,7 @@ import javax.help.HelpSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import net.sourceforge.omov.core.ImageFactory;
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.util.UserSniffer;
 
 /**
@@ -53,7 +53,7 @@ public class HelpButton extends JButton implements MouseListener {
     		this.putClientProperty("JButton.buttonType", "help");
     	} else {
 	        if(image == null) {
-	            image = ImageFactory.getInstance().getHelp();
+	            image = AppImageFactory.getInstance().getHelp();
 	        }
 	        this.setPreferredSize(new Dimension(image.getIconWidth(), image.getIconHeight()));
 	        this.setIcon(image);

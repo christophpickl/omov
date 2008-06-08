@@ -39,8 +39,8 @@ import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.TableColumn;
 
+import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Icon16x16;
-import net.sourceforge.omov.core.ImageFactory;
 import net.sourceforge.omov.core.MovieTableColumns;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.MovieTableColumns.IMovieTableColumn;
@@ -246,23 +246,23 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
 
     private void initContextMenu() {
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        BodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
+        BodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        BodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         BodyContext.newJMenuSeparator(itemsSingle);
-        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, ImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         if(UserSniffer.isOS(OS.MAC) == true) {
-        	this.itemRevealFinder = BodyContext.newJMenuItem(itemsSingle, "Reveal in Finder", CMD_REVEAL, ImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+        	this.itemRevealFinder = BodyContext.newJMenuItem(itemsSingle, "Reveal in Finder", CMD_REVEAL, AppImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
         } else {
         	this.itemRevealFinder = null;
         }
         
         if(VlcPlayerFactory.isVlcCapable()) {
-        	this.itemPlayVlc = BodyContext.newJMenuItem(itemsSingle, "Play in VLC", CMD_PLAY_VLC, ImageFactory.getInstance().getIcon(Icon16x16.VLC));//MacVlcPlayer.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
+        	this.itemPlayVlc = BodyContext.newJMenuItem(itemsSingle, "Play in VLC", CMD_PLAY_VLC, AppImageFactory.getInstance().getIcon(Icon16x16.VLC));//MacVlcPlayer.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
         }
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, ImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        BodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE, ImageFactory.getInstance().getIcon(Icon16x16.DELETE));
+        BodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        BodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         new BodyContext(this, itemsSingle, itemsMultiple, this);
     }
 
