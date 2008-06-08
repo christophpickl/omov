@@ -17,13 +17,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.app.util;
+package net.sourceforge.omov.core.util;
 
 import java.io.File;
 import java.io.IOException;
 
-import net.sourceforge.omov.app.AbstractTestCase;
-import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.omov.core.AbstractTestCase;
 
 /**
  * 

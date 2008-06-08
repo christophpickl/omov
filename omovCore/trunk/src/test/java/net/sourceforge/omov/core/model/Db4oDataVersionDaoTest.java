@@ -17,9 +17,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.app.model;
+package net.sourceforge.omov.core.model;
 
-import net.sourceforge.omov.app.AbstractTestCase;
+import net.sourceforge.omov.core.AbstractTestCase;
 import net.sourceforge.omov.core.model.IDataVersionDao;
 import net.sourceforge.omov.core.model.db4o.Db4oConnection;
 import net.sourceforge.omov.core.model.db4o.Db4oDataVersionDao;

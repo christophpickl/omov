@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.app.smartfolder;
+package net.sourceforge.omov.core.smartfolder;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -27,14 +27,12 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.omov.app.AbstractTestCase;
-import net.sourceforge.omov.app.Db4oUtil;
+import net.sourceforge.omov.core.AbstractTestCase;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
+import net.sourceforge.omov.core.model.Db4oUtil;
 import net.sourceforge.omov.core.model.db4o.ObjectSetTransformer;
-import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
-import net.sourceforge.omov.core.smartfolder.SmartFolder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
