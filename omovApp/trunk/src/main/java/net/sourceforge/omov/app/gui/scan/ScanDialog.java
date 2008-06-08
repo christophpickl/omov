@@ -410,9 +410,9 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
         this.btnDoImportMovies.addActionListener(this.controller);
         
 
-        final JButton btnClose = new JButton("Close");
-        btnClose.setActionCommand(ScanDialogController.CMD_CLOSE);
-        btnClose.addActionListener(this.controller);
+//        final JButton btnClose = new JButton("Close");
+//        btnClose.setActionCommand(ScanDialogController.CMD_CLOSE);
+//        btnClose.addActionListener(this.controller);
 
         this.progressBar.setPreferredSize(new Dimension(400, (int) this.progressBar.getPreferredSize().getHeight()));
         this.progressBar.setIndeterminate(false);
@@ -433,7 +433,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
         
         final JPanel panelEast = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         panelEast.setOpaque(false);
-        panelEast.add(btnClose);
+//        panelEast.add(btnClose);
         panelEast.add(this.btnDoImportMovies);
         
         panel.add(panelEast, BorderLayout.EAST);

@@ -22,6 +22,8 @@ package net.sourceforge.omov.app.gui.preferences;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -47,6 +49,7 @@ import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.Pref
 import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
+import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
@@ -68,9 +71,11 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
     
     private final JPanel wrapPanel = new JPanel();
     
-    
     private final List<PrefToolBarItem> toolBarItems;
+
+    private Map<PrefToolBarItem, JButton> prefToolBarButtons = new HashMap<PrefToolBarItem, JButton>();
     
+    private PrefToolBarItem recentPrefToolBarItem;
     
     
     
@@ -94,9 +99,6 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
             }
         });
         EscapeDisposer.enableEscape(this.getRootPane(), this);
-        
-        
-        
         
         
         GuiUtil.macSmallWindow(this.getRootPane());
@@ -177,9 +179,6 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
         return panel;
     }
     
-    private Map<PrefToolBarItem, JButton> prefToolBarButtons = new HashMap<PrefToolBarItem, JButton>();
-    
-    private PrefToolBarItem recentPrefToolBarItem;
     void switchContent(PrefToolBarItem item) {
     	LOG.debug("Switching content to new toolbar item '"+item.getLabel()+"'.");
     	if(this.recentPrefToolBarItem != null) {
@@ -194,8 +193,17 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
     }
     
     private JToolBar initToolBar() {
-    	final JToolBar bar = new JToolBar();
-    	
+    	final JToolBar bar = new JToolBar() {
+			private static final long serialVersionUID = 1L;
+			@Override
+    		public void paint(final Graphics g) {
+    			SimpleGuiUtil.paintGradient((Graphics2D) g, 
+    					Constants.getColorLightGray(), Constants.getColorWindowBackground(), this.getSize());
+    			super.paint(g);
+    		}
+    	};
+
+    	bar.setOpaque(false);
     	bar.setFloatable(false);
     	bar.setOrientation(JToolBar.HORIZONTAL);
 //    	bar.setBorderPainted(false);
@@ -203,8 +211,6 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
 //    	bar.setLayout(int)
 //    	bar.setMargin(Insets)
     	
-    	bar.setOpaque(true);
-    	bar.setBackground(Constants.getColorDarkGray()); // MINOR GUI - draw background gradient at top of window
 
     	for (PrefToolBarItem item : toolBarItems) {
     		final JButton btn = newToolBarButton(item.getLabel(), item.getActionCommand(), AppImageFactory.getInstance().getIconPrefToolBar(item.getIcon()), this.preferencesController);
