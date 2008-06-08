@@ -19,11 +19,14 @@ public class QtjImageFactory extends CoreImageFactory {
 
 
     public ImageIcon getButtonSmallScreen(ButtonSmallScreenIcon iconEnum) {
-        return this.getImage("buttons_smallscreen/" + iconEnum.fileName);
+    	return this.getImage("buttons_smallscreen/" + iconEnum.fileName);
+    }
+    public ImageIcon getButtonSmallScreenPressed(ButtonSmallScreenIcon iconEnum) {
+    	return this.getImage("buttons_smallscreen/" + iconEnum.fileNamePressed);
     }
 
     public ImageIcon getCloseMini() {
-    	return this.getImage("buttons_smallscreen/close_mini.png");
+    	return this.getImage("close_mini.png");
     }
     
     public Image getTransparentPixelImage() {
@@ -32,16 +35,18 @@ public class QtjImageFactory extends CoreImageFactory {
     
     
     public enum ButtonSmallScreenIcon {
-    	PLAY("play.png"),
-    	PAUSE("pause.png"),
-    	BACK("back.png"),
-    	FULLSCREEN("fullscreen.png"),
-    	FORWARD("forward.png"),
-    	BACKWARD("backward.png");
-    	
+    	PLAY("play"),
+    	PAUSE("pause"),
+    	BACK("back"),
+    	FULLSCREEN("fullscreen"),
+    	FORWARD("forward"),
+    	BACKWARD("backward");
+
         final String fileName;
+        final String fileNamePressed;
         private ButtonSmallScreenIcon(String fileName) {
-            this.fileName = fileName;
+            this.fileName = fileName + ".png";
+            this.fileNamePressed = fileName + "_pressed.png";
         }
     	
     }

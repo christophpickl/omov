@@ -48,7 +48,7 @@ public abstract class AbstractImageFactory {
     
 
     protected ImageIcon getImage(final String filename) {
-        LOG.debug("getting image by filename '" + filename + "'.");
+        LOG.debug("Getting image by filename '" + filename + "'.");
 
         final ImageIcon image;
 
@@ -57,14 +57,14 @@ public abstract class AbstractImageFactory {
             image = cachedIcon;
         } else {
             final String imagePath = PATH_IMAGES + filename;
-            LOG.info("loading and caching image for first time by path '" + imagePath + "'...");
+            LOG.debug("Loading and caching image for first time by path '" + imagePath + "'...");
             
             final URL imageUrl = AbstractImageFactory.class.getResource(imagePath);
             if (imageUrl == null) {
                 throw new FatalException("Could not load image (filename='" + filename + "') by image path '" + imagePath + "'!");
             }
             
-            LOG.debug("loaded image (" + filename + ") by url '" + imageUrl.getFile() + "'.");
+            LOG.debug("Loaded image (" + filename + ") by URL '" + imageUrl.getFile() + "'.");
             image = new ImageIcon(Toolkit.getDefaultToolkit().getImage(imageUrl));
             this.iconsCache.put(filename, image);
         }

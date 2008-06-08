@@ -32,7 +32,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -43,6 +42,7 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.core.util.TimeUtil;
+import net.sourceforge.omov.gui.PressableButton;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.IVideoPlayerListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
@@ -67,24 +67,23 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 	private static final String CMD_FULLSCREEN = "CMD_FULLSCREEN";
 	private static final String CMD_BACKWARD = "CMD_BACKWARD";
 	private static final String CMD_FORWARD  = "CMD_FORWARD";
-	
-	private static final ImageIcon ICON_BACK = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.BACK);
-	private static final ImageIcon ICON_FULLSCREEN = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.FULLSCREEN);
-	private static final ImageIcon ICON_CLOSE_MINI = QtjImageFactory.getInstance().getCloseMini();
+
 	private static final ImageIcon ICON_PLAY = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.PLAY);
+	private static final ImageIcon ICON_PLAY_PRESSED = QtjImageFactory.getInstance().getButtonSmallScreenPressed(ButtonSmallScreenIcon.PLAY);
 	private static final ImageIcon ICON_PAUSE = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.PAUSE);
-	private static final ImageIcon ICON_BACKWARD = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.BACKWARD);
-	private static final ImageIcon ICON_FORWARD = QtjImageFactory.getInstance().getButtonSmallScreen(ButtonSmallScreenIcon.FORWARD);
+	private static final ImageIcon ICON_PAUSE_PRESSED = QtjImageFactory.getInstance().getButtonSmallScreenPressed(ButtonSmallScreenIcon.PAUSE);
+
 
 	private final QtjVideoPlayerImplX player;
 	
-	private final JButton btnFullScreen = new JButtonUnfocusable(ICON_FULLSCREEN);
-	private final JButton btnPlayPause = new JButtonUnfocusable(ICON_PLAY);
-	private final JButton btnBack = new JButtonUnfocusable(ICON_BACK);
-	private final JButton btnBackward = new JButtonUnfocusable(ICON_BACKWARD);
-	private final JButton btnForward = new JButtonUnfocusable(ICON_FORWARD);
+	private final JButton btnFullScreen = new ControlButton(ButtonSmallScreenIcon.FULLSCREEN);
+	private final JButton btnPlayPause = new ControlButton(ButtonSmallScreenIcon.PLAY);
+	private final JButton btnBack = new ControlButton(ButtonSmallScreenIcon.BACK);
+	private final JButton btnBackward = new ControlButton(ButtonSmallScreenIcon.BACKWARD);
+	private final JButton btnForward = new ControlButton(ButtonSmallScreenIcon.FORWARD);
 
 	private final MySlider timeSlider = new MySlider();
+	
 	private static class MySlider extends JSlider {
 		private static final long serialVersionUID = 1L;
 		private boolean pressed;
@@ -123,10 +122,11 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		return this.southPanel;
 	}
 	
-	private static class JButtonUnfocusable extends JButton {
+	private static class ControlButton extends PressableButton  {
 		private static final long serialVersionUID = 4692041677980312903L;
-		public JButtonUnfocusable(Icon icon) {
-			super(icon);
+		public ControlButton(ButtonSmallScreenIcon icon) {
+			super(QtjImageFactory.getInstance().getButtonSmallScreen(icon),
+			      QtjImageFactory.getInstance().getButtonSmallScreenPressed(icon));
 		}
 		@Override
 		public boolean isFocusTraversable() {
@@ -144,7 +144,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		windowTitle.setBorder(BorderFactory.createEmptyBorder());
 		windowTitle.setForeground(COLOR_GRAY);
 		
-		final JButton btnClose = new JButtonUnfocusable(ICON_CLOSE_MINI);
+		final JButton btnClose = new JButton(QtjImageFactory.getInstance().getCloseMini());
 		btnClose.setActionCommand(CMD_CLOSE);
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);
@@ -206,7 +206,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 					if(perCent < 0.0) perCent = 0.0;
 					
 					final int newTimeMicros = (int) (movieTimeMaxInMicros * perCent);
-					LOG.debug("perCent="+perCent+"% -> seeking to " + (newTimeMicros/1000)+"ms ("+TimeUtil.microSecondsToString(newTimeMicros)+")");
+					LOG.debug("perCent="+(perCent*100)+"% -> seeking to " + newTimeMicros+"micros ("+TimeUtil.microSecondsToString(newTimeMicros)+")");
 					player.doSeek(newTimeMicros);
 				}
 			}
@@ -344,5 +344,6 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 	public void stateChanged(QtjState state) {
 		LOG.debug("state changed to: " + state);
 		this.btnPlayPause.setIcon(state == QtjState.PAUSE ? ICON_PLAY: ICON_PAUSE);
+		this.btnPlayPause.setPressedIcon(state == QtjState.PAUSE ? ICON_PLAY_PRESSED: ICON_PAUSE_PRESSED);
 	}
 }

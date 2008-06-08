@@ -207,7 +207,6 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 	
 	private void initComponentsFullscreen() {
 		LOG.debug("Initializing components for fullscreen mode.");
-		this.wrapPanel.removeAll();
 		
 		final JPanel panel = new JPanel(new BorderLayout(0, 0));
 		// this code MUST be executed every time. if outsourcing qtj-panel-stuff, video wont show up again - buggy qtj :(
@@ -244,9 +243,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.getGlassPane().setVisible(true);
 		
 //		panel.add(this.fullScreen.getFloater(), BorderLayout.SOUTH);
-		this.wrapPanel.add(panel);
-		this.wrapPanel.invalidate();
-		this.wrapPanel.repaint();
+		this.resetWrapPanelContent(panel);
 		
 		this.fullScreen.startFloaterFadeoutThread();
 	}
@@ -257,13 +254,17 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		
 		this.getGlassPane().setVisible(false);
 		
-		this.wrapPanel.removeAll();
 		final JPanel panel = new JPanel(new BorderLayout(0, 0));
 		panel.setOpaque(false);
-		panel.setBorder(BorderFactory.createEmptyBorder(4, 6, 6, 6));
+		panel.setBorder(BorderFactory.createEmptyBorder(1, 2, 2, 2));
 		panel.add(this.smallScreen.getNorthPanel(), BorderLayout.NORTH);
 		panel.add(this.qtjComponent, BorderLayout.CENTER);
 		panel.add(this.smallScreen.getSouthPanel(), BorderLayout.SOUTH);
+		this.resetWrapPanelContent(panel);
+	}
+	
+	private void resetWrapPanelContent(JPanel panel) {
+		this.wrapPanel.removeAll();
 		this.wrapPanel.add(panel);
 		this.wrapPanel.invalidate();
 		this.wrapPanel.repaint();
@@ -277,6 +278,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 	}
 	
 	private JComponent initQuicktimePlayer(File movieFile) throws QTException, BusinessException {
+		LOG.debug("Initializing quicktime player.");
 		QtjSessionManager.getInstance().openSession();
 		OpenMovieFile openFile = OpenMovieFile.asRead(new QTFile(movieFile));
 		this.qtMovie = Movie.fromFile(openFile);
@@ -291,15 +293,14 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		
 		this.movieTimeMaxInMicros = player.getTimeBase().getStopTime();
 		this.movieTimeMaxFormatted = TimeUtil.microSecondsToString(this.movieTimeMaxInMicros);
-		
+		// FIXME QTJ - serious bug: max time is never > 30min although video got ~90min !!!
+		LOG.debug("movieTimeMaxInMicros = " + this.movieTimeMaxInMicros + " -> "+this.movieTimeMaxFormatted+"  (movie.duration: "+qtMovie.getDuration()+")");
 		
 		
 		// GUI part
 		// ---------
-		QTJComponent qtPlayercomponent = QTFactory.makeQTJComponent(this.player);
-		
-		JComponent playerComponent = qtPlayercomponent.asJComponent();
-		
+		final QTJComponent qtPlayercomponent = QTFactory.makeQTJComponent(this.player);
+		final JComponent playerComponent = qtPlayercomponent.asJComponent();
 		playerComponent.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(final MouseEvent e) {
 				new GuiAction() {
@@ -311,6 +312,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 			}
 		});
 		
+		LOG.debug("Quicktime player set up.");
 		return playerComponent;
 	}
 	
