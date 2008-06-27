@@ -20,7 +20,7 @@
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
 import net.sourceforge.omov.app.gui.comp.DurationPanel;
-import net.sourceforge.omov.core.util.NumberUtil.Duration;
+import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 

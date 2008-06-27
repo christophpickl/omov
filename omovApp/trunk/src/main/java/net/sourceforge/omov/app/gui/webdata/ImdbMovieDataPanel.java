@@ -29,13 +29,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.LabeledComponent;
-import net.sourceforge.omov.gui.inputfields.MultiColTextField;
+import at.ac.tuwien.e0525580.jlib.gui.inputfield.MultiColTextField;
 
 /**
  * 
@@ -153,7 +153,7 @@ class ImdbMovieDataPanel extends JPanel {
         c.insets = new Insets(0, 0, 0, 0);
         final int commentWidth = (int) this.txtComment.getPreferredSize().getWidth();
         final int commentHeight = 128;
-        this.add(new LabeledComponent(GuiUtil.wrapScroll(this.txtComment, commentWidth, commentHeight), "Comment"), c);
+        this.add(new LabeledComponent(OmovGuiUtil.wrapScroll(this.txtComment, commentWidth, commentHeight), "Comment"), c);
         
     }
     

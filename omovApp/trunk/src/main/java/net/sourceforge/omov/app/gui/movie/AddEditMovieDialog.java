@@ -35,7 +35,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
@@ -43,6 +42,7 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
@@ -123,7 +123,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
 
 
@@ -228,7 +228,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
 	            BeanFactory.getInstance().getMovieDao().updateMovie(oldMovie);
 	        } catch (BusinessException e) {
 	            // TO DO ... use core source icon
-	            GuiUtil.error(this, "Core Source Error", "Could not update recent movie!\nChanges were lost, sorry for that dude...");
+	            OmovGuiUtil.error(this, "Core Source Error", "Could not update recent movie!\nChanges were lost, sorry for that dude...");
 	        }
     	}
 

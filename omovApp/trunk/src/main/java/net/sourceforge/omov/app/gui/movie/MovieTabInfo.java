@@ -50,11 +50,12 @@ import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.core.util.NumberUtil.Duration;
 import net.sourceforge.omov.gui.list.IDataList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 

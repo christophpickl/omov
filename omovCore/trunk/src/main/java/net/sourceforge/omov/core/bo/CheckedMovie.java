@@ -17,20 +17,36 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui.chooser;
-
-import java.io.File;
+package net.sourceforge.omov.core.bo;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public interface IFileDirectoryChooserListener {
-
-    /**
-     * gets invoked if user has choosen directory and approved operation.
-     * @param dir is never null
-     */
-    void doChoosen(File dir);
+public class CheckedMovie extends Movie {
     
+    private static final long serialVersionUID = -7997056179880553697L;
+    private boolean checked;
+    
+    public CheckedMovie(long id, Movie movie, boolean checked) {
+        super(id, movie);
+        this.checked = checked;
+    }
+
+    public CheckedMovie(Movie movie, boolean selected) {
+        this(movie.getId(), movie, selected);
+    }
+
+//    public SelectableMovie(Movie movie) {
+//        this(movie, true); // DEFAULT == selected: true
+//    }
+
+    public boolean isChecked() {
+        return this.checked;
+    }
+
+    public CheckedMovie setChecked(boolean checked) {
+        this.checked = checked;
+        return this;
+    }
 }

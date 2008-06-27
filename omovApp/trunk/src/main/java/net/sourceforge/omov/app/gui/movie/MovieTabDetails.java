@@ -44,7 +44,6 @@ import net.sourceforge.omov.app.gui.comp.suggester.MovieActorsListSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieDirectorTextSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieLanguagesListSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieSubtitlesListSuggester;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
@@ -56,11 +55,13 @@ import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.ContextMenuButton;
-import net.sourceforge.omov.gui.inputfields.MultiColTextField;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.inputfield.MultiColTextField;
+import at.ac.tuwien.e0525580.jlib.gui.widget.ContextMenuButton;
 
 /**
  * got two constructors: one for add/edit single, and one for edit multiple movies. 
@@ -450,7 +451,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
     }
 
     private static JLabel lbl(String text) {
-        return GuiUtil.newLabelBold(text);
+        return OmovGuiUtil.newLabelBold(text);
     }
 
 
@@ -469,12 +470,12 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
 			
 			final String newFolderPath = folderInfo.getFolderPath();
 			if(folderPaths.contains(newFolderPath) == true && this.folderPathOriginally.equals(newFolderPath) == false) {
-				GuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
+				OmovGuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
 				return;
 			}
 		} catch (BusinessException e) {
 			LOG.error("Could not check existing folder paths!");
-			GuiUtil.error(this.owner, "Scan Folder Error", "Could not scan folder due to an interal error!");
+			OmovGuiUtil.error(this.owner, "Scan Folder Error", "Could not scan folder due to an interal error!");
 			return;
 		}
         

@@ -22,7 +22,7 @@ package net.sourceforge.omov.core.bo;
 import java.awt.Dimension;
 import java.util.List;
 
-import net.sourceforge.omov.core.util.CollectionUtil;
+import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 

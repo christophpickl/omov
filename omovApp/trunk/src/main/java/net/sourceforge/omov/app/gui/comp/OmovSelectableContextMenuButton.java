@@ -7,7 +7,7 @@ import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.gui.SelectableContextMenuButton;
+import at.ac.tuwien.e0525580.jlib.gui.widget.SelectableContextMenuButton;
 
 public class OmovSelectableContextMenuButton extends SelectableContextMenuButton {
 

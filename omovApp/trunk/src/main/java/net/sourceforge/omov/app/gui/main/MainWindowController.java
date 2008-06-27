@@ -42,7 +42,6 @@ import net.sourceforge.omov.app.gui.movie.EditMoviesDialog;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindow;
 import net.sourceforge.omov.app.gui.scan.ScanDialog;
 import net.sourceforge.omov.app.gui.smartcopy.SmartCopyDialog;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
@@ -62,11 +61,13 @@ import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.BrowserUtil;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -107,7 +108,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 
             } catch (BusinessException e) {
                 LOG.error("Could not add movie '"+newMovie+"'!", e);
-                GuiUtil.error(this.mainWindow, "Adding movie failed", "Could not save movie '"+newMovie.getTitle()+"'!");
+                OmovGuiUtil.error(this.mainWindow, "Adding movie failed", "Could not save movie '"+newMovie.getTitle()+"'!");
             }
         }
         LOG.debug("doAddMovie() finished");
@@ -123,7 +124,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 CoverUtil.deleteCoverFileIfNecessary(movie);
             } catch (BusinessException e) {
                 LOG.error("Deleting movie failed: " + movie, e);
-                GuiUtil.error(this.mainWindow, "Deleting Movie failed", "Could not delete movie '"+movie.getTitle()+"'!");
+                OmovGuiUtil.error(this.mainWindow, "Deleting Movie failed", "Could not delete movie '"+movie.getTitle()+"'!");
             }
             LOG.debug("doDeleteMovie("+movie+") finished");
         } else {
@@ -152,7 +153,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 committed = true;
             } catch (BusinessException e) {
                 LOG.error("Deleting movie failed: " + movie, e);
-                GuiUtil.error(this.mainWindow, "Deleting Movie failed", "Could not delete movie '"+movie.getTitle()+"'!");
+                OmovGuiUtil.error(this.mainWindow, "Deleting Movie failed", "Could not delete movie '"+movie.getTitle()+"'!");
                 return;
             } finally {
                 if(committed == false) DAO.rollback();
@@ -171,28 +172,8 @@ public final class MainWindowController extends CommonController<Movie> implemen
         }
     }
     
-    
     public void doPlayQuickView(Movie movie) {
-
-		if(movie.getFiles().size() == 0) {
-			GuiUtil.info(this.mainWindow, "QuickView", "No files to play for movie '"+movie.getTitle()+"'.");
-			return;
-		}
-		
-		final File movieFile = new File(movie.getFolderPath(), movie.getFiles().get(0));
-		if(movieFile.exists() == false) {
-			GuiUtil.warning(this.mainWindow, "QuickView", "File does not exist: " + movieFile.getAbsolutePath());
-			return;
-		}
-		
-    	try {
-    		QtjFactory.newQtjVideoPlayer(movie, movieFile).setVisible(true);
-//			new MoviePlayer(movie, movieFile, this.mainWindow).setVisible(true);
-		} catch (BusinessException e) {
-			LOG.error("Could not play movie file '"+movieFile.getAbsolutePath()+"'!", e);
-			
-			GuiUtil.error(this.mainWindow, "QuickView", "Playing movie file failed because of some internal error!", e);
-		}
+    	this.doPlayQuickView(this.mainWindow, movie);
     }
     
 
@@ -202,7 +183,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Edit Movie", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "Edit Movie", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
             this.doEditMovie(selectedMovies.get(0), this.mainWindow.newPrevNextMovieProvider());
@@ -220,7 +201,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
             this.doDeleteMovie(selectedMovies.get(0));
@@ -251,7 +232,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 this.mainWindow.didEditMovie(editMovie);
             } catch (BusinessException e) {
                 LOG.error("Could not edit movie: " + editMovie, e);
-                GuiUtil.error(this.mainWindow, "Edit failed", "Could not edit movie '"+originalMovie.getTitle()+"'!");
+                OmovGuiUtil.error(this.mainWindow, "Edit failed", "Could not edit movie '"+originalMovie.getTitle()+"'!");
             }
             LOG.debug("doEditMovie finished");
             // this.mainWindow.reloadTableData(); <-- delete me
@@ -296,7 +277,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
             } catch (BusinessException e) {
                 DAO.rollback();
                 LOG.error("Could not edit movies: " + Arrays.toString(moviesToEdit.toArray()), e);
-                GuiUtil.error(this.mainWindow, "Edit failed", "Could not edit movies!");
+                OmovGuiUtil.error(this.mainWindow, "Edit failed", "Could not edit movies!");
             } finally {
                 DAO.setAutoCommit(true);
             }
@@ -309,14 +290,14 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Fetch Metadata", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "Fetch Metadata", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
             this.doFetchMetaData(selectedMovies.get(0));
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Fetch Metadata", "Can not fetch metadata for more than one Movie at the time.");
+            OmovGuiUtil.warning(this.mainWindow, "Fetch Metadata", "Can not fetch metadata for more than one Movie at the time.");
         }
     }
     public void doFetchMetaData(Movie movieFetchingData) {
@@ -337,7 +318,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
             }
         } catch (BusinessException e) {
             LOG.error("Could not update movie '" + updatedMovie + "' with metadata '" + metadataEnhancedMovie + "'!", e);
-            GuiUtil.error(this.mainWindow, "Edit with Metadata failed", "Could not enhance movie '" + updatedMovie.getTitle()
+            OmovGuiUtil.error(this.mainWindow, "Edit with Metadata failed", "Could not enhance movie '" + updatedMovie.getTitle()
                     + "' with given metadata!");
         }
 	}
@@ -349,11 +330,11 @@ public final class MainWindowController extends CommonController<Movie> implemen
         final String folderPath = movie.getFolderPath();
         LOG.debug("Revealing folder path '"+folderPath+"' for movie with id "+movie.getId()+" and title '"+movie.getTitle()+"'.");
         if(folderPath.trim().length() == 0) {
-            GuiUtil.warning("Revealing movie folder", "No folder set for movie '"+movie.getTitle()+"'!");
+            OmovGuiUtil.warning("Revealing movie folder", "No folder set for movie '"+movie.getTitle()+"'!");
             return;
         }
         if(new File(folderPath).exists() == false) {
-            GuiUtil.error("Revealing movie folder", "The folder at '"+movie.getFolderPath()+"' does not exist!");
+            OmovGuiUtil.error("Revealing movie folder", "The folder at '"+movie.getFolderPath()+"' does not exist!");
             return;
         }
         
@@ -361,7 +342,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
             FinderReveal.revealFile(new File(folderPath));
         } catch (BusinessException e) {
             LOG.error("Could not reveal movie "+movie+"!", e);
-            GuiUtil.error("Revealing movie in Finder failed!", "Could not reveal movie folder path at '"+movie.getFolderPath()+"'!");
+            OmovGuiUtil.error("Revealing movie in Finder failed!", "Could not reveal movie folder path at '"+movie.getFolderPath()+"'!");
         }
     }
 
@@ -372,13 +353,13 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Reveal Movie in Finder", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "Reveal Movie in Finder", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doRevealMovie(selectedMovies.get(0));
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.info(this.mainWindow, "Reveal Movie in Finder", "Revealing multiple movies in Finder is not supported.");
+            OmovGuiUtil.info(this.mainWindow, "Reveal Movie in Finder", "Revealing multiple movies in Finder is not supported.");
         }
     }
     
@@ -388,7 +369,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         
         final List<String> movieFileNames = movie.getFiles();
         if(movieFileNames.isEmpty() == true) {
-            GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
+            OmovGuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
             return;
         }
         
@@ -410,7 +391,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         	
         } catch (BusinessException e) {
             LOG.error("Could not play file '"+firstMovieFile.getAbsolutePath()+"' in VLC!");
-            GuiUtil.error("Play in VLC failed", "<html>Could not play movie file in VLC!<br>" +
+            OmovGuiUtil.error("Play in VLC failed", "<html>Could not play movie file in VLC!<br>" +
             		"Maybe VLC's <b>Web Interface</b> is not up and running.</html>");
         }
     }
@@ -423,14 +404,14 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doPlayVlc(selectedMovies.get(0));
             
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
+            OmovGuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
         }
     }
     
@@ -441,14 +422,14 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "QuickView Error", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "QuickView Error", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doPlayQuickView(selectedMovies.get(0));
             
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.info(this.mainWindow, "QuickView Error", "Playing multiple movies at once is not supported.");
+            OmovGuiUtil.info(this.mainWindow, "QuickView Error", "Playing multiple movies at once is not supported.");
         }
     }
     
@@ -460,7 +441,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Rescan Folder(s)", "Not any movie was selected.");
+            OmovGuiUtil.warning(this.mainWindow, "Rescan Folder(s)", "Not any movie was selected.");
             return;
         }
         
@@ -500,7 +481,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
 			BrowserUtil.openOmovWebsite();
 		} catch (BusinessException e) {
 			LOG.error("Could not open omov website!", e);
-			GuiUtil.error("Internal Error", "Could not open OurMovies website!");
+			OmovGuiUtil.error("Internal Error", "Could not open OurMovies website!");
 		}
     }
     
@@ -529,7 +510,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
     public void doImportBackup(File backupFile) {
         final String extension = FileUtil.extractExtension(backupFile);
         if(extension == null || extension.equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION) == false) {
-            GuiUtil.warning(this.mainWindow, "Import Failed", "The file '"+backupFile.getAbsolutePath()+"' is not a valid backup file!");
+            OmovGuiUtil.warning(this.mainWindow, "Import Failed", "The file '"+backupFile.getAbsolutePath()+"' is not a valid backup file!");
             return;
         }
         
@@ -541,10 +522,10 @@ public final class MainWindowController extends CommonController<Movie> implemen
             
         } catch (ZipException e) {
             LOG.info("Could not open backupfile '"+backupFile.getAbsolutePath()+"'!", e);
-            GuiUtil.error(this.mainWindow, "Import Failed", "The backupfile '"+backupFile.getAbsolutePath()+"' is corrupted!");
+            OmovGuiUtil.error(this.mainWindow, "Import Failed", "The backupfile '"+backupFile.getAbsolutePath()+"' is corrupted!");
         } catch (IOException e) {
             LOG.info("Could not open backupfile '"+backupFile.getAbsolutePath()+"'!", e);
-            GuiUtil.error(this.mainWindow, "Import Failed", "Could not open backupfile '"+backupFile.getAbsolutePath()+"'!");
+            OmovGuiUtil.error(this.mainWindow, "Import Failed", "Could not open backupfile '"+backupFile.getAbsolutePath()+"'!");
         }
     }
 
@@ -556,7 +537,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
     	try {
 	    	int moviesStored = BeanFactory.getInstance().getMovieDao().getMovies().size();
 	    	if(moviesStored == 0) { // [mantis 0000060]
-	    		GuiUtil.warning(this.mainWindow, "Movie Export", "Sorry, but there are no movies to export.");
+	    		OmovGuiUtil.warning(this.mainWindow, "Movie Export", "Sorry, but there are no movies to export.");
 	    		return;
 	    	}
     	} catch(BusinessException e) {
@@ -579,7 +560,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 RemoteServer.getInstance().shutDown();
             } catch (BusinessException e) {
                 LOG.error("Could not shutdown running remoteserver!", e);
-                GuiUtil.warning("Shutdown error", "Could not shutdown running remoteserver!");
+                OmovGuiUtil.warning("Shutdown error", "Could not shutdown running remoteserver!");
             }
         }
         
@@ -587,7 +568,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
             BeanFactory.getInstance().getDatabaseConnection().close();
         } catch (BusinessException e) {
             LOG.error("Could not close database connection!", e);
-            GuiUtil.warning("Shutdown error", "Could not close database connection!");
+            OmovGuiUtil.warning("Shutdown error", "Could not close database connection!");
         }
         
         this.mainWindow.dispose();

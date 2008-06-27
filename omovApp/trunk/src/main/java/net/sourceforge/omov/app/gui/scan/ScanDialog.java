@@ -27,8 +27,10 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -56,22 +58,26 @@ import javax.swing.table.TableColumn;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.BodyContext;
-import net.sourceforge.omov.gui.ContextMenuButton;
-import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.gui.GuiKeyAdapter;
 import net.sourceforge.omov.gui.table.TableContextMenuListener;
+import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.gui.widget.ContextMenuButton;
 
 /**
  * 
@@ -86,6 +92,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 
     private static final String CMD_CONTEXT_FETCH_METADATA = "CMD_FETCH_METADATA";
     private static final String CMD_CONTEXT_REMOVE_METADATA = "CMD_REMOVE_METADATA";
+    private static final String CMD_PLAY_QUICKVIEW = "CMD_PLAY_QUICKVIEW";
     
     
     private static final String DEFAULT_SCAN_ROOT_PATH_TEXT = "Select Scan Root";
@@ -109,7 +116,6 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
     
     
     private final JButton btnDoImportMovies = new JButton("Import");
-    private final JButton btnPrepare = new JButton("Prepare Repository ...");
 
     private final ScannedMovieTableModel tblScannedMovieModel = new ScannedMovieTableModel();
     private final ScannedMovieTable tblScannedMovie = new ScannedMovieTable(this.tblScannedMovieModel);
@@ -121,11 +127,13 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
     private ContextMenuButton btnAdvancedOptions; // actually final variable
 
     private JMenuItem itemPrepareFolder; // actually final variable
+    private JMenuItem itemSelectAll; // actually final variable
+    private JMenuItem itemSelectNone; // actually final variable
+
+
     
-
-
     public ScanDialog(JFrame owner) {
-        super(owner, "Scan Repository", true);
+        super(owner, "Scan Repository", false); // TODO scandialog is not modal anymore, because otherwise could not display quickview :(
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -140,6 +148,9 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
         BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
+        if(QtjFactory.isQtjAvailable()) {
+        	BodyContext.newJMenuItem(itemsSingle, "QuickView", CMD_PLAY_QUICKVIEW, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
+        }
         new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
 
         this.getRootPane().setDefaultButton(this.btnDoScan);
@@ -148,8 +159,8 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        GuiUtil.lockOriginalSizeAsMinimum(this);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.lockOriginalSizeAsMinimum(this);
+        OmovGuiUtil.setCenterLocation(this);
 
         // shortcut
 //        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));
@@ -212,14 +223,19 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 	    	panelCenterNorth.add(lblMain2);
 	    	
 	    	List<JMenuItem> advancedOptions = new ArrayList<JMenuItem>(1);
-	    	this.itemPrepareFolder = GuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
+	    	this.itemPrepareFolder = OmovGuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
 	    	this.itemPrepareFolder.setToolTipText("Create necessary folders for scan root");
+	    	this.itemSelectAll = OmovGuiUtil.newMenuItem("Select All", ScanDialogController.CMD_SELECT_ALL, advancedOptions);
+	    	this.itemSelectNone = OmovGuiUtil.newMenuItem("Unselect All", ScanDialogController.CMD_SELECT_NONE, advancedOptions);
 //	    	GuiUtil.newMenuItem("...", ScanDialogController.CMD_OPTIONS_..., advancedOptions);
 	    	// FEATURE additional advanced options for scan folder:
 	    	// - edit list of movie extensions
 	    	// - 
 	    	// 
-	    	this.itemPrepareFolder.setEnabled(false); //initially disabled
+	    	this.itemPrepareFolder.setEnabled(false); // initially disabled
+	    	this.itemSelectAll.setEnabled(false); // initially disabled
+	    	this.itemSelectNone.setEnabled(false); // initially disabled
+	    	
 	    	this.btnAdvancedOptions = new OmovContextMenuButton(advancedOptions, this.controller);
 	    	this.btnAdvancedOptions.setOpaque(false);
 	    	final JPanel panelCenterSouth = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -353,7 +369,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 
                     final int columnIndex = tblScannedMovie.columnAtPoint(event.getPoint());
                     final TableColumn column = tblScannedMovie.getColumnModel().getColumn(columnIndex);
-                    if(column.getHeaderValue().equals(ScannedMovieTableModel.TABLE_COLUMN_VALUE_MOVIE_SELECTED)) {
+                    if(column.getHeaderValue().equals(ScannedMovieTableModel.TABLE_COLUMN_VALUE_MOVIE_CHECKED)) {
                         LOG.debug("Ignoring doubleclick on table because it seems as checkbox was clicked (selected column="+tblScannedMovie.getSelectedColumn()+").");
                     } else {
                         final ScannedMovie selectedMovie = tblScannedMovieModel.getMovieAt(tblScannedMovie.getSelectedRow());
@@ -366,14 +382,36 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 
         this.tblScannedMovie.getColumnModel().getColumn(0).setMaxWidth(20); // checkbox
         this.tblScannedMovie.getColumnModel().getColumn(0).setMinWidth(20); // checkbox
+        
+        if(QtjFactory.isQtjAvailable()) {
+	        this.tblScannedMovie.addKeyListener(new GuiKeyAdapter() {
+	            public void keyReleasedAction(final KeyEvent event) {
+					final int code = event.getKeyCode();
+	                LOG.debug("scan table got key event with code "+code+" ("+event.getKeyChar()+").");
+	                
+	                if(code == KeyEvent.VK_SPACE && QtjFactory.isQtjAvailable()) {
+	                	LOG.debug("key event: space");
+	                	
+	                	final List<CheckedMovie> selectedMovies = tblScannedMovie.getSelectedMovies();
+	                	if(selectedMovies.size() == 1) {
+	                		controller.doPlayQuickView(selectedMovies.get(0));
+	                	} else {
+	                		LOG.debug("Can not quickview because selected movies != 1, but: " + selectedMovies.size());
+	                		Toolkit.getDefaultToolkit().beep();
+	                	}
+	                }
+				}
+	        });
+        }
 
         this.tblHints.getColumnModel().getColumn(0).setMinWidth(70);
         this.tblHints.getColumnModel().getColumn(0).setMaxWidth(70);
         this.tblHints.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        
 
-        final JScrollPane paneHints = GuiUtil.wrapScroll(this.tblHints, 300, 20);
+        final JScrollPane paneHints = OmovGuiUtil.wrapScroll(this.tblHints, 300, 20);
         paneHints.setMinimumSize(new Dimension(0, 0));
-        this.tableSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, GuiUtil.wrapScroll(this.tblScannedMovie, 400, 140), paneHints);
+        this.tableSplitter = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, OmovGuiUtil.wrapScroll(this.tblScannedMovie, 400, 140), paneHints);
         this.tableSplitter.setOneTouchExpandable(true);
         this.tableSplitter.setBorder(null);
 //        splitter.setDividerLocation(0);
@@ -464,7 +502,6 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
     	this.btnAdvancedOptions.setEnabled(enabled);
     	this.btnSetScanFolder.setEnabled(enabled);
         this.inpFetchMetadata.setEnabled(enabled);
-        this.btnPrepare.setEnabled(enabled);
         this.btnDoScan.setEnabled(enabled);
         this.btnDoImportMovies.setEnabled(enabled);
     }
@@ -479,26 +516,48 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 
         if(scannedMovies.size() == 0) {
             this.tableSplitter.setDividerLocation(0.4); // 40% movie table, 60% hints
+            this.itemSelectAll.setEnabled(false);
+        	this.itemSelectNone.setEnabled(false);
+        	OmovGuiUtil.info(this, "Scan Finished", "There could be not any movie found to be imported.");
+        } else {
+        	this.itemSelectAll.setEnabled(true);
+        	this.itemSelectNone.setEnabled(true);
         }
     }
+    
+
+	void doSelect(boolean selectAll) {
+		final int n = this.tblScannedMovieModel.getRowCount();
+		for (int i = 0; i < n; i++) {
+			final ScannedMovie movie = this.tblScannedMovieModel.getMovieAt(i);
+			movie.setChecked(selectAll);
+		}
+		this.tblScannedMovie.repaint();
+	}
 
     JProgressBar getProgressBar() {
         return this.progressBar;
     }
 
-    List<Movie> getSelectedMovies() {
-        return this.tblScannedMovieModel.getSelectedMovies();
+    List<Movie> getCheckedMovies() {
+        return this.tblScannedMovieModel.getCheckedMovies();
     }
 
 
     public void contextMenuClicked(JMenuItem item, int tableRowSelected) {
         final String cmd = item.getActionCommand();
+        
+        final ScannedMovie movie = this.tblScannedMovieModel.getMovieAt(tableRowSelected);
+        
         if(cmd.equals(CMD_CONTEXT_FETCH_METADATA)) {
-            this.controller.doFetchMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
+            this.controller.doFetchMetaData(movie);
 
         } else if(cmd.equals(CMD_CONTEXT_REMOVE_METADATA)) {
-            this.controller.doRemoveMetaData(this.tblScannedMovieModel.getMovieAt(tableRowSelected));
+            this.controller.doRemoveMetaData(movie);
 
+        } else if(cmd.equals(CMD_PLAY_QUICKVIEW)) {
+        	this.controller.doPlayQuickView(movie);
+        	
         } else {
             throw new IllegalArgumentException("unhandled action command '"+cmd+"'!");
         }

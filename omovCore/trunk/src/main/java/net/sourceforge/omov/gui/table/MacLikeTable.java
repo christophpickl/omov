@@ -41,10 +41,11 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.gui.IMacColors;
 
 import org.jdesktop.swingx.JXTable;
+
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

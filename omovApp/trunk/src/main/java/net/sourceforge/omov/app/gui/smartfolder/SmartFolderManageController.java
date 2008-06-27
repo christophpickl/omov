@@ -21,11 +21,11 @@ package net.sourceforge.omov.app.gui.smartfolder;
 
 import javax.swing.JFrame;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.model.ISmartFolderDao;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,7 +62,7 @@ class SmartFolderManageController {
                 final SmartFolder addedSmartfolder = DAO.insertSmartFolder(confirmedSmartfolder);
                 this.dialog.setSelectedSmartFolder(addedSmartfolder);
             } catch (BusinessException e) {
-                GuiUtil.error(this.dialog, "Insert Error", "Could not save SmartFolder '"+confirmedSmartfolder.getName()+"'!");
+                OmovGuiUtil.error(this.dialog, "Insert Error", "Could not save SmartFolder '"+confirmedSmartfolder.getName()+"'!");
             }
         }
     }
@@ -78,13 +78,13 @@ class SmartFolderManageController {
             try {
                 DAO.updateSmartFolder(editedSmartfolder);
             } catch (BusinessException e) {
-                GuiUtil.error(this.dialog, "Update Error", "Could not update SmartFolder '"+editedSmartfolder.getName()+"'!");
+                OmovGuiUtil.error(this.dialog, "Update Error", "Could not update SmartFolder '"+editedSmartfolder.getName()+"'!");
             }
         }
     }
     
     void doDeleteSmartFolder(final SmartFolder folder) {
-    	if(GuiUtil.getYesNoAnswer(this.owner, "Delete SmartFolder", "Do you really want to delete '"+folder.getName()+"'?") == false) {
+    	if(OmovGuiUtil.getYesNoAnswer(this.owner, "Delete SmartFolder", "Do you really want to delete '"+folder.getName()+"'?") == false) {
     		return;
     	}
     		
@@ -92,7 +92,7 @@ class SmartFolderManageController {
             DAO.deleteSmartFolder(folder);
         } catch (BusinessException e) {
             LOG.error("Deleting smartfolder failed: " + folder, e);
-            GuiUtil.error(this.dialog, "Delete Error", "Could not delete SmartFolder '"+folder.getName()+"'!");
+            OmovGuiUtil.error(this.dialog, "Delete Error", "Could not delete SmartFolder '"+folder.getName()+"'!");
         }
     }
 }

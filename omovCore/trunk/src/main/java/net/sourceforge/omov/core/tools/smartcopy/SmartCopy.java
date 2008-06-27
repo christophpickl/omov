@@ -30,6 +30,8 @@ import net.sourceforge.omov.core.util.FileUtil;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
@@ -95,6 +97,8 @@ public class SmartCopy {
             
             LOG.info("SmartCopy finished successfully.");
             successfullyCopied = true;
+        } catch(FileUtilException e) {
+        	throw new BusinessException("File error occured!", e);
         } finally {
             if(successfullyCopied == false) {
                 cleanup(createdDirectories);

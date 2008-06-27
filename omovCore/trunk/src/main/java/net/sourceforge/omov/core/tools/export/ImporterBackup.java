@@ -39,10 +39,13 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IMovieDao;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.core.util.ZipUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
+import at.ac.tuwien.e0525580.jlib.util.ZipUtil;
+import at.ac.tuwien.e0525580.jlib.util.ZipUtilException;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -74,7 +77,7 @@ public class ImporterBackup implements ImportExportConstants {
         try {
             try {
                 ZipUtil.unzip(this.backupFile, this.backupZipFile, targetDirectory);
-            } catch (BusinessException e) {
+            } catch (ZipUtilException e) {
                 result.setErrorMessage("Could not unpack backup file '"+this.backupFile.getAbsolutePath()+"'!");
                 return result;
             }
@@ -171,8 +174,12 @@ public class ImporterBackup implements ImportExportConstants {
                 
                 final File targetOriginalMovie = new File(PreferencesDao.getInstance().getCoversFolder(), newCoverFileName);
                 LOG.debug("Copying cover files from original file '"+originalCoverFile.getAbsolutePath()+"' to '"+targetOriginalMovie.getAbsolutePath()+"' for movie: " + movie);
-                FileUtil.copyFile(originalCoverFile, targetOriginalMovie);
-                CoverUtil.copyCoverFileTypesByOriginal(movie, originalCoverFile);
+                try {
+					FileUtil.copyFile(originalCoverFile, targetOriginalMovie);
+	                CoverUtil.copyCoverFileTypesByOriginal(movie, originalCoverFile);
+				} catch (FileUtilException e) {
+					throw new BusinessException("Could not copy files]!", e);
+				}
                 
                 BeanFactory.getInstance().getMovieDao().updateMovie(Movie.newByOtherMovieSetCoverFile(movie, newCoverFileName));
                 
@@ -189,6 +196,7 @@ public class ImporterBackup implements ImportExportConstants {
                 } catch(Exception e1) {
                     LOG.error("Could not clean up cover files for movie: " + movie, e1);
                 }
+                // MINOR should not BusinessException rethrown, and Exception catched instead?!
             }
         }
     }

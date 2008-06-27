@@ -48,14 +48,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.StringUtil;
-import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.gui.list.MacLikeListCellRenderer;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
@@ -63,6 +60,10 @@ import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.util.StringUtil;
 
 /**
  * 
@@ -144,7 +145,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         this.getContentPane().add(this.initComponents());
         this.setResizable(false);
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     private void doSelectionChanged() {
@@ -244,7 +245,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
     public void didFetchedWebDetail(boolean wasCancelled, WebSearchResult searchResult, Movie movie, Exception thrownException) {
         if(thrownException != null) {
             LOG.error("Could not fetch movie webdetails!", thrownException);
-            GuiUtil.error(this, "Fetching Metadata", "Sorry but fetching data from server failed!");
+            OmovGuiUtil.error(this, "Fetching Metadata", "Sorry but fetching data from server failed!");
             return;
         }
         

@@ -19,15 +19,21 @@
 
 package net.sourceforge.omov.app.gui;
 
+import java.awt.Component;
+import java.io.File;
 import java.util.List;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import net.sourceforge.omov.app.gui.webdata.IWebSearchWorkerListener;
 import net.sourceforge.omov.app.gui.webdata.WebSearchProgress;
 import net.sourceforge.omov.app.gui.webdata.WebSearchResultsDialog;
+import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.qtjApi.QtjFactory;
 import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
@@ -75,4 +81,42 @@ public abstract class CommonController<M extends Movie> implements IWebSearchWor
      * @param movie can be null
      */
     protected abstract void didFetchedMetaData(M movieFetchingData, Movie metadataEnhancedMovie);
+    
+
+    protected final void doPlayQuickView(Component owner, Movie movie) {
+    	assert(QtjFactory.isQtjAvailable() == true);
+    	if(owner == null) {
+    		throw new NullPointerException("owner");
+    	}
+    	
+		if(movie.getFiles().size() == 0) {
+			OmovGuiUtil.info(owner, "QuickView", "No files to play for movie '"+movie.getTitle()+"'.");
+			return;
+		}
+
+		// FIXME QTJ - do not select file, but let QtjVideoPlayerImpl decide which file!
+		final File movieFile = new File(movie.getFolderPath(), movie.getFiles().get(0));
+		if(movieFile.exists() == false) {
+			OmovGuiUtil.warning(owner, "QuickView", "File does not exist: " + movieFile.getAbsolutePath());
+			return;
+		}
+		
+    	try {
+    		QtjFactory.newQtjVideoPlayer(movie, movieFile).setVisible(true);
+//			new MoviePlayer(movie, movieFile, this.mainWindow).setVisible(true);
+		} catch (BusinessException e) {
+			LOG.error("Could not play movie file '"+movieFile.getAbsolutePath()+"'!", e);
+			
+			final String errMsg = "Playing movie file failed because of some internal error!";
+			final String errTitle = "QuickView";
+			if(owner instanceof JDialog) {
+				OmovGuiUtil.error((JDialog) owner, errTitle, errMsg, e);
+			} else if(owner instanceof JDialog) {
+				OmovGuiUtil.error((JFrame) owner, errTitle, errMsg, e);
+			} else {
+				throw new IllegalArgumentException("Invalid owner class: " + owner.getClass().getName());
+			}
+			
+		}
+    }
 }

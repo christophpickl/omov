@@ -35,12 +35,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.DraggableList;
-import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -78,11 +78,11 @@ public class MovieFilesReordering extends JDialog implements ActionListener, IEs
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(new JScrollPane(this.list), BorderLayout.CENTER);
 		panel.add(this.panelSouth(), BorderLayout.SOUTH);
-		GuiUtil.macSmallWindow(this.getRootPane());
+		OmovGuiUtil.macSmallWindow(this.getRootPane());
 		this.getContentPane().add(panel);
 		this.pack();
 		this.setResizable(false);
-		GuiUtil.setCenterLocation(this);
+		OmovGuiUtil.setCenterLocation(this);
 	}
 	
 	private JPanel panelSouth() {

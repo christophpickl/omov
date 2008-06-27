@@ -46,15 +46,15 @@ import javax.swing.UIManager;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.PrefToolBarItem;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
-import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -101,7 +101,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
         EscapeDisposer.enableEscape(this.getRootPane(), this);
         
         
-        GuiUtil.macSmallWindow(this.getRootPane());
+        OmovGuiUtil.macSmallWindow(this.getRootPane());
         
 //        this.inpServerPort = new PreferencesNumber(this, Configuration.getInstance().getServerPort(), 4) {
 //            private static final long serialVersionUID = -2125603612020028656L;
@@ -135,7 +135,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
         this.adjustSize();
         
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     private void adjustSize() {
@@ -197,7 +197,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
 			private static final long serialVersionUID = 1L;
 			@Override
     		public void paint(final Graphics g) {
-    			SimpleGuiUtil.paintGradient((Graphics2D) g, 
+				OmovGuiUtil.paintGradient((Graphics2D) g, 
     					Constants.getColorLightGray(), Constants.getColorWindowBackground(), this.getSize());
     			super.paint(g);
     		}
@@ -231,7 +231,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
     	button.setHorizontalTextPosition(SwingConstants.CENTER);
     	
     	button.setBorderPainted(false);
-    	GuiUtil.enableHandCursor(button);
+    	OmovGuiUtil.enableHandCursor(button);
     	return button;
     }
     

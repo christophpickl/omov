@@ -20,6 +20,8 @@
 package net.sourceforge.omov.app.gui.scan;
 
 import java.awt.event.ActionEvent;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
@@ -29,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 
 import net.sourceforge.omov.core.Constants;
+import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.table.MacLikeTable;
 
@@ -66,11 +69,28 @@ class ScannedMovieTable extends MacLikeTable {
         checkbox.addActionListener(new GuiActionListener() {
             public void action(ActionEvent e) {
                 final int selectedRow = getSelectedRow();
-                model.changeSelectedRow(convertRowIndexToModel(selectedRow));
+                model.changeCheckedRow(convertRowIndexToModel(selectedRow));
                 getSelectionModel().setSelectionInterval(selectedRow, selectedRow);
                 
         }});
         this.getColumnModel().getColumn(0).setCellEditor(new BooleanEditor(checkbox));
+    }
+    
+    public List<CheckedMovie> getSelectedMovies() {
+    	List<CheckedMovie> result = new LinkedList<CheckedMovie>();
+    	
+    	final int[] rowIndices = this.getSelectedRows();
+    	final ScannedMovieTableModel model = this.getModel();
+    	for (int index : rowIndices) {
+			result.add(model.getMovieAt(index));
+		}
+    	
+    	return result;
+    }
+    
+    @Override
+    public ScannedMovieTableModel getModel() {
+    	return (ScannedMovieTableModel) super.getModel();
     }
     // FIXME GUI - grid is not painted right in scanned movie table!
     

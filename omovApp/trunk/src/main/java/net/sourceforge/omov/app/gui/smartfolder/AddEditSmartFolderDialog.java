@@ -36,14 +36,15 @@ import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 import net.sourceforge.omov.app.gui.movie.AbstractAddEditDialog;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
-import net.sourceforge.omov.core.util.CollectionUtil;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 
@@ -68,7 +69,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         this.setTitle( this.isAddMode() ? "Add new Smartfolder" : smartFolder.getName());
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
 
     private JPanel initComponents() {

@@ -26,13 +26,13 @@ import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory.PrefToolBarIcon;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.tools.FileSystemChecker;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -92,7 +92,7 @@ public class PreferencesWindowController implements ActionListener {
         try {
             final FileSystemCheckResult result = FileSystemChecker.process();
             if(result.isEverythingOkay() == true) {
-                GuiUtil.info(this.window, "File System Check", "Each and every file is at its the expected location.");
+                OmovGuiUtil.info(this.window, "File System Check", "Each and every file is at its the expected location.");
                 
             } else { // (result.isEverythingOkay() == false)
                 new FileSystemCheckDialog(result, this.window).setVisible(true);
@@ -100,7 +100,7 @@ public class PreferencesWindowController implements ActionListener {
             
         } catch (BusinessException e) {
             LOG.error("File System Check failed!", e);
-            GuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
+            OmovGuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
         }
     }
 
@@ -122,7 +122,7 @@ public class PreferencesWindowController implements ActionListener {
 					
 
 				} else if(cmd.equals(CMD_CLEAR_PREFERENCES)) {
-					if(GuiUtil.getYesNoAnswer(window, "Clear Preferences", "Do you really want to clear every perferences you set\nand shutdown OurMovies immediately?") == false) {
+					if(OmovGuiUtil.getYesNoAnswer(window, "Clear Preferences", "Do you really want to clear every perferences you set\nand shutdown OurMovies immediately?") == false) {
                         return;
                     }
                     
@@ -132,7 +132,7 @@ public class PreferencesWindowController implements ActionListener {
                         
                     } catch (BusinessException e) {
                         LOG.error("Could not clear preferences!", e);
-                        GuiUtil.error(window, "Error", "Could not clear preferences!");
+                        OmovGuiUtil.error(window, "Error", "Could not clear preferences!");
                     }
                     
                 } else  if(cmd.equals(CMD_CHECK_VERSION_NOW)) {

@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 
-import net.sourceforge.omov.core.util.UserSniffer;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

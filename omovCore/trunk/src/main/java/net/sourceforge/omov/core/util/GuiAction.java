@@ -21,6 +21,7 @@ package net.sourceforge.omov.core.util;
 
 import net.sourceforge.omov.core.BusinessException;
 
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
@@ -30,11 +31,11 @@ public abstract class GuiAction {
         try {
             this._action();
         } catch(NoClassDefFoundError e) {
-        	SimpleGuiUtil.handleFatalException(new BusinessException("Could not find class!", e));
+        	FatalExceptionHandler.handle(new BusinessException("Could not find class!", e));
         } catch(NullPointerException e) {
-        	SimpleGuiUtil.handleFatalException(e);
+        	FatalExceptionHandler.handle(e);
         } catch(Exception e) {
-        	SimpleGuiUtil.handleFatalException(e);
+        	FatalExceptionHandler.handle(e);
         }
     }
     protected abstract void _action();

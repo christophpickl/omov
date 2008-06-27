@@ -29,10 +29,10 @@ import java.util.Map;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.core.util.UserSniffer.OS;
 
 import org.apache.log4j.Logger;
+
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -66,7 +66,7 @@ class AppleScriptProcessExecuter {
     }
     
     private static String executeScript(String scriptFileName) throws BusinessException {
-        assert(UserSniffer.isOS(OS.MAC));
+        assert(UserSniffer.isMacOSX());
         
         LOG.info("Executing apple script '"+scriptFileName+"'...");
         try {

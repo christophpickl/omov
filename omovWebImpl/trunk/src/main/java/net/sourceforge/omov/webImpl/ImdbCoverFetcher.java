@@ -15,7 +15,6 @@ import java.util.Date;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
-import net.sourceforge.omov.core.util.CloseableUtil;
 import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
@@ -23,6 +22,8 @@ import org.apache.commons.logging.LogFactory;
 import org.htmlparser.Tag;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.visitors.NodeVisitor;
+
+import at.ac.tuwien.e0525580.jlib.util.CloseUtil;
 
 
 /**
@@ -124,8 +125,8 @@ class ImdbCoverFetcher extends NodeVisitor {
         } catch (IOException e) {
             throw new BusinessException("Could not download file from url '"+urlString+"' to file '"+target.getAbsolutePath()+"'!", e);
         } finally {
-            CloseableUtil.close(in);
-            CloseableUtil.close(out);
+            CloseUtil.close(in);
+            CloseUtil.close(out);
         }
 
         http.disconnect();

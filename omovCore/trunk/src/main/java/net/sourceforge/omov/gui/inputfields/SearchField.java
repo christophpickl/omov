@@ -42,11 +42,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.event.MouseInputListener;
 
-import net.sourceforge.omov.core.util.UserSniffer;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * A text field for search/filter interfaces. The extra functionality includes

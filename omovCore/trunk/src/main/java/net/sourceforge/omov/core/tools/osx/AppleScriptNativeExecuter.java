@@ -26,11 +26,11 @@ import java.net.URL;
 import java.net.URLClassLoader;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.core.util.UserSniffer.OS;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class AppleScriptNativeExecuter {
     private static Class<?> nsMutableDictionaryClass;
 
     public static String executeAppleScript(final String script) throws BusinessException {
-        assert(UserSniffer.isOS(OS.MAC));
+        assert(UserSniffer.isMacOSX());
         
         try {
             if(appleScriptMethod == null) {

@@ -47,11 +47,12 @@ import net.sourceforge.omov.core.smartfolder.TextCriterion;
 import net.sourceforge.omov.core.smartfolder.TextMatch;
 import net.sourceforge.omov.core.smartfolder.TextMultipleCriterion;
 import net.sourceforge.omov.core.smartfolder.TextMultipleMatch;
-import net.sourceforge.omov.core.util.DateUtil;
-import net.sourceforge.omov.core.util.NumberUtil.Duration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.DateUtil;
+import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 

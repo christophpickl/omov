@@ -35,7 +35,7 @@ import net.sourceforge.omov.gui.list.MacLikeList;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class DraggableList extends MacLikeList {
+public class DraggableList extends MacLikeList { // MINOR do not extend MacLikeList -> Decorater Pattern (afterwards outsource DraggableList in JLib.gui.widgets)
 
 	private static final long serialVersionUID = -2907146218495589836L;
 	private int from;

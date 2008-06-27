@@ -28,13 +28,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.omov.core.util.CollectionUtil;
 import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.core.util.NumberUtil;
-import net.sourceforge.omov.core.util.StringUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
+import at.ac.tuwien.e0525580.jlib.util.DurationUtil;
+import at.ac.tuwien.e0525580.jlib.util.StringUtil;
 
 /**
  * Immutable value class.
@@ -639,7 +640,7 @@ DATA VERSION HISTORY
      * @return something like "1:23"
      */
     public String getDurationFormattedShort() {
-        return NumberUtil.formatDurationShort(this.duration);
+        return DurationUtil.formatDurationShort(this.duration);
     }
     
 

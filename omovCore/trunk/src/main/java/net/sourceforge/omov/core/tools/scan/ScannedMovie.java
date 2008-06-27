@@ -23,20 +23,20 @@ import java.io.File;
 import java.util.HashSet;
 
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.bo.SelectableMovie;
+import net.sourceforge.omov.core.bo.CheckedMovie;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ScannedMovie extends SelectableMovie {
+public class ScannedMovie extends CheckedMovie {
 
     private static final long serialVersionUID = 3374310280498510658L;
     
     // MINOR scanner: add boolean:metadataFetched indicating that this scanned movie got fetched metadata? -> is this even useful?
 
-    private ScannedMovie(Movie movie, boolean selected) {
-        super(movie, selected);
+    private ScannedMovie(Movie movie, boolean checked) {
+        super(movie, checked);
     }
 
 
@@ -45,11 +45,11 @@ public class ScannedMovie extends SelectableMovie {
     }
 
     public static ScannedMovie updateByMovie(Movie movie, ScannedMovie scanned) {
-        return new ScannedMovie(movie, scanned.isSelected());
+        return new ScannedMovie(movie, scanned.isChecked());
     }
     
     public static ScannedMovie updateByMetadataMovie(ScannedMovie scanned, Movie metadata) {            
-        return new ScannedMovie(Movie.updateByMetadataMovie(scanned, metadata), scanned.isSelected());
+        return new ScannedMovie(Movie.updateByMetadataMovie(scanned, metadata), scanned.isChecked());
     }
     
     public static ScannedMovie clearMetadataMovie(ScannedMovie scanned) {
@@ -58,6 +58,6 @@ public class ScannedMovie extends SelectableMovie {
         final Movie metadataCleared = Movie.create(scanned.getId())
             .actors(new HashSet<String>()).comment("").coverFile("").director("").duration(0).genres(new HashSet<String>()).title(folderName).year(0)
             .get();
-        return new ScannedMovie(Movie.updateByMetadataMovie(scanned, metadataCleared), scanned.isSelected());
+        return new ScannedMovie(Movie.updateByMetadataMovie(scanned, metadataCleared), scanned.isChecked());
     }
 }

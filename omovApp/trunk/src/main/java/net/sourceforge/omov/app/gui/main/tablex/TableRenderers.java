@@ -40,7 +40,7 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.util.NumberUtil;
+import at.ac.tuwien.e0525580.jlib.util.DurationUtil;
 
 /**
  * 
@@ -194,7 +194,7 @@ class TableRenderers {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final int duration = (Integer) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            lbl.setText(NumberUtil.formatDurationShort(duration));
+            lbl.setText(DurationUtil.formatDurationShort(duration));
             if(isSelected) {
                 lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setForeground(Constants.getColorSelectedForeground());

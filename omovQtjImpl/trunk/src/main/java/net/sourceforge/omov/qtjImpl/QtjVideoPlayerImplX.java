@@ -42,10 +42,6 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
-import net.sourceforge.omov.core.util.TimeUtil;
-import net.sourceforge.omov.core.util.SimpleGuiUtil.GlobalKey;
-import net.sourceforge.omov.core.util.SimpleGuiUtil.IGlobalKeyListener;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 
 import org.apache.commons.logging.Log;
@@ -59,6 +55,10 @@ import quicktime.io.OpenMovieFile;
 import quicktime.io.QTFile;
 import quicktime.std.StdQTException;
 import quicktime.std.movies.Movie;
+import at.ac.tuwien.e0525580.jlib.gui.util.GlobalKey;
+import at.ac.tuwien.e0525580.jlib.gui.util.IGlobalKeyListener;
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
+import at.ac.tuwien.e0525580.jlib.util.TimeUtil;
 
 /**
  * 
@@ -146,7 +146,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.getContentPane().add(this.wrapPanel);
 		this.setBackground(Color.BLACK);
 		this.pack();
-		SimpleGuiUtil.setCenterLocation(this);
+		GuiUtil.setCenterLocation(this);
 		
 		this.wrapPanel.addMouseListener(this.smallScreen);
 		this.wrapPanel.addMouseMotionListener(this.smallScreen);
@@ -159,7 +159,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		
 		this.wrapPanel.addMouseListener(this);
 		
-		SimpleGuiUtil.addGlobalKeyListener((JPanel) this.getContentPane(), this);
+		GuiUtil.addGlobalKeyListener((JPanel) this.getContentPane(), this);
 		
 		
 

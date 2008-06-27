@@ -35,7 +35,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -43,6 +42,7 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 /**
  * 
@@ -102,7 +102,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         this.preselectCheckboxes();
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     private void preselectCheckboxes() {

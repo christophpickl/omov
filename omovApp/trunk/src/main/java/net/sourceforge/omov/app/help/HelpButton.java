@@ -30,7 +30,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.util.UserSniffer;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

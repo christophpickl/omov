@@ -17,15 +17,16 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 public class WebSearchProgress<N extends Movie> extends JDialog implements IEscapeDisposeReceiver {
 
@@ -38,7 +39,7 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IEsca
     
 	public WebSearchProgress(JFrame owner, JFrame parent, N movieFetchingData, IWebSearchWorkerListener<N> listener) {
 		super(owner, "Fetching Metadata", true);
-		GuiUtil.macSmallWindow(this.getRootPane());
+		OmovGuiUtil.macSmallWindow(this.getRootPane());
 
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -51,7 +52,7 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IEsca
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
         
         this.worker = new WebSearchWorker<N>(this, listener, movieFetchingData, parent);
         LOG.debug("worker.execute();");

@@ -33,8 +33,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 
@@ -140,7 +140,7 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 	private final JButton btnPlayPause = new JButton("Play");
 	private void initComponents() {
 		btnPlayPause.setBorderPainted(false);
-		SimpleGuiUtil.enableHandCursor(btnPlayPause);
+		GuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
 		btnPlayPause.addActionListener(new GuiActionListener() {
 			public void action(ActionEvent e) {

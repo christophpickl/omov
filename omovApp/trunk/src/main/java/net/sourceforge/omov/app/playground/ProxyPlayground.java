@@ -22,7 +22,7 @@ import java.net.SocketAddress;
 import java.net.URL;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.util.CloseableUtil;
+import at.ac.tuwien.e0525580.jlib.util.CloseUtil;
 
 public class ProxyPlayground {
     public static void main(String[] args) throws BusinessException {
@@ -88,8 +88,8 @@ public class ProxyPlayground {
         } catch (IOException e) {
             throw new BusinessException("Could not download file from url '"+urlString+"' to file '"+target.getAbsolutePath()+"'!", e);
         } finally {
-            CloseableUtil.close(in);
-            CloseableUtil.close(out);
+            CloseUtil.close(in);
+            CloseUtil.close(out);
         }
 
         System.out.println("Disconnecting ...");

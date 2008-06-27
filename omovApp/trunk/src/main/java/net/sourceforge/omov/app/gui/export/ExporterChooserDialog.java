@@ -41,15 +41,15 @@ import javax.swing.border.CompoundBorder;
 
 import net.sourceforge.omov.app.gui.export.ComboMovieSelection.MovieSelectionMode;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -104,7 +104,7 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {
@@ -202,7 +202,7 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         final List<Movie> movies = this.getMoviesToExport();
         
         if(movies.size() == 0) { // [mantis 0000060]
-        	GuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
+        	OmovGuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
         	return;
         }
         

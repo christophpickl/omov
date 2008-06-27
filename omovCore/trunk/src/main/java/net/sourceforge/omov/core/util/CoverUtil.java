@@ -43,6 +43,8 @@ import net.sourceforge.omov.core.model.IMovieDao;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
+
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
@@ -142,7 +144,11 @@ public final class CoverUtil {
         final String newCoverFileName = movie.getId() + "." + extension;
 
         final File targetFile = new File(PreferencesDao.getInstance().getCoversFolder(), newCoverFileName);
-        FileUtil.copyFile(new File(coverFile), targetFile);
+        try {
+			FileUtil.copyFile(new File(coverFile), targetFile);
+		} catch (FileUtilException e) {
+			throw new BusinessException("Could not copy cover file!", e);
+		}
 
         DAO.updateMovie(Movie.newByOtherMovieSetCoverFile(movie, newCoverFileName));
 

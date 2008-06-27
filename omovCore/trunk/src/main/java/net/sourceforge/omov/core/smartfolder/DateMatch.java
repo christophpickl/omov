@@ -26,10 +26,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import net.sourceforge.omov.core.util.DateUtil;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.DateUtil;
 
 import com.db4o.query.Constraint;
 import com.db4o.query.Query;

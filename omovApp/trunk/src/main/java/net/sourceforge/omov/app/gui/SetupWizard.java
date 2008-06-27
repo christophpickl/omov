@@ -40,22 +40,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.core.util.UserSniffer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
-import net.sourceforge.omov.gui.EscapeDisposer;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
-import net.sourceforge.omov.gui.chooser.DirectoryChooser;
-import net.sourceforge.omov.gui.chooser.IFileDirectoryChooserListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.gui.chooser.DirectoryChooser;
+import at.ac.tuwien.e0525580.jlib.gui.chooser.IFileDirectoryChooserListener;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -97,8 +98,8 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
-        GuiUtil.lockOriginalSizeAsMinimum(this);
+        OmovGuiUtil.setCenterLocation(this);
+        OmovGuiUtil.lockOriginalSizeAsMinimum(this);
         
     }
     
@@ -251,7 +252,7 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
                 if(i != 0) sb.append("\n");
                 sb.append(warnings.get(i));
             }
-            GuiUtil.warning(this, "Invalid Input", sb.toString());
+            OmovGuiUtil.warning(this, "Invalid Input", sb.toString());
         }
         
         return warnings.size() == 0;

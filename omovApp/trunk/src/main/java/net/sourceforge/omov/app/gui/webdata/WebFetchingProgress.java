@@ -36,15 +36,16 @@ import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -62,7 +63,7 @@ class WebFetchingProgress extends JDialog implements IEscapeDisposeReceiver {
     public WebFetchingProgress(JDialog owner, IFetchedWebDetail fetchedDetailListener, WebSearchResult searchResult) {
         super(owner, "Fetching Metadata", true);
         
-        GuiUtil.macSmallWindow(this.getRootPane());
+        OmovGuiUtil.macSmallWindow(this.getRootPane());
         
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -75,7 +76,7 @@ class WebFetchingProgress extends JDialog implements IEscapeDisposeReceiver {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
         
         
         this.worker = new FetchWebDetailWorker(this, searchResult, fetchedDetailListener);

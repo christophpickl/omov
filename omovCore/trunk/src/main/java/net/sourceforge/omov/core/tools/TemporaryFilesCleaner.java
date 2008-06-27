@@ -21,12 +21,15 @@ package net.sourceforge.omov.core.tools;
 
 import java.io.File;
 
-import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
+
+
 
 /**
  * 
@@ -49,7 +52,7 @@ public final class TemporaryFilesCleaner {
             if(temporaryFile.isDirectory()) {
                 try {
                     FileUtil.deleteDirectoryRecursive(temporaryFile);
-                } catch (BusinessException e) {
+                } catch (FileUtilException e) {
                     LOG.warn("Could not delete temporary folder '"+temporaryFile.getAbsolutePath()+"'!");
                 }
             } else { // is file

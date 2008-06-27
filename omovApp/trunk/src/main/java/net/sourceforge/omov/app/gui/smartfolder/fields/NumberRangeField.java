@@ -21,7 +21,7 @@ package net.sourceforge.omov.app.gui.smartfolder.fields;
 
 import javax.swing.JLabel;
 
-import net.sourceforge.omov.gui.inputfields.NumberField;
+import at.ac.tuwien.e0525580.jlib.gui.inputfield.NumberField;
 
 /**
  * 

@@ -28,9 +28,9 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder.IDuplicatesFinderListener;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
@@ -69,7 +69,7 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
 
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
 
     private JPanel initComponents() {
@@ -102,14 +102,14 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
         if(successfullyFinished == false) {
             final Exception ex = this.finder.getThrownException();
             if(ex != null) {
-                GuiUtil.error("Progress aborted", "Searching for duplicates was aborted\ndue to an internal error!");
+                OmovGuiUtil.error("Progress aborted", "Searching for duplicates was aborted\ndue to an internal error!");
                 LOG.error("Searching for duplicates failed", ex);
             }
             this.dispose();
             return;
         }
         if(this.finder.getFoundDuplicates().size() == 0) {
-            GuiUtil.info("No Duplicate Movies", "There could be not any duplicate movie found.");
+            OmovGuiUtil.info("No Duplicate Movies", "There could be not any duplicate movie found.");
             this.dispose();
         } else {
             final DuplicatesFinderDialog dialog = new DuplicatesFinderDialog((JFrame) this.getOwner(), this.finder);

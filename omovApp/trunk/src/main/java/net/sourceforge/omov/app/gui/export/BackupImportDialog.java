@@ -36,21 +36,22 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.tools.export.ImportExportConstants;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.ButtonPosition;
-import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
-import net.sourceforge.omov.gui.chooser.FileChooser;
-import net.sourceforge.omov.gui.chooser.IFileDirectoryChooserListener;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.gui.chooser.ButtonPosition;
+import at.ac.tuwien.e0525580.jlib.gui.chooser.FileChooser;
+import at.ac.tuwien.e0525580.jlib.gui.chooser.IFileDirectoryChooserListener;
 
 /**
  * 
@@ -103,7 +104,7 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     public void setZipFile(File backupFile) {

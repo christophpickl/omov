@@ -19,7 +19,7 @@
 
 package net.sourceforge.omov.core.tools.vlc;
 
-import net.sourceforge.omov.core.util.UserSniffer;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

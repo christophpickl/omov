@@ -17,8 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
-import net.sourceforge.omov.core.util.TimeUtil;
 import net.sourceforge.omov.qtjImpl.QtjUtil;
 
 import org.apache.commons.logging.Log;
@@ -30,6 +28,8 @@ import quicktime.app.view.QTFactory;
 import quicktime.app.view.QTJComponent;
 import quicktime.std.StdQTException;
 import quicktime.std.movies.Movie;
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
+import at.ac.tuwien.e0525580.jlib.util.TimeUtil;
 
 // FIXME see net.sourceforge.atunes.gui.views.panels.PlayerControlsPanel
 
@@ -253,7 +253,7 @@ public class ControlledApp extends JFrame {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setTitle("QTJ Controller");
 		this.pack();
-		SimpleGuiUtil.setCenterLocation(this);
+		GuiUtil.setCenterLocation(this);
 		
 
 		TimerTask task = new TimerTask() {

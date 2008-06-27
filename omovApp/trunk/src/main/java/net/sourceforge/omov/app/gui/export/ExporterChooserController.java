@@ -25,13 +25,13 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.export.ExporterBackup;
 import net.sourceforge.omov.core.tools.export.ExporterHtml;
 import net.sourceforge.omov.core.tools.export.HtmlColumn;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,9 +60,9 @@ public class ExporterChooserController {
         try {
             LOG.info("Exporting HTML-Report to '"+targetFile.getAbsolutePath()+"' with "+movies.size()+" movies.");
             exporter.process(movies, targetFile);
-            GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+exporter.getTargetFilePath());
+            OmovGuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+exporter.getTargetFilePath());
         } catch (BusinessException e) {
-            GuiUtil.error(this.dialog, "Export HTML", "Exporting Movies failed! Error message is:\n"+e.getMessage());
+            OmovGuiUtil.error(this.dialog, "Export HTML", "Exporting Movies failed! Error message is:\n"+e.getMessage());
             LOG.error("Could not export movies to target '"+targetFile.getAbsolutePath()+"'!", e);
         }
     }
@@ -75,9 +75,9 @@ public class ExporterChooserController {
         try {
             LOG.info("Exporting Backup to '"+targetDirectory.getAbsolutePath()+"'.");
             final File backupFile = ExporterBackup.process(movies, targetDirectory);
-            GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+backupFile.getAbsolutePath());
+            OmovGuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+backupFile.getAbsolutePath());
         } catch (BusinessException e) {
-            GuiUtil.error(this.dialog, "Export Backup", "Generating report failed!\n"+e.getMessage());
+            OmovGuiUtil.error(this.dialog, "Export Backup", "Generating report failed!\n"+e.getMessage());
         }
     }
     
@@ -117,7 +117,7 @@ public class ExporterChooserController {
                 return null;
             }
             if(selectedFile.delete() == false) {
-                GuiUtil.error(this.dialog, "File Error", "Could not delete File '"+selectedFile.getAbsolutePath() + "'!");
+                OmovGuiUtil.error(this.dialog, "File Error", "Could not delete File '"+selectedFile.getAbsolutePath() + "'!");
                 return null;
             }
         }

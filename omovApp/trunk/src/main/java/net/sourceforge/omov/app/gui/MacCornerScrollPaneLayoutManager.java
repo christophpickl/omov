@@ -25,8 +25,8 @@ import java.awt.Rectangle;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneLayout;
 
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.core.util.UserSniffer.OS;
+import at.ac.tuwien.e0525580.jlib.tools.OperatingSystem;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 
 /**
@@ -42,7 +42,7 @@ public class MacCornerScrollPaneLayoutManager extends ScrollPaneLayout {
     private static final int CORNER_HEIGHT = 14;
     
     public static void install(JScrollPane scrollPane) {
-        if(UserSniffer.isOS(OS.MAC)) {
+        if(UserSniffer.isOperatingSystem(OperatingSystem.MAC)) {
             scrollPane.setLayout(new MacCornerScrollPaneLayoutManager());
         }
     }

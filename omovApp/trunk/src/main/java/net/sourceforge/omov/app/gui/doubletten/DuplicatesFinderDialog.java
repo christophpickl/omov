@@ -39,21 +39,22 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.omov.app.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
-import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.gui.table.MacLikeTable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.table.TableColumnExt;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -133,8 +134,8 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
         
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this);
-        GuiUtil.lockWidthAndHeightAsMinimum(this, 300, 160);
+        OmovGuiUtil.setCenterLocation(this);
+        OmovGuiUtil.lockWidthAndHeightAsMinimum(this, 300, 160);
     }
     
     private void doSelectionChanged() {
@@ -207,7 +208,7 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
         final int modelRow = this.table.convertRowIndexToModel(selectedRow);
         final Movie duplicate = this.tableModel.getMovieAtRow(modelRow);
         
-        final boolean confirmed = GuiUtil.getYesNoAnswer(this, "Delete Duplicate Movie", "Do you really want to delete the\nduplicate Movie '"+duplicate.getTitle()+"' (ID="+duplicate.getId()+")?");
+        final boolean confirmed = OmovGuiUtil.getYesNoAnswer(this, "Delete Duplicate Movie", "Do you really want to delete the\nduplicate Movie '"+duplicate.getTitle()+"' (ID="+duplicate.getId()+")?");
         if(confirmed == false) {
             LOG.debug("Deleting duplicate aborted by user.");
             return;
@@ -218,7 +219,7 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
             BeanFactory.getInstance().getMovieDao().deleteMovie(duplicate);
         } catch (BusinessException e) {
             LOG.error("Could not delete duplicate movie", e);
-            GuiUtil.error("Delete Duplicate Movie", "The movie '"+duplicate.getTitle()+"' could not be deleted!\nAlthough it now had disappeared from duplicates.");
+            OmovGuiUtil.error("Delete Duplicate Movie", "The movie '"+duplicate.getTitle()+"' could not be deleted!\nAlthough it now had disappeared from duplicates.");
         }
     }
 

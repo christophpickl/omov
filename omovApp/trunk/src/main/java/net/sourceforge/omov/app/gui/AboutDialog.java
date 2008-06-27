@@ -35,16 +35,17 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.action.OpenBrowserAction;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -54,7 +55,6 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(AboutDialog.class);
     private static final long serialVersionUID = -6058616320816195022L;
-    
     
     public AboutDialog(JFrame owner) {
         super(owner, "About", true);
@@ -70,7 +70,7 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {
@@ -99,7 +99,7 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
                     openBrowser.actionPerformed(null);
                 }
             });
-            GuiUtil.enableHandCursor(logo);
+            OmovGuiUtil.enableHandCursor(logo);
         } catch (MalformedURLException e) {
             LOG.error("OpenBrowserAction failed.", e);
         }

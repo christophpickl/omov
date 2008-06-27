@@ -27,7 +27,6 @@ import java.util.List;
 
 import net.sourceforge.omov.app.gui.CommonController;
 import net.sourceforge.omov.app.gui.movie.AddEditMovieDialog;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
@@ -43,6 +42,7 @@ import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 
@@ -58,6 +58,10 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
     private static final Log LOG = LogFactory.getLog(ScanDialogController.class);
 
     static final String CMD_OPTIONS_PREPARE_FOLDER = "CMD_PREPARE_FOLDER";
+    static final String CMD_SELECT_ALL = "CMD_SELECT_ALL";
+    static final String CMD_SELECT_NONE = "CMD_SELECT_NONE";
+    
+    
     static final String CMD_SCAN = "CMD_SCAN";
     static final String CMD_IMPORT_MOVIES = "CMD_IMPORT_MOVIES";
     static final String CMD_CLOSE = "CMD_CLOSE";
@@ -84,7 +88,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
 //            return;
 //        }
         
-        if(GuiUtil.getYesNoAnswer(this.dialog, "Preparing Repository "+directory.getAbsolutePath(),
+        if(OmovGuiUtil.getYesNoAnswer(this.dialog, "Preparing Repository "+directory.getAbsolutePath(),
                 "<html>" +
                     "Preparing a repository means creating a directory for each movie file.<br>" +
                     "This action is <b>not undoable</b> and can leave your folderstructure<br>" +
@@ -119,7 +123,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         if(this.scanInProgress == true) {
             assert(this.scanThread != null);
             
-            if(GuiUtil.getYesNoAnswer(this.dialog, "Really close",
+            if(OmovGuiUtil.getYesNoAnswer(this.dialog, "Really close",
             		"A scan is currently in progress.\nDo you really want to abort it?") == false) {
                 return;
             }
@@ -175,12 +179,12 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
     
     public void doImport() {
         LOG.info("importing scanned movies.");
-        List<Movie> movies = this.dialog.getSelectedMovies();
+        List<Movie> movies = this.dialog.getCheckedMovies();
         
         this.dialog.dispose();
         
         if(movies.size() == 0) {
-            GuiUtil.warning(this.dialog, "Nothing imported", "There was not any selected movie to import!");
+            OmovGuiUtil.warning(this.dialog, "Nothing imported", "There was not any selected movie to import!");
             return;
         }
         
@@ -194,17 +198,17 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
                 }
             }
             final String msg = "Successfully imported "+movies.size()+" scanned movie"+(movies.size()==1?"":"s")+"!";
-            GuiUtil.info(this.dialog, "Movies imported", msg);
+            OmovGuiUtil.info(this.dialog, "Movies imported", msg);
         } catch (BusinessException e) {
             LOG.error("Importing scanned movies failed!", e);
-            GuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
+            OmovGuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
         }
         
     }
     
     public void doScan(final File scanRoot, final boolean useWebExtractor) {
         if(scanRoot == null || scanRoot.exists() == false || scanRoot.isDirectory() == false) {
-            GuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
+            OmovGuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
             return;
         }
         LOG.info("Scanning directory '"+scanRoot.getAbsolutePath()+"'...");
@@ -224,8 +228,12 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         } catch (Exception e) {
             LOG.error("Scanning  failed! insertDatabase='"+insertDatabase+"'; " +
             		"useWebExtractor='"+useWebExtractor+"'; scanRoot='"+scanRoot.getAbsolutePath()+"'", e);
-            GuiUtil.error(this.dialog, "Scan failed", "Performing scan on folder '"+scanRoot.getName()+"' failed!");
+            OmovGuiUtil.error(this.dialog, "Scan failed", "Performing scan on folder '"+scanRoot.getName()+"' failed!");
         }
+    }
+    
+    public void doPlayQuickView(Movie movie) {
+    	this.doPlayQuickView(this.dialog, movie);
     }
     
     public void doFetchMetaData(ScannedMovie movieFetchingData) {
@@ -265,7 +273,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
             final Movie enhancedMovie = fetcher.fetchAndEnhanceMovie(originalMovie, true);
             
             if(enhancedMovie != null) {
-                enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isSelected()));
+                enhancedMovies.add(ScannedMovie.newByMovie(enhancedMovie, originalMovie.isChecked()));
             } else {
                 enhancedMovies.add(originalMovie);
                 hints.add(ScanHint.error("Could not fetch Metadata for movie '"+originalMovie.getTitle()+"'!"));
@@ -278,6 +286,10 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         return enhancedMovies;
 	}
 
+	private void doSelect(boolean selectAll) {
+		this.dialog.doSelect(selectAll);
+	}
+
 
 	public void actionPerformed(final ActionEvent event) {
 		new GuiAction() {
@@ -288,6 +300,10 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
 					dialog.doScanStart();
 				} else if(cmd.equals(CMD_OPTIONS_PREPARE_FOLDER)) {
 					doPrepareRepository();
+				} else if(cmd.equals(CMD_SELECT_ALL)) {
+					doSelect(true);
+				} else if(cmd.equals(CMD_SELECT_NONE)) {
+					doSelect(false);
 				} else if(cmd.equals(CMD_IMPORT_MOVIES)) {
 					doImport();
 				} else if(cmd.equals(CMD_CLOSE)) {

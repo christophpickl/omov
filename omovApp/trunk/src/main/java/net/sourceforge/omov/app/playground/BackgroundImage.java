@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 public class BackgroundImage {
 	
@@ -26,7 +26,7 @@ public class BackgroundImage {
 		}
 		public void paint(Graphics g) {
 			super.paint(g);
-			GuiUtil.paintCenteredBackgroundImage(g, this, image);
+			OmovGuiUtil.paintCenteredBackgroundImage(g, this, image);
 		}
 	}
 	

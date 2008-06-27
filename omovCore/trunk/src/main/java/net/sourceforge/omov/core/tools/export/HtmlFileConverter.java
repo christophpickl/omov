@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import net.sourceforge.omov.core.util.CloseableUtil;
+import at.ac.tuwien.e0525580.jlib.util.CloseUtil;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class HtmlFileConverter {
                 System.out.println();
             }
         } finally {
-            CloseableUtil.close(reader);
+            CloseUtil.close(reader);
         }
     }
 }

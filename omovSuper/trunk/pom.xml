@@ -9,7 +9,7 @@
 		<omov.version.artifact>0.6-Beta</omov.version.artifact>
 	</properties>
 	 -->
-	
+	 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.sourceforge.omov</groupId>
 	<artifactId>omovSuper</artifactId>
@@ -31,8 +31,12 @@
 	<!-- =================================================================== -->
 	<!-- Dependencies                                                        -->
 	<!-- =================================================================== -->
-  <dependencyManagement>
 	<dependencies>
+		<dependency>
+			<groupId>at.ac.tuwien.e0525580</groupId>
+			<artifactId>jlib</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<!-- DUPLICATE DEPENDENCY START
 		<dependency>
 			<groupId>log4j</groupId>
@@ -55,7 +59,6 @@
 		</dependency>
 		     DUPLIACTE DEPENDENCY END -->
 	</dependencies>
-  </dependencyManagement>
 
 
 	<!-- =================================================================== -->

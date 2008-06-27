@@ -26,8 +26,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.omov.core.util.NumberUtil.Duration;
-import net.sourceforge.omov.gui.inputfields.NumberField;
+import at.ac.tuwien.e0525580.jlib.gui.inputfield.NumberField;
+import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 

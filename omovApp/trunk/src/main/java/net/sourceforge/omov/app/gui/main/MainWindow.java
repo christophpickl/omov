@@ -25,7 +25,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -44,18 +43,20 @@ import net.sourceforge.omov.app.gui.main.tablex.IMovieTableContextMenuListener;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableX;
 import net.sourceforge.omov.app.gui.smartfolder.SmartFolderSelectionPanel;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.osx.OSXAdapter;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.gui.brushed.BrushedMetalPanel;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.GuiKeyAdapter;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.panel.brushed.BrushedMetalPanel;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -111,8 +112,8 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        GuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
-        GuiUtil.lockOriginalSizeAsMinimum(this);
+        OmovGuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
+        OmovGuiUtil.lockOriginalSizeAsMinimum(this);
     }
     
     private void windowDidActivate(boolean didActivate) {
@@ -197,44 +198,37 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
             }
         });
 
-        this.moviesTable.addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent event) { /* nothing to do */ }
-            public void keyReleased(final KeyEvent event) {
-            	new GuiAction() {
-					@Override
-					protected void _action() {
-						final int code = event.getKeyCode();
-		                LOG.debug("main movies table got key event with code "+code+" ("+event.getKeyChar()+").");
-		                
-		                if(code == KeyEvent.VK_BACK_SPACE || code == KeyEvent.VK_DELETE) {
-		                	LOG.debug("key event: backspace or delete");
-		                	
-		                	final List<Movie> selectedMovies = getSelectedMovies();
-		                    if(selectedMovies.size() == 1) {
-		                        controller.doDeleteMovie(selectedMovies.get(0));
-		                        
-		                    } else if(selectedMovies.size() > 1) {
-		                        controller.doDeleteMovies(selectedMovies);
-		                        
-		                    } else {
-		                        assert (selectedMovies.size() == 0);
-		                        Toolkit.getDefaultToolkit().beep();
-		                    }
-		                } else if(code == KeyEvent.VK_SPACE && QtjFactory.isQtjAvailable()) {
-		                	LOG.debug("key event: space");
-		                	
-		                	final List<Movie> selectedMovies = getSelectedMovies();
-		                	if(selectedMovies.size() == 1) {
-		                		controller.doPlayQuickView(selectedMovies.get(0));
-		                	} else {
-		                		Toolkit.getDefaultToolkit().beep();
-		                	}
-		                }
-					}
-            		
-            	}.doAction();
+        this.moviesTable.addKeyListener(new GuiKeyAdapter() {
+            public void keyReleasedAction(final KeyEvent event) {
+				final int code = event.getKeyCode();
+                LOG.debug("main movies table got key event with code "+code+" ("+event.getKeyChar()+").");
+                
+                if(code == KeyEvent.VK_BACK_SPACE || code == KeyEvent.VK_DELETE) {
+                	LOG.debug("key event: backspace or delete");
+                	
+                	final List<Movie> selectedMovies = getSelectedMovies();
+                    if(selectedMovies.size() == 1) {
+                        controller.doDeleteMovie(selectedMovies.get(0));
+                        
+                    } else if(selectedMovies.size() > 1) {
+                        controller.doDeleteMovies(selectedMovies);
+                        
+                    } else {
+                        assert (selectedMovies.size() == 0);
+                        Toolkit.getDefaultToolkit().beep();
+                    }
+                } else if(code == KeyEvent.VK_SPACE && QtjFactory.isQtjAvailable()) {
+                	LOG.debug("key event: space");
+                	
+                	final List<Movie> selectedMovies = getSelectedMovies();
+                	if(selectedMovies.size() == 1) {
+                		controller.doPlayQuickView(selectedMovies.get(0));
+                	} else {
+                		LOG.debug("Can not quickview because selected movies != 1, but: " + selectedMovies.size());
+                		Toolkit.getDefaultToolkit().beep();
+                	}
+                }
             }
-            public void keyTyped(KeyEvent event) { /* nothing to do */ }
         });
     }
 

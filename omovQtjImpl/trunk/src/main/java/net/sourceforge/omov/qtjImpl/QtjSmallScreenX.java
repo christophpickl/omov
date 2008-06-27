@@ -40,15 +40,16 @@ import javax.swing.JSlider;
 
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
-import net.sourceforge.omov.core.util.TimeUtil;
-import net.sourceforge.omov.gui.PressableButton;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.IVideoPlayerListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.widget.PressableButton;
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
+import at.ac.tuwien.e0525580.jlib.util.TimeUtil;
 
 /**
  * 
@@ -149,7 +150,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);
 		btnClose.setBorder(BorderFactory.createEmptyBorder());
-		SimpleGuiUtil.enableHandCursor(btnClose);
+		GuiUtil.enableHandCursor(btnClose);
 		
 		panel.add(windowTitle, BorderLayout.WEST);
 		panel.add(btnClose, BorderLayout.EAST);

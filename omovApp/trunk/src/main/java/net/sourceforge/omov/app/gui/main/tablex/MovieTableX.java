@@ -49,8 +49,6 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.core.util.UserSniffer.OS;
 import net.sourceforge.omov.gui.BodyContext;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
 import net.sourceforge.omov.gui.table.MacLikeTable;
@@ -59,6 +57,9 @@ import net.sourceforge.omov.gui.table.TableContextMenuListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
+
+import at.ac.tuwien.e0525580.jlib.tools.OperatingSystem;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -250,7 +251,7 @@ public class MovieTableX extends MacLikeTable implements TableContextMenuListene
         BodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
         BodyContext.newJMenuSeparator(itemsSingle);
         BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        if(UserSniffer.isOS(OS.MAC) == true) {
+        if(UserSniffer.isOperatingSystem(OperatingSystem.MAC) == true) {
         	this.itemRevealFinder = BodyContext.newJMenuItem(itemsSingle, "Reveal in Finder", CMD_REVEAL, AppImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
         } else {
         	this.itemRevealFinder = null;

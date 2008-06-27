@@ -38,15 +38,15 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
-import net.sourceforge.omov.core.util.CollectionUtil;
-import net.sourceforge.omov.gui.EscapeDisposer;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
 import net.sourceforge.omov.gui.table.MacLikeTable;
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
+import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 
@@ -71,14 +71,14 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
         
         EscapeDisposer.enableEscape(this.getRootPane(), this);
 
-        GuiUtil.macSmallWindow(this.getRootPane());
+        OmovGuiUtil.macSmallWindow(this.getRootPane());
         
         this.setBackground(Constants.getColorWindowBackground());
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        GuiUtil.setCenterLocation(this);
-        GuiUtil.lockOriginalSizeAsMinimum(this);
+        OmovGuiUtil.setCenterLocation(this);
+        OmovGuiUtil.lockOriginalSizeAsMinimum(this);
     }
     
     private JPanel initComponents() {
@@ -104,9 +104,9 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
         c.anchor = GridBagConstraints.LINE_START;
         c.gridx = 0;
         c.gridy = 0;
-        panel.add(GuiUtil.labelBold("Moved Files"), c);
+        panel.add(OmovGuiUtil.labelBold("Moved Files"), c);
         c.gridx = 1;
-        panel.add(GuiUtil.labelBold(String.valueOf(this.result.getCntMovedFiles())), c);
+        panel.add(OmovGuiUtil.labelBold(String.valueOf(this.result.getCntMovedFiles())), c);
         
         c.gridx = 0;
         c.gridy = 1;
@@ -134,7 +134,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
 
         EscapeDisposer.enableEscape(table, this);
         
-        panel.add(GuiUtil.wrapScroll(table, 500, 180), BorderLayout.CENTER);
+        panel.add(OmovGuiUtil.wrapScroll(table, 500, 180), BorderLayout.CENTER);
         return panel;
     }
     

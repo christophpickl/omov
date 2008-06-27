@@ -30,9 +30,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 /**
  * 
@@ -103,7 +103,7 @@ public class MovieTabNotes extends AbstractMovieTab {
     private JPanel panelDateAdded() {
         final JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.setOpaque(false);
-        panel.add(GuiUtil.newLabelBold("Date Added "));
+        panel.add(OmovGuiUtil.newLabelBold("Date Added "));
         panel.add(this.lblDateAdded);
 
         return panel;

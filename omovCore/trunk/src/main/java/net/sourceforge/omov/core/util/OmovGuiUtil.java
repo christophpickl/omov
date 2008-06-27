@@ -17,9 +17,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.app.util;
+package net.sourceforge.omov.core.util;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -31,7 +32,9 @@ import java.awt.event.InputEvent;
 import java.io.File;
 
 import javax.swing.Icon;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -43,27 +46,27 @@ import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.gui.brushed.BrushedMetalPanel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.decorator.HighlighterFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.dialog.ErrorDialog;
+import at.ac.tuwien.e0525580.jlib.gui.panel.brushed.BrushedMetalPanel;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class GuiUtil extends SimpleGuiUtil {
+public class OmovGuiUtil extends GuiUtil {
 
 
-    private static final Log LOG = LogFactory.getLog(GuiUtil.class);
+    private static final Log LOG = LogFactory.getLog(OmovGuiUtil.class);
 
     private static final int META_MASK = (UserSniffer.isMacOSX() ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_MASK );
 
-    protected GuiUtil() {
+    protected OmovGuiUtil() {
         // no instantiation
     }
 
@@ -187,7 +190,7 @@ public class GuiUtil extends SimpleGuiUtil {
     }
 
     public static File getFile() {
-        return GuiUtil.getFile(null);
+        return OmovGuiUtil.getFile(null);
     }
 
     public static File getFile(FileFilter filter) {
@@ -258,12 +261,12 @@ public class GuiUtil extends SimpleGuiUtil {
         return panel;
     }
 
-    /**
-     * @deprecated extend MacLikeTable instead
-     */
-    public static void setAlternatingBgColor(JXTable table) {
-        table.setHighlighters(HighlighterFactory.createAlternateStriping(Constants.getColorRowBackgroundEven(), Constants.getColorRowBackgroundOdd()));
-    }
+//    /**
+//     * @deprecated extend MacLikeTable instead
+//     */
+//    public static void setAlternatingBgColor(JXTable table) {
+//        table.setHighlighters(HighlighterFactory.createAlternateStriping(Constants.getColorRowBackgroundEven(), Constants.getColorRowBackgroundOdd()));
+//    }
 
     
     
@@ -283,5 +286,32 @@ public class GuiUtil extends SimpleGuiUtil {
     	final JLabel label = new JLabel(msg);
     	label.setFont(labelBoldFontCache);
     	return label;
+    }
+
+
+
+    
+    // ---------------- override these methods forcing proper background color
+
+    private static final Color BG_WIN_COL =  Constants.getColorWindowBackground(); // MINOR do not pass bg win color explicitly -> subclass instead
+    
+    public static void error(String title, String message) {
+    	ErrorDialog.newDialog(title, message, BG_WIN_COL).setVisible(true);
+    }
+    public static void error(String title, String message, Exception exception) {
+    	ErrorDialog.newDialog(title, message, exception, BG_WIN_COL).setVisible(true);
+    }
+    public static void error(JDialog owner, String title, String message) {
+//      JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
+    	ErrorDialog.newDialog(owner, title, message, BG_WIN_COL).setVisible(true);
+    }
+    public static void error(JDialog owner, String title, String message, Exception exception) {
+    	ErrorDialog.newDialog(owner, title, message, exception, BG_WIN_COL).setVisible(true);
+    }
+    public static void error(JFrame owner, String title, String message) {
+    	ErrorDialog.newDialog(owner, title, message, BG_WIN_COL).setVisible(true);
+    }
+    public static void error(JFrame owner, String title, String message, Exception exception) {
+    	ErrorDialog.newDialog(owner, title, message, exception, BG_WIN_COL).setVisible(true);
     }
 }

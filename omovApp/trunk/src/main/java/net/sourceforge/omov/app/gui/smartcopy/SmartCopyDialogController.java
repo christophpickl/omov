@@ -28,17 +28,18 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sourceforge.omov.app.gui.main.MainWindowController;
-import net.sourceforge.omov.app.util.GuiUtil;
-import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopy;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
 import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
 
 /**
  * 
@@ -97,7 +98,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         assert(targetDirectory != null);
         
         if(movieIdsString.length() == 0) {
-            GuiUtil.warning(this.dialog, "SmartCopy aborted", "The ID-String field is empty.");
+            OmovGuiUtil.warning(this.dialog, "SmartCopy aborted", "The ID-String field is empty.");
             return;
         }
         
@@ -107,12 +108,12 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         this.dialog.fillPreprocessResultTable(result);
         
         if(result.isFatalError() == true) {
-            GuiUtil.error(this.dialog, "SmartCopy aborted", "A fatal error occured. See table for details.");
+            OmovGuiUtil.error(this.dialog, "SmartCopy aborted", "A fatal error occured. See table for details.");
             return;
         }
         
         if(result.isMajorError() || result.isMinorError()) {
-            GuiUtil.warning(this.dialog, "SmartCopy suspended", "Some errors occured. See table for details.");
+            OmovGuiUtil.warning(this.dialog, "SmartCopy suspended", "Some errors occured. See table for details.");
             return;
         }
         
@@ -170,7 +171,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
     private void doUseSelectedMovies() {
         final List<Movie> selectedMovies = this.mainController.getSelectedTableMovies();
         if(selectedMovies.size() == 0) {
-            GuiUtil.warning(this.dialog, "SmartCopy", "There is not any movie selected.");
+            OmovGuiUtil.warning(this.dialog, "SmartCopy", "There is not any movie selected.");
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("[[");
@@ -206,7 +207,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
                     LOG.debug("Going to delete created directory at '" + createdDirectory.getAbsolutePath() + "'.");
                     try {
                         FileUtil.deleteDirectoryRecursive(createdDirectory);
-                    } catch (BusinessException e) {
+                    } catch (FileUtilException e) {
                         LOG.error("Could not delete directory at '" + createdDirectory.getAbsolutePath() + "' created by copy worker!");
                     }
                 }
@@ -215,7 +216,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         } else {
             final int folderCnt = this.createdDirectories.size();
             LOG.debug("Successfully copied " + folderCnt + " movie folders.");
-            GuiUtil.info(this.dialog, "SmartCopy finished", "Successfully created " + folderCnt + " movie folder"
+            OmovGuiUtil.info(this.dialog, "SmartCopy finished", "Successfully created " + folderCnt + " movie folder"
                     + (folderCnt != 1 ? "s" : "") + " and copied " + FileUtil.formatFileSize(this.worker.getCopiedSizeInKb()) + ".");
             this.dialog.doClose();
         }

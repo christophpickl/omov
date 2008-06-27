@@ -10,7 +10,6 @@ import java.util.Set;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.CollectionUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,6 +24,8 @@ import org.htmlparser.tags.TableRow;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 import org.htmlparser.visitors.NodeVisitor;
+
+import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 

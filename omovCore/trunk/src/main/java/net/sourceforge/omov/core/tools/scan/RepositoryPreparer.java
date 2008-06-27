@@ -23,8 +23,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.MovieFileUtil;
+import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

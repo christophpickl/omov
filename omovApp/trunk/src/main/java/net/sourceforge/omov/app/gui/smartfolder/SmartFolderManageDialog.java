@@ -43,7 +43,6 @@ import javax.swing.ListSelectionModel;
 
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
@@ -52,13 +51,15 @@ import net.sourceforge.omov.core.model.ISmartFolderDao;
 import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.EscapeDisposer;
-import net.sourceforge.omov.gui.EscapeDisposer.IEscapeDisposeReceiver;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.list.MacLikeList;
 import net.sourceforge.omov.gui.list.MacLikeListCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
+import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 
@@ -104,13 +105,13 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         
         
         this.setTitle("SmartFolders");
-        GuiUtil.macSmallWindow(this.getRootPane());
+        OmovGuiUtil.macSmallWindow(this.getRootPane());
         
         this.initComponents();
         this.setSize(300, 180);
 //        this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     private void initComponents() {

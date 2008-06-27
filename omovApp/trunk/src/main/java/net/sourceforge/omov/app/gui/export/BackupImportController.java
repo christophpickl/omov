@@ -24,9 +24,9 @@ import java.io.IOException;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.tools.export.ImportProcessResult;
 import net.sourceforge.omov.core.tools.export.ImporterBackup;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,10 +64,10 @@ class BackupImportController {
         try {
             return new ZipFile(backupFile);
         } catch (ZipException e) {
-            GuiUtil.warning(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is not a proper backup file!");
+            OmovGuiUtil.warning(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is not a proper backup file!");
             return null;
         } catch (IOException e) {
-            GuiUtil.error(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is corrupted or does not exist!");
+            OmovGuiUtil.error(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is corrupted or does not exist!");
             return null;
         }
     }
@@ -91,10 +91,10 @@ class BackupImportController {
                                  (cntSkippedMovies != 1 ? "some" : "the")+" movie folderpath"+(cntSkippedMovies != 1 ? "s are" : " is")+" already in use)";
                 // FEATURE backup import: maybe if movies skipped count > 1, display text in JTextArea (so text can be copied) which movies where skipped (title, folderpath)
             }
-            GuiUtil.info(this.dialog, "Import Successfull", dialogText);
+            OmovGuiUtil.info(this.dialog, "Import Successfull", dialogText);
             
         } else { // processResult.isSucceeded() == false
-            GuiUtil.error(this.dialog, "Import Failed", processResult.getErrorMessage());
+            OmovGuiUtil.error(this.dialog, "Import Failed", processResult.getErrorMessage());
         }
         
         this.dialog.dispose();

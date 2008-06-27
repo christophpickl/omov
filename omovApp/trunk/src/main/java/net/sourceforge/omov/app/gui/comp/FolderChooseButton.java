@@ -32,8 +32,8 @@ import java.util.TimerTask;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,7 +75,7 @@ public class FolderChooseButton extends JButton implements MouseListener {
         this.setToolTipText("<html>Single click: Choose Folder<br>Double click: Clear Folder</html>");
 
         this.addMouseListener(this);
-        GuiUtil.enableHandCursor(this);
+        OmovGuiUtil.enableHandCursor(this);
     }
 
 
@@ -107,7 +107,7 @@ public class FolderChooseButton extends JButton implements MouseListener {
     }
     
     public void doClicked() {
-        final File directory = GuiUtil.getDirectory(this.owner, this.initialPath);
+        final File directory = OmovGuiUtil.getDirectory(this.owner, this.initialPath);
         if (directory == null) {
             LOG.debug("Setting movie folder aborted by user.");
             return;

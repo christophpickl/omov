@@ -28,7 +28,7 @@ import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.bo.SelectableMovie;
+import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.util.FileUtil;
@@ -49,15 +49,15 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         }
     }
     
-    static final String TABLE_COLUMN_VALUE_MOVIE_SELECTED = "";
+    static final String TABLE_COLUMN_VALUE_MOVIE_CHECKED = "";
     private static final List<ScannedMovieColumn> ALL_COLUMNS;
     private static final List<String> ALL_COLUMN_NAMES;
     private static final Map<String, ScannedMovieColumn> ALL_COLUMN_NAMES_MAP;
     static {
         final List<ScannedMovieColumn> columns = new ArrayList<ScannedMovieColumn>();
         
-        columns.add(new ScannedMovieColumn(TABLE_COLUMN_VALUE_MOVIE_SELECTED, 70, 70, 70) { // selected JCheckBox
-            public Object getValue(ScannedMovie movie) {  return movie.isSelected();  }
+        columns.add(new ScannedMovieColumn(TABLE_COLUMN_VALUE_MOVIE_CHECKED, 70, 70, 70) { // selected JCheckBox
+            public Object getValue(ScannedMovie movie) {  return movie.isChecked();  }
             public Class<?> getValueClass() {  return Boolean.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.TITLE.label(), 800, 120, 30) {
@@ -187,11 +187,11 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         return columnIndex == 0; // only first col editable (checkbox)
     }
     
-    List<Movie> getSelectedMovies() {
+    List<Movie> getCheckedMovies() {
         final List<Movie> result = new ArrayList<Movie>(this.movies.size());
         
-        for (SelectableMovie movie : this.movies) {
-            if(movie.isSelected()) {
+        for (CheckedMovie movie : this.movies) {
+            if(movie.isChecked()) {
                 result.add(movie);
             }
         }
@@ -199,12 +199,12 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         return result;
     }
 
-    void changeSelectedRow(int row) {
+    void changeCheckedRow(int row) {
         LOG.debug("Changing selected flag by user click on checkbox for row " + row + ".");
         assert(row >= 0);
         
-        final SelectableMovie movie = this.movies.get(row);
-        movie.setSelected(!movie.isSelected());
+        final CheckedMovie movie = this.movies.get(row);
+        movie.setChecked(!movie.isChecked());
         
         this.fireTableDataChanged();
     }

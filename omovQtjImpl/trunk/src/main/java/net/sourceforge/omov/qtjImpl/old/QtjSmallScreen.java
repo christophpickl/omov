@@ -32,7 +32,6 @@ import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
@@ -41,6 +40,8 @@ import net.sourceforge.omov.qtjImpl.old.QtjVideoController.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 //public class QtjSmallScreen extends JWindow implements IQtjVideoPlayer, ,  {
 
@@ -111,7 +112,7 @@ public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants,
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);
 		btnClose.setBorder(BorderFactory.createEmptyBorder());
-		SimpleGuiUtil.enableHandCursor(btnClose);
+		GuiUtil.enableHandCursor(btnClose);
 		
 		panel.add(windowTitle, BorderLayout.WEST);
 		panel.add(btnClose, BorderLayout.EAST);

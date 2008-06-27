@@ -5,9 +5,9 @@ import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 import net.sourceforge.omov.webApi.WebSearchResult;
@@ -44,7 +44,7 @@ public class WebSearchWorker<O extends Movie> extends SwingWorker<List<WebSearch
             this.result = dataFetcher.search(movieFetchingData.getTitle());
         } catch (BusinessException e) {
             LOG.error("Could not fetch movie details for movie '"+movieFetchingData+"'!", e);
-            GuiUtil.error(this.parent, "Fetching Metadata Failed", "Could not get metadta for movie '"+movieFetchingData.getTitle()+"'!\nPlease check your internet connection.");
+            OmovGuiUtil.error(this.parent, "Fetching Metadata Failed", "Could not get metadta for movie '"+movieFetchingData.getTitle()+"'!\nPlease check your internet connection.");
             this.result = null;
             // thrownException = e; TODO either handle exception here, or pass it to client???
         }

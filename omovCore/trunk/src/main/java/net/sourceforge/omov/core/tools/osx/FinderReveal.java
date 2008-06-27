@@ -22,10 +22,10 @@ package net.sourceforge.omov.core.tools.osx;
 import java.io.File;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.core.util.UserSniffer.OS;
 
 import org.apache.log4j.Logger;
+
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -44,7 +44,7 @@ public class FinderReveal {
     
     
     public static void revealFile(final File file) throws BusinessException {
-        assert(UserSniffer.isOS(OS.MAC));
+        assert(UserSniffer.isMacOSX());
         
         final String osaScript = FinderReveal.createOsaScript(file);
         AppleScriptNativeExecuter.executeAppleScript(osaScript);

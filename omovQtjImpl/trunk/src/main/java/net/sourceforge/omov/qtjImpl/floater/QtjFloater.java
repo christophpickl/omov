@@ -21,7 +21,6 @@ package net.sourceforge.omov.qtjImpl.floater;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -35,17 +34,17 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 
@@ -114,7 +113,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		btnPlayPause.setBorderPainted(false);
 		btnPlayPause.setActionCommand(CMD_PLAY_PAUSE);
 		btnPlayPause.addActionListener(this);
-		SimpleGuiUtil.enableHandCursor(btnPlayPause);
+		GuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
 		btnPlayPause.addActionListener(new GuiActionListener() {
 			public void action(ActionEvent e) {

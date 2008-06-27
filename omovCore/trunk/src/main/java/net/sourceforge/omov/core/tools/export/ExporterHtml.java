@@ -35,11 +35,13 @@ import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.CloseableUtil;
 import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.util.CloseUtil;
+import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
 
 // TODO generated output is crap: width of columns is fixed; looks ugly :(
 // - nice to have: resizable columns + swapable columns
@@ -121,9 +123,12 @@ public class ExporterHtml implements IExporterHtml {
 
         for (Movie movie : movies) {
             if(movie.isCoverFileSet()) {
-                copyCoverFile(movie, targetCoverDirectory, true);
-                copyCoverFile(movie, targetCoverDirectory, false);
-
+            	try {
+	                copyCoverFile(movie, targetCoverDirectory, true);
+	                copyCoverFile(movie, targetCoverDirectory, false);
+	            } catch(FileUtilException e) {
+	            	throw new BusinessException("Could not copy cover files!", e);
+	            }
 //                FileUtil.copyFile(new File(coverFolder, movie.getCoverFile()), new File(targetCoverDirectory, movie.getCoverFile()));
             }
         }
@@ -132,7 +137,7 @@ public class ExporterHtml implements IExporterHtml {
         return new File[] {targetFile, targetDirectory};
     }
 
-    private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws BusinessException {
+    private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws FileUtilException {
         final CoverFileType coverType;
 
         final String newCoverFileName;
@@ -183,7 +188,7 @@ public class ExporterHtml implements IExporterHtml {
         return this.targetFilePath;
     }
 
-    private static String getContentsOfWzTooltipJs() throws BusinessException {
+    private static String getContentsOfWzTooltipJs() throws FileUtilException {
         if(wzTooltipJsContentCache == null) {
             LOG.debug("initializing wzTooltipJsContentCache.");
 
@@ -256,7 +261,11 @@ public class ExporterHtml implements IExporterHtml {
 //                    writer.write("<script type='text/javascript' src='"+COVERS_FOLDER_NAME+"/wz_tooltip.js'></script>");
 //                }
                 LOG.debug("Writing contents of wz_tooltip.js");
-                writer.write(getContentsOfWzTooltipJs());
+                try {
+					writer.write(getContentsOfWzTooltipJs());
+				} catch (FileUtilException e) {
+					throw new BusinessException("Could not get contents of wz_tooltip.js file!", e);
+				}
 
                 writer.write(
                         "<h1>Movies from "+PreferencesDao.getInstance().getUsername()+"</h1>\n" +
@@ -303,7 +312,7 @@ public class ExporterHtml implements IExporterHtml {
             } catch(IOException e) {
                 throw new BusinessException("Could not generate HTML report!", e);
             } finally {
-                CloseableUtil.close(writer);
+                CloseUtil.close(writer);
             }
 
             LOG.info("Exporting HTML finished.");
@@ -315,7 +324,7 @@ public class ExporterHtml implements IExporterHtml {
                 LOG.info("Going to delete created directory '"+createdDir.getAbsolutePath()+"' because exporting html failed.");
                 try {
                     FileUtil.deleteDirectoryRecursive(createdDir);
-                } catch(BusinessException e) {
+                } catch(FileUtilException e) {
                     LOG.error("Could not delete created directory '"+createdDir.getAbsolutePath()+"'!", e);
                 }
             }

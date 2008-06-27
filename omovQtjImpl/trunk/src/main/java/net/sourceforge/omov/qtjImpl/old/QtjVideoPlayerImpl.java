@@ -33,13 +33,13 @@ import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import quicktime.QTException;
+import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 
@@ -88,7 +88,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Mous
 		this.getContentPane().add(this.wrapPanel);
 		this.pack();
 //		this.validate();
-		SimpleGuiUtil.setCenterLocation(this);
+		GuiUtil.setCenterLocation(this);
 
 		this.setBackground(Color.BLACK);
 	}

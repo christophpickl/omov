@@ -9,8 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.qtjApi.IQtjSessionManager;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
@@ -60,7 +60,7 @@ class ContentQuickviewPanel extends AbstractPreferencesContent {
 				_qtJavaVersion = String.valueOf(qtjSessionManager.getJavaVersion());
 			} catch (BusinessException e) {
 				LOG.error("Could not get QtjSessionManager!", e);
-				GuiUtil.error("QuickTime Error", "Some internal error occured while communicating with QuickTime!");
+				OmovGuiUtil.error("QuickTime Error", "Some internal error occured while communicating with QuickTime!");
 				_qtVersion = "-";
 				_qtJavaVersion = "-";
 			}

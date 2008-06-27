@@ -27,11 +27,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.tools.ApplicationVersionFetcher;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
@@ -69,7 +69,7 @@ public class VersionCheckDialog extends JDialog {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        OmovGuiUtil.setCenterLocation(this);
     }
     
     
@@ -110,18 +110,18 @@ public class VersionCheckDialog extends JDialog {
                 LOG.error("Could not get result from swing worker!", e);
             }
             if(versionFetched == null) {
-                GuiUtil.warning(this, "Application Software Update", "Could not connect to the internet.");
+                OmovGuiUtil.warning(this, "Application Software Update", "Could not connect to the internet.");
             } else { // (versionFetched != null)
                 final VersionMajorMinor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
                 if(versionInUse.equals(versionFetched) == true) {
                     
                     LOG.debug("Application in use (v"+versionInUse+") is up to date.");
                     if(this.shouldSuccessfullDialogDisplayed == true) {
-                        GuiUtil.info(this, "Application Software Update", "Your version " + versionInUse + " is up to date.");
+                        OmovGuiUtil.info(this, "Application Software Update", "Your version " + versionInUse + " is up to date.");
                     }
                     
                 } else { // versionInUse.equals(versionFetched) == false
-                    GuiUtil.info(this, "Application Software Update", "It seems as you were running an old application version.\n" +
+                    OmovGuiUtil.info(this, "Application Software Update", "It seems as you were running an old application version.\n" +
                             "You are using " + versionInUse + " but version " + versionFetched + " is available.\n" + 
                             "Check the website to download the most recent release:\n" +
                             Constants.getWebUrl()); // MINOR make link clickable -> use WarningDialog (like ErrorDialog) and pass ready to use content-panel

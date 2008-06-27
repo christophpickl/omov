@@ -40,9 +40,9 @@ import net.sourceforge.omov.app.gui.SetupWizard;
 import net.sourceforge.omov.app.gui.SplashScreen;
 import net.sourceforge.omov.app.gui.main.MainWindow;
 import net.sourceforge.omov.app.gui.preferences.VersionCheckDialog;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.FatalException.FatalReason;
@@ -56,15 +56,17 @@ import net.sourceforge.omov.core.tools.TemporaryFilesCleaner;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.tools.vlc.IVlcPlayer;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
-import net.sourceforge.omov.core.util.CollectionUtil;
-import net.sourceforge.omov.core.util.SimpleGuiUtil;
-import net.sourceforge.omov.core.util.UserSniffer;
-import net.sourceforge.omov.core.util.UserSniffer.OS;
+import net.sourceforge.omov.core.util.FatalExceptionHandler;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.HyperlinkLabel;
-import net.sourceforge.omov.gui.dialogs.WarningDialog;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import at.ac.tuwien.e0525580.jlib.Foobar;
+import at.ac.tuwien.e0525580.jlib.gui.dialog.WarningDialog;
+import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
+import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /*
 
@@ -105,13 +107,14 @@ public class App {
     
 
     public static void main(String[] args) {
+    	Foobar.say();
         try {
             App.cliArguments.addAll(Arrays.asList(args));
             new App().startUp();
         } catch(Exception e) {
             e.printStackTrace();
             LOG.fatal("Application could not startup!", e);
-            SimpleGuiUtil.error("Fatal Application Error", "Whups, the application could not startup. Sorry for that dude :)<br>" +
+            OmovGuiUtil.error("Fatal Application Error", "Whups, the application could not startup. Sorry for that dude :)<br>" +
                     "The evil source is a "+e.getClass().getSimpleName()+".", e);
             System.exit(1);
         }
@@ -142,7 +145,7 @@ public class App {
 		c.gridy = 1;
 		panel.add(new HyperlinkLabel("http://omov.sourceforge.net"), c);
 		final VersionMajorMinor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
-		final WarningDialog dialog = WarningDialog.newWarningDialog("Beta Version " + versionInUse.getVersionString(), panel);
+		final WarningDialog dialog = WarningDialog.newWarningDialog("Beta Version " + versionInUse.getVersionString(), panel, Constants.getColorWindowBackground()); // MINOR do not pass constant explicitly, but subclass WarningDialog
 		dialog.setButtonLabel("Continue");
 		dialog.setVisible(true);
     }
@@ -238,7 +241,7 @@ public class App {
         	
         	sb.append("\nPlease lookup logs for details and contact maintainer if necessary.");
         	
-        	GuiUtil.error("Startup Error", sb.toString());
+        	OmovGuiUtil.error("Startup Error", sb.toString());
         	System.exit(1);
         } finally {
             splashScreen.setVisible(false); // e.g.: if setting configuration or cleaning temp folder failed
@@ -259,7 +262,7 @@ public class App {
 
         } catch (BusinessException e) {
             LOG.error("Filesystem check failed!", e);
-            GuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
+            OmovGuiUtil.error("Filesystem Check failed", "Sorry, but could not perform the check because of an internal error.");
         }
     }
 
@@ -281,18 +284,18 @@ public class App {
 
         // MANTIS [21] write converte for core sources and if none is available, ask for deletion (or display downloadlink for older version)
         if(movieDataVersion != Movie.DATA_VERSION && smartfolderDataVersion != SmartFolder.DATA_VERSION) {
-            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using incompatible Movie and Preference Data Sources!\n" +
+            OmovGuiUtil.error("Datasource Version Mismatch", "It seems as you were using incompatible Movie and Preference Data Sources!\n" +
                     "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION + "\n" +
                     "SmartFolder version: "+smartfolderDataVersion + " -- Application version: "+SmartFolder.DATA_VERSION);
             return false;
         }
         if(movieDataVersion != Movie.DATA_VERSION) {
-            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible Movie Data Source!\n" +
+            OmovGuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible Movie Data Source!\n" +
                     "Movie version: "+movieDataVersion+" -- Application version: "+Movie.DATA_VERSION);
             return false;
         }
         if(smartfolderDataVersion != SmartFolder.DATA_VERSION) {
-            GuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible SmartFolder Data Source!\n" +
+            OmovGuiUtil.error("Datasource Version Mismatch", "It seems as you were using an incompatible SmartFolder Data Source!\n" +
                     "SmartFolder version: "+smartfolderDataVersion + " -- Application version: "+SmartFolder.DATA_VERSION);
             return false;
         }
@@ -322,7 +325,7 @@ public class App {
                 assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
 
             } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
-                GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
+                OmovGuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
                                 "does not match with the expected version "+PreferencesDao.DATA_VERSION+"!");
 
 
@@ -339,9 +342,9 @@ public class App {
 //                }
 
                 /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
-                if(GuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies to immediately take effect?") == true) {
+                if(OmovGuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies to immediately take effect?") == true) {
                     PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
-                    GuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
+                    OmovGuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
                 }
 
                 return false;
@@ -355,7 +358,7 @@ public class App {
             }
         } catch (Exception e) {
             LOG.error("Could not check/clear/set preferences!", e);
-            GuiUtil.error("Setup failed!", "Could not set initial values: " + e.getMessage());
+            OmovGuiUtil.error("Setup failed!", "Could not set initial values: " + e.getMessage());
             return false;
         }
 
@@ -364,7 +367,7 @@ public class App {
             PreferencesDao.getInstance().checkFolderExistence();
         } catch (BusinessException e) {
             LOG.error("Could not check folder existence!", e);
-            GuiUtil.error("Startup failed!", "Could not create application folders!");
+            OmovGuiUtil.error("Startup failed!", "Could not create application folders!");
             return false;
         }
 
@@ -395,12 +398,11 @@ public class App {
     
     private static File getLaunchFile() {
     	assert(App.isArgumentSet(App.APPARG_DEVELOP) == false);
-    	final OS os = UserSniffer.getOS();
     	
     	final File launchCmd;
-    	if(os == OS.WIN) {
+    	if(UserSniffer.isWindows()) {
 			launchCmd = new File("./OurMovies.exe"); // FIXME test restart app method!
-    	} else if(os == OS.MAC) {
+    	} else if(UserSniffer.isMacOSX()) {
 			launchCmd = new File("./OurMovies.app/Contents/Resources/restart_ourmovies.command");
     	} else {
     		launchCmd = new File("./OurMovies.sh"); // FIXME test restart app method!
@@ -411,7 +413,7 @@ public class App {
 
     public static void restartApplication() {
     	if(App.isArgumentSet(App.APPARG_DEVELOP)) {
-    		GuiUtil.info("Develop Mode", "Restart not available while in development mode.");
+    		OmovGuiUtil.info("Develop Mode", "Restart not available while in development mode.");
     		System.exit(0);
     	}
     	
@@ -425,7 +427,7 @@ public class App {
 			LOG.debug("Starting process builder...");
 			pb.start();
 		} catch (IOException e) {
-			GuiUtil.handleFatalException(e);
+			FatalExceptionHandler.handle(e);
 		} finally {
 			LOG.debug("Shuttind down application via System.exit(0)");
 			System.exit(0);

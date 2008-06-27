@@ -17,10 +17,10 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.app.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.LanguageUtil;
+import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.GuiActionListener;
 
@@ -127,7 +127,7 @@ class ContentGeneralPanel extends AbstractPreferencesContent {
 					return;
 				}
 				
-				if(GuiUtil.getYesNoAnswer(getOwner(), "Language changed",
+				if(OmovGuiUtil.getYesNoAnswer(getOwner(), "Language changed",
 						"<html>Changing the language takes effect after a restart.<br>" +
 						"Do you want to restart the application now?</html>")
 						== true) {
