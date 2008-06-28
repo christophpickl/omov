@@ -28,22 +28,26 @@
 		<module>../omovWebImpl</module>
 	</modules>
 
+
 	<!-- =================================================================== -->
 	<!-- Dependencies                                                        -->
 	<!-- =================================================================== -->
+	
 	<dependencies>
+	
 		<dependency>
-			<groupId>at.ac.tuwien.e0525580</groupId>
-			<artifactId>jlib</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>net.sourceforge.jpotpourri</groupId>
+			<artifactId>jpotpourri</artifactId>
+			<version>0.0.1</version>
 		</dependency>
-		<!-- DUPLICATE DEPENDENCY START
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.12</version>
 			<scope>compile</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -57,15 +61,34 @@
 			<version>3.8.1</version>
 			<scope>test</scope>
 		</dependency>
-		     DUPLIACTE DEPENDENCY END -->
+		
 	</dependencies>
 
 
 	<!-- =================================================================== -->
 	<!-- Repositories                                                        -->
 	<!-- =================================================================== -->
+	
 	<repositories>
-		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository -->
+		
+		<!-- Downloading: http://omov.sourceforge.net/maven-repo/net/java/dev/substance/4.3/substance-4.3.pom ??? -->
+		
+		<!-- used to get following libraries: db4o, substance -->
+		<repository>
+			<id>omov.sourceforge.net</id>
+			<url>
+				http://omov.sourceforge.net/maven-repo
+			</url>
+		</repository>
+		
+		<repository>
+			<id>jpotpourri.sourceforge.net</id>
+			<url>
+				http://jpotpourri.sourceforge.net/maven2
+			</url>
+		</repository>
+		
+		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository; use omov own repo -->
 		<!--
 		<repository>
 			<id>52north.org</id>
@@ -75,22 +98,13 @@
 		</repository>
 		-->
 		
-		<!-- used to get following libraries: db4o, substance -->
-		<!-- Downloading: http://omov.sourceforge.net/maven-repo/net/java/dev/substance/4.3/substance-4.3.pom ??? -->
-		<repository>
-			<id>omov.sourceforge.net</id>
-			<url>
-				http://omov.sourceforge.net/maven-repo
-			</url>
-		</repository>
-		
 	</repositories>
-
 
 
 	<!-- =================================================================== -->
 	<!-- Developers                                                          -->
 	<!-- =================================================================== -->
+	
 	<developers>
 		<developer>
 			<id>CP</id>
@@ -100,11 +114,14 @@
 				<role>Everything</role>
 			</roles>
 			<email>e0525580@student.tuwien.ac.at</email>
+			<!--
 			<properties>
 				<skype>xphudyx</skype>
 			</properties>
+			-->
 		</developer>
 	</developers>
+
 
 	<!-- =================================================================== -->
 	<!-- Subversion                                                          -->
