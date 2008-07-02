@@ -41,6 +41,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 
+import net.sourceforge.jpotpourri.gui.EscapeDisposer;
+import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.core.BeanFactory;
@@ -57,9 +59,6 @@ import net.sourceforge.omov.gui.list.MacLikeListCellRenderer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
-import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 

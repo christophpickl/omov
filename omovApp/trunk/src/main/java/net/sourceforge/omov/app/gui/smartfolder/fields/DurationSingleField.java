@@ -19,8 +19,8 @@
 
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
+import net.sourceforge.jpotpourri.util.Duration;
 import net.sourceforge.omov.app.gui.comp.DurationPanel;
-import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 

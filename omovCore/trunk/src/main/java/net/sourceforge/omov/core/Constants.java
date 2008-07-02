@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 
 /**
  * 

@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import at.ac.tuwien.e0525580.jlib.util.CloseUtil;
+import net.sourceforge.jpotpourri.util.CloseUtil;
 
 /**
  * 

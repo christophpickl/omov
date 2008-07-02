@@ -12,6 +12,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.sourceforge.jpotpourri.util.CloseUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
@@ -22,8 +23,6 @@ import org.apache.commons.logging.LogFactory;
 import org.htmlparser.Tag;
 import org.htmlparser.tags.ImageTag;
 import org.htmlparser.visitors.NodeVisitor;
-
-import at.ac.tuwien.e0525580.jlib.util.CloseUtil;
 
 
 /**

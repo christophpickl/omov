@@ -32,6 +32,10 @@ import java.util.List;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import net.sourceforge.jpotpourri.util.CloseUtil;
+import net.sourceforge.jpotpourri.util.FileUtilException;
+import net.sourceforge.jpotpourri.util.ZipUtil;
+import net.sourceforge.jpotpourri.util.ZipUtilException;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
@@ -42,10 +46,6 @@ import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
-import at.ac.tuwien.e0525580.jlib.util.ZipUtil;
-import at.ac.tuwien.e0525580.jlib.util.ZipUtilException;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -212,7 +212,7 @@ public class ImporterBackup implements ImportExportConstants {
         } catch (FileNotFoundException e) {
             throw new BusinessException("Could not read movies by xml '"+xmlFile.getAbsolutePath()+"' because it does not exist!", e);
         } finally {
-        	FileUtil.closeCloseable(fileReader);
+        	CloseUtil.close(fileReader);
         }
     }
     
@@ -228,7 +228,7 @@ public class ImporterBackup implements ImportExportConstants {
         } catch(IOException e) {
             throw new BusinessException("Could not get contents of data versionfile '"+dataVersionFile.getAbsolutePath()+"'.", e);
         } finally {
-            FileUtil.closeCloseable(reader);
+            CloseUtil.close(reader);
         }
     }
     

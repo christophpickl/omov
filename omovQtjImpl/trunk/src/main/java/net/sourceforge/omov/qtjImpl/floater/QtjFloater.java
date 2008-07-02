@@ -35,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.GuiActionListener;
@@ -43,8 +44,6 @@ import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 

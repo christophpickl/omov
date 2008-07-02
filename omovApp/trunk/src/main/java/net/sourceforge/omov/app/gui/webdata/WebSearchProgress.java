@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
+import net.sourceforge.jpotpourri.gui.EscapeDisposer;
+import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
@@ -24,9 +26,6 @@ import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
-import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 public class WebSearchProgress<N extends Movie> extends JDialog implements IEscapeDisposeReceiver {
 

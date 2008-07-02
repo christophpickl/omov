@@ -38,15 +38,15 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
+import net.sourceforge.jpotpourri.gui.EscapeDisposer;
+import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.CollectionUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.table.MacLikeTable;
-import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
-import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 

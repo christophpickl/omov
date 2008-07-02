@@ -30,9 +30,8 @@ import java.awt.image.ReplicateScaleFilter;
 import java.io.File;
 import java.util.Date;
 
-import javax.swing.JPanel;
-
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import net.sourceforge.omov.core.bo.CoverFileType;
 

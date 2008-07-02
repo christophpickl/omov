@@ -10,6 +10,7 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
+import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -17,8 +18,6 @@ import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.NumberField;
 
 /**
  *

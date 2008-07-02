@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
+import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.CoverFileType;
@@ -35,7 +36,6 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.LabeledComponent;
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.MultiColTextField;
 
 /**
  * 

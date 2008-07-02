@@ -33,8 +33,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 

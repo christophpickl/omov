@@ -25,12 +25,11 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.core.BusinessException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

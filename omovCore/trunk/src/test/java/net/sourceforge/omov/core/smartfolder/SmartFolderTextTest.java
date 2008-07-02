@@ -19,8 +19,6 @@
 
 package net.sourceforge.omov.core.smartfolder;
 
-import net.sourceforge.omov.core.smartfolder.TextCriterion;
-import net.sourceforge.omov.core.smartfolder.TextMatch;
 
 /**
  * 

@@ -29,8 +29,8 @@ import javax.help.HelpSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

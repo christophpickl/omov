@@ -39,6 +39,10 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.gui.util.GlobalKey;
+import net.sourceforge.jpotpourri.gui.util.IGlobalKeyListener;
+import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.util.TimeUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -55,10 +59,6 @@ import quicktime.io.OpenMovieFile;
 import quicktime.io.QTFile;
 import quicktime.std.StdQTException;
 import quicktime.std.movies.Movie;
-import at.ac.tuwien.e0525580.jlib.gui.util.GlobalKey;
-import at.ac.tuwien.e0525580.jlib.gui.util.IGlobalKeyListener;
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
-import at.ac.tuwien.e0525580.jlib.util.TimeUtil;
 
 /**
  * 

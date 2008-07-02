@@ -39,6 +39,8 @@ import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.TableColumn;
 
+import net.sourceforge.jpotpourri.tools.OperatingSystem;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.MovieTableColumns;
@@ -57,9 +59,6 @@ import net.sourceforge.omov.gui.table.TableContextMenuListener;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jdesktop.swingx.table.TableColumnExt;
-
-import at.ac.tuwien.e0525580.jlib.tools.OperatingSystem;
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

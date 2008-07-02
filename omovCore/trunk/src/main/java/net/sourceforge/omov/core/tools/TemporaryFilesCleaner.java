@@ -21,13 +21,12 @@ package net.sourceforge.omov.core.tools;
 
 import java.io.File;
 
+import net.sourceforge.jpotpourri.util.FileUtilException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
 
 
 

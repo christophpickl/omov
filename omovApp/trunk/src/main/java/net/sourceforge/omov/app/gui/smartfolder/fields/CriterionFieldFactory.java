@@ -22,6 +22,8 @@ package net.sourceforge.omov.app.gui.smartfolder.fields;
 import java.util.Arrays;
 import java.util.Date;
 
+import net.sourceforge.jpotpourri.util.DateUtil;
+import net.sourceforge.jpotpourri.util.Duration;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
@@ -50,9 +52,6 @@ import net.sourceforge.omov.core.smartfolder.TextMultipleMatch;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.DateUtil;
-import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 

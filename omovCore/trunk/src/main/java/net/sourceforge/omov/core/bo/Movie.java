@@ -28,14 +28,13 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.DurationUtil;
+import net.sourceforge.jpotpourri.util.StringUtil;
 import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
-import at.ac.tuwien.e0525580.jlib.util.DurationUtil;
-import at.ac.tuwien.e0525580.jlib.util.StringUtil;
 
 /**
  * Immutable value class.

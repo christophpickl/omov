@@ -20,7 +20,6 @@
 package net.sourceforge.omov.core.model;
 
 import net.sourceforge.omov.core.AbstractTestCase;
-import net.sourceforge.omov.core.model.IDataVersionDao;
 import net.sourceforge.omov.core.model.db4o.Db4oConnection;
 import net.sourceforge.omov.core.model.db4o.Db4oDataVersionDao;
 

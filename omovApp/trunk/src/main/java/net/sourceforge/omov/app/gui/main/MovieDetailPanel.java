@@ -32,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
 import net.sourceforge.omov.core.BeanFactory;
@@ -47,8 +48,6 @@ import net.sourceforge.omov.core.util.ImageUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.MultiColTextField;
 
 /**
  * 

@@ -24,14 +24,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import net.sourceforge.jpotpourri.util.CollectionUtil;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
 import net.sourceforge.omov.core.util.ImageUtil.WidthHeight;
 
 import org.apache.commons.lang.StringEscapeUtils;
-
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 

@@ -27,12 +27,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 
 import org.apache.log4j.Logger;
-
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

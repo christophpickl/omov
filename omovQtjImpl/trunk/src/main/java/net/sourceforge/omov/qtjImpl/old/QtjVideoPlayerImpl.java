@@ -32,6 +32,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 
@@ -39,7 +40,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import quicktime.QTException;
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 

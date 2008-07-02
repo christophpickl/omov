@@ -38,6 +38,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+import net.sourceforge.jpotpourri.gui.widget.PressableButton;
+import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.util.TimeUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
@@ -46,10 +49,6 @@ import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.widget.PressableButton;
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
-import at.ac.tuwien.e0525580.jlib.util.TimeUtil;
 
 /**
  * 

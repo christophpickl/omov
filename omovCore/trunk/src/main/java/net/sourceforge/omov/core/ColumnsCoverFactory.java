@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.swing.ImageIcon;
 
-import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IMovieDaoListener;

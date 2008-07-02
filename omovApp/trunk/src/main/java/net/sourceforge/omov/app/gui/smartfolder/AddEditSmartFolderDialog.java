@@ -35,6 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
+import net.sourceforge.jpotpourri.util.CollectionUtil;
 import net.sourceforge.omov.app.gui.movie.AbstractAddEditDialog;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
@@ -43,8 +44,6 @@ import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 

@@ -36,6 +36,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
+import net.sourceforge.jpotpourri.gui.widget.ContextMenuButton;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
@@ -59,9 +61,6 @@ import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.MultiColTextField;
-import at.ac.tuwien.e0525580.jlib.gui.widget.ContextMenuButton;
 
 /**
  * got two constructors: one for add/edit single, and one for edit multiple movies. 

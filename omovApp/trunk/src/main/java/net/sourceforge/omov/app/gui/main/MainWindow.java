@@ -38,6 +38,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
 import net.sourceforge.omov.app.gui.main.tablex.IMovieTableContextMenuListener;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
@@ -54,9 +56,6 @@ import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.panel.brushed.BrushedMetalPanel;
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

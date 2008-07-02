@@ -43,6 +43,8 @@ import javax.swing.JToolBar;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
+import net.sourceforge.jpotpourri.gui.EscapeDisposer;
+import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.PrefToolBarItem;
@@ -52,9 +54,6 @@ import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
-import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
 
 /**
  * 

@@ -45,11 +45,10 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.core.Constants;
 
 import org.jdesktop.swingx.JXTable;
-
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * A better-looking table than JTable. In particular, on Mac OS this looks

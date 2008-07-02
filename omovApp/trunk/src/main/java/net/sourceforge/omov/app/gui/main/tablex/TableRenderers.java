@@ -32,6 +32,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import net.sourceforge.jpotpourri.util.DurationUtil;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
 import net.sourceforge.omov.core.ColumnsCoverFactory;
 import net.sourceforge.omov.core.Constants;
@@ -40,7 +41,6 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import at.ac.tuwien.e0525580.jlib.util.DurationUtil;
 
 /**
  * 

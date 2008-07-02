@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import net.sourceforge.jpotpourri.util.FileUtilException;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
@@ -38,8 +39,6 @@ import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.FileUtilException;
 
 /**
  * 

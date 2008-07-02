@@ -38,7 +38,7 @@
 		<dependency>
 			<groupId>net.sourceforge.jpotpourri</groupId>
 			<artifactId>jpotpourri</artifactId>
-			<version>0.0.1</version>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -58,7 +58,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
+			<version>3.8.2</version>
 			<scope>test</scope>
 		</dependency>
 		
@@ -76,16 +76,12 @@
 		<!-- used to get following libraries: db4o, substance -->
 		<repository>
 			<id>omov.sourceforge.net</id>
-			<url>
-				http://omov.sourceforge.net/maven-repo
-			</url>
+			<url>http://omov.sourceforge.net/maven-repo</url>
 		</repository>
 		
 		<repository>
 			<id>jpotpourri.sourceforge.net</id>
-			<url>
-				http://jpotpourri.sourceforge.net/maven2
-			</url>
+			<url>http://jpotpourri.sourceforge.net/maven2</url>
 		</repository>
 		
 		<!-- db4o is not beeing distributed at ibiblio or any other official maven repository; use omov own repo -->

@@ -27,8 +27,8 @@ import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 
-import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.CheckedMovie;
+import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.util.FileUtil;

@@ -22,8 +22,8 @@ package net.sourceforge.omov.core.tools.scan;
 import java.io.File;
 import java.util.HashSet;
 
-import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.CheckedMovie;
+import net.sourceforge.omov.core.bo.Movie;
 
 /**
  * 

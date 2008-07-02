@@ -25,7 +25,7 @@ import java.awt.Insets;
 
 import javax.swing.JComboBox;
 
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
 
 /**
  * 

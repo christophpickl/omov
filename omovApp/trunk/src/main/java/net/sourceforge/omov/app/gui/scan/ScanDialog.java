@@ -55,6 +55,9 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
+import net.sourceforge.jpotpourri.gui.EscapeDisposer;
+import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.gui.widget.ContextMenuButton;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
@@ -74,10 +77,6 @@ import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
-import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
-import at.ac.tuwien.e0525580.jlib.gui.widget.ContextMenuButton;
 
 /**
  * 

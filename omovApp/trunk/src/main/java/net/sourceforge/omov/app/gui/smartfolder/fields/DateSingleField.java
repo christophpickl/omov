@@ -21,7 +21,7 @@ package net.sourceforge.omov.app.gui.smartfolder.fields;
 
 import java.util.Date;
 
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.DateField;
+import net.sourceforge.jpotpourri.gui.inputfield.DateField;
 
 /**
  * 

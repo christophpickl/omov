@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
@@ -40,8 +41,6 @@ import net.sourceforge.omov.qtjImpl.old.QtjVideoController.QtjState;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 //public class QtjSmallScreen extends JWindow implements IQtjVideoPlayer, ,  {
 

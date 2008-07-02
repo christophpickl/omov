@@ -21,8 +21,6 @@ package net.sourceforge.omov.app.gui.main;
 
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,25 +28,24 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.gui.inputfield.search.IDefaultSearchFieldListener;
+import net.sourceforge.jpotpourri.gui.inputfield.search.SearchField;
+import net.sourceforge.jpotpourri.gui.widget.SelectableContextMenuButton;
 import net.sourceforge.omov.app.gui.comp.OmovSelectableContextMenuButton;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.ContinuousFilter.ContinuousFilterField;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.inputfields.SearchField;
-import net.sourceforge.omov.gui.inputfields.SearchField.ISearchFieldListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.widget.SelectableContextMenuButton;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListener {
+class MovieSearchPanel extends JPanel implements IDefaultSearchFieldListener {
     
     private static final long serialVersionUID = -7250410345453624595L;
     private static final Log LOG = LogFactory.getLog(MovieSearchPanel.class);
@@ -62,8 +59,6 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
     private final MovieTableModel model;
     
     private final SearchField inpText = new SearchField();
-
-    private boolean keyTyped = false;
     
     private final SelectableContextMenuButton contextMenu;
     
@@ -71,8 +66,8 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
     
     public MovieSearchPanel(MovieTableModel model) {
         this.model = model;
-        this.inpText.addKeyListener(this);
-        this.inpText.addISearchFieldListener(this);
+
+		this.inpText.addDefaultSearchFieldListener(this);
         
 
 		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
@@ -143,57 +138,14 @@ class MovieSearchPanel extends JPanel implements KeyListener, ISearchFieldListen
     	return new ContinuousFilter(searchString, continuousFilterField);
     }
 
-    public void keyPressed(KeyEvent event) {
-        this.keyTyped = false;
-    }
-    public void keyTyped(KeyEvent event) {
-        this.keyTyped = true;
-    }
-
-    public void keyReleased(KeyEvent event) {
-
-        if(event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-            // this.inpText.setText(""); will be done implicit by SearchField component
-            this.resetModelSearch(null);
-            return;
-        }
-        
-        if(this.keyTyped == false && event.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
-            return;   
-        }
-        
-        if(this.inpText.getText().length() == 0) {
-            this.resetModelSearch(null);
-            return;
-        }
-        
-        this.resetModelSearch(this.inpText.getText());
-////        try {
-//            final String oldText = this.getText();
-//            String newText = null;
-//            for (String suggest : this.getValues()) {
-//                if(suggest.startsWith(oldText)) {
-//                    newText = suggest;
-//                    break;
-//                }
-//            }
-//            
-//            if(newText != null && !oldText.equals(newText)) {
-////                LOG.debug("Got suggestion '" + newText + "' for input '" + oldText + "'.");
-//                    this.setText(newText);
-//                    this.setSelectionStart(oldText.length());
-//                    this.setSelectionEnd(newText.length());
-//            }
-////        } catch(BusinessException e) {
-////            e.printStackTrace();
-////        }
-    
-    }
 
 
+	public void doResetSearch() {
+		this.resetModelSearch(null);
+	}
 
-    public void didResetSearch() {
-        this.resetModelSearch(null);
-    }
+	public void doSearch(String searchString) {
+		this.resetModelSearch(searchString);
+	}
 
 }

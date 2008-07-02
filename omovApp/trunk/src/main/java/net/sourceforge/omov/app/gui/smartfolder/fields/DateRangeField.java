@@ -23,7 +23,7 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.DateField;
+import net.sourceforge.jpotpourri.gui.inputfield.DateField;
 
 /**
  * 

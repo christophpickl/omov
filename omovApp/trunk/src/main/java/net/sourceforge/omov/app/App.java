@@ -35,6 +35,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import net.sourceforge.jpotpourri.gui.dialog.WarningDialog;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.util.CollectionUtil;
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.SetupWizard;
 import net.sourceforge.omov.app.gui.SplashScreen;
@@ -62,11 +65,6 @@ import net.sourceforge.omov.gui.HyperlinkLabel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.Foobar;
-import at.ac.tuwien.e0525580.jlib.gui.dialog.WarningDialog;
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /*
 
@@ -107,7 +105,7 @@ public class App {
     
 
     public static void main(String[] args) {
-    	Foobar.say();
+    	
         try {
             App.cliArguments.addAll(Arrays.asList(args));
             new App().startUp();

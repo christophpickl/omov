@@ -24,24 +24,6 @@ import java.util.Date;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
-import net.sourceforge.omov.core.smartfolder.BoolCriterion;
-import net.sourceforge.omov.core.smartfolder.BoolMatch;
-import net.sourceforge.omov.core.smartfolder.DateCriterion;
-import net.sourceforge.omov.core.smartfolder.DateMatch;
-import net.sourceforge.omov.core.smartfolder.FileSizeCriterion;
-import net.sourceforge.omov.core.smartfolder.FileSizeMatch;
-import net.sourceforge.omov.core.smartfolder.NumberCriterion;
-import net.sourceforge.omov.core.smartfolder.NumberMatch;
-import net.sourceforge.omov.core.smartfolder.QualityCriterion;
-import net.sourceforge.omov.core.smartfolder.QualityMatch;
-import net.sourceforge.omov.core.smartfolder.RatingCriterion;
-import net.sourceforge.omov.core.smartfolder.RatingMatch;
-import net.sourceforge.omov.core.smartfolder.ResolutionCriterion;
-import net.sourceforge.omov.core.smartfolder.ResolutionMatch;
-import net.sourceforge.omov.core.smartfolder.TextCriterion;
-import net.sourceforge.omov.core.smartfolder.TextMatch;
-import net.sourceforge.omov.core.smartfolder.TextMultipleCriterion;
-import net.sourceforge.omov.core.smartfolder.TextMultipleMatch;
 
 /**
  * 

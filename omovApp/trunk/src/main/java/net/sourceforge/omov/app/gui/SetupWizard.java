@@ -40,6 +40,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import net.sourceforge.jpotpourri.gui.EscapeDisposer;
+import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.gui.chooser.DirectoryChooser;
+import net.sourceforge.jpotpourri.gui.chooser.IFileDirectoryChooserListener;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -51,12 +56,6 @@ import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.EscapeDisposer;
-import at.ac.tuwien.e0525580.jlib.gui.IEscapeDisposeReceiver;
-import at.ac.tuwien.e0525580.jlib.gui.chooser.DirectoryChooser;
-import at.ac.tuwien.e0525580.jlib.gui.chooser.IFileDirectoryChooserListener;
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -129,9 +128,9 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         panel.setLayout(layout);
         layout.setConstraints(panel, c);
 
-        this.inpFolderTemporary.__unchecked_setFileOrDir(new File("temp"));
-        this.inpFolderCovers.__unchecked_setFileOrDir(new File("covers"));
-        this.inpFolderData.__unchecked_setFileOrDir(new File("data"));
+        this.inpFolderTemporary.uncheckedSetFileOrDir(new File("temp"));
+        this.inpFolderCovers.uncheckedSetFileOrDir(new File("covers"));
+        this.inpFolderData.uncheckedSetFileOrDir(new File("data"));
 
         this.inpFolderTemporary.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderCovers.setDefaultPath(dir.getParentFile());
@@ -180,9 +179,9 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
             final File tempFolder = new File(applicationFolder, "temp");
             final File dataFolder = new File(applicationFolder, "data");
             
-            this.inpFolderCovers.__unchecked_setFileOrDir(coversFolder);
-            this.inpFolderTemporary.__unchecked_setFileOrDir(tempFolder);
-            this.inpFolderData.__unchecked_setFileOrDir(dataFolder);
+            this.inpFolderCovers.uncheckedSetFileOrDir(coversFolder);
+            this.inpFolderTemporary.uncheckedSetFileOrDir(tempFolder);
+            this.inpFolderData.uncheckedSetFileOrDir(dataFolder);
         } else {
             c.gridy++;
             c.gridx = 0;

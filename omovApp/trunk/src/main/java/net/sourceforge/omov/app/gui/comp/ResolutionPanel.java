@@ -26,8 +26,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
 import net.sourceforge.omov.core.bo.Resolution;
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.NumberField;
 
 /**
  * 
@@ -50,8 +50,8 @@ public class ResolutionPanel extends JPanel {
     }
     
     public void setFocusSelection(final boolean focusSelectionEnabled) {
-        this.inpWidth.setFocusSelection(focusSelectionEnabled);
-        this.inpHeight.setFocusSelection(focusSelectionEnabled);
+        this.inpWidth.setFocusSelectionEnabled(focusSelectionEnabled);
+        this.inpHeight.setFocusSelectionEnabled(focusSelectionEnabled);
     }
     
     private void initComponents() {

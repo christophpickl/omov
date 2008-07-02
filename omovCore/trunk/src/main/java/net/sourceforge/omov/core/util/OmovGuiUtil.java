@@ -45,15 +45,14 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
+import net.sourceforge.jpotpourri.gui.dialog.ErrorDialog;
+import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.gui.dialog.ErrorDialog;
-import at.ac.tuwien.e0525580.jlib.gui.panel.brushed.BrushedMetalPanel;
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
 
 /**
  * 

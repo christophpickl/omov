@@ -26,8 +26,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import at.ac.tuwien.e0525580.jlib.gui.inputfield.NumberField;
-import at.ac.tuwien.e0525580.jlib.util.Duration;
+import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.util.Duration;
 
 /**
  * 
@@ -51,8 +51,8 @@ public class DurationPanel extends JPanel {
     }
     
     public void setFocusSelection(final boolean focusSelectionEnabled) {
-        this.inpMin.setFocusSelection(focusSelectionEnabled);
-        this.inpHours.setFocusSelection(focusSelectionEnabled);
+        this.inpMin.setFocusSelectionEnabled(focusSelectionEnabled);
+        this.inpHours.setFocusSelectionEnabled(focusSelectionEnabled);
     }
 
     

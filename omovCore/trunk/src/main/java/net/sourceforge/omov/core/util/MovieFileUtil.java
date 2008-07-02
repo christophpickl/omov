@@ -22,7 +22,7 @@ package net.sourceforge.omov.core.util;
 import java.io.File;
 import java.util.Set;
 
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.CollectionUtil;
 
 /**
  * 

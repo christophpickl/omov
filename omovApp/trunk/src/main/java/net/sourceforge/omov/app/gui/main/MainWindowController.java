@@ -30,6 +30,7 @@ import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.gui.AboutDialog;
 import net.sourceforge.omov.app.gui.CommonController;
@@ -66,8 +67,6 @@ import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

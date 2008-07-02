@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
+import net.sourceforge.jpotpourri.util.CollectionUtil;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
@@ -32,8 +33,6 @@ import net.sourceforge.omov.webApi.WebSearchResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.CollectionUtil;
 
 /**
  * 

@@ -17,6 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.util.TimeUtil;
 import net.sourceforge.omov.qtjImpl.QtjUtil;
 
 import org.apache.commons.logging.Log;
@@ -28,8 +30,6 @@ import quicktime.app.view.QTFactory;
 import quicktime.app.view.QTJComponent;
 import quicktime.std.StdQTException;
 import quicktime.std.movies.Movie;
-import at.ac.tuwien.e0525580.jlib.util.GuiUtil;
-import at.ac.tuwien.e0525580.jlib.util.TimeUtil;
 
 // FIXME see net.sourceforge.atunes.gui.views.panels.PlayerControlsPanel
 

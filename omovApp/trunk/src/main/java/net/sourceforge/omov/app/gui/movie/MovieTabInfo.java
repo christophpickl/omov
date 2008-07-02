@@ -33,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import net.sourceforge.jpotpourri.util.Duration;
 import net.sourceforge.omov.app.gui.comp.CoverSelector;
 import net.sourceforge.omov.app.gui.comp.DurationPanel;
 import net.sourceforge.omov.app.gui.comp.QualityField;
@@ -54,8 +55,6 @@ import net.sourceforge.omov.gui.list.IDataList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import at.ac.tuwien.e0525580.jlib.util.Duration;
 
 /**
  * 
@@ -155,7 +154,7 @@ class MovieTabInfo extends AbstractMovieTab {
     private JPanel initComponents() {
         this.inpDuration.setFocusSelection(true);
         this.inpResolution.setFocusSelection(true);
-        this.inpYear.setFocusSelection(true);
+        this.inpYear.setFocusSelectionEnabled(true);
         
         this.inpGenre.setVisibleRowCount(8);
         

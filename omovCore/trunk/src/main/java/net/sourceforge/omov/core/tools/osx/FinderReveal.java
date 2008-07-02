@@ -21,11 +21,10 @@ package net.sourceforge.omov.core.tools.osx;
 
 import java.io.File;
 
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.core.BusinessException;
 
 import org.apache.log4j.Logger;
-
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 

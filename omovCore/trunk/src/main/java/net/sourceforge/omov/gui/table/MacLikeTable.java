@@ -40,12 +40,11 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
+import net.sourceforge.jpotpourri.gui.IMacColors;
+import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.gui.IMacColors;
 
 import org.jdesktop.swingx.JXTable;
-
-import at.ac.tuwien.e0525580.jlib.tools.UserSniffer;
 
 /**
  * 
@@ -180,6 +179,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
         renderer.setBorder(border);
     }
 
+    // TODO this next section was already outsourced to jpotpourri (potface?!) -> class: TableFillEmptyRowsPainter
     /******************************************************************************************************************/
     /** PAINT EMPTY ROWS
     /******************************************************************************************************************/
