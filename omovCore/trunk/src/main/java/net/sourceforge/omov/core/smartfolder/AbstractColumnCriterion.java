@@ -176,9 +176,9 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch<?>> {
     /**
      * sets the column name and delegates to match
      */
-    final Constraint getDb4oConstraint(Query query) {
+    final Constraint getDb4oConstraint(final Query inQuery) {
         LOG.debug("Preparing query for column '"+this.getColumn()+"'.");
-        query = query.descend(this.getColumn());
+        Query query = inQuery.descend(this.getColumn());
         if(this.getColumn().equals(MovieField.QUALITY.column())) {
             query = query.descend("id"); // compare quality's ID, and not the object itself
         }
