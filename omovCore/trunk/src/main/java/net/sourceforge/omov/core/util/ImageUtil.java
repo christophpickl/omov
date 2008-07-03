@@ -65,20 +65,20 @@ public class ImageUtil {
             if(oldWidth < oldHeight) {
                 if(DEBUG) System.out.println("ImageUtil: height oversize dominates"); // or is equal
                 newHeight = maxHeight;
-                newWidth = (int) ((double)oldWidth * ((double) maxHeight/oldHeight));
+                newWidth = (int) (oldWidth * ((double) maxHeight/oldHeight));
             } else {
                 if(DEBUG) System.out.println("ImageUtil: width oversize dominates");
                 newWidth = maxWidth;
-                newHeight = (int) ((double)oldHeight * ((double) maxWidth/oldWidth));
+                newHeight = (int) (oldHeight * ((double) maxWidth/oldWidth));
             }
         } else if(heightOversize){
             if(DEBUG) System.out.println("ImageUtil: only height oversize");
             newHeight = maxHeight;
-            newWidth = (int) ((double)oldWidth * ((double) maxHeight/oldHeight));
+            newWidth = (int) (oldWidth * ((double) maxHeight/oldHeight));
         } else if(widthOversize) {
             if(DEBUG) System.out.println("ImageUtil: only width oversize");
             newWidth = maxWidth;
-            newHeight = (int) ((double)oldHeight * ((double) maxWidth/oldWidth));
+            newHeight = (int) (oldHeight * ((double) maxWidth/oldWidth));
         } else { // MINOR imageutil: maybe check also for too small image size?
             if(DEBUG) System.out.println("ImageUtil: image to small; reusing old width and height");
             newHeight = oldHeight;

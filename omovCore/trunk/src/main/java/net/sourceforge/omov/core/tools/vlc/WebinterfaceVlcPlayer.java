@@ -40,7 +40,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser;
+import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 
 //http://localhost:8080/requests/status.xml?command=pl_empty
 //http://localhost:8080/requests/playlist.xml
@@ -138,7 +138,7 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 		}
 	}
 	
-	private PlaylistNode parsePlaylistXml(PlaylistNode pNode, Node xNode) {
+	private PlaylistNode parsePlaylistXml(final PlaylistNode pNode, Node xNode) {
 		NamedNodeMap attributes = xNode.getAttributes();
 		
 		final int id = Integer.parseInt(attributes.getNamedItem("id").getTextContent());
@@ -147,8 +147,11 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 		if(xNode.getNodeName().equals("node")) {
 			final String name = attributes.getNamedItem("name").getTextContent();
 			
+			final PlaylistNode pNode2;
 			if(pNode == null) { // set initial root node
-				pNode = PlaylistNode.newNode(id, name);
+				pNode2 = PlaylistNode.newNode(id, name);
+			} else {
+				pNode2 = pNode;
 			}
 			pSubNode = PlaylistNode.newNode(id, name);
 			

@@ -104,12 +104,15 @@ public final class FileUtil extends net.sourceforge.jpotpourri.util.FileUtil {
 //        return nameToClear.replaceAll("\\.", " ") + "." + extensionToUse;
     }
     
-    private static boolean isDotPrefix(String s) {
+    private static boolean isDotPrefix(final String s) {
         final int lastWhitespace = s.lastIndexOf(" ");
+        final String s2;
         if(lastWhitespace != -1) {
-            s = s.substring(lastWhitespace + 1);
+            s2 = s.substring(lastWhitespace + 1);
+        } else {
+        	s2 = s;
         }
-        return DOT_PREFIXES.contains(s.toLowerCase());
+        return DOT_PREFIXES.contains(s2.toLowerCase());
     }
 }
 

@@ -132,8 +132,7 @@ public class ExporterHtml implements IExporterHtml {
             }
         }
 
-        targetFile = new File(targetDirectory, targetFile.getName());
-        return new File[] {targetFile, targetDirectory};
+        return new File[] {new File(targetDirectory, targetFile.getName()), targetDirectory};
     }
 
     private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws FileUtilException {
@@ -211,8 +210,8 @@ public class ExporterHtml implements IExporterHtml {
     	return false;
     }
 
-    public void process(List<Movie> movies, File target) throws BusinessException {
-        LOG.info("Going to export " + movies.size() + " movies to target '"+target.getAbsolutePath()+"'.");
+    public void process(List<Movie> movies, File paramTarget) throws BusinessException {
+        LOG.info("Going to export " + movies.size() + " movies to target '"+paramTarget.getAbsolutePath()+"'.");
 
         boolean processFinishedSuccessfully = false;
         File createdDir = null;
@@ -221,9 +220,10 @@ public class ExporterHtml implements IExporterHtml {
             final boolean coversEnabled = columns.contains(HtmlColumn.COLUMN_COVER)
             						   && gotAnyMovieCoverSet(movies); // [mantis 0000060]
             
+            final File target;
             if(coversEnabled) {
-                final File[] targetFileAndTargetDir = copyCoverFiles(movies, target);
-                LOG.info("Resetting target file to '"+target.getAbsolutePath()+"'.");
+                final File[] targetFileAndTargetDir = copyCoverFiles(movies, paramTarget);
+                LOG.info("Resetting target file to '"+paramTarget.getAbsolutePath()+"'.");
                 target = targetFileAndTargetDir[0];
                 createdDir = targetFileAndTargetDir[1]; // e.g.: "/Users/foobar/UserEnteredName/
 
@@ -235,6 +235,8 @@ public class ExporterHtml implements IExporterHtml {
 //                } catch (URISyntaxException e) {
 //                    throw new BusinessException("Could not get wz_tooltip.js file from resources!", e);
 //                }
+            } else {
+            	target = paramTarget;
             }
             this.targetFilePath = target.getAbsolutePath();
 
