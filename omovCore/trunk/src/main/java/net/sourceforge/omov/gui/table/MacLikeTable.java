@@ -156,7 +156,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
     protected void fixMacOsCellRendererBorder(JComponent renderer, boolean selected, boolean focused, boolean isEditing) {
         Border border;
         if (selected) {
-            border = BorderFactory.createMatteBorder(0, 0, 1, 0, focused ? MAC_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR : MAC_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE_COLOR);
+            border = BorderFactory.createMatteBorder(0, 0, 1, 0, focused ? MAC_COLOR_FOCUSED_SELECTED_CELL_HORIZONTAL_LINE : MAC_COLOR_UNFOCUSED_SELECTED_CELL_HORIZONTAL_LINE);
         } else {
             border = BorderFactory.createEmptyBorder(0, 0, 1, 0);
         }
@@ -164,12 +164,12 @@ public class MacLikeTable extends JXTable implements IMacColors {
         if (getShowVerticalLines()) {
             final Color verticalLineColor;
             if (focused) {
-                verticalLineColor = selected ? MAC_FOCUSED_SELECTED_VERTICAL_LINE_COLOR : MAC_FOCUSED_UNSELECTED_VERTICAL_LINE_COLOR;
+                verticalLineColor = selected ? MAC_COLOR_FOCUSED_SELECTED_VERTICAL_LINE : MAC_COLOR_FOCUSED_UNSELECTED_VERTICAL_LINE;
             } else {
 //                if(isEditing && row == selectedRow) {
 //                    verticalLineColor = dark grey thing: MAC_FOCUSED_SELECTED_VERTICAL_LINE_COLOR?
 //                } else {
-                    verticalLineColor = selected ? MAC_UNFOCUSED_SELECTED_VERTICAL_LINE_COLOR : MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR;
+                    verticalLineColor = selected ? MAC_COLOR_UNFOCUSED_SELECTED_VERTICAL_LINE : MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE;
 //                }
             }
             Border verticalBorder = BorderFactory.createMatteBorder(0, 0, 0, 1, verticalLineColor);
@@ -201,7 +201,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
 
             // Mac OS' Aqua LAF never draws vertical grid lines, so we have to draw them ourselves.
             if (UserSniffer.isMacOSX() && getShowVerticalLines()) {
-                g.setColor(MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR);
+                g.setColor(MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE);
                 TableColumnModel model = getColumnModel();
                 int x = 0;
                 for (int i = 0; i < model.getColumnCount(); ++i) {
