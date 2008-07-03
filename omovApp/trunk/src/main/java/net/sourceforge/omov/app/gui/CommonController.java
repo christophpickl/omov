@@ -111,7 +111,7 @@ public abstract class CommonController<M extends Movie> implements IWebSearchWor
 			final String errTitle = "QuickView";
 			if(owner instanceof JDialog) {
 				OmovGuiUtil.error((JDialog) owner, errTitle, errMsg, e);
-			} else if(owner instanceof JDialog) {
+			} else if(owner instanceof JFrame) {
 				OmovGuiUtil.error((JFrame) owner, errTitle, errMsg, e);
 			} else {
 				throw new IllegalArgumentException("Invalid owner class: " + owner.getClass().getName());
