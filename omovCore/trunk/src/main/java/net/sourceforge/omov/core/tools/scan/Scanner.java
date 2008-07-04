@@ -229,8 +229,8 @@ public class Scanner implements IScanner, IScannerStopped {
         
         final String format = constructExtensionString(formats);
         
-        if(files.size() == 0) {
-            if(hintsEnabled) hints.add(ScanHint.warning("There was not any movie file found for folder '"+folder.getAbsolutePath()+"'."));
+        if(files.size() == 0 && hints != null) {
+        	hints.add(ScanHint.warning("There was not any movie file found for folder '"+folder.getAbsolutePath()+"'."));
         }
         
         return new MovieFolderInfo(folderPath, files, fileSizeKb, format);

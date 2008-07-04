@@ -143,32 +143,32 @@ class ShapeSliderUI extends SliderUI{
     }
     public void uninstallUI(JComponent c){
         super.uninstallUI(c);
-        c.removeMouseListener(mouseListener);
-        c.removeMouseMotionListener(mouseListener);
+        c.removeMouseListener(this.mouseListener);
+        c.removeMouseMotionListener(this.mouseListener);
         JSlider slider = (JSlider)c;
-        slider.removeChangeListener(changeListener);
-        slider.removeKeyListener(keyListener);
+        slider.removeChangeListener(this.changeListener);
+        slider.removeKeyListener(this.keyListener);
     }
     public void installUI(JComponent c){
         super.installUI(c);
-        c.addMouseListener(mouseListener = new ShapeML());
-        c.addMouseMotionListener(mouseListener);
+        c.addMouseListener(this.mouseListener = new ShapeML());
+        c.addMouseMotionListener(this.mouseListener);
         JSlider slider = (JSlider)c;
-        slider.addChangeListener(changeListener = new ShapeCL());
-        slider.addKeyListener(keyListener = new ShapeKL());
+        slider.addChangeListener(this.changeListener = new ShapeCL());
+        slider.addKeyListener(this.keyListener = new ShapeKL());
         installColors();
     }
     public void installColors(){
-        if(primaryShape==null){
-            primaryShape = makeStar();
+        if(this.primaryShape==null){
+        	this.primaryShape = makeStar();
         }
-        if(secondaryShape==null){
-            secondaryShape = new Ellipse2D.Double(40,40,20,20);
+        if(this.secondaryShape==null){
+        	this.secondaryShape = new Ellipse2D.Double(40,40,20,20);
         }
-        if(primaryColor==null)
-            primaryColor = COLOR_PRIMARY;
-        if(secondaryColor==null)
-            secondaryColor = COLOR_SECONDARY;
+        if(this.primaryColor==null)
+        	this.primaryColor = COLOR_PRIMARY;
+        if(this.secondaryColor==null)
+        	this.secondaryColor = COLOR_SECONDARY;
 
     }
     /**
@@ -200,26 +200,26 @@ class ShapeSliderUI extends SliderUI{
         JSlider slider = (JSlider)c;
         int size = 16;
         return new Dimension(
-                size*slider.getMaximum()+(2*margin),
-                size+2*margin);
+                size*slider.getMaximum()+(2*this.margin),
+                size+2*this.margin);
     }
     public Dimension getMinimumSize(JComponent c){
         JSlider slider = (JSlider)c;
         int size = 10;
         return new Dimension(
-                size*slider.getMaximum()+(2*margin),
+                size*slider.getMaximum()+(2*this.margin),
                 size+2*margin);
     }
     public Dimension getMaximumSize(JComponent c){
         JSlider slider = (JSlider)c;
         int size = 200;
         return new Dimension(
-                size*slider.getMaximum()+(2*margin),
+                size*slider.getMaximum()+(2*this.margin),
                 size+2*margin);
     }
     protected int getSize(JSlider slider){
-        int size = (slider.getWidth()-(2*margin))/slider.getMaximum();
-        int alt = slider.getHeight()-(2*margin);
+        int size = (slider.getWidth()-(2*this.margin))/slider.getMaximum();
+        int alt = slider.getHeight()-(2*this.margin);
         if(alt<size){
             size = alt;
         }

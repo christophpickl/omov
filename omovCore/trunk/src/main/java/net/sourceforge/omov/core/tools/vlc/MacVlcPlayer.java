@@ -35,7 +35,7 @@ FEATURE vlc integration for windows
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class MacVlcPlayer extends WebinterfaceVlcPlayer implements IVlcPlayer {
+class MacVlcPlayer extends WebinterfaceVlcPlayer {
 
     private static final String APPLE_SCRIPT_OPEN =
         "set theFile to \"{0}\"\n" +

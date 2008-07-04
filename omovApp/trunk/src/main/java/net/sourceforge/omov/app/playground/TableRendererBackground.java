@@ -29,7 +29,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 
 /**
  * 
@@ -74,7 +73,7 @@ public class TableRendererBackground {
         frame.setVisible(true);
     }
     
-    static class BooleanEditor extends DefaultCellEditor implements TableCellEditor {
+    static class BooleanEditor extends DefaultCellEditor {
         private static final long serialVersionUID = 1L;
 
         public BooleanEditor(JCheckBox checkBox) {

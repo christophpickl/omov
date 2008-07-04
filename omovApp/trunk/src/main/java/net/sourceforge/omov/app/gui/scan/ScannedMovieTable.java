@@ -28,7 +28,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.table.TableCellEditor;
 
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.CheckedMovie;
@@ -45,7 +44,7 @@ class ScannedMovieTable extends MacLikeTable {
     
 
     
-    private static class BooleanEditor extends DefaultCellEditor implements TableCellEditor {
+    private static class BooleanEditor extends DefaultCellEditor {
         private static final long serialVersionUID = -6806951966323456398L;
         public BooleanEditor(JCheckBox checkBox) {
             super(checkBox);

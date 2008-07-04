@@ -105,17 +105,23 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         OmovGuiUtil.setCenterLocation(this);
     }
     
+    /**
+     * Preselects all checkboxes in movie edit dialog for multiple movies.
+     * To be exactly, it selects only these, where all movies got the same value.
+     */
     private void preselectCheckboxes() {
         for (MovieField field : MULTIPLE_EDIT_FIELDS) {
             
             boolean allMoviesEqualField = true;
-            Movie prevMovie = null;
-            for (Movie curMovie : this.getEditItem()) {
-                if(prevMovie != null) {
-                    if(curMovie.getValueByField(field).equals(prevMovie.getValueByField(field)) == false) {
-                        allMoviesEqualField = false;
-                        break;
-                    }
+            final List<Movie> editItems = this.getEditItem();
+            Movie prevMovie = editItems.get(0);
+            for (int i = 1, n = editItems.size(); i < n; i++) {
+            	final Movie curMovie = editItems.get(i);
+            	
+            	// actually, this line checks if the movie
+                if(curMovie.getValueByField(field).equals(prevMovie.getValueByField(field)) == false) {
+                    allMoviesEqualField = false;
+                    break;
                 }
                 
                 prevMovie = curMovie;
@@ -123,7 +129,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
             
             if(allMoviesEqualField == true) {
                 this.fieldCheckBoxes.get(field).setSelected(true);
-                if(field == MovieField.TITLE) {
+                if(field == MovieField.TITLE) { // TODO Pass the MovieField an interface of tabInfo, and delegate to MovieField by dynamic dispatch
                     this.tabInfo.setMovieTitle(prevMovie.getTitle());
                 } else if(field == MovieField.SEEN) {
                     this.tabInfo.setMovieSeen(prevMovie.isSeen());

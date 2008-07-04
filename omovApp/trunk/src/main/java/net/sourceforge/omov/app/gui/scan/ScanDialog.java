@@ -57,9 +57,10 @@ import javax.swing.table.TableColumn;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.gui.table.BodyContext;
-import net.sourceforge.jpotpourri.gui.table.TableContextMenuListener;
+import net.sourceforge.jpotpourri.gui.table.ITableBodyContextListener;
+import net.sourceforge.jpotpourri.gui.table.TableBodyContext;
 import net.sourceforge.jpotpourri.gui.widget.ContextMenuButton;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
@@ -82,7 +83,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ScanDialog extends JDialog implements TableContextMenuListener, IEscapeDisposeReceiver, IFolderChooseListener {
+public class ScanDialog extends JDialog implements ITableBodyContextListener, IEscapeDisposeReceiver, IFolderChooseListener {
 
 	// TODO if was yet scanned (-> rows in table), and then user prepares repository -> could be that rows have wrong data (either adjust them, or simply clear all table rows)
 	
@@ -145,12 +146,12 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
 
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        BodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        BodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
+        TableBodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        TableBodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
         if(QtjFactory.isQtjAvailable()) {
-        	BodyContext.newJMenuItem(itemsSingle, "QuickView", CMD_PLAY_QUICKVIEW, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
+        	TableBodyContext.newJMenuItem(itemsSingle, "QuickView", CMD_PLAY_QUICKVIEW, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
         }
-        new BodyContext(this.tblScannedMovie, itemsSingle, null, this);
+        new TableBodyContext(this.tblScannedMovie, itemsSingle, null, this);
 
         this.getRootPane().setDefaultButton(this.btnDoScan);
 
@@ -159,7 +160,7 @@ public class ScanDialog extends JDialog implements TableContextMenuListener, IEs
         this.pack();
         this.setResizable(true);
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
 
         // shortcut
 //        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));

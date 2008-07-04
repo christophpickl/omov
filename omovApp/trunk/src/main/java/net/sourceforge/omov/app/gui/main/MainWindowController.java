@@ -22,6 +22,7 @@ package net.sourceforge.omov.app.gui.main;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -152,7 +153,8 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 committed = true;
             } catch (BusinessException e) {
                 LOG.error("Deleting movie failed: " + movie, e);
-                OmovGuiUtil.error(this.mainWindow, "Deleting Movie failed", "Could not delete movie '"+movie.getTitle()+"'!");
+                final String movieTitle = movie != null ? movie.getTitle() : "null";
+                OmovGuiUtil.error(this.mainWindow, "Deleting Movie failed", "Could not delete movie '"+movieTitle+"'!");
                 return;
             } finally {
                 if(committed == false) DAO.rollback();
@@ -378,18 +380,22 @@ public final class MainWindowController extends CommonController<Movie> implemen
 //            return;
 //        }
         
-        File firstMovieFile = null;
+        final List<File> movieFiles = new ArrayList<File>(movieFileNames.size());
+        assert(movieFileNames.size() > 0);
+    	for (String movieFileName : movieFileNames) {
+    		final File movieFile = new File(movie.getFolderPath(), movieFileName);
+    		movieFiles.add(movieFile);
+    		
+    	}
+    	
         try {
-        	assert(movieFileNames.size() > 0);
-        	for (String movieFileName : movieFileNames) {
-        		final File movieFile = new File(movie.getFolderPath(), movieFileName);
-        		if(firstMovieFile == null) firstMovieFile = movieFile;
-        		App.VLC_PLAYER.addFileToPlaylist(movieFile);
-        	}
-        	App.VLC_PLAYER.playFile(firstMovieFile);
+        	for (File file : movieFiles) {
+            	App.VLC_PLAYER.addFileToPlaylist(file);
+			}
+        	App.VLC_PLAYER.playFile(movieFiles.get(0));
         	
         } catch (BusinessException e) {
-            LOG.error("Could not play file '"+firstMovieFile.getAbsolutePath()+"' in VLC!");
+            LOG.error("Could not play file '"+movieFiles.get(0).getAbsolutePath()+"' in VLC!");
             OmovGuiUtil.error("Play in VLC failed", "<html>Could not play movie file in VLC!<br>" +
             		"Maybe VLC's <b>Web Interface</b> is not up and running.</html>");
         }

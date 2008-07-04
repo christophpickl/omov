@@ -41,9 +41,9 @@ public class WebSearchWorker<O extends Movie> extends SwingWorker<List<WebSearch
         try {
             final IWebDataFetcher dataFetcher = WebDataFetcherFactory.newWebDataFetcher();
             
-            this.result = dataFetcher.search(movieFetchingData.getTitle());
+            this.result = dataFetcher.search(this.movieFetchingData.getTitle());
         } catch (BusinessException e) {
-            LOG.error("Could not fetch movie details for movie '"+movieFetchingData+"'!", e);
+            LOG.error("Could not fetch movie details for movie '"+this.movieFetchingData+"'!", e);
             OmovGuiUtil.error(this.parent, "Fetching Metadata Failed", "Could not get metadta for movie '"+movieFetchingData.getTitle()+"'!\nPlease check your internet connection.");
             this.result = null;
             // thrownException = e; TODO either handle exception here, or pass it to client???

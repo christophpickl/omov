@@ -184,7 +184,7 @@ public class MultiLineLabelUI extends BasicLabelUI {
 
 		int gap = (textIsEmpty || (icon == null)) ? 0 : textIconGap;
 
-		if (!textIsEmpty) {
+		if (text != null && !textIsEmpty) {
 
 			/* If the label text string is too wide to fit within the available
 			 * space "..." and as many characters as will fit will be
