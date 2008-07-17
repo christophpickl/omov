@@ -20,9 +20,9 @@ import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.LanguageUtil;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

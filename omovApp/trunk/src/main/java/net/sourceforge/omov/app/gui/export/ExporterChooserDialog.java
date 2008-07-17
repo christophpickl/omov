@@ -40,9 +40,9 @@ import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.export.ComboMovieSelection.MovieSelectionMode;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.BeanFactory;
@@ -50,14 +50,14 @@ import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ExporterChooserDialog extends JDialog implements IEscapeDisposeReceiver {
+public class ExporterChooserDialog extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final long serialVersionUID = -683746227786551236L;
     
@@ -79,7 +79,7 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         this.setTitle("Export");
         this.setModal(true);
         
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -111,7 +111,7 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {
@@ -209,7 +209,7 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         final List<Movie> movies = this.getMoviesToExport();
         
         if(movies.size() == 0) { // [mantis 0000060]
-        	GuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
+        	PtGuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
         	return;
         }
         

@@ -19,7 +19,7 @@
 
 package net.sourceforge.omov.core.tools.vlc;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 
 /**
  * 
@@ -33,11 +33,11 @@ public final class VlcPlayerFactory {
 
     public static boolean isVlcCapable() {
 //        return (UserSniffer.isMacOSX() || UserSniffer.isWindows()); // --> wait until VLC release 0.9.0 (JVLC will be supported, i think...)
-        return UserSniffer.isMacOSX();
+        return PtUserSniffer.isMacOSX();
     }
     
 	public static IVlcPlayer newVlcPlayer() {
-		if(UserSniffer.isMacOSX() == true) {
+		if(PtUserSniffer.isMacOSX() == true) {
 			assert(isVlcCapable() == true);
 			return new MacVlcPlayer();
 		}

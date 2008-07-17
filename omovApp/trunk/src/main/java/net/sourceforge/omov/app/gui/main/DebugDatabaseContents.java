@@ -33,7 +33,7 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
@@ -56,7 +56,7 @@ class DebugDatabaseContents extends JFrame {
 		this.setResizable(true);
 		this.getContentPane().add(this.initComponents());
 		this.pack();
-		GuiUtil.setCenterLocation(this);
+		PtGuiUtil.setCenterLocation(this);
 		this.showMovieContents();
 	}
 	

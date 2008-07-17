@@ -29,8 +29,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
@@ -40,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class AbstractAddEditDialog<T> extends JDialog implements IEscapeDisposeReceiver {
+public abstract class AbstractAddEditDialog<T> extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(AbstractAddEditDialog.class);
     
@@ -63,7 +63,7 @@ public abstract class AbstractAddEditDialog<T> extends JDialog implements IEscap
                 doCancel();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.setResizable(false);
     }

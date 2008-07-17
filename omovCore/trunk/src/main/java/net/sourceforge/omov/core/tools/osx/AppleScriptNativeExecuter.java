@@ -25,7 +25,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.core.BusinessException;
 
 import org.apache.commons.logging.Log;
@@ -48,7 +48,7 @@ public class AppleScriptNativeExecuter {
     private static Class<?> nsMutableDictionaryClass;
 
     public static String executeAppleScript(final String script) throws BusinessException {
-        assert(UserSniffer.isMacOSX());
+        assert(PtUserSniffer.isMacOSX());
         
         try {
             if(appleScriptMethod == null) {

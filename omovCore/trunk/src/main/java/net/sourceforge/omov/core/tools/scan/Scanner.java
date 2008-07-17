@@ -28,6 +28,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
@@ -241,8 +242,8 @@ public class Scanner implements IScanner, IScannerStopped {
         
         for(File file : folder.listFiles()) {
             if(file.isFile()) {
-                final String fileExtension = net.sourceforge.jpotpourri.util.FileUtil.extractExtension(file);
-                if(net.sourceforge.jpotpourri.util.FileUtil.isHiddenFile(file) == true) {
+                final String fileExtension = PtFileUtil.extractExtension(file);
+                if(PtFileUtil.isHiddenFile(file) == true) {
                     LOG.debug("Skipping hidden file '"+file.getAbsolutePath()+"'.");
                     continue;
                 } else if(MovieFileUtil.isMovieFileExtension(fileExtension) == false) {

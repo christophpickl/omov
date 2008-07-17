@@ -25,14 +25,14 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.export.ExporterBackup;
 import net.sourceforge.omov.core.tools.export.ExporterHtml;
 import net.sourceforge.omov.core.tools.export.HtmlColumn;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -61,7 +61,7 @@ public class ExporterChooserController {
         try {
             LOG.info("Exporting HTML-Report to '"+targetFile.getAbsolutePath()+"' with "+movies.size()+" movies.");
             exporter.process(movies, targetFile);
-            GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+exporter.getTargetFilePath());
+            PtGuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+exporter.getTargetFilePath());
         } catch (BusinessException e) {
             OmovGuiUtil.error(this.dialog, "Export HTML", "Exporting Movies failed! Error message is:\n"+e.getMessage());
             LOG.error("Could not export movies to target '"+targetFile.getAbsolutePath()+"'!", e);
@@ -76,7 +76,7 @@ public class ExporterChooserController {
         try {
             LOG.info("Exporting Backup to '"+targetDirectory.getAbsolutePath()+"'.");
             final File backupFile = ExporterBackup.process(movies, targetDirectory);
-            GuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+backupFile.getAbsolutePath());
+            PtGuiUtil.info(this.dialog, "Export finished", "The exported file was successfully saved to:\n"+backupFile.getAbsolutePath());
         } catch (BusinessException e) {
             OmovGuiUtil.error(this.dialog, "Export Backup", "Generating report failed!\n"+e.getMessage());
         }

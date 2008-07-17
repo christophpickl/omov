@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.widget.button.PressableButton;
+import net.sourceforge.jpotpourri.jpotface.button.PtPressableButton;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
 
 public class Delme {
@@ -21,7 +21,7 @@ public class Delme {
 		
 		p.add(new JLabel("tut: "));
 		ButtonSmallScreenIcon icon = ButtonSmallScreenIcon.PAUSE;
-		JButton btn = new PressableButton(
+		JButton btn = new PtPressableButton(
 				QtjImageFactory.getInstance().getButtonSmallScreen(icon),
 				QtjImageFactory.getInstance().getButtonSmallScreenPressed(icon));
 		btn.addActionListener(new ActionListener() {

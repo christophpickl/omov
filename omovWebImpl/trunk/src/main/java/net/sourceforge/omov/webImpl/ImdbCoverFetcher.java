@@ -12,11 +12,11 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
-import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,7 +52,7 @@ class ImdbCoverFetcher extends NodeVisitor {
 
             final String webfileName = absoluteImagePath.substring(absoluteImagePath.lastIndexOf("/") + 1, absoluteImagePath.length());
 
-            String extension = FileUtil.extractExtension(webfileName);
+            String extension = PtFileUtil.extractExtension(webfileName);
             if(extension == null) {
                 LOG.warn("Could not get extension from file '"+webfileName+"'! Setting it to default '"+DEFAULT_EXTENSION+"' extension.");
                 extension = DEFAULT_EXTENSION;
@@ -124,8 +124,8 @@ class ImdbCoverFetcher extends NodeVisitor {
         } catch (IOException e) {
             throw new BusinessException("Could not download file from url '"+urlString+"' to file '"+target.getAbsolutePath()+"'!", e);
         } finally {
-            CloseUtil.close(in);
-            CloseUtil.close(out);
+            PtCloseUtil.close(in);
+            PtCloseUtil.close(out);
         }
 
         http.disconnect();

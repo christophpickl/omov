@@ -28,14 +28,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtMultiColTextField;
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.LabeledComponent;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 /**
  * 
@@ -47,17 +47,17 @@ class ImdbMovieDataPanel extends JPanel {
 
     private final Movie movie;
 
-    private final MultiColTextField txtTitle = new MultiColTextField(20);
+    private final PtMultiColTextField txtTitle = new PtMultiColTextField(20);
 
     private final JLabel txtYear = new JLabel(" ");
     private final JLabel txtDuration = new JLabel(" ");
     
-    private final MultiColTextField txtDirector = new MultiColTextField(10);
-    private final MultiColTextField txtActors = new MultiColTextField(20);
+    private final PtMultiColTextField txtDirector = new PtMultiColTextField(10);
+    private final PtMultiColTextField txtActors = new PtMultiColTextField(20);
     
     private final CoverImagePanel imagePanel = new CoverImagePanel(); // MINOR draw background color only for this panel different (if no cover is set, looks ugly)
     private final JTextArea txtComment = new JTextArea(4, 20);
-    private final MultiColTextField txtGenres = new MultiColTextField(20);
+    private final PtMultiColTextField txtGenres = new PtMultiColTextField(20);
     
     public static final ImdbMovieDataPanel EMPTY_PANEL = new ImdbMovieDataPanel(null); 
     

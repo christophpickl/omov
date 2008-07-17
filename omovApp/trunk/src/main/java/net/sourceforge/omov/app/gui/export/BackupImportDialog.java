@@ -37,13 +37,13 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.gui.chooser.ButtonPosition;
-import net.sourceforge.jpotpourri.gui.chooser.FileChooser;
-import net.sourceforge.jpotpourri.gui.chooser.IFileDirectoryChooserListener;
-import net.sourceforge.jpotpourri.util.FileUtil;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.chooser.PtButtonPosition;
+import net.sourceforge.jpotpourri.jpotface.chooser.PtFileChooser;
+import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class BackupImportDialog extends JDialog implements ActionListener, IEscapeDisposeReceiver {
+public class BackupImportDialog extends JDialog implements ActionListener, IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(BackupImportDialog.class);
     private static final long serialVersionUID = 2471103972559399413L;
@@ -68,7 +68,7 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
     
     private final BackupImportController controller;
 
-    private final FileChooser inpFileChooser = new FileChooser("Open", "Choose BackupFile", null, ButtonPosition.LEFT, ImportExportConstants.BACKUP_FILE_EXTENSION);
+    private final PtFileChooser inpFileChooser = new PtFileChooser("Open", "Choose BackupFile", null, PtButtonPosition.LEFT, ImportExportConstants.BACKUP_FILE_EXTENSION);
     private final JProgressBar progressBar = new JProgressBar();
     private final JButton btnImport = new JButton("Import");
     private final JButton btnClose = new JButton("Close");
@@ -76,7 +76,7 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
     public BackupImportDialog(JFrame owner) {
         super(owner, "Import Backup", true);
         
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
 
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
@@ -89,7 +89,7 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
         this.controller = new BackupImportController(this);
 
         this.inpFileChooser.setDefaultPath(new File(PreferencesDao.getInstance().getRecentBackupImportPath()));
-        this.inpFileChooser.addChooserListener(new IFileDirectoryChooserListener() {
+        this.inpFileChooser.addChooserListener(new IPtFileDirectoryChooserListener() {
             public void doChoosen(final File backupFile) {
                 new GuiAction() {
                     @Override
@@ -105,11 +105,11 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     public void setZipFile(File backupFile) {
-        assert(FileUtil.extractExtension(backupFile).equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION)); // assert *.omo extension
+        assert(PtFileUtil.extractExtension(backupFile).equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION)); // assert *.omo extension
         
         this.inpFileChooser.setFile(backupFile);
         this.btnImport.setEnabled(true);

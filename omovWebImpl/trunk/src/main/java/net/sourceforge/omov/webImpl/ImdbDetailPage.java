@@ -7,7 +7,7 @@ import java.net.URLConnection;
 import java.util.HashSet;
 import java.util.Set;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.bo.Movie;
@@ -143,7 +143,7 @@ class ImdbDetailPage extends NodeVisitor {
                 actorsFetched++;
             }
             
-            LOG.debug("Setting movie actors to '"+CollectionUtil.toString(actors)+"'.");
+            LOG.debug("Setting movie actors to '"+PtCollectionUtil.toString(actors)+"'.");
             this.movieData.setActors(actors);
             return true;
         }
@@ -228,7 +228,7 @@ class ImdbDetailPage extends NodeVisitor {
                 debug("Adding genre '"+genre+"'.");
                 genres.add(genre);
             }
-            LOG.debug("Setting movie genres to '"+CollectionUtil.toString(genres)+"'.");
+            LOG.debug("Setting movie genres to '"+PtCollectionUtil.toString(genres)+"'.");
             this.movieData.setGenres(genres);
 
         } else if(lbl.equals("Plot Outline:") || lbl.equals("Plot:")) {

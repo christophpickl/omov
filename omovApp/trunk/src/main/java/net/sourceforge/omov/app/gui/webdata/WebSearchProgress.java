@@ -17,18 +17,18 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class WebSearchProgress<N extends Movie> extends JDialog implements IEscapeDisposeReceiver {
+public class WebSearchProgress<N extends Movie> extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(WebSearchProgress.class);
 	private static final long serialVersionUID = -5671264355595639975L;
@@ -48,12 +48,12 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IEsca
                 doCancel();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
         
         this.worker = new WebSearchWorker<N>(this, listener, movieFetchingData, parent);
         LOG.debug("worker.execute();");

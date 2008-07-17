@@ -38,9 +38,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import net.sourceforge.jpotpourri.gui.widget.button.PressableButton;
-import net.sourceforge.jpotpourri.util.GuiUtil;
-import net.sourceforge.jpotpourri.util.TimeUtil;
+import net.sourceforge.jpotpourri.jpotface.button.PtPressableButton;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtTimeUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
@@ -122,7 +122,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		return this.southPanel;
 	}
 	
-	private static class ControlButton extends PressableButton  {
+	private static class ControlButton extends PtPressableButton  {
 		private static final long serialVersionUID = 4692041677980312903L;
 		public ControlButton(ButtonSmallScreenIcon icon) {
 			super(QtjImageFactory.getInstance().getButtonSmallScreen(icon),
@@ -149,7 +149,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);
 		btnClose.setBorder(BorderFactory.createEmptyBorder());
-		GuiUtil.enableHandCursor(btnClose);
+		PtGuiUtil.enableHandCursor(btnClose);
 		
 		panel.add(windowTitle, BorderLayout.WEST);
 		panel.add(btnClose, BorderLayout.EAST);
@@ -206,7 +206,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 					if(perCent < 0.0) perCent = 0.0;
 					
 					final int newTimeMicros = (int) (movieTimeMaxInMicros * perCent);
-					LOG.debug("perCent="+(perCent*100)+"% -> seeking to " + newTimeMicros+"micros ("+TimeUtil.microSecondsToString(newTimeMicros)+")");
+					LOG.debug("perCent="+(perCent*100)+"% -> seeking to " + newTimeMicros+"micros ("+PtTimeUtil.microSecondsToString(newTimeMicros)+")");
 					player.doSeek(newTimeMicros);
 				}
 			}
@@ -243,7 +243,7 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 	}
 	
 	private void updateLblTime(final int curMs) {
-		this.lblTime.setText(TimeUtil.microSecondsToString(curMs) + " / " + this.player.getMovieTimeMaxFormatted());
+		this.lblTime.setText(PtTimeUtil.microSecondsToString(curMs) + " / " + this.player.getMovieTimeMaxFormatted());
 	}
 	
 	void updateUi() {

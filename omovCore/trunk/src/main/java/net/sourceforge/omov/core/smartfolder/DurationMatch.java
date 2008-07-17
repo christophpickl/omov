@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.Duration;
+import net.sourceforge.jpotpourri.PtDuration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +35,7 @@ import com.db4o.query.Query;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class DurationMatch extends AbstractMatch<Duration> {
+public abstract class DurationMatch extends AbstractMatch<PtDuration> {
 
     private static final Log LOG = LogFactory.getLog(DurationMatch.class);
 
@@ -52,11 +52,11 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         ALL_MATCH_LABELS = Collections.unmodifiableList(tmp);
     }
     
-    public static DurationMatch newEquals(Duration value) {
-        return new DurationMatch(LABEL_EQUALS, new Duration[] { value } ) {
+    public static DurationMatch newEquals(PtDuration value) {
+        return new DurationMatch(LABEL_EQUALS, new PtDuration[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Duration equals = this.getValueAt(0);
+                final PtDuration equals = this.getValueAt(0);
                 LOG.debug("Preparing equals for value '"+equals+"'.");
                 
                 return query.constrain(equals.getTotalInMinutes()).equal();
@@ -64,11 +64,11 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         };
     }
     
-    public static DurationMatch newLonger(Duration value) {
-        return new DurationMatch(LABEL_LONGER, new Duration[] { value } ) {
+    public static DurationMatch newLonger(PtDuration value) {
+        return new DurationMatch(LABEL_LONGER, new PtDuration[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Duration longer = this.getValueAt(0);
+                final PtDuration longer = this.getValueAt(0);
                 LOG.debug("Preparing longer for value '"+longer+"'.");
                 
                 return query.constrain(longer.getTotalInMinutes()).greater();
@@ -76,11 +76,11 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         };
     }
     
-    public static DurationMatch newShorter(Duration value) {
-        return new DurationMatch(LABEL_SHORTER, new Duration[] { value } ) {
+    public static DurationMatch newShorter(PtDuration value) {
+        return new DurationMatch(LABEL_SHORTER, new PtDuration[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                final Duration shorter = this.getValueAt(0);
+                final PtDuration shorter = this.getValueAt(0);
                 LOG.debug("Preparing shorter for value '"+shorter+"'.");
                 
                 return query.constrain(shorter.getTotalInMinutes()).smaller();
@@ -88,7 +88,7 @@ public abstract class DurationMatch extends AbstractMatch<Duration> {
         };
     }
     
-    private DurationMatch(String label, Duration[] values) {
+    private DurationMatch(String label, PtDuration[] values) {
         super(label, values);
     }
 

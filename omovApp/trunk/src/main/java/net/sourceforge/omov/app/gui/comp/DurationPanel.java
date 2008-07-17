@@ -26,8 +26,8 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
-import net.sourceforge.jpotpourri.util.Duration;
+import net.sourceforge.jpotpourri.PtDuration;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 
 /**
  * 
@@ -37,14 +37,14 @@ public class DurationPanel extends JPanel {
     
     private static final long serialVersionUID = 6476608166509749830L;
 
-    private final NumberField inpMin;
-    private final NumberField inpHours;
+    private final PtNumberField inpMin;
+    private final PtNumberField inpHours;
     
-    public DurationPanel(Duration duration) {
+    public DurationPanel(PtDuration duration) {
         this.setOpaque(false);
         final int columnSize = 2;
-        this.inpMin = new NumberField(duration.getMinutes(), 0, 999, columnSize);
-        this.inpHours = new NumberField(duration.getHours(), 0,  99, columnSize);
+        this.inpMin = new PtNumberField(duration.getMinutes(), 0, 999, columnSize);
+        this.inpHours = new PtNumberField(duration.getHours(), 0,  99, columnSize);
         
         this.initComponents();
         
@@ -82,12 +82,12 @@ public class DurationPanel extends JPanel {
         this.add(new JLabel("min"), c);
     }
     
-    public void setDuration(Duration duration) {
+    public void setDuration(PtDuration duration) {
         this.inpMin.setNumber(duration.getMinutes());
         this.inpHours.setNumber(duration.getHours());
     }
     
-    public Duration getDuration() {
-        return Duration.newByMinHour((int) this.inpMin.getNumber(), (int) this.inpHours.getNumber());
+    public PtDuration getDuration() {
+        return PtDuration.newByMinHour((int) this.inpMin.getNumber(), (int) this.inpHours.getNumber());
     }
 }

@@ -23,7 +23,7 @@ import java.io.File;
 
 import javax.swing.filechooser.FileFilter;
 
-import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 
 /**
  * 
@@ -38,7 +38,7 @@ public interface ImportExportConstants {
         public boolean accept(final File file) {
             if(file.isDirectory() == true) return true;
             
-            final String extension = FileUtil.extractExtension(file);
+            final String extension = PtFileUtil.extractExtension(file);
             if(extension == null) return false;
             
             return (extension.equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION));

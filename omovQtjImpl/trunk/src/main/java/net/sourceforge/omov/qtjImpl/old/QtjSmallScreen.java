@@ -30,7 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
@@ -112,7 +112,7 @@ public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants,
 		btnClose.setBorderPainted(false);
 		btnClose.addActionListener(this);
 		btnClose.setBorder(BorderFactory.createEmptyBorder());
-		GuiUtil.enableHandCursor(btnClose);
+		PtGuiUtil.enableHandCursor(btnClose);
 		
 		panel.add(windowTitle, BorderLayout.WEST);
 		panel.add(btnClose, BorderLayout.EAST);

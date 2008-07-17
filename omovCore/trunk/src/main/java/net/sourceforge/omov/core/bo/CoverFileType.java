@@ -22,7 +22,7 @@ package net.sourceforge.omov.core.bo;
 import java.awt.Dimension;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 
 /**
  * 
@@ -73,6 +73,6 @@ public enum CoverFileType {
     }
 
     public static List<CoverFileType> getAllTypes() {
-        return new CollectionUtil<CoverFileType>().asImmutableList(THUMBNAIL, NORMAL);
+        return new PtCollectionUtil<CoverFileType>().asImmutableList(THUMBNAIL, NORMAL);
     }
 }

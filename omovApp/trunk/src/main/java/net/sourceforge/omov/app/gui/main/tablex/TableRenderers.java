@@ -32,7 +32,7 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import net.sourceforge.jpotpourri.util.DurationUtil;
+import net.sourceforge.jpotpourri.util.PtDurationUtil;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
 import net.sourceforge.omov.core.ColumnsCoverFactory;
 import net.sourceforge.omov.core.Constants;
@@ -194,7 +194,7 @@ class TableRenderers {
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final int duration = (Integer) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            lbl.setText(DurationUtil.formatDurationShort(duration));
+            lbl.setText(PtDurationUtil.formatDurationShort(duration));
             if(isSelected) {
                 lbl.setBackground(Constants.getColorSelectedBackground());
                 lbl.setForeground(Constants.getColorSelectedForeground());

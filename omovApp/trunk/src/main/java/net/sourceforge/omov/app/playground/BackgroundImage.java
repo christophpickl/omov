@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 
 public class BackgroundImage {
@@ -27,7 +27,7 @@ public class BackgroundImage {
 		@Override
 		public void paint(final Graphics g) {
 			super.paint(g);
-			GuiUtil.paintCenteredBackgroundImage(g, this, image);
+			PtGuiUtil.paintCenteredBackgroundImage(g, this, image);
 		}
 	}
 	

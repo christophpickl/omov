@@ -32,7 +32,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 
@@ -89,7 +89,7 @@ public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, Mous
 		this.getContentPane().add(this.wrapPanel);
 		this.pack();
 //		this.validate();
-		GuiUtil.setCenterLocation(this);
+		PtGuiUtil.setCenterLocation(this);
 
 		this.setBackground(Color.BLACK);
 	}

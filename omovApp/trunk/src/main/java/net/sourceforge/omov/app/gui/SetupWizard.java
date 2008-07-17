@@ -40,20 +40,20 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.gui.chooser.DirectoryChooser;
-import net.sourceforge.jpotpourri.gui.chooser.IFileDirectoryChooserListener;
-import net.sourceforge.jpotpourri.tools.UserSniffer;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
+import net.sourceforge.jpotpourri.jpotface.chooser.PtDirectoryChooser;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
-import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -62,18 +62,18 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
+public class SetupWizard extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(SetupWizard.class);
     private static final long serialVersionUID = 4418685920529669271L;
 
     private final JTextField inpUsername = new JTextField(21);
     
-    private final DirectoryChooser inpFolderTemporary = new DirectoryChooser("Choose Temporary Folder");
+    private final PtDirectoryChooser inpFolderTemporary = new PtDirectoryChooser("Choose Temporary Folder");
     
-    private final DirectoryChooser inpFolderCovers = new DirectoryChooser("Choose Covers Folder");
+    private final PtDirectoryChooser inpFolderCovers = new PtDirectoryChooser("Choose Covers Folder");
 
-    private final DirectoryChooser inpFolderData = new DirectoryChooser("Choose Data Folder");
+    private final PtDirectoryChooser inpFolderData = new PtDirectoryChooser("Choose Data Folder");
     
 
     private boolean isConfirmed = false;
@@ -92,14 +92,14 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
                 doCancel();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
 //        this.setPreferredSize(new Dimension(600, 400));
         
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
         
     }
@@ -134,15 +134,15 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         this.inpFolderCovers.uncheckedSetFileOrDir(new File("covers"));
         this.inpFolderData.uncheckedSetFileOrDir(new File("data"));
 
-        this.inpFolderTemporary.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
+        this.inpFolderTemporary.addChooserListener(new IPtFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderCovers.setDefaultPath(dir.getParentFile());
             inpFolderData.setDefaultPath(dir.getParentFile());
         }});
-        this.inpFolderCovers.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
+        this.inpFolderCovers.addChooserListener(new IPtFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
             inpFolderData.setDefaultPath(dir.getParentFile());
         }});
-        this.inpFolderData.addChooserListener(new IFileDirectoryChooserListener() { public void doChoosen(File dir) {
+        this.inpFolderData.addChooserListener(new IPtFileDirectoryChooserListener() { public void doChoosen(File dir) {
             inpFolderTemporary.setDefaultPath(dir.getParentFile());
             inpFolderCovers.setDefaultPath(dir.getParentFile());
         }});
@@ -163,13 +163,13 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
         
         final File installedByMsiFile = new File("installed_by_msi");
         final boolean isInstalledByMsi = installedByMsiFile.exists();
-        final boolean isOsX = UserSniffer.isMacOSX();
+        final boolean isOsX = PtUserSniffer.isMacOSX();
         
         if(isInstalledByMsi || isOsX) {
             final File applicationFolder;
             
             if(isInstalledByMsi) {
-                final File parentFile = net.sourceforge.jpotpourri.util.FileUtil.getParentByPath(installedByMsiFile);
+                final File parentFile = PtFileUtil.getParentByPath(installedByMsiFile);
                 LOG.debug("Parent folder of msi file (by path): " + parentFile); // ... installedByMsiFile.getParentFile() returned null somehow :(
                 applicationFolder = parentFile;
             } else {
@@ -253,7 +253,7 @@ public class SetupWizard extends JDialog implements IEscapeDisposeReceiver {
                 if(i != 0) sb.append("\n");
                 sb.append(warnings.get(i));
             }
-            GuiUtil.warning(this, "Invalid Input", sb.toString());
+            PtGuiUtil.warning(this, "Invalid Input", sb.toString());
         }
         
         return warnings.size() == 0;

@@ -25,7 +25,7 @@ import java.awt.Insets;
 
 import javax.swing.JComboBox;
 
-import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 
 /**
  * 
@@ -35,7 +35,7 @@ public class DateInLastField extends AbstractCriterionField {
 
     private static final long serialVersionUID = -3495069799227565507L;
     
-    private final NumberField numberField;
+    private final PtNumberField numberField;
     private final JComboBox comboRangeType = new JComboBox(new String[] { RangeType.DAYS.name().toLowerCase(),
                                                                           RangeType.MONTHS.name().toLowerCase(),
                                                                           RangeType.WEEKS.name().toLowerCase() } );
@@ -46,7 +46,7 @@ public class DateInLastField extends AbstractCriterionField {
         
         this.comboRangeType.setOpaque(false);
         this.comboRangeType.setSelectedItem(preselectedRangeType.name().toLowerCase());
-        this.numberField = new NumberField(initValue, 0, maxValue, 4);
+        this.numberField = new PtNumberField(initValue, 0, maxValue, 4);
         
 
         GridBagLayout layout = new GridBagLayout();

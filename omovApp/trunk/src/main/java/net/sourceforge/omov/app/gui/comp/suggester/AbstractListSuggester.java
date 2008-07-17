@@ -42,9 +42,9 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.list.MacLikeList;
@@ -252,7 +252,7 @@ public abstract class AbstractListSuggester extends JPanel {
     }
     
     
-    private static class AddDialog extends JDialog implements IEscapeDisposeReceiver {
+    private static class AddDialog extends JDialog implements IPtEscapeDisposeReceiver {
         
         private static final long serialVersionUID = 3839605440287009967L;
         
@@ -279,7 +279,7 @@ public abstract class AbstractListSuggester extends JPanel {
                 	}.doAction();
                 }
             });
-            EscapeDisposer.enableEscape(this.getRootPane(), this);
+            PtEscapeDisposer.enableEscape(this.getRootPane(), this);
             
             final JPanel panel = new JPanel();
             JButton btnSave = new JButton("Save");
@@ -297,7 +297,7 @@ public abstract class AbstractListSuggester extends JPanel {
             
             this.pack();
             this.setResizable(false);
-            GuiUtil.setCenterLocation(this);
+            PtGuiUtil.setCenterLocation(this);
         }
         
         public boolean isConfirmed() {

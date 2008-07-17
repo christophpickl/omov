@@ -33,7 +33,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.util.FileUtilException;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
@@ -137,15 +138,15 @@ public final class CoverUtil {
         assert(movie.isCoverFileSet() == true);
 
         final String coverFile = movie.getOriginalCoverFile();
-        final String extension = FileUtil.extractExtension(coverFile);
+        final String extension = PtFileUtil.extractExtension(coverFile);
         assert(extension != null); // should have been checked by CoverSelector
 
         final String newCoverFileName = movie.getId() + "." + extension;
 
         final File targetFile = new File(PreferencesDao.getInstance().getCoversFolder(), newCoverFileName);
         try {
-			FileUtil.copyFile(new File(coverFile), targetFile);
-		} catch (FileUtilException e) {
+        	PtFileUtil.copyFile(new File(coverFile), targetFile);
+		} catch (PtException e) {
 			throw new BusinessException("Could not copy cover file!", e);
 		}
 
@@ -198,7 +199,7 @@ public final class CoverUtil {
         g2.dispose();
 
         try {
-            ImageIO.write(bi, FileUtil.extractExtension(coverFileSource), coverFileTarget);
+            ImageIO.write(bi, PtFileUtil.extractExtension(coverFileSource), coverFileTarget);
         } catch (Exception e) {
             throw new BusinessException("Could not save coverFile '"+coverFileSource.getAbsolutePath()+"' to '"+coverFileTarget.getAbsolutePath()+"'!", e);
         }

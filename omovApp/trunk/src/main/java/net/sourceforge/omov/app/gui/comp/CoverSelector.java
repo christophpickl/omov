@@ -51,12 +51,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.filechooser.FileFilter;
 
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.CoverFileType;
-import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.ImageUtil;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.ImagePanel;
 
 import org.apache.log4j.Logger;
@@ -146,7 +146,7 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
         c.anchor = GridBagConstraints.CENTER;
         this.add(this.imagePanel, c);
 
-        OmovGuiUtil.enableHandCursor(this);
+        PtGuiUtil.enableHandCursor(this);
     }
 
     private void doClicked() {
@@ -251,7 +251,7 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
             return false;
         }
 
-        final String extension = FileUtil.extractExtension(file);
+        final String extension = PtFileUtil.extractExtension(file);
         if (extension == null) {
             // LOG.warn("Extension of file '"+file.getAbsolutePath()+"' is
             // null!");

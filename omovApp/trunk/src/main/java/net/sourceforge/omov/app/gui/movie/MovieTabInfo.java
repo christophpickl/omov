@@ -33,7 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import net.sourceforge.jpotpourri.util.Duration;
+import net.sourceforge.jpotpourri.PtDuration;
 import net.sourceforge.omov.app.gui.comp.CoverSelector;
 import net.sourceforge.omov.app.gui.comp.DurationPanel;
 import net.sourceforge.omov.app.gui.comp.QualityField;
@@ -86,7 +86,7 @@ class MovieTabInfo extends AbstractMovieTab {
         super(owner, isAddMode, editMovie);
         
         final int duration = isAddMode ? 0 : editMovie.getDuration(); 
-        this.inpDuration = new DurationPanel(Duration.newByTotal(duration));
+        this.inpDuration = new DurationPanel(PtDuration.newByTotal(duration));
         
         final Resolution resolution = isAddMode ? Resolution.R0x0 : editMovie.getResolution();
         this.inpResolution = new ResolutionPanel(resolution);
@@ -136,7 +136,7 @@ class MovieTabInfo extends AbstractMovieTab {
     public MovieTabInfo(EditMoviesDialog owner, List<Movie> editMovies) {
         super(owner, editMovies);
         
-        this.inpDuration = new DurationPanel(Duration.newByTotal(0));
+        this.inpDuration = new DurationPanel(PtDuration.newByTotal(0));
         this.inpResolution = new ResolutionPanel(Resolution.R0x0);
         try {
             this.inpGenre = new MovieGenresListSuggester(this.owner, 10);
@@ -288,7 +288,7 @@ class MovieTabInfo extends AbstractMovieTab {
     }
 
     void setMovieDuration(int durationInMin) {
-        this.inpDuration.setDuration(Duration.newByTotal(durationInMin));
+        this.inpDuration.setDuration(PtDuration.newByTotal(durationInMin));
     }
 
     void setMovieResolution(Resolution resolution) {
@@ -296,7 +296,7 @@ class MovieTabInfo extends AbstractMovieTab {
     }
 
     
-    public Duration getDuration() {
+    public PtDuration getDuration() {
         return this.inpDuration.getDuration();
     }
     public Set<String> getGenres() {

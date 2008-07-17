@@ -37,6 +37,12 @@
 			<version>0.6-Beta</version>
 			<scope>compile</scope>
 		</dependency>
+        
+        <dependency>
+            <groupId>net.sourceforge.jpotpourri</groupId>
+            <artifactId>jpotface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 		
 	</dependencies>
 

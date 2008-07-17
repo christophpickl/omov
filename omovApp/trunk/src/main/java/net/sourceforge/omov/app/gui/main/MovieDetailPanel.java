@@ -32,7 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtMultiColTextField;
 import net.sourceforge.omov.app.gui.comp.CoverImagePanel;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
 import net.sourceforge.omov.core.BeanFactory;
@@ -65,15 +65,15 @@ public class MovieDetailPanel implements IMovieDaoListener {
     
     private final CoverImagePanel imagePanel = new CoverImagePanel();
     
-    private final MultiColTextField txtTitle = new MultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtTitle = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
     private final RatingSlider txtRating = new RatingSlider(0, Color.BLACK, Color.GRAY);
-    private final MultiColTextField txtDuration = new MultiColTextField(TEXT_FIELD_COLUMNS);
-    private final MultiColTextField txtGenres = new MultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtDuration = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtGenres = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
 
-    private final MultiColTextField txtStyle = new MultiColTextField(TEXT_FIELD_COLUMNS);
-    private final MultiColTextField txtQuality = new MultiColTextField(TEXT_FIELD_COLUMNS);
-    private final MultiColTextField txtDateAdded = new MultiColTextField(TEXT_FIELD_COLUMNS);
-    private final MultiColTextField txtLanguages = new MultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtStyle = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtQuality = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtDateAdded = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
+    private final PtMultiColTextField txtLanguages = new PtMultiColTextField(TEXT_FIELD_COLUMNS);
     
     
     public MovieDetailPanel() {

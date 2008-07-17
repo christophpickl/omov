@@ -55,12 +55,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.gui.widget.button.ContextMenuButton;
-import net.sourceforge.jpotpourri.util.GuiUtil;
-import net.sourceforge.jpotpourri.gui.table.ITableBodyContextListener;
-import net.sourceforge.jpotpourri.gui.table.TableBodyContext;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.button.PtContextMenuButton;
+import net.sourceforge.jpotpourri.jpotface.table.IPtTableBodyContextListener;
+import net.sourceforge.jpotpourri.jpotface.table.PtTableBodyContext;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
@@ -72,8 +72,8 @@ import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.scan.ScanHint;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiKeyAdapter;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
@@ -83,7 +83,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ScanDialog extends JDialog implements ITableBodyContextListener, IEscapeDisposeReceiver, IFolderChooseListener {
+public class ScanDialog extends JDialog implements IPtTableBodyContextListener, IPtEscapeDisposeReceiver, IFolderChooseListener {
 
 	// TODO if was yet scanned (-> rows in table), and then user prepares repository -> could be that rows have wrong data (either adjust them, or simply clear all table rows)
 	
@@ -124,7 +124,7 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
 
     private JSplitPane tableSplitter;
 
-    private ContextMenuButton btnAdvancedOptions; // actually final variable
+    private PtContextMenuButton btnAdvancedOptions; // actually final variable
 
     private JMenuItem itemPrepareFolder; // actually final variable
     private JMenuItem itemSelectAll; // actually final variable
@@ -141,17 +141,17 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
                 controller.doClose();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
-        EscapeDisposer.enableEscape(this.tblScannedMovie, this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.tblScannedMovie, this);
 
 
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        TableBodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        TableBodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
+        PtTableBodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_CONTEXT_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        PtTableBodyContext.newJMenuItem(itemsSingle, "Remove Metadata", CMD_CONTEXT_REMOVE_METADATA);
         if(QtjFactory.isQtjAvailable()) {
-        	TableBodyContext.newJMenuItem(itemsSingle, "QuickView", CMD_PLAY_QUICKVIEW, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
+        	PtTableBodyContext.newJMenuItem(itemsSingle, "QuickView", CMD_PLAY_QUICKVIEW, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
         }
-        new TableBodyContext(this.tblScannedMovie, itemsSingle, null, this);
+        new PtTableBodyContext(this.tblScannedMovie, itemsSingle, null, this);
 
         this.getRootPane().setDefaultButton(this.btnDoScan);
 
@@ -160,7 +160,7 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
         this.pack();
         this.setResizable(true);
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
 
         // shortcut
 //        this.inpScanRoot.__unchecked_setFileOrDir(new File("/Users/phudy/Movies/omov"));
@@ -224,10 +224,10 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
 	    	panelCenterNorth.add(lblMain2);
 	    	
 	    	List<JMenuItem> advancedOptions = new ArrayList<JMenuItem>(1);
-	    	this.itemPrepareFolder = GuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
+	    	this.itemPrepareFolder = PtGuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
 	    	this.itemPrepareFolder.setToolTipText("Create necessary folders for scan root");
-	    	this.itemSelectAll = GuiUtil.newMenuItem("Select All", ScanDialogController.CMD_SELECT_ALL, advancedOptions);
-	    	this.itemSelectNone = GuiUtil.newMenuItem("Unselect All", ScanDialogController.CMD_SELECT_NONE, advancedOptions);
+	    	this.itemSelectAll = PtGuiUtil.newMenuItem("Select All", ScanDialogController.CMD_SELECT_ALL, advancedOptions);
+	    	this.itemSelectNone = PtGuiUtil.newMenuItem("Unselect All", ScanDialogController.CMD_SELECT_NONE, advancedOptions);
 //	    	GuiUtil.newMenuItem("...", ScanDialogController.CMD_OPTIONS_..., advancedOptions);
 	    	// FEATURE additional advanced options for scan folder:
 	    	// - edit list of movie extensions
@@ -519,7 +519,7 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
             this.tableSplitter.setDividerLocation(0.4); // 40% movie table, 60% hints
             this.itemSelectAll.setEnabled(false);
         	this.itemSelectNone.setEnabled(false);
-        	GuiUtil.info(this, "Scan Finished", "There could be not any movie found to be imported.");
+        	PtGuiUtil.info(this, "Scan Finished", "There could be not any movie found to be imported.");
         } else {
         	this.itemSelectAll.setEnabled(true);
         	this.itemSelectNone.setEnabled(true);

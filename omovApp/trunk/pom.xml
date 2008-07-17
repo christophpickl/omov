@@ -45,14 +45,12 @@
 			<groupId>net.sourceforge.omov.core</groupId>
 			<artifactId>omovCore</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.omov.qtjApi</groupId>
 			<artifactId>omovQtjApi</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<!--  TODO nicht alls dependency, sondern bei assembly dazu, wie ein plugin dazu -->
@@ -60,52 +58,32 @@
 			<groupId>net.sourceforge.omov.qtjImpl</groupId>
 			<artifactId>omovQtjImpl</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.omov.webApi</groupId>
 			<artifactId>omovWebApi</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sourceforge.omov.webImpl</groupId>
 			<artifactId>omovWebImpl</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
 		</dependency>
+        
+        <dependency>
+            <groupId>net.sourceforge.jpotpourri</groupId>
+            <artifactId>jpotface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 		
 		
 		<dependency>
 			<groupId>org.swinglabs</groupId>
 			<artifactId>swingx</artifactId>
 			<version>0.9.2</version>
-			<scope>compile</scope>
 		</dependency>
-		<!-- workaround START to also get dependencies of swingx artifact -->
-		<!-- 
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swing-worker</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swing-layout</artifactId>
-			<version>1.0.3</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>multiplegradientpaint</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
-		 -->
-		<!-- workaround END -->
 
 		<!-- extended L&F for swing -->
 		<!--
@@ -113,7 +91,6 @@
 			<groupId>net.java.dev</groupId>
 			<artifactId>substance</artifactId>
 			<version>4.3</version>
-			<scope>compile</scope>
 		</dependency>
 		-->
 
@@ -122,7 +99,6 @@
 			<groupId>javax.help</groupId>
 			<artifactId>javahelp</artifactId>
 			<version>2.0.02</version>
-			<scope>compile</scope>
 		</dependency>
 
 	</dependencies>

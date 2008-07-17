@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
@@ -70,7 +71,7 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         
         columns.add(new ScannedMovieColumn(MovieField.FOLDER_PATH.label(), 800, 120, 30) {
             @Override
-			public Object getValue(ScannedMovie movie) {  return FileUtil.extractLastFolderName(movie.getFolderPath());  }
+			public Object getValue(ScannedMovie movie) {  return PtFileUtil.extractLastFolderName(movie.getFolderPath());  }
             @Override
 			public Class<?> getValueClass() {  return String.class;  }});
         
@@ -89,7 +90,7 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         columns.add(new ScannedMovieColumn(MovieField.FILE_SIZE_KB.label(), 60, 60, 60) {
             @Override
 			public Object getValue(ScannedMovie movie) {
-            	return net.sourceforge.jpotpourri.util.FileUtil.formatFileSize(movie.getFileSizeKb());  }
+            	return PtFileUtil.formatFileSize(movie.getFileSizeKb());  }
             @Override
 			public Class<?> getValueClass() {  return String.class;  }});
 

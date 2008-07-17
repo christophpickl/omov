@@ -21,8 +21,8 @@ package net.sourceforge.omov.core.tools;
 
 import java.io.File;
 
-import net.sourceforge.jpotpourri.util.FileUtil;
-import net.sourceforge.jpotpourri.util.FileUtilException;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.PreferencesDao;
 
 import org.apache.commons.logging.Log;
@@ -50,12 +50,12 @@ public final class TemporaryFilesCleaner {
         for (final File temporaryFile : temporaryFiles) {
             if(temporaryFile.isDirectory()) {
                 try {
-                    FileUtil.deleteDirectoryRecursive(temporaryFile);
-                } catch (FileUtilException e) {
+                    PtFileUtil.deleteDirectoryRecursive(temporaryFile);
+                } catch (PtException e) {
                     LOG.warn("Could not delete temporary folder '"+temporaryFile.getAbsolutePath()+"'!");
                 }
             } else { // is file
-                if(FileUtil.isHiddenFile(temporaryFile) == true) {
+                if(PtFileUtil.isHiddenFile(temporaryFile) == true) {
                     LOG.debug("Ignoring hidden file '"+temporaryFile.getName()+"' in temporary folder.");
                 } else {
                     LOG.debug("Deleting temporary file '"+temporaryFile.getName()+"'.");

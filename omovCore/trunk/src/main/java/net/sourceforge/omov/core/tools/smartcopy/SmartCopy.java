@@ -23,7 +23,8 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.FileUtilException;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.FileUtil;
@@ -78,7 +79,7 @@ public class SmartCopy {
                 final File targetDir = new File(this.targetDirectory, movieFolder.getName());
                 if(targetDir.exists() == true) {
                     LOG.debug("Deleting already existing target directory '"+targetDir.getAbsolutePath()+"'.");
-                    FileUtil.deleteDirectoryRecursive(targetDir);
+                    PtFileUtil.deleteDirectoryRecursive(targetDir);
                 }
             }
             listener.targetDirectoryWasCleanedUp();
@@ -88,7 +89,7 @@ public class SmartCopy {
                 final File movieFolder = new File(movieToCopy.getFolderPath());
                 LOG.debug("Copying movie folder '"+movieFolder.getAbsolutePath()+"' started.");
                 listener.startedCopyingDirectory(new File(this.targetDirectory, movieFolder.getName()));
-                final File createdDirectory = FileUtil.copyDirectoryRecursive(movieFolder, this.targetDirectory);
+                final File createdDirectory = PtFileUtil.copyDirectoryRecursive(movieFolder, this.targetDirectory);
                 createdDirectories.add(createdDirectory);
                 LOG.debug("Copying movie folder '"+movieFolder.getAbsolutePath()+"' finished.");
 //                listener.finishedCopyingDirectory(createdDirectory);
@@ -96,7 +97,7 @@ public class SmartCopy {
             
             LOG.info("SmartCopy finished successfully.");
             successfullyCopied = true;
-        } catch(FileUtilException e) {
+        } catch(PtException e) {
         	throw new BusinessException("File error occured!", e);
         } finally {
             if(successfullyCopied == false) {
@@ -114,7 +115,7 @@ public class SmartCopy {
         
         for (File createdDirectory : createdDirectories) {
             try {
-                FileUtil.deleteDirectoryRecursive(createdDirectory);
+            	PtFileUtil.deleteDirectoryRecursive(createdDirectory);
             } catch(Exception e) {
                 LOG.error("Could not cleanup SmartCopy created directory '"+createdDirectory.getAbsolutePath()+"'!", e);
             }

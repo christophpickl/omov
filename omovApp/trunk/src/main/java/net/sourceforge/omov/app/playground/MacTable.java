@@ -45,7 +45,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.core.Constants;
 
 import org.jdesktop.swingx.JXTable;
@@ -114,7 +114,7 @@ public class MacTable extends JXTable {
         // Table column re-ordering is too badly implemented to enable.
         getTableHeader().setReorderingAllowed(false);
         
-        if (UserSniffer.isMacOSX()) {
+        if (PtUserSniffer.isMacOSX()) {
             // Work-around for Apple 4352937.
 //            JLabel.class.cast(getTableHeader().getDefaultRenderer()).setHorizontalAlignment(SwingConstants.LEADING); // cast exception: org.jdesktop.swingx.table.ColumnHeaderRenderer
             
@@ -150,7 +150,7 @@ public class MacTable extends JXTable {
             }
             
             // Mac OS' Aqua LAF never draws vertical grid lines, so we have to draw them ourselves.
-            if (UserSniffer.isMacOSX() && getShowVerticalLines()) {
+            if (PtUserSniffer.isMacOSX() && getShowVerticalLines()) {
                 g.setColor(MAC_UNFOCUSED_UNSELECTED_VERTICAL_LINE_COLOR);
                 TableColumnModel model = getColumnModel();
                 int x = 0;
@@ -193,7 +193,7 @@ public class MacTable extends JXTable {
         boolean focused = hasFocus();
         boolean selected = isCellSelected(row, column);
         if (selected) {
-            if (UserSniffer.isMacOSX() && focused == false) {
+            if (PtUserSniffer.isMacOSX() && focused == false) {
                 // Native Mac OS renders the selection differently if the table doesn't have the focus.
                 // The Mac OS LAF doesn't imitate this for us.
                 c. setBackground(MAC_UNFOCUSED_SELECTED_CELL_BACKGROUND_COLOR);
@@ -218,7 +218,7 @@ public class MacTable extends JXTable {
 //            }
             
             if (getCellSelectionEnabled() == false && isEditing() == false) {
-                if (UserSniffer.isMacOSX()) {
+                if (PtUserSniffer.isMacOSX()) {
                     // Native Mac OS doesn't draw a border on the selected cell.
                     // It does however draw a horizontal line under the whole row, and a vertical line separating each column.
                     fixMacOsCellRendererBorder(jc, selected, focused);
@@ -296,7 +296,7 @@ public class MacTable extends JXTable {
     protected void configureEnclosingScrollPane() {
         super.configureEnclosingScrollPane();
         
-        if (UserSniffer.isMacOSX() == false) {
+        if (PtUserSniffer.isMacOSX() == false) {
             return;
         }
         

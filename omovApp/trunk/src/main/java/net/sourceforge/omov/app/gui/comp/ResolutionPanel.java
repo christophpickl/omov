@@ -26,7 +26,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 import net.sourceforge.omov.core.bo.Resolution;
 
 /**
@@ -37,14 +37,14 @@ public class ResolutionPanel extends JPanel {
 
     private static final long serialVersionUID = 1537997093262769402L;
     
-    private final NumberField inpWidth;
-    private final NumberField inpHeight;
+    private final PtNumberField inpWidth;
+    private final PtNumberField inpHeight;
     
     public ResolutionPanel(Resolution resolution) {
         this.setOpaque(false);
         final int columnSize = 4;
-        this.inpWidth  = new NumberField(resolution.getWidth(), 0, 9999, columnSize);
-        this.inpHeight = new NumberField(resolution.getHeight(), 0, 9999, columnSize);
+        this.inpWidth  = new PtNumberField(resolution.getWidth(), 0, 9999, columnSize);
+        this.inpHeight = new PtNumberField(resolution.getHeight(), 0, 9999, columnSize);
         
         this.initComponents();
     }

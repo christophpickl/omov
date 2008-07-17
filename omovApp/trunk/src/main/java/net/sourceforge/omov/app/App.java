@@ -35,10 +35,10 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import net.sourceforge.jpotpourri.gui.dialog.WarningDialog;
-import net.sourceforge.jpotpourri.tools.UserSniffer;
-import net.sourceforge.jpotpourri.util.CollectionUtil;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.dialog.PtWarningDialog;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.SetupWizard;
 import net.sourceforge.omov.app.gui.SplashScreen;
@@ -61,8 +61,8 @@ import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.tools.vlc.IVlcPlayer;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.FatalExceptionHandler;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.HyperlinkLabel;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -144,7 +144,7 @@ public class App {
 		c.gridy = 1;
 		panel.add(new HyperlinkLabel("http://omov.sourceforge.net"), c);
 		final VersionMajorMinor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
-		final WarningDialog dialog = WarningDialog.newWarningDialog("Beta Version " + versionInUse.getVersionString(), panel, Constants.getColorWindowBackground()); // MINOR do not pass constant explicitly, but subclass WarningDialog
+		final PtWarningDialog dialog = PtWarningDialog.newWarningDialog("Beta Version " + versionInUse.getVersionString(), panel, Constants.getColorWindowBackground()); // MINOR do not pass constant explicitly, but subclass WarningDialog
 		dialog.setButtonLabel("Continue");
 		dialog.setVisible(true);
     }
@@ -153,7 +153,7 @@ public class App {
     	LOG.info("-------------------------------------");
     	LOG.info("Starting OurMovies v" + BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString());
     	LOG.info("Running in Java VM: " + System.getProperty("java.version"));
-    	LOG.info("CLI Arguments: " + CollectionUtil.toString(cliArguments));
+    	LOG.info("CLI Arguments: " + PtCollectionUtil.toString(cliArguments));
     	LOG.info("Execution path: " + new File("").getAbsolutePath());
     	LOG.info("-------------------------------------");
     }
@@ -324,7 +324,7 @@ public class App {
                 assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
 
             } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
-            	GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
+            	PtGuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
                                 "does not match with the expected version "+PreferencesDao.DATA_VERSION+"!");
 
 
@@ -343,7 +343,7 @@ public class App {
                 /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
                 if(OmovGuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies to immediately take effect?") == true) {
                     PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
-                    GuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
+                    PtGuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
                 }
 
                 return false;
@@ -399,9 +399,9 @@ public class App {
     	assert(App.isArgumentSet(App.APPARG_DEVELOP) == false);
     	
     	final File launchCmd;
-    	if(UserSniffer.isWindows()) {
+    	if(PtUserSniffer.isWindows()) {
 			launchCmd = new File("./OurMovies.exe"); // FIXME test restart app method!
-    	} else if(UserSniffer.isMacOSX()) {
+    	} else if(PtUserSniffer.isMacOSX()) {
 			launchCmd = new File("./OurMovies.app/Contents/Resources/restart_ourmovies.command");
     	} else {
     		launchCmd = new File("./OurMovies.sh"); // FIXME test restart app method!
@@ -412,11 +412,11 @@ public class App {
 
     public static void restartApplication() {
     	if(App.isArgumentSet(App.APPARG_DEVELOP)) {
-    		GuiUtil.info("Develop Mode", "Restart not available while in development mode.");
+    		PtGuiUtil.info("Develop Mode", "Restart not available while in development mode.");
     		System.exit(0);
     	}
     	
-    	final String cliArgs = CollectionUtil.toString(cliArguments, " ");
+    	final String cliArgs = PtCollectionUtil.toString(cliArguments, " ");
     	final File launchCmd = getLaunchFile();
     	
     	LOG.info("Restarting application (launchCmd="+launchCmd.getAbsolutePath()+"; cliArgs="+cliArgs+")");

@@ -35,8 +35,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.app.gui.movie.AbstractAddEditDialog;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
@@ -56,7 +56,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
 
     private final JTextField inpTitle = new JTextField(15);
 
-    private final JComboBox inpAllAny = new JComboBox(CollectionUtil.asArray("all", "any"));
+    private final JComboBox inpAllAny = new JComboBox(PtCollectionUtil.asArray("all", "any"));
 
     private final JPanel rowWrapPanel = new JPanel();
     private final List<SmartFolderGuiRow> guiRows = new LinkedList<SmartFolderGuiRow>();
@@ -68,7 +68,7 @@ public class AddEditSmartFolderDialog extends AbstractAddEditDialog<SmartFolder>
         this.setTitle( this.isAddMode() ? "Add new Smartfolder" : smartFolder.getName());
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
 
     private JPanel initComponents() {

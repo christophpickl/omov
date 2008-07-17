@@ -35,7 +35,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
@@ -71,7 +71,7 @@ public class FileSystemCheckDialog extends JDialog {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     

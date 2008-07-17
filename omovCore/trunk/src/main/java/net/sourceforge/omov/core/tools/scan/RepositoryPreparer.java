@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.util.MovieFileUtil;
 
 import org.apache.commons.logging.Log;
@@ -96,7 +96,7 @@ public class RepositoryPreparer {
             }
 
             if(MovieFileUtil.isMovieFile(movieFile) == false) {
-                if(net.sourceforge.jpotpourri.util.FileUtil.isHiddenFile(movieFile) == true) {
+                if(PtFileUtil.isHiddenFile(movieFile) == true) {
                     LOG.debug("Ignoring hidden file '"+movieFile.getName()+"'.");
                 } else {
                     this.info("Ignoring non movie file: " + movieFile.getAbsolutePath());
@@ -105,7 +105,7 @@ public class RepositoryPreparer {
                 continue;
             }
             final String fileName = movieFile.getName();
-            final String targetDirName = fileName.substring(0, fileName.length() - net.sourceforge.jpotpourri.util.FileUtil.extractExtension(movieFile).length() - 1);
+            final String targetDirName = fileName.substring(0, fileName.length() - PtFileUtil.extractExtension(movieFile).length() - 1);
             final File targetDir = new File(movieFile.getParentFile(), targetDirName);
             final String targetDirPath = targetDir.getAbsolutePath();
             LOG.info("Creating target directory '"+targetDirPath+"' for movie file '"+fileName+"'.");

@@ -29,10 +29,10 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 
+import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.table.MacLikeTable;
 
 /**
  * 

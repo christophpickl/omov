@@ -42,9 +42,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
 import net.sourceforge.omov.core.BeanFactory;
@@ -55,7 +55,7 @@ import net.sourceforge.omov.core.model.ISmartFolderDao;
 import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.gui.list.MacLikeList;
 import net.sourceforge.omov.gui.list.MacLikeListCellRenderer;
 
@@ -66,7 +66,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SmartFolderManageDialog extends JDialog implements ActionListener, IEscapeDisposeReceiver {
+public class SmartFolderManageDialog extends JDialog implements ActionListener, IPtEscapeDisposeReceiver {
     
     private static final long serialVersionUID = -6096464702194946519L;
     private static final Log LOG = LogFactory.getLog(SmartFolderManageDialog.class);
@@ -103,7 +103,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
                 doClose();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
         
         this.setTitle("SmartFolders");
@@ -113,7 +113,7 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         this.setSize(300, 180);
 //        this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     private void initComponents() {

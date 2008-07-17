@@ -25,7 +25,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.CommonController;
 import net.sourceforge.omov.app.gui.movie.AddEditMovieDialog;
 import net.sourceforge.omov.core.BeanFactory;
@@ -43,7 +43,7 @@ import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 
@@ -185,7 +185,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         this.dialog.dispose();
         
         if(movies.size() == 0) {
-        	GuiUtil.warning(this.dialog, "Nothing imported", "There was not any selected movie to import!");
+        	PtGuiUtil.warning(this.dialog, "Nothing imported", "There was not any selected movie to import!");
             return;
         }
         
@@ -199,17 +199,17 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
                 }
             }
             final String msg = "Successfully imported "+movies.size()+" scanned movie"+(movies.size()==1?"":"s")+"!";
-            GuiUtil.info(this.dialog, "Movies imported", msg);
+            PtGuiUtil.info(this.dialog, "Movies imported", msg);
         } catch (BusinessException e) {
             LOG.error("Importing scanned movies failed!", e);
-            GuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
+            PtGuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
         }
         
     }
     
     public void doScan(final File scanRoot, final boolean useWebExtractor) {
         if(scanRoot == null || scanRoot.exists() == false || scanRoot.isDirectory() == false) {
-        	GuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
+        	PtGuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
             return;
         }
         LOG.info("Scanning directory '"+scanRoot.getAbsolutePath()+"'...");

@@ -24,7 +24,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class HtmlFileConverter {
                 System.out.println();
             }
         } finally {
-            CloseUtil.close(reader);
+            PtCloseUtil.close(reader);
         }
     }
 }

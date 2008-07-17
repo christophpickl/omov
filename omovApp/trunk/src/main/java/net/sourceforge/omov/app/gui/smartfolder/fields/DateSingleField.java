@@ -21,7 +21,7 @@ package net.sourceforge.omov.app.gui.smartfolder.fields;
 
 import java.util.Date;
 
-import net.sourceforge.jpotpourri.gui.inputfield.DateField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtDateField;
 
 /**
  * 
@@ -31,10 +31,10 @@ public class DateSingleField extends AbstractCriterionField {
 
     private static final long serialVersionUID = -7617094880565985399L;
 
-    private final DateField dateField;
+    private final PtDateField dateField;
     
     DateSingleField(Date initValue, int size) {
-        this.dateField = new DateField(initValue, size);
+        this.dateField = new PtDateField(initValue, size);
         this.add(this.dateField);
     }
 

@@ -26,8 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
-import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.panel.brushed.PtBrushedMetalPanel;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
 
@@ -43,11 +43,11 @@ public class SplashScreen extends JWindow {
     public SplashScreen() {
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this, 0, -30);
+        PtGuiUtil.setCenterLocation(this, 0, -30);
     }
     
     private JPanel initComponents() {
-        final JPanel panel = new BrushedMetalPanel();
+        final JPanel panel = new PtBrushedMetalPanel();
         panel.setLayout(new BorderLayout());
         panel.setBorder(BorderFactory.createEmptyBorder(30, 30, 10, 30));
         

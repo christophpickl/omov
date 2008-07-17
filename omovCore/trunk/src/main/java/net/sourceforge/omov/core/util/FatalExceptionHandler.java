@@ -1,5 +1,7 @@
 package net.sourceforge.omov.core.util;
 
+import net.sourceforge.omov.gui.OmovGuiUtil;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

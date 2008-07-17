@@ -28,10 +28,10 @@ import javax.swing.BorderFactory;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.inputfield.search.IDefaultSearchFieldListener;
-import net.sourceforge.jpotpourri.gui.inputfield.search.SearchField;
-import net.sourceforge.jpotpourri.gui.widget.button.SelectableContextMenuButton;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.button.PtSelectableContextMenuButton;
+import net.sourceforge.jpotpourri.jpotface.inputfield.search.IPtDefaultSearchFieldListener;
+import net.sourceforge.jpotpourri.jpotface.inputfield.search.PtSearchField;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.comp.OmovSelectableContextMenuButton;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.core.ContinuousFilter;
@@ -45,7 +45,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-class MovieSearchPanel extends JPanel implements IDefaultSearchFieldListener {
+class MovieSearchPanel extends JPanel implements IPtDefaultSearchFieldListener {
     
     private static final long serialVersionUID = -7250410345453624595L;
     private static final Log LOG = LogFactory.getLog(MovieSearchPanel.class);
@@ -58,9 +58,9 @@ class MovieSearchPanel extends JPanel implements IDefaultSearchFieldListener {
     
     private final MovieTableModel model;
     
-    private final SearchField inpText = new SearchField();
+    private final PtSearchField inpText = new PtSearchField();
     
-    private final SelectableContextMenuButton contextMenu;
+    private final PtSelectableContextMenuButton contextMenu;
     
     
     
@@ -71,12 +71,12 @@ class MovieSearchPanel extends JPanel implements IDefaultSearchFieldListener {
         
 
 		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
-		final JMenuItem itemSearchHeader = GuiUtil.newMenuItem("Search", null, popupItems);
+		final JMenuItem itemSearchHeader = PtGuiUtil.newMenuItem("Search", null, popupItems);
 		itemSearchHeader.setEnabled(false);
-		GuiUtil.newMenuItem("All", CMD_ALL, popupItems);
-		GuiUtil.newMenuItem("Title", CMD_TITLE, popupItems);
-		GuiUtil.newMenuItem("People", CMD_PEOPLE, popupItems);
-		GuiUtil.newMenuItem("Comment", CMD_COMMENT, popupItems);
+		PtGuiUtil.newMenuItem("All", CMD_ALL, popupItems);
+		PtGuiUtil.newMenuItem("Title", CMD_TITLE, popupItems);
+		PtGuiUtil.newMenuItem("People", CMD_PEOPLE, popupItems);
+		PtGuiUtil.newMenuItem("Comment", CMD_COMMENT, popupItems);
         this.contextMenu = new OmovSelectableContextMenuButton(popupItems, new GuiActionListener() {
 			@Override
 			public void action(ActionEvent e) {

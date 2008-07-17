@@ -28,13 +28,13 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.tools.ApplicationVersionFetcher;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -71,7 +71,7 @@ public class VersionCheckDialog extends JDialog {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     
@@ -112,18 +112,18 @@ public class VersionCheckDialog extends JDialog {
                 LOG.error("Could not get result from swing worker!", e);
             }
             if(versionFetched == null) {
-            	GuiUtil.warning(this, "Application Software Update", "Could not connect to the internet.");
+            	PtGuiUtil.warning(this, "Application Software Update", "Could not connect to the internet.");
             } else { // (versionFetched != null)
                 final VersionMajorMinor versionInUse = BeanFactory.getInstance().getCurrentApplicationVersion();
                 if(versionInUse.equals(versionFetched) == true) {
                     
                     LOG.debug("Application in use (v"+versionInUse+") is up to date.");
                     if(this.shouldSuccessfullDialogDisplayed == true) {
-                    	GuiUtil.info(this, "Application Software Update", "Your version " + versionInUse + " is up to date.");
+                    	PtGuiUtil.info(this, "Application Software Update", "Your version " + versionInUse + " is up to date.");
                     }
                     
                 } else { // versionInUse.equals(versionFetched) == false
-                	GuiUtil.info(this, "Application Software Update", "It seems as you were running an old application version.\n" +
+                	PtGuiUtil.info(this, "Application Software Update", "It seems as you were running an old application version.\n" +
                             "You are using " + versionInUse + " but version " + versionFetched + " is available.\n" + 
                             "Check the website to download the most recent release:\n" +
                             Constants.getWebUrl()); // MINOR make link clickable -> use WarningDialog (like ErrorDialog) and pass ready to use content-panel

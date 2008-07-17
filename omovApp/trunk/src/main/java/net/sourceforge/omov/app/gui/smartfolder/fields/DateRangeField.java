@@ -23,7 +23,7 @@ import java.util.Date;
 
 import javax.swing.JLabel;
 
-import net.sourceforge.jpotpourri.gui.inputfield.DateField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtDateField;
 
 /**
  * 
@@ -33,12 +33,12 @@ public class DateRangeField extends AbstractCriterionField {
 
     private static final long serialVersionUID = 6543547462167817291L;
 
-    private final DateField dateFrom;
-    private final DateField dateTo;
+    private final PtDateField dateFrom;
+    private final PtDateField dateTo;
     
     DateRangeField(Date initFromValue, Date initToValue, int size) {
-        this.dateFrom = new DateField(initFromValue, size);
-        this.dateTo = new DateField(initToValue, size);
+        this.dateFrom = new PtDateField(initFromValue, size);
+        this.dateTo = new PtDateField(initToValue, size);
         
         this.add(dateFrom);
         this.add(new JLabel("to"));

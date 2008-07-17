@@ -19,7 +19,7 @@
 
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
-import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 
 /**
  * 
@@ -29,10 +29,10 @@ public class NumberSingleField extends AbstractCriterionField {
 
     private static final long serialVersionUID = 1502771838440981253L;
 
-    private final NumberField numberField;
+    private final PtNumberField numberField;
     
     NumberSingleField(int size, long initValue, long minValue, long maxValue) {
-        this.numberField = new NumberField(initValue, minValue, maxValue, size);
+        this.numberField = new PtNumberField(initValue, minValue, maxValue, size);
         this.add(this.numberField);
     }
 

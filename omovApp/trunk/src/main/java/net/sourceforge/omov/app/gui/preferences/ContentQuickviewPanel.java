@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.qtjApi.IQtjSessionManager;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 

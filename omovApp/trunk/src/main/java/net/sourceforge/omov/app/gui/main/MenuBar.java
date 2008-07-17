@@ -35,8 +35,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
@@ -51,8 +51,8 @@ import net.sourceforge.omov.core.model.IMovieDao;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.CoverUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
@@ -176,7 +176,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         OmovGuiUtil.createMenuItem(menu, 'I', LBL_IMPORT, CMD_IMPORT, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.IMPORT));
         
         
-        if(UserSniffer.isMacOSX() == false) {
+        if(PtUserSniffer.isMacOSX() == false) {
             menu.addSeparator();
             menu.add(this.quitItem);
         }
@@ -203,7 +203,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         	this.itemMovieQuickView = OmovGuiUtil.createMenuItem(menu, 'Q', LBL_MOVIE_PLAY_QV, CMD_MOVIE_PLAY_QV, this, -1, AppImageFactory.getInstance().getIcon(Icon16x16.QUICKVIEW));
         }
         
-        if(UserSniffer.isMacOSX()) {
+        if(PtUserSniffer.isMacOSX()) {
             this.itemMovieRevealFinder = OmovGuiUtil.createMenuItem(menu, 'R', LBL_MOVIE_REVEAL_FINDER, CMD_MOVIE_REVEAL_FINDER, this, KeyEvent.VK_R, AppImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
         }
         
@@ -230,7 +230,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
 //      GuiUtil.createMenuItem(menu, CMD_REMOTE, this);
         
-        if(UserSniffer.isMacOSX() == false) { // Mac OS X got its own preferences menuitem in a system-own menu
+        if(PtUserSniffer.isMacOSX() == false) { // Mac OS X got its own preferences menuitem in a system-own menu
             menu.addSeparator();
             menu.add(this.preferencesItem);
         }
@@ -246,7 +246,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
         
         // TODO GUI set tooltips for every menu item (also for every button, etc. and anything)    helpItem.setToolTipText("Popups an own window containing the Help System");
         
-        if(UserSniffer.isMacOSX() == false) {
+        if(PtUserSniffer.isMacOSX() == false) {
             menu.add(this.aboutItem);
         }
         
@@ -283,7 +283,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
             } else if(cmd.equals(CMD_EXPORT)) {
                 controller.doExport();
             } else if(cmd.equals(CMD_SHOW_XXX)) {
-                GuiUtil.info("ups", "nothing implemented");
+                PtGuiUtil.info("ups", "nothing implemented");
             } else if(cmd.equals(CMD_FIND_DUPLICATES)) {
                 controller.doFindDuplicates();
             } else if(cmd.equals(CMD_PREFERENCES)) {

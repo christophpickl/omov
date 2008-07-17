@@ -35,7 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -102,7 +102,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         this.preselectCheckboxes();
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     /**

@@ -35,19 +35,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.DraggableList;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieFilesReordering extends JDialog implements ActionListener, IEscapeDisposeReceiver {
+public class MovieFilesReordering extends JDialog implements ActionListener, IPtEscapeDisposeReceiver {
 
 	private static final long serialVersionUID = 6755261514670084157L;
 
@@ -75,7 +75,7 @@ public class MovieFilesReordering extends JDialog implements ActionListener, IEs
                 doCancel();
             }
         });
-		EscapeDisposer.enableEscape(this.getRootPane(), this);
+		PtEscapeDisposer.enableEscape(this.getRootPane(), this);
 		
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(new JScrollPane(this.list), BorderLayout.CENTER);
@@ -84,7 +84,7 @@ public class MovieFilesReordering extends JDialog implements ActionListener, IEs
 		this.getContentPane().add(panel);
 		this.pack();
 		this.setResizable(false);
-		GuiUtil.setCenterLocation(this);
+		PtGuiUtil.setCenterLocation(this);
 	}
 	
 	private JPanel panelSouth() {

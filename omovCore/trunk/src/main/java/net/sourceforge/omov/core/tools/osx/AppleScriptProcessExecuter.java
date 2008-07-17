@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 
@@ -66,7 +66,7 @@ class AppleScriptProcessExecuter {
     }
     
     private static String executeScript(String scriptFileName) throws BusinessException {
-        assert(UserSniffer.isMacOSX());
+        assert(PtUserSniffer.isMacOSX());
         
         LOG.info("Executing apple script '"+scriptFileName+"'...");
         try {

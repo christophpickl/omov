@@ -30,8 +30,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
-import net.sourceforge.jpotpourri.util.FileUtilException;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
@@ -125,7 +126,7 @@ public class ExporterHtml implements IExporterHtml {
             	try {
 	                copyCoverFile(movie, targetCoverDirectory, true);
 	                copyCoverFile(movie, targetCoverDirectory, false);
-	            } catch(FileUtilException e) {
+	            } catch(PtException e) {
 	            	throw new BusinessException("Could not copy cover files!", e);
 	            }
 //                FileUtil.copyFile(new File(coverFolder, movie.getCoverFile()), new File(targetCoverDirectory, movie.getCoverFile()));
@@ -138,7 +139,7 @@ public class ExporterHtml implements IExporterHtml {
         };
     }
 
-    private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws FileUtilException {
+    private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws PtException {
         final CoverFileType coverType;
 
         final String newCoverFileName;
@@ -153,7 +154,7 @@ public class ExporterHtml implements IExporterHtml {
         final File originalCoverFile = new File(PreferencesDao.getInstance().getCoversFolder(), movie.getCoverFile(coverType));
         final File targetFile = new File(targetCoverDirectory, newCoverFileName);
 
-        FileUtil.copyFile(originalCoverFile, targetFile);
+        PtFileUtil.copyFile(originalCoverFile, targetFile);
     }
 
     private static File getAvailableTargetDirectory(final File targetFile) {
@@ -168,7 +169,7 @@ public class ExporterHtml implements IExporterHtml {
 //        }
 //        return dir;
         String name = targetFile.getName();
-        final String extension = FileUtil.extractExtension(targetFile);
+        final String extension = PtFileUtil.extractExtension(targetFile);
         if(extension != null) { // extension should be "html"
             name = name.substring(0, name.length() - (extension.length()+1));
         }
@@ -189,14 +190,14 @@ public class ExporterHtml implements IExporterHtml {
         return this.targetFilePath;
     }
 
-    private static String getContentsOfWzTooltipJs() throws FileUtilException {
+    private static String getContentsOfWzTooltipJs() throws PtException {
         if(wzTooltipJsContentCache == null) {
             LOG.debug("initializing wzTooltipJsContentCache.");
 
             final StringBuilder sb = new StringBuilder(35043 + 50);
             sb.append("\n\n<!-- BEGIN OF wz_tooltip.js -->\n\n\n");
             sb.append("<script type='text/javascript'>\n");
-            sb.append(net.sourceforge.jpotpourri.util.FileUtil.getFileContentsFromJar("/wz_tooltip.js", 35043));
+            sb.append(PtFileUtil.getFileContentsFromJar("/wz_tooltip.js", 35043));
             sb.append("</script>\n");
             sb.append("\n\n<!-- END OF wz_tooltip.js -->\n\n\n");
             wzTooltipJsContentCache = sb.toString();
@@ -269,7 +270,7 @@ public class ExporterHtml implements IExporterHtml {
                 LOG.debug("Writing contents of wz_tooltip.js");
                 try {
 					writer.write(getContentsOfWzTooltipJs());
-				} catch (FileUtilException e) {
+				} catch (PtException e) {
 					throw new BusinessException("Could not get contents of wz_tooltip.js file!", e);
 				}
 
@@ -318,7 +319,7 @@ public class ExporterHtml implements IExporterHtml {
             } catch(IOException e) {
                 throw new BusinessException("Could not generate HTML report!", e);
             } finally {
-                CloseUtil.close(writer);
+                PtCloseUtil.close(writer);
             }
 
             LOG.info("Exporting HTML finished.");
@@ -329,8 +330,8 @@ public class ExporterHtml implements IExporterHtml {
             if(processFinishedSuccessfully == false && createdDir != null) {
                 LOG.info("Going to delete created directory '"+createdDir.getAbsolutePath()+"' because exporting html failed.");
                 try {
-                    FileUtil.deleteDirectoryRecursive(createdDir);
-                } catch(FileUtilException e) {
+                	PtFileUtil.deleteDirectoryRecursive(createdDir);
+                } catch(PtException e) {
                     LOG.error("Could not delete created directory '"+createdDir.getAbsolutePath()+"'!", e);
                 }
             }

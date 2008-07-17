@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.gui.table;
+package net.sourceforge.omov.app.gui;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -40,8 +40,8 @@ import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
-import net.sourceforge.jpotpourri.gui.IMacColors;
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.jpotface.IPtMacColors;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.core.Constants;
 
 import org.jdesktop.swingx.JXTable;
@@ -50,7 +50,7 @@ import org.jdesktop.swingx.JXTable;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MacLikeTable extends JXTable implements IMacColors {
+public class MacLikeTable extends JXTable implements IPtMacColors {
 
     private static final long serialVersionUID = -4690492128203374606L;
 
@@ -200,7 +200,7 @@ public class MacLikeTable extends JXTable implements IMacColors {
             }
 
             // Mac OS' Aqua LAF never draws vertical grid lines, so we have to draw them ourselves.
-            if (UserSniffer.isMacOSX() && getShowVerticalLines()) {
+            if (PtUserSniffer.isMacOSX() && getShowVerticalLines()) {
                 g.setColor(MAC_COLOR_UNFOCUSED_UNSELECTED_VERTICAL_LINE);
                 TableColumnModel model = getColumnModel();
                 int x = 0;

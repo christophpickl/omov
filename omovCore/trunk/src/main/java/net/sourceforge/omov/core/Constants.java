@@ -23,7 +23,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.io.File;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 
 /**
  * 
@@ -78,7 +78,7 @@ public class Constants {
      * @return something like "/Users/John/Library/Application Support/OurMovies v1.0"
      */
     public static File getOsxApplicationSupportFolder() {
-        assert(UserSniffer.isMacOSX());
+        assert(PtUserSniffer.isMacOSX());
         
         if(osxApplicationSupportFolderCache == null) {
             final File userHome = new File(System.getProperty("user.home"));

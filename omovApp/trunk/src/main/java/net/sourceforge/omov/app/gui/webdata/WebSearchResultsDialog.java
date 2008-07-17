@@ -47,16 +47,16 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
-import net.sourceforge.jpotpourri.util.StringUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtStringUtil;
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.gui.list.MacLikeListCellRenderer;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
@@ -69,7 +69,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail, IEscapeDisposeReceiver {
+public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail, IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(WebSearchResultsDialog.class);
     private static final long serialVersionUID = -9157261964634920565L;
@@ -106,7 +106,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
             }
         });
         
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.btnFetchDetailData.setEnabled(false); // disable when dialog gets visible
         
@@ -122,7 +122,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
                 superComponent.setFont(searchResultPanels.get(searchResult) == null ? UNFETCHED_FONT : FETCHED_FONT );
                 
                 String oldLabel = (String) value;
-                String newLabel = StringUtil.enforceMaxWidth(oldLabel, RESULTS_LIST_MAX_CHARS);
+                String newLabel = PtStringUtil.enforceMaxWidth(oldLabel, RESULTS_LIST_MAX_CHARS);
                 JLabel label = (JLabel) superComponent;
                 label.setText(newLabel);
                 
@@ -145,7 +145,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         this.getContentPane().add(this.initComponents());
         this.setResizable(false);
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     private void doSelectionChanged() {

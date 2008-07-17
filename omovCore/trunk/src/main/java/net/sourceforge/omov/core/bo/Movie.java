@@ -28,10 +28,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
-import net.sourceforge.jpotpourri.util.DurationUtil;
-import net.sourceforge.jpotpourri.util.StringUtil;
-import net.sourceforge.omov.core.util.FileUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
+import net.sourceforge.jpotpourri.util.PtDurationUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
+import net.sourceforge.jpotpourri.util.PtStringUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -259,33 +259,33 @@ DATA VERSION HISTORY
         this.seen = seen;
         this.rating = rating;
         this.coverFile = coverFile;
-        this.genres = CollectionUtil.immutableSet(genres);
-        this.languages = CollectionUtil.immutableSet(languages);
+        this.genres = PtCollectionUtil.immutableSet(genres);
+        this.languages = PtCollectionUtil.immutableSet(languages);
         this.style = style;
 
-        this.genresString = CollectionUtil.toString(this.genres);
-        this.languagesString = CollectionUtil.toString(this.languages);
+        this.genresString = PtCollectionUtil.toString(this.genres);
+        this.languagesString = PtCollectionUtil.toString(this.languages);
         
         // detail
         this.director = director;
-        this.actors = CollectionUtil.immutableSet(actors);
+        this.actors = PtCollectionUtil.immutableSet(actors);
         this.year = year;
         this.comment = comment;
         this.quality = quality;
         this.dateAdded = dateAdded;
         
-        this.actorsString = CollectionUtil.toString(this.actors);
+        this.actorsString = PtCollectionUtil.toString(this.actors);
         
         // technical
         this.fileSizeKb = fileSizeKb;
         this.folderPath = folderPath;
         this.format = format;
         this.files = new ArrayList<String>(files);// NO "Collections.unmodifiableList(files)" ... because there is a bug concerning db4o + unmodifiable collections
-        this.filesString = CollectionUtil.toString(this.files);
+        this.filesString = PtCollectionUtil.toString(this.files);
         this.duration = duration;
         this.resolution = resolution;
         this.subtitles = subtitles;
-        this.subtitlesString = CollectionUtil.toString(this.subtitles);
+        this.subtitlesString = PtCollectionUtil.toString(this.subtitles);
     }
     
     public Object getValueByField(MovieField field) {
@@ -425,7 +425,7 @@ DATA VERSION HISTORY
           sb.append("director=").append(this.getDirector()).append(";");
           sb.append("actors=").append(this.getActorsString()).append(";");
           sb.append("year=").append(this.getYear()).append(";");
-          sb.append("comment=").append(StringUtil.escapeLineFeeds(this.getComment())).append(";");
+          sb.append("comment=").append(PtStringUtil.escapeLineFeeds(this.getComment())).append(";");
           sb.append("quality=").append(this.getQuality()).append(";");
           sb.append("dateAdded=").append(this.getDateAddedFormattedLong()).append(";");
 
@@ -639,7 +639,7 @@ DATA VERSION HISTORY
      * @return something like "1:23"
      */
     public String getDurationFormattedShort() {
-        return DurationUtil.formatDurationShort(this.duration);
+        return PtDurationUtil.formatDurationShort(this.duration);
     }
     
 
@@ -663,7 +663,7 @@ DATA VERSION HISTORY
      * @return something like "13.3 KB" or "3.1 GB"
      */
     public String getFileSizeFormatted() {
-        return FileUtil.formatFileSize(this.getFileSizeKb());
+        return PtFileUtil.formatFileSize(this.getFileSizeKb());
     }
     
     public boolean isFolderPathSet() {

@@ -22,7 +22,8 @@ package net.sourceforge.omov.core.util;
 import java.io.File;
 import java.util.Set;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 
 /**
  * 
@@ -30,7 +31,7 @@ import net.sourceforge.jpotpourri.util.CollectionUtil;
  */
 public class MovieFileUtil {
 
-    private static final Set<String> KNOWN_MOVIE_FILE_EXTENSIONS = CollectionUtil.immutableSet(
+    private static final Set<String> KNOWN_MOVIE_FILE_EXTENSIONS = PtCollectionUtil.immutableSet(
             "mpg", "mpeg", "mp4", "avi", "ogm", "mkv", "divx", "wmv", "flv", "mov",
             "bin", "cue", 
             "mdf", "mds", 
@@ -41,7 +42,7 @@ public class MovieFileUtil {
     }
 
     public static boolean isMovieFile(File file) {
-        return MovieFileUtil.isMovieFileExtension(FileUtil.extractExtension(file));
+        return MovieFileUtil.isMovieFileExtension(PtFileUtil.extractExtension(file));
     }
     
 }

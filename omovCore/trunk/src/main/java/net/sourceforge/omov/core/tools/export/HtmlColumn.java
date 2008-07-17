@@ -24,7 +24,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.ImageUtil;
@@ -153,7 +153,7 @@ public abstract class HtmlColumn {
      * @return all available columns (except of ID and Cover) sorted by label
      */
     public static List<HtmlColumn> getAllColumns() {
-        List<HtmlColumn> list = new CollectionUtil<HtmlColumn>().asList(
+        List<HtmlColumn> list = new PtCollectionUtil<HtmlColumn>().asList(
                 COLUMN_GENRE,
                 COLUMN_ACTORS,
                 COLUMN_LANGUAGE,

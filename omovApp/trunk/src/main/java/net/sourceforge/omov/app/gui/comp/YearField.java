@@ -19,13 +19,13 @@
 
 package net.sourceforge.omov.app.gui.comp;
 
-import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class YearField extends NumberField {
+public class YearField extends PtNumberField {
 
     private static final long serialVersionUID = 6188821348943116461L;
 

@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -197,7 +197,7 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("genres");
         if(this.genres != null) throw new IllegalStateException("genres already set to '"+this.genres+"'.");
         
-        this.genres = CollectionUtil.asStringSet(input); return this;
+        this.genres = PtCollectionUtil.asStringSet(input); return this;
     }
     
     public MovieCreator genres(Set<String> input) {
@@ -210,7 +210,7 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("languages");
         if(this.languages != null) throw new IllegalStateException("languages already set to '"+this.languages+"'.");
         
-        this.languages = CollectionUtil.asStringSet(input); return this;
+        this.languages = PtCollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator languages(Set<String> input) {
         if(input == null) throw new NullPointerException("languages");
@@ -244,7 +244,7 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("actors");
         if(this.actors != null) throw new IllegalStateException("actors already set to '"+this.actors+"'.");
         
-        this.actors = CollectionUtil.asStringSet(input); return this;
+        this.actors = PtCollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator year(int input) {
         if(input < 0 || input >= 3000) throw new IllegalArgumentException("year: " + input);
@@ -295,7 +295,7 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("files");
         if(this.files != null) throw new IllegalStateException("files already set to '"+this.files+"'.");
         
-        this.files = CollectionUtil.immutableList(input); return this;
+        this.files = PtCollectionUtil.immutableList(input); return this;
     }
     public MovieCreator files(List<String> input) {
         if(input == null) throw new NullPointerException("files");
@@ -319,7 +319,7 @@ public class MovieCreator {
         if(input == null) throw new NullPointerException("subtitles");
         if(this.subtitles != null) throw new IllegalStateException("subtitles already set to '"+this.subtitles+"'.");
         
-        this.subtitles = CollectionUtil.asStringSet(input); return this;
+        this.subtitles = PtCollectionUtil.asStringSet(input); return this;
     }
     public MovieCreator subtitles(Set<String> input) {
         if(input == null) throw new NullPointerException("subtitles");

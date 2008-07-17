@@ -38,18 +38,18 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.table.MacLikeTable;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,7 +60,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeReceiver {
+public class DuplicatesFinderDialog extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(DuplicatesFinderDialog.class);
     private static final long serialVersionUID = 747517539473473198L;
@@ -106,8 +106,8 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
                 doClose();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
-        EscapeDisposer.enableEscape(this.table, this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.table, this);
         
         
         for(DuplicatesColumn movieColumn : DuplicatesTableModel.getColumns()) {
@@ -134,7 +134,7 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
         
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
         OmovGuiUtil.lockWidthAndHeightAsMinimum(this, 300, 160);
     }
     

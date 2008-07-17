@@ -36,10 +36,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
-import net.sourceforge.jpotpourri.gui.widget.button.ContextMenuButton;
-import net.sourceforge.jpotpourri.util.FileUtil;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.button.PtContextMenuButton;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtMultiColTextField;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
@@ -58,7 +58,7 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,13 +89,13 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
     private List<String> files = new LinkedList<String>();
     private long fileSizeKb = 0L;
     private final FolderChooseButton btnMovieFolder = new FolderChooseButton(this.owner);
-    private final MultiColTextField lblPath = new MultiColTextField(" ", 32);
-    private final MultiColTextField lblFiles = new MultiColTextField("", 32);
+    private final PtMultiColTextField lblPath = new PtMultiColTextField(" ", 32);
+    private final PtMultiColTextField lblFiles = new PtMultiColTextField("", 32);
     private final JLabel lblSize = new JLabel("");
     private final JLabel lblFormat = new JLabel("");
 
     // popmenu items for folder stuff
-    private ContextMenuButton folderContextMenu;
+    private PtContextMenuButton folderContextMenu;
     private final JMenuItem itemSelectFolder = new JMenuItem("Select Folder");
     private final JMenuItem itemRescan = new JMenuItem("Rescan Folder");
     private final JMenuItem itemReorder = new JMenuItem("Reorder Files");
@@ -470,7 +470,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
 			
 			final String newFolderPath = folderInfo.getFolderPath();
 			if(folderPaths.contains(newFolderPath) == true && this.folderPathOriginally.equals(newFolderPath) == false) {
-				GuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
+				PtGuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
 				return;
 			}
 		} catch (BusinessException e) {
@@ -485,7 +485,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
 
         this.lblPath.setText(folderInfo.getFolderPath());
         this.lblFiles.setText(Arrays.toString(folderInfo.getFiles().toArray()));
-        this.lblSize.setText(FileUtil.formatFileSize(folderInfo.getFileSizeKB()));
+        this.lblSize.setText(PtFileUtil.formatFileSize(folderInfo.getFileSizeKB()));
         this.lblFormat.setText(folderInfo.getFormat());
         
         this.itemRescan.setEnabled(true);

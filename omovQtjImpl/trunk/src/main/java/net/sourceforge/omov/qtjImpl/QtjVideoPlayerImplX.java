@@ -39,10 +39,10 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.GlobalKey;
-import net.sourceforge.jpotpourri.gui.IGlobalKeyListener;
-import net.sourceforge.jpotpourri.util.GuiUtil;
-import net.sourceforge.jpotpourri.util.TimeUtil;
+import net.sourceforge.jpotpourri.jpotface.PtGlobalKey;
+import net.sourceforge.jpotpourri.jpotface.IPtGlobalKeyListener;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtTimeUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -64,7 +64,7 @@ import quicktime.std.movies.Movie;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, MouseListener, IGlobalKeyListener {
+public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, MouseListener, IPtGlobalKeyListener {
 	
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerImplX.class);
 	private static final long serialVersionUID = -7527249992554309045L;
@@ -146,7 +146,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.getContentPane().add(this.wrapPanel);
 		this.setBackground(Color.BLACK);
 		this.pack();
-		GuiUtil.setCenterLocation(this);
+		PtGuiUtil.setCenterLocation(this);
 		
 		this.wrapPanel.addMouseListener(this.smallScreen);
 		this.wrapPanel.addMouseMotionListener(this.smallScreen);
@@ -159,7 +159,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		
 		this.wrapPanel.addMouseListener(this);
 		
-		GuiUtil.addGlobalKeyListener((JPanel) this.getContentPane(), this);
+		PtGuiUtil.addGlobalKeyListener((JPanel) this.getContentPane(), this);
 		
 		
 
@@ -192,15 +192,15 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.smallScreen.updateUi();
 	}
 	
-	public void doKeyPressed(GlobalKey key) {
+	public void doKeyPressed(PtGlobalKey key) {
 		LOG.debug("doKeyPressed("+key.name()+")");
-		if(key == GlobalKey.ESCAPE) {
+		if(key == PtGlobalKey.ESCAPE) {
 			if(this.fullScreenMode == true) {
 				this.doSwitchFullscreen();
 			} else {
 				this.doClose();
 			}
-		} else if(key == GlobalKey.SPACE) {
+		} else if(key == PtGlobalKey.SPACE) {
 			this.doPlayPause();
 		}
 	}
@@ -292,7 +292,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		this.player = new MoviePlayer(qtMovie);
 		
 		this.movieTimeMaxInMicros = player.getTimeBase().getStopTime();
-		this.movieTimeMaxFormatted = TimeUtil.microSecondsToString(this.movieTimeMaxInMicros);
+		this.movieTimeMaxFormatted = PtTimeUtil.microSecondsToString(this.movieTimeMaxInMicros);
 		// FIXME QTJ - serious bug: max time is never > 30min although video got ~90min !!!
 		LOG.debug("movieTimeMaxInMicros = " + this.movieTimeMaxInMicros + " -> "+this.movieTimeMaxFormatted+"  (movie.duration: "+qtMovie.getDuration()+")");
 		

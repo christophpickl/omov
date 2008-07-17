@@ -19,7 +19,7 @@
 
 package net.sourceforge.omov.app.gui.smartfolder.fields;
 
-import net.sourceforge.jpotpourri.util.Duration;
+import net.sourceforge.jpotpourri.PtDuration;
 import net.sourceforge.omov.app.gui.comp.DurationPanel;
 
 /**
@@ -32,14 +32,14 @@ public class DurationSingleField extends AbstractCriterionField {
     
     private final DurationPanel durationPanel;
     
-    DurationSingleField(Duration initValue) {
+    DurationSingleField(PtDuration initValue) {
         this.durationPanel = new DurationPanel(initValue);
         this.add(this.durationPanel);
     }
 
     @Override
     public Object[] getValues() {
-        return new Duration[] { this.durationPanel.getDuration() };
+        return new PtDuration[] { this.durationPanel.getDuration() };
     }
     
 }

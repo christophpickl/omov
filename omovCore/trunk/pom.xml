@@ -76,6 +76,13 @@
 			<scope>compile</scope>
 		</dependency>
 		workaround END -->
+        
+        <!-- should actually not be in here... rework module structure! -->
+        <dependency>
+            <groupId>net.sourceforge.jpotpourri</groupId>
+            <artifactId>jpotface</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 		
 	</dependencies>
 

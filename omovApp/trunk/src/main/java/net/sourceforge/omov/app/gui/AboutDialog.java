@@ -36,13 +36,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -52,7 +51,7 @@ import org.jdesktop.swingx.action.OpenBrowserAction;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
+public class AboutDialog extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(AboutDialog.class);
     private static final long serialVersionUID = -6058616320816195022L;
@@ -67,12 +66,12 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
                 doClose();
             }
         });
-        EscapeDisposer.enableEscapeOnDialogWithoutFocusableComponents(this, this);
+        PtEscapeDisposer.enableEscapeOnDialogWithoutFocusableComponents(this, this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {
@@ -101,7 +100,7 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
                     openBrowser.actionPerformed(null);
                 }
             });
-            OmovGuiUtil.enableHandCursor(logo);
+            PtGuiUtil.enableHandCursor(logo);
         } catch (MalformedURLException e) {
             LOG.error("OpenBrowserAction failed.", e);
         }

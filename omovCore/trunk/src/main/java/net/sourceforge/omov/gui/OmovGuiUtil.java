@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.core.util;
+package net.sourceforge.omov.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -45,10 +45,9 @@ import javax.swing.JScrollPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
-import net.sourceforge.jpotpourri.gui.dialog.ErrorDialog;
-import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
-import net.sourceforge.jpotpourri.tools.UserSniffer;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.dialog.PtErrorDialog;
+import net.sourceforge.jpotpourri.jpotface.panel.brushed.PtBrushedMetalPanel;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.core.Constants;
 
 import org.apache.commons.logging.Log;
@@ -58,12 +57,12 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class OmovGuiUtil extends GuiUtil {
+public class OmovGuiUtil {
 
 
     private static final Log LOG = LogFactory.getLog(OmovGuiUtil.class);
 
-    private static final int META_MASK = (UserSniffer.isMacOSX() ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_MASK );
+    private static final int META_MASK = (PtUserSniffer.isMacOSX() ? InputEvent.META_DOWN_MASK : InputEvent.CTRL_MASK );
 
     protected OmovGuiUtil() {
         // no instantiation
@@ -255,7 +254,7 @@ public class OmovGuiUtil extends GuiUtil {
 //        c.fill = GridBagConstraints.BOTH;
 
 //        panel.add(component, c);
-        JPanel panel = new BrushedMetalPanel();
+        JPanel panel = new PtBrushedMetalPanel();
         panel.setLayout(new BorderLayout());
         panel.add(component, BorderLayout.CENTER);
         return panel;
@@ -271,7 +270,7 @@ public class OmovGuiUtil extends GuiUtil {
     
     
     public static void macSmallWindow(JRootPane rootPane) {
-        if(UserSniffer.isMacOSX()) {
+        if(PtUserSniffer.isMacOSX()) {
         	rootPane.putClientProperty("Window.style", "small");
         }
     }
@@ -296,22 +295,22 @@ public class OmovGuiUtil extends GuiUtil {
     private static final Color BG_WIN_COL =  Constants.getColorWindowBackground(); // MINOR do not pass bg win color explicitly -> subclass instead
     
     public static void error(String title, String message) {
-    	ErrorDialog.newDialog(title, message, BG_WIN_COL).setVisible(true);
+    	PtErrorDialog.newDialog(title, message, BG_WIN_COL).setVisible(true);
     }
     public static void error(String title, String message, Exception exception) {
-    	ErrorDialog.newDialog(title, message, exception, BG_WIN_COL).setVisible(true);
+    	PtErrorDialog.newDialog(title, message, exception, BG_WIN_COL).setVisible(true);
     }
     public static void error(JDialog owner, String title, String message) {
 //      JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
-    	ErrorDialog.newDialog(owner, title, message, BG_WIN_COL).setVisible(true);
+    	PtErrorDialog.newDialog(owner, title, message, BG_WIN_COL).setVisible(true);
     }
     public static void error(JDialog owner, String title, String message, Exception exception) {
-    	ErrorDialog.newDialog(owner, title, message, exception, BG_WIN_COL).setVisible(true);
+    	PtErrorDialog.newDialog(owner, title, message, exception, BG_WIN_COL).setVisible(true);
     }
     public static void error(JFrame owner, String title, String message) {
-    	ErrorDialog.newDialog(owner, title, message, BG_WIN_COL).setVisible(true);
+    	PtErrorDialog.newDialog(owner, title, message, BG_WIN_COL).setVisible(true);
     }
     public static void error(JFrame owner, String title, String message, Exception exception) {
-    	ErrorDialog.newDialog(owner, title, message, exception, BG_WIN_COL).setVisible(true);
+    	PtErrorDialog.newDialog(owner, title, message, exception, BG_WIN_COL).setVisible(true);
     }
 }

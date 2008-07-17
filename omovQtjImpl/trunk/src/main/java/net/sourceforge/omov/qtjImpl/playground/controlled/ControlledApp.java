@@ -17,8 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
-import net.sourceforge.jpotpourri.util.TimeUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtTimeUtil;
 import net.sourceforge.omov.qtjImpl.QtjUtil;
 
 import org.apache.commons.logging.Log;
@@ -81,14 +81,14 @@ public class ControlledApp extends JFrame {
 			System.out.println("updateTimeUi aborting; timeSlider.isPressed == true");
 			
 			final int draggedMicros = timeSlider.getValue();
-			final String draggedTime = TimeUtil.microSecondsToString(draggedMicros);
+			final String draggedTime = PtTimeUtil.microSecondsToString(draggedMicros);
 			this.lblTime.setText(draggedTime+"/"+maxTimeString);
 			return;
 		}
 		try {
 			final int curMicros = player.getTimeBase().getTime();
 			
-			final String curTime = TimeUtil.microSecondsToString(curMicros);
+			final String curTime = PtTimeUtil.microSecondsToString(curMicros);
 			this.lblTime.setText(curTime+"/"+maxTimeString);
 //			final int percent = (int) (curMs / ((double)maxMs) * 100);
 //			System.out.println("percent: " + percent + "(curMs:"+curMs+"; maxMs:"+maxMs+")");
@@ -112,7 +112,7 @@ public class ControlledApp extends JFrame {
 		this.maxMicros = player.getTimeBase().getStopTime();
 		final int maxTimeInSeconds = maxMicros / 1000000;
 		System.out.println("movie length in seconds: "+maxTimeInSeconds);
-		this.maxTimeString = TimeUtil.microSecondsToString(player.getTimeBase().getStopTime());
+		this.maxTimeString = PtTimeUtil.microSecondsToString(player.getTimeBase().getStopTime());
 		
 
 		addBtn("Start", new A() { public void a() throws Exception {
@@ -233,7 +233,7 @@ public class ControlledApp extends JFrame {
 					if(perCent < 0.0) perCent = 0.0;
 					
 					final int newTimeMicros = (int) (maxMicros * perCent);
-					System.out.println("perCent="+perCent+"% -> seeking to " + (newTimeMicros/1000)+"ms ("+TimeUtil.microSecondsToString(newTimeMicros)+")");
+					System.out.println("perCent="+perCent+"% -> seeking to " + (newTimeMicros/1000)+"ms ("+PtTimeUtil.microSecondsToString(newTimeMicros)+")");
 					seekToMicros(newTimeMicros);
 				}
 			}
@@ -253,7 +253,7 @@ public class ControlledApp extends JFrame {
 		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		this.setTitle("QTJ Controller");
 		this.pack();
-		GuiUtil.setCenterLocation(this);
+		PtGuiUtil.setCenterLocation(this);
 		
 
 		TimerTask task = new TimerTask() {

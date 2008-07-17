@@ -29,7 +29,7 @@ import javax.help.HelpSet;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.app.util.AppImageFactory;
 
 /**
@@ -49,7 +49,7 @@ public class HelpButton extends JButton implements MouseListener {
     
     public HelpButton(HelpBroker helpBroker, HelpSet helpSet, HelpEntry entry, String tooltipText) {
     	
-    	if(UserSniffer.isMacOSX()) {
+    	if(PtUserSniffer.isMacOSX()) {
     		this.putClientProperty("JButton.buttonType", "help");
     	} else {
 	        if(image == null) {

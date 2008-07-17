@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.TestCase;
-import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
@@ -90,8 +90,8 @@ public class ImdbTest extends TestCase {
     
     public void testDetailIndependenceDay() throws Exception {
         final String comment = "The aliens are coming and their goal is to invade and destroy. Fighting superior technology, Man's best weapon is the will to survive.";
-        Set<String> genres = CollectionUtil.asStringSet("Action", "Sci-Fi", "Thriller");
-        Set<String> actors = CollectionUtil.asStringSet("Will Smith", "Bill Pullman", "Jeff Goldblum");
+        Set<String> genres = PtCollectionUtil.asStringSet("Action", "Sci-Fi", "Thriller");
+        Set<String> actors = PtCollectionUtil.asStringSet("Will Smith", "Bill Pullman", "Jeff Goldblum");
         
         this.abstractTestDetail("http://imdb.com/title/tt0116629/", "Independence Day", genres, "Roland Emmerich", comment, 1996, actors, 145);
     }

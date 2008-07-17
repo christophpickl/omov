@@ -26,7 +26,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.DateUtil;
+import net.sourceforge.jpotpourri.util.PtDateUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -68,8 +68,8 @@ public abstract class DateMatch extends AbstractMatch<Date> {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                final Date equalsDate = DateUtil.getDateWithoutTime(this.getValueAt(0));
-                final Date equalsDate2 = DateUtil.getDateWithoutTimeAndChangedDays(equalsDate, +1);
+                final Date equalsDate = PtDateUtil.getDateWithoutTime(this.getValueAt(0));
+                final Date equalsDate2 = PtDateUtil.getDateWithoutTimeAndChangedDays(equalsDate, +1);
                 // actually its a "within range" query, because it checks for whole day
                 return query.constrain(equalsDate).greater().equal().and(query.constrain(equalsDate2).smaller());
             }
@@ -132,7 +132,7 @@ public abstract class DateMatch extends AbstractMatch<Date> {
             Constraint prepareDb4oQuery(Query query) {
                 final int daysBefore = extractInt(this.getValueAt(0));
                 LOG.debug("Preparing in the last '"+daysBefore+"' days.");
-                final Date date = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(daysBefore);
+                final Date date = PtDateUtil.getCurrentDateWithoutTimeAndSubtractedDays(daysBefore);
                 return query.constrain(date).greater().equal();
             }
         };
@@ -144,7 +144,7 @@ public abstract class DateMatch extends AbstractMatch<Date> {
             Constraint prepareDb4oQuery(Query query) {
                 final int daysBefore = extractInt(this.getValueAt(0));
                 LOG.debug("Preparing not in the last '"+daysBefore+"' days.");
-                final Date date = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(daysBefore);
+                final Date date = PtDateUtil.getCurrentDateWithoutTimeAndSubtractedDays(daysBefore);
                 return query.constrain(date).smaller();
             }
         };

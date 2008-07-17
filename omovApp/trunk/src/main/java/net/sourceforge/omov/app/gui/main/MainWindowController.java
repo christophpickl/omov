@@ -31,9 +31,9 @@ import java.util.zip.ZipFile;
 
 import javax.swing.JOptionPane;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
-import net.sourceforge.jpotpourri.util.FileUtil;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.gui.AboutDialog;
 import net.sourceforge.omov.app.gui.CommonController;
@@ -64,7 +64,7 @@ import net.sourceforge.omov.core.tools.scan.Scanner;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.core.util.BrowserUtil;
 import net.sourceforge.omov.core.util.CoverUtil;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;
@@ -185,7 +185,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Edit Movie", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "Edit Movie", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
             this.doEditMovie(selectedMovies.get(0), this.mainWindow.newPrevNextMovieProvider());
@@ -203,7 +203,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "Delete Movie", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
             this.doDeleteMovie(selectedMovies.get(0));
@@ -292,14 +292,14 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Fetch Metadata", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "Fetch Metadata", "Not any movie was selected.");
             
         } else if(selectedMovies.size() == 1) {
             this.doFetchMetaData(selectedMovies.get(0));
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Fetch Metadata", "Can not fetch metadata for more than one Movie at the time.");
+            PtGuiUtil.warning(this.mainWindow, "Fetch Metadata", "Can not fetch metadata for more than one Movie at the time.");
         }
     }
     public void doFetchMetaData(Movie movieFetchingData) {
@@ -328,11 +328,11 @@ public final class MainWindowController extends CommonController<Movie> implemen
 	
     
     public void doRevealMovie(Movie movie) {
-        assert(UserSniffer.isMacOSX());
+        assert(PtUserSniffer.isMacOSX());
         final String folderPath = movie.getFolderPath();
         LOG.debug("Revealing folder path '"+folderPath+"' for movie with id "+movie.getId()+" and title '"+movie.getTitle()+"'.");
         if(folderPath.trim().length() == 0) {
-        	GuiUtil.warning("Revealing movie folder", "No folder set for movie '"+movie.getTitle()+"'!");
+        	PtGuiUtil.warning("Revealing movie folder", "No folder set for movie '"+movie.getTitle()+"'!");
             return;
         }
         if(new File(folderPath).exists() == false) {
@@ -350,18 +350,18 @@ public final class MainWindowController extends CommonController<Movie> implemen
 
     // should be only invoked by menu bar
     public void doRevealMovie() {
-        assert(UserSniffer.isMacOSX());
+        assert(PtUserSniffer.isMacOSX());
         List<Movie> selectedMovies = this.mainWindow.getSelectedMovies();
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Reveal Movie in Finder", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "Reveal Movie in Finder", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doRevealMovie(selectedMovies.get(0));
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.info(this.mainWindow, "Reveal Movie in Finder", "Revealing multiple movies in Finder is not supported.");
+            PtGuiUtil.info(this.mainWindow, "Reveal Movie in Finder", "Revealing multiple movies in Finder is not supported.");
         }
     }
     
@@ -371,7 +371,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         
         final List<String> movieFileNames = movie.getFiles();
         if(movieFileNames.isEmpty() == true) {
-            GuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
+            PtGuiUtil.warning("Play in VLC", "There is not any file to play for movie '"+movie.getTitle()+"'!");
             return;
         }
         
@@ -410,14 +410,14 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "Play Movie in VLC", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doPlayVlc(selectedMovies.get(0));
             
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
+            PtGuiUtil.info(this.mainWindow, "Play Movie in VLC", "Playing multiple movies in VLC is not supported.");
         }
     }
     
@@ -428,14 +428,14 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "QuickView Error", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "QuickView Error", "Not any movie was selected.");
         } else if(selectedMovies.size() == 1) {
             this.doPlayQuickView(selectedMovies.get(0));
             
         } else {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.info(this.mainWindow, "QuickView Error", "Playing multiple movies at once is not supported.");
+            PtGuiUtil.info(this.mainWindow, "QuickView Error", "Playing multiple movies at once is not supported.");
         }
     }
     
@@ -447,7 +447,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
         if(selectedMovies.size() == 0) {
             // should not be possible anyway!
             assert(false);
-            GuiUtil.warning(this.mainWindow, "Rescan Folder(s)", "Not any movie was selected.");
+            PtGuiUtil.warning(this.mainWindow, "Rescan Folder(s)", "Not any movie was selected.");
             return;
         }
         
@@ -514,9 +514,9 @@ public final class MainWindowController extends CommonController<Movie> implemen
         new DuplicatesFinderProgressDialog(this.mainWindow).setVisible(true);
     }
     public void doImportBackup(File backupFile) {
-        final String extension = FileUtil.extractExtension(backupFile);
+        final String extension = PtFileUtil.extractExtension(backupFile);
         if(extension == null || extension.equalsIgnoreCase(ImportExportConstants.BACKUP_FILE_EXTENSION) == false) {
-        	GuiUtil.warning(this.mainWindow, "Import Failed", "The file '"+backupFile.getAbsolutePath()+"' is not a valid backup file!");
+        	PtGuiUtil.warning(this.mainWindow, "Import Failed", "The file '"+backupFile.getAbsolutePath()+"' is not a valid backup file!");
             return;
         }
         
@@ -543,7 +543,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
     	try {
 	    	int moviesStored = BeanFactory.getInstance().getMovieDao().getMovies().size();
 	    	if(moviesStored == 0) { // [mantis 0000060]
-	    		GuiUtil.warning(this.mainWindow, "Movie Export", "Sorry, but there are no movies to export.");
+	    		PtGuiUtil.warning(this.mainWindow, "Movie Export", "Sorry, but there are no movies to export.");
 	    		return;
 	    	}
     	} catch(BusinessException e) {
@@ -566,7 +566,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
                 RemoteServer.getInstance().shutDown();
             } catch (BusinessException e) {
                 LOG.error("Could not shutdown running remoteserver!", e);
-                GuiUtil.warning("Shutdown error", "Could not shutdown running remoteserver!");
+                PtGuiUtil.warning("Shutdown error", "Could not shutdown running remoteserver!");
             }
         }
         
@@ -574,7 +574,7 @@ public final class MainWindowController extends CommonController<Movie> implemen
             BeanFactory.getInstance().getDatabaseConnection().close();
         } catch (BusinessException e) {
             LOG.error("Could not close database connection!", e);
-            GuiUtil.warning("Shutdown error", "Could not close database connection!");
+            PtGuiUtil.warning("Shutdown error", "Could not close database connection!");
         }
         
         this.mainWindow.dispose();

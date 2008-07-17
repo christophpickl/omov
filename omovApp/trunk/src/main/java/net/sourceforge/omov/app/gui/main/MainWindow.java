@@ -39,9 +39,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
-import net.sourceforge.jpotpourri.tools.UserSniffer;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.panel.brushed.PtBrushedMetalPanel;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
 import net.sourceforge.omov.app.gui.main.tablex.IMovieTableContextMenuListener;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
@@ -51,8 +51,8 @@ import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.osx.OSXAdapter;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiKeyAdapter;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
@@ -76,7 +76,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     private final MovieDetailPanel movieDetailPanel = new MovieDetailPanel();
     private Movie selectedMovie;
     private boolean activated = false;
-    private final BrushedMetalPanel backgroundPanel = new BrushedMetalPanel();
+    private final PtBrushedMetalPanel backgroundPanel = new PtBrushedMetalPanel();
 
     
     public MainWindow() {
@@ -117,7 +117,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        GuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
+        PtGuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
     }
     
@@ -344,7 +344,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
      * @see OSXAdapter.java to see how this is done without directly referencing any Apple APIs
      */
     private void registerForMacOSXEvents() {
-        if (UserSniffer.isMacOSX() == true) {
+        if (PtUserSniffer.isMacOSX() == true) {
             LOG.info("Registering for osx events.");
             try {
                 // Generate and register the OSXAdapter, passing it a hash of all the methods we wish to

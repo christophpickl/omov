@@ -30,15 +30,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
-import net.sourceforge.jpotpourri.util.FileUtilException;
-import net.sourceforge.jpotpourri.util.ZipUtil;
-import net.sourceforge.jpotpourri.util.ZipUtilException;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
+import net.sourceforge.jpotpourri.util.PtZipUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -89,7 +88,7 @@ public class ExporterBackup implements ImportExportConstants {
             File backupFile;
 			try {
 				backupFile = zipContents(backupTempDir, targetDir);
-			} catch (ZipUtilException e) {
+			} catch (PtException e) {
 				throw new BusinessException("Could not zip file!", e);
 			}
 
@@ -98,21 +97,21 @@ public class ExporterBackup implements ImportExportConstants {
             // cleanup
             if(backupTempDir.exists() == true) {
                 try {
-                    FileUtil.deleteDirectoryRecursive(backupTempDir);
-                } catch(FileUtilException e) {
+                	PtFileUtil.deleteDirectoryRecursive(backupTempDir);
+                } catch(PtException e) {
                     LOG.error("Could not clean up temporary directory at '"+backupTempDir.getAbsolutePath()+"'!", e);
                 }
             }
         }
     }
 
-    private static File zipContents(File backupTempDir, File targetDir) throws ZipUtilException {
+    private static File zipContents(File backupTempDir, File targetDir) throws PtException {
         LOG.debug("Zipping contents to single file.");
 
         final File targetZipFile = getAvailableZipFile(targetDir);
         final File temporaryZipFile = new File(PreferencesDao.getInstance().getTemporaryFolder(), backupTempDir.getName() + ".zip");
 
-        ZipUtil.zipDirectory(backupTempDir, temporaryZipFile);
+        PtZipUtil.zipDirectory(backupTempDir, temporaryZipFile);
 
         LOG.debug("Moving zip file '"+temporaryZipFile.getAbsolutePath()+"' to '"+targetZipFile.getAbsolutePath()+"'.");
         temporaryZipFile.renameTo(targetZipFile);
@@ -134,8 +133,8 @@ public class ExporterBackup implements ImportExportConstants {
                 final File coverFile = new File(PreferencesDao.getInstance().getCoversFolder(), movie.getOriginalCoverFile());
                 if(coverFile.exists()) {
                     try {
-						FileUtil.copyFile(coverFile, new File(coverDir, coverFile.getName()));
-					} catch (FileUtilException e) {
+                    	PtFileUtil.copyFile(coverFile, new File(coverDir, coverFile.getName()));
+					} catch (PtException e) {
 						throw new BusinessException("Could not copy cover file!", e);
 					}
                 } else {
@@ -187,7 +186,7 @@ public class ExporterBackup implements ImportExportConstants {
         } catch(IOException e) {
             throw new BusinessException("Could not generate HTML report!", e);
         } finally {
-            CloseUtil.close(writer);
+            PtCloseUtil.close(writer);
         }
     }
 
@@ -206,7 +205,7 @@ public class ExporterBackup implements ImportExportConstants {
         } catch(IOException e) {
             throw new BusinessException("Could not encode movies from: " + xmlFile.getAbsolutePath(), e);
         } finally {
-            CloseUtil.close(reader);
+            PtCloseUtil.close(reader);
         }
     }
 

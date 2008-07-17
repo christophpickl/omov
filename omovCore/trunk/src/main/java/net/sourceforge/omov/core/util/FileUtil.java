@@ -33,7 +33,7 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public final class FileUtil extends net.sourceforge.jpotpourri.util.FileUtil {
+public final class FileUtil {
 
     private static final Log LOG = LogFactory.getLog(FileUtil.class);
 

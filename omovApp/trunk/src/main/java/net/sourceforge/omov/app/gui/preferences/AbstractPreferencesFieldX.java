@@ -10,8 +10,8 @@ import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
-import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -57,7 +57,7 @@ abstract class AbstractPreferencesFieldX<T, F extends JComponent> implements Foc
 		            saveData();
 //		            this.initialValue = this.getData();
 		        } catch (BusinessException e) {
-		        	GuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
+		        	PtGuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
 //		            this.setText(this.initialValue.toString());
 		        }
 			}
@@ -99,15 +99,15 @@ abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX
 	}
 }
 
-abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<Integer, NumberField> {
+abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<Integer, PtNumberField> {
 
-	private final NumberField numberField;
+	private final PtNumberField numberField;
 	
 	public AbstractPreferencesIntFieldX(Dialog owner, long initValue, long minValue, long maxValue, int size) {
 		super(owner);
 		assert(maxValue <= Integer.MAX_VALUE);
 		
-		this.numberField = new NumberField(initValue, minValue, maxValue, size);
+		this.numberField = new PtNumberField(initValue, minValue, maxValue, size);
 		
     	this.getComponent().addFocusListener(this); // hack: has to be invoked by each and every extends AbstractPreferencesFieldX
 	}
@@ -116,7 +116,7 @@ abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<In
 		return (int) this.numberField.getNumber();
 	}
 	
-	final NumberField getComponent() {
+	final PtNumberField getComponent() {
 		return this.numberField;
 	}
 	

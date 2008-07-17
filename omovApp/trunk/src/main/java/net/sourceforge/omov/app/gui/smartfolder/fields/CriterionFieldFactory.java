@@ -22,8 +22,8 @@ package net.sourceforge.omov.app.gui.smartfolder.fields;
 import java.util.Arrays;
 import java.util.Date;
 
-import net.sourceforge.jpotpourri.util.DateUtil;
-import net.sourceforge.jpotpourri.util.Duration;
+import net.sourceforge.jpotpourri.PtDuration;
+import net.sourceforge.jpotpourri.util.PtDateUtil;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
@@ -403,7 +403,7 @@ public class CriterionFieldFactory {
     }
     
     private static DurationCriterion newDurationCriterion(final String columnLabel, final String matchLabel, final Object[] values) {
-        final Duration value = (Duration) values[0];
+        final PtDuration value = (PtDuration) values[0];
         final DurationMatch match;
         
         if(matchLabel.equals(DurationMatch.LABEL_EQUALS)) {
@@ -488,8 +488,8 @@ public class CriterionFieldFactory {
             final int initValueTo;
             
             if(columnLabel.equals(MovieField.YEAR.label())) {
-                initValueFrom = (values != null) ? (Integer) values[0] : DateUtil.getCurrentYear() - 1;
-                initValueTo   = (values != null) ? (Integer) values[1] : DateUtil.getCurrentYear(); 
+                initValueFrom = (values != null) ? (Integer) values[0] : PtDateUtil.getCurrentYear() - 1;
+                initValueTo   = (values != null) ? (Integer) values[1] : PtDateUtil.getCurrentYear(); 
             } else {
                 throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
             }
@@ -500,7 +500,7 @@ public class CriterionFieldFactory {
             
             final int initValue;
             if(columnLabel.equals(MovieField.YEAR.label())) {
-                initValue = (values != null) ? (Integer) values[0] : DateUtil.getCurrentYear();
+                initValue = (values != null) ? (Integer) values[0] : PtDateUtil.getCurrentYear();
             } else {
                 throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
             }
@@ -540,8 +540,8 @@ public class CriterionFieldFactory {
                 initValueTo = (Date) values[1];
             } else {
                 if(columnLabel.equals(MovieField.DATE_ADDED.label())) {
-                    initValueFrom = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(1);
-                    initValueTo = DateUtil.getCurrentDateWithoutTimeAndSubtractedDays(0);
+                    initValueFrom = PtDateUtil.getCurrentDateWithoutTimeAndSubtractedDays(1);
+                    initValueTo = PtDateUtil.getCurrentDateWithoutTimeAndSubtractedDays(0);
                 } else {
                     throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
                 }
@@ -679,9 +679,9 @@ public class CriterionFieldFactory {
                throw new IllegalArgumentException("matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')");
         }
         
-        final Duration initValue;
+        final PtDuration initValue;
         if(columnLabel.equals(MovieField.DURATION.label())) {
-            initValue = (values != null) ? (Duration) values[0] : Duration.newByTotal(0);
+            initValue = (values != null) ? (PtDuration) values[0] : PtDuration.newByTotal(0);
         } else {
             throw new IllegalArgumentException("columnLabel: '"+columnLabel+"'");
         }

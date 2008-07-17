@@ -39,10 +39,11 @@ import javax.swing.event.TableColumnModelEvent;
 import javax.swing.event.TableColumnModelListener;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.jpotpourri.gui.table.ITableBodyContextListener;
-import net.sourceforge.jpotpourri.gui.table.TableBodyContext;
-import net.sourceforge.jpotpourri.tools.OperatingSystem;
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.jpotface.table.IPtTableBodyContextListener;
+import net.sourceforge.jpotpourri.jpotface.table.PtTableBodyContext;
+import net.sourceforge.jpotpourri.tools.PtOperatingSystem;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
+import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.MovieTableColumns;
@@ -54,7 +55,6 @@ import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
-import net.sourceforge.omov.gui.table.MacLikeTable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -64,7 +64,7 @@ import org.jdesktop.swingx.table.TableColumnExt;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class MovieTableX extends MacLikeTable implements ITableBodyContextListener {
+public class MovieTableX extends MacLikeTable implements IPtTableBodyContextListener {
 
     private static final long serialVersionUID = -6558625595861308741L;
     private static final Log LOG = LogFactory.getLog(MovieTableX.class);
@@ -246,24 +246,24 @@ public class MovieTableX extends MacLikeTable implements ITableBodyContextListen
 
     private void initContextMenu() {
         final List<JMenuItem> itemsSingle = new ArrayList<JMenuItem>();
-        TableBodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        TableBodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
-        TableBodyContext.newJMenuSeparator(itemsSingle);
-        TableBodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
-        if(UserSniffer.isOperatingSystem(OperatingSystem.MAC) == true) {
-        	this.itemRevealFinder = TableBodyContext.newJMenuItem(itemsSingle, "Reveal in Finder", CMD_REVEAL, AppImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
+        PtTableBodyContext.newJMenuItem(itemsSingle, "Get Info", CMD_EDIT, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        PtTableBodyContext.newJMenuItem(itemsSingle, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
+        PtTableBodyContext.newJMenuSeparator(itemsSingle);
+        PtTableBodyContext.newJMenuItem(itemsSingle, "Fetch Metadata", CMD_FETCH_METADATA, AppImageFactory.getInstance().getIcon(Icon16x16.FETCH_METADATA));
+        if(PtUserSniffer.isOperatingSystem(PtOperatingSystem.MAC) == true) {
+        	this.itemRevealFinder = PtTableBodyContext.newJMenuItem(itemsSingle, "Reveal in Finder", CMD_REVEAL, AppImageFactory.getInstance().getIcon(Icon16x16.REVEAL_FINDER));
         } else {
         	this.itemRevealFinder = null;
         }
         
         if(VlcPlayerFactory.isVlcCapable()) {
-        	this.itemPlayVlc = TableBodyContext.newJMenuItem(itemsSingle, "Play in VLC", CMD_PLAY_VLC, AppImageFactory.getInstance().getIcon(Icon16x16.VLC));//MacVlcPlayer.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
+        	this.itemPlayVlc = PtTableBodyContext.newJMenuItem(itemsSingle, "Play in VLC", CMD_PLAY_VLC, AppImageFactory.getInstance().getIcon(Icon16x16.VLC));//MacVlcPlayer.addVlcPlayJMenuItem(itemsSingle, CMD_PLAY_VLC);
         }
 
         final List<JMenuItem> itemsMultiple = new ArrayList<JMenuItem>();
-        TableBodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
-        TableBodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
-        new TableBodyContext(this, itemsSingle, itemsMultiple, this);
+        PtTableBodyContext.newJMenuItem(itemsMultiple, "Get Infos", CMD_EDIT, AppImageFactory.getInstance().getIcon(Icon16x16.INFORMATION));
+        PtTableBodyContext.newJMenuItem(itemsMultiple, "Delete", CMD_DELETE, AppImageFactory.getInstance().getIcon(Icon16x16.DELETE));
+        new PtTableBodyContext(this, itemsSingle, itemsMultiple, this);
     }
 
     public int getSelectedModelRow() {

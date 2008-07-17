@@ -32,8 +32,9 @@ import java.util.TimerTask;
 import javax.swing.Icon;
 import javax.swing.JButton;
 
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -75,7 +76,7 @@ public class FolderChooseButton extends JButton implements MouseListener {
         this.setToolTipText("<html>Single click: Choose Folder<br>Double click: Clear Folder</html>");
 
         this.addMouseListener(this);
-        OmovGuiUtil.enableHandCursor(this);
+        PtGuiUtil.enableHandCursor(this);
     }
 
 

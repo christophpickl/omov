@@ -19,9 +19,9 @@
 
 package net.sourceforge.omov.app.gui.smartcopy;
 
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopy;
-import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -50,7 +50,7 @@ class CopySwingWorker extends SwingWorker<String, String> {
     @Override
     protected String doInBackground() throws Exception {
         final long totalCopySizeInKb = this.smartCopy.preprocess().getTotalCopySizeInKb();
-        LOG.info("doInBackground() started copying "+FileUtil.formatFileSize(totalCopySizeInKb));
+        LOG.info("doInBackground() started copying "+PtFileUtil.formatFileSize(totalCopySizeInKb));
         
         this.smartCopy.process(this.copyListener);
         

@@ -21,7 +21,7 @@ package net.sourceforge.omov.core.tools.osx;
 
 import java.io.File;
 
-import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.tools.PtUserSniffer;
 import net.sourceforge.omov.core.BusinessException;
 
 import org.apache.log4j.Logger;
@@ -43,7 +43,7 @@ public class FinderReveal {
     
     
     public static void revealFile(final File file) throws BusinessException {
-        assert(UserSniffer.isMacOSX());
+        assert(PtUserSniffer.isMacOSX());
         
         final String osaScript = FinderReveal.createOsaScript(file);
         AppleScriptNativeExecuter.executeAppleScript(osaScript);

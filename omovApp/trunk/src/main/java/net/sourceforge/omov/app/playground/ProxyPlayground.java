@@ -21,7 +21,7 @@ import java.net.Proxy;
 import java.net.SocketAddress;
 import java.net.URL;
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
 import net.sourceforge.omov.core.BusinessException;
 
 public class ProxyPlayground {
@@ -88,8 +88,8 @@ public class ProxyPlayground {
         } catch (IOException e) {
             throw new BusinessException("Could not download file from url '"+urlString+"' to file '"+target.getAbsolutePath()+"'!", e);
         } finally {
-            CloseUtil.close(in);
-            CloseUtil.close(out);
+            PtCloseUtil.close(in);
+            PtCloseUtil.close(out);
         }
 
         System.out.println("Disconnecting ...");

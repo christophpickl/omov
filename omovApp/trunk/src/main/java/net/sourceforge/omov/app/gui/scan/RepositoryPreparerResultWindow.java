@@ -38,22 +38,22 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.util.CollectionUtil;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtCollectionUtil;
+import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.table.MacLikeTable;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 /**
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDisposeReceiver {
+public class RepositoryPreparerResultWindow extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final long serialVersionUID = 967471175757339990L;
 
@@ -71,7 +71,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
             }
         });
         
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
 
         OmovGuiUtil.macSmallWindow(this.getRootPane());
         
@@ -79,7 +79,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
     }
     
@@ -134,7 +134,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
         table.getColumnModel().getColumn(0).setMaxWidth(80);
         table.getColumnModel().getColumn(0).setMinWidth(80);
 
-        EscapeDisposer.enableEscape(table, this);
+        PtEscapeDisposer.enableEscape(table, this);
         
         panel.add(OmovGuiUtil.wrapScroll(table, 500, 180), BorderLayout.CENTER);
         return panel;
@@ -156,7 +156,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
     private static class PreparerResultTableModel extends AbstractTableModel {
 
         private static final long serialVersionUID = -3147258693975754931L;
-        private static final List<String> ALL_COLUMN_NAMES = CollectionUtil.immutableList("Severity", "Message");
+        private static final List<String> ALL_COLUMN_NAMES = PtCollectionUtil.immutableList("Severity", "Message");
         private final List<PreparerHint> hints;
 
         private PreparerResultTableModel(final List<PreparerHint> hints) {

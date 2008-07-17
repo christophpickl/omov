@@ -32,17 +32,16 @@ import java.util.List;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
-import net.sourceforge.jpotpourri.util.CloseUtil;
-import net.sourceforge.jpotpourri.util.FileUtilException;
-import net.sourceforge.jpotpourri.util.ZipUtil;
-import net.sourceforge.jpotpourri.util.ZipUtilException;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.util.PtCloseUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
+import net.sourceforge.jpotpourri.util.PtZipUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IMovieDao;
 import net.sourceforge.omov.core.util.CoverUtil;
-import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,8 +75,8 @@ public class ImporterBackup implements ImportExportConstants {
         
         try {
             try {
-                ZipUtil.unzip(this.backupFile, this.backupZipFile, targetDirectory);
-            } catch (ZipUtilException e) {
+                PtZipUtil.unzip(this.backupFile, this.backupZipFile, targetDirectory);
+            } catch (PtException e) {
                 result.setErrorMessage("Could not unpack backup file '"+this.backupFile.getAbsolutePath()+"'!");
                 return result;
             }
@@ -149,7 +148,7 @@ public class ImporterBackup implements ImportExportConstants {
             // cleanup
             try {
                 if(targetDirectory.exists()) {
-                    FileUtil.deleteDirectoryRecursive(targetDirectory);
+                	PtFileUtil.deleteDirectoryRecursive(targetDirectory);
                 }
             } catch(Exception e) {
                 LOG.error("Could not delete temporary import directory '"+targetDirectory.getAbsolutePath()+"'.", e);
@@ -168,16 +167,16 @@ public class ImporterBackup implements ImportExportConstants {
             final File originalCoverFile = new File(coversFolder, movie.getOriginalCoverFile());
             assert(originalCoverFile.exists());
             try {
-                final String extension = FileUtil.extractExtension(originalCoverFile);
+                final String extension = PtFileUtil.extractExtension(originalCoverFile);
                 assert(extension != null);
                 final String newCoverFileName = movie.getId() + "." + extension;
                 
                 final File targetOriginalMovie = new File(PreferencesDao.getInstance().getCoversFolder(), newCoverFileName);
                 LOG.debug("Copying cover files from original file '"+originalCoverFile.getAbsolutePath()+"' to '"+targetOriginalMovie.getAbsolutePath()+"' for movie: " + movie);
                 try {
-					FileUtil.copyFile(originalCoverFile, targetOriginalMovie);
+                	PtFileUtil.copyFile(originalCoverFile, targetOriginalMovie);
 	                CoverUtil.copyCoverFileTypesByOriginal(movie, originalCoverFile);
-				} catch (FileUtilException e) {
+				} catch (PtException e) {
 					throw new BusinessException("Could not copy files]!", e);
 				}
                 
@@ -212,7 +211,7 @@ public class ImporterBackup implements ImportExportConstants {
         } catch (FileNotFoundException e) {
             throw new BusinessException("Could not read movies by xml '"+xmlFile.getAbsolutePath()+"' because it does not exist!", e);
         } finally {
-        	CloseUtil.close(fileReader);
+        	PtCloseUtil.close(fileReader);
         }
     }
     
@@ -228,7 +227,7 @@ public class ImporterBackup implements ImportExportConstants {
         } catch(IOException e) {
             throw new BusinessException("Could not get contents of data versionfile '"+dataVersionFile.getAbsolutePath()+"'.", e);
         } finally {
-            CloseUtil.close(reader);
+            PtCloseUtil.close(reader);
         }
     }
     

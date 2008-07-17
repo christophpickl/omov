@@ -41,16 +41,16 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.gui.EscapeDisposer;
-import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
-import net.sourceforge.jpotpourri.gui.chooser.DirectoryChooser;
-import net.sourceforge.jpotpourri.gui.chooser.IFileDirectoryChooserListener;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
+import net.sourceforge.jpotpourri.jpotface.chooser.PtDirectoryChooser;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
+import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
-import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.gui.table.MacLikeTable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -60,7 +60,7 @@ import org.jdesktop.swingx.JXTable;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
+public class SmartCopyDialog extends JDialog implements IPtEscapeDisposeReceiver {
 
     private static final Log LOG = LogFactory.getLog(SmartCopyDialog.class);
     private static final long serialVersionUID = -2141494736445865021L;
@@ -69,7 +69,7 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
     private final JButton btnCopyAnyway = new JButton("Copy Anyway");
     private final JButton btnAbortCopy = new JButton("Abort Copy");
     private final JTextField inpMovieIds = new JTextField("", 24);
-    private final DirectoryChooser inpTargetDirectory = new DirectoryChooser("Copy target directory");
+    private final PtDirectoryChooser inpTargetDirectory = new PtDirectoryChooser("Copy target directory");
     private final JButton btnStartCopy = new JButton("Start Copying");
     private final JButton btnCancel = new JButton("Cancel");
     private final JProgressBar progressBar = new JProgressBar(0, 100);
@@ -91,11 +91,11 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
                 doClose();
             }
         });
-        EscapeDisposer.enableEscape(this.getRootPane(), this);
+        PtEscapeDisposer.enableEscape(this.getRootPane(), this);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
-        GuiUtil.setCenterLocation(this);
+        PtGuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {
@@ -203,7 +203,7 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
     }
 
     private JPanel panel2TargetDirectory() {
-        this.inpTargetDirectory.addChooserListener(new IFileDirectoryChooserListener() {
+        this.inpTargetDirectory.addChooserListener(new IPtFileDirectoryChooserListener() {
             public void doChoosen(File dir) {
                 btnStartCopy.setEnabled(true);
             }
@@ -267,7 +267,7 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
             this.pack();
             return;
         }
-        LOG.info("Preprocess found errors for smartcopy (would copy "+FileUtil.formatFileSize(result.getTotalCopySizeInKb())+").");
+        LOG.info("Preprocess found errors for smartcopy (would copy "+PtFileUtil.formatFileSize(result.getTotalCopySizeInKb())+").");
         
         final JPanel panel = new JPanel(new BorderLayout());
         panel.setPreferredSize(new Dimension(this.getWidth() - 20, 140));

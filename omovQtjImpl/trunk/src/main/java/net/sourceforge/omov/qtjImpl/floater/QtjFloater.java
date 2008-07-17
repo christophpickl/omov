@@ -35,7 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.gui.GuiActionListener;
@@ -112,7 +112,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		btnPlayPause.setBorderPainted(false);
 		btnPlayPause.setActionCommand(CMD_PLAY_PAUSE);
 		btnPlayPause.addActionListener(this);
-		GuiUtil.enableHandCursor(btnPlayPause);
+		PtGuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
 		btnPlayPause.addActionListener(new GuiActionListener() {
 			public void action(ActionEvent e) {

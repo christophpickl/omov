@@ -27,16 +27,16 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import net.sourceforge.jpotpourri.util.FileUtilException;
-import net.sourceforge.jpotpourri.util.GuiUtil;
+import net.sourceforge.jpotpourri.PtException;
+import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
+import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopy;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
-import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
+import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -98,7 +98,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         assert(targetDirectory != null);
         
         if(movieIdsString.length() == 0) {
-        	GuiUtil.warning(this.dialog, "SmartCopy aborted", "The ID-String field is empty.");
+        	PtGuiUtil.warning(this.dialog, "SmartCopy aborted", "The ID-String field is empty.");
             return;
         }
         
@@ -113,7 +113,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         }
         
         if(result.isMajorError() || result.isMinorError()) {
-        	GuiUtil.warning(this.dialog, "SmartCopy suspended", "Some errors occured. See table for details.");
+        	PtGuiUtil.warning(this.dialog, "SmartCopy suspended", "Some errors occured. See table for details.");
             return;
         }
         
@@ -141,7 +141,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         
         final File targetDirectory = this.smartCopy.getTargetDirectory();
         final long copyTotal = this.smartCopy.preprocess().getTotalCopySizeInKb();
-        final long kbBeforeCopying = net.sourceforge.jpotpourri.util.FileUtil.getSizeRecursive(targetDirectory);
+        final long kbBeforeCopying = PtFileUtil.getSizeRecursive(targetDirectory);
         LOG.debug("kbBeforeCopying = " + kbBeforeCopying);
         this.timer = new Timer();
         
@@ -153,7 +153,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
                 if(isTargetDirectoryWasCleanedUp == false) {
                     progress = 0;
                 } else {
-                    final long targetDirSize = net.sourceforge.jpotpourri.util.FileUtil.getSizeRecursive(targetDirectory);
+                    final long targetDirSize = PtFileUtil.getSizeRecursive(targetDirectory);
                     final double copiedAlready = targetDirSize - kbBeforeCopying;
                     progress = (int) ((copiedAlready / copyTotal) * 100);
 //                    System.out.println("targetDirSize = "+targetDirSize+"; copiedAlready = "+copiedAlready+"; copyTotal="+copyTotal+"; progress="+progress+"%");
@@ -172,7 +172,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
     private void doUseSelectedMovies() {
         final List<Movie> selectedMovies = this.mainController.getSelectedTableMovies();
         if(selectedMovies.size() == 0) {
-        	GuiUtil.warning(this.dialog, "SmartCopy", "There is not any movie selected.");
+        	PtGuiUtil.warning(this.dialog, "SmartCopy", "There is not any movie selected.");
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("[[");
@@ -207,8 +207,8 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
                 if (createdDirectory.exists()) {
                     LOG.debug("Going to delete created directory at '" + createdDirectory.getAbsolutePath() + "'.");
                     try {
-                        net.sourceforge.jpotpourri.util.FileUtil.deleteDirectoryRecursive(createdDirectory);
-                    } catch (FileUtilException e) {
+                        PtFileUtil.deleteDirectoryRecursive(createdDirectory);
+                    } catch (PtException e) {
                         LOG.error("Could not delete directory at '" + createdDirectory.getAbsolutePath() + "' created by copy worker!");
                     }
                 }
@@ -217,8 +217,8 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         } else {
             final int folderCnt = this.createdDirectories.size();
             LOG.debug("Successfully copied " + folderCnt + " movie folders.");
-            GuiUtil.info(this.dialog, "SmartCopy finished", "Successfully created " + folderCnt + " movie folder"
-                    + (folderCnt != 1 ? "s" : "") + " and copied " + net.sourceforge.jpotpourri.util.FileUtil.formatFileSize(this.worker.getCopiedSizeInKb()) + ".");
+            PtGuiUtil.info(this.dialog, "SmartCopy finished", "Successfully created " + folderCnt + " movie folder"
+                    + (folderCnt != 1 ? "s" : "") + " and copied " + PtFileUtil.formatFileSize(this.worker.getCopiedSizeInKb()) + ".");
             this.dialog.doClose();
         }
     }
