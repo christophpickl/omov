@@ -49,6 +49,7 @@ public class ImageUtil {
         /* no instantiation */
     }
 
+    // TODO already outsourced to jpot
     @SuppressWarnings("cast")
 	public static WidthHeight recalcMaxWidthHeight(final int oldWidth, final int oldHeight, final int maxWidth, final int maxHeight) {
         final boolean DEBUG = false;
@@ -110,6 +111,7 @@ public class ImageUtil {
         }
     }
 
+    // TODO already outsourced to jpot
     public static Image getResizedCoverImage(final File coverFile, final Component component, final CoverFileType fileType) {
         LOG.info("resizing cover image '" + coverFile.getAbsolutePath() + "' to fileType '"+fileType+"'.");
         Date resizeActionStart = new Date();
@@ -144,6 +146,7 @@ public class ImageUtil {
     }
 
 
+    // TODO already outsourced to jpot
     public static class WidthHeight {
         private final int width;
         private final int height;

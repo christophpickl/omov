@@ -41,7 +41,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
-
+// import com.sun.org.apache.xerces.internal.impl.xs.dom.DOMParser; // TODO java5?!
 //http://localhost:8080/requests/status.xml?command=pl_empty
 //http://localhost:8080/requests/playlist.xml
 //http://localhost:8080/js/functions.js
@@ -147,11 +147,8 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 		if(xNode.getNodeName().equals("node")) {
 			final String name = attributes.getNamedItem("name").getTextContent();
 			
-			final PlaylistNode pNode2;
 			if(pNode == null) { // set initial root node
-				pNode2 = PlaylistNode.newNode(id, name);
-			} else {
-				pNode2 = pNode;
+				// FIXME is the first parameter actually necessary??? ... pNode = PlaylistNode.newNode(id, name);
 			}
 			pSubNode = PlaylistNode.newNode(id, name);
 			
@@ -160,9 +157,11 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 				Node xSubNode = xSubNodes.item(i);
 				pSubNode.addPlaylistNode(parsePlaylistXml(pSubNode, xSubNode));
 			}
-		} else {
+			
+		} else { // xNode.name != "node"
 			assert(xNode.getNodeName().equals("leaf"));
 			assert(pNode != null);
+			
 			final String uri = attributes.getNamedItem("uri").getTextContent();
 			pSubNode = PlaylistNode.newLeaf(id, uri);
 		}

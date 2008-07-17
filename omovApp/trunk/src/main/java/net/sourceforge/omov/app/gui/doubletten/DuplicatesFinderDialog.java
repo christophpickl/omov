@@ -40,6 +40,7 @@ import javax.swing.table.TableCellRenderer;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
@@ -133,7 +134,7 @@ public class DuplicatesFinderDialog extends JDialog implements IEscapeDisposeRec
         
         this.getContentPane().add(this.initComponents());
         this.pack();
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
         OmovGuiUtil.lockWidthAndHeightAsMinimum(this, 300, 160);
     }
     

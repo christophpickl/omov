@@ -49,6 +49,7 @@ import javax.swing.event.ListSelectionListener;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.jpotpourri.util.StringUtil;
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.core.BusinessException;
@@ -144,7 +145,7 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         this.getContentPane().add(this.initComponents());
         this.setResizable(false);
         this.pack();
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     private void doSelectionChanged() {

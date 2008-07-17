@@ -27,9 +27,9 @@ import javax.swing.JPanel;
 import javax.swing.JWindow;
 
 import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 /**
  * 
@@ -43,7 +43,7 @@ public class SplashScreen extends JWindow {
     public SplashScreen() {
         this.getContentPane().add(this.initComponents());
         this.pack();
-        OmovGuiUtil.setCenterLocation(this, 0, -30);
+        GuiUtil.setCenterLocation(this, 0, -30);
     }
     
     private JPanel initComponents() {

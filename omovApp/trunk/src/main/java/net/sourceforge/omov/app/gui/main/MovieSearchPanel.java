@@ -30,12 +30,12 @@ import javax.swing.JPanel;
 
 import net.sourceforge.jpotpourri.gui.inputfield.search.IDefaultSearchFieldListener;
 import net.sourceforge.jpotpourri.gui.inputfield.search.SearchField;
-import net.sourceforge.jpotpourri.gui.widget.SelectableContextMenuButton;
+import net.sourceforge.jpotpourri.gui.widget.button.SelectableContextMenuButton;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.comp.OmovSelectableContextMenuButton;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.ContinuousFilter.ContinuousFilterField;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 import org.apache.commons.logging.Log;
@@ -71,13 +71,14 @@ class MovieSearchPanel extends JPanel implements IDefaultSearchFieldListener {
         
 
 		List<JMenuItem> popupItems = new ArrayList<JMenuItem>();
-		final JMenuItem itemSearchHeader = OmovGuiUtil.newMenuItem("Search", null, popupItems);
+		final JMenuItem itemSearchHeader = GuiUtil.newMenuItem("Search", null, popupItems);
 		itemSearchHeader.setEnabled(false);
-		OmovGuiUtil.newMenuItem("All", CMD_ALL, popupItems);
-		OmovGuiUtil.newMenuItem("Title", CMD_TITLE, popupItems);
-		OmovGuiUtil.newMenuItem("People", CMD_PEOPLE, popupItems);
-		OmovGuiUtil.newMenuItem("Comment", CMD_COMMENT, popupItems);
+		GuiUtil.newMenuItem("All", CMD_ALL, popupItems);
+		GuiUtil.newMenuItem("Title", CMD_TITLE, popupItems);
+		GuiUtil.newMenuItem("People", CMD_PEOPLE, popupItems);
+		GuiUtil.newMenuItem("Comment", CMD_COMMENT, popupItems);
         this.contextMenu = new OmovSelectableContextMenuButton(popupItems, new GuiActionListener() {
+			@Override
 			public void action(ActionEvent e) {
 				doChangedFilterField();
 			}

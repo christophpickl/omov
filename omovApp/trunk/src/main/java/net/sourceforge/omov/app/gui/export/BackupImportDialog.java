@@ -35,19 +35,20 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
 import net.sourceforge.jpotpourri.gui.chooser.ButtonPosition;
 import net.sourceforge.jpotpourri.gui.chooser.FileChooser;
 import net.sourceforge.jpotpourri.gui.chooser.IFileDirectoryChooserListener;
+import net.sourceforge.jpotpourri.util.FileUtil;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.tools.export.ImportExportConstants;
-import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -77,9 +78,10 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
         
         EscapeDisposer.enableEscape(this.getRootPane(), this);
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -103,7 +105,7 @@ public class BackupImportDialog extends JDialog implements ActionListener, IEsca
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     public void setZipFile(File backupFile) {

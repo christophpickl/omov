@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
-import net.sourceforge.jpotpourri.gui.widget.ContextMenuButton;
+import net.sourceforge.jpotpourri.gui.widget.button.ContextMenuButton;
 import net.sourceforge.omov.app.util.AppImageFactory;
 
 public class OmovContextMenuButton extends ContextMenuButton {

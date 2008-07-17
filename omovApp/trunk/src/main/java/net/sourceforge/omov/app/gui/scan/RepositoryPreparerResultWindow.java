@@ -32,15 +32,16 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
 import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.scan.PreparerHint;
 import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
@@ -62,9 +63,10 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
         super(owner, "Repository Preparer Result", true);
         this.result = result;
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doClose();
             }
         });
@@ -77,7 +79,7 @@ public class RepositoryPreparerResultWindow extends JDialog implements IEscapeDi
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
     }
     

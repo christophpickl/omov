@@ -33,11 +33,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.WindowConstants;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
@@ -65,12 +66,12 @@ public class FileSystemCheckDialog extends JDialog {
     private void pseudoConstructor() {
         this.setTitle("File System Check");
         this.setModal(true);
-        this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     

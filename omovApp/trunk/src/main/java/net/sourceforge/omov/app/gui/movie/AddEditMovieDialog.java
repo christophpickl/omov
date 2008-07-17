@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
@@ -112,7 +113,8 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         }
 
         this.addWindowListener(new WindowAdapter() {
-            public void windowOpened(WindowEvent e) {
+            @Override
+			public void windowOpened(WindowEvent e) {
                 tabInfo.requestInitialFocus();
             }
         });
@@ -123,7 +125,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
 
 

@@ -39,7 +39,9 @@ public final class FileUtil extends net.sourceforge.jpotpourri.util.FileUtil {
 
     
     
-
+    /**
+     * lower cased dot prefixes
+     */
     private static final Set<String> DOT_PREFIXES;
     static {
         final Set<String> tmp = new TreeSet<String>();
@@ -104,15 +106,21 @@ public final class FileUtil extends net.sourceforge.jpotpourri.util.FileUtil {
 //        return nameToClear.replaceAll("\\.", " ") + "." + extensionToUse;
     }
     
-    private static boolean isDotPrefix(final String s) {
-        final int lastWhitespace = s.lastIndexOf(" ");
-        final String s2;
+    /**
+     * @param string some arbitrary text
+     * @return true, if string part is equals something like "mr"/"dr" (see DOT_PROFIXES constant)
+     * @see #clearFileNameDots(File)
+     */
+    private static boolean isDotPrefix(final String string) {
+        final int lastWhitespace = string.lastIndexOf(" "); // TODO why use lastIndex, aber nicht firstIndex?
+        
+        final String subStringged;
         if(lastWhitespace != -1) {
-            s2 = s.substring(lastWhitespace + 1);
+        	subStringged = string.substring(lastWhitespace + 1);
         } else {
-        	s2 = s;
+        	subStringged = string;
         }
-        return DOT_PREFIXES.contains(s2.toLowerCase());
+        return DOT_PREFIXES.contains(subStringged.toLowerCase());
     }
 }
 

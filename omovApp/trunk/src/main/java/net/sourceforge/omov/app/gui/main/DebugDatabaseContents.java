@@ -33,11 +33,11 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 
 /**
@@ -56,7 +56,7 @@ class DebugDatabaseContents extends JFrame {
 		this.setResizable(true);
 		this.getContentPane().add(this.initComponents());
 		this.pack();
-		OmovGuiUtil.setCenterLocation(this);
+		GuiUtil.setCenterLocation(this);
 		this.showMovieContents();
 	}
 	
@@ -67,6 +67,7 @@ class DebugDatabaseContents extends JFrame {
 		
 		JButton btnMovie = new JButton("Show Movie Contents");
 		btnMovie.addActionListener(new GuiActionListener() {
+			@Override
 			public void action(ActionEvent e) {
 				showMovieContents();
 			}

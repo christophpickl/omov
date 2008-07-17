@@ -38,6 +38,7 @@ import javax.swing.UIManager;
 import net.sourceforge.jpotpourri.gui.dialog.WarningDialog;
 import net.sourceforge.jpotpourri.tools.UserSniffer;
 import net.sourceforge.jpotpourri.util.CollectionUtil;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.SetupWizard;
 import net.sourceforge.omov.app.gui.SplashScreen;
@@ -323,7 +324,7 @@ public class App {
                 assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
 
             } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
-                OmovGuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
+            	GuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
                                 "does not match with the expected version "+PreferencesDao.DATA_VERSION+"!");
 
 
@@ -342,7 +343,7 @@ public class App {
                 /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
                 if(OmovGuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies to immediately take effect?") == true) {
                     PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
-                    OmovGuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
+                    GuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
                 }
 
                 return false;
@@ -411,7 +412,7 @@ public class App {
 
     public static void restartApplication() {
     	if(App.isArgumentSet(App.APPARG_DEVELOP)) {
-    		OmovGuiUtil.info("Develop Mode", "Restart not available while in development mode.");
+    		GuiUtil.info("Develop Mode", "Restart not available while in development mode.");
     		System.exit(0);
     	}
     	

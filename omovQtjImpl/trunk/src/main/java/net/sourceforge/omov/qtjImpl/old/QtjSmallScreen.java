@@ -49,6 +49,7 @@ import org.apache.commons.logging.LogFactory;
  * @author christoph_pickl@users.sourceforge.net
  * @deprecated replaced by QtjSmallScreenX
  */
+@Deprecated
 public class QtjSmallScreen extends JPanel implements ISmallFullScreenConstants, ActionListener, IQtjScreenListener { // implements IScreenSwitchListener
 
     private static final Log LOG = LogFactory.getLog(QtjSmallScreen.class);

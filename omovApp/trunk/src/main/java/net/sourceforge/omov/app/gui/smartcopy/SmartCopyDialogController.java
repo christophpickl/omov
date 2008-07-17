@@ -28,6 +28,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import net.sourceforge.jpotpourri.util.FileUtilException;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
@@ -97,7 +98,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         assert(targetDirectory != null);
         
         if(movieIdsString.length() == 0) {
-            OmovGuiUtil.warning(this.dialog, "SmartCopy aborted", "The ID-String field is empty.");
+        	GuiUtil.warning(this.dialog, "SmartCopy aborted", "The ID-String field is empty.");
             return;
         }
         
@@ -112,7 +113,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         }
         
         if(result.isMajorError() || result.isMinorError()) {
-            OmovGuiUtil.warning(this.dialog, "SmartCopy suspended", "Some errors occured. See table for details.");
+        	GuiUtil.warning(this.dialog, "SmartCopy suspended", "Some errors occured. See table for details.");
             return;
         }
         
@@ -140,18 +141,19 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         
         final File targetDirectory = this.smartCopy.getTargetDirectory();
         final long copyTotal = this.smartCopy.preprocess().getTotalCopySizeInKb();
-        final long kbBeforeCopying = FileUtil.getSizeRecursive(targetDirectory);
+        final long kbBeforeCopying = net.sourceforge.jpotpourri.util.FileUtil.getSizeRecursive(targetDirectory);
         LOG.debug("kbBeforeCopying = " + kbBeforeCopying);
         this.timer = new Timer();
         
         
         this.timer.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
+            @Override
+			public void run() {
                 final int progress;
                 if(isTargetDirectoryWasCleanedUp == false) {
                     progress = 0;
                 } else {
-                    final long targetDirSize = FileUtil.getSizeRecursive(targetDirectory);
+                    final long targetDirSize = net.sourceforge.jpotpourri.util.FileUtil.getSizeRecursive(targetDirectory);
                     final double copiedAlready = targetDirSize - kbBeforeCopying;
                     progress = (int) ((copiedAlready / copyTotal) * 100);
 //                    System.out.println("targetDirSize = "+targetDirSize+"; copiedAlready = "+copiedAlready+"; copyTotal="+copyTotal+"; progress="+progress+"%");
@@ -170,7 +172,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
     private void doUseSelectedMovies() {
         final List<Movie> selectedMovies = this.mainController.getSelectedTableMovies();
         if(selectedMovies.size() == 0) {
-            OmovGuiUtil.warning(this.dialog, "SmartCopy", "There is not any movie selected.");
+        	GuiUtil.warning(this.dialog, "SmartCopy", "There is not any movie selected.");
         } else {
             StringBuilder sb = new StringBuilder();
             sb.append("[[");
@@ -205,7 +207,7 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
                 if (createdDirectory.exists()) {
                     LOG.debug("Going to delete created directory at '" + createdDirectory.getAbsolutePath() + "'.");
                     try {
-                        FileUtil.deleteDirectoryRecursive(createdDirectory);
+                        net.sourceforge.jpotpourri.util.FileUtil.deleteDirectoryRecursive(createdDirectory);
                     } catch (FileUtilException e) {
                         LOG.error("Could not delete directory at '" + createdDirectory.getAbsolutePath() + "' created by copy worker!");
                     }
@@ -215,8 +217,8 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
         } else {
             final int folderCnt = this.createdDirectories.size();
             LOG.debug("Successfully copied " + folderCnt + " movie folders.");
-            OmovGuiUtil.info(this.dialog, "SmartCopy finished", "Successfully created " + folderCnt + " movie folder"
-                    + (folderCnt != 1 ? "s" : "") + " and copied " + FileUtil.formatFileSize(this.worker.getCopiedSizeInKb()) + ".");
+            GuiUtil.info(this.dialog, "SmartCopy finished", "Successfully created " + folderCnt + " movie folder"
+                    + (folderCnt != 1 ? "s" : "") + " and copied " + net.sourceforge.jpotpourri.util.FileUtil.formatFileSize(this.worker.getCopiedSizeInKb()) + ".");
             this.dialog.doClose();
         }
     }

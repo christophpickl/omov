@@ -35,6 +35,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
@@ -42,7 +43,6 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 /**
  * 
@@ -102,7 +102,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         this.preselectCheckboxes();
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     /**
@@ -110,7 +110,9 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
      * To be exactly, it selects only these, where all movies got the same value.
      */
     private void preselectCheckboxes() {
-        for (MovieField field : MULTIPLE_EDIT_FIELDS) {
+    	assert(this.getEditItem().size() > 1);
+    	
+        for (final MovieField field : MULTIPLE_EDIT_FIELDS) {
             
             boolean allMoviesEqualField = true;
             final List<Movie> editItems = this.getEditItem();

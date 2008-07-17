@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
  * @deprecated use AppleScriptNativeExecuter instead
  * @author christoph_pickl@users.sourceforge.net
  */
+@Deprecated
 class StreamGobbler extends Thread {
 
     private final InputStream input;

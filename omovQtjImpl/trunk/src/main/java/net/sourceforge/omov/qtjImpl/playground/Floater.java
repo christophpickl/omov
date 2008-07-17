@@ -188,6 +188,7 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 			this.value = 100;
 			listener.opacityChanged(this.value);
 		}
+		@Override
 		public String toString() {
 			return "" + value;
 		}

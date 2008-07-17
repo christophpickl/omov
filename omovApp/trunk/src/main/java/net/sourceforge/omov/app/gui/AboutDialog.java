@@ -34,9 +34,11 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.Constants;
@@ -58,9 +60,10 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
     public AboutDialog(JFrame owner) {
         super(owner, "About", true);
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doClose();
             }
         });
@@ -69,7 +72,7 @@ public class AboutDialog extends JDialog implements IEscapeDisposeReceiver {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {

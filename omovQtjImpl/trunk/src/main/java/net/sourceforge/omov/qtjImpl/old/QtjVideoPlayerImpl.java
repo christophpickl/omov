@@ -46,6 +46,7 @@ import quicktime.QTException;
  * @author christoph_pickl@users.sourceforge.net
  * @deprecated replaced by QtjVideoPlayerImplX
  */
+@Deprecated
 public class QtjVideoPlayerImpl extends JWindow implements IQtjVideoPlayer, MouseListener, MouseMotionListener {
 
     private static final Log LOG = LogFactory.getLog(QtjVideoPlayerImpl.class);

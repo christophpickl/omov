@@ -35,17 +35,17 @@ import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.list.MacLikeList;
 
@@ -267,9 +267,10 @@ public abstract class AbstractListSuggester extends JPanel {
             this.setTitle("Add " + title);
             this.setModal(true);
             
-            this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
             this.addWindowListener(new WindowAdapter() {
-                public void windowClosing(final WindowEvent event) {
+                @Override
+				public void windowClosing(final WindowEvent event) {
                 	new GuiAction() {
 						@Override
 						protected void _action() {
@@ -284,7 +285,8 @@ public abstract class AbstractListSuggester extends JPanel {
             JButton btnSave = new JButton("Save");
             this.getRootPane().setDefaultButton(btnSave);
             btnSave.addActionListener(new GuiActionListener() {
-                public void action(ActionEvent e) {
+                @Override
+				public void action(ActionEvent e) {
                     confirmed = true;
                     dispose();
             }});
@@ -295,7 +297,7 @@ public abstract class AbstractListSuggester extends JPanel {
             
             this.pack();
             this.setResizable(false);
-            OmovGuiUtil.setCenterLocation(this);
+            GuiUtil.setCenterLocation(this);
         }
         
         public boolean isConfirmed() {

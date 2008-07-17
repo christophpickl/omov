@@ -216,16 +216,15 @@ public class Scanner implements IScanner, IScannerStopped {
     }
     
     
-    public static MovieFolderInfo scanMovieFolderInfo(File folder, List<ScanHint> hints) {
+    public static MovieFolderInfo scanMovieFolderInfo(final File folder, final List<ScanHint> hints) {
         LOG.info("scanning movie '"+folder.getAbsolutePath()+"'...");
         
-        final boolean hintsEnabled = hints != null;
         final String folderPath = folder.getAbsolutePath();
 
         final List<String> files = new LinkedList<String>();
         final Set<String> formats = new HashSet<String>();
         
-        final long fileSizeKb = Scanner.scanMovieFolder(folder, files, formats, folder, hints, hintsEnabled);
+        final long fileSizeKb = Scanner.scanMovieFolder(folder, files, formats, folder, hints, hints != null);
         
         final String format = constructExtensionString(formats);
         
@@ -242,8 +241,8 @@ public class Scanner implements IScanner, IScannerStopped {
         
         for(File file : folder.listFiles()) {
             if(file.isFile()) {
-                final String fileExtension = FileUtil.extractExtension(file);
-                if(FileUtil.isHiddenFile(file) == true) {
+                final String fileExtension = net.sourceforge.jpotpourri.util.FileUtil.extractExtension(file);
+                if(net.sourceforge.jpotpourri.util.FileUtil.isHiddenFile(file) == true) {
                     LOG.debug("Skipping hidden file '"+file.getAbsolutePath()+"'.");
                     continue;
                 } else if(MovieFileUtil.isMovieFileExtension(fileExtension) == false) {

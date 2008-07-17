@@ -57,10 +57,10 @@ import javax.swing.table.TableColumn;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.gui.widget.button.ContextMenuButton;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.jpotpourri.gui.table.ITableBodyContextListener;
 import net.sourceforge.jpotpourri.gui.table.TableBodyContext;
-import net.sourceforge.jpotpourri.gui.widget.ContextMenuButton;
-import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.OmovContextMenuButton;
@@ -171,6 +171,7 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
         this.tblScannedMovieModel.updateMovieByFolderPath(confirmedScannedMovie);
     }
 
+    @Override
     public JFrame getOwner() {
         return (JFrame) super.getOwner();
     }
@@ -223,10 +224,10 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
 	    	panelCenterNorth.add(lblMain2);
 	    	
 	    	List<JMenuItem> advancedOptions = new ArrayList<JMenuItem>(1);
-	    	this.itemPrepareFolder = OmovGuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
+	    	this.itemPrepareFolder = GuiUtil.newMenuItem("Prepare Folder", ScanDialogController.CMD_OPTIONS_PREPARE_FOLDER, advancedOptions);
 	    	this.itemPrepareFolder.setToolTipText("Create necessary folders for scan root");
-	    	this.itemSelectAll = OmovGuiUtil.newMenuItem("Select All", ScanDialogController.CMD_SELECT_ALL, advancedOptions);
-	    	this.itemSelectNone = OmovGuiUtil.newMenuItem("Unselect All", ScanDialogController.CMD_SELECT_NONE, advancedOptions);
+	    	this.itemSelectAll = GuiUtil.newMenuItem("Select All", ScanDialogController.CMD_SELECT_ALL, advancedOptions);
+	    	this.itemSelectNone = GuiUtil.newMenuItem("Unselect All", ScanDialogController.CMD_SELECT_NONE, advancedOptions);
 //	    	GuiUtil.newMenuItem("...", ScanDialogController.CMD_OPTIONS_..., advancedOptions);
 	    	// FEATURE additional advanced options for scan folder:
 	    	// - edit list of movie extensions
@@ -518,7 +519,7 @@ public class ScanDialog extends JDialog implements ITableBodyContextListener, IE
             this.tableSplitter.setDividerLocation(0.4); // 40% movie table, 60% hints
             this.itemSelectAll.setEnabled(false);
         	this.itemSelectNone.setEnabled(false);
-        	OmovGuiUtil.info(this, "Scan Finished", "There could be not any movie found to be imported.");
+        	GuiUtil.info(this, "Scan Finished", "There could be not any movie found to be imported.");
         } else {
         	this.itemSelectAll.setEnabled(true);
         	this.itemSelectNone.setEnabled(true);

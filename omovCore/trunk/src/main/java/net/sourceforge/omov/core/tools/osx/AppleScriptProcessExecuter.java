@@ -35,9 +35,10 @@ import org.apache.log4j.Logger;
 
 /**
  * 
- * @deprecated use AppleScriptNativeExecuter instead
  * @author christoph_pickl@users.sourceforge.net
+ * @deprecated use AppleScriptNativeExecuter instead
  */
+@Deprecated 
 class AppleScriptProcessExecuter {
 
     private static final Logger LOG = Logger.getLogger(AppleScriptProcessExecuter.class);

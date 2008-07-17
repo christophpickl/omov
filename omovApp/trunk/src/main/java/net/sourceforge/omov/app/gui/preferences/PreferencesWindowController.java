@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.AppImageFactory.PrefToolBarIcon;
@@ -92,7 +93,7 @@ public class PreferencesWindowController implements ActionListener {
         try {
             final FileSystemCheckResult result = FileSystemChecker.process();
             if(result.isEverythingOkay() == true) {
-                OmovGuiUtil.info(this.window, "File System Check", "Each and every file is at its the expected location.");
+                GuiUtil.info(this.window, "File System Check", "Each and every file is at its the expected location.");
                 
             } else { // (result.isEverythingOkay() == false)
                 new FileSystemCheckDialog(result, this.window).setVisible(true);

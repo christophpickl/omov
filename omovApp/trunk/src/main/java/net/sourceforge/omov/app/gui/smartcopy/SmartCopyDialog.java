@@ -39,16 +39,17 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
 import net.sourceforge.jpotpourri.gui.chooser.DirectoryChooser;
 import net.sourceforge.jpotpourri.gui.chooser.IFileDirectoryChooserListener;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
 import net.sourceforge.omov.core.util.FileUtil;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 import net.sourceforge.omov.gui.table.MacLikeTable;
 
 import org.apache.commons.logging.Log;
@@ -81,11 +82,12 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
         super(owner, true);
         controller = new SmartCopyDialogController(this, mainController);
         this.setTitle("Smart Copy");
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.setResizable(false);
 
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doClose();
             }
         });
@@ -93,7 +95,7 @@ public class SmartCopyDialog extends JDialog implements IEscapeDisposeReceiver {
         
         this.getContentPane().add(this.initComponents());
         this.pack();
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {

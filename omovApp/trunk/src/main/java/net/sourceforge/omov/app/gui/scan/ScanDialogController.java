@@ -25,6 +25,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.CommonController;
 import net.sourceforge.omov.app.gui.movie.AddEditMovieDialog;
 import net.sourceforge.omov.core.BeanFactory;
@@ -184,7 +185,7 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
         this.dialog.dispose();
         
         if(movies.size() == 0) {
-            OmovGuiUtil.warning(this.dialog, "Nothing imported", "There was not any selected movie to import!");
+        	GuiUtil.warning(this.dialog, "Nothing imported", "There was not any selected movie to import!");
             return;
         }
         
@@ -198,17 +199,17 @@ class ScanDialogController extends CommonController<ScannedMovie> implements ISc
                 }
             }
             final String msg = "Successfully imported "+movies.size()+" scanned movie"+(movies.size()==1?"":"s")+"!";
-            OmovGuiUtil.info(this.dialog, "Movies imported", msg);
+            GuiUtil.info(this.dialog, "Movies imported", msg);
         } catch (BusinessException e) {
             LOG.error("Importing scanned movies failed!", e);
-            OmovGuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
+            GuiUtil.info(this.dialog, "Movies not imported", "Importing of scanned movies failed!");
         }
         
     }
     
     public void doScan(final File scanRoot, final boolean useWebExtractor) {
         if(scanRoot == null || scanRoot.exists() == false || scanRoot.isDirectory() == false) {
-            OmovGuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
+        	GuiUtil.warning("Scan not started", "Please first choose a valid scan directory!");
             return;
         }
         LOG.info("Scanning directory '"+scanRoot.getAbsolutePath()+"'...");

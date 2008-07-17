@@ -11,10 +11,10 @@ import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
 
 import net.sourceforge.jpotpourri.gui.inputfield.NumberField;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -57,7 +57,7 @@ abstract class AbstractPreferencesFieldX<T, F extends JComponent> implements Foc
 		            saveData();
 //		            this.initialValue = this.getData();
 		        } catch (BusinessException e) {
-		            OmovGuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
+		        	GuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
 //		            this.setText(this.initialValue.toString());
 		        }
 			}

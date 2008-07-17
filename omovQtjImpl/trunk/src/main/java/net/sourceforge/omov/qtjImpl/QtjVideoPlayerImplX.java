@@ -39,8 +39,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.util.GlobalKey;
-import net.sourceforge.jpotpourri.gui.util.IGlobalKeyListener;
+import net.sourceforge.jpotpourri.gui.GlobalKey;
+import net.sourceforge.jpotpourri.gui.IGlobalKeyListener;
 import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.jpotpourri.util.TimeUtil;
 import net.sourceforge.omov.core.BusinessException;

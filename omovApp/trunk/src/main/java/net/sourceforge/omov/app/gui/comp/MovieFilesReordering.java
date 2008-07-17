@@ -37,6 +37,7 @@ import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
@@ -67,9 +68,10 @@ public class MovieFilesReordering extends JDialog implements ActionListener, IEs
 		
 		this.setBackground(Constants.getColorWindowBackground());
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -82,7 +84,7 @@ public class MovieFilesReordering extends JDialog implements ActionListener, IEs
 		this.getContentPane().add(panel);
 		this.pack();
 		this.setResizable(false);
-		OmovGuiUtil.setCenterLocation(this);
+		GuiUtil.setCenterLocation(this);
 	}
 	
 	private JPanel panelSouth() {

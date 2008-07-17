@@ -176,16 +176,21 @@ public abstract class AbstractColumnCriterion<M extends AbstractMatch<?>> {
     /**
      * sets the column name and delegates to match
      */
-    final Constraint getDb4oConstraint(final Query inQuery) {
+    final Constraint getDb4oConstraint(final Query queryIn) {
         LOG.debug("Preparing query for column '"+this.getColumn()+"'.");
-        Query query = inQuery.descend(this.getColumn());
+        final Query queryColumned = queryIn.descend(this.getColumn());
+        
+        final Query queryFinished;
         if(this.getColumn().equals(MovieField.QUALITY.column())) {
-            query = query.descend("id"); // compare quality's ID, and not the object itself
+        	queryFinished = queryColumned.descend("id"); // compare quality's ID, and not the object itself
+        } else {
+        	queryFinished = queryColumned;
         }
-        return this.getMatch().prepareDb4oQuery(query);
+        return this.getMatch().prepareDb4oQuery(queryFinished);
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append("[");
         sb.append("column=").append(column).append(";");

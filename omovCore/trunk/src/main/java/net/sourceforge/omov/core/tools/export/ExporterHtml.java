@@ -132,7 +132,10 @@ public class ExporterHtml implements IExporterHtml {
             }
         }
 
-        return new File[] {new File(targetDirectory, targetFile.getName()), targetDirectory};
+        return new File[] {
+        	new File(targetDirectory, targetFile.getName()),
+        	targetDirectory
+        };
     }
 
     private static void copyCoverFile(Movie movie, File targetCoverDirectory, boolean isThumbNail) throws FileUtilException {
@@ -193,7 +196,7 @@ public class ExporterHtml implements IExporterHtml {
             final StringBuilder sb = new StringBuilder(35043 + 50);
             sb.append("\n\n<!-- BEGIN OF wz_tooltip.js -->\n\n\n");
             sb.append("<script type='text/javascript'>\n");
-            sb.append(FileUtil.getFileContentsFromJar("/wz_tooltip.js", 35043));
+            sb.append(net.sourceforge.jpotpourri.util.FileUtil.getFileContentsFromJar("/wz_tooltip.js", 35043));
             sb.append("</script>\n");
             sb.append("\n\n<!-- END OF wz_tooltip.js -->\n\n\n");
             wzTooltipJsContentCache = sb.toString();
@@ -210,8 +213,8 @@ public class ExporterHtml implements IExporterHtml {
     	return false;
     }
 
-    public void process(List<Movie> movies, File paramTarget) throws BusinessException {
-        LOG.info("Going to export " + movies.size() + " movies to target '"+paramTarget.getAbsolutePath()+"'.");
+    public void process(List<Movie> movies, File maybeTarget) throws BusinessException {
+        LOG.info("Going to export " + movies.size() + " movies to target '"+maybeTarget.getAbsolutePath()+"'.");
 
         boolean processFinishedSuccessfully = false;
         File createdDir = null;
@@ -221,9 +224,9 @@ public class ExporterHtml implements IExporterHtml {
             						   && gotAnyMovieCoverSet(movies); // [mantis 0000060]
             
             final File target;
-            if(coversEnabled) {
-                final File[] targetFileAndTargetDir = copyCoverFiles(movies, paramTarget);
-                LOG.info("Resetting target file to '"+paramTarget.getAbsolutePath()+"'.");
+            if(coversEnabled == true) {
+                final File[] targetFileAndTargetDir = copyCoverFiles(movies, maybeTarget);
+                LOG.info("Resetting target file to '"+maybeTarget.getAbsolutePath()+"'.");
                 target = targetFileAndTargetDir[0];
                 createdDir = targetFileAndTargetDir[1]; // e.g.: "/Users/foobar/UserEnteredName/
 
@@ -235,9 +238,11 @@ public class ExporterHtml implements IExporterHtml {
 //                } catch (URISyntaxException e) {
 //                    throw new BusinessException("Could not get wz_tooltip.js file from resources!", e);
 //                }
-            } else {
-            	target = paramTarget;
+            } else { // coversEnabled == false
+            	target = maybeTarget;
             }
+            
+            
             this.targetFilePath = target.getAbsolutePath();
 
             final String currentDate = CURRENT_DATE_FORMAT.format(new Date());

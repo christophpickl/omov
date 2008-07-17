@@ -151,13 +151,13 @@ public abstract class DateMatch extends AbstractMatch<Date> {
     }
     
     public static int extractInt(Date date) {
-        Calendar c = GregorianCalendar.getInstance();
+        Calendar c = Calendar.getInstance();
         c.setTime(date);
         return c.get(Calendar.MILLISECOND); // missuse of MILLISECOND field
     }
     
     private static Date wrapInt(int daysBeforeOrSomething) {
-        Calendar c = GregorianCalendar.getInstance();
+        Calendar c = Calendar.getInstance();
         c.set(Calendar.MILLISECOND, daysBeforeOrSomething); // missuse of MILLISECOND field
         return c.getTime();
     }

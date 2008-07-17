@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.tools.export.ImportProcessResult;
 import net.sourceforge.omov.core.tools.export.ImporterBackup;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
@@ -64,7 +65,7 @@ class BackupImportController {
         try {
             return new ZipFile(backupFile);
         } catch (ZipException e) {
-            OmovGuiUtil.warning(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is not a proper backup file!");
+        	GuiUtil.warning(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is not a proper backup file!");
             return null;
         } catch (IOException e) {
             OmovGuiUtil.error(this.dialog, "Import Failed", "The selected file '"+backupFile.getAbsolutePath()+"' is corrupted or does not exist!");
@@ -91,7 +92,7 @@ class BackupImportController {
                                  (cntSkippedMovies != 1 ? "some" : "the")+" movie folderpath"+(cntSkippedMovies != 1 ? "s are" : " is")+" already in use)";
                 // FEATURE backup import: maybe if movies skipped count > 1, display text in JTextArea (so text can be copied) which movies where skipped (title, folderpath)
             }
-            OmovGuiUtil.info(this.dialog, "Import Successfull", dialogText);
+            GuiUtil.info(this.dialog, "Import Successfull", dialogText);
             
         } else { // processResult.isSucceeded() == false
             OmovGuiUtil.error(this.dialog, "Import Failed", processResult.getErrorMessage());

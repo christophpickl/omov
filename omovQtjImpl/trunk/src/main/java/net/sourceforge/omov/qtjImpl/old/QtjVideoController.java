@@ -49,6 +49,7 @@ import quicktime.std.movies.Movie;
  * @author christoph_pickl@users.sourceforge.net
  * @deprecated will be replaced by QtjVideoControllerX
  */
+@Deprecated
 public class QtjVideoController {
 	
 	private final QtjVideoPlayerImpl player;

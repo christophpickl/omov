@@ -37,7 +37,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 import net.sourceforge.jpotpourri.gui.inputfield.MultiColTextField;
-import net.sourceforge.jpotpourri.gui.widget.ContextMenuButton;
+import net.sourceforge.jpotpourri.gui.widget.button.ContextMenuButton;
+import net.sourceforge.jpotpourri.util.FileUtil;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.comp.FolderChooseButton;
 import net.sourceforge.omov.app.gui.comp.IFolderChooseListener;
 import net.sourceforge.omov.app.gui.comp.MovieFilesReordering;
@@ -55,7 +57,6 @@ import net.sourceforge.omov.core.bo.MovieFolderInfo;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.core.tools.scan.Scanner;
-import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.core.util.GuiAction;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
 
@@ -469,7 +470,7 @@ public class MovieTabDetails extends AbstractMovieTab implements IFolderChooseLi
 			
 			final String newFolderPath = folderInfo.getFolderPath();
 			if(folderPaths.contains(newFolderPath) == true && this.folderPathOriginally.equals(newFolderPath) == false) {
-				OmovGuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
+				GuiUtil.warning(this.owner, "Scan Folder Error", "The path '"+newFolderPath+"' is already in use!"); // MINOR display which movie has occupied this folderpath
 				return;
 			}
 		} catch (BusinessException e) {

@@ -7,8 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.util.OmovGuiUtil;
 
 public class BackgroundImage {
 	
@@ -24,9 +24,10 @@ public class BackgroundImage {
 		public PanelX() {
 			this.add(new JLabel("PanelX"));
 		}
-		public void paint(Graphics g) {
+		@Override
+		public void paint(final Graphics g) {
 			super.paint(g);
-			OmovGuiUtil.paintCenteredBackgroundImage(g, this, image);
+			GuiUtil.paintCenteredBackgroundImage(g, this, image);
 		}
 	}
 	

@@ -37,10 +37,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.export.ComboMovieSelection.MovieSelectionMode;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.BeanFactory;
@@ -79,9 +81,10 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         
         EscapeDisposer.enableEscape(this.getRootPane(), this);
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -93,18 +96,22 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         this.btnHtml.setSelected(true);
         this.doButtonSelected(this.btnHtml);
         
-        this.btnHtml.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
-            doButtonSelected(btnHtml);
-        }});
-        this.btnBackup.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
-           doButtonSelected(btnBackup);
-        }});
+        this.btnHtml.addActionListener(new GuiActionListener() {
+        	@Override
+			public void action(ActionEvent e) {
+	            doButtonSelected(btnHtml);
+	        }});
+        this.btnBackup.addActionListener(new GuiActionListener() {
+        	@Override
+			public void action(ActionEvent e) {
+	           doButtonSelected(btnBackup);
+	        }});
         
         
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     private JPanel initComponents() {
@@ -202,7 +209,7 @@ public class ExporterChooserDialog extends JDialog implements IEscapeDisposeRece
         final List<Movie> movies = this.getMoviesToExport();
         
         if(movies.size() == 0) { // [mantis 0000060]
-        	OmovGuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
+        	GuiUtil.warning(this, "Movie Export", "Sorry, but there are no movies to export.");
         	return;
         }
         

@@ -38,7 +38,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
-import net.sourceforge.jpotpourri.gui.widget.PressableButton;
+import net.sourceforge.jpotpourri.gui.widget.button.PressableButton;
 import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.jpotpourri.util.TimeUtil;
 import net.sourceforge.omov.core.Constants;

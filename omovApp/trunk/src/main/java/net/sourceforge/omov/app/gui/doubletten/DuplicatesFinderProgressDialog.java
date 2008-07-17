@@ -28,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
 import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder.IDuplicatesFinderListener;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
@@ -69,7 +70,7 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
 
         this.getContentPane().add(this.initComponents());
         this.pack();
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
 
     private JPanel initComponents() {
@@ -77,7 +78,8 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
 
         this.progressBar.setIndeterminate(true);
         this.btnCancel.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 doCancel();
             }
         });
@@ -109,7 +111,7 @@ public class DuplicatesFinderProgressDialog extends JDialog implements IDuplicat
             return;
         }
         if(this.finder.getFoundDuplicates().size() == 0) {
-            OmovGuiUtil.info("No Duplicate Movies", "There could be not any duplicate movie found.");
+            GuiUtil.info("No Duplicate Movies", "There could be not any duplicate movie found.");
             this.dispose();
         } else {
             final DuplicatesFinderDialog dialog = new DuplicatesFinderDialog((JFrame) this.getOwner(), this.finder);

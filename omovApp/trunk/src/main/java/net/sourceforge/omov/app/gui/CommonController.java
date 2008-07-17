@@ -27,6 +27,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.webdata.IWebSearchWorkerListener;
 import net.sourceforge.omov.app.gui.webdata.WebSearchProgress;
 import net.sourceforge.omov.app.gui.webdata.WebSearchResultsDialog;
@@ -90,14 +91,14 @@ public abstract class CommonController<M extends Movie> implements IWebSearchWor
     	}
     	
 		if(movie.getFiles().size() == 0) {
-			OmovGuiUtil.info(owner, "QuickView", "No files to play for movie '"+movie.getTitle()+"'.");
+			GuiUtil.info(owner, "QuickView", "No files to play for movie '"+movie.getTitle()+"'.");
 			return;
 		}
 
 		// FIXME QTJ - do not select file, but let QtjVideoPlayerImpl decide which file!
 		final File movieFile = new File(movie.getFolderPath(), movie.getFiles().get(0));
 		if(movieFile.exists() == false) {
-			OmovGuiUtil.warning(owner, "QuickView", "File does not exist: " + movieFile.getAbsolutePath());
+			GuiUtil.warning(owner, "QuickView", "File does not exist: " + movieFile.getAbsolutePath());
 			return;
 		}
 		

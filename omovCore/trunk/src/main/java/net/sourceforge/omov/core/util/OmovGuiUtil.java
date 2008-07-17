@@ -79,7 +79,8 @@ public class OmovGuiUtil extends GuiUtil {
         assert(lockWidth || lockHeight);
 
         window.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent event) {
+            @Override
+			public void componentResized(ComponentEvent event) {
                 window.setSize((window.getWidth() < width && lockWidth)  ? width : window.getWidth(),
                              (window.getHeight() < height && lockHeight) ? height : window.getHeight());
             }

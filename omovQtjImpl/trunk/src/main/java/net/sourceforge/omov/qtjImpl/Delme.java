@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.gui.widget.PressableButton;
+import net.sourceforge.jpotpourri.gui.widget.button.PressableButton;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
 
 public class Delme {

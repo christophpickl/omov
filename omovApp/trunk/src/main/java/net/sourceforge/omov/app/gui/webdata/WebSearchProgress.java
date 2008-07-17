@@ -19,6 +19,7 @@ import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
@@ -42,7 +43,8 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IEsca
 
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -51,7 +53,7 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IEsca
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
         
         this.worker = new WebSearchWorker<N>(this, listener, movieFetchingData, parent);
         LOG.debug("worker.execute();");

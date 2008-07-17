@@ -37,9 +37,11 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.panel.brushed.BrushedMetalPanel;
 import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.IPrevNextMovieProvider;
 import net.sourceforge.omov.app.gui.main.tablex.IMovieTableContextMenuListener;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
@@ -81,18 +83,22 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.setTitle("OurMovies");
         this.setIconImage(AppImageFactory.getInstance().getFrameTitleIcon());
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 controller.doQuit();
             }
-            public void windowActivated(WindowEvent event) {
+            @Override
+			public void windowActivated(WindowEvent event) {
             	windowDidActivate(true);
             }
-            public void windowDeactivated(WindowEvent event) {
+            @Override
+			public void windowDeactivated(WindowEvent event) {
             	windowDidActivate(false);
             }
-            public void windowOpened(WindowEvent event) {
+            @Override
+			public void windowOpened(WindowEvent event) {
                 // Set up our application to respond to the Mac OS X application menu
                 registerForMacOSXEvents();
             }
@@ -111,7 +117,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(true);
-        OmovGuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
+        GuiUtil.setCenterLocation(this); // FEATURE restore last window state (remember size, position and maybe also viewposition of movie table's scrollpane)
         OmovGuiUtil.lockOriginalSizeAsMinimum(this);
     }
     

@@ -37,6 +37,7 @@ import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.webdata.FetchWebDetailWorker.IFetchedWebDetail;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.OmovGuiUtil;
@@ -66,7 +67,8 @@ class WebFetchingProgress extends JDialog implements IEscapeDisposeReceiver {
         
         this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -75,7 +77,7 @@ class WebFetchingProgress extends JDialog implements IEscapeDisposeReceiver {
         this.getContentPane().add(this.initComponents());
         this.pack();
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
         
         
         this.worker = new FetchWebDetailWorker(this, searchResult, fetchedDetailListener);

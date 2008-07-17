@@ -36,6 +36,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 
 import net.sourceforge.jpotpourri.tools.UserSniffer;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.help.HelpEntry;
 import net.sourceforge.omov.app.help.HelpSystem;
@@ -256,7 +257,9 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
     }
     
     public void actionPerformed(final ActionEvent event) {
-        new GuiAction() { protected void _action() {
+        new GuiAction() {
+        @Override
+		protected void _action() {
             final JMenuItem menuItem = (JMenuItem) event.getSource();
             final String cmd = menuItem.getActionCommand();
             
@@ -280,7 +283,7 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
             } else if(cmd.equals(CMD_EXPORT)) {
                 controller.doExport();
             } else if(cmd.equals(CMD_SHOW_XXX)) {
-                OmovGuiUtil.info("ups", "nothing implemented");
+                GuiUtil.info("ups", "nothing implemented");
             } else if(cmd.equals(CMD_FIND_DUPLICATES)) {
                 controller.doFindDuplicates();
             } else if(cmd.equals(CMD_PREFERENCES)) {
@@ -375,13 +378,15 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
             final PrefDialog prefDialog = new PrefDialog();
             
             OmovGuiUtil.createMenuItem(menu, 'P', "Show Preferences & Stuff", "", new GuiActionListener() {
-                public void action(ActionEvent event) {
+                @Override
+				public void action(final ActionEvent event) {
                     prefDialog.setVisible(true);
                 }
             });
             
             OmovGuiUtil.createMenuItem(menu, 'D', "Drop Movies", "",new GuiActionListener() {
-                public void action(ActionEvent event) {
+                @Override
+				public void action(final ActionEvent event) {
                     LOG.info("resetting movies.");
                     try {
                         IMovieDao dao = BeanFactory.getInstance().getMovieDao();
@@ -396,7 +401,8 @@ public class MenuBar extends JMenuBar implements ActionListener, ITableSelection
            }});
             
             OmovGuiUtil.createMenuItem(menu, 'S', "Show Database Contents", "",new GuiActionListener() {
-                public void action(ActionEvent event) {
+                @Override
+				public void action(final ActionEvent event) {
                     LOG.info("displaying database contents.");
                     if(databaseContents == null) {
                     	databaseContents = new DebugDatabaseContents();

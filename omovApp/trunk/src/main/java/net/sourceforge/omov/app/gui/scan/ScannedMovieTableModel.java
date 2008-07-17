@@ -57,34 +57,49 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         final List<ScannedMovieColumn> columns = new ArrayList<ScannedMovieColumn>();
         
         columns.add(new ScannedMovieColumn(TABLE_COLUMN_VALUE_MOVIE_CHECKED, 70, 70, 70) { // selected JCheckBox
-            public Object getValue(ScannedMovie movie) {  return movie.isChecked();  }
-            public Class<?> getValueClass() {  return Boolean.class;  }});
+            @Override
+			public Object getValue(ScannedMovie movie) {  return movie.isChecked();  }
+            @Override
+			public Class<?> getValueClass() {  return Boolean.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.TITLE.label(), 800, 120, 30) {
-            public Object getValue(ScannedMovie movie) {  return movie.getTitle();  }
-            public Class<?> getValueClass() {  return String.class;  }});
+            @Override
+			public Object getValue(ScannedMovie movie) {  return movie.getTitle();  }
+            @Override
+			public Class<?> getValueClass() {  return String.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.FOLDER_PATH.label(), 800, 120, 30) {
-            public Object getValue(ScannedMovie movie) {  return FileUtil.extractLastFolderName(movie.getFolderPath());  }
-            public Class<?> getValueClass() {  return String.class;  }});
+            @Override
+			public Object getValue(ScannedMovie movie) {  return FileUtil.extractLastFolderName(movie.getFolderPath());  }
+            @Override
+			public Class<?> getValueClass() {  return String.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.FILES.label(), 800, 120, 30) {
-            public Object getValue(ScannedMovie movie) {  return movie.getFilesFormatted();  }
-            public Class<?> getValueClass() {  return String.class;  }});
+            @Override
+			public Object getValue(ScannedMovie movie) {  return movie.getFilesFormatted();  }
+            @Override
+			public Class<?> getValueClass() {  return String.class;  }});
         
         columns.add(new ScannedMovieColumn(MovieField.FORMAT.label(), 800, 60, 60) {
-            public Object getValue(ScannedMovie movie) {  return movie.getFormat();  }
-            public Class<?> getValueClass() {  return String.class;  }});
+            @Override
+			public Object getValue(ScannedMovie movie) {  return movie.getFormat();  }
+            @Override
+			public Class<?> getValueClass() {  return String.class;  }});
 
         columns.add(new ScannedMovieColumn(MovieField.FILE_SIZE_KB.label(), 60, 60, 60) {
-            public Object getValue(ScannedMovie movie) {  return FileUtil.formatFileSize(movie.getFileSizeKb());  }
-            public Class<?> getValueClass() {  return String.class;  }});
+            @Override
+			public Object getValue(ScannedMovie movie) {
+            	return net.sourceforge.jpotpourri.util.FileUtil.formatFileSize(movie.getFileSizeKb());  }
+            @Override
+			public Class<?> getValueClass() {  return String.class;  }});
 
         // columns relevant to fetched metadata
 
         columns.add(new ScannedMovieColumn(MovieField.GENRES.label(), 1200, 120, 60) {
-            public Object getValue(ScannedMovie movie) {  return movie.getGenresString();  }
-            public Class<?> getValueClass() {  return String.class;  }});
+            @Override
+			public Object getValue(final ScannedMovie movie) {  return movie.getGenresString();  }
+            @Override
+			public Class<?> getValueClass() {  return String.class;  }});
         
         
         ALL_COLUMNS = Collections.unmodifiableList(columns);

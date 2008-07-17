@@ -76,14 +76,14 @@ public class Db4oConnection implements IDatabaseConnection {
         LOG.info("Defragmentation complete.");
     }
 
-    public Db4oConnection(final String paramDbFileName) {
-        final boolean isRunningJunitTest = System.getProperty("omovTestRunning") != null;
+    public Db4oConnection(final String _dbFileName) { // TODO rename variable to maybeDbFileName
+        final boolean isRunningJunitTest = System.getProperty("omovTestRunning") != null; // TODO some make better test capability
         
         final String dbFileName;
         if(isRunningJunitTest == false) {
-            dbFileName = new File(PreferencesDao.getInstance().getDataFolder(), paramDbFileName).getAbsolutePath();
+            dbFileName = new File(PreferencesDao.getInstance().getDataFolder(), _dbFileName).getAbsolutePath();
         } else {
-        	dbFileName = paramDbFileName;
+        	dbFileName = _dbFileName;
         }
         LOG.info("Opening database file '"+dbFileName+"'.");
         try {

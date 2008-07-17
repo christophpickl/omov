@@ -45,6 +45,7 @@ import javax.swing.UIManager;
 
 import net.sourceforge.jpotpourri.gui.EscapeDisposer;
 import net.sourceforge.jpotpourri.gui.IEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.util.GuiUtil;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.PrefToolBarItem;
@@ -134,7 +135,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
         this.adjustSize();
         
         this.setResizable(false);
-        OmovGuiUtil.setCenterLocation(this);
+        GuiUtil.setCenterLocation(this);
     }
     
     private void adjustSize() {
@@ -196,7 +197,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
 			private static final long serialVersionUID = 1L;
 			@Override
     		public void paint(final Graphics g) {
-				OmovGuiUtil.paintGradient((Graphics2D) g, 
+				GuiUtil.paintGradient((Graphics2D) g, 
     					Constants.getColorLightGray(), Constants.getColorWindowBackground(), this.getSize());
     			super.paint(g);
     		}
@@ -204,7 +205,7 @@ public class PreferencesWindow extends JDialog implements IEscapeDisposeReceiver
 
     	bar.setOpaque(false);
     	bar.setFloatable(false);
-    	bar.setOrientation(JToolBar.HORIZONTAL);
+    	bar.setOrientation(SwingConstants.HORIZONTAL);
 //    	bar.setBorderPainted(false);
 //    	bar.setRollover(true);
 //    	bar.setLayout(int)

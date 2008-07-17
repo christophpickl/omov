@@ -34,6 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author christoph_pickl@users.sourceforge.net
  * @deprecated replaced by QtjFullScreenX
  */
+@Deprecated
 public class QtjFullScreen extends JPanel implements ISmallFullScreenConstants {
 
     private static final Log LOG = LogFactory.getLog(QtjFullScreen.class);
