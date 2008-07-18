@@ -12,7 +12,6 @@ import javax.swing.ListCellRenderer;
 
 import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
-import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.GuiAction;
 
@@ -42,7 +41,7 @@ abstract class AbstractPreferencesFieldX<T, F extends JComponent> implements Foc
     
     abstract T getData();
     
-    abstract void saveData() throws BusinessException;
+    abstract void saveData();
 
     public final void focusGained(FocusEvent event) {
         // nothing to do
@@ -55,10 +54,10 @@ abstract class AbstractPreferencesFieldX<T, F extends JComponent> implements Foc
 			protected void _action() {
 				try {
 		            saveData();
-//		            this.initialValue = this.getData();
-		        } catch (BusinessException e) {
+//		            ----this.initialValue = this.getData();
+		        } catch (Exception e) { // BusinessException
 		        	PtGuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
-//		            this.setText(this.initialValue.toString());
+//		            ----this.setText(this.initialValue.toString());
 		        }
 			}
     	}.doAction();

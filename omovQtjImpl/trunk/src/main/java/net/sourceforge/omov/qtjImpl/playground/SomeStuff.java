@@ -30,7 +30,7 @@ import java.awt.Rectangle;
  */
 public class SomeStuff {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
 		
 		/*
 		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();

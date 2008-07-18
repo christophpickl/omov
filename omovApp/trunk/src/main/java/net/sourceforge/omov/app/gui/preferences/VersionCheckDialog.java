@@ -23,7 +23,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
@@ -34,7 +33,6 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.tools.ApplicationVersionFetcher;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

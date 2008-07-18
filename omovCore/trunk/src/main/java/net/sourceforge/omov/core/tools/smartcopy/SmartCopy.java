@@ -27,7 +27,6 @@ import net.sourceforge.jpotpourri.PtException;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.util.FileUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

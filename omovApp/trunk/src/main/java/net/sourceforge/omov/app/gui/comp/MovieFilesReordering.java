@@ -30,13 +30,12 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.util.GuiAction;

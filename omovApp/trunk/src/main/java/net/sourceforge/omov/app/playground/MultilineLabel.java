@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 /**
  * @author http://forum.java.sun.com/thread.jspa?threadID=5158520&messageID=9602544
@@ -41,6 +42,7 @@ public class MultilineLabel extends JLabel {
 		super(arg0, arg1, arg2);
 	}
 	
+	@Override
 	public Dimension getPreferredSize() {
 		return getExactPreferredSize();
 	}
@@ -121,12 +123,13 @@ public class MultilineLabel extends JLabel {
 	
 	public int countIdealLines() {
 		
-		int newlines = 42;
+//		int newlines = 42;
 //		int newlines = StringUtils.count(getText(), '\n') + 1;
-//		return newlines;
+//		return newlines; // MINOR countIdealLines isnt really implemented
 		return 2;
 	}
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		Color fore = getForeground(), back = getBackground();
 		int align = getHorizontalAlignment();
@@ -163,13 +166,13 @@ public class MultilineLabel extends JLabel {
 				while (idx2 > -1 && fm.stringWidth(line.substring(0, idx2)) < width);
 				String toDraw = line.substring(0, last);
 				int diff = width - fm.stringWidth(toDraw);
-				g.drawString(toDraw, align == JLabel.LEFT ? 0 : align == JLabel.CENTER ? diff / 2 : diff, currHeight);
+				g.drawString(toDraw, align == SwingConstants.LEFT ? 0 : align == SwingConstants.CENTER ? diff / 2 : diff, currHeight);
 				currHeight += height;
 				line = line.substring(last);
 				lineLength = fm.stringWidth(line); 
 			}
 			int diff = width - fm.stringWidth(line);
-			g.drawString(line, align == JLabel.LEFT ? 0 : align == JLabel.CENTER ? diff / 2 : diff, currHeight);
+			g.drawString(line, align == SwingConstants.LEFT ? 0 : align == SwingConstants.CENTER ? diff / 2 : diff, currHeight);
 			//g.drawString(line, 0, currHeight);
 			currHeight += height;
 			idx = newidx;
@@ -187,14 +190,14 @@ public class MultilineLabel extends JLabel {
 			
 			String toDraw = line.substring(0, last);
 			int diff = width - fm.stringWidth(toDraw);
-			g.drawString(toDraw, align == JLabel.LEFT ? 0 : align == JLabel.CENTER ? diff / 2 : diff, currHeight);
+			g.drawString(toDraw, align == SwingConstants.LEFT ? 0 : align == SwingConstants.CENTER ? diff / 2 : diff, currHeight);
 			//g.drawString(line.substring(0, last), 0, currHeight);
 			currHeight += height;
 			line = line.substring(last);
 			lineLength = fm.stringWidth(line); 
 		}
 		int diff = width - fm.stringWidth(line);
-		g.drawString(line, align == JLabel.LEFT ? 0 : align == JLabel.CENTER ? diff / 2 : diff, currHeight);
+		g.drawString(line, align == SwingConstants.LEFT ? 0 : align == SwingConstants.CENTER ? diff / 2 : diff, currHeight);
 		//g.drawString(line, 0, currHeight);
 		currHeight += height;
  
@@ -206,7 +209,7 @@ public class MultilineLabel extends JLabel {
 		//ml.setFont(new Font("sanserif", 12, 12));
 		ml.setBackground(Color.BLUE);
 		ml.setForeground(Color.RED);
-		ml.setHorizontalAlignment(JLabel.RIGHT);
+		ml.setHorizontalAlignment(SwingConstants.RIGHT);
 		JFrame jf = new JFrame("Multi-line Test");
 		jf.setContentPane(ml);
 		jf.setLocation(100,100);

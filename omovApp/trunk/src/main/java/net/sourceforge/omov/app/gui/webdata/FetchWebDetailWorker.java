@@ -51,7 +51,7 @@ public class FetchWebDetailWorker extends SwingWorker<Movie, String> {
     }
     
     @Override
-    protected Movie doInBackground() throws Exception {
+    protected Movie doInBackground() {
         LOG.debug("doInBackground() started");
         
         try {

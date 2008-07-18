@@ -225,10 +225,12 @@ public class SetupWizard extends JDialog implements IPtEscapeDisposeReceiver {
         final JButton btnConfirm = new JButton("Setup");
         final JButton btnCancel = new JButton("Cancel");
 
-        btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnConfirm.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doConfirm();
         }});
-        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doCancel();
         }});
         

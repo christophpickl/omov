@@ -43,7 +43,7 @@ class ImportSwingWorker extends SwingWorker<String, String> {
         this.importer = importer;
     }
     @Override
-    protected String doInBackground() throws Exception {
+    protected String doInBackground() {
         this.processResult = this.importer.process();
         
         return null;

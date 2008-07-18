@@ -32,6 +32,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
@@ -62,7 +63,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
     private static final int TABPOS_DETAIL = 1;
     private static final int TABPOS_NOTES = 2;
 
-    private final JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+    private final JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 
     private MovieTabInfo tabInfo;
     private MovieTabDetails tabDetails;
@@ -100,7 +101,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
             this.moviePrevNextCount = prevNextProvider.getCountIndices();
             if(this.moviePrevNextIndex == 0) {
                 this.btnPrev.setEnabled(false);
-            } else if(this.moviePrevNextIndex == moviePrevNextCount - 1) {
+            } else if(this.moviePrevNextIndex == this.moviePrevNextCount - 1) {
                 this.btnNext.setEnabled(false);
             }
 
@@ -115,7 +116,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.addWindowListener(new WindowAdapter() {
             @Override
 			public void windowOpened(WindowEvent e) {
-                tabInfo.requestInitialFocus();
+                AddEditMovieDialog.this.tabInfo.requestInitialFocus();
             }
         });
 
@@ -161,7 +162,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.initTabbedPane(TABPOS_INFO);
         // tabbedPane.setSelectedIndex(TABPOS_DETAIL); // SHORTCUT
 
-        panel.add(tabbedPane, BorderLayout.CENTER);
+        panel.add(this.tabbedPane, BorderLayout.CENTER);
         panel.add(this.newSouthPanel(), BorderLayout.SOUTH);
 
         return panel;
@@ -183,10 +184,12 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         this.btnPrev.setOpaque(false);
         this.btnNext.setOpaque(false);
 
-        this.btnPrev.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.btnPrev.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doShowPrevMovie();
         }});
-        this.btnNext.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.btnNext.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doShowNextMovie();
         }});
 
@@ -202,7 +205,7 @@ public class AddEditMovieDialog extends AbstractAddEditDialog<Movie> {
         final Movie oldMovie = this.getConfirmedObject();
 
         this.moviePrevNextIndex++;
-        if(this.moviePrevNextIndex == moviePrevNextCount - 1) {
+        if(this.moviePrevNextIndex == this.moviePrevNextCount - 1) {
             this.btnNext.setEnabled(false);
         }
         this.setNewPrevNextMovie(oldMovie);

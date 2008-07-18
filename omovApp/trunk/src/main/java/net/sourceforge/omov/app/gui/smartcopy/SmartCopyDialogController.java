@@ -68,7 +68,8 @@ class SmartCopyDialogController implements ActionListener, ICopySwingWorkerListe
     }
 
     public void actionPerformed(final ActionEvent event) {
-        new GuiAction() {protected void _action() {
+        new GuiAction() {@Override
+		protected void _action() {
             final String cmd = event.getActionCommand();
             LOG.debug("actionPerformed for command '"+cmd+"'.");
             

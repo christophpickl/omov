@@ -35,7 +35,7 @@ public class SmartFolderTextTest extends AbstractSmartFolderTest {
      * - "ramramram"
      */
 
-    public void testCaseSensitivity() throws Exception {
+    public void testCaseSensitivity() {
     	
     	this.checkSomeExisting(TextCriterion.newComment(TextMatch.newContains("comMenT")), 4);
     	this.checkSomeExisting(TextCriterion.newComment(TextMatch.newContains("RaM")), 1);
@@ -53,7 +53,7 @@ public class SmartFolderTextTest extends AbstractSmartFolderTest {
      * - "John Doe"
      * other four are empty
      */
-    public void testContains() throws Exception {
+    public void testContains() {
         this.checkSomeExisting(TextCriterion.newDirector(TextMatch.newContains("john doe")), 1); // -> is case insensitive
     }
 }

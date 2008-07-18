@@ -61,13 +61,13 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
         return folder;
     }
 
-    public List<SmartFolder> getAllSmartFolders() throws BusinessException {
+    public List<SmartFolder> getAllSmartFolders() {
         ObjectSet<SmartFolder> os = this.objectContainer.query(SmartFolder.class);
         
         return Collections.unmodifiableList(new ObjectSetTransformer<SmartFolder>().transformList(os));
     }
 
-    public List<SmartFolder> getAllSmartFoldersSorted() throws BusinessException {
+    public List<SmartFolder> getAllSmartFoldersSorted() {
         final ObjectSet<SmartFolder> os = this.objectContainer.query(SmartFolder.class);
         final List<SmartFolder> list = new ObjectSetTransformer<SmartFolder>().transformMutableList(os);
         Collections.sort(list, SmartFolder.COMPARATOR_NAME);
@@ -102,7 +102,7 @@ public class Db4oSmartFolderDao extends AbstractDb4oDao implements ISmartFolderD
         this.notifyListeners();
     }
 
-    public void deleteSmartFolder(SmartFolder smartFolder) throws BusinessException {
+    public void deleteSmartFolder(SmartFolder smartFolder)  {
         LOG.info("deleting smartfolder: " + smartFolder + " (id="+smartFolder.getId()+")");
         
         SmartFolder found = this.getSmartFolderById(smartFolder.getId());

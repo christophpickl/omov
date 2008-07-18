@@ -80,12 +80,13 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
 		private static final long serialVersionUID = -3314875437719043433L;
 		@Override
     	protected void doBackspaceHit() {
-    		final int selectedIndex = smartFolderList.getSelectedIndex();
+    		final int selectedIndex = SmartFolderManageDialog.this.smartFolderList.getSelectedIndex();
     		if(selectedIndex == -1) {
     			Toolkit.getDefaultToolkit().beep();
     			return;
     		}
-    		controller.doDeleteSmartFolder(smartFolderListModel.getSmartFolderAt(selectedIndex));
+    		SmartFolderManageDialog.this.controller.doDeleteSmartFolder(
+    				SmartFolderManageDialog.this.smartFolderListModel.getSmartFolderAt(selectedIndex));
     	}
     };
     private final FolderModel smartFolderListModel = new FolderModel();
@@ -129,12 +130,14 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         
         // doubleclick on smartfolder list opens the edit dialog
         this.smartFolderList.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent event) {
+            @Override
+			public void mouseClicked(MouseEvent event) {
                 LOG.debug("mouseClicked on moviesTable: event.getButton()="+event.getButton()+"; clickCount="+event.getClickCount()+"");
-                int row = smartFolderList.getSelectedIndex();
+                int row = SmartFolderManageDialog.this.smartFolderList.getSelectedIndex();
                 if (row > -1 && event.getClickCount() >= 2) {
                     LOG.debug("Double clicked on table row "+row+"; displaying editDialog.");
-                    controller.doEditSmartFolder(smartFolderListModel.getSmartFolderAt(row));
+                    SmartFolderManageDialog.this.controller.doEditSmartFolder(
+                    		SmartFolderManageDialog.this.smartFolderListModel.getSmartFolderAt(row));
                 }
                 
             }
@@ -196,32 +199,33 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
 
     // buttons add, edit, delete clicked
     public void actionPerformed(final ActionEvent event) {
-        new GuiAction() { protected void _action() {
+        new GuiAction() { @Override
+		protected void _action() {
             final String cmd = event.getActionCommand();
             LOG.info("button with command '"+cmd+"' clicked.");
             
             if(cmd.equals(CMD_ADD)) {
-                controller.doAddSmartFolder();
+                SmartFolderManageDialog.this.controller.doAddSmartFolder();
                 
             } else if(cmd.equals(CMD_EDIT)) {
-                final int index = smartFolderList.getSelectedIndex();
+                final int index = SmartFolderManageDialog.this.smartFolderList.getSelectedIndex();
                 if(index < 0) return; // nothing selected
                 
                 
-                final SmartFolder folder = smartFolderListModel.getSmartFolderAt(index);
+                final SmartFolder folder = SmartFolderManageDialog.this.smartFolderListModel.getSmartFolderAt(index);
                 LOG.debug("edit on position: " + index + "; folder: " + folder);
-                controller.doEditSmartFolder(folder);
+                SmartFolderManageDialog.this.controller.doEditSmartFolder(folder);
                 
             } else if(cmd.equals(CMD_DELETE)) {
-                final int index = smartFolderList.getSelectedIndex();
+                final int index = SmartFolderManageDialog.this.smartFolderList.getSelectedIndex();
                 if(index < 0) {
                     LOG.debug("nothing selected, nothing deleted.");
                     return;
                 }
                 
-                final SmartFolder folder = smartFolderListModel.getSmartFolderAt(index);
+                final SmartFolder folder = SmartFolderManageDialog.this.smartFolderListModel.getSmartFolderAt(index);
                 LOG.debug("deleting on position: " + index + "; folder: " + folder);
-                controller.doDeleteSmartFolder(folder);
+                SmartFolderManageDialog.this.controller.doDeleteSmartFolder(folder);
                 
             } else {
                 throw new IllegalArgumentException("unhandled command '"+cmd+"'!");
@@ -229,7 +233,8 @@ public class SmartFolderManageDialog extends JDialog implements ActionListener, 
         }}.doAction();
     }
     
-    public JFrame getOwner() {
+    @Override
+	public JFrame getOwner() {
         return (JFrame) super.getOwner();
     }
     

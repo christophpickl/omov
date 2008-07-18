@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
@@ -79,14 +80,15 @@ public class DuplicatesFinderDialog extends JDialog implements IPtEscapeDisposeR
         this.tableModel = new DuplicatesTableModel(this.finder);
         this.table = new MacLikeTable(this.tableModel) {
             private static final long serialVersionUID = -7772086018064365835L;
-            public Component prepareRenderer(TableCellRenderer renderer, int row, int column ) {
+            @Override
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column ) {
                 final Component c = super.prepareRenderer(renderer, row, column);
 
                 if(this.getSelectedRow() == row) {
                     c.setBackground(Constants.getColorSelectedBackground());
                     c.setForeground(Constants.getColorSelectedForeground());
                 } else {
-                    for (int i : similarMovieIndices) {
+                    for (int i : DuplicatesFinderDialog.this.similarMovieIndices) {
                         if(row == i) {
                             c.setBackground(Constants.getColorLightGray());
                             break;
@@ -100,9 +102,10 @@ public class DuplicatesFinderDialog extends JDialog implements IPtEscapeDisposeR
         
 
         
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doClose();
             }
         });
@@ -180,13 +183,15 @@ public class DuplicatesFinderDialog extends JDialog implements IPtEscapeDisposeR
         this.btnDelete.setOpaque(false);
         // if in need of another ActionListener -> write actionPerformed() method and outsource GuiAction instantiation
         this.btnDelete.addActionListener(new GuiActionListener() {
-        	public void action(final ActionEvent event) {
+        	@Override
+			public void action(final ActionEvent event) {
         		doDelete();
         }});
 
         final JButton btnClose = new JButton("Close");
         btnClose.setOpaque(false);
-        btnClose.addActionListener(new GuiActionListener() {public void action(ActionEvent e) {
+        btnClose.addActionListener(new GuiActionListener() {@Override
+		public void action(ActionEvent e) {
             DuplicatesFinderDialog.this.doClose();
         }});
         this.getRootPane().setDefaultButton(btnClose);

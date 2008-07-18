@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.util.LanguageUtil;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
@@ -51,7 +50,7 @@ class ContentGeneralPanel extends AbstractPreferencesContent {
         // ---------------------------------------------------------------------------
         
         this.inpUsername = new AbstractPreferencesStringFieldX(owner, PreferencesDao.getInstance().getUsername(), 20) {
-            void saveData() throws BusinessException {
+            void saveData() {
             	if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpUsername.setVisibleData(CONF.getUsername()); // reset value
@@ -93,7 +92,7 @@ class ContentGeneralPanel extends AbstractPreferencesContent {
         
         this.inpLanguageBox = new AbstractPreferencesComboBoxFieldX<LanguageCode>(owner, new LanguageBoxModel(), PreferencesDao.getInstance().getLanguage()) {
 			@Override
-			void saveData() throws BusinessException {
+			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpLanguageBox.setVisibleData(CONF.getLanguage()); // reset value

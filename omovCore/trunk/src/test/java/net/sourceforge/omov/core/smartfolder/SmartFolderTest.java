@@ -61,7 +61,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    T E X T   M A T C H E S
     /******************************************************************************************************************/
     
-    public void testEqualsTitle() throws Exception {
+    public void testEqualsTitle() {
         final String expectedTitle = "IndePEndence day"; // TODO db4o-hack for in-/case-sensitivity
 //    	final String expectedTitle = MOVIE_INDEPENDENCE_DAY.getTitle();
         final TextCriterion criterion= TextCriterion.newTitle(TextMatch.newEquals(expectedTitle));
@@ -70,21 +70,21 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
         assertEquals(MOVIE_INDEPENDENCE_DAY.getTitle(), movie.getTitle());
     }
     
-    public void testContainsTitle() throws Exception {
+    public void testContainsTitle() {
         final TextCriterion criterion = TextCriterion.newTitle(TextMatch.newContains("penDEnce da"));
         final Movie movie = this.checkOneExisting(criterion);
         
         assertEquals(MOVIE_INDEPENDENCE_DAY.getTitle(), movie.getTitle());
     }
     
-    public void testStartsWithTitle() throws Exception {
+    public void testStartsWithTitle() {
         final TextCriterion criterion = TextCriterion.newTitle(TextMatch.newStartsWith("indepENdence d")); // case insensetive
         final Movie movie = this.checkOneExisting(criterion);
         
         assertEquals(MOVIE_INDEPENDENCE_DAY.getTitle(), movie.getTitle());
     }
     
-    public void testEndsWithTitle() throws Exception {
+    public void testEndsWithTitle() {
         final TextCriterion criterion = TextCriterion.newTitle(TextMatch.newEndsWith("denCe day")); // case insensetive
         final Movie movie = this.checkOneExisting(criterion);
         
@@ -96,27 +96,27 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    N U M B E R   M A T C H E S
     /******************************************************************************************************************/
     
-    public void testIsYear() throws Exception {
+    public void testIsYear() {
         final NumberCriterion criterion = NumberCriterion.newYear(NumberMatch.newEquals(2008L));
         final Movie movie = this.checkOneExisting(criterion);
         
         assertEquals(MOVIE_INDEPENDENCE_DAY.getYear(), movie.getYear());
     }
     
-    public void testIsNotYear() throws Exception {
+    public void testIsNotYear() {
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newNotEquals(42L)), MOVIE_TEST_DATA.size());
     }
 
-    public void testGreaterYear() throws Exception {
+    public void testGreaterYear() {
         this.checkNoneExisting(NumberCriterion.newYear(NumberMatch.newGreater(2008L)));
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newGreater(0L)), MOVIE_TEST_DATA.size());
     }
-    public void testLessYear() throws Exception {
+    public void testLessYear() {
         this.checkNoneExisting(NumberCriterion.newYear(NumberMatch.newLess(0L)));
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newLess(9999L)), MOVIE_TEST_DATA.size());
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newLess(2000L)), 3); // star wars 1-3
     }
-    public void testInRangeYear() throws Exception {
+    public void testInRangeYear() {
         this.checkNoneExisting(NumberCriterion.newYear(NumberMatch.newInRange(0L, 100L)));
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newInRange(0L, 9999L)), MOVIE_TEST_DATA.size());
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newInRange(1985L, 1985L)), 1); // star wars 1
@@ -130,7 +130,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    B O O L   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testBoolean() throws Exception {
+    public void testBoolean() {
         this.checkOneExisting(BoolCriterion.newSeen(BoolMatch.newEquals(Boolean.FALSE))); // zero not seen
         this.checkSomeExisting(BoolCriterion.newSeen(BoolMatch.newNotEquals(Boolean.FALSE)), 4); // zero not seen
         this.checkOneExisting(BoolCriterion.newSeen(BoolMatch.newNotEquals(Boolean.TRUE))); // zero not seen
@@ -141,7 +141,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    D A T E   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testDate() throws Exception {
+    public void testDate() {
         this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(MOVIE_INDEPENDENCE_DAY.getDateAdded())));
         this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(newDate("2008-02-14 00:00:00")))); // 2008/02/14 18:00:21
         this.checkOneExisting(DateCriterion.newDateAdded(DateMatch.newEquals(newDate("2008-02-14 23:59:57")))); // 2008/02/14 18:00:21
@@ -177,7 +177,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    R E S O L U T I O N   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testResolution() throws Exception {
+    public void testResolution() {
 //        System.out.println("Movies existing in DB:");
 //        for (Movie m : this.fetchAllMovies()) {
 //            System.out.println("- " + m);
@@ -194,7 +194,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    T E X T   M U L T I P L E   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testTextMultiple() throws Exception {
+    public void testTextMultiple() {
         this.checkSomeExisting(TextMultipleCriterion.newActors(TextMultipleMatch.newContains("John")), 2);
         this.checkSomeExisting(TextMultipleCriterion.newActors(TextMultipleMatch.newContains("joh")),  2);
         this.checkSomeExisting(TextMultipleCriterion.newActors(TextMultipleMatch.newContains("luke")), 3);
@@ -210,7 +210,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    F I L E   S I Z E   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testFileSize() throws Exception {
+    public void testFileSize() {
         this.checkSomeExisting(FileSizeCriterion.newFileSize(FileSizeMatch.newEquals    (0L)), 1);
         this.checkSomeExisting(FileSizeCriterion.newFileSize(FileSizeMatch.newEquals (4000L)), 1);
         this.checkSomeExisting(FileSizeCriterion.newFileSize(FileSizeMatch.newEquals  (100L)), 3);
@@ -223,7 +223,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    Q U A L I T Y   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testQuality() throws Exception {
+    public void testQuality() {
         this.checkSomeExisting(QualityCriterion.newQuality(QualityMatch.newEquals(Quality.UNRATED)), 1);
         this.checkSomeExisting(QualityCriterion.newQuality(QualityMatch.newEquals(Quality.UGLY)),    0);
         this.checkSomeExisting(QualityCriterion.newQuality(QualityMatch.newEquals(Quality.NORMAL)),  2);
@@ -247,7 +247,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    D U R A T I O N   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testDuration() throws Exception {
+    public void testDuration() {
         // MINOR tests: implement duration tests
     }
 
@@ -255,7 +255,7 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    R A T I N G   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testRating() throws Exception {
+    public void testRating() {
         this.checkSomeExisting(RatingCriterion.newRating(RatingMatch.newEquals(0)), 1);
         this.checkSomeExisting(RatingCriterion.newRating(RatingMatch.newEquals(1)), 0);
         this.checkSomeExisting(RatingCriterion.newRating(RatingMatch.newEquals(2)), 1);

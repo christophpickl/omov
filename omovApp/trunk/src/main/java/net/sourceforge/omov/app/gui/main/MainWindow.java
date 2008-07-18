@@ -87,7 +87,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         this.addWindowListener(new WindowAdapter() {
             @Override
 			public void windowClosing(final WindowEvent event) {
-                controller.doQuit();
+                MainWindow.this.controller.doQuit();
             }
             @Override
 			public void windowActivated(WindowEvent event) {
@@ -179,8 +179,10 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     	this.moviesTable.addTableSelectionListener(this);
     	
         this.moviesTable.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(final MouseEvent event) {
-                new GuiAction() { protected void _action() {
+            @Override
+			public void mouseClicked(final MouseEvent event) {
+                new GuiAction() { @Override
+				protected void _action() {
                     LOG.debug("mouseClicked on moviesTable: event.getButton()="+event.getButton()+"; clickCount="+event.getClickCount()+"");
                     // if(event.getButton() != MouseEvent.BUTTON1) {
                     if( (event.getModifiers() & InputEvent.BUTTON1_MASK) != InputEvent.BUTTON1_MASK) {
@@ -188,15 +190,15 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                         return;
                     }
 
-                    int tableRow = moviesTable.getSelectedRow();
+                    int tableRow = MainWindow.this.moviesTable.getSelectedRow();
                     if (tableRow > -1) {
-                        final int modelRow = moviesTable.getSelectedModelRow();
+                        final int modelRow = MainWindow.this.moviesTable.getSelectedModelRow();
 //                        selectedMovieChanged();
 
                         if (event.getClickCount() >= 2) {
                             LOG.debug("Double clicked on table tableRow "+tableRow+" (modelRow "+modelRow+"); displaying editDialog.");
                             
-                            controller.doEditMovie(moviesModel.getMovieAt(modelRow), newPrevNextMovieProvider());
+                            MainWindow.this.controller.doEditMovie(MainWindow.this.moviesModel.getMovieAt(modelRow), newPrevNextMovieProvider());
                         }
                     }
                 }}.doAction();
@@ -204,7 +206,8 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
         });
 
         this.moviesTable.addKeyListener(new GuiKeyAdapter() {
-            public void keyReleasedAction(final KeyEvent event) {
+            @Override
+			public void keyReleasedAction(final KeyEvent event) {
 				final int code = event.getKeyCode();
                 LOG.debug("main movies table got key event with code "+code+" ("+event.getKeyChar()+").");
                 
@@ -213,10 +216,10 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 	
                 	final List<Movie> selectedMovies = getSelectedMovies();
                     if(selectedMovies.size() == 1) {
-                        controller.doDeleteMovie(selectedMovies.get(0));
+                        MainWindow.this.controller.doDeleteMovie(selectedMovies.get(0));
                         
                     } else if(selectedMovies.size() > 1) {
-                        controller.doDeleteMovies(selectedMovies);
+                        MainWindow.this.controller.doDeleteMovies(selectedMovies);
                         
                     } else {
                         assert (selectedMovies.size() == 0);
@@ -227,7 +230,7 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
                 	
                 	final List<Movie> selectedMovies = getSelectedMovies();
                 	if(selectedMovies.size() == 1) {
-                		controller.doPlayQuickView(selectedMovies.get(0));
+                		MainWindow.this.controller.doPlayQuickView(selectedMovies.get(0));
                 	} else {
                 		LOG.debug("Can not quickview because selected movies != 1, but: " + selectedMovies.size());
                 		Toolkit.getDefaultToolkit().beep();
@@ -323,16 +326,16 @@ public class MainWindow extends JFrame implements IMovieTableContextMenuListener
     }
 
     IPrevNextMovieProvider newPrevNextMovieProvider() {
-        LOG.debug("creating new IPrevNextMovieProvider (count="+moviesModel.getRowCount()+"; initial row="+moviesTable.getSelectedRow()+")");
+        LOG.debug("creating new IPrevNextMovieProvider (count="+this.moviesModel.getRowCount()+"; initial row="+this.moviesTable.getSelectedRow()+")");
         return new IPrevNextMovieProvider() {
             public int getCountIndices() {
-                return moviesModel.getRowCount();
+                return MainWindow.this.moviesModel.getRowCount();
             }
             public int getInitialIndex() {
-                return moviesTable.getSelectedRow();
+                return MainWindow.this.moviesTable.getSelectedRow();
             }
             public Movie getMovieAt(int tableRow) {
-                return moviesModel.getMovieAt(moviesTable.convertRowIndexToModel(tableRow));
+                return MainWindow.this.moviesModel.getMovieAt(MainWindow.this.moviesTable.convertRowIndexToModel(tableRow));
             }
         };
     }

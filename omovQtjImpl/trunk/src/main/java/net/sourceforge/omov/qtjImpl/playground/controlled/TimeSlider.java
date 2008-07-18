@@ -55,13 +55,14 @@ public class TimeSlider extends JSlider {
 		
 //		private int margin = 1;
 		
+		@Override
 		public void paint(Graphics g1, JComponent c){
 	        Graphics2D g = (Graphics2D)g1;
 	        JSlider slider = (JSlider)c;
 	        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 	                RenderingHints.VALUE_ANTIALIAS_ON);
 
-	        BoundedRangeModel model = slider.getModel();
+//	        final BoundedRangeModel model = slider.getModel();
 	        
 	        
 //	        double size = getSize(slider);
@@ -93,7 +94,7 @@ public class TimeSlider extends JSlider {
 	    }
 		
 		
-		private final int margin = 1;
+//		private final int margin = 1;
 //	    public Dimension getPreferredSize(JComponent c){
 //	        JSlider slider = (JSlider)c;
 //	        int size = 16;
@@ -127,10 +128,12 @@ public class TimeSlider extends JSlider {
 
 	    private MouseInputListener mouseListener;
 	    protected class ShapeML extends MouseInputAdapter{
-	        public void mouseClicked(MouseEvent evt){
+	        @Override
+			public void mouseClicked(MouseEvent evt){
 	            select((JSlider)evt.getSource(), evt.getX(), evt.getY());
 	        }
-	        public void mouseDragged(MouseEvent evt){
+	        @Override
+			public void mouseDragged(MouseEvent evt){
 	            select((JSlider)evt.getSource(), evt.getX(), evt.getY());
 	        }
 	    }
@@ -157,7 +160,8 @@ public class TimeSlider extends JSlider {
 
 	    private KeyListener keyListener;
 	    protected class ShapeKL extends KeyAdapter{
-	        public void keyPressed(KeyEvent evt){
+	        @Override
+			public void keyPressed(KeyEvent evt){
 	            pressed(evt);
 	        }
 	    }
@@ -165,7 +169,7 @@ public class TimeSlider extends JSlider {
 	        JSlider slider = (JSlider)evt.getSource();
 	        BoundedRangeModel model = slider.getModel();
 	        int pos = model.getValue();
-	        int end = pos;
+//	        int end = pos;
 	        System.out.println("pressed; pos="+pos+";");
 //	        if(evt.getKeyCode()==KeyEvent.VK_RIGHT){
 //	            if(pos<model.getMaximum())
@@ -179,7 +183,7 @@ public class TimeSlider extends JSlider {
 //	        }
 	    }
 
-	    private ChangeListener changeListener;
+	    private ChangeListener myChangeListener;
 	    protected class ShapeCL implements ChangeListener{
 	        public void stateChanged(ChangeEvent e){
 	            changed(e);
@@ -193,24 +197,26 @@ public class TimeSlider extends JSlider {
 	    }
 	    
 
-	    public void installUI(JComponent c){
+	    @Override
+		public void installUI(JComponent c){
 	    	System.out.println("installUI");
 	        super.installUI(c);
-	        c.addMouseListener(mouseListener = new ShapeML());
-	        c.addMouseMotionListener(mouseListener);
+	        c.addMouseListener(this.mouseListener = new ShapeML());
+	        c.addMouseMotionListener(this.mouseListener);
 	        JSlider slider = (JSlider)c;
 	        
-	        slider.addChangeListener(changeListener = new ShapeCL());
-	        slider.addKeyListener(keyListener = new ShapeKL());
+	        slider.addChangeListener(this.myChangeListener = new ShapeCL());
+	        slider.addKeyListener(this.keyListener = new ShapeKL());
 	        
 	    }
-	    public void uninstallUI(JComponent c){
+	    @Override
+		public void uninstallUI(JComponent c){
 	        super.uninstallUI(c);
-	        c.removeMouseListener(mouseListener);
-	        c.removeMouseMotionListener(mouseListener);
+	        c.removeMouseListener(this.mouseListener);
+	        c.removeMouseMotionListener(this.mouseListener);
 	        JSlider slider = (JSlider)c;
-	        slider.removeChangeListener(changeListener);
-	        slider.removeKeyListener(keyListener);
+	        slider.removeChangeListener(this.myChangeListener);
+	        slider.removeKeyListener(this.keyListener);
 	    }
 	    
 		private Shape makeFrame(Graphics2D g) {

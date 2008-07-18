@@ -119,7 +119,8 @@ public abstract class AbstractListSuggester extends JPanel {
         if(showAddButton == true) {
             final JButton btnAdd = new JButton("add");
             btnAdd.addActionListener(new GuiActionListener() {
-                public void action(ActionEvent e) {
+                @Override
+				public void action(ActionEvent e) {
                     doAdd();
             }});
             this.add(btnAdd, BorderLayout.SOUTH);

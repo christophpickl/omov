@@ -22,48 +22,25 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.plaf.basic.BasicGraphicsUtils;
 import javax.swing.plaf.basic.BasicLabelUI;
 
-class Main {
-	public static void main(String[] args) {
-		JFrame frame = new JFrame("Main");
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				Window win = e.getWindow();
-				win.setVisible(false);
-				win.dispose();
-				System.exit(0);
-			}
-		});
-
-		frame.getContentPane().setLayout(new FlowLayout());
-
-		ImageIcon icon = new ImageIcon("dukeWave.gif");
-		JLabel l = new JLabel("This is the first line\nThis the second", icon,
-				SwingConstants.LEFT);
-		l.setUI(new MultiLineLabelUI());
-		l.setBorder(new EtchedBorder());
-		frame.getContentPane().add(l);
-
-		l = new JLabel("This \nlabel \nhas \none \nword \non \neach \nline.",
-				icon, SwingConstants.LEFT);
-		l.setHorizontalTextPosition(SwingConstants.LEFT);
-		l.setUI(new MultiLineLabelUI());
-		l.setBorder(new EtchedBorder());
-		frame.getContentPane().add(l);
-		frame.getContentPane().add(new JButton("Button"));
-		frame.pack();
-		frame.setVisible(true);
-
-	}
-}
-
 public class MultiLineLabelUI extends BasicLabelUI {
+
+
+	protected String str;
+	protected String[] strs;
+	
 	static {
 		labelUI = new MultiLineLabelUI();
 	}
 
-	protected String layoutCL(JLabel label, FontMetrics fontMetrics,
-			String text, Icon icon, Rectangle viewR, Rectangle iconR,
-			Rectangle textR) {
+	@Override
+	protected String layoutCL(
+			final JLabel label,
+			final FontMetrics fontMetrics,
+			final String text,
+			final Icon icon,
+			final Rectangle viewR,
+			final Rectangle iconR,
+			final Rectangle textR) {
 		String s = layoutCompoundLabel(label, fontMetrics,
 				splitStringByLines(text), icon, label.getVerticalAlignment(),
 				label.getHorizontalAlignment(),
@@ -291,15 +268,25 @@ public class MultiLineLabelUI extends BasicLabelUI {
 		return rettext;
 	}
 
-	protected void paintEnabledText(JLabel l, Graphics g, String s, int textX,
-			int textY) {
+	@Override
+	protected void paintEnabledText(
+			final JLabel l,
+			final Graphics g,
+			final String s,
+			final int textX,
+			final int textY) {
 		int accChar = l.getDisplayedMnemonic();
 		g.setColor(l.getForeground());
 		drawString(g, s, accChar, textX, textY);
 	}
 
-	protected void paintDisabledText(JLabel l, Graphics g, String s, int textX,
-			int textY) {
+	@Override
+	protected void paintDisabledText(
+			final JLabel l,
+			final Graphics g,
+			final String s,
+			final int textX,
+			final int textY) {
 		int accChar = l.getDisplayedMnemonic();
 		g.setColor(l.getBackground());
 		drawString(g, s, accChar, textX, textY);
@@ -310,12 +297,12 @@ public class MultiLineLabelUI extends BasicLabelUI {
 		if (s.indexOf('\n') == -1)
 			BasicGraphicsUtils.drawString(g, s, accChar, textX, textY);
 		else {
-			String[] strs = splitStringByLines(s);
+			String[] lines = splitStringByLines(s);
 			int height = g.getFontMetrics().getHeight();
 			// Only the first line can have the accel char
-			BasicGraphicsUtils.drawString(g, strs[0], accChar, textX, textY);
-			for (int i = 1; i < strs.length; i++)
-				g.drawString(strs[i], textX, textY + (height * i));
+			BasicGraphicsUtils.drawString(g, lines[0], accChar, textX, textY);
+			for (int i = 1; i < lines.length; i++)
+				g.drawString(lines[i], textX, textY + (height * i));
 		}
 	}
 
@@ -328,28 +315,63 @@ public class MultiLineLabelUI extends BasicLabelUI {
 		return new Dimension(width, fm.getHeight() * strs.length);
 	}
 
-	protected String str;
-	protected String[] strs;
+	public String[] splitStringByLines(String input) {
+		if (input.equals(this.str))
+			return this.strs;
 
-	public String[] splitStringByLines(String str) {
-		if (str.equals(this.str))
-			return strs;
-
-		this.str = str;
+		this.str = input;
 
 		int lines = 1;
 		int i, c;
-		for (i = 0, c = str.length(); i < c; i++) {
-			if (str.charAt(i) == '\n')
+		for (i = 0, c = input.length(); i < c; i++) {
+			if (input.charAt(i) == '\n')
 				lines++;
 		}
-		strs = new String[lines];
-		StringTokenizer st = new StringTokenizer(str, "\n");
+		this.strs = new String[lines];
+		StringTokenizer st = new StringTokenizer(input, "\n");
 
 		int line = 0;
 		while (st.hasMoreTokens())
-			strs[line++] = st.nextToken();
+			this.strs[line++] = st.nextToken();
 
-		return strs;
+		return this.strs;
+	}
+	
+	
+	
+	
+	
+
+	public static void main(String[] args) {
+		JFrame frame = new JFrame("Main");
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Window win = e.getWindow();
+				win.setVisible(false);
+				win.dispose();
+				System.exit(0);
+			}
+		});
+
+		frame.getContentPane().setLayout(new FlowLayout());
+
+		ImageIcon icon = new ImageIcon("dukeWave.gif");
+		JLabel l = new JLabel("This is the first line\nThis the second", icon,
+				SwingConstants.LEFT);
+		l.setUI(new MultiLineLabelUI());
+		l.setBorder(new EtchedBorder());
+		frame.getContentPane().add(l);
+
+		l = new JLabel("This \nlabel \nhas \none \nword \non \neach \nline.",
+				icon, SwingConstants.LEFT);
+		l.setHorizontalTextPosition(SwingConstants.LEFT);
+		l.setUI(new MultiLineLabelUI());
+		l.setBorder(new EtchedBorder());
+		frame.getContentPane().add(l);
+		frame.getContentPane().add(new JButton("Button"));
+		frame.pack();
+		frame.setVisible(true);
+
 	}
 }

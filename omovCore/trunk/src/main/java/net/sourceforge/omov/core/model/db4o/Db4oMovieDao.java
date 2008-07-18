@@ -70,20 +70,20 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
     
 
 
-    public Set<Movie> getMovies() throws BusinessException {
+    public Set<Movie> getMovies() {
         final ObjectSet<Movie> os = this.objectContainer.get(Movie.class);
         LOG.debug("getMovies() is returning " + os.size() + " movies");
         return new ObjectSetTransformer<Movie>().transformSet(os);
     }
 
-    public List<Movie> getMoviesSorted() throws BusinessException {
+    public List<Movie> getMoviesSorted() {
         final List<Movie> list = new ArrayList<Movie>(this.getMovies());
         Collections.sort(list, Movie.TITLE_COMPARATOR);
         return list;
     }
 
     @SuppressWarnings("serial")
-    public Movie getMovie(final long id) throws BusinessException {
+    public Movie getMovie(final long id) {
 //        ObjectSet<Movie> os = this.connection.get(newPrototypeMovieId(id));
         ObjectSet<Movie> os = this.objectContainer.query(new Predicate<Movie>() {
             public boolean match(Movie movie) {
@@ -95,12 +95,14 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
         }
         
         Movie result = os.next();
-        if(os.hasNext() == true) throw new RuntimeException("Duplicate movies found by id '"+id+"'!");
+        if(os.hasNext() == true) {
+        	throw new RuntimeException("Duplicate movies found by id '"+id+"'!");
+        }
         LOG.info("Found movie by id '"+id+"': " + result);
         return result;
     }
 
-    public List<String> getMovieLanguages() throws BusinessException {
+    public List<String> getMovieLanguages() {
         LOG.info("Getting languages...");
         final List<String> result = this.getMovieStrings(new MovieStringsExtractor() {
             public Collection<String> getStrings(Movie movie) {
@@ -110,7 +112,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
         return result;
     }
 
-    public List<String> getMovieSubtitles() throws BusinessException {
+    public List<String> getMovieSubtitles() {
         LOG.info("Getting subtitles...");
         final List<String> result = this.getMovieStrings(new MovieStringsExtractor() {
             public Collection<String> getStrings(Movie movie) {
@@ -120,7 +122,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
         return result;
     }
 
-    public List<String> getMovieDirectors() throws BusinessException {
+    public List<String> getMovieDirectors() {
         LOG.info("Getting directors...");
         final List<String> result = this.getMovieString(new MovieStringExtractor() {
             public String getString(Movie movie) {
@@ -130,7 +132,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
         return result;
     }
 
-    public List<String> getMovieActors() throws BusinessException {
+    public List<String> getMovieActors() {
         LOG.info("Getting actors...");
         final List<String> result = this.getMovieStrings(new MovieStringsExtractor() {
             public Collection<String> getStrings(Movie movie) {
@@ -140,7 +142,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
         return result;
     }
 
-    public List<String> getMovieGenres() throws BusinessException {
+    public List<String> getMovieGenres() {
         LOG.info("Getting genres...");
         return this.getMovieStrings(new MovieStringsExtractor() {
             public Collection<String> getStrings(Movie movie) {
@@ -148,7 +150,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
             }});
     }
     
-    public List<String> getMovieTitles() throws BusinessException {
+    public List<String> getMovieTitles() {
         LOG.info("Getting titles...");
         return this.getMovieString(new MovieStringExtractor() {
             public String getString(Movie movie) {
@@ -156,7 +158,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
             }});
     }
 
-    public List<String> getMovieStyles() throws BusinessException {
+    public List<String> getMovieStyles() {
         LOG.info("Getting styles...");
         return this.getMovieString(new MovieStringExtractor() {
             public String getString(Movie movie) {
@@ -164,7 +166,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
             }});
     }
 
-    public List<String> getMovieFolderPaths() throws BusinessException {
+    public List<String> getMovieFolderPaths() {
         LOG.info("Getting folderpaths...");
         return this.getMovieString(new MovieStringExtractor() {
             public String getString(Movie movie) {
@@ -174,7 +176,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
     
 
 
-    public Movie insertMovie(Movie insertMovie) throws BusinessException {
+    public Movie insertMovie(Movie insertMovie) {
         LOG.info("Inserting movie: " + insertMovie);
         
         final int id = this.getNextMovieId();
@@ -194,7 +196,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
 
 
 
-    public List<Movie> insertMovies(List<Movie> insertMovies) throws BusinessException {
+    public List<Movie> insertMovies(List<Movie> insertMovies) {
         final boolean wasAutoComitEnabled = this.isAutoCommit();
         
         this.setAutoCommit(false);
@@ -236,7 +238,7 @@ public class Db4oMovieDao extends AbstractDb4oDao implements IMovieDao {
     
 
     
-    public void deleteMovie(Movie deletingMovie) throws BusinessException {
+    public void deleteMovie(Movie deletingMovie) {
         LOG.info("deleteMovie("+deletingMovie+")");
         
         final Movie found = this.getMovie(deletingMovie.getId());
@@ -262,7 +264,7 @@ List <Cat> cats = db.query(new Predicate<Cat>() {
 
 
     @SuppressWarnings("unchecked")
-    public List<Movie> getMoviesBySmartFolder(SmartFolder smartFolder) throws BusinessException {
+    public List<Movie> getMoviesBySmartFolder(SmartFolder smartFolder) {
         LOG.info("getting movies by smartFolder: " + smartFolder);
         final Query query = this.objectContainer.query();
         query.constrain(Movie.class);
@@ -316,7 +318,7 @@ List <Cat> cats = db.query(new Predicate<Cat>() {
     }
     
 
-    private List<String> getMovieString(MovieStringExtractor extractor) throws BusinessException {
+    private List<String> getMovieString(MovieStringExtractor extractor) {
         final Set<String> strings = new HashSet<String>();
         for (Movie movie : this.getMovies()) {
             String s = extractor.getString(movie);
@@ -329,7 +331,7 @@ List <Cat> cats = db.query(new Predicate<Cat>() {
         return Collections.unmodifiableList(result);
     }
     
-    private List<String> getMovieStrings(MovieStringsExtractor extractor) throws BusinessException {
+    private List<String> getMovieStrings(MovieStringsExtractor extractor) {
         final Set<String> strings = new HashSet<String>();
         for (Movie movie : this.getMovies()) {
             strings.addAll(extractor.getStrings(movie));

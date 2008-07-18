@@ -32,7 +32,6 @@ import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.core.util.FileUtil;
 import net.sourceforge.omov.gui.table.WidthedTableColumn;
 
 import org.apache.commons.logging.Log;

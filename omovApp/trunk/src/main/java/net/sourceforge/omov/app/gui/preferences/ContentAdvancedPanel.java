@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
-import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.PreferencesDao;
 
 import org.apache.commons.logging.Log;
@@ -42,7 +41,7 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
 
         this.inpStartupVersion = new AbstractPreferencesBooleanFieldX(owner, PreferencesDao.getInstance().isStartupVersionCheck(), "Check at startup") {
 			@Override
-			void saveData() throws BusinessException {
+			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpStartupVersion.setVisibleData(CONF.isStartupVersionCheck()); // reset value
@@ -57,7 +56,7 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
         
         this.inpStartupFileSystem = new AbstractPreferencesBooleanFieldX(owner, PreferencesDao.getInstance().isStartupFilesystemCheck(), "Check at startup") {
 			@Override
-			void saveData() throws BusinessException {
+			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpStartupFileSystem.setVisibleData(CONF.isStartupFilesystemCheck()); // reset value
@@ -72,7 +71,7 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
         // ---------------------------------------------------------------------------
         
         this.inpProxyHost = new AbstractPreferencesStringFieldX(owner, PreferencesDao.getInstance().getProxyHost(), 10) {
-			void saveData() throws BusinessException {
+			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpProxyHost.setVisibleData(CONF.getProxyHost()); // reset value
@@ -86,7 +85,7 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
         
         this.inpProxyPort = new AbstractPreferencesIntFieldX(owner, PreferencesDao.getInstance().getProxyPort(), 0L, 65535L, 4) {
 			@Override
-			void saveData() throws BusinessException {
+			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpProxyPort.setVisibleData(CONF.getProxyPort()); // reset value
@@ -101,7 +100,7 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
         
         this.inpProxyEnabled = new AbstractPreferencesBooleanFieldX(owner, PreferencesDao.getInstance().isProxyEnabled(), null) {
 			@Override
-			void saveData() throws BusinessException {
+			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpProxyEnabled.setVisibleData(CONF.isProxyEnabled()); // reset value

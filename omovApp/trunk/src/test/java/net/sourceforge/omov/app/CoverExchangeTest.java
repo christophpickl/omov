@@ -27,7 +27,7 @@ import junit.framework.TestCase;
  */
 public class CoverExchangeTest extends TestCase {
 
-    public void testSimpleExchange() throws Exception {
+    public void testSimpleExchange() {
 
         // insert movie (no cover set)
         // update movie (set cover)
@@ -37,14 +37,14 @@ public class CoverExchangeTest extends TestCase {
 
     }
 
-    public void xtestScanAndEnhanceExchange() throws Exception {
+    public void xtestScanAndEnhanceExchange() {
         // create new folder
         // scan it
         // import it
         // check if proper file is existing
     }
 
-    public void xtestEnhanceExisting() throws Exception {
+    public void xtestEnhanceExisting() {
         // create movie with set cover
         // afterwards enhance that movie
         // - coverfile should be replaced (?)

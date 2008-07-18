@@ -35,7 +35,7 @@ public class WebSearchWorker<O extends Movie> extends SwingWorker<List<WebSearch
 	}
 	
 	@Override
-	protected List<WebSearchResult> doInBackground() throws Exception {
+	protected List<WebSearchResult> doInBackground() {
 		LOG.debug("doInBackground() started");
 
         try {

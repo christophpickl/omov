@@ -40,8 +40,8 @@ import javax.swing.JRadioButton;
 import javax.swing.WindowConstants;
 import javax.swing.border.CompoundBorder;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.export.ComboMovieSelection.MovieSelectionMode;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
@@ -51,7 +51,6 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
 
 /**
  * 
@@ -99,12 +98,12 @@ public class ExporterChooserDialog extends JDialog implements IPtEscapeDisposeRe
         this.btnHtml.addActionListener(new GuiActionListener() {
         	@Override
 			public void action(ActionEvent e) {
-	            doButtonSelected(btnHtml);
+	            doButtonSelected(ExporterChooserDialog.this.btnHtml);
 	        }});
         this.btnBackup.addActionListener(new GuiActionListener() {
         	@Override
 			public void action(ActionEvent e) {
-	           doButtonSelected(btnBackup);
+	           doButtonSelected(ExporterChooserDialog.this.btnBackup);
 	        }});
         
         
@@ -191,10 +190,12 @@ public class ExporterChooserDialog extends JDialog implements IPtEscapeDisposeRe
 
         this.getRootPane().setDefaultButton(btnConfirm);
 
-        btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent event) {
+        btnConfirm.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent event) {
             doConfirm();
         }});
-        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent event) {
+        btnCancel.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent event) {
             doCancel();
         }});
         

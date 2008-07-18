@@ -140,7 +140,8 @@ public class FileSystemCheckDialog extends JDialog {
         
         final JButton btnClose = new JButton("Close");
         this.getRootPane().setDefaultButton(btnClose);
-        btnClose.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnClose.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doClose();
         }});
         btnClose.setOpaque(false);

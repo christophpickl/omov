@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
@@ -42,7 +43,9 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class AbstractAddEditDialog<T> extends JDialog implements IPtEscapeDisposeReceiver {
 
-    private static final Log LOG = LogFactory.getLog(AbstractAddEditDialog.class);
+	private static final long serialVersionUID = 2776145376462694019L;
+
+	private static final Log LOG = LogFactory.getLog(AbstractAddEditDialog.class);
     
     private T editItem;
     
@@ -57,9 +60,10 @@ public abstract class AbstractAddEditDialog<T> extends JDialog implements IPtEsc
         this.editItem = editObject;
         this.isAddMode = editObject == null;
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -81,10 +85,12 @@ public abstract class AbstractAddEditDialog<T> extends JDialog implements IPtEsc
         btnCancel.setOpaque(false);
         btnConfirm.setOpaque(false);
         
-        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
                 doCancel();
         }});
-        btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnConfirm.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
                 doConfirm();
         }});
         
