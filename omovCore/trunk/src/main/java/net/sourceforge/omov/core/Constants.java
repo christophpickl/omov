@@ -40,6 +40,7 @@ public class Constants {
 //    /**  */
 //    private static final Color COLOR_VERY_LIGHT_GRAY = new Color(230, 230, 230);
     
+    // TODO colors partly already outsourced to jpotpourri.PtMacColors
     private static final Color COLOR_DARK_GRAY = new Color(100, 100, 100);
 
     /** table background for selected rows */

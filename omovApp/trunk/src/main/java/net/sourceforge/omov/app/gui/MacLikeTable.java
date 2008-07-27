@@ -87,6 +87,8 @@ public class MacLikeTable extends JXTable implements IPtMacColors {
         frame.setVisible(true);
     }
 
+
+    // JPOT the next section was already outsourced to jpotface -> class: PtMacLikeTable
     public MacLikeTable(TableModel model) {
         super(model);
 
@@ -116,6 +118,7 @@ public class MacLikeTable extends JXTable implements IPtMacColors {
 //        return c;
 //    }
 
+    // JPOT the next section was already outsourced to jpotface -> class: PtMacLikeTable
     public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component c = super.prepareRenderer(renderer, row, column);
 
@@ -151,6 +154,7 @@ public class MacLikeTable extends JXTable implements IPtMacColors {
         return c;
     }
 
+    // TODO JPOT the next section was already outsourced to potface -> class: TableFillEmptyRowsPainter
     // MINOR GUI - does not work properly (also, isEditing parameter is not used)
     @SuppressWarnings("unused")
     protected void fixMacOsCellRendererBorder(JComponent renderer, boolean selected, boolean focused, boolean isEditing) {
@@ -179,7 +183,7 @@ public class MacLikeTable extends JXTable implements IPtMacColors {
         renderer.setBorder(border);
     }
 
-    // TODO this next section was already outsourced to jpotpourri (potface?!) -> class: TableFillEmptyRowsPainter
+    // JPOT the next section was already outsourced to potface -> class: TableFillEmptyRowsPainter
     /******************************************************************************************************************/
     /** PAINT EMPTY ROWS
     /******************************************************************************************************************/
@@ -217,6 +221,7 @@ public class MacLikeTable extends JXTable implements IPtMacColors {
         return (row % 2 == 0) ? Constants.getColorRowBackgroundOdd() : getBackground();
     }
 
+    // TODO JPOT not yet outsourced...
     /******************************************************************************************************************/
     /** POSITION TOOLTIP
     /******************************************************************************************************************/
