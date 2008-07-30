@@ -1,7 +1,7 @@
 package net.sourceforge.omov.qtjApi;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.common.VersionMajorMinor;
+import net.sourceforge.omov.core.VersionMajorMinor;
 
 public interface IQtjSessionManager {
 

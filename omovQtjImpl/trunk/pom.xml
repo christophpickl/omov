@@ -4,7 +4,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sourceforge.omov.qtjImpl</groupId>
+	<groupId>net.sourceforge.omov</groupId>
 	<artifactId>omovQtjImpl</artifactId>
 	<packaging>jar</packaging>
 	<version>0.6-Beta</version>
@@ -25,17 +25,21 @@
 	<dependencies>
 	
 		<dependency>
-			<groupId>net.sourceforge.omov.core</groupId>
+			<groupId>net.sourceforge.omov</groupId>
 			<artifactId>omovCore</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
+		</dependency>
+	
+		<dependency>
+			<groupId>net.sourceforge.omov</groupId>
+			<artifactId>omovGuiCore</artifactId>
+			<version>0.6-Beta</version>
 		</dependency>
 		
 		<dependency>
-			<groupId>net.sourceforge.omov.qtjApi</groupId>
+			<groupId>net.sourceforge.omov</groupId>
 			<artifactId>omovQtjApi</artifactId>
 			<version>0.6-Beta</version>
-			<scope>compile</scope>
 		</dependency>
         
         <dependency>
@@ -45,25 +49,5 @@
         </dependency>
 		
 	</dependencies>
-
-
-	<!-- =================================================================== -->
-	<!-- Build                                                               -->
-	<!-- =================================================================== -->
-
-	<build>
-		<plugins>
-		
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			
-		</plugins>
-	</build>
 	
 </project>

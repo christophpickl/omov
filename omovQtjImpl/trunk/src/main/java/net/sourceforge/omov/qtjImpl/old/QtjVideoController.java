@@ -32,7 +32,7 @@ import javax.swing.JComponent;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.guicore.GuiAction;
 import net.sourceforge.omov.qtjImpl.QtjSessionManager;
 import net.sourceforge.omov.qtjImpl.QtjUtil;
 import quicktime.QTException;

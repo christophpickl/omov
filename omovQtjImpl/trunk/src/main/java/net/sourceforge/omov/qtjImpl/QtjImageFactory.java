@@ -4,7 +4,7 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import net.sourceforge.omov.gui.CoreImageFactory;
+import net.sourceforge.omov.guicore.CoreImageFactory;
 
 public class QtjImageFactory extends CoreImageFactory {
 

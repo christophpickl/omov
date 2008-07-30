@@ -20,7 +20,7 @@
 package net.sourceforge.omov.qtjImpl;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.common.VersionMajorMinor;
+import net.sourceforge.omov.core.VersionMajorMinor;
 import net.sourceforge.omov.qtjApi.IQtjSessionManager;
 
 import org.apache.commons.logging.Log;

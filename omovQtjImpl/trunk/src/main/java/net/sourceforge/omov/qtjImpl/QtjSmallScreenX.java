@@ -42,7 +42,7 @@ import net.sourceforge.jpotpourri.jpotface.button.PtPressableButton;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtTimeUtil;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.guicore.GuiAction;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.IVideoPlayerListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;

@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.guicore.GuiAction;
 import net.sourceforge.omov.qtjImpl.ISmallFullScreenConstants;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory;
 import net.sourceforge.omov.qtjImpl.QtjImageFactory.ButtonSmallScreenIcon;

@@ -37,8 +37,8 @@ import javax.swing.JPanel;
 
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.GuiActionListener;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX;
 import net.sourceforge.omov.qtjImpl.QtjVideoPlayerImplX.QtjState;
 

@@ -39,13 +39,13 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import net.sourceforge.jpotpourri.jpotface.PtGlobalKey;
 import net.sourceforge.jpotpourri.jpotface.IPtGlobalKeyListener;
+import net.sourceforge.jpotpourri.jpotface.PtGlobalKey;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtTimeUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.guicore.GuiAction;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 
 import org.apache.commons.logging.Log;
