@@ -37,10 +37,10 @@ import net.sourceforge.jpotpourri.PtException;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IMovieDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

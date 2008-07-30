@@ -12,7 +12,7 @@ import javax.swing.ListCellRenderer;
 
 import net.sourceforge.jpotpourri.jpotface.inputfield.PtNumberField;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
-import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.util.GuiAction;
 
 import org.apache.commons.logging.Log;

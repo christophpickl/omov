@@ -23,7 +23,7 @@ import java.io.File;
 
 import net.sourceforge.jpotpourri.PtException;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
-import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

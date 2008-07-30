@@ -47,12 +47,12 @@ import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.MovieTableColumns;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.MovieTableColumns.IMovieTableColumn;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.tools.vlc.VlcPlayerFactory;
 import net.sourceforge.omov.gui.table.ITableSelectionListener;
 

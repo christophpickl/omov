@@ -48,12 +48,14 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.FatalException.FatalReason;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.common.VersionMajorMinor;
 import net.sourceforge.omov.core.model.IDataVersionDao;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
+import net.sourceforge.omov.core.prefs.AbstractPreferencesSourceMigrator;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesSourceMigratorManager;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 import net.sourceforge.omov.core.tools.FileSystemChecker;
 import net.sourceforge.omov.core.tools.TemporaryFilesCleaner;
@@ -309,9 +311,10 @@ public class App {
 
     private static boolean checkPreferenceSource() {
         LOG.debug("checking preference source...");
+        final int currentVersion = PreferencesDao.getPreferencesDataVersion();
         try {
-            final int preferenceSourceData = PreferencesDao.getInstance().getSoredVersion();
-            LOG.debug("Stored preferences source version '"+preferenceSourceData+"'; application version in use '"+PreferencesDao.DATA_VERSION+"'.");
+            final int preferenceSourceData = PreferencesDao.getInstance().getStoredVersion();
+            LOG.debug("Stored preferences source version '"+preferenceSourceData+"'; application version in use '"+currentVersion+"'.");
             if(preferenceSourceData == -1) {
                 LOG.info("Preference datasource was not yet initialized; starting setup wizard.");
                 final SetupWizard wizard = new SetupWizard();
@@ -321,35 +324,36 @@ public class App {
                     LOG.info("User aborted setup.");
                     return false;
                 }
-                assert(PreferencesDao.getInstance().getSoredVersion() == PreferencesDao.DATA_VERSION);
+                assert(PreferencesDao.getInstance().getStoredVersion() == currentVersion);
 
-            } else if(preferenceSourceData != PreferencesDao.DATA_VERSION) {
-            	PtGuiUtil.warning("Version Mismatch", "The version of the existing Preference Source ("+preferenceSourceData+")\n" +
-                                "does not match with the expected version "+PreferencesDao.DATA_VERSION+"!");
+            } else if(preferenceSourceData != currentVersion) {
 
+            	if(PreferencesSourceMigratorManager.isMigratable(preferenceSourceData, currentVersion) == true) {
+            		
+            		final AbstractPreferencesSourceMigrator<?> migrator = 
+            			PreferencesSourceMigratorManager.getMigrator(preferenceSourceData, currentVersion);
+            		migrator.migrate();
+            		
+            		PtGuiUtil.info("Preferences Source Converted", "A version mismatch was detected, but fortunately a suitable migrator was found.\n" +
+            				"Your new preferences source data version is now '" + currentVersion  + "'.");
+            	} else {
+            	
+	            	// not migratable
+	        		/* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
+	                if(OmovGuiUtil.getYesNoAnswer(null, "Preferences Source not Convertable",
+	                		"The version of the existing Preference Source ("+preferenceSourceData+")\n" +
+	                        "does not match with the expected version "+currentVersion+"!\n" +
+	                        "Do you want to delete the old Preferences Source data\n" +
+	                        "and shutdown OurMovies to immediately take effect?") == true) {
+	                    PreferencesDao.getInstance().clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
+	                    
+	                    App.restartApplication(); // will invoke System.exit(0);
+	                }
+	                LOG.trace("checkPreferenceSource returning false.");
+	                return false;
+            	}
 
-
-                // MANTIS [23] startup preference source data converter, if available
-                // MANTIS [23] writer automatic converter v1 to v2 for Preferences Source, because new field 'should check application version at startup'
-
-//                PreferenceSourceConverter converter = new PreferenceSourceConverter(preferenceSourceData, PreferencesDao.DATA_VERSION);
-//                if(converter.isConvertable() == true) {
-//                    final IConverter realConverter = converter.getConverter();
-//                    realConverter.convertSource(PreferencesDao.getInstance());
-//                    LOG.info("Converted preferences source with converter '"+realConverter.getClass().getSimpleName()+"'.");
-//                    return true;
-//                }
-
-                /* show confirm popup: user should either select to reset/delete all pref data, or: just abort and get a list of compatible OurMovies versions (could use old app and write down old preference values) */
-                if(OmovGuiUtil.getYesNoAnswer(null, "Data not convertable", "Do you want to delete the old Preferences Source data\nand shutdown OurMovies to immediately take effect?") == true) {
-                    PreferencesDao.clearPreferences(); // otherwise clear all stored data and shutdown app by returning false
-                    PtGuiUtil.info("Prefenceres Data cleared", "Data reset succeeded.\nOurMovies will now shutdown, please restart it manually afterwards.");
-                }
-
-                return false;
-
-
-            } else if(preferenceSourceData == PreferencesDao.DATA_VERSION) {
+            } else if(preferenceSourceData == currentVersion) {
                 LOG.debug("Perferences source dataversion is compatible; nothing to do.");
 
             } else {

@@ -24,10 +24,10 @@ import java.io.IOException;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.FatalException.FatalReason;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.model.IDatabaseConnection;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
 
 import org.apache.commons.logging.Log;

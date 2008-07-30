@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import net.sourceforge.omov.app.App;
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.AbstractPreferencesContent;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.util.LanguageUtil;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.GuiActionListener;

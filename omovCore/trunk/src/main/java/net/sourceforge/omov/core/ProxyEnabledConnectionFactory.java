@@ -7,6 +7,8 @@ import java.net.SocketAddress;
 import java.net.URL;
 import java.net.URLConnection;
 
+import net.sourceforge.omov.core.prefs.PreferencesDao;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

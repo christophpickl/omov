@@ -29,7 +29,7 @@ import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.AppImageFactory.PrefToolBarIcon;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.tools.FileSystemChecker;
 import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
 import net.sourceforge.omov.core.util.GuiAction;
@@ -78,7 +78,7 @@ public class PreferencesWindowController implements ActionListener {
     }
     
     public void doClearPreferences() throws BusinessException {
-        PreferencesDao.clearPreferences();
+        PreferencesDao.getInstance().clearPreferences();
     }
     
     public void doCheckApplicationVersion() {
@@ -129,7 +129,7 @@ public class PreferencesWindowController implements ActionListener {
                     
                     try {
                         doClearPreferences();
-                        mainController.doQuit(); // do only quit, if clearing preferences was successfull
+                        mainController.doQuit(); // MINOR do only quit, if clearing preferences was successfull
                         
                     } catch (BusinessException e) {
                         LOG.error("Could not clear preferences!", e);

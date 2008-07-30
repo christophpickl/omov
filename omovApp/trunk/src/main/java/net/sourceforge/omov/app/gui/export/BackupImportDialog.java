@@ -46,7 +46,7 @@ import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.tools.export.ImportExportConstants;
 import net.sourceforge.omov.core.util.GuiAction;
 

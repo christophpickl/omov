@@ -54,8 +54,8 @@ import javax.swing.filechooser.FileFilter;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.CoverFileType;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.util.ImageUtil;
 import net.sourceforge.omov.gui.ImagePanel;
 

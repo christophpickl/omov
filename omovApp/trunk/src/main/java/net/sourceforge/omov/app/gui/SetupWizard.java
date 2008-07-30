@@ -40,8 +40,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
 import net.sourceforge.jpotpourri.jpotface.chooser.PtDirectoryChooser;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
@@ -50,7 +50,8 @@ import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.PreferencesDao;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
+import net.sourceforge.omov.core.prefs.v5.PreferencesData;
 import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
 import net.sourceforge.omov.gui.GuiActionListener;
 import net.sourceforge.omov.gui.OmovGuiUtil;
@@ -287,8 +288,12 @@ public class SetupWizard extends JDialog implements IPtEscapeDisposeReceiver {
         final LanguageCode language = LanguageCode.ENGLISH; // by default
         
         // finally store entered values in preferences source
-        PreferencesDao.getInstance().setPreferences(folderCovers, folderTemporary, folderData, username,
-        		startupVersionCheck, startupFilesystemCheck, proxyHost, proxyPort, proxyEnabled, language);
+        PreferencesDao.getInstance().setPreferences(
+        	PreferencesData.newBySetupWizard(
+        		folderCovers, folderTemporary, folderData, username,
+        		startupVersionCheck, startupFilesystemCheck,
+        		proxyHost, proxyPort, proxyEnabled,
+        		language));
         
         // delete temporary msi install hint file (if existing)
         final File installedByMsiFile = new File("installed_by_msi");

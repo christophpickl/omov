@@ -27,8 +27,8 @@ import javax.swing.JOptionPane;
 
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.tools.export.ExporterBackup;
 import net.sourceforge.omov.core.tools.export.ExporterHtml;
 import net.sourceforge.omov.core.tools.export.HtmlColumn;

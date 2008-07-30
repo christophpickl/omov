@@ -45,11 +45,11 @@ import net.sourceforge.omov.app.gui.comp.suggester.MovieStyleTextSuggester;
 import net.sourceforge.omov.app.gui.comp.suggester.MovieTitleTextSuggester;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 import net.sourceforge.omov.core.tools.scan.ScannedMovie;
 import net.sourceforge.omov.gui.list.IDataList;
 
