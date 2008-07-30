@@ -23,9 +23,9 @@ import javax.swing.JFrame;
 
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.model.ISmartFolderDao;
+import net.sourceforge.omov.core.imodel.ISmartFolderDao;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

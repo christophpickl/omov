@@ -30,7 +30,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 /**
  * 

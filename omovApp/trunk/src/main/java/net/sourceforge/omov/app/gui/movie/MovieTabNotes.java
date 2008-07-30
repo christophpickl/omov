@@ -32,7 +32,7 @@ import javax.swing.JTextArea;
 
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 
 /**
  * 

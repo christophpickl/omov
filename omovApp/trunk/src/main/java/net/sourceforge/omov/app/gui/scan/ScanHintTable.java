@@ -31,8 +31,8 @@ import javax.swing.table.TableColumn;
 
 import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.common.Severity;
-import net.sourceforge.omov.core.tools.scan.ScanHint;
+import net.sourceforge.omov.core.Severity;
+import net.sourceforge.omov.logic.tools.scan.ScanHint;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

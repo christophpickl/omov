@@ -43,9 +43,9 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
-import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.tools.scan.ScannedMovie;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

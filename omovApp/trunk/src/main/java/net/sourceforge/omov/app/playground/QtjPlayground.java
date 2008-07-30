@@ -23,7 +23,7 @@ import java.io.File;
 
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.model.IMovieDao;
+import net.sourceforge.omov.core.imodel.IMovieDao;
 import net.sourceforge.omov.qtjApi.IQtjVideoPlayer;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 

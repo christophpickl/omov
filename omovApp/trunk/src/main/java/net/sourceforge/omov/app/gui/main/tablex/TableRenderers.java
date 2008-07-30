@@ -34,13 +34,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import net.sourceforge.jpotpourri.util.PtDurationUtil;
 import net.sourceforge.omov.app.gui.comp.rating.RatingSlider;
-import net.sourceforge.omov.core.ColumnsCoverFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.MovieTableColumns;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
+import net.sourceforge.omov.logic.ColumnsCoverFactory;
+import net.sourceforge.omov.logic.MovieTableColumns;
 
 /**
  * 

@@ -22,7 +22,7 @@ package net.sourceforge.omov.app.gui.comp.suggester;
 import java.util.List;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.model.IntimeMovieDatabaseList;
+import net.sourceforge.omov.core.imodel.IntimeMovieDatabaseList;
 
 /**
  * 

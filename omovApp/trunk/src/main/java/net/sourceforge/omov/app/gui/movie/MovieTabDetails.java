@@ -54,11 +54,11 @@ import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.MovieFolderInfo;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.core.tools.scan.Scanner;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.tools.scan.ScannedMovie;
+import net.sourceforge.omov.logic.tools.scan.Scanner;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

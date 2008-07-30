@@ -27,8 +27,8 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.tools.doubletten.DoublettenSet;
-import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
+import net.sourceforge.omov.logic.tools.doubletten.DoublettenSet;
+import net.sourceforge.omov.logic.tools.doubletten.DuplicatesFinder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

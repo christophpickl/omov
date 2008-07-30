@@ -55,8 +55,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableColumn;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.button.PtContextMenuButton;
 import net.sourceforge.jpotpourri.jpotface.table.IPtTableBodyContextListener;
 import net.sourceforge.jpotpourri.jpotface.table.PtTableBodyContext;
@@ -69,11 +69,11 @@ import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.Icon16x16;
 import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.tools.scan.ScanHint;
-import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.gui.GuiKeyAdapter;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiKeyAdapter;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.tools.scan.ScanHint;
+import net.sourceforge.omov.logic.tools.scan.ScannedMovie;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;

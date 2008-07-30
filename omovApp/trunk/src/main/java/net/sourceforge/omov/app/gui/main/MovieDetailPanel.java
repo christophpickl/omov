@@ -41,10 +41,10 @@ import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.CoverFileType;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.model.IMovieDao;
-import net.sourceforge.omov.core.model.IMovieDaoListener;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.util.ImageUtil;
+import net.sourceforge.omov.core.imodel.IMovieDao;
+import net.sourceforge.omov.core.imodel.IMovieDaoListener;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.util.ImageUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

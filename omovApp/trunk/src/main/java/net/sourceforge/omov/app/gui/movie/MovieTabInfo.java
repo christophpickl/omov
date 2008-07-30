@@ -49,9 +49,9 @@ import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Quality;
 import net.sourceforge.omov.core.bo.Resolution;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.gui.list.IDataList;
+import net.sourceforge.omov.guicore.list.IDataList;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.tools.scan.ScannedMovie;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

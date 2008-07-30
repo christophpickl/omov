@@ -49,11 +49,11 @@ import net.sourceforge.omov.app.gui.main.tablex.MovieTableX;
 import net.sourceforge.omov.app.gui.smartfolder.SmartFolderSelectionPanel;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.osx.OSXAdapter;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.GuiKeyAdapter;
-import net.sourceforge.omov.gui.OmovGuiUtil;
-import net.sourceforge.omov.gui.table.ITableSelectionListener;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.GuiKeyAdapter;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.guicore.table.ITableSelectionListener;
+import net.sourceforge.omov.logic.tools.osx.OSXAdapter;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 
 import org.apache.commons.logging.Log;

@@ -55,9 +55,9 @@ import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.CoverFileType;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.util.ImageUtil;
-import net.sourceforge.omov.gui.ImagePanel;
+import net.sourceforge.omov.guicore.ImagePanel;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.util.ImageUtil;
 
 import org.apache.log4j.Logger;
 

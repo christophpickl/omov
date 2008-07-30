@@ -26,8 +26,8 @@ import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.core.common.Severity;
-import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
+import net.sourceforge.omov.core.Severity;
+import net.sourceforge.omov.logic.tools.smartcopy.SmartCopyPreprocessResult;
 
 /**
  * 

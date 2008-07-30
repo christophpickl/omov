@@ -34,7 +34,7 @@ import javax.swing.JButton;
 
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

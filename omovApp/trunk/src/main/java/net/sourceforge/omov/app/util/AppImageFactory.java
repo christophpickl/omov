@@ -5,9 +5,9 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import net.sourceforge.omov.core.Icon16x16;
-import net.sourceforge.omov.core.common.Severity;
-import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
-import net.sourceforge.omov.gui.CoreImageFactory;
+import net.sourceforge.omov.core.LanguageCode;
+import net.sourceforge.omov.core.Severity;
+import net.sourceforge.omov.guicore.CoreImageFactory;
 
 public class AppImageFactory extends CoreImageFactory {
 

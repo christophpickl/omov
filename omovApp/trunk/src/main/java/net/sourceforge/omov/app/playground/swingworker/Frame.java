@@ -26,7 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 import org.jdesktop.swingworker.SwingWorker;
 

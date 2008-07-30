@@ -20,8 +20,8 @@
 package net.sourceforge.omov.app.gui.smartcopy;
 
 import net.sourceforge.jpotpourri.util.PtFileUtil;
-import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
-import net.sourceforge.omov.core.tools.smartcopy.SmartCopy;
+import net.sourceforge.omov.logic.tools.smartcopy.ISmartCopyListener;
+import net.sourceforge.omov.logic.tools.smartcopy.SmartCopy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

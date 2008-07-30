@@ -42,12 +42,12 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.list.MacLikeList;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.guicore.list.MacLikeList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

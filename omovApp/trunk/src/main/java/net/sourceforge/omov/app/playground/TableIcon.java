@@ -37,7 +37,7 @@ import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 /**
  * 

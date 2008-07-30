@@ -17,13 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

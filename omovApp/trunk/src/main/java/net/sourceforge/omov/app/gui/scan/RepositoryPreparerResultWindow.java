@@ -38,16 +38,16 @@ import javax.swing.JTable;
 import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.tools.scan.PreparerHint;
-import net.sourceforge.omov.core.tools.scan.RepositoryPreparer.PreparerResult;
-import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.tools.scan.PreparerHint;
+import net.sourceforge.omov.logic.tools.scan.RepositoryPreparer.PreparerResult;
 
 /**
  * 

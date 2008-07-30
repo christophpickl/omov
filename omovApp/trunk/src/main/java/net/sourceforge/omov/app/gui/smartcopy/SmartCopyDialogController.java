@@ -32,11 +32,11 @@ import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.smartcopy.ISmartCopyListener;
-import net.sourceforge.omov.core.tools.smartcopy.SmartCopy;
-import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.tools.smartcopy.ISmartCopyListener;
+import net.sourceforge.omov.logic.tools.smartcopy.SmartCopy;
+import net.sourceforge.omov.logic.tools.smartcopy.SmartCopyPreprocessResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

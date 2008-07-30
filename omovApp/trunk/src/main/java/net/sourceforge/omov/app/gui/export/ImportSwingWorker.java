@@ -19,8 +19,8 @@
 
 package net.sourceforge.omov.app.gui.export;
 
-import net.sourceforge.omov.core.tools.export.ImportProcessResult;
-import net.sourceforge.omov.core.tools.export.ImporterBackup;
+import net.sourceforge.omov.logic.tools.export.ImportProcessResult;
+import net.sourceforge.omov.logic.tools.export.ImporterBackup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

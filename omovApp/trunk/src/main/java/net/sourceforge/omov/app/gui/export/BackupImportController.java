@@ -25,9 +25,9 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
-import net.sourceforge.omov.core.tools.export.ImportProcessResult;
-import net.sourceforge.omov.core.tools.export.ImporterBackup;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.tools.export.ImportProcessResult;
+import net.sourceforge.omov.logic.tools.export.ImporterBackup;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -29,11 +29,11 @@ import net.sourceforge.omov.app.gui.FileSystemCheckDialog;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.app.util.AppImageFactory.PrefToolBarIcon;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.tools.FileSystemChecker;
-import net.sourceforge.omov.core.tools.FileSystemChecker.FileSystemCheckResult;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.tools.FileSystemChecker;
+import net.sourceforge.omov.logic.tools.FileSystemChecker.FileSystemCheckResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

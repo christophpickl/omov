@@ -39,8 +39,8 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableCellRenderer;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.gui.doubletten.DuplicatesTableModel.DuplicatesColumn;
@@ -48,9 +48,9 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.tools.doubletten.DuplicatesFinder;
-import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.tools.doubletten.DuplicatesFinder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

@@ -50,11 +50,11 @@ import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.prefs.v5.PreferencesData;
-import net.sourceforge.omov.core.util.LanguageUtil.LanguageCode;
-import net.sourceforge.omov.gui.GuiActionListener;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.core.LanguageCode;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.prefs.v5.PreferencesData;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

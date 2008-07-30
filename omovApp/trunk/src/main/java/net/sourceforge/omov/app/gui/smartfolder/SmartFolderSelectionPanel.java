@@ -37,11 +37,11 @@ import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.Msg;
-import net.sourceforge.omov.core.Msg.MsgKey;
-import net.sourceforge.omov.core.model.ISmartFolderDaoListener;
+import net.sourceforge.omov.core.imodel.ISmartFolderDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
+import net.sourceforge.omov.logic.Msg;
+import net.sourceforge.omov.logic.Msg.MsgKey;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

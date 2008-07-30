@@ -41,8 +41,8 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
 import net.sourceforge.jpotpourri.jpotface.chooser.PtDirectoryChooser;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
@@ -50,7 +50,7 @@ import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.app.gui.MacLikeTable;
 import net.sourceforge.omov.app.gui.main.MainWindowController;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.tools.smartcopy.SmartCopyPreprocessResult;
+import net.sourceforge.omov.logic.tools.smartcopy.SmartCopyPreprocessResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

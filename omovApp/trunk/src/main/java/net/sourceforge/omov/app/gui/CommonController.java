@@ -33,7 +33,7 @@ import net.sourceforge.omov.app.gui.webdata.WebSearchProgress;
 import net.sourceforge.omov.app.gui.webdata.WebSearchResultsDialog;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 import net.sourceforge.omov.qtjApi.QtjFactory;
 import net.sourceforge.omov.webApi.WebSearchResult;
 

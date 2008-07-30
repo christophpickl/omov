@@ -34,8 +34,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import net.sourceforge.omov.core.tools.export.HtmlColumn;
-import net.sourceforge.omov.gui.LabeledComponent;
+import net.sourceforge.omov.guicore.LabeledComponent;
+import net.sourceforge.omov.logic.tools.export.HtmlColumn;
 
 /**
  * 

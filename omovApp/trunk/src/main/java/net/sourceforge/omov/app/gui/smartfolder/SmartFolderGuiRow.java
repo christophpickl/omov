@@ -37,7 +37,7 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
 import net.sourceforge.omov.core.smartfolder.AbstractColumnCriterion;
 import net.sourceforge.omov.core.smartfolder.SmartFolderUtil;
 import net.sourceforge.omov.core.smartfolder.TextMatch;
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

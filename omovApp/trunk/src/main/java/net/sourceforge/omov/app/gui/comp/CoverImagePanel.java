@@ -20,7 +20,7 @@
 package net.sourceforge.omov.app.gui.comp;
 
 import net.sourceforge.omov.core.bo.CoverFileType;
-import net.sourceforge.omov.gui.ImagePanel;
+import net.sourceforge.omov.guicore.ImagePanel;
 
 /**
  * 

@@ -38,7 +38,7 @@ import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 /**
  * 

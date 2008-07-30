@@ -31,8 +31,8 @@ import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.bo.CheckedMovie;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.bo.Movie.MovieField;
-import net.sourceforge.omov.core.tools.scan.ScannedMovie;
-import net.sourceforge.omov.gui.table.WidthedTableColumn;
+import net.sourceforge.omov.guicore.table.WidthedTableColumn;
+import net.sourceforge.omov.logic.tools.scan.ScannedMovie;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

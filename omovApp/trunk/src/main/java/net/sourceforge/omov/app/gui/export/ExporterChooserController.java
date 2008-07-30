@@ -28,11 +28,11 @@ import javax.swing.JOptionPane;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.tools.export.ExporterBackup;
-import net.sourceforge.omov.core.tools.export.ExporterHtml;
-import net.sourceforge.omov.core.tools.export.HtmlColumn;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.tools.export.ExporterBackup;
+import net.sourceforge.omov.logic.tools.export.ExporterHtml;
+import net.sourceforge.omov.logic.tools.export.HtmlColumn;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

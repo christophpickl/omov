@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebDataFetcherFactory;
 import net.sourceforge.omov.webApi.WebSearchResult;

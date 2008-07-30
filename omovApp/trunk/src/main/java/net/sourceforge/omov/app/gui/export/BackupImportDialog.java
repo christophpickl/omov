@@ -37,18 +37,18 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
 import net.sourceforge.jpotpourri.jpotface.chooser.PtButtonPosition;
 import net.sourceforge.jpotpourri.jpotface.chooser.PtFileChooser;
-import net.sourceforge.jpotpourri.jpotface.chooser.IPtFileDirectoryChooserListener;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.Constants;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.prefs.PreferencesDao;
-import net.sourceforge.omov.core.tools.export.ImportExportConstants;
-import net.sourceforge.omov.core.util.GuiAction;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.logic.prefs.PreferencesDao;
+import net.sourceforge.omov.logic.tools.export.ImportExportConstants;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

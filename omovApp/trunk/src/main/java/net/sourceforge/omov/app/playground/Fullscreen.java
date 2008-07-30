@@ -27,7 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
 
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 /**
  * 

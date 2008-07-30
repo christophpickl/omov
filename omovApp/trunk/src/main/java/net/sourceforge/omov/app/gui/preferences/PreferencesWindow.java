@@ -51,7 +51,7 @@ import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.Abst
 import net.sourceforge.omov.app.gui.preferences.PreferencesWindowController.PrefToolBarItem;
 import net.sourceforge.omov.app.util.AppImageFactory;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

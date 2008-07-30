@@ -38,9 +38,9 @@ import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
 import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.core.Constants;
-import net.sourceforge.omov.core.util.GuiAction;
-import net.sourceforge.omov.gui.DraggableList;
-import net.sourceforge.omov.gui.OmovGuiUtil;
+import net.sourceforge.omov.guicore.DraggableList;
+import net.sourceforge.omov.guicore.GuiAction;
+import net.sourceforge.omov.guicore.OmovGuiUtil;
 
 /**
  * 

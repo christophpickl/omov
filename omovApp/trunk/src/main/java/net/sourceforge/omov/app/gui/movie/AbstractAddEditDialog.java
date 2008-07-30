@@ -30,9 +30,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
-import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
-import net.sourceforge.omov.gui.GuiActionListener;
+import net.sourceforge.jpotpourri.jpotface.PtEscapeDisposer;
+import net.sourceforge.omov.guicore.GuiActionListener;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
