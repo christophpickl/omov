@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.core.smartfolderx;
+package net.sourceforge.omov.core.smartfolder;
 
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 
@@ -25,26 +25,13 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class TextMultipleCriterion extends AbstractColumnCriterion<TextMultipleMatch> {
+public class DateCriterion extends AbstractColumnCriterion<DateMatch> {
 
-    public static TextMultipleCriterion newSubtitles(TextMultipleMatch match) {
-        return new TextMultipleCriterion(match, MovieField.SUBTITLES);
+    public static DateCriterion newDateAdded(DateMatch match) {
+        return new DateCriterion(match, MovieField.DATE_ADDED);
     }
     
-    public static TextMultipleCriterion newActors(TextMultipleMatch match) {
-        return new TextMultipleCriterion(match, MovieField.ACTORS);
-    }
-    
-    public static TextMultipleCriterion newGenres(TextMultipleMatch match) {
-        return new TextMultipleCriterion(match, MovieField.GENRES);
-    }
-    
-    public static TextMultipleCriterion newLanguages(TextMultipleMatch match) {
-        return new TextMultipleCriterion(match, MovieField.LANGUAGES);
-    }
-    
-    
-    private TextMultipleCriterion(TextMultipleMatch match, MovieField field) {
+    private DateCriterion(DateMatch match, MovieField field) {
         super(match, field);
     }
 }

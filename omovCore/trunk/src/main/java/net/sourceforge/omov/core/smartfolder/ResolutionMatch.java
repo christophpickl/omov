@@ -17,11 +17,13 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.core.smartfolderx;
+package net.sourceforge.omov.core.smartfolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import net.sourceforge.omov.core.bo.Resolution;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,43 +35,50 @@ import com.db4o.query.Query;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class BoolMatch extends AbstractMatch<Boolean> {
+public abstract class ResolutionMatch extends AbstractMatch<Resolution> {
 
-    private static final Log LOG = LogFactory.getLog(BoolMatch.class);
+    private static final Log LOG = LogFactory.getLog(ResolutionMatch.class);
 
-    public static final String LABEL_IS = "is";
-    public static final String LABEL_IS_NOT = "is not";
-    
+    public static final String LABEL_EQUALS = "equals";
+    public static final String LABEL_GREATER = "greater";
+
     static final List<String> ALL_MATCH_LABELS;
     static {
         List<String> tmp = new ArrayList<String>();
-        tmp.add(LABEL_IS);
-        tmp.add(LABEL_IS_NOT);
+        tmp.add(LABEL_EQUALS);
+        tmp.add(LABEL_GREATER);
         ALL_MATCH_LABELS = Collections.unmodifiableList(tmp);
     }
     
-    public static BoolMatch newEquals(Boolean value) {
-        return new BoolMatch(LABEL_IS, new Boolean[] { value } ) {
+    public static ResolutionMatch newEquals(Resolution value) {
+        return new ResolutionMatch(LABEL_EQUALS, new Resolution[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
                 LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                Boolean equals = this.getValueAt(0);
+                Resolution equals = this.getValueAt(0);
                 return query.constrain(equals);
             }
         };
     }
-    public static BoolMatch newNotEquals(Boolean value) {
-        return new BoolMatch(LABEL_IS_NOT, new Boolean[] { value } ) {
+
+    /**
+     * @param value inclusive
+     */
+    public static ResolutionMatch newGreater(Resolution value) {
+        return new ResolutionMatch(LABEL_GREATER, new Resolution[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                Boolean notEquals = this.getValueAt(0);
-                return query.constrain(notEquals).not();
+                LOG.debug("Preparing greater for value '"+this.getValueAt(0)+"'.");
+                Resolution greater = this.getValueAt(0);
+                return query.descend("width").constrain(new Integer(greater.getWidth())).greater().and(
+                       query.descend("height").constrain(new Integer(greater.getHeight())).greater());
             }
         };
     }
     
-    private BoolMatch(String label, Boolean[] values) {
+    // in range?!
+    
+    private ResolutionMatch(String label, Resolution[] values) {
         super(label, values);
     }
 }

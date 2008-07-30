@@ -24,7 +24,7 @@ import java.util.Set;
 
 import net.sourceforge.omov.core.BusinessException;
 import net.sourceforge.omov.core.bo.Movie;
-import net.sourceforge.omov.core.smartfolderx.SmartFolder;
+import net.sourceforge.omov.core.smartfolder.SmartFolder;
 
 /**
  * 

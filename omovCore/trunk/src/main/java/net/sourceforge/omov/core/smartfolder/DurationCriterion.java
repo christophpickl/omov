@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.core.smartfolderx;
+package net.sourceforge.omov.core.smartfolder;
 
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 
@@ -25,13 +25,13 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class RatingCriterion extends AbstractColumnCriterion<RatingMatch> {
+public class DurationCriterion extends AbstractColumnCriterion<DurationMatch> {
 
-    public static RatingCriterion newRating(RatingMatch match) {
-        return new RatingCriterion(match, MovieField.RATING);
+    public static DurationCriterion newDuration(DurationMatch match) {
+        return new DurationCriterion(match, MovieField.DURATION);
     }
     
-    private RatingCriterion(RatingMatch match, MovieField field) {
+    private DurationCriterion(DurationMatch match, MovieField field) {
         super(match, field);
     }
 }

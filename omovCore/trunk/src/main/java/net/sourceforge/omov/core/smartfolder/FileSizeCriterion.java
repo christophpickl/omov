@@ -17,7 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.core.smartfolderx;
+package net.sourceforge.omov.core.smartfolder;
 
 import net.sourceforge.omov.core.bo.Movie.MovieField;
 
@@ -25,14 +25,13 @@ import net.sourceforge.omov.core.bo.Movie.MovieField;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public class ResolutionCriterion extends AbstractColumnCriterion<ResolutionMatch> {
+public class FileSizeCriterion extends AbstractColumnCriterion<FileSizeMatch> {
 
-    public static ResolutionCriterion newResolution(ResolutionMatch match) {
-        return new ResolutionCriterion(match, MovieField.RESOLUTION);
+    public static FileSizeCriterion newFileSize(FileSizeMatch match) {
+        return new FileSizeCriterion(match, MovieField.FILE_SIZE_KB);
     }
     
-    private ResolutionCriterion(ResolutionMatch match, MovieField field) {
+    private FileSizeCriterion(FileSizeMatch match, MovieField field) {
         super(match, field);
     }
-
 }

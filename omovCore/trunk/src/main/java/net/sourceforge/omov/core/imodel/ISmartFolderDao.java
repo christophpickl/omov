@@ -22,7 +22,7 @@ package net.sourceforge.omov.core.imodel;
 import java.util.List;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.smartfolderx.SmartFolder;
+import net.sourceforge.omov.core.smartfolder.SmartFolder;
 
 /**
  * 

@@ -17,13 +17,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-package net.sourceforge.omov.core.smartfolderx;
+package net.sourceforge.omov.core.smartfolder;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import net.sourceforge.omov.core.bo.Resolution;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,50 +33,55 @@ import com.db4o.query.Query;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
-public abstract class ResolutionMatch extends AbstractMatch<Resolution> {
+public abstract class TextMultipleMatch extends AbstractMatch<String> {
 
-    private static final Log LOG = LogFactory.getLog(ResolutionMatch.class);
+    private static final Log LOG = LogFactory.getLog(DurationMatch.class);
 
-    public static final String LABEL_EQUALS = "equals";
-    public static final String LABEL_GREATER = "greater";
+    public static final String LABEL_CONTAINS = "contains";
+    public static final String LABEL_NOT_CONTAINS = "not contains";
 
     static final List<String> ALL_MATCH_LABELS;
     static {
         List<String> tmp = new ArrayList<String>();
-        tmp.add(LABEL_EQUALS);
-        tmp.add(LABEL_GREATER);
+        tmp.add(LABEL_CONTAINS);
+        tmp.add(LABEL_NOT_CONTAINS);
         ALL_MATCH_LABELS = Collections.unmodifiableList(tmp);
     }
     
-    public static ResolutionMatch newEquals(Resolution value) {
-        return new ResolutionMatch(LABEL_EQUALS, new Resolution[] { value } ) {
+    public static TextMultipleMatch newContains(String value) {
+        return new TextMultipleMatch(LABEL_CONTAINS, new String[] { value } ) {
             @Override
             Constraint prepareDb4oQuery(Query query) {
-                LOG.debug("Preparing equals for value '"+this.getValueAt(0)+"'.");
-                Resolution equals = this.getValueAt(0);
-                return query.constrain(equals);
-            }
-        };
-    }
+                final String contains = this.getValueAt(0);
+                LOG.debug("Preparing contains for value '"+contains+"'.");
 
-    /**
-     * @param value inclusive
-     */
-    public static ResolutionMatch newGreater(Resolution value) {
-        return new ResolutionMatch(LABEL_GREATER, new Resolution[] { value } ) {
-            @Override
-            Constraint prepareDb4oQuery(Query query) {
-                LOG.debug("Preparing greater for value '"+this.getValueAt(0)+"'.");
-                Resolution greater = this.getValueAt(0);
-                return query.descend("width").constrain(new Integer(greater.getWidth())).greater().and(
-                       query.descend("height").constrain(new Integer(greater.getHeight())).greater());
+                if(contains.length() == 0) {
+                    return query.constrain(contains).equal();
+                }
+                return query.constrain(contains).like();
+                
             }
         };
     }
     
-    // in range?!
+    public static TextMultipleMatch newNotContains(String value) {
+        return new TextMultipleMatch(LABEL_NOT_CONTAINS, new String[] { value } ) {
+            @Override
+            Constraint prepareDb4oQuery(Query query) {
+                final String notContains = this.getValueAt(0);
+                LOG.debug("Preparing contains for value '"+notContains+"'.");
+
+                if(notContains.length() == 0) {
+                    return query.constrain(notContains).not().equal();
+                }
+                return query.constrain(notContains).not().like();
+                
+            }
+        };
+    }
     
-    private ResolutionMatch(String label, Resolution[] values) {
+    private TextMultipleMatch(String label, String[] values) {
         super(label, values);
     }
+
 }
