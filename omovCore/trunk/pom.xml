@@ -10,7 +10,7 @@
 	</parent>
 	
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>net.sourceforge.omov.core</groupId>
+	<groupId>net.sourceforge.omov</groupId>
 	<artifactId>omovCore</artifactId>
 	<packaging>jar</packaging>
 	<version>0.6-Beta</version>
@@ -50,68 +50,6 @@
 			<scope>compile</scope>
 		</dependency>
 		
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swingx</artifactId>
-			<version>0.9.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<!-- workaround START to also get dependencies of swingx artifact
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swing-worker</artifactId>
-			<version>1.1</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>swing-layout</artifactId>
-			<version>1.0.3</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.swinglabs</groupId>
-			<artifactId>multiplegradientpaint</artifactId>
-			<version>1.0</version>
-			<scope>compile</scope>
-		</dependency>
-		workaround END -->
-        
-        <!-- should actually not be in here... rework module structure! -->
-        <dependency>
-            <groupId>net.sourceforge.jpotpourri</groupId>
-            <artifactId>jpotface</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-		
 	</dependencies>
 
-
-	<!-- =================================================================== -->
-	<!-- Build                                                               -->
-	<!-- =================================================================== -->
-	
-	<build>
-		<plugins>
-		
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			
-		</plugins>
-
-		<!-- TODO enable processing of the src/main/resources/application.properties file
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<filtering>true</filtering>
-			</resource>
-		</resources>
-		 -->
-	</build>
 </project>

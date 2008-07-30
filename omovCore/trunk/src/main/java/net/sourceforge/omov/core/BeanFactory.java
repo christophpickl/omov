@@ -19,11 +19,10 @@
 
 package net.sourceforge.omov.core;
 
-import net.sourceforge.omov.core.common.VersionMajorMinor;
-import net.sourceforge.omov.core.model.IDataVersionDao;
-import net.sourceforge.omov.core.model.IDatabaseConnection;
-import net.sourceforge.omov.core.model.IMovieDao;
-import net.sourceforge.omov.core.model.ISmartFolderDao;
+import net.sourceforge.omov.core.imodel.IDataVersionDao;
+import net.sourceforge.omov.core.imodel.IDatabaseConnection;
+import net.sourceforge.omov.core.imodel.IMovieDao;
+import net.sourceforge.omov.core.imodel.ISmartFolderDao;
 
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
