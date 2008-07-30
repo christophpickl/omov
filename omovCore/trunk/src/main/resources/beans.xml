@@ -23,23 +23,23 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <beans>
 
 		
-	<bean id="CurrentApplicationVersion" class="net.sourceforge.omov.core.common.VersionMajorMinor"><constructor-arg>
+	<bean id="CurrentApplicationVersion" class="net.sourceforge.omov.core.VersionMajorMinor"><constructor-arg>
 		<value>0.6</value></constructor-arg></bean>
 		
 		
 		
 		
-	<bean id="IDatabaseConnection" class="net.sourceforge.omov.core.model.db4o.Db4oConnection">
+	<bean id="IDatabaseConnection" class="net.sourceforge.omov.logic.model.db4o.Db4oConnection">
 		<constructor-arg><value>omov.yap</value></constructor-arg> <!-- database filename -->
 	</bean>
 	
-	<bean id="IMovieDao" class="net.sourceforge.omov.core.model.db4o.Db4oMovieDao"><constructor-arg>
+	<bean id="IMovieDao" class="net.sourceforge.omov.logic.model.db4o.Db4oMovieDao"><constructor-arg>
 		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
 		
-	<bean id="ISmartFolderDao" class="net.sourceforge.omov.core.model.db4o.Db4oSmartFolderDao"><constructor-arg>
+	<bean id="ISmartFolderDao" class="net.sourceforge.omov.logic.model.db4o.Db4oSmartFolderDao"><constructor-arg>
 		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
 		
-	<bean id="IDataVersionDao" class="net.sourceforge.omov.core.model.db4o.Db4oDataVersionDao"><constructor-arg>
+	<bean id="IDataVersionDao" class="net.sourceforge.omov.logic.model.db4o.Db4oDataVersionDao"><constructor-arg>
 		<ref bean="IDatabaseConnection"/></constructor-arg></bean>
 
 </beans>
