@@ -15,8 +15,8 @@ import java.util.Date;
 import net.sourceforge.jpotpourri.util.PtCloseUtil;
 import net.sourceforge.jpotpourri.util.PtFileUtil;
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.PreferencesDao;
 import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
+import net.sourceforge.omov.core.prefs.PreferencesDao;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
