@@ -51,11 +51,16 @@ public class DuplicatesTableModel extends AbstractTableModel {
     static {
         final List<DuplicatesColumn> columns = new ArrayList<DuplicatesColumn>();
         
-        columns.add(new DuplicatesColumn(MovieField.ID.label(), Integer.class, 30, 30, 50) { public Object getValue(Movie movie) { return movie.getId(); }});
-        columns.add(new DuplicatesColumn(MovieField.TITLE.label(), String.class, 20, 100, -1) { public Object getValue(Movie movie) { return movie.getTitle(); }});
-        columns.add(new DuplicatesColumn(MovieField.FOLDER_PATH.label(), String.class, 20, 200, -1) { public Object getValue(Movie movie) { return movie.getFolderPath(); }});
-        columns.add(new DuplicatesColumn(MovieField.FILE_SIZE_KB.label(), String.class, 40, 40, 100) { public Object getValue(Movie movie) { return movie.getFileSizeFormatted(); }});
-        columns.add(new DuplicatesColumn(MovieField.FILES.label(), Integer.class, 30, 30, 30) { public Object getValue(Movie movie) { return movie.getFiles().size(); }});
+        columns.add(new DuplicatesColumn(MovieField.ID.label(), Long.class, 30, 30, 50) { @Override
+		public Object getValue(Movie movie) { return new Long(movie.getId()); }});
+        columns.add(new DuplicatesColumn(MovieField.TITLE.label(), String.class, 20, 100, -1) { @Override
+		public Object getValue(Movie movie) { return movie.getTitle(); }});
+        columns.add(new DuplicatesColumn(MovieField.FOLDER_PATH.label(), String.class, 20, 200, -1) { @Override
+		public Object getValue(Movie movie) { return movie.getFolderPath(); }});
+        columns.add(new DuplicatesColumn(MovieField.FILE_SIZE_KB.label(), String.class, 40, 40, 100) { @Override
+		public Object getValue(Movie movie) { return movie.getFileSizeFormatted(); }});
+        columns.add(new DuplicatesColumn(MovieField.FILES.label(), Integer.class, 30, 30, 30) { @Override
+		public Object getValue(Movie movie) { return new Integer(movie.getFiles().size()); }});
         
 //        final List<String> columnNames = new ArrayList<String>(columns.size());
 //        for (DuplicatesColumn column : columns) {
@@ -118,10 +123,12 @@ public class DuplicatesTableModel extends AbstractTableModel {
         final Movie movie = this.data.get(row);
         return COLUMNS.get(col).getValue(movie);
     }
-    public String getColumnName(final int col) {
+    @Override
+	public String getColumnName(final int col) {
         return COLUMNS.get(col).getLabel();
     }
-    public Class<?> getColumnClass(int col) {
+    @Override
+	public Class<?> getColumnClass(int col) {
         return COLUMNS.get(col).getColumnClass();
     }
 
@@ -136,7 +143,8 @@ public class DuplicatesTableModel extends AbstractTableModel {
         return this.data.size();
     }
 
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
+    @Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
     

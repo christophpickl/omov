@@ -61,7 +61,7 @@ public class DoublettenSet {
 
             if(doublettenList.contains(movie)) { // if movie we are looking for, is in this doubletten list
                 for (Movie listMovie : doublettenList) { // go through doubletten list
-                    indices.add(this.flatList.indexOf(listMovie));
+                    indices.add(new Integer(this.flatList.indexOf(listMovie)));
                 }
                 break; // assume that one movie can only occure once in a doubletten list
             }
@@ -69,7 +69,7 @@ public class DoublettenSet {
 
         final int[] result = new int[indices.size()];
         for (int i = 0; i < result.length; i++) {
-            result[i] = indices.get(i);
+            result[i] = indices.get(i).intValue();
         }
         return result;
     }
@@ -112,7 +112,7 @@ public class DoublettenSet {
                 LOG.debug("Automatically removing single left doublette: " + singleLeftDoublette);
                 this.flatList.remove(singleLeftDoublette);
 
-                listsToRemove.add(i);
+                listsToRemove.add(new Integer(i));
             }
             assert(doublettenList.size() != 0);
         }

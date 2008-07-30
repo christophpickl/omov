@@ -208,10 +208,12 @@ public class ControlledApp extends JFrame {
 		// this.timeSlider.putClientProperty("JSlider.isFilled", Boolean.TRUE); // does not work on OSX :(
 		this.timeSlider.setFocusable(false);
 		this.timeSlider.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(final MouseEvent e) {
 				System.out.println("timeSlider pressed");
 				timeSlider.setPressed(true);
 			}
+			@Override
 			public void mouseReleased(final MouseEvent e) {
 				System.out.println("timeSlider released");
 				timeSlider.setPressed(false);
@@ -277,6 +279,7 @@ public class ControlledApp extends JFrame {
 		}
 		
 	}
+	@SuppressWarnings("unused")
 	private void seek(double percent) {
 		final int newTime = (int) (maxMicros * percent);
 		System.out.println("seeking to " +percent+"% -> " + newTime + " of " + maxMicros);

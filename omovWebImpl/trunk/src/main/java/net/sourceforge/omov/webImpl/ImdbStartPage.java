@@ -40,7 +40,8 @@ class ImdbStartPage extends NodeVisitor {
     }
     
     // MINOR FEATURe websearch: some display "Popular Titles" different, because the probability is higher to be the right match
-    public void visitTag(final Tag link) {
+    @Override
+	public void visitTag(final Tag link) {
         
         
 //        debug("visiting tag '"+tag.getTagName()+"'.");

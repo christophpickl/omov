@@ -148,7 +148,8 @@ public class FolderChooseButton extends JButton implements MouseListener {
 
 
     private class ClickTimerTask extends TimerTask {
-        public void run() {
+        @Override
+		public void run() {
             if (doubleclick) {
                 doClearFolder();
             } else {

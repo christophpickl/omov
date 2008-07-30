@@ -67,7 +67,8 @@ public class ImagePanel extends JComponent {
         this.repaint();
     }
     
-    public void paintComponent(Graphics g) {
+    @Override
+	public void paintComponent(Graphics g) {
         if(this.image != null) {
             g.drawImage(this.image, 0, 0, null);
         }

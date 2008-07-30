@@ -101,7 +101,8 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doCancel();
             }
         });
@@ -115,7 +116,8 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         this.resultsList.setVisibleRowCount(RESULTS_LIST_VISIBLE_ROWS);
         this.resultsList.setCellRenderer(new MacLikeListCellRenderer() {
             private static final long serialVersionUID = -8351623948857154558L;
-            public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            @Override
+			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
                 Component superComponent = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
                 WebSearchResult searchResult = resultsListModel.getResultAt(index);
                 // render cells which were already fetched in non-bold font
@@ -183,7 +185,8 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         layout.setConstraints(panel, c);
         panel.setLayout(layout);
 
-        this.btnFetchDetailData.addActionListener(new GuiActionListener() { public void action(ActionEvent event) {
+        this.btnFetchDetailData.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent event) {
             doFetchDetailData();
         }});
         this.btnFetchDetailData.setOpaque(false);
@@ -279,10 +282,12 @@ public class WebSearchResultsDialog extends JDialog implements IFetchedWebDetail
         panel.setOpaque(false);
         JButton btnCancel = new JButton("Cancel");
         
-        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
                 doCancel();
         }});
-        this.btnConfirm.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.btnConfirm.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
                 doConfirm();
         }});
         btnCancel.setOpaque(false);

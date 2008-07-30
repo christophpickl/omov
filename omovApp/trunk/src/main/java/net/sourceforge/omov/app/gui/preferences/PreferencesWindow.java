@@ -94,7 +94,8 @@ public class PreferencesWindow extends JDialog implements IPtEscapeDisposeReceiv
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 preferencesController.doClose();
             }
         });
@@ -286,6 +287,7 @@ public class PreferencesWindow extends JDialog implements IPtEscapeDisposeReceiv
 		return this.escapeHit;
 	}
 	
+	@Override
 	public void setVisible(boolean visible) {
 		if(visible == true) {
 			// reset visible-lifetime data

@@ -115,6 +115,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 		PtGuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
 		btnPlayPause.addActionListener(new GuiActionListener() {
+			@Override
 			public void action(ActionEvent e) {
 				listener.doPlayPause();
 			}
@@ -125,6 +126,7 @@ public class QtjFloater extends JPanel implements MouseMotionListener, MouseList
 //		this.add(btnPlayPause);
 	}
 
+	@SuppressWarnings("boxing")
 	void opacityChanged(int opacity, boolean firstTime) {
 //		System.out.println("opacity = " + opacity + " (firstTime="+firstTime+")");
 		final Color fg = OPACITY_MAP.get(OPAC_COLOR_FRONT).get(opacity);

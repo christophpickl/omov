@@ -48,19 +48,22 @@ public class Fullscreen extends JWindow {
 
         JButton btnExit = new JButton("exit");
         btnExit.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 System.exit(0);
             }
         });
         JButton btnNoFullScreen = new JButton("leave full screen");
         btnNoFullScreen.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 enterFullScreen(false);
             }
         });
         JButton btnFullScreen = new JButton("enter full screen");
         btnFullScreen.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 enterFullScreen(true);
             }
         });

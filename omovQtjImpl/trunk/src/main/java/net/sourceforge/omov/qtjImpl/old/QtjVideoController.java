@@ -95,6 +95,7 @@ public class QtjVideoController {
 ////	controller.setKeysEnabled(true); // enabling the keys so the user can interact with the movie with the keyboard
 
 		this.qtjComponent.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(final MouseEvent e) {
 				new GuiAction() {
 					@Override

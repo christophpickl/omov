@@ -45,6 +45,7 @@ public class NumberRangeField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Long[] { this.numberFieldFrom.getNumber(), this.numberFieldTo.getNumber() };
+        return new Long[] { new Long(this.numberFieldFrom.getNumber()),
+        					new Long(this.numberFieldTo.getNumber()) };
     }
 }

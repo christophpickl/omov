@@ -50,7 +50,7 @@ public class BoolSingleField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Boolean[] { this.btnTrue.isSelected() };
+        return new Boolean[] { this.btnTrue.isSelected() ? Boolean.TRUE : Boolean.FALSE };
     }
     
 }

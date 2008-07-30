@@ -50,7 +50,8 @@ class ContentGeneralPanel extends AbstractPreferencesContent {
         // ---------------------------------------------------------------------------
         
         this.inpUsername = new AbstractPreferencesStringFieldX(owner, PreferencesDao.getInstance().getUsername(), 20) {
-            void saveData() {
+            @Override
+			void saveData() {
             	if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
             		inpUsername.setVisibleData(CONF.getUsername()); // reset value
@@ -106,6 +107,7 @@ class ContentGeneralPanel extends AbstractPreferencesContent {
 
 			private static final long serialVersionUID = -4269358333115253401L;
 
+			@Override
 			public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 				if (!(value instanceof LanguageCode))
 					throw new IllegalArgumentException("Argument value must be instance of LanguageCode but was '"+value.getClass().getName()+"'!");

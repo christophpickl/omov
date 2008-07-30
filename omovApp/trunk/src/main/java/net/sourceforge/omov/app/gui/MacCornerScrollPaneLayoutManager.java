@@ -47,7 +47,8 @@ public class MacCornerScrollPaneLayoutManager extends ScrollPaneLayout {
         }
     }
     
-    public void layoutContainer(Container container) {
+    @Override
+	public void layoutContainer(Container container) {
         super.layoutContainer(container);
         if(!hsb.isVisible() && vsb != null) {
             Rectangle bounds = new Rectangle(vsb.getBounds());

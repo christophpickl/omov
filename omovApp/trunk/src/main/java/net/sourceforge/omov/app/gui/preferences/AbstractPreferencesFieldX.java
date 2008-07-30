@@ -56,7 +56,7 @@ abstract class AbstractPreferencesFieldX<T, F extends JComponent> implements Foc
 		            saveData();
 //		            ----this.initialValue = this.getData();
 		        } catch (Exception e) { // BusinessException
-		        	PtGuiUtil.warning(owner, "Invalid Input", getInvalidInputString());
+		        	PtGuiUtil.warning(AbstractPreferencesFieldX.this.owner, "Invalid Input", getInvalidInputString());
 //		            ----this.setText(this.initialValue.toString());
 		        }
 			}
@@ -84,15 +84,18 @@ abstract class AbstractPreferencesStringFieldX extends AbstractPreferencesFieldX
 		
     	this.getComponent().addFocusListener(this); // hack: has to be invoked by each and every extends AbstractPreferencesFieldX
 	}
-	
+
+	@Override
 	final String getData() {
 		return this.textField.getText();
 	}
-	
+
+	@Override
 	final JTextField getComponent() {
 		return this.textField;
 	}
-	
+
+	@Override
 	final void setVisibleData(String data) {
 		this.textField.setText(data);
 	}
@@ -110,17 +113,20 @@ abstract class AbstractPreferencesIntFieldX extends AbstractPreferencesFieldX<In
 		
     	this.getComponent().addFocusListener(this); // hack: has to be invoked by each and every extends AbstractPreferencesFieldX
 	}
-	
+
+	@Override
 	final Integer getData() {
-		return (int) this.numberField.getNumber();
+		return new Integer( (int) this.numberField.getNumber());
 	}
-	
+
+	@Override
 	final PtNumberField getComponent() {
 		return this.numberField;
 	}
-	
+
+	@Override
 	final void setVisibleData(Integer data) {
-		this.numberField.setNumber(data);
+		this.numberField.setNumber(data.intValue());
 	}
 	
 }
@@ -141,16 +147,19 @@ abstract class AbstractPreferencesBooleanFieldX extends AbstractPreferencesField
     	this.getComponent().addFocusListener(this); // hack: has to be invoked by each and every extends AbstractPreferencesFieldX
 	}
 	
+	@Override
 	final Boolean getData() {
-		return this.checkBox.isSelected();
+		return this.checkBox.isSelected() ? Boolean.TRUE : Boolean.FALSE;
 	}
 	
+	@Override
 	final JCheckBox getComponent() {
 		return this.checkBox;
 	}
 	
+	@Override
 	final void setVisibleData(Boolean data) {
-		this.checkBox.setSelected(data);
+		this.checkBox.setSelected(data.booleanValue());
 	}
 }
 
@@ -175,15 +184,18 @@ abstract class AbstractPreferencesComboBoxFieldX<T> extends AbstractPreferencesF
 	final void setRenderer(ListCellRenderer renderer) {
 		this.comboBox.setRenderer(renderer);
 	}
-	
+
+	@Override
 	final T getData() {
 		return this.model.getTypedElementAt(this.comboBox.getSelectedIndex());
 	}
-	
+
+	@Override
 	final JComboBox getComponent() {
 		return this.comboBox;
 	}
-	
+
+	@Override
 	final void setVisibleData(T data) {
 		this.comboBox.setSelectedItem(data);
 	}

@@ -29,6 +29,7 @@ import net.sourceforge.omov.core.bo.Resolution;
  * 
  * @author christoph_pickl@users.sourceforge.net
  */
+@SuppressWarnings("boxing")
 public class SmartFolderTest extends AbstractSmartFolderTest {
 
 //    private static final Log LOG = LogFactory.getLog(SmartFolderTest.class);
@@ -96,18 +97,18 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    N U M B E R   M A T C H E S
     /******************************************************************************************************************/
     
-    public void testIsYear() {
+	public void testIsYear() {
         final NumberCriterion criterion = NumberCriterion.newYear(NumberMatch.newEquals(2008L));
         final Movie movie = this.checkOneExisting(criterion);
         
         assertEquals(MOVIE_INDEPENDENCE_DAY.getYear(), movie.getYear());
     }
     
-    public void testIsNotYear() {
+	public void testIsNotYear() {
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newNotEquals(42L)), MOVIE_TEST_DATA.size());
     }
 
-    public void testGreaterYear() {
+	public void testGreaterYear() {
         this.checkNoneExisting(NumberCriterion.newYear(NumberMatch.newGreater(2008L)));
         this.checkSomeExisting(NumberCriterion.newYear(NumberMatch.newGreater(0L)), MOVIE_TEST_DATA.size());
     }
@@ -255,7 +256,8 @@ public class SmartFolderTest extends AbstractSmartFolderTest {
     /**    R A T I N G   M A T C H E S
     /******************************************************************************************************************/
 
-    public void testRating() {
+    @SuppressWarnings("boxing")
+	public void testRating() {
         this.checkSomeExisting(RatingCriterion.newRating(RatingMatch.newEquals(0)), 1);
         this.checkSomeExisting(RatingCriterion.newRating(RatingMatch.newEquals(1)), 0);
         this.checkSomeExisting(RatingCriterion.newRating(RatingMatch.newEquals(2)), 1);

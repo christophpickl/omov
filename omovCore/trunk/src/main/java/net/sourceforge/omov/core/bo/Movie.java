@@ -91,27 +91,48 @@ DATA VERSION HISTORY
 
     private static List<MovieField> ALL_FIELDS = new ArrayList<MovieField>();
     public static enum MovieField {
-        ID("ID", "id", Long.class) { public Object getValue(Movie movie) { return movie.getId(); }},
-        TITLE("Title", "title", String.class) { public Object getValue(Movie movie) { return movie.getTitle(); }},
-        SEEN("Seen", "seen", Boolean.class) { public Object getValue(Movie movie) { return movie.isSeen(); }},
-        RATING("Rating", "rating", Integer.class) { public Object getValue(Movie movie) { return movie.getRating(); }},
-        COVER_FILE("Cover", "coverFile", String.class) { public Object getValue(Movie movie) { return movie.getOriginalCoverFile(); }},
-        GENRES("Genres", "genres", Set.class) { public Object getValue(Movie movie) { return movie.getGenres(); }},
-        LANGUAGES("Languages", "languages", Set.class) { public Object getValue(Movie movie) { return movie.getLanguages(); }},
-        STYLE("Style", "style", String.class) { public Object getValue(Movie movie) { return movie.getStyle(); }},
-        DIRECTOR("Director", "director", String.class) { public Object getValue(Movie movie) { return movie.getDirector(); }},
-        ACTORS("Actors", "actors", Set.class) { public Object getValue(Movie movie) { return movie.getActors(); }},
-        YEAR("Year", "year", Integer.class) { public Object getValue(Movie movie) { return movie.getYear(); }},
-        COMMENT("Comment", "comment", String.class) { public Object getValue(Movie movie) { return movie.getComment(); }},
-        QUALITY("Quality", "quality", Quality.class) { public Object getValue(Movie movie) { return movie.getQuality(); }},
-        DATE_ADDED("Date Added", "dateAdded", Date.class) { public Object getValue(Movie movie) { return movie.getDateAdded(); }},
-        FILE_SIZE_KB("Size", "fileSizeKb", Long.class) { public Object getValue(Movie movie) { return movie.getFileSizeKb(); }},
-        FOLDER_PATH("Folder", "folderPath", String.class) { public Object getValue(Movie movie) { return movie.getFolderPath(); }},
-        FORMAT("Format", "format", String.class) { public Object getValue(Movie movie) { return movie.getFormat(); }},
-        FILES("Files", "files", Set.class) { public Object getValue(Movie movie) { return movie.getFiles(); }},
-        DURATION("Duration", "duration", Integer.class) { public Object getValue(Movie movie) { return movie.getDuration(); }},
-        RESOLUTION("Resolution", "resolution", Resolution.class) { public Object getValue(Movie movie) { return movie.getResolution(); }},
-        SUBTITLES("Subtitles", "subtitles", Set.class) { public Object getValue(Movie movie) { return movie.getSubtitles(); }};
+        ID("ID", "id", Long.class) { @Override
+		public Object getValue(Movie movie) { return new Long(movie.getId()); }},
+        TITLE("Title", "title", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getTitle(); }},
+        SEEN("Seen", "seen", Boolean.class) { @Override
+		public Object getValue(Movie movie) { return movie.isSeen()  ? Boolean.TRUE : Boolean.FALSE; }},
+        RATING("Rating", "rating", Integer.class) { @Override
+		public Object getValue(Movie movie) { return new Integer(movie.getRating()); }},
+        COVER_FILE("Cover", "coverFile", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getOriginalCoverFile(); }},
+        GENRES("Genres", "genres", Set.class) { @Override
+		public Object getValue(Movie movie) { return movie.getGenres(); }},
+        LANGUAGES("Languages", "languages", Set.class) { @Override
+		public Object getValue(Movie movie) { return movie.getLanguages(); }},
+        STYLE("Style", "style", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getStyle(); }},
+        DIRECTOR("Director", "director", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getDirector(); }},
+        ACTORS("Actors", "actors", Set.class) { @Override
+		public Object getValue(Movie movie) { return movie.getActors(); }},
+        YEAR("Year", "year", Integer.class) { @Override
+		public Object getValue(Movie movie) { return new Integer(movie.getYear()); }},
+        COMMENT("Comment", "comment", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getComment(); }},
+        QUALITY("Quality", "quality", Quality.class) { @Override
+		public Object getValue(Movie movie) { return movie.getQuality(); }},
+        DATE_ADDED("Date Added", "dateAdded", Date.class) { @Override
+		public Object getValue(Movie movie) { return movie.getDateAdded(); }},
+        FILE_SIZE_KB("Size", "fileSizeKb", Long.class) { @Override
+		public Object getValue(Movie movie) { return new Long(movie.getFileSizeKb()); }},
+        FOLDER_PATH("Folder", "folderPath", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getFolderPath(); }},
+        FORMAT("Format", "format", String.class) { @Override
+		public Object getValue(Movie movie) { return movie.getFormat(); }},
+        FILES("Files", "files", Set.class) { @Override
+		public Object getValue(Movie movie) { return movie.getFiles(); }},
+        DURATION("Duration", "duration", Integer.class) { @Override
+		public Object getValue(Movie movie) { return new Integer(movie.getDuration()); }},
+        RESOLUTION("Resolution", "resolution", Resolution.class) { @Override
+		public Object getValue(Movie movie) { return movie.getResolution(); }},
+        SUBTITLES("Subtitles", "subtitles", Set.class) { @Override
+		public Object getValue(Movie movie) { return movie.getSubtitles(); }};
         
         private final String label;
         private final String column; // DB-column, Db4o-column
@@ -412,7 +433,7 @@ DATA VERSION HISTORY
         final StringBuilder sb = new StringBuilder();
         
         sb.append("Movie[");
-          sb.append("id=").append(id).append(";");
+          sb.append("id=").append(this.id).append(";");
           
           sb.append("title=").append(this.getTitle()).append(";");
           sb.append("seen=").append(this.isSeen()).append(";");

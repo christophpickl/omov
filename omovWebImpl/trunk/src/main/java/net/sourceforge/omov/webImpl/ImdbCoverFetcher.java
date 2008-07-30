@@ -42,7 +42,8 @@ class ImdbCoverFetcher extends NodeVisitor {
     private static final SimpleDateFormat FILE_NAME_FORMAT = new SimpleDateFormat("yyyy_MM_dd-HH_mm_ss_SSS");
     private static final String DEFAULT_EXTENSION = "jpg";
 
-    public void visitTag(Tag tag) {
+    @Override
+	public void visitTag(Tag tag) {
         if(tag.getTagName().equalsIgnoreCase("table") && tag.getAttribute("id") != null && tag.getAttribute("id").equals("principal")) {
 
             // tag (TableTag) -> [1] TableRow -> [0] TableColumn -> [0] ImageTag

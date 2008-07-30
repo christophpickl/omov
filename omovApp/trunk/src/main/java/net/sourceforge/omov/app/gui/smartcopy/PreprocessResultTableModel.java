@@ -57,12 +57,14 @@ class PreprocessResultTableModel extends DefaultTableModel {
         this.fireTableDataChanged();
     }
     
-    public int getRowCount() {
+    @Override
+	public int getRowCount() {
         if(this.rowDataList == null) return 0;
         return this.rowDataList.size();
     }
     
-    public Object getValueAt(int row, int col) {
+    @Override
+	public Object getValueAt(int row, int col) {
         final RowData rowData = this.rowDataList.get(row);
         if(col == 0) {
             return AppImageFactory.getInstance().getSeverityIcon(rowData.getSeverity());
@@ -70,22 +72,26 @@ class PreprocessResultTableModel extends DefaultTableModel {
         return rowData.getMessage();
     }
     
-    public Class<?> getColumnClass(final int col) {
+    @Override
+	public Class<?> getColumnClass(final int col) {
         if(col == 0) {
             return ImageIcon.class;
         }
         return String.class;
     }
     
-    public int getColumnCount() {
+    @Override
+	public int getColumnCount() {
         return COLUMNS.length;
     }
     
-    public String getColumnName(int col) {
+    @Override
+	public String getColumnName(int col) {
         return COLUMNS[col];
     }
     
-    @SuppressWarnings("unused")
+    @Override
+	@SuppressWarnings("unused")
     public boolean isCellEditable(int col, int row) {
         return false;
     }

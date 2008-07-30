@@ -142,12 +142,12 @@ public class MovieTableX extends MacLikeTable implements IPtTableBodyContextList
         TableRenderers.updateRenderers(this);
 
         assert(model.getColumnCount() == this.getColumnCount());
-        defaultRowHeight = this.getRowHeight();
+        this.defaultRowHeight = this.getRowHeight();
         for(IMovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
             column.setPreferredWidth(movieColumn.getPrefWidth());
 
-            final Boolean visible = PreferencesDao.getInstance().isMovieColumnVisible(movieColumn.getLabel());
+            final boolean visible = PreferencesDao.getInstance().isMovieColumnVisible(movieColumn.getLabel());
             LOG.debug("Setting column '"+column.getTitle()+"' to visible '"+visible+"'.");
             column.setVisible(visible);
 
@@ -192,7 +192,8 @@ public class MovieTableX extends MacLikeTable implements IPtTableBodyContextList
         this.initContextMenu();
     }
 
-    public String getToolTipText(MouseEvent event) {
+    @Override
+	public String getToolTipText(MouseEvent event) {
         final Point point = event.getPoint();
         final int rowIndex = this.rowAtPoint(point);
         int colIndex = this.columnAtPoint(point);
@@ -233,7 +234,7 @@ public class MovieTableX extends MacLikeTable implements IPtTableBodyContextList
         boolean setRowHeightForCover = false;
         for(IMovieTableColumn movieColumn : MovieTableColumns.getColumns()) {
             final TableColumnExt column = this.getColumnExt(movieColumn.getLabel());
-            columns.put(movieColumn.getLabel(), column.isVisible());
+            columns.put(movieColumn.getLabel(), column.isVisible() ? Boolean.TRUE : Boolean.FALSE);
 
             if(movieColumn.getLabel().equals(MovieTableColumns.COVER_COLUMN_LABEL) && column.isVisible() == true) {
                 setRowHeightForCover = true;

@@ -59,7 +59,8 @@ public class TableSelection {
         
         JButton b = new JButton("tut");
         b.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 model.deleteAll();
             }
         });
@@ -83,17 +84,21 @@ public class TableSelection {
         };
         private final String[] cols = new String[] { "id", "title" };
         
-        public int getRowCount() {
+        @Override
+		public int getRowCount() {
             if(data == null) return 0;
             return data.length;
         }
-        public Object getValueAt(int row, int col) {
+        @Override
+		public Object getValueAt(int row, int col) {
             return data[row][col];
         }
-        public int getColumnCount() {
+        @Override
+		public int getColumnCount() {
             return cols.length;
         }
-        public String getColumnName(int col) {
+        @Override
+		public String getColumnName(int col) {
             return cols[col];
         }
         public void deleteAll() {

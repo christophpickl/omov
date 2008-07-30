@@ -302,6 +302,7 @@ public class QtjVideoPlayerImplX extends JFrame implements IQtjVideoPlayer, Mous
 		final QTJComponent qtPlayercomponent = QTFactory.makeQTJComponent(this.player);
 		final JComponent playerComponent = qtPlayercomponent.asJComponent();
 		playerComponent.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseClicked(final MouseEvent e) {
 				new GuiAction() {
 					@Override

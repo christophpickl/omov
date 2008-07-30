@@ -60,7 +60,7 @@ public abstract class CommonController<M extends Movie> implements IWebSearchWor
     }
     
     public final void didSearchByTitle(boolean wasCancelled, List<WebSearchResult> result, M movieFetchingData, Exception thrownException) {
-    	LOG.debug("didSearchByTitle(wasCancelled="+wasCancelled+",result.size="+(result == null ? "null" : result.size())+")");
+    	LOG.debug("didSearchByTitle(wasCancelled="+wasCancelled+",result.size="+(result == null ? "null" : new Integer(result.size()))+")");
     	if(wasCancelled == true) {
     		return;
     	}

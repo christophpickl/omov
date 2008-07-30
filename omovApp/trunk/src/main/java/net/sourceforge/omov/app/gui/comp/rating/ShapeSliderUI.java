@@ -82,10 +82,12 @@ class ShapeSliderUI extends SliderUI{
     }
 
     protected class ShapeML extends MouseInputAdapter{
-        public void mouseClicked(MouseEvent evt){
+        @Override
+		public void mouseClicked(MouseEvent evt){
             select((JSlider)evt.getSource(), evt.getX(), evt.getY());
         }
-        public void mouseDragged(MouseEvent evt){
+        @Override
+		public void mouseDragged(MouseEvent evt){
             select((JSlider)evt.getSource(), evt.getX(), evt.getY());
         }
     }
@@ -95,7 +97,8 @@ class ShapeSliderUI extends SliderUI{
         }
     }
     protected class ShapeKL extends KeyAdapter{
-        public void keyPressed(KeyEvent evt){
+        @Override
+		public void keyPressed(KeyEvent evt){
             pressed(evt);
         }
     }
@@ -141,7 +144,8 @@ class ShapeSliderUI extends SliderUI{
             }
         }
     }
-    public void uninstallUI(JComponent c){
+    @Override
+	public void uninstallUI(JComponent c){
         super.uninstallUI(c);
         c.removeMouseListener(this.mouseListener);
         c.removeMouseMotionListener(this.mouseListener);
@@ -149,7 +153,8 @@ class ShapeSliderUI extends SliderUI{
         slider.removeChangeListener(this.changeListener);
         slider.removeKeyListener(this.keyListener);
     }
-    public void installUI(JComponent c){
+    @Override
+	public void installUI(JComponent c){
         super.installUI(c);
         c.addMouseListener(this.mouseListener = new ShapeML());
         c.addMouseMotionListener(this.mouseListener);
@@ -196,21 +201,24 @@ class ShapeSliderUI extends SliderUI{
         double y = (Math.cos(r)*-mag)+50;
         p.addPoint((int)x,(int)y);
     }
-    public Dimension getPreferredSize(JComponent c){
+    @Override
+	public Dimension getPreferredSize(JComponent c){
         JSlider slider = (JSlider)c;
         int size = 16;
         return new Dimension(
                 size*slider.getMaximum()+(2*this.margin),
                 size+2*this.margin);
     }
-    public Dimension getMinimumSize(JComponent c){
+    @Override
+	public Dimension getMinimumSize(JComponent c){
         JSlider slider = (JSlider)c;
         int size = 10;
         return new Dimension(
                 size*slider.getMaximum()+(2*this.margin),
                 size+2*margin);
     }
-    public Dimension getMaximumSize(JComponent c){
+    @Override
+	public Dimension getMaximumSize(JComponent c){
         JSlider slider = (JSlider)c;
         int size = 200;
         return new Dimension(
@@ -225,7 +233,8 @@ class ShapeSliderUI extends SliderUI{
         }
         return size;
     }
-    public void paint(Graphics g1, JComponent c){
+    @Override
+	public void paint(Graphics g1, JComponent c){
         Graphics2D g = (Graphics2D)g1;
         JSlider slider = (JSlider)c;
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,

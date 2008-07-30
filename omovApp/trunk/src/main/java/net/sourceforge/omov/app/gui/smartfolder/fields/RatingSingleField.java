@@ -40,7 +40,7 @@ public class RatingSingleField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Integer[] { this.ratingField.getRating() };
+        return new Integer[] { new Integer(this.ratingField.getRating()) };
     }
     
 }

@@ -145,7 +145,9 @@ public class RepositoryPreparerResultWindow extends JDialog implements IPtEscape
 
         final JButton btnClose = new JButton("Close");
         this.getRootPane().setDefaultButton(btnClose);
-        btnClose.addActionListener(new GuiActionListener() {public void action(ActionEvent e) {
+        btnClose.addActionListener(new GuiActionListener() {
+        	@Override
+			public void action(ActionEvent e) {
             doClose();
         }});
         panel.add(btnClose, BorderLayout.EAST);
@@ -182,16 +184,19 @@ public class RepositoryPreparerResultWindow extends JDialog implements IPtEscape
                 throw new IllegalArgumentException("unhandled column index: " + col);
             }
         }
-        public String getColumnName(final int col) {
+        @Override
+		public String getColumnName(final int col) {
             return ALL_COLUMN_NAMES.get(col);
         }
 
 
-        public Class<?> getColumnClass(int col) {
+        @Override
+		public Class<?> getColumnClass(int col) {
             return String.class;
         }
 
-        public boolean isCellEditable(int rowIndex, int columnIndex) {
+        @Override
+		public boolean isCellEditable(int rowIndex, int columnIndex) {
             return false;
         }
     }

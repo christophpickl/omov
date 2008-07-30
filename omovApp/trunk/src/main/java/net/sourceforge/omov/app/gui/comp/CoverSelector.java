@@ -322,7 +322,8 @@ public class CoverSelector extends JPanel implements DropTargetListener, MouseLi
 
 
     class ClickTimerTask extends TimerTask {
-        public void run() {
+        @Override
+		public void run() {
             if (doubleclick) {
 //                System.out.println("doClearCover();");
                 doClearCover();

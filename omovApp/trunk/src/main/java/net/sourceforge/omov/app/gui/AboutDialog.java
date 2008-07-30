@@ -34,6 +34,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 
 import net.sourceforge.jpotpourri.jpotface.IPtEscapeDisposeReceiver;
@@ -92,11 +93,12 @@ public class AboutDialog extends JDialog implements IPtEscapeDisposeReceiver {
 //        } catch (MalformedURLException e) {
 //            LOG.error("OpenBrowserAction failed.", e);
 //        }
-        final JLabel logo = new JLabel(AppImageFactory.getInstance().getAboutLogo(), JLabel.CENTER);
+        final JLabel logo = new JLabel(AppImageFactory.getInstance().getAboutLogo(), SwingConstants.CENTER);
         try {
             final OpenBrowserAction openBrowser = new OpenBrowserAction(Constants.getWebUrl());
             logo.addMouseListener(new MouseAdapter() {
-                public void mouseClicked(MouseEvent e) {
+                @Override
+				public void mouseClicked(MouseEvent e) {
                     openBrowser.actionPerformed(null);
                 }
             });
@@ -105,9 +107,9 @@ public class AboutDialog extends JDialog implements IPtEscapeDisposeReceiver {
             LOG.error("OpenBrowserAction failed.", e);
         }
         
-        final JLabel title = new JLabel("OurMovies", JLabel.CENTER);
+        final JLabel title = new JLabel("OurMovies", SwingConstants.CENTER);
         title.setFont(new Font("default", Font.BOLD, 14));
-        final JLabel versionLabel = new JLabel("Version " + BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString(), JLabel.CENTER);
+        final JLabel versionLabel = new JLabel("Version " + BeanFactory.getInstance().getCurrentApplicationVersion().getVersionString(), SwingConstants.CENTER);
         versionLabel.setFont(new Font("default", Font.PLAIN, 11));
         
         c.anchor = GridBagConstraints.CENTER;

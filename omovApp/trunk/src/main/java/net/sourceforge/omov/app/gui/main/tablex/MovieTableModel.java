@@ -238,10 +238,12 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         final Movie movie = this.data.get(row);
         return MovieTableColumns.getColumns().get(col).getValue(movie);
     }
-    public String getColumnName(final int col) {
+    @Override
+	public String getColumnName(final int col) {
         return MovieTableColumns.getColumns().get(col).getLabel();
     }
-    public Class<?> getColumnClass(int col) {
+    @Override
+	public Class<?> getColumnClass(int col) {
         return MovieTableColumns.getColumns().get(col).getColumnClass();
     }
 
@@ -256,7 +258,8 @@ public class MovieTableModel extends AbstractTableModel implements IMovieTableMo
         return this.data.size();
     }
 
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
+    @Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false; // MANTIS [6] gui: make cells editable
     }
     

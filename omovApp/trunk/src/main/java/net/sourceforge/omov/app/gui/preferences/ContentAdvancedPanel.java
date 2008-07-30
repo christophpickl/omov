@@ -44,10 +44,10 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
 			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
-            		inpStartupVersion.setVisibleData(CONF.isStartupVersionCheck()); // reset value
+            		ContentAdvancedPanel.this.inpStartupVersion.setVisibleData(CONF.isStartupVersionCheck() ? Boolean.TRUE : Boolean.FALSE); // reset value
             		return;
             	}
-            	CONF.setStartupVersionCheck(this.getData());
+            	CONF.setStartupVersionCheck(this.getData().booleanValue());
 			}
         };
         this.inpStartupVersion.getComponent().setToolTipText("Whenever you start OurMovies a version check will be performed");
@@ -59,10 +59,10 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
 			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
-            		inpStartupFileSystem.setVisibleData(CONF.isStartupFilesystemCheck()); // reset value
+            		ContentAdvancedPanel.this.inpStartupFileSystem.setVisibleData(CONF.isStartupFilesystemCheck() ? Boolean.TRUE : Boolean.FALSE); // reset value
             		return;
             	}
-            	CONF.setStartupFilesystemCheck(this.getData());
+            	CONF.setStartupFilesystemCheck(this.getData().booleanValue());
 			}
         };
         this.inpStartupFileSystem.getComponent().setToolTipText("Whenever you start OurMovies a filesystem check will be performed");
@@ -71,10 +71,11 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
         // ---------------------------------------------------------------------------
         
         this.inpProxyHost = new AbstractPreferencesStringFieldX(owner, PreferencesDao.getInstance().getProxyHost(), 10) {
+			@Override
 			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
-            		inpProxyHost.setVisibleData(CONF.getProxyHost()); // reset value
+            		ContentAdvancedPanel.this.inpProxyHost.setVisibleData(CONF.getProxyHost()); // reset value
             		return;
             	}
             	CONF.setProxyHost(this.getData());
@@ -88,10 +89,10 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
 			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
-            		inpProxyPort.setVisibleData(CONF.getProxyPort()); // reset value
+            		ContentAdvancedPanel.this.inpProxyPort.setVisibleData(new Integer(CONF.getProxyPort())); // reset value
             		return;
             	}
-            	CONF.setProxyPort(this.getData());
+            	CONF.setProxyPort(this.getData().intValue());
 			}
         	
         };
@@ -103,10 +104,10 @@ public class ContentAdvancedPanel extends AbstractPreferencesContent {
 			void saveData() {
 				if(getOwner().isEscapeHit() == true) {
             		LOG.info("Not going to store value '"+this.getData()+"' because user hit escape.");
-            		inpProxyEnabled.setVisibleData(CONF.isProxyEnabled()); // reset value
+            		ContentAdvancedPanel.this.inpProxyEnabled.setVisibleData(CONF.isProxyEnabled() ? Boolean.TRUE : Boolean.FALSE); // reset value
             		return;
             	}
-            	CONF.setProxyEnabled(this.getData());
+            	CONF.setProxyEnabled(this.getData().booleanValue());
 			}
         };
         this.inpProxyEnabled.getComponent().setToolTipText("Select this if you are using a proxy to access the internet");

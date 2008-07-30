@@ -137,7 +137,8 @@ public class ScanDialog extends JDialog implements IPtTableBodyContextListener, 
 
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 controller.doClose();
             }
         });
@@ -364,7 +365,8 @@ public class ScanDialog extends JDialog implements IPtTableBodyContextListener, 
         this.tblScannedMovie.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
         this.tblScannedMovie.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent event) {
+            @Override
+			public void mouseClicked(MouseEvent event) {
                 final int row = tblScannedMovie.getSelectedRow();
                 if (row > -1 && event.getClickCount() >= 2) {
 
@@ -386,7 +388,8 @@ public class ScanDialog extends JDialog implements IPtTableBodyContextListener, 
         
         if(QtjFactory.isQtjAvailable()) {
 	        this.tblScannedMovie.addKeyListener(new GuiKeyAdapter() {
-	            public void keyReleasedAction(final KeyEvent event) {
+	            @Override
+				public void keyReleasedAction(final KeyEvent event) {
 					final int code = event.getKeyCode();
 	                LOG.debug("scan table got key event with code "+code+" ("+event.getKeyChar()+").");
 	                
@@ -420,7 +423,8 @@ public class ScanDialog extends JDialog implements IPtTableBodyContextListener, 
         this.tableSplitter.setBackground(Constants.getColorWindowBackground());
 
         this.addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent event) {
+            @Override
+			public void componentResized(ComponentEvent event) {
                 tableSplitter.setDividerLocation(700);
             }
         });

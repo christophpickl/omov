@@ -58,9 +58,9 @@ public class SmartCopyPreprocessResult {
     }
     
     void parseIdString() {
-        LOG.debug("Parsing id string '"+idString+"'.");
+        LOG.debug("Parsing id string '"+this.idString+"'.");
         
-        final String input = idString.trim();
+        final String input = this.idString.trim();
         if(input.startsWith("[[") == false) {
             LOG.debug("Invalid id input '"+input+"'! Not starting correctly.");
             this.fatalErrors.add("The ID-request must start with the characters '[['!");
@@ -84,7 +84,7 @@ public class SmartCopyPreprocessResult {
         for (int i=0; i < parts.length; i++) {
             final String part = parts[i].trim();
             try {
-                this.ids.add(Integer.parseInt(part));
+                this.ids.add(new Integer(Integer.parseInt(part)));
             } catch(NumberFormatException e) {
                 LOG.debug("Invalid id input '"+input+"'! Not starting correctly.");
                 this.minorErrors.add("Found an illegal ID '"+part+"'!");

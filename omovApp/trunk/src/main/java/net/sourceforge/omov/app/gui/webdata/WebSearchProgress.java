@@ -80,7 +80,8 @@ public class WebSearchProgress<N extends Movie> extends JDialog implements IPtEs
         final JButton btnCancel = new JButton("Cancel");
         btnCancel.setOpaque(false);
         this.getRootPane().setDefaultButton(btnCancel);
-        btnCancel.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        btnCancel.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doCancel();
        }});
         

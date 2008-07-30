@@ -143,6 +143,7 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 		PtGuiUtil.enableHandCursor(btnPlayPause);
 		btnPlayPause.setForeground(OPAC_COLOR_FRONT);
 		btnPlayPause.addActionListener(new GuiActionListener() {
+			@Override
 			public void action(ActionEvent e) {
 				System.out.println("play/pause");
 			}
@@ -218,17 +219,18 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 	}
 
 	
-	private void opacityChanged(int opacity) {
+	@SuppressWarnings("boxing")
+	private void opacityChanged(int newOpacity) {
 //		int newOpacity = (int) (255 * (opacity / 100.));
 //		System.out.println("opacity changed: " + newOpacity + " ("+this.oldOpacity+"% -> "+opacity+"%)");
 //		this.setBackground(new Color(255, 0, 0, newOpacity));
 		
-		if(OPACITY_MAP.get(OPAC_COLOR_BACK).get(opacity) == null) {
-			System.err.println("!!! opacity=" + opacity + " !!!");
+		if(OPACITY_MAP.get(OPAC_COLOR_BACK).get(newOpacity) == null) {
+			System.err.println("!!! opacity=" + newOpacity + " !!!");
 		}
-		this.setBackground(OPACITY_MAP.get(OPAC_COLOR_BACK).get(opacity));
+		this.setBackground(OPACITY_MAP.get(OPAC_COLOR_BACK).get(newOpacity));
 		
-		final Color fg = OPACITY_MAP.get(OPAC_COLOR_FRONT).get(opacity);
+		final Color fg = OPACITY_MAP.get(OPAC_COLOR_FRONT).get(newOpacity);
 		this.lbl.setForeground(fg);
 		this.btnPlayPause.setForeground(fg);
 		
@@ -246,6 +248,7 @@ public class Floater extends JPanel implements MouseMotionListener, MouseListene
 		public void shouldStop() {
 			this.isShouldStop = true;
 		}
+		@Override
 		public void run() {
 			while(isShouldStop == false && (lifetime > 0 || opacity.isMinValue() == false)) {
 				System.out.println("thread: lifetime="+lifetime+"; opacity="+opacity);

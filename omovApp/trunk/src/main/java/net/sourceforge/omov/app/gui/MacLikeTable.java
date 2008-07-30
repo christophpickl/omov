@@ -29,12 +29,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
@@ -55,38 +51,6 @@ public class MacLikeTable extends JXTable {
     private static final long serialVersionUID = -4690492128203374606L;
 
     // TODO GUI - vertikalen linien gehen nicht ganz bis hinunter durch, wenn tabelle noch nicht ganz gefuellt ist!
-
-
-    public static void main(String[] args) {
-        final MacLikeTable table = new MacLikeTable(new DefaultTableModel() {
-            private static final long serialVersionUID = 1L;
-            public int getRowCount() {
-                return 2;
-            }
-            public String getColumnName(int col) {
-                return col == 0 ? "Text" : "Bool";
-            }
-            public Class<?> getColumnClass(int col) {
-                return String.class;
-            }
-            public int getColumnCount() {
-                return 2;
-            }
-            public Object getValueAt(int row, int col) {
-                if(col == 0) {
-                    return "row " + row;
-                }
-                return row == 0 ? "das ist mein ganz langer text -- jaja, das ist er" : "hubert franz von goisner";
-            }
-        });
-
-        final JFrame frame = new JFrame();
-        frame.getContentPane().add(new JScrollPane(table));
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
 
     // JPOT the next section was already outsourced to jpotface -> class: PtMacLikeTable
     public MacLikeTable(TableModel model) {
@@ -119,7 +83,8 @@ public class MacLikeTable extends JXTable {
 //    }
 
     // JPOT the next section was already outsourced to jpotface -> class: PtMacLikeTable
-    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+    @Override
+	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component c = super.prepareRenderer(renderer, row, column);
 
         boolean focused = hasFocus();
@@ -188,7 +153,8 @@ public class MacLikeTable extends JXTable {
     /** PAINT EMPTY ROWS
     /******************************************************************************************************************/
 
-    public void paint(Graphics g) {
+    @Override
+	public void paint(Graphics g) {
         super.paint(g);
         this.paintEmptyRows(g);
     }

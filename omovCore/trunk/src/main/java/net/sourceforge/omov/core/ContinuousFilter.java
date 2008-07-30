@@ -32,6 +32,7 @@ public class ContinuousFilter {
 	}
 	
 	
+	@Override
 	public String toString() {
 		return toString;
 	}
@@ -53,6 +54,7 @@ public class ContinuousFilter {
 	
 	public enum ContinuousFilterField {
 		ALL(new FilterLogic() {
+			@Override
 			boolean isMatching(Movie movie, String searchTerm) {
 				if(TITLE.isMatching(movie, searchTerm) ||
 				   PEOPLE.isMatching(movie, searchTerm) ||
@@ -63,11 +65,13 @@ public class ContinuousFilter {
 			}
 		}),
 		TITLE(new FilterLogic() {
+			@Override
 			boolean isMatching(Movie movie, String searchTerm) {
 				return movie.getTitle().toLowerCase().contains(searchTerm.toLowerCase());
 			}
 		}),
 		PEOPLE(new FilterLogic() {
+			@Override
 			boolean isMatching(Movie movie, String searchTerm) {
 				final String searchTermLowered = searchTerm.toLowerCase();
 				if(movie.getDirector().toLowerCase().contains(searchTermLowered)) {
@@ -84,6 +88,7 @@ public class ContinuousFilter {
 			}
 		}),
 		COMMENT(new FilterLogic() {
+			@Override
 			boolean isMatching(Movie movie, String searchTerm) {
 				return movie.getComment().toLowerCase().contains(searchTerm.toLowerCase());
 			}

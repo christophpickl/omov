@@ -54,7 +54,8 @@ public class TableIcon {
         
         JButton btn = new JButton("reload");
         btn.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 model.reload();
             }
         });

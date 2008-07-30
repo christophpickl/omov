@@ -71,6 +71,7 @@ public class MacLikeList extends JList {
 //		     }
 //		 });
 		this.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyPressed(final KeyEvent event) {
 				new GuiAction() {
 					@Override
@@ -96,6 +97,7 @@ public class MacLikeList extends JList {
 	private boolean drawStripes = false;
 	private RendererWrapper wrapper = null;
 	
+	@Override
 	public void paintComponent(Graphics g) {
 		drawStripes = (getLayoutOrientation() == VERTICAL) && isOpaque();
 		if (!drawStripes) {
@@ -161,6 +163,7 @@ public class MacLikeList extends JList {
 
 
 	/** Return the wrapped cell renderer. */
+	@Override
 	public javax.swing.ListCellRenderer getCellRenderer() {
 		final javax.swing.ListCellRenderer ren = super.getCellRenderer();
 		if (ren == null) return null;

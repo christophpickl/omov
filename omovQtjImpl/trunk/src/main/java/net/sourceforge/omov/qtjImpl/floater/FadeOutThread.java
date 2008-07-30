@@ -50,6 +50,7 @@ public class FadeOutThread extends Thread {
 		this.isShouldStop = true;
 	}
 	
+	@Override
 	public void run() {
 		LOG.info("Fadeout thread is running ...");
 		

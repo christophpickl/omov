@@ -40,6 +40,7 @@ class Lifetime {
 	public synchronized void reset() {
 		this.value = 10;
 	}
+	@Override
 	public String toString() {
 		return "" + value;
 	}

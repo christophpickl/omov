@@ -57,7 +57,8 @@ class ComboMovieSelection extends JComboBox {
         
         private static final MovieSelectionMode[] DATA = new MovieSelectionMode[] { MovieSelectionMode.ALL, MovieSelectionMode.VISIBLE, MovieSelectionMode.SELECTED};
         
-        public Object getElementAt(int row) {
+        @Override
+		public Object getElementAt(int row) {
             return DATA[row].getLabel();
         }
         
@@ -65,7 +66,8 @@ class ComboMovieSelection extends JComboBox {
             return DATA[row];
         }
 
-        public int getSize() {
+        @Override
+		public int getSize() {
             return 3;
         }
         

@@ -39,17 +39,20 @@ import org.apache.commons.lang.StringEscapeUtils;
 public abstract class HtmlColumn {
 
     public static final HtmlColumn COLUMN_ID = new HtmlColumn("40", "", "id") { // displayed as checkbox list
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return "<input type='checkbox' name='inpId' value='"+movie.getId()+"' id='inpCheckbox"+movie.getId()+"' />";
         }
     };
     public static final HtmlColumn COLUMN_TITLE = new HtmlColumn("*", "Title", "title") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return "<a class='title_link' href='javascript:clickTitle(this, "+movie.getId()+");return false;'>"+StringEscapeUtils.escapeHtml(movie.getTitle()) + "</a>";
         }
     };
     public static final HtmlColumn COLUMN_COVER = new HtmlColumn("50", "Cover", "cover") { // cover width passt so?
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             final String coverFile = movie.getOriginalCoverFile();
             if(coverFile.equals("")) {
                 return "-";
@@ -61,22 +64,26 @@ public abstract class HtmlColumn {
         }
     };
     public static final HtmlColumn COLUMN_GENRE = new HtmlColumn("210", "Genre", "genre") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return limitStringLength(20, movie.getGenresString(), this);
         }
     };
     public static final HtmlColumn COLUMN_ACTORS = new HtmlColumn("210", "Actors", "actors") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return limitStringLength(20, movie.getActorsString(), this);
         }
     };
     public static final HtmlColumn COLUMN_LANGUAGE = new HtmlColumn("130", "Language", "language") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return transformNonBreakingSpace(StringEscapeUtils.escapeHtml(movie.getLanguagesString()));
         }
     };
     public static final HtmlColumn COLUMN_RATING = new HtmlColumn("80", "Rating", "rating") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             final StringBuilder sb = new StringBuilder();
             sb.append("<span class='ratingYes'>");
             for (int i = 0; i < movie.getRating(); i++) {
@@ -93,55 +100,64 @@ public abstract class HtmlColumn {
     };
 
     public static final HtmlColumn COLUMN_STYLE = new HtmlColumn("170", "Style", "style") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return limitStringLength(15, movie.getStyle(), this);
         }
     };
 
     public static final HtmlColumn COLUMN_DIRECTOR = new HtmlColumn("170", "Director", "director") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return limitStringLength(15, movie.getDirector(), this);
         }
     };
 
     public static final HtmlColumn COLUMN_YEAR = new HtmlColumn("80", "Year", "year") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return String.valueOf(movie.getYear());
         }
     };
 
     public static final HtmlColumn COLUMN_QUALITY = new HtmlColumn("130", "Quality", "quality") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return transformNonBreakingSpace(movie.getQualityString());
         }
     };
 
     public static final HtmlColumn COLUMN_FILE_SIZE = new HtmlColumn("80", "Size", "file_size") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return divisionWidthedWrapped(movie.getFileSizeFormatted(), this);
         }
     };
 
     public static final HtmlColumn COLUMN_FORMAT = new HtmlColumn("80", "Format", "format") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return movie.getFormat();
         }
     };
 
     public static final HtmlColumn COLUMN_DURATION = new HtmlColumn("80", "Duration", "duration") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return divisionWidthedWrapped(movie.getDurationFormatted(), this);
         }
     };
 
     public static final HtmlColumn COLUMN_RESOLUTION = new HtmlColumn("80", "Resolution", "resolution") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return movie.getResolution().getFormattedString();
         }
     };
 
     public static final HtmlColumn COLUMN_SUBTITLES = new HtmlColumn("130", "Subtitles", "subtitles") {
-        String getValue(final Movie movie, IExporterHtml exporter) {
+        @Override
+		String getValue(final Movie movie, IExporterHtml exporter) {
             return limitStringLength(10, movie.getSubtitlesString(), this);
         }
     };
@@ -208,7 +224,8 @@ public abstract class HtmlColumn {
     
     abstract String getValue(Movie movie, IExporterHtml exporter);
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "HtmlColumn[" + this.label + "]";
     }
     

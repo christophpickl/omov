@@ -162,7 +162,7 @@ public abstract class AbstractListSuggester extends JPanel {
         }
         
         final int[] oldIndices = this.list.getSelectedIndices();
-        if(Arrays.asList(oldIndices).contains(newItemIndex) == true) {
+        if(Arrays.asList(oldIndices).contains(new Integer(newItemIndex)) == true) {
             LOG.debug("item at index '"+newItemIndex+"' already selected.");
             return;
         }

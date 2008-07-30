@@ -41,7 +41,7 @@ public class FileSizeSingleField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Long[] { this.numberField.getNumber() * 1024L }; // convert from MB to KB
+        return new Long[] { new Long(this.numberField.getNumber() * 1024L) }; // convert from MB to KB
     }
     
 }

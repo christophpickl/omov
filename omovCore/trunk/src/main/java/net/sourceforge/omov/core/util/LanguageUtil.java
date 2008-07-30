@@ -82,7 +82,8 @@ public final class LanguageUtil {
     		return this.locale;
     	}
     	
-    	public String toString() {
+    	@Override
+		public String toString() {
     		return "LanguageCode[code="+code+";locale="+locale+"]";
     	}
     	

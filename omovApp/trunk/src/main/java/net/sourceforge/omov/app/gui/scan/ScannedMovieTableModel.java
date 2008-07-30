@@ -58,7 +58,7 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         
         columns.add(new ScannedMovieColumn(TABLE_COLUMN_VALUE_MOVIE_CHECKED, 70, 70, 70) { // selected JCheckBox
             @Override
-			public Object getValue(ScannedMovie movie) {  return movie.isChecked();  }
+			public Object getValue(ScannedMovie movie) {  return movie.isChecked() ? Boolean.TRUE : Boolean.FALSE;  }
             @Override
 			public Class<?> getValueClass() {  return Boolean.class;  }});
         
@@ -128,11 +128,13 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         return ALL_COLUMNS.get(col).getValue(movie);
     }
     
-    public String getColumnName(final int col) {
+    @Override
+	public String getColumnName(final int col) {
         return ALL_COLUMNS.get(col).getLabel();
     }
     
-    public Class<?> getColumnClass(int col) {
+    @Override
+	public Class<?> getColumnClass(int col) {
         return ALL_COLUMN_NAMES_MAP.get(ALL_COLUMN_NAMES.get(col)).getValueClass();
     }
     
@@ -198,7 +200,8 @@ public class ScannedMovieTableModel extends AbstractTableModel {
         
     }
     
-    public boolean isCellEditable(int rowIndex, int columnIndex) {
+    @Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) {
         return columnIndex == 0; // only first col editable (checkbox)
     }
     

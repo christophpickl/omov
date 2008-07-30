@@ -181,10 +181,12 @@ public class QtjSmallScreenX implements ActionListener, MouseListener, MouseMoti
 		
 		
 		this.timeSlider.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(final MouseEvent e) {
 				LOG.debug("timeSlider pressed");
 				timeSlider.setPressed(true);
 			}
+			@Override
 			public void mouseReleased(final MouseEvent e) {
 				LOG.debug("timeSlider released");
 				timeSlider.setPressed(false);

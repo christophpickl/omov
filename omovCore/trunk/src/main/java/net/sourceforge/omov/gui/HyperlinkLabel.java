@@ -51,17 +51,20 @@ public class HyperlinkLabel extends JLabel {
             final URL url = new URL(_url);
             final Color oldForeground = this.getForeground();
             this.addMouseListener(new MouseAdapter() {
-                public void mouseEntered(MouseEvent e) {
+                @Override
+				public void mouseEntered(MouseEvent e) {
                     setForeground(Color.BLUE);
                     setText("<html><u>" + text + "</u></html>");
                 }
 
-                public void mouseExited(MouseEvent e) {
+                @Override
+				public void mouseExited(MouseEvent e) {
                     setForeground(oldForeground);
                     setText(text);
                 }
 
-                public void mouseClicked(MouseEvent e) {
+                @Override
+				public void mouseClicked(MouseEvent e) {
                     new OpenBrowserAction(url).actionPerformed(null);
                 }
             });

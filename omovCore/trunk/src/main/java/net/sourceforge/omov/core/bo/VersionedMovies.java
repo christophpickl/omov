@@ -39,7 +39,8 @@ public class VersionedMovies implements Serializable {
         this.movies = Collections.unmodifiableList(movies);
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("VersionedMovies[length="+movies.size() + "]");
         for (Movie movie : this.movies) {

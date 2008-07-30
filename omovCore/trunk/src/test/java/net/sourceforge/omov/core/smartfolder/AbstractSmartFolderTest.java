@@ -166,7 +166,8 @@ abstract class AbstractSmartFolderTest extends AbstractTestCase {
     
 
     
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
         
         this.insertTestData();

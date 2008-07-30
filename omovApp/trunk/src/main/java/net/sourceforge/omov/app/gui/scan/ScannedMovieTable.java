@@ -66,7 +66,8 @@ class ScannedMovieTable extends MacLikeTable {
         checkbox.setBackground(Constants.getColorSelectedBackground());
         checkbox.setHorizontalAlignment(SwingConstants.CENTER);
         checkbox.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 final int selectedRow = getSelectedRow();
                 model.changeCheckedRow(convertRowIndexToModel(selectedRow));
                 getSelectionModel().setSelectionInterval(selectedRow, selectedRow);

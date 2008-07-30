@@ -257,6 +257,7 @@ public class EditMoviesDialog extends AbstractAddEditDialog<List<Movie>> {
         System.exit(0);
     }
     
+	@Override
 	public void doEscape() {
 		// TODO GUI any checks necessary in doEscpe() before invoking doCancel() ?
 		this.doCancel();

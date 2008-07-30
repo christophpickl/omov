@@ -48,6 +48,7 @@ class Opacity {
 		this.value = 100;
 		listener.opacityChanged(this.value, false);
 	}
+	@Override
 	public String toString() {
 		return "" + value;
 	}

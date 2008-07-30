@@ -31,14 +31,11 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.UIManager;
-import javax.swing.WindowConstants;
 import javax.swing.border.Border;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -58,35 +55,6 @@ import org.jdesktop.swingx.JXTable;
  */
 public class MacTable extends JXTable {
     
-    public static void main(String[] args) {
-        final MacTable table = new MacTable(new DefaultTableModel() {
-            private static final long serialVersionUID = 1L;
-            public int getRowCount() {
-                return 2;
-            }
-            public String getColumnName(int col) {
-                return col == 0 ? "Text" : "Bool";
-            }
-            public Class<?> getColumnClass(int col) {
-                return String.class;
-            }
-            public int getColumnCount() {
-                return 2;
-            }
-            public Object getValueAt(int row, int col) {
-                if(col == 0) {
-                    return "row " + row;
-                }
-                return "xyz";
-            }
-        });
-        
-        final JFrame frame = new JFrame();
-        frame.getContentPane().add(new JScrollPane(table));
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
     
     
     private static final long serialVersionUID = -5897077753687334520L;
@@ -128,7 +96,8 @@ public class MacTable extends JXTable {
      * Paints empty rows too, after letting the UI delegate do
      * its painting.
      */
-    public void paint(Graphics g) {
+    @Override
+	public void paint(Graphics g) {
         super.paint(g);
         paintEmptyRows(g);
     }
@@ -169,7 +138,8 @@ public class MacTable extends JXTable {
      * JTable normally restricts its size to just what's needed by its
      * model.
      */
-    public boolean getScrollableTracksViewportHeight() {
+    @Override
+	public boolean getScrollableTracksViewportHeight() {
         if (getParent() instanceof JViewport) {
             JViewport parent = (JViewport) getParent();
             return (parent.getHeight() > getPreferredSize().height);
@@ -188,7 +158,8 @@ public class MacTable extends JXTable {
     /**
      * Shades alternate rows in different colors.
      */
-    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+    @Override
+	public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
         Component c = super.prepareRenderer(renderer, row, column);
         boolean focused = hasFocus();
         boolean selected = isCellSelected(row, column);

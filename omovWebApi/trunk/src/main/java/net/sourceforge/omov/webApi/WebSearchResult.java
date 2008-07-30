@@ -20,17 +20,20 @@ public class WebSearchResult { // TODO rename class to something like "WebSearch
         this.url = url;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "WebSearchResult[label="+label+";url="+url+"]";
     }
     
-    public boolean equals(Object object) {
+    @Override
+	public boolean equals(Object object) {
         if((object instanceof WebSearchResult) == false) return false;
         WebSearchResult that = (WebSearchResult) object;
         return this.url.equals(that.url);
     }
     
-    public int hashCode() {
+    @Override
+	public int hashCode() {
         return this.url.hashCode();
     }
     

@@ -38,7 +38,8 @@ public class Db4oMovieTest extends TestCase {
         this.dao = BeanFactory.getInstance().getMovieDao();
     }
     
-    protected void setUp() throws Exception {
+    @Override
+	protected void setUp() throws Exception {
         super.setUp();
         
         Set<Movie> movies = this.dao.getMovies();

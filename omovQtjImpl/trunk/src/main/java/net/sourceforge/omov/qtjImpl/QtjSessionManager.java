@@ -86,7 +86,7 @@ public class QtjSessionManager implements IQtjSessionManager {
 		assert(isOpened == true);
 		
 		if(javaVersion == null) {
-			javaVersion = QTSession.getJavaVersion();
+			javaVersion = new Integer(QTSession.getJavaVersion());
 		}
 		
 		return javaVersion.intValue();

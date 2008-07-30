@@ -87,7 +87,7 @@ public class AppleScriptNativeExecuter {
             // error handling
             Method errorValuesMethod = nsMutableDictionaryClass.getMethod("allValues", new Class[] {});
             Object errorsArray = errorValuesMethod.invoke(nsdictObject, new Object[] {} ); // NSArray
-            final int errorsCount = (Integer) nsArrayClass.getMethod("count", new Class[] {}).invoke(errorsArray, new Object[] {});
+            final int errorsCount = ((Integer) nsArrayClass.getMethod("count", new Class[] {}).invoke(errorsArray, new Object[] {})).intValue();
             
             if(errorsCount == 0) {
                 String result = (String) stringResultMethod.invoke(eventDescriptor, new Object[] {});
@@ -95,7 +95,7 @@ public class AppleScriptNativeExecuter {
             }
             final StringBuilder sb = new StringBuilder();
             for (int i = 0; i < errorsCount; i++) {
-                sb.append("[" + nsArrayClass.getMethod("objectAtIndex", new Class[] {int.class}).invoke(errorsArray, new Object[] { i } ) + "]");
+                sb.append("[" + nsArrayClass.getMethod("objectAtIndex", new Class[] {int.class}).invoke(errorsArray, new Object[] { new Integer(i) } ) + "]");
             }
             throw new BusinessException("Could not execute applescript: " + sb);
             

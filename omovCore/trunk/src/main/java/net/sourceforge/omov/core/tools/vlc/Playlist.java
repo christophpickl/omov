@@ -40,9 +40,9 @@ public class Playlist {
 	
 	private void parseNode(PlaylistNode node) {
 		if(node.isLeaf == true) {
-			this.idByUri.put(node.getUri(), node.getId());
+			this.idByUri.put(node.getUri(), new Integer(node.getId()));
 		}
-		this.nodeById.put(node.getId(), node);
+		this.nodeById.put(new Integer(node.getId()), node);
 		
 		for (PlaylistNode subNode : node.getSubNodes()) {
 			this.parseNode(subNode);

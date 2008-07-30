@@ -47,8 +47,8 @@ public class RatingRangeField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Integer[] { this.ratingFieldFrom.getRating(),
-                               this.ratingFieldTo.getRating()};
+        return new Integer[] {	new Integer(this.ratingFieldFrom.getRating()),
+        						new Integer(this.ratingFieldTo.getRating())};
     }
     
 }

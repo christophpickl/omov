@@ -46,12 +46,14 @@ public class DraggableList extends MacLikeList { // MINOR do not extend MacLikeL
 		this.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		this.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mousePressed(MouseEvent m) {
 				from = getSelectedIndex();
 			}
 		});
 		
 		this.addMouseMotionListener(new MouseMotionAdapter() {
+			@Override
 			public void mouseDragged(MouseEvent m) {
 				int to = getSelectedIndex();
 				if (to == from)

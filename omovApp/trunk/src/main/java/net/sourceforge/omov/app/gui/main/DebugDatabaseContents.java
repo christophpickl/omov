@@ -107,24 +107,29 @@ class DebugDatabaseContents extends JFrame {
 			}
 		}
 		
-	    public Object getValueAt(int row, int col) {
+	    @Override
+		public Object getValueAt(int row, int col) {
 	    	return "data";
 	    }
 	    
-	    public int getRowCount() {
+	    @Override
+		public int getRowCount() {
 	    	if(this.data == null) return 0;
 	    	return this.data.size();
 	    }
 
-	    public int getColumnCount() {
+	    @Override
+		public int getColumnCount() {
 	    	return 1;
 	    }
 
-	    public String getColumnName(final int col) {
+	    @Override
+		public String getColumnName(final int col) {
 	    	return "x";
 	    }
 
-	    public boolean isCellEditable(int rowIndex, int columnIndex) {
+	    @Override
+		public boolean isCellEditable(int rowIndex, int columnIndex) {
 	        return false;
 	    }
 	}

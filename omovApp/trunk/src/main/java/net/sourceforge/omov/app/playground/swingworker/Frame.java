@@ -48,13 +48,15 @@ public class Frame extends JFrame {
     public Frame() {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.btnStart.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 doStart();
             }
         });
         this.btnCancel.setEnabled(false);
         this.btnCancel.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 doCancel();
             }
         });

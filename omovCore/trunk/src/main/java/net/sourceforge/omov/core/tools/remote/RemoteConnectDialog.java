@@ -56,7 +56,8 @@ public class RemoteConnectDialog extends JDialog {
         
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(final WindowEvent event) {
+            @Override
+			public void windowClosing(final WindowEvent event) {
                 doClose();
             }
         });
@@ -69,7 +70,8 @@ public class RemoteConnectDialog extends JDialog {
 
         final JButton btnConnect = new JButton("Send Movies");
         btnConnect.addActionListener(new GuiActionListener() {
-            public void action(ActionEvent e) {
+            @Override
+			public void action(ActionEvent e) {
                 doSendMovies();
             }});
         

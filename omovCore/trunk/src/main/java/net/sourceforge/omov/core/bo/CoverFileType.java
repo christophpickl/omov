@@ -68,7 +68,8 @@ public enum CoverFileType {
         return this.filenamePart;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return toString;
     }
 

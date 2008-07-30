@@ -379,7 +379,8 @@ public class App {
 
     private static void addShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread("OmovShutdownHook") {
-            public void run() {
+            @Override
+			public void run() {
                 LOG.info("Running shutdown hook...");
                 
                 try {

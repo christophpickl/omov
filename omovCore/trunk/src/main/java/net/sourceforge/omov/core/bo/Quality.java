@@ -72,7 +72,8 @@ public final class Quality implements Comparable<Quality> {
         }
     };
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "Quality[id="+this.id+";label="+label+"]";
     }
     

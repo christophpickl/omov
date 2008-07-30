@@ -243,10 +243,10 @@ public class CriterionFieldFactory {
             match = DateMatch.newInRange(lowerBound, upperBound);
         } else if(matchLabel.equals(DateMatch.LABEL_IN_THE_LAST)) {
             final Integer days = (Integer) values[0];
-            match = DateMatch.newInTheLast(days);
+            match = DateMatch.newInTheLast(days.intValue());
         } else if(matchLabel.equals(DateMatch.LABEL_NOT_IN_THE_LAST)) {
             final Integer days = (Integer) values[0];
-            match = DateMatch.newNotInTheLast(days);
+            match = DateMatch.newNotInTheLast(days.intValue());
         } else {
             throw new IllegalArgumentException("Unhandled matchLabel: '"+matchLabel+"' (columnLabel was '"+columnLabel+"')!");
         }
@@ -455,7 +455,7 @@ public class CriterionFieldFactory {
     /******************************************************************************************************************/
 
     private static AbstractCriterionField newBoolField(final String columnLabel, final String matchLabel, final Object[] values) {
-        final boolean initValue = (values != null) ? (Boolean) values[0] : false;
+        final boolean initValue = (values != null) ? ((Boolean) values[0]).booleanValue() : false;
         
         if(columnLabel.equals(MovieField.SEEN.label()) == false) {
             throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
@@ -488,8 +488,8 @@ public class CriterionFieldFactory {
             final int initValueTo;
             
             if(columnLabel.equals(MovieField.YEAR.label())) {
-                initValueFrom = (values != null) ? (Integer) values[0] : PtDateUtil.getCurrentYear() - 1;
-                initValueTo   = (values != null) ? (Integer) values[1] : PtDateUtil.getCurrentYear(); 
+                initValueFrom = (values != null) ? ((Integer) values[0]).intValue() : PtDateUtil.getCurrentYear() - 1;
+                initValueTo   = (values != null) ? ((Integer) values[1]).intValue() : PtDateUtil.getCurrentYear(); 
             } else {
                 throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
             }
@@ -500,7 +500,7 @@ public class CriterionFieldFactory {
             
             final int initValue;
             if(columnLabel.equals(MovieField.YEAR.label())) {
-                initValue = (values != null) ? (Integer) values[0] : PtDateUtil.getCurrentYear();
+                initValue = (values != null) ? ((Integer) values[0]).intValue() : PtDateUtil.getCurrentYear();
             } else {
                 throw new IllegalArgumentException("columnLabel: '"+columnLabel+"' (matchLabel was '"+matchLabel+"')");
             }
@@ -627,11 +627,11 @@ public class CriterionFieldFactory {
         
         final AbstractCriterionField field;
         if(matchLabel.equals(RatingMatch.LABEL_IN_THE_RANGE)) {
-            final int ratingFrom = values != null ? (Integer) values[0] : 0;
-            final int ratingTo = values != null ? (Integer) values[1] : 5;
+            final int ratingFrom = values != null ? ((Integer) values[0]).intValue() : 0;
+            final int ratingTo = values != null ? ((Integer) values[1]).intValue() : 5;
             field = new RatingRangeField(ratingFrom, ratingTo);
         } else {
-            field = new RatingSingleField(values != null ? (Integer) values[0] : 0);
+            field = new RatingSingleField(values != null ? ((Integer) values[0]).intValue() : 0);
         }
         
         return field;
@@ -664,11 +664,11 @@ public class CriterionFieldFactory {
         
         final Long initValue;
         if(columnLabel.equals(MovieField.FILE_SIZE_KB.label())) {
-            initValue = (values != null) ? (Long) values[0] : 0L;
+            initValue = (values != null) ? (Long) values[0] : new Long(0L);
         } else {
             throw new IllegalArgumentException("columnLabel: '"+columnLabel+"'");
         }
-        return new FileSizeSingleField(4, initValue, 0, 99999);
+        return new FileSizeSingleField(4, initValue.longValue(), 0, 99999);
     }
     
     private static AbstractCriterionField newDurationField(final String columnLabel, final String matchLabel, final Object[] values) {

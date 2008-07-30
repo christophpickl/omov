@@ -59,7 +59,7 @@ public abstract class DurationMatch extends AbstractMatch<PtDuration> {
                 final PtDuration equals = this.getValueAt(0);
                 LOG.debug("Preparing equals for value '"+equals+"'.");
                 
-                return query.constrain(equals.getTotalInMinutes()).equal();
+                return query.constrain(new Integer(equals.getTotalInMinutes())).equal();
             }
         };
     }
@@ -71,7 +71,7 @@ public abstract class DurationMatch extends AbstractMatch<PtDuration> {
                 final PtDuration longer = this.getValueAt(0);
                 LOG.debug("Preparing longer for value '"+longer+"'.");
                 
-                return query.constrain(longer.getTotalInMinutes()).greater();
+                return query.constrain(new Integer(longer.getTotalInMinutes())).greater();
             }
         };
     }
@@ -83,7 +83,7 @@ public abstract class DurationMatch extends AbstractMatch<PtDuration> {
                 final PtDuration shorter = this.getValueAt(0);
                 LOG.debug("Preparing shorter for value '"+shorter+"'.");
                 
-                return query.constrain(shorter.getTotalInMinutes()).smaller();
+                return query.constrain(new Integer(shorter.getTotalInMinutes())).smaller();
             }
         };
     }

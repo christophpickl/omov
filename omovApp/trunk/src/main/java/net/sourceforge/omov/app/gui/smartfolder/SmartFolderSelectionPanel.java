@@ -80,11 +80,13 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
             this.fireContentsChanged(this, 0, this.data.size());
         }
 
-        public Object getElementAt(int index) {
+        @Override
+		public Object getElementAt(int index) {
             return this.data.get(index);
         }
 
-        public int getSize() {
+        @Override
+		public int getSize() {
             return this.data.size();
         }
     }
@@ -167,7 +169,8 @@ public class SmartFolderSelectionPanel extends JPanel implements ISmartFolderDao
         this.comboBox.setOpaque(false);
         this.comboBox.setPreferredSize(new Dimension(200, (int) this.comboBox.getPreferredSize().getHeight()));
 
-        this.comboBox.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.comboBox.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doComboBoxClicked();
         }});
 

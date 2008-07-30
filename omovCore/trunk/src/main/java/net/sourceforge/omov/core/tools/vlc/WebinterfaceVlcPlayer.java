@@ -174,7 +174,7 @@ abstract class WebinterfaceVlcPlayer implements IVlcPlayer {
 		Integer id = getPlaylist().getIdByUri(uri);
 		if(id != null) {
 			try {
-				playById(id);
+				playById(id.intValue());
 			} catch (IOException e) {
 				throw new BusinessException("Could not play file '"+file.getAbsolutePath()+"'!", e);
 			}

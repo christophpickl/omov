@@ -84,7 +84,8 @@ class TableRenderers {
     private static class DefaultRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 783309666699748436L;
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 //            System.out.println("isSelected="+isSelected+"; value="+value);
 
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
@@ -99,7 +100,8 @@ class TableRenderers {
 
     private static class CoverRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 2926410557857576765L;
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
 //            final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             final Movie movie = getMovie(table, row);
             final JLabel lbl = new JLabel(ColumnsCoverFactory.getInstance().getImage(movie));
@@ -117,7 +119,8 @@ class TableRenderers {
         private static final long serialVersionUID = 3071418230735107442L;
         private static final Font FONT_TITLE_SEEN = new Font("Default", Font.PLAIN, 12);
         private static final Font FONT_TITLE_UNSEEN = new Font("Default", Font.BOLD, 12);
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             final Movie movie = getMovie(table, row);
 
@@ -134,7 +137,8 @@ class TableRenderers {
     private static class RatingRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = -4946524787250006442L;
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Movie movie = getMovie(table, row);
 
             if(movie.getRating() == 0 && isSelected == false) {
@@ -176,7 +180,8 @@ class TableRenderers {
     private static class QualityRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 1331841353063350382L;
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Quality quality = (Quality) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
@@ -191,8 +196,9 @@ class TableRenderers {
     private static class DurationRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = -614495795501324589L;
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-            final int duration = (Integer) value;
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            final int duration = ((Integer) value).intValue();
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             lbl.setText(PtDurationUtil.formatDurationShort(duration));
             if(isSelected) {
@@ -210,7 +216,8 @@ class TableRenderers {
     private static class DateAddedRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 5247456238762520415L;
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Date dateAdded = (Date) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             lbl.setText(Movie.DATE_ADDED_FORMAT_SHORT.format(dateAdded));
@@ -225,7 +232,8 @@ class TableRenderers {
     private static class ResolutionRenderer extends DefaultTableCellRenderer {
         private static final long serialVersionUID = 2629156722065858479L;
 
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             final Resolution resolution = (Resolution) value;
             final JLabel lbl = (JLabel) super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             lbl.setText(resolution.getFormattedString());

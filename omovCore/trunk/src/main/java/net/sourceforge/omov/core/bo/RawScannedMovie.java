@@ -44,7 +44,8 @@ public class RawScannedMovie extends MovieFolderInfo {
             fileSizeKb(this.getFileSizeKB()).folderPath(this.getFolderPath()).format(this.getFormat()).files(this.getFiles()).duration(0).get();
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "ScannedMovie[title="+title+"]";
     }
     

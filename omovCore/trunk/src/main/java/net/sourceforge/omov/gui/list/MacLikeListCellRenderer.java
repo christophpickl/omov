@@ -37,7 +37,8 @@ public class MacLikeListCellRenderer extends DefaultListCellRenderer {
     private static final long serialVersionUID = 5300720838872292929L;
     
     
-    public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+    @Override
+	public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
         final Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
         prepareComponent(c, isSelected, index, null);
         return c;

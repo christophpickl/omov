@@ -109,7 +109,8 @@ public class SmartFolder {
         return this.matchAll;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append("[");
         sb.append("id=").append(id).append(";");

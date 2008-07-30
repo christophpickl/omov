@@ -43,7 +43,8 @@ public class PreparerHint  implements Comparable<PreparerHint> {
         return this.msg;
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         return "Hint."+severity.name() + ": " + msg;
     }
     

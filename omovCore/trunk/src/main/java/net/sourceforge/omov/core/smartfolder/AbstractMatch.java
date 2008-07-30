@@ -55,7 +55,8 @@ public abstract class AbstractMatch<V> {
         return this.label;
     }
 
-    public String toString() {
+    @Override
+	public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append("[");
         sb.append("label=").append(label).append(";");

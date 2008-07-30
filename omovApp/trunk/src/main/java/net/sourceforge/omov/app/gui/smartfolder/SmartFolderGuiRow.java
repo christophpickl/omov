@@ -92,10 +92,12 @@ public class SmartFolderGuiRow  extends JPanel {
         final Dimension btnDimension = new Dimension(60, (int) this.btnAdd.getPreferredSize().getHeight());
         this.btnAdd.setPreferredSize(btnDimension);
         this.btnDelete.setPreferredSize(btnDimension);
-        this.btnAdd.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.btnAdd.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             listener.doAddRow();
         }});
-        this.btnDelete.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.btnDelete.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             listener.doDeleteRow(SmartFolderGuiRow.this);
         }});
         
@@ -105,10 +107,12 @@ public class SmartFolderGuiRow  extends JPanel {
         this.add(this.comboMatches);
         this.add(this.fieldWrapper);
 
-        this.comboColumn.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.comboColumn.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doChangeColumn();
         }});
-        this.comboMatches.addActionListener(new GuiActionListener() { public void action(ActionEvent e) {
+        this.comboMatches.addActionListener(new GuiActionListener() { @Override
+		public void action(ActionEvent e) {
             doChangeMatch();
         }});
         
@@ -171,7 +175,8 @@ public class SmartFolderGuiRow  extends JPanel {
         return CriterionFieldFactory.newCriterion(this.selectedColumnLabel, this.selectedMatchLabel, values);
     }
     
-    public String toString() {
+    @Override
+	public String toString() {
         final String fieldValues = this.field.getValues() == null ? "null" : Arrays.toString(this.field.getValues());
         return "SmartFolderGuiRow[column="+this.comboColumn.getSelectedItem()+";match"+this.comboMatches.getSelectedItem()+";field.values="+fieldValues+"]";
     }
@@ -192,11 +197,13 @@ public class SmartFolderGuiRow  extends JPanel {
             this.fireContentsChanged(this, 0, this.data.size());
         }
 
-        public Object getElementAt(int index) {
+        @Override
+		public Object getElementAt(int index) {
             return this.data.get(index);
         }
 
-        public int getSize() {
+        @Override
+		public int getSize() {
             return this.data.size();
         }
     }

@@ -38,7 +38,7 @@ public class NumberSingleField extends AbstractCriterionField {
 
     @Override
     public Object[] getValues() {
-        return new Long[] { this.numberField.getNumber() };
+        return new Long[] { new Long(this.numberField.getNumber()) };
     }
     
 }

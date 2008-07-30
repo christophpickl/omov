@@ -38,10 +38,12 @@ public class QualityField extends JComboBox {
         
         this.setModel(new DefaultComboBoxModel() {
             private static final long serialVersionUID = -6244895415596156603L;
-            public Object getElementAt(int row) {
+            @Override
+			public Object getElementAt(int row) {
                 return Quality.getQualityById(row).label();
             }
-            public int getSize() {
+            @Override
+			public int getSize() {
                 return 5;
             }
         });

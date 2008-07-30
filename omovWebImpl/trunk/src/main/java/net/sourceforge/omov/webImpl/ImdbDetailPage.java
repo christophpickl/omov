@@ -45,7 +45,8 @@ class ImdbDetailPage extends NodeVisitor {
         this.fetchCover = fetchCover;
     }
 
-    public void visitTag(Tag tag) {
+    @Override
+	public void visitTag(Tag tag) {
         if(this.fetchTitle(tag) == true) {
             return;
         }
@@ -205,7 +206,7 @@ class ImdbDetailPage extends NodeVisitor {
             Integer releaseYear = parseYear(releaseString);
             if(releaseYear != null) {
                 LOG.debug("setting year to '"+releaseYear+"'.");
-                this.movieData.setYear(releaseYear);
+                this.movieData.setYear(releaseYear.intValue());
             }
         } else if(lbl.equals("Genre:")) { // wenn in "Addtion Details" darunter: lbl.equals("Genres:")
             final Set<String> genres = new HashSet<String>();
@@ -242,7 +243,7 @@ class ImdbDetailPage extends NodeVisitor {
             Integer runtimeMin = parseRuntime(runtimeString);
             if(runtimeMin != null) {
                 LOG.debug("setting duration (in min) to '"+runtimeMin+"'.");
-                this.movieData.setDuration(runtimeMin);
+                this.movieData.setDuration(runtimeMin.intValue());
             }
             
         } else {

@@ -47,7 +47,8 @@ class StrokedShapeSliderUI extends ShapeSliderUI{
         return new StrokedShapeSliderUI();
     }
     
-    public void paintShape(Graphics2D g, double percent, boolean enabled){
+    @Override
+	public void paintShape(Graphics2D g, double percent, boolean enabled){
         Shape s = getPrimaryShape();
         if(percent>0.0){
             g.setColor(enabled ? getPrimaryColor() : getSecondaryColor());
