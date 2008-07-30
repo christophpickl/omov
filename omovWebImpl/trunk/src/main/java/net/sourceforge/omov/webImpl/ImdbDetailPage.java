@@ -9,8 +9,8 @@ import java.util.Set;
 
 import net.sourceforge.jpotpourri.util.PtCollectionUtil;
 import net.sourceforge.omov.core.FatalException;
-import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.logic.ProxyEnabledConnectionFactory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

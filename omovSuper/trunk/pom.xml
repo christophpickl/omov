@@ -21,6 +21,8 @@
 
 	<modules>
 		<module>../omovCore</module>
+		<module>../omovGuiCore</module>
+		<module>../omovLogic</module>
 		<module>../omovApp</module>
 		<module>../omovQtjApi</module>
 		<module>../omovQtjImpl</module>
@@ -64,6 +66,34 @@
 		
 	</dependencies>
 
+
+	<!-- =================================================================== -->
+	<!-- Build                                                               -->
+	<!-- =================================================================== -->
+	
+	<build>
+		<plugins>
+		
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+
+		<!-- TODO enable processing of the src/main/resources/application.properties file
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		 -->
+	</build>
 
 	<!-- =================================================================== -->
 	<!-- Repositories                                                        -->

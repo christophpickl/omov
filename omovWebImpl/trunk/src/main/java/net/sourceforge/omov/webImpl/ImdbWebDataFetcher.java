@@ -9,8 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.sourceforge.omov.core.BusinessException;
-import net.sourceforge.omov.core.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.core.bo.Movie;
+import net.sourceforge.omov.logic.ProxyEnabledConnectionFactory;
 import net.sourceforge.omov.webApi.IWebDataFetcher;
 import net.sourceforge.omov.webApi.WebSearchResult;
 
