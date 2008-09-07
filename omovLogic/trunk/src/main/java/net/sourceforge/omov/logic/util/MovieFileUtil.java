@@ -35,7 +35,9 @@ public class MovieFileUtil {
             "mpg", "mpeg", "mp4", "avi", "ogm", "mkv", "divx", "wmv", "flv", "mov",
             "bin", "cue", 
             "mdf", "mds", 
-            "bup", "ifo", "vob"); // DVDs
+            "bup", "ifo", "vob", // DVDs
+            "nrg", "dat"
+            );
     
     public static boolean isMovieFileExtension(String extension) {
         return KNOWN_MOVIE_FILE_EXTENSIONS.contains(extension);
