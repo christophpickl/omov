@@ -76,6 +76,7 @@ CLI ARGs
 - "DEBUG" ... enables debug menubar entry
 - "DEVELOP" ... usefull if currently developing (paths for eclipse, etc)
 
+
 */
 
 /**
@@ -83,6 +84,9 @@ CLI ARGs
  * @author christoph_pickl@users.sourceforge.net
  */
 public class App {
+	
+	// FIXME feature: unbedingt eine moeglichkeit, dass man aus omov raus den ordner verschieben kann (erspart man sich folderpath resetting!) + ein dropdown zur verfuegung stellen wo alle bisher verwendeten rootfolders aufgelistet sind mit einer "Other ..." option fuer open-dialog
+	// FIXME GUI feature: use (not yet customizable) toolbar for most used features, eg: scan repo, fetch md, 
 	// TODO GUI - give feedback, if Rescan Movie(s) was selected
 	// TODO GUI - ebenfalls progress dialog, wenn repository scanned movies importen tun
 	// TODO GUI - macliketables loose focus -> bg will only get partly gray/repainted on win systems
@@ -92,10 +96,19 @@ public class App {
 	// FIXME in superpom, do not encapsulate dependencies-tag within dependencyManagement tag (cause dependencies should actually be inherited by submodules)
 	
 	// FIXME outsource QTJ-impl in own plugin with own version number (not sub-pom of superOmov-pom)
-	
+	// MINOR report bug to apple/?, when Help menuitem got focus, window will be inactivated! (other -java own- menuitems different)
 	// TODO zusaetzlich zu jar-with-dependencies assembly: src assembly!
+	// TODO feature: detect if osx, and if so, show dropdown item for each entry int /Volumes
+	// MINOR GUI: nearly always show progress-dialog with swing-worker (because even importing movies by scanned repository can take a while)
+    // FIXME metadata fetch: display dialog, if not any result could be found, instead of result window!
+	// TODO GUI: add "fetch meta data" menuitem shortcut
+	// FIXME GUI: be aware of Mac OS X default cmd-c, cmd-v, cmd-f, ... will be available by default; even in e.g. tables (copy&paste results in "Das Omen	0	Quality[id=0;label=Unrated]	") 
 	
-    private static final Log LOG = LogFactory.getLog(App.class);
+	// FIXME GUI: es funkt zwar backspace, aber nicht delete ("entf") key zum loeschen!
+	// FEATURE scan with _multiple_ rootfolders
+	// TODO !!!!!! das metadata fetching aufjedenfall bei weitem vereinfachen (evtl sogar im table selbst, gibts ne schalte zum metadatafetchen, und resultat irgendwie besser/kompakter darstellen)!!!!
+	//      !!!!!!! am besten gleich ein eigenes window fuer wenn multiple metadatafetching !!!!
+	private static final Log LOG = LogFactory.getLog(App.class);
 
     private static final Set<String> cliArguments = new HashSet<String>();
     
