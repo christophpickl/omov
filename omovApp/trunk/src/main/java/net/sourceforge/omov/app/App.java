@@ -84,7 +84,7 @@ CLI ARGs
  * @author christoph_pickl@users.sourceforge.net
  */
 public class App {
-	
+	// FIXME metadta: unbedingt, wenn suchdialog aufgeht, dass man auch nach anderem titel selber suchen kann, ohne vorher movie.titel editieren muss dafuer :( 
 	// FIXME feature: unbedingt eine moeglichkeit, dass man aus omov raus den ordner verschieben kann (erspart man sich folderpath resetting!) + ein dropdown zur verfuegung stellen wo alle bisher verwendeten rootfolders aufgelistet sind mit einer "Other ..." option fuer open-dialog
 	// FIXME GUI feature: use (not yet customizable) toolbar for most used features, eg: scan repo, fetch md, 
 	// TODO GUI - give feedback, if Rescan Movie(s) was selected
