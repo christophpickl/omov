@@ -34,9 +34,9 @@ import net.sourceforge.jpotpourri.jpotface.inputfield.search.PtSearchField;
 import net.sourceforge.jpotpourri.jpotface.util.PtGuiUtil;
 import net.sourceforge.omov.app.gui.comp.OmovSelectableContextMenuButton;
 import net.sourceforge.omov.app.gui.main.tablex.MovieTableModel;
+import net.sourceforge.omov.core.ContinuousFilter;
+import net.sourceforge.omov.core.ContinuousFilter.ContinuousFilterField;
 import net.sourceforge.omov.guicore.GuiActionListener;
-import net.sourceforge.omov.logic.ContinuousFilter;
-import net.sourceforge.omov.logic.ContinuousFilter.ContinuousFilterField;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

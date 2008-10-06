@@ -31,12 +31,12 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.omov.core.BeanFactory;
 import net.sourceforge.omov.core.BusinessException;
+import net.sourceforge.omov.core.ContinuousFilter;
 import net.sourceforge.omov.core.FatalException;
 import net.sourceforge.omov.core.bo.Movie;
 import net.sourceforge.omov.core.imodel.IMovieDao;
 import net.sourceforge.omov.core.imodel.IMovieDaoListener;
 import net.sourceforge.omov.core.smartfolder.SmartFolder;
-import net.sourceforge.omov.logic.ContinuousFilter;
 import net.sourceforge.omov.logic.MovieTableColumns;
 
 import org.apache.commons.logging.Log;
