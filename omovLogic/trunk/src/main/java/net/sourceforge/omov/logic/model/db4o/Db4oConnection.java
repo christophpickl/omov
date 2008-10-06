@@ -49,6 +49,9 @@ import com.db4o.defragment.DefragmentConfig;
 public class Db4oConnection implements IDatabaseConnection {
 
     private static final Log LOG = LogFactory.getLog(Db4oConnection.class);
+    
+    private static final String SYSPROPERTY_TEST_RUNNING = "omovTestRunning";
+    
     private ObjectContainer connection;
     
     private boolean autoCommit = true;
@@ -76,14 +79,14 @@ public class Db4oConnection implements IDatabaseConnection {
         LOG.info("Defragmentation complete.");
     }
 
-    public Db4oConnection(final String _dbFileName) { // TODO rename variable to maybeDbFileName
-        final boolean isRunningJunitTest = System.getProperty("omovTestRunning") != null; // TODO some make better test capability
+    public Db4oConnection(final String maybeDbFileName) {
+        final boolean isRunningJunitTest = System.getProperty(SYSPROPERTY_TEST_RUNNING) != null; // TODO some make better test capability
         
         final String dbFileName;
         if(isRunningJunitTest == false) {
-            dbFileName = new File(PreferencesDao.getInstance().getDataFolder(), _dbFileName).getAbsolutePath();
+            dbFileName = new File(PreferencesDao.getInstance().getDataFolder(), maybeDbFileName).getAbsolutePath();
         } else {
-        	dbFileName = _dbFileName;
+        	dbFileName = maybeDbFileName;
         }
         LOG.info("Opening database file '"+dbFileName+"'.");
         try {
