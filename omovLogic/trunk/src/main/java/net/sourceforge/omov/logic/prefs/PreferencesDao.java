@@ -56,6 +56,7 @@ public class PreferencesDao {
     
     
     private PreferencesDao() {
+    	LOG.trace("creating new PreferencesDao instance");
         if(this.getStoredVersion() == PreferencesData.DATA_VERSION) {
             this.loadPreferences();
         }
@@ -95,6 +96,7 @@ public class PreferencesDao {
     }
     
     void loadPreferences() {
+    	LOG.trace("loadPreferences() invoked");
         this.data = this.newDataByStoredValues();
     }
     
@@ -203,6 +205,7 @@ public class PreferencesDao {
     public int getStoredVersion() {
         final String storedVersion = this.prefs.get(PrefKey.IS_CONFIGURED.name(), null);
         if(storedVersion == null) {
+        	LOG.debug("getStoredVersion() returning -1, because not anything was yet stored in preferences data storage.");
             return -1;
         }
         return Integer.parseInt(storedVersion);
