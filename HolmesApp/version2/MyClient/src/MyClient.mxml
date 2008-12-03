@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:WindowedApplication
+	layout="vertical"
+	
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:code="code.*">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.messaging.ChannelSet;
+			import mx.messaging.channels.AMFChannel;
+			import mx.messaging.Channel;
+			
+			private function onServiceClick(): void {
+				trace("Invoking service call.");
+				this.service.getCatalogs();
+			}
+			
+			private function onResult(event: ResultEvent): void {
+				trace("result! " + event.result);
+			}
+			
+			private function onFault(event: FaultEvent): void {
+				trace("FAULT! " + event.message);
+			}
+			
+			private function onFileClick(): void {
+				trace("onFileClick()");
+				
+				const fr: FileReference = new FileReference();
+				fr.addEventListener(Event.SELECT, onFileSelect);
+				fr.addEventListener(Event.COMPLETE, onFileComplete);
+				
+				const textTypes: FileFilter = new FileFilter("Text Files only", "*.txt; *.rtf; *.xml");
+				fr.browse([textTypes]);
+			}
+			private function onFileSelect(event: Event): void {
+				trace("onFileSelect()");
+				
+				const fr: FileReference = event.currentTarget as FileReference;
+				
+				const req: URLRequest = new URLRequest("http://localhost:8080/MyWeb/upload/");
+				req.method = URLRequestMethod.POST;
+				req.contentType="multipart/form-data";
+				trace("Uploading [" + fr.name + "]...");
+				fr.upload(req);
+			}
+			private function onFileComplete(event: Event): void {
+				trace("onFileComplete()");
+				
+			}
+			
+		]]>
+	</mx:Script>
+	
+	<code:SomeService id="service"
+		result="onResult(event)"
+		fault="onFault(event)" />
+	
+	<mx:Button label="Call Service" click="onServiceClick()" />
+	
+	<mx:Button label="Upload File ..." click="onFileClick()" />
+	
+</mx:WindowedApplication>
