@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox
+	horizontalAlign="center"
+	verticalAlign="top"
+
+	verticalGap="0"
+
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:comp="holmes.view.comp.*">
+	<!-- 125x125 -->
+
+
+	<comp:TextAreaX text="{data.title}" width="100%"
+		maxHeight="20" />
+
+	<mx:Image source="assets/exercises/{data.idExercise}.png" maxWidth="80" maxHeight="80" maintainAspectRatio="true" />
+
+</mx:VBox>

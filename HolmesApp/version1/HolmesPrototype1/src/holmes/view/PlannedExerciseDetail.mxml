@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox
+	visible="{Model.instance.plannedExercise != null}"
+
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns="holmes.view.*">
+	<mx:Script>
+		<![CDATA[
+			import holmes.common.Model;
+		]]>
+	</mx:Script>
+
+
+
+	<mx:Form>
+
+		<mx:FormItem label="Title">
+			<mx:Label text="{Model.instance.plannedExercise.title}" />
+		</mx:FormItem>
+
+		<mx:FormItem label="Repetitions">
+			<mx:Label text="{Model.instance.plannedExercise.repetitions}" />
+		</mx:FormItem>
+
+		<mx:FormItem label="Weight">
+			<mx:Label text="{Model.instance.plannedExercise.weight}" />
+		</mx:FormItem>
+
+	</mx:Form>
+
+</mx:VBox>

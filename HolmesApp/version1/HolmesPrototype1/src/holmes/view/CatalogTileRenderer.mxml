@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas
+
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:comp="holmes.view.comp.*">
+
+	<comp:TextAreaX text="{data.title}" />
+
+</mx:Canvas>

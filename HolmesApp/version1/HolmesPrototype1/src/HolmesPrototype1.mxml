@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+
+http://www.muskelbody.de/uebungen.htm
+
+-->
+<mx:Application
+	layout="vertical"
+	verticalAlign="top"
+	horizontalAlign="left"
+
+	creationComplete="onCreationComplete()"
+
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:view="holmes.view.*">
+
+	<mx:Script>
+		<![CDATA[
+			import logging.Logger;
+			import holmes.dao.Dao;
+
+			private static const LOG: Logger = Logger.getLogger("HolmesPrototype1");
+
+			private function onCreationComplete(): void {
+				LOG.fine("onCreationComplete()");
+				Dao.instance.fetchData();
+			}
+
+		]]>
+	</mx:Script>
+
+
+	<mx:Style source="style.css" />
+
+
+   	<!--<mx:Label styleName="appTitle" text="Holmes Place" />-->
+
+   	<!--<mx:ToggleButtonBar dataProvider="{this.viewStack}" />-->
+
+	<mx:ViewStack id="viewStack" width="100%" height="100%" creationPolicy="all">
+
+		<view:PageHome />
+
+	</mx:ViewStack>
+
+</mx:Application>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+	layout="absolute"
+	creationComplete="onCreationComplete()"
+
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:spielwiese="spielwiese.*"
+	xmlns:flash="holmes.flash.*">
+
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import holmes.flash.HumanClass;
+
+			/*[Embed(source="assets/flash/EasyHuman.swf")]
+			[Bindable]
+			private var humanParts: Class;*/
+
+			private var parts: ArrayCollection = new ArrayCollection();
+
+			private function onCreationComplete(): void {
+				for each(var partName: String in HumanClass.MUSCLE_IDS) {
+					trace("partName: " + partName);
+					if(partName == "head") {
+
+					} else if(partName == "body") {
+
+					} else if(partName == "legs") {
+
+					} else {
+						throw new Error("Unhandled part name [" + partName + "]!");
+					}
+				}
+
+				this.human.setMuscleRelation("body", 100);
+			}
+
+			private function onMuscleClicked(event: TextEvent): void {
+				trace("onMuscleClicked(event="+event+")");
+
+				const muscleName: String = event.text;
+				human.setMuscleRelation(muscleName, 100);
+			}
+
+		]]>
+	</mx:Script>
+
+	<!--<mx:SWFLoader id="swfLoader" source="{this.humanParts}" width="300" height="400" />-->
+
+	<flash:HumanParts id="human" x="150" y="200"
+		muscleClicked="onMuscleClicked(event)" />
+
+</mx:Application>

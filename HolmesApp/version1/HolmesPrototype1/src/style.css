@@ -1,0 +1,12 @@
+
+Application {
+	background-color: white;
+
+}
+
+/* "Holmes Place" general title in top left corner */
+.appTitle {
+	color: #CCCCCC;
+	font-size: 20;
+	font-weight: bold;
+}

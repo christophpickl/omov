@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+	label="Home"
+
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns="holmes.view.*"
+	xmlns:comp="holmes.view.comp.*">
+
+	<mx:Script>
+		<![CDATA[
+			import logging.Logger;
+			import holmes.model.PlannedExercise;
+			import holmes.common.Model;
+			import holmes.model.Plan;
+			import holmes.model.Catalog;
+			import holmes.model.Exercise;
+			import mx.events.ListEvent;
+
+			private static const LOG: Logger = Logger.getLogger("holmes.view.PageHome");
+
+			private function onCatalogChange(event: ListEvent): void {
+				LOG.info("onCatalogChange");
+				const catalog: Catalog = this.categoriesList.selectedItem as Catalog;
+				Model.instance.catalog = catalog;
+				Model.instance.exercises = catalog.exercises;
+			}
+
+			private function onExerciseChange(event: ListEvent): void {
+				LOG.info("onExerciseChange");
+				Model.instance.exercise = this.exercisesList.selectedItem as Exercise;
+				Model.instance.plannedExercise = null;
+			}
+
+			private function onPlanChange(event: ListEvent): void {
+				LOG.info("onPlanChange");
+				Model.instance.plan = this.plansList.selectedItem as Plan;
+			}
+
+			private function onPlannedExerciseChange(event: ListEvent): void {
+				LOG.info("onPlannedExerciseChange");
+				var pExc: PlannedExercise = this.plannedExercisesGrid.selectedItem as PlannedExercise;
+				Model.instance.exercise = pExc as Exercise;
+				Model.instance.plannedExercise = pExc;
+			}
+
+			private function onExerciseClick(event: MouseEvent) : void {
+				const exc: Exercise = this.exercisesList.selectedItem as Exercise;
+				if(Model.instance.exercise != exc) {
+					Model.instance.exercise = exc; // update, if was changed by plannedExercise
+					Model.instance.plannedExercise = null;
+				}
+			}
+
+			private function onPlannedExerciseClick(event: MouseEvent) : void {
+				const pexc: PlannedExercise = this.plannedExercisesGrid.selectedItem as PlannedExercise;
+				if(Model.instance.plannedExercise != pexc) {
+					Model.instance.exercise = pexc;
+					Model.instance.plannedExercise = pexc;
+				}
+			}
+
+		]]>
+	</mx:Script>
+
+	<mx:HBox width="100%" height="250">
+
+		<comp:HTileList id="categoriesList"
+			dataProvider="{Model.instance.catalogs}"
+			change="onCatalogChange(event)"
+
+			height="250" width="400"
+			rowHeight="250" columnWidth="250"
+			itemRenderer="holmes.view.CatalogTileRenderer"
+			/>
+
+		<comp:HTileList id="exercisesList"
+			dataProvider="{Model.instance.exercises}"
+			change="onExerciseChange(event)"
+			click="onExerciseClick(event)"
+
+			height="250" width="300"
+			rowHeight="125" columnWidth="125" rowCount="2"
+			dragEnabled="true"
+			itemRenderer="holmes.view.ExerciseTileRenderer"
+			/>
+
+		<ExerciseDetail width="100%" height="100%" />
+
+	</mx:HBox>
+
+	<mx:HBox width="100%" height="250">
+
+		<mx:DataGrid id="plansList"
+			dataProvider="{Model.instance.plans}"
+			change="onPlanChange(event)"
+			width="400" height="100%">
+			<mx:columns>
+				<mx:DataGridColumn dataField="dateCreated" headerText="Date" />
+			</mx:columns>
+		</mx:DataGrid>
+
+		<PlannedExercisesGrid id="plannedExercisesGrid"
+			dataProvider="{Model.instance.plan.plannedExercises}"
+			change="onPlannedExerciseChange(event)"
+			click="onPlannedExerciseClick(event)"
+
+			width="300" height="100%" />
+
+		<PlannedExerciseDetail width="100%" height="100%" />
+
+	</mx:HBox>
+
+</Page>

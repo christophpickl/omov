@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox
+	visible="{Model.instance.exercise != null}"
+	creationComplete="onCreationComplete()"
+
+	xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:flash="holmes.flash.*">
+
+	<mx:Script>
+		<![CDATA[
+			import holmes.model.Muscle;
+			import holmes.flash.HumanClass;
+			import holmes.model.Exercise;
+			import mx.binding.utils.BindingUtils;
+			import logging.Logger;
+			import holmes.model.MuscleRelation;
+			import holmes.common.Model;
+
+			private static const LOG: Logger = Logger.getLogger("holmes.view.ExerciseDetail");
+
+			private function onCreationComplete(): void {
+				BindingUtils.bindSetter(updateExerciseMuscleParts, Model.instance, "exercise");
+			}
+
+			private function updateExerciseMuscleParts(value: Object): void {
+				for each(var muscleName: String in HumanClass.MUSCLE_IDS) {
+					this.humanParts.setMuscleRelation(muscleName, 0);
+				}
+
+				if(value == null) {
+					LOG.finer("updating exercise weights to zero because setter value is null.");
+				} else {
+					const exercise: Exercise = value as Exercise;
+					LOG.finer("updating exercise weights for exercise: " + exercise.title);
+
+					for each(var muscleRelation: MuscleRelation in exercise.muscleRelations) {
+						this.humanParts.setMuscleRelation(muscleRelation.muscle.id, muscleRelation.weight);
+					}
+				}
+
+			}
+
+			private function onMuscleClicked(event: TextEvent): void {
+				LOG.fine("onMuscleClicked() muscle=" + event.text);
+			}
+
+		]]>
+	</mx:Script>
+
+	<flash:HumanParts id="humanParts"
+		muscleClicked="onMuscleClicked(event)"
+		/><!-- editable="true" -->
+
+	<mx:Form>
+
+		<mx:FormItem label="Title">
+			<mx:Label text="{Model.instance.exercise.title}" />
+		</mx:FormItem>
+
+		<mx:FormItem label="Relations ({Model.instance.exercise.muscleRelations.length}):">
+			<mx:Repeater id="muscleRelationsRepeater" dataProvider="{Model.instance.exercise.muscleRelations}">
+				<mx:Label text="{muscleRelationsRepeater.currentItem.muscle.title}" />
+				<mx:Label text="{muscleRelationsRepeater.currentItem.weight}" />
+			</mx:Repeater>
+		</mx:FormItem>
+
+	</mx:Form>
+</mx:HBox>
