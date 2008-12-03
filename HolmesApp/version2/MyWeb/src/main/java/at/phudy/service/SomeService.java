@@ -25,7 +25,6 @@ public class SomeService implements ISomeService {
 	}
 	
 	
-	@Override
 	public List<Catalog> getCatalogs() {
 		LOG.info("Method getCatalogs() invoked.");
 		

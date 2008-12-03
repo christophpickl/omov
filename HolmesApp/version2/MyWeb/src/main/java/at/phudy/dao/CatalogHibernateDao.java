@@ -21,7 +21,6 @@ class CatalogHibernateDao extends AbstractDefaultDao<Long, Catalog> implements I
 		LOG.info("Constructor invoked.");
 	}
 
-	@Override
 	public Catalog getById(final Long id) {
 		LOG.info("Method getById() invoked.");
 		// TODO Auto-generated method stub

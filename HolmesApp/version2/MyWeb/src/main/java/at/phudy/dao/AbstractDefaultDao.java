@@ -30,7 +30,6 @@ abstract class AbstractDefaultDao<I extends Serializable, E> implements IAbstrac
 
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public final List<E> getAll() {
 		LOG.debug(this.getClass().getSimpleName() + ".getAll()");
 		
@@ -46,7 +45,6 @@ abstract class AbstractDefaultDao<I extends Serializable, E> implements IAbstrac
 	}
 	
 	
-	@Override
 	public final void saveOrUpdate(final E entity) {
 		LOG.debug(this.getClass().getSimpleName() + ".saveOrUpdate()");
 		
@@ -67,7 +65,6 @@ abstract class AbstractDefaultDao<I extends Serializable, E> implements IAbstrac
 	}
 	
 
-	@Override
 	public final void delete(final E entity) {
 		LOG.debug(this.getClass().getSimpleName() + ".delete()");
 		

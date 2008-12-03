@@ -23,7 +23,6 @@ public class MyServletContextListener implements ServletContextListener {
 	private static Injector injector;
 	
 	
-	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		LOG.info("contextInitialized(event="+event+")");
 		
@@ -34,7 +33,6 @@ public class MyServletContextListener implements ServletContextListener {
 //    	Runtime.getRuntime().addShutdownHook(new Thread(injector.getInstance(HsqldbShutdownHook.class)));
 	}
 
-	@Override
 	public void contextDestroyed(ServletContextEvent event) {
 		LOG.info("contextDestroyed(event="+event+")");
 		

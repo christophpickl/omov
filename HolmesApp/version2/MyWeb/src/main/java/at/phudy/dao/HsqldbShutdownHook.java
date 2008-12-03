@@ -19,7 +19,6 @@ public class HsqldbShutdownHook implements Runnable {
 		this.hsqldbShutdown = hsqldbShutdown;
 	}
 	
-	@Override
 	public void run() {
 		LOG.info("Method run() invoked.");
 		
