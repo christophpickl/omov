@@ -1,21 +1,31 @@
 \documentclass[a4paper]{article}
 
-%htlatex index "html,2"
+%EXECUTE FOLLOWING COMMAND FOR PRODUCING A HTML VERSION:
+%
+% htlatex index "html,2"
+%
 
 %\usepackage[austrian]{babel}
 %\usepackage[latin1]{inputenc}
+
+% htlatex howtos/tutorials:
+% - http://www.slac.stanford.edu/comp/unix/package/tex/tex4ht/mn2.html
+% - http://wwweda.pd.infn.it/TeX/doc/html/tex4ht/mn.html#mnDo4.html
 
 \usepackage{graphicx}
 \usepackage{color}
 \usepackage{framed} 
 \usepackage{hyperref}
 \usepackage{listings}
-%\usepackage{tex4ht}
 
-\include{00_listings}
+%\usepackage[myhtconfig,xhtml]{tex4ht}
+\usepackage{tex4ht}
+
+\include{includes/commands}
+\include{includes/listings}
 
 
-\title{Personal Information}
+\title{Personal Website}
 \author{Christoph Pickl}
 \date{\today}
 
@@ -23,22 +33,17 @@
 
 \maketitle
 
-\begin{abstract}
-    Das ist mein abstrakt.
-\end{abstract}
+\input{chapters/abstract}
+
 
 \tableofcontents
 
-\include{01_about}
+\include{chapters/about}
+\include{chapters/university}
+\include{chapters/appendix}
 
-\section{University}
-foobar
+\include{includes/bibliography}
 
-\section{References}
-
-\begin{enumerate}
-    \item \url{http://stud4.tuwien.ac.at/index.css}
-\end{enumerate}
-
+%\listoffigures
 
 \end{document}  
