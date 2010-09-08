@@ -1,88 +1,166 @@
+@references (technical projects)
+- how recent // when
+- quantity of code
+- languages used
+- how many people involved
+- how long worked for them
+- operating systems/technologies used
+- customer or clients
 
-                               Curriculum Vitae
-                                Christoph Pickl
-                               September 6, 2010
+@languages (C/++, Java, Python)
++ types of projects
++ lengths of time
+- how recent // when
+- quantity of code
+- languages used
+- how many people involved
+- how long worked for them
+- operating systems/technologies used
+- customer or clients
+// We're looking more for original work than pre-coded solutions or
+architectures
 
 
 
-                               I. Personal Facts                               
+
+                              Curriculum Vitae
+                               Christoph Pickl
+                              September 6, 2010
+
+
+
+                              I. PERSONAL FACTS
 
 Born: 25th September 1985, in Eisenstadt/Burgenland/Austria
 Mother: Geraldine Luise Pickl (NL), self-employed, Asia restaurant
 Father: Robert Eduard Pickl (AUT), self-employed, interior decorator
-Misc: Possessor of driving license (B)
+Interests: Music, DJing [Hoer], Weight Training, Aikido, Running
 
 
-2. Jobs & Education
+                             II. JOBS & EDUCATION
 
 2009-.... Flex Developer, Build and Release Engineer @ Bwin
 2005-.... Vienna University of Technology (Software- & Information Engineering)
          See attached transcript [Tran10] for a full list of my passed courses.
 2008-2009 Java Developer @ Federal Ministry of Internal Affairs
 2007-2009 Java Developer, Tutor @ s IT solutions AT (Erste Group Bank)
+         ... EMC documentum, software engineering academy (conferences,
+         workshops gegeben fuer oop/java, challenges, presentations
+[SiTe08]) ...
 2007-2009 Private Tutor @ Lern im Team
+         ... Informatik und Finanzmathematik ...
 2007-2008 Tutor @ Vienna University of Technology
+         ... OOP und EWA ...
 2006-2007 Java Developer @ Procon Data
+         ... for Federal Environmental Agency () ...
 2004-2008 Web Developer as a Freelancer
+         See chapter III. References & Open Source for some examples.
 2001-2003 Junior IT consultant @ Oesterreichisches Juedisches Museum
-// MS Access euro umstellung
-// erfassung von daten in MS access + oberflaeche
-// mitarbeit an der website
-// flash animationen fuer kinderbereich
-// erweiterung netzwerk, verkabelung
+         Euro change-over (MS Access), business statistics (Access, Excel),
+         website (HTML, Flash animations), extending and wiring of network.
 2000-2005 Federal Commercial Academy Eisenstadt (ICT pilot project)
 1996-2000 Federal Secondary School Eisenstadt
 
 
-3. references
+                         III. REFERENCES & OPEN SOURCE
 
-// three technical projects in detail (attorneys, lisaruyter, soundofshopping)
-// other projects only little info (hsc-post.at, cyberschool.at/kiki-hifi, vomtullnerbach.at, drum-energy.com, maturaprojekt coldfish+praesi attachment)
+three main projects
+--------------------------------
+- Attorneys
+ approx. 80 hours work
+- Lisa Ruyter
+- Sound of Shopping
+* hsc-post.at
+* cyberschool.at/kiki-hifi
+* vomtullnerbach.at
+* drum-energy.com
+* maturaprojekt coldfish+praesi attachment
+ 403 hours work
 
-4. Open Source Involvement
+open source involvement
+--------------------------------
+PotPourri family
+ jpotpourri (jpotfaces), fxpotpourri, apotpourri (aka androidnstuff)
+ visit project page [Jpot]
 
-others: flexmojos, aspectj, pydev
-eigene: omov (see attachment of GUI overview), jpotpourri (jpotfaces), fxpotpourri, androidnstuff
+OurMovies
+ technologies used: SwingX, QTJ (Quicktime for Java), db4o (object
+oriented database)
+ for a quick overview of the visual elements, see attachment [OmGu08]
+ 342 classes, 23.346 LoC
+
+flexmojos
+pydev
+aspectj
 
 
-5. Languages
+                            IV. COMPUTER LANGUAGES
 General
-// more into statically typed and strict languages (compile time safety, TDD nice but...)
+--------------------------------
+// more into statically typed and strict languages (compile time
+safety, TDD nice but...)
 // much into OOP, with some functional and aspect influences
-// languages i've learned so far (kind of top-down order):
-Java, ActionScript, XML&Co, PHP, SQL, UML, LaTeX, JSF, JSP, JavaScript, AppleScript, bash, PL/SQL, Python, C, Perl, C++, Ruby, ASP, Groovy, C#, VB(A), Haskell, Eiffel, Pascal, Scala, SmallTalk, Objective-C, Prolog, JavaFX, CFML
 
-
+Googler's Languages
+--------------------------------
 C/C++
-...
-Java
-...
+ ... done lots of things in C and C++ (and C# and Objective-C), dont
+like it because its too close too hardware (need higher abstraction
+layer) ...
 Python
-...
+ ... easy, using it from time to time, believe in TDD but not feeling
+comfortable with dynamic typed languages ...
+ ... recently in moldowa, university sommer course about
+"Communication protocols", exercises written in python ...
+Java
+ ... MY language, using it since 2003 ...
+
+List of Languages
+--------------------------------
+// languages i've learned so far (kind of top-down order):
+Java, ActionScript, XML&Co, PHP, SQL, UML, LaTeX, JSF, JSP,
+JavaScript, AppleScript, bash, PL/SQL, Python, C, Perl, C++, Ruby,
+ASP, Groovy, C#, VB(A), Haskell, Eiffel, Pascal, Scala, SmallTalk,
+Objective-C, Prolog, JavaFX, CFML
 
 
-6. noteworthy
+                           V. REMARKS & NOTEWORTHY
 
-// Java cer
-// Flex cert
+- Successfully passed Sun Certified Java Programmer 5 certification
+- Successfully passed Adobe Flex 3 with AIR certification
+- Co-founder of the Java Student User Group [Jsug]
+ * One of three existing Java user groups in whole Austria.
+ * Organizing events and conducting several presentations ().
+- Former co-manager of the Alpenflash Usergroup [Alpe]
+ * Single official Adobe user group in Vienna.
+ *
 // usergroup (jsug [looooots of presentation+LINK], alpenflash)
 // schnellster typewriter ;)
+- For some more information about me, please visit my student website [Stud]
+ or my profile at XING [Xing] which includes similar information like this CV.
 
 
-A. Appendix
+                                 A. LINKS & ATTACHMENTS
 
-[1] http://web.student.tuwien.ac.at/~e0525580/
-[2] http://xing.com/profile/christoph_pickl
+[Alpe] http://alpenflash.at
+[Hoer] http://hsc-post.at (former http://hoerspielcrew.at)
+[Jpot] http://sourceforge.net/projects/jpotpourri/
+[Jsug] http://jsug.at
+[Omov] http://sourceforge.net/projects/omov/
+[SofS] http://soundofshopping.com
+[Stud] http://web.student.tuwien.ac.at/~e0525580/
+[Xing] http://xing.com/profile/christoph_pickl
 
+** [CoSl05] Pickl-Slides_ColdFish ... School leaving examination
+project (german)
+** [LaTe09] Pickl-Slides_Latex ... Introduction to LaTeX
+**** [OmGu08] Pickl-Omov_GUI ... OurMovies user interface overview
+***** [Pict10] Pickl-Himself.jpg ... Picture of Christoph Pickl
+*** [ReBm09] Pickl-Recommend_BMI ... Recommendation BMI (german)
+*** [ReSi09] Pickl-Recommend_sIT ... Recommendation sIT solutions (german)
+*** [TeDa09] Pickl-Slides_Texday ... Introduction to htlatex and beamer
+***** [Tran10] Pickl-Transcript.pdf ... List of passed lectures
+baaz skriptum?
+ssh dok?
 
-B. Attachments
-
-[Pict10] CV-Christoph_Pickl-Picture.jpg ... Picture of me
-[Tran10] CV-Christoph_Pickl-Transcript.pdf ... List of passed lectures
-![DiBm09]! dienstzeugnis BMI (german)
-![DiSi09]! dienstzeugnis sITs (german)
-!! omov gui overview
-!! coldfish praesentation?
-! kiki hifi praesentation?
-
-========> im backup folder nachschauen, was man sonst noch so ueber mich geiles wissen
+~ 2 bis 4 noch wegloeschen!!!
