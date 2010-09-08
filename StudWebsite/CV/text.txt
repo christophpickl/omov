@@ -1,0 +1,88 @@
+
+                               Curriculum Vitae
+                                Christoph Pickl
+                               September 6, 2010
+
+
+
+                               I. Personal Facts                               
+
+Born: 25th September 1985, in Eisenstadt/Burgenland/Austria
+Mother: Geraldine Luise Pickl (NL), self-employed, Asia restaurant
+Father: Robert Eduard Pickl (AUT), self-employed, interior decorator
+Misc: Possessor of driving license (B)
+
+
+2. Jobs & Education
+
+2009-.... Flex Developer, Build and Release Engineer @ Bwin
+2005-.... Vienna University of Technology (Software- & Information Engineering)
+         See attached transcript [Tran10] for a full list of my passed courses.
+2008-2009 Java Developer @ Federal Ministry of Internal Affairs
+2007-2009 Java Developer, Tutor @ s IT solutions AT (Erste Group Bank)
+2007-2009 Private Tutor @ Lern im Team
+2007-2008 Tutor @ Vienna University of Technology
+2006-2007 Java Developer @ Procon Data
+2004-2008 Web Developer as a Freelancer
+2001-2003 Junior IT consultant @ Oesterreichisches Juedisches Museum
+// MS Access euro umstellung
+// erfassung von daten in MS access + oberflaeche
+// mitarbeit an der website
+// flash animationen fuer kinderbereich
+// erweiterung netzwerk, verkabelung
+2000-2005 Federal Commercial Academy Eisenstadt (ICT pilot project)
+1996-2000 Federal Secondary School Eisenstadt
+
+
+3. references
+
+// three technical projects in detail (attorneys, lisaruyter, soundofshopping)
+// other projects only little info (hsc-post.at, cyberschool.at/kiki-hifi, vomtullnerbach.at, drum-energy.com, maturaprojekt coldfish+praesi attachment)
+
+4. Open Source Involvement
+
+others: flexmojos, aspectj, pydev
+eigene: omov (see attachment of GUI overview), jpotpourri (jpotfaces), fxpotpourri, androidnstuff
+
+
+5. Languages
+General
+// more into statically typed and strict languages (compile time safety, TDD nice but...)
+// much into OOP, with some functional and aspect influences
+// languages i've learned so far (kind of top-down order):
+Java, ActionScript, XML&Co, PHP, SQL, UML, LaTeX, JSF, JSP, JavaScript, AppleScript, bash, PL/SQL, Python, C, Perl, C++, Ruby, ASP, Groovy, C#, VB(A), Haskell, Eiffel, Pascal, Scala, SmallTalk, Objective-C, Prolog, JavaFX, CFML
+
+
+C/C++
+...
+Java
+...
+Python
+...
+
+
+6. noteworthy
+
+// Java cer
+// Flex cert
+// usergroup (jsug [looooots of presentation+LINK], alpenflash)
+// schnellster typewriter ;)
+
+
+A. Appendix
+
+[1] http://web.student.tuwien.ac.at/~e0525580/
+[2] http://xing.com/profile/christoph_pickl
+
+
+B. Attachments
+
+[Pict10] CV-Christoph_Pickl-Picture.jpg ... Picture of me
+[Tran10] CV-Christoph_Pickl-Transcript.pdf ... List of passed lectures
+![DiBm09]! dienstzeugnis BMI (german)
+![DiSi09]! dienstzeugnis sITs (german)
+!! omov gui overview
+!! coldfish praesentation?
+! kiki hifi praesentation?
+
+========> im backup folder nachschauen, was man sonst noch so ueber mich geiles wissen
