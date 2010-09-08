@@ -1,227 +1,223 @@
+hi aleksandra,
+
+"finally i am done with my totally rewritten CV :)"
+... hope everything is okay with it ...
+
+* best viewed with a fixed-width font -plain text still rules :)
+* preferred google office: zurich or london
+* possible to rush things? need to leave flat end of november, would nice to know a definitive answer ASAP.
+
+~christoph.pickl
+********************************************************************************
 http://www.google.ch/intl/en/jobs/joininggoogle/resume/index.html
 
 !!!! Include the names and contact information of 2-3 references. These can include faculty advisors, co-workers, managers, or others who can talk knowledgeably about your skills and abilities. We don't need copies of any written references you already have.
 !!!! Be sure to include any awards you've received, articles you've published, or conference presentations you've given. We don't need to see copies of any awards or publications, just a reference to them.
 
+references* (technical projects) and $languages (C/++, Java, Python)
+* how recent // when
+* quantity of code
+* languages used
+* how many people involved
+* how long worked for them
+* operating systems/technologies used
+* customer or clients
+$ types of projects
+$ lengths of time
+// We're looking more for original work than pre-coded solutions or architectures
 
+********************************************************************************
+--------------------------------------------------------------------------------
+********************************************************************************
 
-@references (technical projects)
-- how recent // when
-- quantity of code
-- languages used
-- how many people involved
-- how long worked for them
-- operating systems/technologies used
-- customer or clients
-
-@languages (C/++, Java, Python)
-+ types of projects
-+ lengths of time
-- how recent // when
-- quantity of code
-- languages used
-- how many people involved
-- how long worked for them
-- operating systems/technologies used
-- customer or clients
-// We're looking more for original work than pre-coded solutions or
-architectures
+                               Curriculum Vitae
+                                Christoph Pickl
+                               September 1x, 2010
 
 
 
+                               TABLE OF CONTENTS
+--------------------------------------------------------------------------------
 
-                             Curriculum Vitae
-                              Christoph Pickl
-                             September 9, 2010
-
+  I. .......................................................... Personal Facts
+  II. ....................................................... Jobs & Education
+  III. .............................................. References & Open Source
+  IV. ..................................................... Computer Languages
+  V. .................................................... Remarks & Noteworthy
+  A. ..................................................... Links & Attachments
 
 
                              I. PERSONAL FACTS
+--------------------------------------------------------------------------------
 
-Mother: Geraldine Luise Pickl (NL), self-employed, Asia restaurant
-Father: Robert Eduard Pickl (AUT), self-employed, interior decorator
-Interests: Music, DJing [Hoer], Weight Training, Aikido, Running
 Contact: christoph.pickl@gmail.com or +43 699 11 436 376
 Address: Austria, A-1030 Vienna, Apostelgasse 24/12A
+Mother: Geraldine Luise Pickl (NL), self-employed, Asia restaurant
+Father: Robert Eduard Pickl (AUT), self-employed, interior decorator
+Interests: Music, DJing/Turntablism, Weight Training, Aikido, Running
 
 
                             II. JOBS & EDUCATION
+--------------------------------------------------------------------------------
 
-2009-.... Flex Developer, Build and Release Engineer @ Bwin
-         I am currently employed by bwin Interactive Entertainment AG where I
-         started as a front-end developer (ActionScript, Flex Framework) for
-         the livebetting product [BwLi] which is one of the biggest Flex
-         application in the world, written by +20 people.
-         Meanwhile my main responsibility is the build and release management
-         of this product, providing services to ~15 people and mainly dealing
-         with Subversion, Maven, Hudson and other related SCM technologies.
-2005-.... Vienna University of Technology (Software- & Information Engineering)
-         Besides my current employment I try to study as much as possible,
-         whereas I prefer to go my own way than to follow a (questionable)
-         plan. See attached transcript [Tran10] for a list of passed courses,
-         and the other two noteworthy attachments [CwTh06] and [CwSs05].
-2008-2009 Java Developer @ Federal Ministry of Internal Affairs
-         Instead of joining the army I decided to work as a civil servant for
-         the Federal Ministry of Internal Affairs where I implemented parts
-         of the Schengen Information System II. This enormous project mainly
-         used JEE technology (JMS) and involved several countries. See attached
-         testimonial [TeBm09].
-2007-2009 Java Developer, Tutor @ s IT solutions AT (Erste Group Bank)
-         Before the employment at bwin I worked for the IT service provider
-         of the Erste Group Bank where my main responsibility was the
-         customization of EMC's Documentum, which was done via the Java API.
-         A custom front-end was implemented with (meanwhile open sourced)
-         in-house developed (open)XMA framework. I was also part of the
-         internal organization called Software Engineering Academy which
-         included OOP/Java trainings, conferences, programming challenges,
-         presentations, et cetera. See attached testimonial [TeSi09].
-2007-2009 Private Tutor @ Lern im Team
-         This was somehow a minor occupation. I taught pupils at secondary
-         schools for the subjects computer science and financial mathematics.
-2007-2008 Tutor @ Vienna University of Technology
-         Because of the excellent graduation in the lectures Object Oriented
-         Programming (Java) and Development of Web Applications (Ajax, JSF,
-         WebML) he worked as a tutor at the Vienna University of Technology.
-2006-2007 Java Developer @ Procon Data
-         This job was about implementing an enormous JSF-based web application
-         for and in co-operation with the Federal Environmental Agency. About
-         30 people worked on the representation and extraction of scientific
-         information, whereas my main responsibility was the JSF part and
-         especially the spatial visualisation by a geo-component.
-2004-2008 Web Developer as a Freelancer
-         Already in the early age of 18 years I launched my own company, as I
-         started writing web applications for local shops. I did all the work
-         on my own (requirements, design, implementation, test) and focused on
-         web based content management systems with PHP, MySQL and Flash. See
-         chapter III. References & Open Source for some examples.
-2001-2003 Junior IT consultant @ Oesterreichisches Juedisches Museum
-         I gained my first working experience as a museum employee with 16
-         years. It originally started as a holiday job but turned to a
-         long-term employment pretty soon. Tasks involved: Euro change-over
-         (Access), business statistics (Access, Excel), website (HTML, Flash),
-         extending/wiring of the local network and many other minor things.
-2000-2005 Federal Commercial Academy Eisenstadt (ICT pilot project)
+Flex Developer @ Bwin (2009-....)
+    I am currently employed by Bwin Interactive Entertainment AG where I started as a front-end developer (ActionScript, Flex Framework) for the livebetting product [XXXX] which is one of the biggest Flex application, written by +20 people. Meanwhile my main responsibility is the build and release management of this product, providing services to ~15 people and mainly dealing with Subversion, Maven, Hudson and other related SCM technologies.
+
+Student @ Vienna University of Technology (2005-....)
+    Besides my current employment I try to study as much as possible in the area of computer science (Software- & Information Engineering), whereas I prefer to go my own way than to follow a (questionable) plan provided by others. See attached transcript [XXXX] for a list of passed courses, and the other two noteworthy attachments [XXXX] and [XXXX].
+
+Java Developer @ Federal Ministry of Internal Affairs (2008-2009)
+    Instead of joining the army I decided to work as a civil servant for the Federal Ministry of Internal Affairs where I implemented parts of the Schengen Information System II. This enormous project mainly used JEE technology (JMS) and involved several countries.
+
+Java Developer @ s IT solutions AT (2007-2009)
+    Before the employment at Bwin I worked for the IT service provider of the Erste Group Bank where my main responsibility was the customization of EMC's Documentum, which was done via the Java API. A custom front-end was implemented with (meanwhile open sourced) in-house developed (open)XMA framework. I was also part of the internal organization called Software Engineering Academy which included OOP/Java trainings, conferences, programming challenges, presentations, et cetera.
+
+Private Tutor @ Lern im Team (2007-2009)
+    This was somehow a minor occupation. I taught pupils of secondary schools in the subjects computer science and financial mathematics.
+
+Tutor @ Vienna University of Technology (2007-2008)
+    Because of the excellent graduation in the lectures Object Oriented Programming (Java) and Development of Web Applications (Ajax, JSF, WebML) he worked as a tutor at the Vienna University of Technology.
+
+Java Developer @ Procon Data (2006-2007)
+    This job was about implementing an enormous JSF-based web application for and in co-operation with the Federal Environmental Agency. About 30 people worked on the representation and extraction of scientific information, whereas my main responsibility was the JSF part and especially the spatial visualisation by a geo-component.
+
+Web Developer as a Freelancer (2004-....)
+    Already in the early age of 18 years I launched my own company, as I started writing web applications for local shops. I did all the work on my own (requirements, design, implementation, test) and focused on web based content management systems with PHP, MySQL and Flash. See chapter III. References & Open Source for some examples.
+
+Junior IT consultant @ Oesterreichisches Juedisches Museum (2001-2003)
+    I gained my first working experience as a museum employee with 16 years. It originally started as a holiday job but turned to a long-term employment pretty soon. Tasks involved: Euro change-over (Access), business statistics (Access, Excel), website (HTML, Flash), extending/wiring of the local network and many other minor things.
+
+Federal Commercial Academy Eisenstadt (2000-2005)
+    After secondary school I decided to join this specific ICT pilot project as it did not only teach economics, but also in combination with computer science where I therefore gained my first professional skills with computers and programming.
 
 
                         III. REFERENCES & OPEN SOURCE
+--------------------------------------------------------------------------------
 
-2010 Attorneys - Website
-    approx. 80 hours work, content exchangable; 3 people; Flex, XML
-    xxx
-    xxx
-    xxx
-2009 Lisa Ruyter - Website
-    xxx, content exchangable; 3 people; Flex, PHP, XML
-    xxx
-    xxx
-    xxx
-200x Sound of Shopping - Art Project
-    xxx, Java, QTJ, MIDI, barcode reader (lots of hardware); 8 people involved
-    xxx
-    xxx
-    xxx
-200x HSC - Website
-    xxx, little site; Flex; just me and a designer
-200x Cyberschool Competition - Website
-    xxx, cyberschool.at/kiki-hifi; Flash, MySQL; just me
-200x Vom Tullnerbach - Website
-    xxx; PHP, MySQL, Flash; just me
-200x drum-energy.com
-    xxx; Flash, PHP, MySQL; just me
-200x maturaprojekt coldfish+praesi attachment
-    403 hours work; just me; PHP, MySQL, Flash
+Attorneys - Website (2010)
+    This project is currently in progress and was developed for a lawyer's office. A snapshot version can be found at [XXXX]. The team working on it consisted of a project manager, a designer and me in the role as the developer. It has a highly sophisticating user interface implemented with Adobe Flex and its content is exchangable via a simple XML backend. All in all it took me 90 hours to finish this project.
 
-PotPourri family
-jpotpourri (jpotfaces), fxpotpourri, apotpourri (aka androidnstuff)
-visit project page [Jpot]
+Lisa Ruyter - Website (2009)
+    Another project implemented with nearly the same technology (Flex, PHP and XML), the same team as for Attorneys and even the invested time is the same with about 80 hours. Lisa Ruyter is a world famous artist selling her paintings beginning with EUR 30,000 to EUR 75,000. The result can be found at [XXXX].
 
-OurMovies
-technologies used: SwingX, QTJ (Quicktime for Java), db4o (object
-oriented database)
-for a quick overview of the visual elements, see attachment [OmGu08]
-342 classes, 23.346 LoC
+Sound of Shopping - Art Project (2007)
+    To be short Sound of Shopping transforms barcodes into music which is unique to the products bought and it's even possible reverse this operation (the date and up to five barcodes can be extracted). After a live presentation in an art super market the product was changed in such way that it is able to be used via a web interface [XXXX]. A short article can be found at [XXXX]. All in all 8 people were involved; mainly musicians, a project manager and a math professor. Main technologies used were: Java, MIDI, QTJ, JFugue, Kontakt (sequencer), Mac OS X, PHP, MySQL and lots of (customized) hardware. All in all it took me 130 hours to implement every piece of code.
 
-flexmojos
-	sent many many patches; maintaining own fork used @ bwin
-pydev
-	-> http://pydev.org/history_pydev.html; see "New on: 1.3.19"
 
-minor contribution in some other projects (e.g. aspectj) by submitting bug reports
+HSC - Website (2009)
+    This nice website [XXXX] is just an internet representation for my band HSC (aka Hoerspielcrew) and was realized with Flex and the help of a designer.
+
+Cyberschool Competition - Webshop (2004)
+    A webshop implemented for a local record store (kiki-hifi) with which I won the 2nd place in category technics at the cyberschool.at competition. It was implemented with PHP and MySQL, parts (audio preview, soundbox) were with realised Flash. It was entirely implemented by myself and took me about three weeks -no exact time protocol available, but it was a lot ;)
+
+Vom Tullnerbach - Website (2004)
+    A highly customizable website for a professional dog breeder [XXXX]. Again the technologies used where PHP, MySQL and partly Flash, me as the only person working on it. Time effort was about five weeks.
+
+Drum Energy - Website (2003)
+    A fully Flash animated website interacting with MySQL via AMFPHP. This was a smaller project (only me) and the invested effort was about 30 hours. The site was meanwhile completely reworked.
+
+Coldfish - Webplatform (2005)
+    My school leaving examination project was a huge platform written within a total of 400 hours (single man project). It was a community driven platform providing Flash games, computer tutorials, scripts and tha-like. Many different technologies were used, among them: FreeBSD, Red Hat, PHP, MySQL, Flash, BlueDragon (Coldfusion FOSS alternative), phpAdsNew, AMFPHP, phpbb, AWStats, Photoshop, Fireworks, Flash Communication Server, Swift 3D, ... Slides of the presentation can be found at [XXXX].
+    
+
+OurMovies (2008)
+    This is yet another movie management tool (are you able to organize all your legally downloaded movies?!), but going far beyond that as it provides features like metadata fetching, video player and it even got file sharing capabilities to make our lives easier when it comes to exchanging movies among friends. Technologies used: Java, Swing(X), QTJ (Quicktime for Java), db4o (object
+oriented database) and many others. It consists of 342 classes and 23.346 lines of code. For a quick overview of the complete user interface see attachment [XXXX]. This project is only maintained by myself and can be found on sourceforge [XXXX].
+
+PotPourri (2008-....)
+    It all started with the library JPotPourri, as I was already working on several Java projects and wanted to create a reusable code base, which then I made public on sourceforge ([XXXX]). Getting inspired by the Flex framework, and especially the concept of value binding, the JPotFace project was born, an enhancement for (the living dead) Swing. Meanwhile I also created the same for Flex named FxPotPourri and even for the Android platform APotPourri (aka androidnstuff), which mainly provides an abstraction layer over the not-so-OOP API of Android. This project is only maintained by myself.
+
+FlexMojos (2009-....)
+    Being a heavy Maven user I was glad to find a (maybe not that) mature project for also supporting ActionScript/Flex based applications. For this I contributed lots of patches which were all accepted and at Bwin I am also maintaining a custom fork of FlexMojos.
+
+Besides these two major projects I also did some minor contributions to the Eclipse PyDev plug-in in version 1.3.19 [XXXX] and other projects by submitting bug reports (e.g. AspectJ) or feature requests (e.g. Songbird).
+
 
                            IV. COMPUTER LANGUAGES
-General
---------------------------------
-// more into statically typed and strict languages (compile time
-safety, TDD nice but...)
-// much into OOP, with some functional and aspect influences
+--------------------------------------------------------------------------------
 
-Googler's Languages
---------------------------------
-C/C++
-... done lots of things in C and C++ (and C# and Objective-C), dont
-like it because its too close too hardware (need higher abstraction
-layer) ...
-Python
-... easy, using it from time to time, believe in TDD but not feeling
-comfortable with dynamic typed languages ...
-... recently in moldowa, university sommer course about
-"Communication protocols", exercises written in python ...
-Java
-... MY language, using it since 2003 ...
+    In general I am more into statically typed and strict languages ... always trying to reduce possibility of runtime erros and increase compile time safety (e.g. instead of "a", "b", "c" I prefer enums) ...
+// IMHO you have to fully live TDD if using dynamically typed languages
+// much into OOP, with some functional and aspect oriented influences
+// the final story (or: mutability sucks): therefore i like haskell (no state), and in imperative languages i like to declare everything final/const (either its abstract or final)
 
-List of Languages
---------------------------------
-// languages i've learned so far (kind of top-down order):
-Java, ActionScript, XML&Co, PHP, SQL, UML, LaTeX, JSF, JSP,
-JavaScript, AppleScript, bash, PL/SQL, Python, C, Perl, C++, Ruby,
-ASP, Groovy, C#, VB(A), Haskell, Eiffel, Pascal, Scala, SmallTalk,
-Objective-C, Prolog, JavaFX, CFML
+    Googler's Languages ... Java, C/++ and Python... everything is the same for me :)
+Java ... MY language, using it since 2003 ...
+C/C++ ... done lots of things in C and C++ (and C# and Objective-C), dont like it because its too close too hardware (need higher abstraction layer) ...
+Python ... easy, using it from time to time,  ... recently in moldowa, university sommer course about "Communication protocols", exercises written in python ...
+
+   Finally ... List of Languages // computer languages i've learned (or at least being familiar with) so far (kind of top-down order):
+Java, ActionScript, XML&Co, PHP, SQL, LaTeX, UML, JSF, JSP, JavaScript, bash, PL/SQL, Python, C, AppleScript, C++, Perl, Haskell, C#, Groovy, SmallTalk, Objective-C, Pascal, Ruby, VB(A), Eiffel, JavaFX, Prolog, Scala, ASP, CFML
 
 
                           V. REMARKS & NOTEWORTHY
+--------------------------------------------------------------------------------
 
 - Successfully passed Sun Certified Java Programmer 5 certification
 - Successfully passed Adobe Flex 3 with AIR certification
-- Co-founder of the Java Student User Group [Jsug]
+- Co-founder of the Java Student User Group [XXXX]
 * One of three existing Java user groups in whole Austria.
 * Organizing events and conducting many presentations (Java, Maven, Spring Framework, JavaFX, Flex, xxxxx).
-- Former co-manager of the Alpenflash Usergroup [Alpe]
+- Former co-manager of the Alpenflash Usergroup [XXXX]
 * Single official Adobe user group in Vienna.
 * Organized many events; PR; presentations (mainly Flash/Flex related)
 // schnellster typewriter ;)
-- For some more information about me, please visit my student website [Stud]
-or my profile at XING [Xing] which includes similar information like this CV.
-
+- For some more information about me, please visit my student website [XXXX]
+or my profile at XING [XXXX] which includes similar information like this CV.
+.... mainly working on OS X and FreeBSD (as OS X's roots are in NeXtStep and NeXtStep's roots are in FreeBSD), but also I am experienced with Solaris and Red Hat.
 
                                 A. LINKS & ATTACHMENTS
+--------------------------------------------------------------------------------
 
-[Alpe] http://alpenflash.at
-[BwLi] http://bwin.com/liveBets.aspx
-[Hoer] http://hsc-post.at (former http://hoerspielcrew.at)
-[Jpot] http://sourceforge.net/projects/jpotpourri/
-[Jsug] http://jsug.at
-[Omov] http://sourceforge.net/projects/omov/
-[SofS] http://soundofshopping.com
-[Stud] http://web.student.tuwien.ac.at/~e0525580/
-[Xing] http://xing.com/profile/christoph_pickl
+Projects:
+[XXXX] http://attorneys.at/snapshot/
+[XXXX] http://lisaruyter.com
+[XXXX] http://hsc-post.at
+[XXXX] http://sourceforge.net/projects/omov/
+[XXXX] http://soundofshopping.com
+[XXXX] http://sourceforge.net/projects/jpotpourri/
+[XXXX] http://sil.at/unternehmen/magazin/magazin-nr-14/seite-13/
+[XXXX] http://vomtullnerbach.at/
+
+Additional Info:
+[XXXX] http://web.student.tuwien.ac.at/~e0525580/
+[XXXX] http://xing.com/profile/christoph_pickl
+
+Misc:
+[XXXX] http://alpenflash.at
+[XXXX] http://jsug.at
+[XXXX] http://bwin.com/liveBets.aspx
+[XXXX] http://pydev.org/history_pydev.html
+
 
 [Pict10] Himself.jpg ... Picture of Christoph Pickl
-[OmGu08] Project_Omov.pdf ... OurMovies user interface overview
- --> only link
-[CoSl05] Slides_ColdFish.pdf ... School leaving examination project (german)
- --> only link
-[TeDa09] Slides_TexDay.pdf ... Introduction to htlatex and beamer
- --> only link slideshare
-[LaTe09] Slides_Latex.pdf ... Introduction to LaTeX
- --> only link slideshare
-[Tran10] Uni_Transcript.pdf ... List of passed lectures
-[CwTh06] Uni_TheoScience_Script.pdf ... Theortical computer science II script
- --> only link
-[CwSs05] Uni_SSH_Paper.pdf ... Coursework about SSH
- --> only link
-!!! link to published silver server artikel ueber sound of shopping
+[OmGu08] Project_Omov.pdf ... OurMovies user interface overview  --> only link
+[CoSl05] Slides_ColdFish.pdf ... School leaving examination project (german) --> only link
+[TeDa09] Slides_TexDay.pdf ... Introduction to htlatex and beamer --> only link
+[LaTe09] Slides_Latex.pdf ... Introduction to LaTeX --> only link
+[???] Slides_SoS.pdf ... foo --> only link
+[Tran10] Uni_Transcript.pdf ... List of passed lectures --> only link
+[CwTh06] Uni_TheoScience_Script.pdf ... Theortical computer science II script --> only link
+[CwSs05] Uni_SSH_Paper.pdf ... Coursework about SSH --> only link
 
 
-[CoXx] Contact Information: Thomas Hirt (SoS, Attorneys, LisaRuyter)
-[CoXx] Contact Information: Klemens Dickbauer (sIT solutions)
-[CoXx] Contact Information: Popolari (civil servant, BMI)
+http://slideshare.net/javastudentusergroup/jsug-actionscript-3-vs-java-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-spring-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-java-fx-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-filthy-flex-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-the-sound-of-shopping-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-tex-day-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-effective-java-puzzlers-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-ourmovies-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-tech-tips1-by-christoph-pickl
+http://slideshare.net/javastudentusergroup/jsug-latex-introduction-by-christoph-pickl
+
+
+
+[CoXx] Contact Information: Thomas Hirt (project manager; Sound of Shopping, Attorneys, Lisa Ruyter)
+[CoXx] Contact Information: Josef Puchinger (section head; Bwin)
+  // please only contact if you really think it's necessary and it's very likely I will work at google, as he is my current (but was also my former) boss; still he knows me (and my skills) pretty good
+[CoXx] Contact Information: Klemens Dickbauer (technical application manager; sIT solutions)
+[CoXx] Contact Information: Hans Sowa (team lead; Procon Data)
+
+--------------------------------------------------------------------------------
