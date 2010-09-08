@@ -1,3 +1,10 @@
+http://www.google.ch/intl/en/jobs/joininggoogle/resume/index.html
+
+!!!! Include the names and contact information of 2-3 references. These can include faculty advisors, co-workers, managers, or others who can talk knowledgeably about your skills and abilities. We don't need copies of any written references you already have.
+!!!! Be sure to include any awards you've received, articles you've published, or conference presentations you've given. We don't need to see copies of any awards or publications, just a reference to them.
+
+
+
 @references (technical projects)
 - how recent // when
 - quantity of code
@@ -23,78 +30,125 @@ architectures
 
 
 
-                              Curriculum Vitae
-                               Christoph Pickl
-                              September 6, 2010
+                             Curriculum Vitae
+                              Christoph Pickl
+                             September 9, 2010
 
 
 
-                              I. PERSONAL FACTS
+                             I. PERSONAL FACTS
 
-Born: 25th September 1985, in Eisenstadt/Burgenland/Austria
 Mother: Geraldine Luise Pickl (NL), self-employed, Asia restaurant
 Father: Robert Eduard Pickl (AUT), self-employed, interior decorator
 Interests: Music, DJing [Hoer], Weight Training, Aikido, Running
+Contact: christoph.pickl@gmail.com or +43 699 11 436 376
+Address: Austria, A-1030 Vienna, Apostelgasse 24/12A
 
 
-                             II. JOBS & EDUCATION
+                            II. JOBS & EDUCATION
 
 2009-.... Flex Developer, Build and Release Engineer @ Bwin
+         I am currently employed by bwin Interactive Entertainment AG where I
+         started as a front-end developer (ActionScript, Flex Framework) for
+         the livebetting product [BwLi] which is one of the biggest Flex
+         application in the world, written by +20 people.
+         Meanwhile my main responsibility is the build and release management
+         of this product, providing services to ~15 people and mainly dealing
+         with Subversion, Maven, Hudson and other related SCM technologies.
 2005-.... Vienna University of Technology (Software- & Information Engineering)
-         See attached transcript [Tran10] for a full list of my passed courses.
+         Besides my current employment I try to study as much as possible,
+         whereas I prefer to go my own way than to follow a (questionable)
+         plan. See attached transcript [Tran10] for a list of passed courses,
+         and the other two noteworthy attachments [CwTh06] and [CwSs05].
 2008-2009 Java Developer @ Federal Ministry of Internal Affairs
+         Instead of joining the army I decided to work as a civil servant for
+         the Federal Ministry of Internal Affairs where I implemented parts
+         of the Schengen Information System II. This enormous project mainly
+         used JEE technology (JMS) and involved several countries. See attached
+         testimonial [TeBm09].
 2007-2009 Java Developer, Tutor @ s IT solutions AT (Erste Group Bank)
-         ... EMC documentum, software engineering academy (conferences,
-         workshops gegeben fuer oop/java, challenges, presentations
-[SiTe08]) ...
+         Before the employment at bwin I worked for the IT service provider
+         of the Erste Group Bank where my main responsibility was the
+         customization of EMC's Documentum, which was done via the Java API.
+         A custom front-end was implemented with (meanwhile open sourced)
+         in-house developed (open)XMA framework. I was also part of the
+         internal organization called Software Engineering Academy which
+         included OOP/Java trainings, conferences, programming challenges,
+         presentations, et cetera. See attached testimonial [TeSi09].
 2007-2009 Private Tutor @ Lern im Team
-         ... Informatik und Finanzmathematik ...
+         This was somehow a minor occupation. I taught pupils at secondary
+         schools for the subjects computer science and financial mathematics.
 2007-2008 Tutor @ Vienna University of Technology
-         ... OOP und EWA ...
+         Because of the excellent graduation in the lectures Object Oriented
+         Programming (Java) and Development of Web Applications (Ajax, JSF,
+         WebML) he worked as a tutor at the Vienna University of Technology.
 2006-2007 Java Developer @ Procon Data
-         ... for Federal Environmental Agency () ...
+         This job was about implementing an enormous JSF-based web application
+         for and in co-operation with the Federal Environmental Agency. About
+         30 people worked on the representation and extraction of scientific
+         information, whereas my main responsibility was the JSF part and
+         especially the spatial visualisation by a geo-component.
 2004-2008 Web Developer as a Freelancer
-         See chapter III. References & Open Source for some examples.
+         Already in the early age of 18 years I launched my own company, as I
+         started writing web applications for local shops. I did all the work
+         on my own (requirements, design, implementation, test) and focused on
+         web based content management systems with PHP, MySQL and Flash. See
+         chapter III. References & Open Source for some examples.
 2001-2003 Junior IT consultant @ Oesterreichisches Juedisches Museum
-         Euro change-over (MS Access), business statistics (Access, Excel),
-         website (HTML, Flash animations), extending and wiring of network.
+         I gained my first working experience as a museum employee with 16
+         years. It originally started as a holiday job but turned to a
+         long-term employment pretty soon. Tasks involved: Euro change-over
+         (Access), business statistics (Access, Excel), website (HTML, Flash),
+         extending/wiring of the local network and many other minor things.
 2000-2005 Federal Commercial Academy Eisenstadt (ICT pilot project)
-1996-2000 Federal Secondary School Eisenstadt
 
 
-                         III. REFERENCES & OPEN SOURCE
+                        III. REFERENCES & OPEN SOURCE
 
-three main projects
---------------------------------
-- Attorneys
- approx. 80 hours work
-- Lisa Ruyter
-- Sound of Shopping
-* hsc-post.at
-* cyberschool.at/kiki-hifi
-* vomtullnerbach.at
-* drum-energy.com
-* maturaprojekt coldfish+praesi attachment
- 403 hours work
+2010 Attorneys - Website
+    approx. 80 hours work, content exchangable; 3 people; Flex, XML
+    xxx
+    xxx
+    xxx
+2009 Lisa Ruyter - Website
+    xxx, content exchangable; 3 people; Flex, PHP, XML
+    xxx
+    xxx
+    xxx
+200x Sound of Shopping - Art Project
+    xxx, Java, QTJ, MIDI, barcode reader (lots of hardware); 8 people involved
+    xxx
+    xxx
+    xxx
+200x HSC - Website
+    xxx, little site; Flex; just me and a designer
+200x Cyberschool Competition - Website
+    xxx, cyberschool.at/kiki-hifi; Flash, MySQL; just me
+200x Vom Tullnerbach - Website
+    xxx; PHP, MySQL, Flash; just me
+200x drum-energy.com
+    xxx; Flash, PHP, MySQL; just me
+200x maturaprojekt coldfish+praesi attachment
+    403 hours work; just me; PHP, MySQL, Flash
 
-open source involvement
---------------------------------
 PotPourri family
- jpotpourri (jpotfaces), fxpotpourri, apotpourri (aka androidnstuff)
- visit project page [Jpot]
+jpotpourri (jpotfaces), fxpotpourri, apotpourri (aka androidnstuff)
+visit project page [Jpot]
 
 OurMovies
- technologies used: SwingX, QTJ (Quicktime for Java), db4o (object
+technologies used: SwingX, QTJ (Quicktime for Java), db4o (object
 oriented database)
- for a quick overview of the visual elements, see attachment [OmGu08]
- 342 classes, 23.346 LoC
+for a quick overview of the visual elements, see attachment [OmGu08]
+342 classes, 23.346 LoC
 
 flexmojos
+	sent many many patches; maintaining own fork used @ bwin
 pydev
-aspectj
+	-> http://pydev.org/history_pydev.html; see "New on: 1.3.19"
 
+minor contribution in some other projects (e.g. aspectj) by submitting bug reports
 
-                            IV. COMPUTER LANGUAGES
+                           IV. COMPUTER LANGUAGES
 General
 --------------------------------
 // more into statically typed and strict languages (compile time
@@ -104,16 +158,16 @@ safety, TDD nice but...)
 Googler's Languages
 --------------------------------
 C/C++
- ... done lots of things in C and C++ (and C# and Objective-C), dont
+... done lots of things in C and C++ (and C# and Objective-C), dont
 like it because its too close too hardware (need higher abstraction
 layer) ...
 Python
- ... easy, using it from time to time, believe in TDD but not feeling
+... easy, using it from time to time, believe in TDD but not feeling
 comfortable with dynamic typed languages ...
- ... recently in moldowa, university sommer course about
+... recently in moldowa, university sommer course about
 "Communication protocols", exercises written in python ...
 Java
- ... MY language, using it since 2003 ...
+... MY language, using it since 2003 ...
 
 List of Languages
 --------------------------------
@@ -124,25 +178,25 @@ ASP, Groovy, C#, VB(A), Haskell, Eiffel, Pascal, Scala, SmallTalk,
 Objective-C, Prolog, JavaFX, CFML
 
 
-                           V. REMARKS & NOTEWORTHY
+                          V. REMARKS & NOTEWORTHY
 
 - Successfully passed Sun Certified Java Programmer 5 certification
 - Successfully passed Adobe Flex 3 with AIR certification
 - Co-founder of the Java Student User Group [Jsug]
- * One of three existing Java user groups in whole Austria.
- * Organizing events and conducting several presentations ().
+* One of three existing Java user groups in whole Austria.
+* Organizing events and conducting many presentations (Java, Maven, Spring Framework, JavaFX, Flex, xxxxx).
 - Former co-manager of the Alpenflash Usergroup [Alpe]
- * Single official Adobe user group in Vienna.
- *
-// usergroup (jsug [looooots of presentation+LINK], alpenflash)
+* Single official Adobe user group in Vienna.
+* Organized many events; PR; presentations (mainly Flash/Flex related)
 // schnellster typewriter ;)
 - For some more information about me, please visit my student website [Stud]
- or my profile at XING [Xing] which includes similar information like this CV.
+or my profile at XING [Xing] which includes similar information like this CV.
 
 
-                                 A. LINKS & ATTACHMENTS
+                                A. LINKS & ATTACHMENTS
 
 [Alpe] http://alpenflash.at
+[BwLi] http://bwin.com/liveBets.aspx
 [Hoer] http://hsc-post.at (former http://hoerspielcrew.at)
 [Jpot] http://sourceforge.net/projects/jpotpourri/
 [Jsug] http://jsug.at
@@ -151,16 +205,23 @@ Objective-C, Prolog, JavaFX, CFML
 [Stud] http://web.student.tuwien.ac.at/~e0525580/
 [Xing] http://xing.com/profile/christoph_pickl
 
-** [CoSl05] Pickl-Slides_ColdFish ... School leaving examination
-project (german)
-** [LaTe09] Pickl-Slides_Latex ... Introduction to LaTeX
-**** [OmGu08] Pickl-Omov_GUI ... OurMovies user interface overview
-***** [Pict10] Pickl-Himself.jpg ... Picture of Christoph Pickl
-*** [ReBm09] Pickl-Recommend_BMI ... Recommendation BMI (german)
-*** [ReSi09] Pickl-Recommend_sIT ... Recommendation sIT solutions (german)
-*** [TeDa09] Pickl-Slides_Texday ... Introduction to htlatex and beamer
-***** [Tran10] Pickl-Transcript.pdf ... List of passed lectures
-baaz skriptum?
-ssh dok?
+[Pict10] Himself.jpg ... Picture of Christoph Pickl
+[OmGu08] Project_Omov.pdf ... OurMovies user interface overview
+ --> only link
+[CoSl05] Slides_ColdFish.pdf ... School leaving examination project (german)
+ --> only link
+[TeDa09] Slides_TexDay.pdf ... Introduction to htlatex and beamer
+ --> only link slideshare
+[LaTe09] Slides_Latex.pdf ... Introduction to LaTeX
+ --> only link slideshare
+[Tran10] Uni_Transcript.pdf ... List of passed lectures
+[CwTh06] Uni_TheoScience_Script.pdf ... Theortical computer science II script
+ --> only link
+[CwSs05] Uni_SSH_Paper.pdf ... Coursework about SSH
+ --> only link
+!!! link to published silver server artikel ueber sound of shopping
 
-~ 2 bis 4 noch wegloeschen!!!
+
+[CoXx] Contact Information: Thomas Hirt (SoS, Attorneys, LisaRuyter)
+[CoXx] Contact Information: Klemens Dickbauer (sIT solutions)
+[CoXx] Contact Information: Popolari (civil servant, BMI)
