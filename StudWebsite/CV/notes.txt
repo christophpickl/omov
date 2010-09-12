@@ -1,0 +1,31 @@
+hi aleksandra,
+
+"finally i am done with my totally rewritten CV :)"
+... hope everything is okay with it ...
+
+* best viewed with a fixed-width font -plain text still rules :)
+* preferred google office: zurich or london
+* possible to rush things? need to leave flat end of november, would nice to know a definitive answer ASAP.
+
+~christoph.pickl
+********************************************************************************
+http://www.google.ch/intl/en/jobs/joininggoogle/resume/index.html
+
+!!!! Include the names and contact information of 2-3 references. These can include faculty advisors, co-workers, managers, or others who can talk knowledgeably about your skills and abilities. We don't need copies of any written references you already have.
+!!!! Be sure to include any awards you've received, articles you've published, or conference presentations you've given. We don't need to see copies of any awards or publications, just a reference to them.
+
+references* (technical projects) and $languages (C/++, Java, Python)
+* how recent // when
+* quantity of code
+* languages used
+* how many people involved
+* how long worked for them
+* operating systems/technologies used
+* customer or clients
+$ types of projects
+$ lengths of time
+// We're looking more for original work than pre-coded solutions or architectures
+
+********************************************************************************
+--------------------------------------------------------------------------------
+********************************************************************************
