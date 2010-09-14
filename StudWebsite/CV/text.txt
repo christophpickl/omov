@@ -1,3 +1,9 @@
+@educational background: "Provide a brief description of any important projects you completed as part of your coursework"
+  - HDScan
+  - ??
+@former companies: mehr aufzaehlen mit welchen technologien ich dort gearbeitet hab, was meine rolle war (zb: bwin test team taskforce leader; totales refactoring der typhierarchie bei sITs dctm kernklassen)
+! "If you worked while attending a university, either during the summer or concurrent with your course work, be sure to mention this even if it isn't specifically related to a potential job at Google" --> hab IMMER schon neben schule und studium gearbeitet
+
                                Curriculum Vitae
                                 Christoph Pickl
                                September 12, 2010
