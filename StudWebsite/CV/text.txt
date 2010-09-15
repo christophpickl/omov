@@ -1,8 +1,3 @@
-@educational background: "Provide a brief description of any important projects you completed as part of your coursework"
-  - HDScan
-  - ??
-@former companies: mehr aufzaehlen mit welchen technologien ich dort gearbeitet hab, was meine rolle war (zb: bwin test team taskforce leader; totales refactoring der typhierarchie bei sITs dctm kernklassen)
-! "If you worked while attending a university, either during the summer or concurrent with your course work, be sure to mention this even if it isn't specifically related to a potential job at Google" --> hab IMMER schon neben schule und studium gearbeitet
 
                                Curriculum Vitae
                                 Christoph Pickl
@@ -37,18 +32,16 @@ Picture: Please see attachment [AtHi10]
 --------------------------------------------------------------------------------
 
 Flex Developer @ Bwin (2009-....)
-    I am currently employed by Bwin Interactive Entertainment AG [CoPu09] where I started as a front-end developer (Adobe Flex) for the livebetting application [MiBw09] which is said to be one of the biggest Flex application in the world, written by +20 people. Meanwhile my main responsibility is the build and release management [SlMa09] of this product, providing services to ~15 people and mainly dealing with Maven, Hudson, Subversion and other related SCM technologies.
-
-??? evtl referenz vom artikel uebers ELI in dieser computerzeitschrift ???
+    I am currently employed by Bwin Interactive Entertainment AG [CoPu09] where I started as a front-end developer (Adobe Flex) for the livebetting application [MiBw09] (an article [MiBw10] was released recently in Computerwelt) which is said to be one of the biggest Flex application in the world, written by +20 people. Meanwhile my main responsibility is the build and release management [SlMa09] of this product, providing services to ~15 people and mainly dealing with Maven, Hudson and Subversion. Furthermore I am the initiator and leader of a unit test taskforce whose aim is to educate the team in testing and get sure they have the proper environment to write/run tests smoothly.
 
 Student @ Vienna University of Technology (2005-....)
-    Besides my current employment I try to do as much as possible for my studies (Software- & Information Engineering), whereas I prefer to go my own way than to follow a (questionable) plan provided by others. See the attached transcript [AtTr10] for a list of my passed courses, and also which could be of interest is my scientific paper [MiSs05] about SSH as well as a script [MiTh06] I have written for the lecture ??"theoretical computer science II"??.
+    Besides my current employment I try to do as much as possible for my studies (Software- & Information Engineering), whereas I prefer to go my own way than to follow a (questionable) plan provided by others. See the attached transcript [AtTr10] for a list of my passed courses. What could be of interest is my scientific paper about SSH [MiSs05] as well as a script [MiTh06] I have written for the lecture "Theory of Computer Science 2". As part of one of my courseworks I want to mention "HD Scan", a disk usage utility for the course "Software Engineering and Project Management" written in Java, whereas my main responsibility was the implementation of the graphical user interface (Swing) and the documentation [PrHd07] which was a highly sophisticating project at its own using LaTeX. A similar approach was used by me before to create the documentation for the course "Project Management" [PrPm06] where we had to think of a imaginary health care system.
 
 Java Developer @ Federal Ministry of Internal Affairs (2008-2009)
     Instead of joining the army I decided to work as a civil servant for the Federal Ministry of Internal Affairs where I implemented parts of the Schengen Information System II. This immense project principally used JEE technology (JMS) and involved several European countries.
 
 Java Developer @ s IT solutions AT (2007-2009)
-    Before the employment at Bwin I worked for the IT service provider of the Erste Group Bank [CoDi07] where my main responsibility was the customization of EMC's Documentum, which was done via the Java API. A custom front-end was implemented with (meanwhile open sourced) in-house developed (open)XMA framework. I was also part of the internal organization called Software Engineering Academy which included OOP/Java trainings, conferences, programming challenges, presentations [SlFu08], et cetera.
+    Before the employment at Bwin I worked for the IT service provider of the Erste Group Bank [CoDi07] where my main responsibility was the customization and maintenance of EMC's Documentum which was done via a Java API. Suprisingly I was given big responsibilities as I refactored the whole type hierarchy of the core classes, and also reworked some other major parts of the system. A custom front-end was implemented with (the meanwhile open sourced) in-house developed openXMA framework [MiOp07]. I was also part of the internal organization called "Software Engineering Academy" which included OOP/Java trainings, conferences, programming challenges, presentations [SlFu08], et cetera.
 
 Private Tutor @ Lern im Team (2007-2009)
     As I was, and still I am, much into educating other people and trying to share as much of my knowledge as possible, I taught pupils of secondary schools for the Lern im Team agency [MiLe07] in the subjects computer science and financial mathematics.
@@ -57,13 +50,13 @@ Tutor @ Vienna University of Technology (2007-2008)
     Because of the excellent graduation in the lectures "Object Oriented Programming" (Java) and "Development of Web Applications" (Ajax, JSF, WebML) I worked two times as a tutor at the Vienna University of Technology, where I had to assist other students as well as graduate their exercises.
 
 Java Developer @ Procon Data (2006-2007)
-    My job at Procon Data [CoSo06] was about implementing an enormous JSF-based web application for, and in co-operation with, the Federal Environmental Agency of Austria. About 30 people worked on the extraction and representation of scientific information, whereas my main responsibility was the JSF part and especially the spatial visualisation by a geo-component.
+    My job at Procon Data [CoSo06] was about implementing an JSF-based web application for, and in co-operation with, the Federal Environmental Agency of Austria. About 30 people worked on the extraction and representation of scientific information, whereas my main responsibility was the JSF part and especially the spatial visualisation by a geo-component.
 
 Web Developer as a Freelancer (2004-....)
     Already in the early age of 18 years I launched my own company, as I started developing web applications for local shops. I did all the work on my own (requirements, implementation, design, test) and focused on web based content management systems with PHP, MySQL and Flash. See chapter III. References & Open Source for some examples.
 
 Junior IT consultant @ Oesterreichisches Juedisches Museum (2001-2003)
-    I gained my first working experience as a museum employee with 16 years. It originally started as a holiday job but turned to a long-term employment pretty soon. The range of tasks was somehow spread, starting from the Euro change-over (MS Access), business statistics (MS Access/MS Excel), website (HTML/Flash), extending/wiring of the local network and many other things.
+    I gained my first working experience as a museum employee with 16 years. It originally started as a holiday job but turned to a long-term employment pretty soon. The range of tasks was somehow spread, starting from the Euro change-over (MS Access), business statistics (MS Access/MS Excel), website (HTML/Flash), extending/wiring of the local network and many other minor things.
 
 Federal Commercial Academy Eisenstadt (2000-2005)
     After secondary school I decided to join this specific ICT pilot project as it did not only teach economics, but also computer science where I therefore had the possibility acquiring my first professional skills with computers and programming.
@@ -95,11 +88,11 @@ Drum Energy - Website (2003)
     A fully Flash animated website interacting with MySQL via AMFPHP. This was a smaller project (only me) and the invested effort was about 30 hours. The site was meanwhile completely reworked.
 
 Coldfish - Webplatform (2005)
-    My school leaving examination project was a huge platform written within a total of 400 hours (single man project). It was a community driven platform providing Flash games, computer tutorials, scripts and tha-like. Many different technologies were used, among them: FreeBSD, Red Hat, PHP, MySQL, Flash, BlueDragon (Coldfusion FOSS alternative), phpAdsNew, AMFPHP, phpbb, AWStats, Photoshop, Fireworks, Flash Communication Server, Swift 3D, ... Slides of the presentation can be found at [SlCo05].
+    My school leaving examination project was a platform written within a total of 400 hours (single man project). It was a community driven platform providing Flash games, computer tutorials, scripts and tha-like. Many different technologies were used, among them: FreeBSD, Red Hat, PHP, MySQL, Flash, BlueDragon (Coldfusion FOSS alternative), phpAdsNew, AMFPHP, phpbb, AWStats, Photoshop, Fireworks, Flash Communication Server, Swift 3D, ... Slides of the presentation can be found at [SlCo05].
     
 
 OurMovies (2008)
-    This is yet another movie management tool (are you able to organize all your legally downloaded movies?!), but going far beyond that as it provides features like metadata fetching, video player and it even got file sharing capabilities to make our lives easier when it comes to exchanging movies among friends. Technologies used: Java, Swing(X), QTJ (Quicktime for Java), db4o (object oriented database) and many others. It consists of 342 classes and 23.346 lines of code. For a quick overview of the complete user interface see attachment [MiOm08] and some slides [SlOm08] are available online as well. This project is only maintained by myself and can be found on sourceforge [PrOm08].
+    This is yet another movie management tool (are you able to organize all your legally downloaded movies?!), but going far beyond that as it provides features like metadata fetching, video player and it even got file sharing capabilities to make our lives easier when it comes to exchanging movies among friends. Main technologies used: Java, Swing(X), QTJ (Quicktime for Java) and db4o (object oriented database). It consists of 342 classes and 23.346 lines of code. For a quick overview of the complete user interface see attachment [MiOm08] and some slides [SlOm08] are available online as well. This project is only maintained by myself and can be found on sourceforge [PrOm08].
 
 PotPourri (2008-....)
     It all started with the library JPotPourri, as I was already working on several Java projects and wanted to create a reusable code base, which then I made public on sourceforge [PrJp08]. Getting inspired by the Flex framework, and especially the concept of value binding, the JPotFace project was born, an enhancement for (the living dead) Swing. Meanwhile I also created the same for Flex named FxPotPourri and even for the Android platform APotPourri (aka androidnstuff), which mainly provides an abstraction layer over the not-so-OOP API of Android. This project is only maintained by myself.
@@ -146,13 +139,17 @@ Projects:
 [PrSo07] http://soundofshopping.com
 [PrSa07] http://sil.at/unternehmen/magazin/magazin-nr-14/seite-13/ (German)
 [PrVo04] http://vomtullnerbach.at/ (German)
+[PrHd07] http://web.student.tuwien.ac.at/~e0525580/rsrc/Christoph_Pickl-SoftwareEngineering_ProjectManagement.pdf (German)
+[PrPm06] http://web.student.tuwien.ac.at/~e0525580/rsrc/Christoph_Pickl-ProjectManagement.pdf (German)
 
 Miscellaneous:
 [MiAl09] http://alpenflash.at (German)
 [MiBw09] http://bwin.com/liveBets.aspx
+[MiBw10] http://www.computerwelt.at/detailArticle.asp?a=127273&n=6 (German)
 [MiJs08] http://jsug.at
 [MiLe07] http://lernimteam.at (German)
 [MiOm08] http://web.student.tuwien.ac.at/~e0525580/rsrc/Christoph_Pickl-OurMovies-GUI_overview.pdf
+[MiOp07] http://openxma.codehaus.org/
 [MiSs05] http://web.student.tuwien.ac.at/~e0525580/rsrc/Christoph_Pickl-SSH_Secure_Shell.pdf (German)
 [MiSt05] http://web.student.tuwien.ac.at/~e0525580/
 [MiTh06] http://web.student.tuwien.ac.at/~e0525580/rsrc/Christoph_Pickl-Theoretische_Informatik_2.pdf (German)
