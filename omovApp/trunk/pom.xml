@@ -34,6 +34,7 @@
 		<groupId>net.sourceforge.omov</groupId>
 		<artifactId>omovSuper</artifactId>
 		<version>0.6-Beta</version>
+		<relativePath>../omoSuper/pom.xml</relativePath>
 	</parent>
 
 	<!-- =================================================================== -->
